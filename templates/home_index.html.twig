@@ -5,9 +5,10 @@
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
             <div class="row">
-                {{ appImport.dashboardKpi('cluster_name', content.cluster_name) }}
-                {{ appImport.dashboardKpi('status', content.status) }}
-                {{ appImport.dashboardKpi('number_of_nodes', content.number_of_nodes) }}
+                {{ appImport.dashboardKpi('Cluster', content.cluster_name) }}
+                {{ appImport.dashboardKpi('Status', content.status) }}
+                {{ appImport.dashboardKpi('Nodes', content.number_of_nodes) }}
+                {{ appImport.dashboardKpi('Documents', count[0].count) }}
             </div>
         {% endblock %}
     {% endembed %}

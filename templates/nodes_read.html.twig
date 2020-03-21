@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% block content %}
+            {{ dump(content) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

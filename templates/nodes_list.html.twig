@@ -70,7 +70,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                {{ row['name'] }}
+                                <a href="{{ path('nodes_read', {'node': row['name']}) }}">{{ row['name'] }}</a>
                             </td>
                         {% endif %}
 

@@ -32,8 +32,16 @@ class IndicesController extends AbstractAppController
         ];
         $content = $this->queryManager->query('GET', '/'.$index, ['query' => $query]);
 
+        $size = 50;
+        $query = [
+            'size' => $size,
+            'from' => ($size * $request->query->get('page', 1)) - $size,
+        ];
+        $documents = $this->queryManager->query('GET', '/'.$index.'/_search', ['query' => $query]);
+
         return $this->renderAbstract($request, 'indices_read.html.twig', [
             'content' => $content,
+            'documents' => $this->paginator->paginate($documents['hits']['hits'], $request->query->get('page', 1), $size),
         ]);
     }
 }

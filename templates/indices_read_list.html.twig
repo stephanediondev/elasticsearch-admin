@@ -1,0 +1,92 @@
+{% embed 'table_embed.html.twig' %}
+    {% set columns = {'_id': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if '_id' == column %}
+                        <th>
+                            _id
+                        </th>
+                    {% endif %}
+
+                    {% if 'docs.count' == column %}
+                        <th>
+                            docs.count
+                        </th>
+                    {% endif %}
+
+                    {% if 'docs.deleted' == column %}
+                        <th>
+                            docs.deleted
+                        </th>
+                    {% endif %}
+
+                    {% if 'status' == column %}
+                        <th>
+                            status
+                        </th>
+                    {% endif %}
+
+                    {% if 'health' == column %}
+                        <th>
+                            health
+                        </th>
+                    {% endif %}
+
+                    {% if '_buttons' == column %}
+                        <th>
+                            &nbsp;
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in documents %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'index' == column %}
+                            <td>
+                                <a href="{{ path('indices_read', {'index': row['index']}) }}">{{ row['index'] }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if '_id' == column %}
+                            <td>
+                                {{ row['_id'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'docs.deleted' == column %}
+                            <td>
+                                {{ row['docs.deleted'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'status' == column %}
+                            <td>
+                                {{ row['status'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'health' == column %}
+                            <td>
+                                {{ row['health'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if '_buttons' == column %}
+                            <td>
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

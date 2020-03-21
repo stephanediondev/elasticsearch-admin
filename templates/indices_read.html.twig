@@ -6,4 +6,16 @@
             {{ dump(content) }}
         {% endblock %}
     {% endembed %}
+
+    {% if 0 < documents.getTotalItemCount %}
+        {% embed 'card_embed.html.twig' %}
+            {% block content %}
+                {{ knp_pagination_render(documents) }}
+
+                {% include 'indices_read_list.html.twig' with {'documents': documents} %}
+
+                {{ knp_pagination_render(documents) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
 {% endblock %}

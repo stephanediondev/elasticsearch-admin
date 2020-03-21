@@ -18,8 +18,8 @@ class QueryManager
 
     public function query(string $method, string $path, array $query = []): array
     {
-        $query['format'] = 'json';
-        $response = $this->client->request($method, self::BASE_URI.$path, ['query' => $query]);
+        $query['query']['format'] = 'json';
+        $response = $this->client->request($method, self::BASE_URI.$path, $query);
         $content = $response->toArray();
 
         return $content;

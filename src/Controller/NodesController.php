@@ -22,4 +22,18 @@ class NodesController extends AbstractAppController
             'nodes' => $this->paginator->paginate($nodes['nodes'], $request->query->get('page', 1), 50),
         ]);
     }
+
+    /**
+     * @Route("/nodes/{node}", name="nodes_read")
+     */
+    public function read(Request $request, string $node): Response
+    {
+        $query = [
+        ];
+        $content = $this->queryManager->query('GET', '/_nodes/'.$node, ['query' => $query]);
+
+        return $this->renderAbstract($request, 'nodes_read.html.twig', [
+            'content' => $content['nodes'][key($content['nodes'])],
+        ]);
+    }
 }
