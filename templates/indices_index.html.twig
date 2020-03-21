@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block main_content %}
+    {% if 0 < indices.getTotalItemCount %}
+        {% embed 'card_embed.html.twig' %}
+            {% block content %}
+                {{ knp_pagination_render(indices) }}
+
+                {% include 'indices_list.html.twig' with {'indices': indices} %}
+
+                {{ knp_pagination_render(indices) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

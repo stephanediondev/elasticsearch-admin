@@ -1,12 +1,73 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="{{ app.request.locale }}">
+<head>
+<meta charset="UTF-8">
+<title>{% block head_title %}{{ routeAttribute }}{% endblock %}</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+{% block styles %}
+{{ encore_entry_link_tags('app-css') }}
+{% endblock %}
+</head>
+
+<body>
+<div class="container-fluid">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('home', {}) }}">yopla</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="{{ 'toggle_navigation'|trans }}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('nodes', {}) }}">{{ 'nodes'|trans }}</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('indices', {}) }}">{{ 'indices'|trans }}</a>
+                </li>
+            </div>
+        </div>
+    </nav>
+
+    {% block heading_1 %}
+    {% endblock %}
+
+    {% for label, messages in flashes|default(app.flashes) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message|trans }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'b.close'|trans }}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block heading_2 %}
+    {% endblock %}
+
+    {% block tabs %}
+    {% endblock %}
+
+    {% block form_search %}
+    {% endblock %}
+
+    {% block main_content %}
+    {% endblock %}
+
+    {% block additional_content %}
+    {% endblock %}
+</div>
+
+{% block scripts %}
+<script type="text/javascript">
+var app_environment = '{{ app.environment }}';
+</script>
+{{ encore_entry_script_tags('app-js') }}
+{% endblock %}
+</body>
 </html>

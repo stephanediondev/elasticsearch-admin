@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block main_content %}
+    {% if 0 < nodes.getTotalItemCount %}
+        {% embed 'card_embed.html.twig' %}
+            {% block content %}
+                {{ knp_pagination_render(nodes) }}
+
+                {% include 'nodes_list.html.twig' with {'nodes': nodes} %}
+
+                {{ knp_pagination_render(nodes) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

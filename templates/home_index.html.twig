@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            <div class="row">
+                {{ appImport.dashboardKpi('cluster_name', content.cluster_name) }}
+                {{ appImport.dashboardKpi('status', content.status) }}
+                {{ appImport.dashboardKpi('number_of_nodes', content.number_of_nodes) }}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

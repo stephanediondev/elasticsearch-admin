@@ -1,0 +1,128 @@
+{% embed 'table_embed.html.twig' %}
+    {% set columns = {'name': true, 'settings.node.master': true, 'settings.node.data': true, 'ip': true, 'version': true, 'os.pretty_name': true, 'os.version': true, 'os.arch': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'name' == column %}
+                        <th>
+                            name
+                        </th>
+                    {% endif %}
+
+                    {% if 'settings.node.master' == column %}
+                        <th>
+                            settings.node.master
+                        </th>
+                    {% endif %}
+
+                    {% if 'settings.node.data' == column %}
+                        <th>
+                            settings.node.data
+                        </th>
+                    {% endif %}
+
+                    {% if 'ip' == column %}
+                        <th>
+                            ip
+                        </th>
+                    {% endif %}
+
+                    {% if 'version' == column %}
+                        <th>
+                            version
+                        </th>
+                    {% endif %}
+
+                    {% if 'os.pretty_name' == column %}
+                        <th>
+                            os.pretty_name
+                        </th>
+                    {% endif %}
+
+                    {% if 'os.version' == column %}
+                        <th>
+                            os.version
+                        </th>
+                    {% endif %}
+
+                    {% if 'os.arch' == column %}
+                        <th>
+                            os.arch
+                        </th>
+                    {% endif %}
+
+                    {% if '_buttons' == column %}
+                        <th>
+                            &nbsp;
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in nodes %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'name' == column %}
+                            <td>
+                                {{ row['name'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'settings.node.master' == column %}
+                            <td>
+                                {{ row['settings']['node']['master'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'settings.node.data' == column %}
+                            <td>
+                                {{ row['settings']['node']['data'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'ip' == column %}
+                            <td>
+                                {{ row['ip'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'version' == column %}
+                            <td>
+                                {{ row['version'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'os.pretty_name' == column %}
+                            <td>
+                                {{ row['os']['pretty_name'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'os.version' == column %}
+                            <td>
+                                {{ row['os']['version'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'os.arch' == column %}
+                            <td>
+                                {{ row['os']['arch'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if '_buttons' == column %}
+                            <td>
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}
