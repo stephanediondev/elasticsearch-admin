@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'app_import.html.twig' as appImport %}
 
+{% block head_title %}{{ node['name'] }}{% endblock %}
+
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'link': path('nodes', {})}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': nodesNode['name']}) }}
+    {{ appImport.heading({'level': 2, 'title': node['name']}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -21,27 +23,27 @@
 
             <p>
                 <strong>{{ 'ip'|trans }}</strong><br>
-                {{ nodesNode['ip'] }}
+                {{ node['ip'] }}
             </p>
 
             <p>
                 <strong>{{ 'version'|trans }}</strong><br>
-                {{ nodesNode['version'] }}
+                {{ node['version'] }}
             </p>
 
             <p>
                 <strong>{{ 'os_pretty_name'|trans }}</strong><br>
-                {{ nodesNode['os']['pretty_name'] }}
+                {{ node['os']['pretty_name'] }}
             </p>
 
             <p>
                 <strong>{{ 'os_version'|trans }}</strong><br>
-                {{ nodesNode['os']['version'] }}
+                {{ node['os']['version'] }}
             </p>
 
             <p>
                 <strong>{{ 'os_arch'|trans }}</strong><br>
-                {{ nodesNode['os']['arch'] }}
+                {{ node['os']['arch'] }}
             </p>
         {% endblock %}
     {% endembed %}
@@ -53,17 +55,17 @@
 
             <p>
                 <strong>{{ 'vm_name'|trans }}</strong><br>
-                {{ nodesNode['jvm']['vm_name'] }}
+                {{ node['jvm']['vm_name'] }}
             </p>
 
             <p>
                 <strong>{{ 'vm_version'|trans }}</strong><br>
-                {{ nodesNode['jvm']['vm_version'] }}
+                {{ node['jvm']['vm_version'] }}
             </p>
 
             <p>
                 <strong>{{ 'vm_vendor'|trans }}</strong><br>
-                {{ nodesNode['jvm']['vm_vendor'] }}
+                {{ node['jvm']['vm_vendor'] }}
             </p>
         {% endblock %}
     {% endembed %}

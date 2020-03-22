@@ -53,10 +53,10 @@ class NodesController extends AbstractAppController
     {
         $query = [
         ];
-        $nodesNode = $this->queryManager->query('GET', '/_nodes/'.$node, ['query' => $query]);
+        $node = $this->queryManager->query('GET', '/_nodes/'.$node, ['query' => $query]);
 
         return $this->renderAbstract($request, 'nodes_read.html.twig', [
-            'nodesNode' => $nodesNode['nodes'][key($nodesNode['nodes'])],
+            'node' => $node['nodes'][key($node['nodes'])],
         ]);
     }
 }

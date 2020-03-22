@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 {% import 'app_import.html.twig' as appImport %}
 
+{% block head_title %}{{ 'nodes'|trans }}{% endblock %}
+
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'badge': nodes.total}) }}
 {% endblock %}

@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 {% import 'app_import.html.twig' as appImport %}
 
+{% block head_title %}{{ 'cluster'|trans }}{% endblock %}
+
 {% block main_content %}
     <div class="jumbotron mt-3">
         <h1 class="display-4">{{ clusterHealth['cluster_name'] }}</h1>
