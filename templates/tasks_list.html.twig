@@ -1,0 +1,107 @@
+{% embed 'table_embed.html.twig' %}
+    {% import 'app_import.html.twig' as appImport %}
+
+    {% set columns = {'id': true, 'node': true, 'type': true, 'action': true, 'start_time_in_millis': true, 'running_time_in_nanos': true, 'cancellable': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'id' == column %}
+                        <th>
+                            id
+                        </th>
+                    {% endif %}
+
+                    {% if 'node' == column %}
+                        <th>
+                            node
+                        </th>
+                    {% endif %}
+
+                    {% if 'type' == column %}
+                        <th>
+                            type
+                        </th>
+                    {% endif %}
+
+                    {% if 'action' == column %}
+                        <th>
+                            action
+                        </th>
+                    {% endif %}
+
+                    {% if 'start_time_in_millis' == column %}
+                        <th>
+                            start_time_in_millis
+                        </th>
+                    {% endif %}
+
+                    {% if 'running_time_in_nanos' == column %}
+                        <th>
+                            running_time_in_nanos
+                        </th>
+                    {% endif %}
+
+                    {% if 'cancellable' == column %}
+                        <th>
+                            cancellable
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in tasks.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'id' == column %}
+                            <td>
+                                {{ row['id'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'node' == column %}
+                            <td>
+                                {{ row['node'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'type' == column %}
+                            <td>
+                                {{ row['type'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'action' == column %}
+                            <td>
+                                {{ row['action'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'start_time_in_millis' == column %}
+                            <td>
+                                {{ row['start_time_in_millis'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'running_time_in_nanos' == column %}
+                            <td>
+                                {{ row['running_time_in_nanos'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'cancellable' == column %}
+                            <td>
+                                {{ row['cancellable'] }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}
