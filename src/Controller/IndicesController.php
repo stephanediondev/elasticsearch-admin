@@ -18,6 +18,7 @@ class IndicesController extends AbstractAppController
     {
         $query = [
             's' => 'index',
+            'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,creation.date.string'
         ];
         $indices = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
 
@@ -34,6 +35,48 @@ class IndicesController extends AbstractAppController
     }
 
     /**
+     * @Route("/indices/cache/clear", name="indices_cache_clear_all")
+     */
+    public function cacheClearAll(Request $request): Response
+    {
+        $query = [
+        ];
+        $indice = $this->queryManager->query('POST', '/_cache/clear', ['query' => $query]);
+
+        $this->addFlash('success', 'indices_cache_cleared');
+
+        return $this->redirectToRoute('indices', []);
+    }
+
+    /**
+     * @Route("/indices/flush", name="indices_flush_all")
+     */
+    public function flushAll(Request $request): Response
+    {
+        $query = [
+        ];
+        $indice = $this->queryManager->query('POST', '/_flush', ['query' => $query]);
+
+        $this->addFlash('success', 'indices_flush');
+
+        return $this->redirectToRoute('indices', []);
+    }
+
+    /**
+     * @Route("/indices/refresh", name="indices_refresh_all")
+     */
+    public function refreshAll(Request $request): Response
+    {
+        $query = [
+        ];
+        $indice = $this->queryManager->query('POST', '/_refresh', ['query' => $query]);
+
+        $this->addFlash('success', 'indices_refresh');
+
+        return $this->redirectToRoute('indices', []);
+    }
+
+    /**
      * @Route("/indices/create", name="indices_create")
      */
     public function create(Request $request): Response
@@ -45,11 +88,11 @@ class IndicesController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             $query = [
             ];
-            $indice = $this->queryManager->query('PUT', '/'.$form->get('index')->getData(), ['query' => $query]);
+            $indice = $this->queryManager->query('PUT', '/'.$form->get('name')->getData(), ['query' => $query]);
 
             $this->addFlash('success', 'indice_created');
 
-            return $this->redirectToRoute('indices_read', ['index' => $form->get('index')->getData()]);
+            return $this->redirectToRoute('indices_read', ['index' => $form->get('name')->getData()]);
         }
 
         return $this->renderAbstract($request, 'indices_create.html.twig', [
@@ -114,7 +157,7 @@ class IndicesController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             $query = [
             ];
-            $indice = $this->queryManager->query('PUT', '/'.$index.'/_alias/'.$form->get('alias')->getData(), ['query' => $query]);
+            $indice = $this->queryManager->query('PUT', '/'.$index.'/_alias/'.$form->get('name')->getData(), ['query' => $query]);
 
             $this->addFlash('success', 'alias_created');
 
@@ -164,12 +207,21 @@ class IndicesController extends AbstractAppController
         ];
         $documents = $this->queryManager->query('GET', '/'.$index.'/_search', ['query' => $query]);
 
+        if (true == isset($documents['hits']['total']['value'])) {
+            $total = $documents['hits']['total']['value'];
+            if ('eq' != $documents['hits']['total']['relation']) {
+                $this->addFlash('info', 'lower_bound_of_the_total');
+            }
+        } else {
+            $total = $documents['hits']['total'];
+        }
+
         return $this->renderAbstract($request, 'indices_read_documents.html.twig', [
             'indice' => $indice,
             'documents' => $this->paginatorManager->paginate([
                 'route' => 'indices_read_documents',
                 'route_parameters' => ['index' => $index],
-                'total' => $indice['docs.count'],
+                'total' => $total,
                 'rows' => $documents['hits']['hits'],
                 'page' => $request->query->get('page', 1),
                 'size' => $size,
@@ -215,6 +267,20 @@ class IndicesController extends AbstractAppController
         $indice = $this->queryManager->query('POST', '/'.$index.'/_open', ['query' => $query]);
 
         $this->addFlash('success', 'indice_opened');
+
+        return $this->redirectToRoute('indices_read', ['index' => $index]);
+    }
+
+    /**
+     * @Route("/indices/{index}/cache/clear", name="indices_cache_clear")
+     */
+    public function cacheClear(Request $request, string $index): Response
+    {
+        $query = [
+        ];
+        $indice = $this->queryManager->query('POST', '/'.$index.'/_cache/clear', ['query' => $query]);
+
+        $this->addFlash('success', 'indice_cache_cleared');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }

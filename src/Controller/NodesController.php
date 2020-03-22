@@ -18,6 +18,7 @@ class NodesController extends AbstractAppController
 
         $query = [
             's' => 'name',
+            'h' => 'name,disk.avail,uptime'
         ];
         $nodes1 = $this->queryManager->query('GET', '/_cat/nodes', ['query' => $query]);
 

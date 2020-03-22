@@ -1,5 +1,6 @@
 {% embed 'table_embed.html.twig' %}
-    {% set columns = {'name': true, 'settings.node.master': true, 'settings.node.data': true, 'ip': true, 'version': true, 'os.pretty_name': true, 'os.version': true, 'os.arch': true} %}
+    {% set columns = {'name': true, 'settings.node.master': true, 'settings.node.data': true, 'ip': true,
+    'version': true, 'os.pretty_name': true, 'os.version': true, 'os.arch': true, 'uptime': true, 'disk.avail': true} %}
 
     {% block thead %}
         <tr>
@@ -7,49 +8,61 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            name
+                            {{ 'name'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'settings.node.master' == column %}
                         <th>
-                            settings.node.master
+                            {{ 'is_master'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'settings.node.data' == column %}
                         <th>
-                            settings.node.data
+                            {{ 'is_data'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'ip' == column %}
                         <th>
-                            ip
+                            {{ 'ip'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'version' == column %}
                         <th>
-                            version
+                            {{ 'version'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'os.pretty_name' == column %}
                         <th>
-                            os.pretty_name
+                            {{ 'os.pretty_name'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'os.version' == column %}
                         <th>
-                            os.version
+                            {{ 'os.version'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'os.arch' == column %}
                         <th>
-                            os.arch
+                            {{ 'os.arch'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'disk.avail' == column %}
+                        <th>
+                            {{ 'disk.avail'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'uptime' == column %}
+                        <th>
+                            {{ 'uptime'|trans }}
                         </th>
                     {% endif %}
 
@@ -113,6 +126,18 @@
                         {% if 'os.arch' == column %}
                             <td>
                                 {{ row['os']['arch'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'disk.avail' == column %}
+                            <td>
+                                {{ row['disk.avail'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'uptime' == column %}
+                            <td>
+                                {{ row['uptime'] }}
                             </td>
                         {% endif %}
 

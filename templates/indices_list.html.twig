@@ -1,45 +1,57 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'index': true, 'docs.count': true, 'docs.deleted': true, 'pri.store.size': true, 'status': true, 'health': true} %}
+    {% set columns = {'name': true, 'documents': true, 'documents_deleted': true, 'primary_size': true, 'total_size': true, 'status': true, 'health': true, 'creation_date': true} %}
 
     {% block thead %}
         <tr>
             {% for column, display in columns %}
                 {% if true == display %}
-                    {% if 'index' == column %}
+                    {% if 'name' == column %}
                         <th>
-                            index
+                            {{ 'name'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'docs.count' == column %}
+                    {% if 'documents' == column %}
                         <th>
-                            docs.count
+                            {{ 'documents'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'docs.deleted' == column %}
+                    {% if 'documents_deleted' == column %}
                         <th>
-                            docs.deleted
+                            {{ 'documents_deleted'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'pri.store.size' == column %}
+                    {% if 'primary_size' == column %}
                         <th>
-                            pri.store.size
+                            {{ 'primary_size'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'total_size' == column %}
+                        <th>
+                            {{ 'total_size'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'status' == column %}
                         <th>
-                            status
+                            {{ 'status'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'health' == column %}
                         <th>
-                            health
+                            {{ 'health'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'creation_date' == column %}
+                        <th>
+                            {{ 'creation_date'|trans }}
                         </th>
                     {% endif %}
 
@@ -58,27 +70,33 @@
             <tr>
                 {% for column, display in columns %}
                     {% if true == display %}
-                        {% if 'index' == column %}
+                        {% if 'name' == column %}
                             <td>
                                 <a href="{{ path('indices_read', {'index': row['index']}) }}">{{ row['index'] }}</a>
                             </td>
                         {% endif %}
 
-                        {% if 'docs.count' == column %}
+                        {% if 'documents' == column %}
                             <td>
                                 {{ row['docs.count'] }}
                             </td>
                         {% endif %}
 
-                        {% if 'docs.deleted' == column %}
+                        {% if 'documents_deleted' == column %}
                             <td>
                                 {{ row['docs.deleted'] }}
                             </td>
                         {% endif %}
 
-                        {% if 'pri.store.size' == column %}
+                        {% if 'primary_size' == column %}
                             <td>
                                 {{ row['pri.store.size'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'total_size' == column %}
+                            <td>
+                                {{ row['store.size'] }}
                             </td>
                         {% endif %}
 
@@ -91,6 +109,12 @@
                         {% if 'health' == column %}
                             <td>
                                 {{ appImport.badge({'title': row['health'], 'context': row['health']}) }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'creation_date' == column %}
+                            <td>
+                                {{ row['creation.date.string'] }}
                             </td>
                         {% endif %}
 

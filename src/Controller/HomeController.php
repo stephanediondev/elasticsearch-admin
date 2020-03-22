@@ -16,10 +16,12 @@ class HomeController extends AbstractAppController
     {
         $query = [
         ];
-        $catCount = $this->queryManager->query('GET', '/_cat/count', ['query' => $query]);
+        $clusterStats = $this->queryManager->query('GET', '/_cluster/stats', ['query' => $query]);
 
         return $this->renderAbstract($request, 'home_index.html.twig', [
-            'catCount' => $catCount,
+            'indices' => $clusterStats['indices']['count'],
+            'documents' => $clusterStats['indices']['docs']['count'],
+            'store_size' => $clusterStats['indices']['store']['size_in_bytes'],
         ]);
     }
 }

@@ -132,7 +132,7 @@
         <ul class="pagination">
             {% if params.previous %}
                 <li class="page-item">
-                    <a class="page-link" rel="prev" href="{{ path(params.route, params.route_parameters|merge({'page': params.previous})) }}">&laquo;&nbsp;{{ 'label_previous'|trans }}</a>
+                    <a class="page-link" rel="prev" href="{{ path(params.route, params.route_parameters|merge({'page': params.previous})) }}">&laquo;&nbsp;{{ 'previous'|trans }}</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
@@ -172,7 +172,7 @@
 
             {% if params.next %}
                 <li class="page-item">
-                    <a class="page-link" rel="next" href="{{ path(params.route, params.route_parameters|merge({'page': params.next})) }}">{{ 'label_next'|trans }}&nbsp;&raquo;</a>
+                    <a class="page-link" rel="next" href="{{ path(params.route, params.route_parameters|merge({'page': params.next})) }}">{{ 'next'|trans }}&nbsp;&raquo;</a>
                 </li>
             {% else %}
                 <li  class="page-item disabled">

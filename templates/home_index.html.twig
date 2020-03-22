@@ -1,18 +1,20 @@
 {% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
 
 {% block main_content %}
     <div class="jumbotron mt-3">
-        <h1 class="display-4">{{ 'welcome'|trans }}</h1>
+        <h1 class="display-4">{{ clusterHealth['cluster_name'] }}</h1>
+        <h2>{{ appImport.badge({'title': clusterHealth['status'], 'context': clusterHealth['status']}) }}</h2>
     </div>
 
     {% embed 'card_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
             <div class="row">
-                {{ appImport.dashboardKpi({'title': 'cluster'|trans, 'badge': {'title': clusterHealth['cluster_name']}}) }}
-                {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': clusterHealth['status'], 'context': clusterHealth['status']}}) }}
                 {{ appImport.dashboardKpi({'title': 'nodes'|trans, 'badge': {'title': clusterHealth['number_of_nodes']}}) }}
-                {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': catCount[0]['count']}}) }}
+                {{ appImport.dashboardKpi({'title': 'indices'|trans, 'badge': {'title': indices}}) }}
+                {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': documents}}) }}
+                {{ appImport.dashboardKpi({'title': 'store_size'|trans, 'badge': {'title': store_size|human_filesize}}) }}
             </div>
         {% endblock %}
     {% endembed %}

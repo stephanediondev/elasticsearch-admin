@@ -47,6 +47,13 @@
                         }) }}
 
                         {{ appImport.buttonModal({
+                            'id': 'IndiceCacheClear' ~ indice['index'],
+                            'title': 'cache_clear'|trans,
+                            'body': indice['index'],
+                            'href': path('indices_cache_clear', {'index': indice['index']}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
                             'id': 'IndiceFlush' ~ indice['index'],
                             'title': 'flush'|trans,
                             'body': indice['index'],
@@ -64,18 +71,23 @@
             {% endembed %}
 
             <p>
-                <strong>{{ 'docs.count'|trans }}</strong><br>
+                <strong>{{ 'documents'|trans }}</strong><br>
                 {{ indice['docs.count'] }}
             </p>
 
             <p>
-                <strong>{{ 'docs.deleted'|trans }}</strong><br>
+                <strong>{{ 'documents_deleted'|trans }}</strong><br>
                 {{ indice['docs.deleted'] }}
             </p>
 
             <p>
-                <strong>{{ 'pri.store.size'|trans }}</strong><br>
+                <strong>{{ 'primary_size'|trans }}</strong><br>
                 {{ indice['pri.store.size'] }}
+            </p>
+
+            <p>
+                <strong>{{ 'total_size'|trans }}</strong><br>
+                {{ indice['store.size'] }}
             </p>
 
             <p>

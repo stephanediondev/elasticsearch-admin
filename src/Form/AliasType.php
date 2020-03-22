@@ -14,13 +14,13 @@ class AliasType extends AbstractType
     {
         $fields = [];
 
-        $fields[] = 'alias';
+        $fields[] = 'name';
 
         foreach ($fields as $field) {
             switch ($field) {
-                case 'alias':
-                    $builder->add('alias', TextType::class, [
-                        'label' => 'alias',
+                case 'name':
+                    $builder->add('name', TextType::class, [
+                        'label' => 'name',
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),

@@ -17,7 +17,7 @@
     {% embed 'buttons_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.button({'title': 'create'|trans, 'url': path('indices_aliases_create', {'index': indice['index']})}) }}
+            {{ appImport.button({'title': 'create_alias'|trans, 'url': path('indices_aliases_create', {'index': indice['index']})}) }}
         {% endblock %}
     {% endembed %}
 {% endblock %}

@@ -13,7 +13,25 @@
     {% embed 'buttons_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.button({'title': 'create'|trans, 'url': path('indices_create', {})}) }}
+            {{ appImport.button({'title': 'create_index'|trans, 'url': path('indices_create', {})}) }}
+
+            {{ appImport.buttonModal({
+                'id': 'IndicesCacheClearAll',
+                'title': 'cache_clear'|trans,
+                'href': path('indices_cache_clear_all', {}),
+            }) }}
+
+            {{ appImport.buttonModal({
+                'id': 'IndicesFlushAll',
+                'title': 'flush'|trans,
+                'href': path('indices_flush_all', {}),
+            }) }}
+
+            {{ appImport.buttonModal({
+                'id': 'IndicesRefreshAll',
+                'title': 'refresh'|trans,
+                'href': path('indices_refresh_all', {}),
+            }) }}
         {% endblock %}
     {% endembed %}
 {% endblock %}

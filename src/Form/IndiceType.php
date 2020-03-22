@@ -14,13 +14,13 @@ class IndiceType extends AbstractType
     {
         $fields = [];
 
-        $fields[] = 'index';
+        $fields[] = 'name';
 
         foreach ($fields as $field) {
             switch ($field) {
-                case 'index':
-                    $builder->add('index', TextType::class, [
-                        'label' => 'index',
+                case 'name':
+                    $builder->add('name', TextType::class, [
+                        'label' => 'name',
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),
