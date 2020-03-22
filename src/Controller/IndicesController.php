@@ -57,7 +57,7 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('POST', '/_flush', ['query' => $query]);
 
-        $this->addFlash('success', 'indices_flush');
+        $this->addFlash('success', 'indices_flushed');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -71,7 +71,7 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('POST', '/_refresh', ['query' => $query]);
 
-        $this->addFlash('success', 'indices_refresh');
+        $this->addFlash('success', 'indices_refreshed');
 
         return $this->redirectToRoute('indices', []);
     }
