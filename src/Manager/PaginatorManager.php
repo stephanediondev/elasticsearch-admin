@@ -17,15 +17,15 @@ class PaginatorManager
         }
 
         $pagesSlice = [];
-        $startPage = $paginate['page'] - $slice;
-        if (0 >= $startPage) {
-            $startPage = 1;
+        $paginate['start_page'] = $paginate['page'] - $slice;
+        if (0 >= $paginate['start_page']) {
+            $paginate['start_page'] = 1;
         }
-        $endPage = $paginate['page'] + $slice;
-        if ($paginate['pages'] < $endPage) {
-            $endPage = $paginate['pages'];
+        $paginate['end_page'] = $paginate['page'] + $slice;
+        if ($paginate['pages'] < $paginate['end_page']) {
+            $paginate['end_page'] = $paginate['pages'];
         }
-        for ($i=$startPage;$i<=$endPage;$i++) {
+        for ($i=$paginate['start_page'];$i<=$paginate['end_page'];$i++) {
             $pagesSlice[] = $i;
         }
         $paginate['pages_slice'] = $pagesSlice;

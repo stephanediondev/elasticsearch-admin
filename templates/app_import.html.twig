@@ -136,7 +136,7 @@
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <span class="page-link">&laquo;&nbsp;{{ 'label_previous'|trans }}</span>
+                    <span class="page-link">&laquo;&nbsp;{{ 'previous'|trans }}</span>
                 </li>
             {% endif %}
 
@@ -144,9 +144,11 @@
                 <li class="page-item">
                     <a class="page-link" rel="next" href="{{ path(params.route, params.route_parameters|merge({'page': params.first})) }}">{{ params.first }}</a>
                 </li>
-                <li class="page-item disabled">
-                    <span class="page-link">&hellip;</span>
-                </li>
+                {% if params.first != params.start_page - 1 %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&hellip;</span>
+                    </li>
+                {% endif %}
             {% endif %}
 
             {% for page in params.pages_slice %}
@@ -162,9 +164,11 @@
             {% endfor %}
 
             {% if params.last %}
-                <li class="page-item disabled">
-                    <span class="page-link">&hellip;</span>
-                </li>
+                {% if params.last != params.end_page + 1 %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&hellip;</span>
+                    </li>
+                {% endif %}
                 <li class="page-item">
                     <a class="page-link" rel="next" href="{{ path(params.route, params.route_parameters|merge({'page': params.last})) }}">{{ params.last }}</a>
                 </li>
@@ -176,7 +180,7 @@
                 </li>
             {% else %}
                 <li  class="page-item disabled">
-                    <span class="page-link">{{ 'label_next'|trans }}&nbsp;&raquo;</span>
+                    <span class="page-link">{{ 'next'|trans }}&nbsp;&raquo;</span>
                 </li>
             {% endif %}
         </ul>
