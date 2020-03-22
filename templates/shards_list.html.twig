@@ -1,12 +1,18 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'shard': true, 'primary': true, 'state': true, 'documents': true, 'size': true, 'node': true} %}
+    {% set columns = {'index': true, 'shard': true, 'primary': true, 'state': true, 'documents': true, 'size': true, 'node': true} %}
 
     {% block thead %}
         <tr>
             {% for column, display in columns %}
                 {% if true == display %}
+                    {% if 'index' == column %}
+                        <th>
+                            index
+                        </th>
+                    {% endif %}
+
                     {% if 'shard' == column %}
                         <th>
                             shard
@@ -52,6 +58,12 @@
             <tr>
                 {% for column, display in columns %}
                     {% if true == display %}
+                        {% if 'index' == column %}
+                            <td>
+                                <a href="{{ path('indices_read', {'index': row['index']}) }}">{{ row['index'] }}</a>
+                            </td>
+                        {% endif %}
+
                         {% if 'shard' == column %}
                             <td>
                                 {{ row['shard'] }}
