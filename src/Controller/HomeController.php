@@ -20,6 +20,7 @@ class HomeController extends AbstractAppController
 
         return $this->renderAbstract($request, 'home_index.html.twig', [
             'indices' => $clusterStats['indices']['count'],
+            'shards' => $clusterStats['indices']['shards']['total'],
             'documents' => $clusterStats['indices']['docs']['count'],
             'store_size' => $clusterStats['indices']['store']['size_in_bytes'],
         ]);

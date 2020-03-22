@@ -65,12 +65,6 @@
                             {{ 'uptime'|trans }}
                         </th>
                     {% endif %}
-
-                    {% if '_buttons' == column %}
-                        <th>
-                            &nbsp;
-                        </th>
-                    {% endif %}
                 {% endif %}
             {% endfor %}
         </tr>
@@ -138,11 +132,6 @@
                         {% if 'uptime' == column %}
                             <td>
                                 {{ row['uptime'] }}
-                            </td>
-                        {% endif %}
-
-                        {% if '_buttons' == column %}
-                            <td>
                             </td>
                         {% endif %}
                     {% endif %}

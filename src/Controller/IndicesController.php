@@ -115,6 +115,32 @@ class IndicesController extends AbstractAppController
     }
 
     /**
+     * @Route("/indices/{index}/shards", name="indices_read_shards")
+     */
+    public function shards(Request $request, string $index): Response
+    {
+        $query = [
+        ];
+        $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
+
+        $query = [
+        ];
+        $shards = $this->queryManager->query('GET', '/_cat/shards/'.$index, ['query' => $query]);
+
+        return $this->renderAbstract($request, 'indices_read_shards.html.twig', [
+            'indice' => $indice[0],
+            'shards' => $this->paginatorManager->paginate([
+                'route' => 'indices_read_shards',
+                'route_parameters' => ['index' => $index],
+                'total' => count($shards),
+                'rows' => $shards,
+                'page' => 1,
+                'size' => count($shards),
+            ]),
+        ]);
+    }
+
+    /**
      * @Route("/indices/{index}/aliases", name="indices_read_aliases")
      */
     public function aliases(Request $request, string $index): Response

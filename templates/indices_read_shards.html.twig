@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ indice['index'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': path('indices', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': indice['index']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'indices_read_tabs.html.twig' with {'active': 'shards'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < shards.total %}
+        {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.paginator(shards) }}
+
+                {% include 'indices_read_shards_list.html.twig' with {'shards': shards} %}
+
+                {{ appImport.paginator(shards) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

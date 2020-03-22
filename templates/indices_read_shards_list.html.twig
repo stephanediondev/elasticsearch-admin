@@ -1,0 +1,99 @@
+{% embed 'table_embed.html.twig' %}
+    {% import 'app_import.html.twig' as appImport %}
+
+    {% set columns = {'shard': true, 'primary': true, 'state': true, 'documents': true, 'size': true, 'node': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'shard' == column %}
+                        <th>
+                            shard
+                        </th>
+                    {% endif %}
+
+                    {% if 'primary' == column %}
+                        <th>
+                            primary
+                        </th>
+                    {% endif %}
+
+                    {% if 'state' == column %}
+                        <th>
+                            state
+                        </th>
+                    {% endif %}
+
+                    {% if 'documents' == column %}
+                        <th>
+                            documents
+                        </th>
+                    {% endif %}
+
+                    {% if 'size' == column %}
+                        <th>
+                            size
+                        </th>
+                    {% endif %}
+
+                    {% if 'node' == column %}
+                        <th>
+                            node
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in shards.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'shard' == column %}
+                            <td>
+                                {{ row['shard'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'primary' == column %}
+                            <td>
+                                {% if 'p' == row['prirep'] %}
+                                    true
+                                {% else %}
+                                    false
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'state' == column %}
+                            <td>
+                                {{ row['state'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'documents' == column %}
+                            <td>
+                                {{ row['docs'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'size' == column %}
+                            <td>
+                                {{ row['store'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'node' == column %}
+                            <td>
+                                <a class="text-secondary" href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

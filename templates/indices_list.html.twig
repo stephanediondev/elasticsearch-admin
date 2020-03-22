@@ -54,12 +54,6 @@
                             {{ 'creation_date'|trans }}
                         </th>
                     {% endif %}
-
-                    {% if '_buttons' == column %}
-                        <th>
-                            &nbsp;
-                        </th>
-                    {% endif %}
                 {% endif %}
             {% endfor %}
         </tr>
@@ -115,11 +109,6 @@
                         {% if 'creation_date' == column %}
                             <td>
                                 {{ row['creation.date.string'] }}
-                            </td>
-                        {% endif %}
-
-                        {% if '_buttons' == column %}
-                            <td>
                             </td>
                         {% endif %}
                     {% endif %}

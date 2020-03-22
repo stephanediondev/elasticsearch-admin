@@ -5,6 +5,10 @@
 
     {% if 'open' == indice['status'] %}
         <li class="nav-item">
+            <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': indice['index']}) }}">{{ 'shards'|trans }}</a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': indice['index']}) }}">{{ 'aliases'|trans }}</a>
         </li>
 
