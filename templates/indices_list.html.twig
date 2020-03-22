@@ -1,5 +1,7 @@
 {% embed 'table_embed.html.twig' %}
-    {% set columns = {'index': true, 'docs.count': true, 'docs.deleted': true, 'status': true, 'health': true} %}
+    {% import 'app_import.html.twig' as appImport %}
+
+    {% set columns = {'index': true, 'docs.count': true, 'docs.deleted': true, 'pri.store.size': true, 'status': true, 'health': true} %}
 
     {% block thead %}
         <tr>
@@ -20,6 +22,12 @@
                     {% if 'docs.deleted' == column %}
                         <th>
                             docs.deleted
+                        </th>
+                    {% endif %}
+
+                    {% if 'pri.store.size' == column %}
+                        <th>
+                            pri.store.size
                         </th>
                     {% endif %}
 
@@ -46,7 +54,7 @@
     {% endblock %}
 
     {% block tbody %}
-        {% for row in indices %}
+        {% for row in indices.rows %}
             <tr>
                 {% for column, display in columns %}
                     {% if true == display %}
@@ -68,6 +76,12 @@
                             </td>
                         {% endif %}
 
+                        {% if 'pri.store.size' == column %}
+                            <td>
+                                {{ row['pri.store.size'] }}
+                            </td>
+                        {% endif %}
+
                         {% if 'status' == column %}
                             <td>
                                 {{ row['status'] }}
@@ -76,7 +90,7 @@
 
                         {% if 'health' == column %}
                             <td>
-                                {{ row['health'] }}
+                                {{ appImport.badge({'title': row['health'], 'context': row['health']}) }}
                             </td>
                         {% endif %}
 

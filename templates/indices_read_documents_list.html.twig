@@ -1,0 +1,37 @@
+{% embed 'table_embed.html.twig' %}
+    {% block thead %}
+        <tr>
+            <th>
+                _id
+            </th>
+            {% for field, properties in indice['mappings']['properties'] %}
+                <th>
+                    {{ field }}
+                </th>
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in documents.rows %}
+            <tr>
+                <td>
+                    {{ row['_id'] }}
+                </td>
+                {% for field, properties in indice['mappings']['properties'] %}
+                    <td>
+                        {% if row['_source'][field] is defined %}
+                            {% if row['_source'][field] is iterable %}
+                                {% for fieldSub, propertiesSub in indice['mappings']['properties'][field]['properties'] %}
+                                    {{ fieldSub }}: {{ row['_source'][field][fieldSub] }}<br>
+                                {% endfor %}
+                            {% else %}
+                                {{ row['_source'][field] }}
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

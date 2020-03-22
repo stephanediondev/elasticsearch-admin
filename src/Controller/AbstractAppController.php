@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Manager\QueryManager;
-use Knp\Component\Pager\PaginatorInterface;
+use App\Manager\PaginatorManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +21,9 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
-    public function setPaginator(PaginatorInterface $paginator)
+    public function setPaginatorManager(PaginatorManager $paginatorManager)
     {
-        $this->paginator = $paginator;
+        $this->paginatorManager = $paginatorManager;
     }
 
     public function addFlashs($results)
@@ -39,6 +39,11 @@ abstract class AbstractAppController extends AbstractController
     {
         $parameters['locale'] = $request->getLocale();
         $parameters['routeAttribute'] = $request->attributes->get('_route');
+
+        $query = [
+        ];
+        $clusterHealth = $this->queryManager->query('GET', '/_cluster/health', ['query' => $query]);
+        $parameters['clusterHealth'] = $clusterHealth;
 
         /*if (null === $response) {
             $response = new Response();

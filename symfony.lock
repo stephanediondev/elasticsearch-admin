@@ -35,12 +35,6 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
-    "knplabs/knp-components": {
-        "version": "v2.3.3"
-    },
-    "knplabs/knp-paginator-bundle": {
-        "version": "v5.1.1"
-    },
     "monolog/monolog": {
         "version": "2.0.2"
     },

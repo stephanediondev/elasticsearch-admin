@@ -64,7 +64,7 @@
     {% endblock %}
 
     {% block tbody %}
-        {% for row in nodes %}
+        {% for row in nodes.rows %}
             <tr>
                 {% for column, display in columns %}
                     {% if true == display %}

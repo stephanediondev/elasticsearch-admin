@@ -1,21 +1,92 @@
 {% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': path('indices', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': indice['index']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'indices_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
 
 {% block main_content %}
     {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
         {% block content %}
-            {{ dump(content) }}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    {{ appImport.buttonModal({
+                        'id': 'IndiceDelete' ~ indice['index'],
+                        'title': 'delete'|trans,
+                        'body': indice['index'],
+                        'href': path('indices_delete', {'index': indice['index']}),
+                    }) }}
+
+                    {% if 'close' == indice['status'] %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndiceOpen' ~ indice['index'],
+                            'title': 'open'|trans,
+                            'body': indice['index'],
+                            'href': path('indices_open', {'index': indice['index']}),
+                        }) }}
+                    {% endif %}
+
+                    {% if 'open' == indice['status'] %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndiceClose' ~ indice['index'],
+                            'title': 'close'|trans,
+                            'body': indice['index'],
+                            'href': path('indices_close', {'index': indice['index']}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
+                            'id': 'IndiceFlush' ~ indice['index'],
+                            'title': 'flush'|trans,
+                            'body': indice['index'],
+                            'href': path('indices_flush', {'index': indice['index']}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
+                            'id': 'IndiceRefresh' ~ indice['index'],
+                            'title': 'refresh'|trans,
+                            'body': indice['index'],
+                            'href': path('indices_refresh', {'index': indice['index']}),
+                        }) }}
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+
+            <p>
+                <strong>{{ 'docs.count'|trans }}</strong><br>
+                {{ indice['docs.count'] }}
+            </p>
+
+            <p>
+                <strong>{{ 'docs.deleted'|trans }}</strong><br>
+                {{ indice['docs.deleted'] }}
+            </p>
+
+            <p>
+                <strong>{{ 'pri.store.size'|trans }}</strong><br>
+                {{ indice['pri.store.size'] }}
+            </p>
+
+            <p>
+                <strong>{{ 'status'|trans }}</strong><br>
+                {{ indice['status'] }}
+            </p>
+
+            <p>
+                <strong>{{ 'health'|trans }}</strong><br>
+                {{ appImport.badge({'title': indice['health'], 'context': indice['health']}) }}
+            </p>
         {% endblock %}
     {% endembed %}
-
-    {% if 0 < documents.getTotalItemCount %}
-        {% embed 'card_embed.html.twig' %}
-            {% block content %}
-                {{ knp_pagination_render(documents) }}
-
-                {% include 'indices_read_list.html.twig' with {'documents': documents} %}
-
-                {{ knp_pagination_render(documents) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
 {% endblock %}

@@ -1,14 +1,24 @@
 {% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'badge': nodes.total}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'nodes_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
 
 {% block main_content %}
-    {% if 0 < nodes.getTotalItemCount %}
+    {% if 0 < nodes.total %}
         {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
             {% block content %}
-                {{ knp_pagination_render(nodes) }}
+                {{ appImport.paginator(nodes) }}
 
                 {% include 'nodes_list.html.twig' with {'nodes': nodes} %}
 
-                {{ knp_pagination_render(nodes) }}
+                {{ appImport.paginator(nodes) }}
             {% endblock %}
         {% endembed %}
     {% endif %}

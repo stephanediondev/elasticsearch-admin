@@ -1,14 +1,33 @@
 {% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'badge': indices.total}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'indices_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block buttons %}
+    {% embed 'buttons_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.button({'title': 'create'|trans, 'url': path('indices_create', {})}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
 
 {% block main_content %}
-    {% if 0 < indices.getTotalItemCount %}
+    {% if 0 < indices.total %}
         {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
             {% block content %}
-                {{ knp_pagination_render(indices) }}
+                {{ appImport.paginator(indices) }}
 
                 {% include 'indices_list.html.twig' with {'indices': indices} %}
 
-                {{ knp_pagination_render(indices) }}
+                {{ appImport.paginator(indices) }}
             {% endblock %}
         {% endembed %}
     {% endif %}

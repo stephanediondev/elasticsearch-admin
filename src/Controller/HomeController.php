@@ -16,15 +16,10 @@ class HomeController extends AbstractAppController
     {
         $query = [
         ];
-        $content = $this->queryManager->query('GET', '/_cluster/health', ['query' => $query]);
-
-        $query = [
-        ];
-        $count = $this->queryManager->query('GET', '/_cat/count', ['query' => $query]);
+        $catCount = $this->queryManager->query('GET', '/_cat/count', ['query' => $query]);
 
         return $this->renderAbstract($request, 'home_index.html.twig', [
-            'content' => $content,
-            'count' => $count,
+            'catCount' => $catCount,
         ]);
     }
 }

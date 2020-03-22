@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': 'create'|trans}) }}
+{% endblock %}
+
+{% block buttons %}
+    {% embed 'buttons_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.button({'context': 'secondary', 'title': 'cancel'|trans, 'url': path('indices', {})}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
