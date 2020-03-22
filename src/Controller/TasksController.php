@@ -16,11 +16,20 @@ class TasksController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $tasks = [];
+
         $query = [
-            'group_by' => 'none',
         ];
-        $tasks = $this->queryManager->query('GET', '/_tasks', ['query' => $query]);
-        $tasks = $tasks['tasks'];
+        $nodes = $this->queryManager->query('GET', '/_tasks', ['query' => $query]);
+
+        foreach ($nodes['nodes'] as $node) {
+            foreach ($node['tasks'] as $task) {
+                $task['node'] = $node['name'];
+                $tasks[$task['id']] = $task;
+            }
+        }
+
+        krsort($tasks);
 
         return $this->renderAbstract($request, 'tasks_index.html.twig', [
             'tasks' => $this->paginatorManager->paginate([

@@ -88,7 +88,9 @@
 
                         {% if 'node' == column %}
                             <td>
-                                <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
+                                {% if row['node'] %}
+                                    <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
+                                {% endif %}
                             </td>
                         {% endif %}
                     {% endif %}
