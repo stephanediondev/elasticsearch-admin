@@ -19,8 +19,6 @@ class QueryManager
     {
         $query['query']['format'] = 'json';
         $response = $this->client->request($method, $this->elasticsearchUrl.$path, $query);
-        $content = $response->toArray();
-
-        return $content;
+        return $response->toArray();
     }
 }

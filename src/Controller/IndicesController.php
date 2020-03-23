@@ -8,6 +8,7 @@ use App\Form\IndiceType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IndicesController extends AbstractAppController
 {
@@ -41,7 +42,7 @@ class IndicesController extends AbstractAppController
     {
         $query = [
         ];
-        $indice = $this->queryManager->query('POST', '/_cache/clear', ['query' => $query]);
+        $this->queryManager->query('POST', '/_cache/clear', ['query' => $query]);
 
         $this->addFlash('success', 'indices_cache_cleared');
 
@@ -55,7 +56,7 @@ class IndicesController extends AbstractAppController
     {
         $query = [
         ];
-        $indice = $this->queryManager->query('POST', '/_flush', ['query' => $query]);
+        $this->queryManager->query('POST', '/_flush', ['query' => $query]);
 
         $this->addFlash('success', 'indices_flushed');
 
@@ -69,7 +70,7 @@ class IndicesController extends AbstractAppController
     {
         $query = [
         ];
-        $indice = $this->queryManager->query('POST', '/_refresh', ['query' => $query]);
+        $this->queryManager->query('POST', '/_refresh', ['query' => $query]);
 
         $this->addFlash('success', 'indices_refreshed');
 
@@ -88,7 +89,7 @@ class IndicesController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             $query = [
             ];
-            $indice = $this->queryManager->query('PUT', '/'.$form->get('name')->getData(), ['query' => $query]);
+            $this->queryManager->query('PUT', '/'.$form->get('name')->getData(), ['query' => $query]);
 
             $this->addFlash('success', 'indice_created');
 
@@ -109,9 +110,13 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
-        return $this->renderAbstract($request, 'indices_read.html.twig', [
-            'indice' => $indice[0],
-        ]);
+        if ($indice) {
+            return $this->renderAbstract($request, 'indices_read.html.twig', [
+                'indice' => $indice[0],
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
     }
 
     /**
@@ -123,21 +128,25 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
-        $query = [
-        ];
-        $shards = $this->queryManager->query('GET', '/_cat/shards/'.$index, ['query' => $query]);
+        if ($indice) {
+            $query = [
+            ];
+            $shards = $this->queryManager->query('GET', '/_cat/shards/'.$index, ['query' => $query]);
 
-        return $this->renderAbstract($request, 'indices_read_shards.html.twig', [
-            'indice' => $indice[0],
-            'shards' => $this->paginatorManager->paginate([
-                'route' => 'indices_read_shards',
-                'route_parameters' => ['index' => $index],
-                'total' => count($shards),
-                'rows' => $shards,
-                'page' => 1,
-                'size' => count($shards),
-            ]),
-        ]);
+            return $this->renderAbstract($request, 'indices_read_shards.html.twig', [
+                'indice' => $indice[0],
+                'shards' => $this->paginatorManager->paginate([
+                    'route' => 'indices_read_shards',
+                    'route_parameters' => ['index' => $index],
+                    'total' => count($shards),
+                    'rows' => $shards,
+                    'page' => 1,
+                    'size' => count($shards),
+                ]),
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
     }
 
     /**
@@ -149,22 +158,26 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
-        $query = [
-        ];
-        $aliases = $this->queryManager->query('GET', '/'.$index.'/_alias', ['query' => $query]);
-        $aliases = array_keys($aliases[$index]['aliases']);
+        if ($indice) {
+            $query = [
+            ];
+            $aliases = $this->queryManager->query('GET', '/'.$index.'/_alias', ['query' => $query]);
+            $aliases = array_keys($aliases[$index]['aliases']);
 
-        return $this->renderAbstract($request, 'indices_read_aliases.html.twig', [
-            'indice' => $indice[0],
-            'aliases' => $this->paginatorManager->paginate([
-                'route' => 'indices_read_aliases',
-                'route_parameters' => ['index' => $index],
-                'total' => count($aliases),
-                'rows' => $aliases,
-                'page' => 1,
-                'size' => count($aliases),
-            ]),
-        ]);
+            return $this->renderAbstract($request, 'indices_read_aliases.html.twig', [
+                'indice' => $indice[0],
+                'aliases' => $this->paginatorManager->paginate([
+                    'route' => 'indices_read_aliases',
+                    'route_parameters' => ['index' => $index],
+                    'total' => count($aliases),
+                    'rows' => $aliases,
+                    'page' => 1,
+                    'size' => count($aliases),
+                ]),
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
     }
 
     /**
@@ -176,24 +189,28 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
-        $form = $this->createForm(AliasType::class);
+        if ($indice) {
+            $form = $this->createForm(AliasType::class);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $query = [
-            ];
-            $indice = $this->queryManager->query('PUT', '/'.$index.'/_alias/'.$form->get('name')->getData(), ['query' => $query]);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $query = [
+                ];
+                $indice = $this->queryManager->query('PUT', '/'.$index.'/_alias/'.$form->get('name')->getData(), ['query' => $query]);
 
-            $this->addFlash('success', 'alias_created');
+                $this->addFlash('success', 'alias_created');
 
-            return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
+                return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
+            }
+
+            return $this->renderAbstract($request, 'aliases_create.html.twig', [
+                'indice' => $indice[0],
+                'form' => $form->createView(),
+            ]);
+        } else {
+            throw new NotFoundHttpException();
         }
-
-        return $this->renderAbstract($request, 'aliases_create.html.twig', [
-            'indice' => $indice[0],
-            'form' => $form->createView(),
-        ]);
     }
 
     /**
@@ -203,7 +220,7 @@ class IndicesController extends AbstractAppController
     {
         $query = [
         ];
-        $indice = $this->queryManager->query('DELETE', '/'.$index.'/_alias/'.$alias, ['query' => $query]);
+        $this->queryManager->query('DELETE', '/'.$index.'/_alias/'.$alias, ['query' => $query]);
 
         $this->addFlash('success', 'alias_deleted');
 

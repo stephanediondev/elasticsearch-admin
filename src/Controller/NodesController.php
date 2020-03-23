@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NodesController extends AbstractAppController
 {
@@ -55,8 +56,12 @@ class NodesController extends AbstractAppController
         ];
         $node = $this->queryManager->query('GET', '/_nodes/'.$node, ['query' => $query]);
 
-        return $this->renderAbstract($request, 'nodes_read.html.twig', [
-            'node' => $node['nodes'][key($node['nodes'])],
-        ]);
+        if (true == isset($node['nodes'][key($node['nodes'])])) {
+            return $this->renderAbstract($request, 'nodes_read.html.twig', [
+                'node' => $node['nodes'][key($node['nodes'])],
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
     }
 }

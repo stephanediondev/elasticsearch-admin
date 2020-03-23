@@ -1,0 +1,15 @@
+error403:
+    title: "Forbidden"
+    note: "Sorry, you are not allowed to access this content."
+error404:
+    title: "Not Found"
+    note: "This content does not exist."
+error405:
+    title: "Method Not Allowed"
+    note: "Sorry, you are not allowed to access this content."
+error500:
+    title: "Internal Server Error"
+    note: "Sorry, we have an error on this content. \n It is recorded and we will check the problem as soon as possible."
+error503:
+    title: "Service Unavailable"
+    note: "We are currently in maintenance for few minutes. \n Thanks much for your understanding."
