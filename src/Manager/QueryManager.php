@@ -6,20 +6,19 @@ use Symfony\Component\HttpClient\HttpClient;
 
 class QueryManager
 {
-    const BASE_URI = 'http://192.168.1.93:9200';
-
     /**
      * @required
      */
-    public function init()
+    public function init(string $elasticsearchUrl)
     {
+        $this->elasticsearchUrl = $elasticsearchUrl;
         $this->client = HttpClient::create();
     }
 
     public function query(string $method, string $path, array $query = []): array
     {
         $query['query']['format'] = 'json';
-        $response = $this->client->request($method, self::BASE_URI.$path, $query);
+        $response = $this->client->request($method, $this->elasticsearchUrl.$path, $query);
         $content = $response->toArray();
 
         return $content;

@@ -167,7 +167,7 @@ class IndicesController extends AbstractAppController
         ]);
     }
 
-        /**
+    /**
      * @Route("/indices/{index}/aliases/create", name="indices_aliases_create")
      */
     public function createAlias(Request $request, string $index): Response
