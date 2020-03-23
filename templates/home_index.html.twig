@@ -14,10 +14,22 @@
         {% block content %}
             <div class="row">
                 {{ appImport.dashboardKpi({'title': 'nodes'|trans, 'badge': {'title': clusterHealth['number_of_nodes']}}) }}
-                {{ appImport.dashboardKpi({'title': 'indices'|trans, 'badge': {'title': indices}}) }}
-                {{ appImport.dashboardKpi({'title': 'shards'|trans, 'badge': {'title': shards}}) }}
-                {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': documents}}) }}
-                {{ appImport.dashboardKpi({'title': 'store_size'|trans, 'badge': {'title': store_size|human_filesize}}) }}
+
+                {% if indices %}
+                    {{ appImport.dashboardKpi({'title': 'indices'|trans, 'badge': {'title': indices}}) }}
+                {% endif %}
+
+                {% if shards %}
+                    {{ appImport.dashboardKpi({'title': 'shards'|trans, 'badge': {'title': shards}}) }}
+                {% endif %}
+
+                {% if documents %}
+                    {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': documents}}) }}
+                {% endif %}
+
+                {% if store_size %}
+                    {{ appImport.dashboardKpi({'title': 'store_size'|trans, 'badge': {'title': store_size|human_filesize}}) }}
+                {% endif %}
             </div>
         {% endblock %}
     {% endembed %}

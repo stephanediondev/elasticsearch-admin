@@ -19,10 +19,10 @@ class HomeController extends AbstractAppController
         $clusterStats = $this->queryManager->query('GET', '/_cluster/stats', ['query' => $query]);
 
         return $this->renderAbstract($request, 'home_index.html.twig', [
-            'indices' => $clusterStats['indices']['count'],
-            'shards' => $clusterStats['indices']['shards']['total'],
-            'documents' => $clusterStats['indices']['docs']['count'],
-            'store_size' => $clusterStats['indices']['store']['size_in_bytes'],
+            'indices' => $clusterStats['indices']['count'] ?? false,
+            'shards' => $clusterStats['indices']['shards']['total'] ?? false,
+            'documents' => $clusterStats['indices']['docs']['count'] ?? false,
+            'store_size' => $clusterStats['indices']['store']['size_in_bytes'] ?? false,
         ]);
     }
 }
