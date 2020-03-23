@@ -15,6 +15,10 @@
             <div class="row">
                 {{ appImport.dashboardKpi({'title': 'nodes'|trans, 'badge': {'title': clusterHealth['number_of_nodes']}}) }}
 
+                {% if master_node %}
+                    {{ appImport.dashboardKpi({'title': 'master'|trans, 'badge': {'title': master_node}}) }}
+                {% endif %}
+
                 {% if indices %}
                     {{ appImport.dashboardKpi({'title': 'indices'|trans, 'badge': {'title': indices}}) }}
                 {% endif %}

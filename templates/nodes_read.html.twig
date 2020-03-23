@@ -21,6 +21,13 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
+            {% if master_node == node['name'] %}
+                <p>
+                    <strong>{{ 'master'|trans }}</strong><br>
+                    {{ 'true'|trans }}
+                </p>
+            {% endif %}
+
             <p>
                 <strong>{{ 'ip'|trans }}</strong><br>
                 {{ node['ip'] }}

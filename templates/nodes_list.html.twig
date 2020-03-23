@@ -1,6 +1,7 @@
 {% embed 'table_embed.html.twig' %}
-    {% set columns = {'name': true, 'settings.node.master': true, 'settings.node.data': true, 'ip': true,
-    'version': true, 'os.pretty_name': true, 'os.version': true, 'os.arch': true, 'uptime': true, 'disk.avail': true} %}
+    {% import 'app_import.html.twig' as appImport %}
+
+    {% set columns = {'name': true, 'master': true, 'ip': true, 'version': true, 'os.pretty_name': true, 'os.version': true, 'os.arch': true, 'uptime': true, 'disk.avail': true} %}
 
     {% block thead %}
         <tr>
@@ -12,15 +13,9 @@
                         </th>
                     {% endif %}
 
-                    {% if 'settings.node.master' == column %}
+                    {% if 'master' == column %}
                         <th>
-                            {{ 'is_master'|trans }}
-                        </th>
-                    {% endif %}
-
-                    {% if 'settings.node.data' == column %}
-                        <th>
-                            {{ 'is_data'|trans }}
+                            {{ 'master'|trans }}
                         </th>
                     {% endif %}
 
@@ -81,15 +76,11 @@
                             </td>
                         {% endif %}
 
-                        {% if 'settings.node.master' == column %}
+                        {% if 'master' == column %}
                             <td>
-                                {{ row['settings']['node']['master'] }}
-                            </td>
-                        {% endif %}
-
-                        {% if 'settings.node.data' == column %}
-                            <td>
-                                {{ row['settings']['node']['data'] }}
+                                {% if '*' == row['master'] %}
+                                    {{ 'true'|trans }}
+                                {% endif %}
                             </td>
                         {% endif %}
 

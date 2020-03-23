@@ -19,7 +19,7 @@ class NodesController extends AbstractAppController
 
         $query = [
             's' => 'name',
-            'h' => 'name,disk.avail,uptime'
+            'h' => 'name,disk.avail,uptime,master'
         ];
         $nodes1 = $this->queryManager->query('GET', '/_cat/nodes', ['query' => $query]);
 
@@ -57,7 +57,17 @@ class NodesController extends AbstractAppController
         $node = $this->queryManager->query('GET', '/_nodes/'.$node, ['query' => $query]);
 
         if (true == isset($node['nodes'][key($node['nodes'])])) {
+            $query = [
+            ];
+            $clusterState = $this->queryManager->query('GET', '/_cluster/state', ['query' => $query]);
+
+            $nodes = [];
+            foreach ($clusterState['nodes'] as $k => $v) {
+                $nodes[$k] = $v['name'];
+            }
+
             return $this->renderAbstract($request, 'nodes_read.html.twig', [
+                'master_node' => $nodes[$clusterState['master_node']] ?? false,
                 'node' => $node['nodes'][key($node['nodes'])],
             ]);
         } else {
