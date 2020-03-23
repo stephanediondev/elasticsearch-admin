@@ -1,7 +1,7 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'documents': true, 'documents_deleted': true, 'primary_size': true, 'total_size': true, 'status': true, 'health': true, 'creation_date': true} %}
+    {% set columns = {'name': true, 'shards': true, 'replicas': true, 'documents': true, 'documents_deleted': true, 'primary_size': true, 'total_size': true, 'status': true, 'health': true, 'creation_date': true} %}
 
     {% block thead %}
         <tr>
@@ -10,6 +10,18 @@
                     {% if 'name' == column %}
                         <th>
                             {{ 'name'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'shards' == column %}
+                        <th>
+                            {{ 'shards'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'replicas' == column %}
+                        <th>
+                            {{ 'replicas'|trans }}
                         </th>
                     {% endif %}
 
@@ -67,6 +79,18 @@
                         {% if 'name' == column %}
                             <td>
                                 <a href="{{ path('indices_read', {'index': row['index']}) }}">{{ row['index'] }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'shards' == column %}
+                            <td>
+                                {{ row['pri'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'replicas' == column %}
+                            <td>
+                                {{ row['rep'] }}
                             </td>
                         {% endif %}
 

@@ -18,7 +18,7 @@ class IndicesController extends AbstractAppController
     {
         $query = [
             's' => 'index',
-            'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,creation.date.string'
+            'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string'
         ];
         $indices = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
 
