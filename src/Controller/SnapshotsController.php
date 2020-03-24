@@ -98,4 +98,18 @@ class SnapshotsController extends AbstractAppController
             throw new NotFoundHttpException();
         }
     }
+
+    /**
+     * @Route("/snapshots/{repository}/{snapshot}/delete", name="snapshots_delete")
+     */
+    public function delete(Request $request, string $repository, string $snapshot): Response
+    {
+        $query = [
+        ];
+        $this->queryManager->query('DELETE', '/_snapshot/'.$repository.'/'.$snapshot, ['query' => $query]);
+
+        $this->addFlash('success', 'snapshot_deleted');
+
+        return $this->redirectToRoute('snapshots', []);
+    }
 }

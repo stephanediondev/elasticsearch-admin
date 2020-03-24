@@ -47,7 +47,7 @@
                         {% for failure in snapshot['failures'] %}
                             <tr>
                                 <td>
-                                    {{ failure['index'] }}
+                                    <a href="{{ path('indices_read', {'index': failure['index']}) }}">{{ failure['index'] }}</a>
                                 </td>
                                 <td>
                                     {{ failure['shard_id'] }}

@@ -279,7 +279,7 @@ class IndicesController extends AbstractAppController
     {
         $query = [
         ];
-        $indice = $this->queryManager->query('DELETE', '/'.$index, ['query' => $query]);
+        $this->queryManager->query('DELETE', '/'.$index, ['query' => $query]);
 
         $this->addFlash('success', 'indice_deleted');
 

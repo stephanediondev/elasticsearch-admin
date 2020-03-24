@@ -21,6 +21,18 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    {{ appImport.buttonModal({
+                        'id': 'SnapshotDelete' ~ snapshot['snapshot'],
+                        'title': 'delete'|trans,
+                        'body': snapshot['snapshot'],
+                        'href': path('snapshots_delete', {'repository': repository, 'snapshot': snapshot['snapshot']}),
+                    }) }}
+                {% endblock %}
+            {% endembed %}
+
             <p>
                 <strong>{{ 'repository'|trans }}</strong><br>
                 {{ repository }}
