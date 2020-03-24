@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'snapshots'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans, 'badge': snapshots.total}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'snapshots_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < snapshots.total %}
+        {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.paginator(snapshots) }}
+
+                {% include 'snapshots_list.html.twig' with {'snapshots': snapshots} %}
+
+                {{ appImport.paginator(snapshots) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

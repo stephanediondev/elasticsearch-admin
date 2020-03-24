@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ snapshot['snapshot'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans, 'link': path('snapshots', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': snapshot['snapshot']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'snapshots_read_tabs.html.twig' with {'active': 'failures'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'failures', 'badge': snapshot['failures']|length}) }}
+
+            {% if 0 < snapshot['failures']|length %}
+                {% embed 'table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>
+                                index
+                            </th>
+                            <th>
+                                shard
+                            </th>
+                            <th>
+                                reason
+                            </th>
+                            <th>
+                                node
+                            </th>
+                            <th>
+                                status
+                            </th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for failure in snapshot['failures'] %}
+                            <tr>
+                                <td>
+                                    {{ failure['index'] }}
+                                </td>
+                                <td>
+                                    {{ failure['shard_id'] }}
+                                </td>
+                                <td>
+                                    {{ failure['reason'] }}
+                                </td>
+                                <td>
+                                    {% if nodes[failure['node_id']] is defined %}
+                                        <a href="{{ path('nodes_read', {'node': nodes[failure['node_id']]}) }}">{{ nodes[failure['node_id']] }}</a>
+                                    {% else %}
+                                        {{ failure['node_id'] }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ failure['status'] }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

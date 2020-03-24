@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('snapshots_read', {'repository': repository, 'snapshot': snapshot['snapshot']}) }}">{{ 'summary'|trans }}</a>
+    </li>
+
+    {% if 0 < snapshot['failures']|length %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'failures' == active %} active{% endif %}" href="{{ path('snapshots_read_failures', {'repository': repository, 'snapshot': snapshot['snapshot']}) }}">{{ 'failures'|trans }}</a>
+        </li>
+    {% endif %}
+</ul>
