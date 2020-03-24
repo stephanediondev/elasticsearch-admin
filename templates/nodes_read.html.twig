@@ -21,12 +21,33 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
-            {% if master_node == node['name'] %}
-                <p>
-                    <strong>{{ 'master'|trans }}</strong><br>
-                    {{ 'true'|trans }}
-                </p>
-            {% endif %}
+            <p>
+                <strong>{{ 'master'|trans }}</strong><br>
+                {% if master_node == node['name'] %}
+                    {{ appImport.badge({'title': 'true', 'context': 'true'}) }}
+                {% else %}
+                    {{ appImport.badge({'title': 'false', 'context': 'false'}) }}
+                {% endif %}
+            </p>
+
+            <p>
+                <strong>{{ 'master_eligible'|trans }}</strong><br>
+                {{ appImport.badge({'title': node['settings']['node']['master'], 'context': node['settings']['node']['master']}) }}
+            </p>
+
+            <p>
+                <strong>{{ 'voting_only'|trans }}</strong><br>
+                {% if node['settings']['node']['voting_only'] is defined %}
+                    {{ appImport.badge({'title': node['settings']['node']['voting_only'], 'context': node['settings']['node']['voting_only']}) }}
+                {% else %}
+                    {{ appImport.badge({'title': 'false', 'context': 'false'}) }}
+                {% endif %}
+            </p>
+
+            <p>
+                <strong>{{ 'data'|trans }}</strong><br>
+                {{ appImport.badge({'title': node['settings']['node']['data'], 'context': node['settings']['node']['data']}) }}
+            </p>
 
             <p>
                 <strong>{{ 'ip'|trans }}</strong><br>
@@ -39,7 +60,7 @@
             </p>
 
             <p>
-                <strong>{{ 'os_pretty_name'|trans }}</strong><br>
+                <strong>{{ 'os'|trans }}</strong><br>
                 {{ node['os']['pretty_name'] }}
             </p>
 

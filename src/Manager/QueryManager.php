@@ -17,7 +17,9 @@ class QueryManager
 
     public function query(string $method, string $path, array $query = []): array
     {
-        $query['query']['format'] = 'json';
+        if (false == isset($query['query']['format'])) {
+            $query['query']['format'] = 'json';
+        }
         $response = $this->client->request($method, $this->elasticsearchUrl.$path, $query);
         return $response->toArray();
     }

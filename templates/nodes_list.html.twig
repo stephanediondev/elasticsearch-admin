@@ -1,7 +1,7 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master': true, 'ip': true, 'version': true, 'os.pretty_name': true, 'os.version': true, 'os.arch': true, 'uptime': true, 'disk.avail': true} %}
+    {% set columns = {'name': true, 'master': true, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': true, 'version': true, 'os': true, 'uptime': true, 'free_space': true} %}
 
     {% block thead %}
         <tr>
@@ -19,6 +19,25 @@
                         </th>
                     {% endif %}
 
+
+                    {% if 'master_eligible' == column %}
+                        <th>
+                            {{ 'master_eligible'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'voting_only' == column %}
+                        <th>
+                            {{ 'voting_only'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'data' == column %}
+                        <th>
+                            {{ 'data'|trans }}
+                        </th>
+                    {% endif %}
+
                     {% if 'ip' == column %}
                         <th>
                             {{ 'ip'|trans }}
@@ -31,27 +50,15 @@
                         </th>
                     {% endif %}
 
-                    {% if 'os.pretty_name' == column %}
+                    {% if 'os' == column %}
                         <th>
-                            {{ 'os.pretty_name'|trans }}
+                            {{ 'os'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'os.version' == column %}
+                    {% if 'free_space' == column %}
                         <th>
-                            {{ 'os.version'|trans }}
-                        </th>
-                    {% endif %}
-
-                    {% if 'os.arch' == column %}
-                        <th>
-                            {{ 'os.arch'|trans }}
-                        </th>
-                    {% endif %}
-
-                    {% if 'disk.avail' == column %}
-                        <th>
-                            {{ 'disk.avail'|trans }}
+                            {{ 'free_space'|trans }}
                         </th>
                     {% endif %}
 
@@ -79,8 +86,32 @@
                         {% if 'master' == column %}
                             <td>
                                 {% if '*' == row['master'] %}
-                                    {{ 'true'|trans }}
+                                    {{ appImport.badge({'title': 'true', 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'false', 'context': 'false'}) }}
                                 {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'master_eligible' == column %}
+                            <td>
+                                {{ appImport.badge({'title': row['settings']['node']['master'], 'context': row['settings']['node']['master']}) }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'voting_only' == column %}
+                            <td>
+                                {% if row['settings']['node']['voting_only'] is defined %}
+                                    {{ appImport.badge({'title': row['settings']['node']['voting_only'], 'context': row['settings']['node']['voting_only']}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'false', 'context': 'false'}) }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'data' == column %}
+                            <td>
+                                {{ appImport.badge({'title': row['settings']['node']['data'], 'context': row['settings']['node']['data']}) }}
                             </td>
                         {% endif %}
 
@@ -96,25 +127,13 @@
                             </td>
                         {% endif %}
 
-                        {% if 'os.pretty_name' == column %}
+                        {% if 'os' == column %}
                             <td>
                                 {{ row['os']['pretty_name'] }}
                             </td>
                         {% endif %}
 
-                        {% if 'os.version' == column %}
-                            <td>
-                                {{ row['os']['version'] }}
-                            </td>
-                        {% endif %}
-
-                        {% if 'os.arch' == column %}
-                            <td>
-                                {{ row['os']['arch'] }}
-                            </td>
-                        {% endif %}
-
-                        {% if 'disk.avail' == column %}
+                        {% if 'free_space' == column %}
                             <td>
                                 {{ row['disk.avail'] }}
                             </td>

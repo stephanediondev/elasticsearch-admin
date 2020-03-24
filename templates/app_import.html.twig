@@ -35,6 +35,10 @@
         {% set params = params|merge({'context': 'warning'}) %}
     {% elseif 'green' == params.context %}
         {% set params = params|merge({'context': 'success'}) %}
+    {% elseif 'true' == params.context %}
+        {% set params = params|merge({'context': 'success'}) %}
+    {% elseif 'false' == params.context %}
+        {% set params = params|merge({'context': 'secondary'}) %}
     {% endif %}
 
     <span class="badge badge-{{ params.context }}">{{ params.title }}</span>
