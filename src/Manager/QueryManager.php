@@ -15,12 +15,16 @@ class QueryManager
         $this->client = HttpClient::create();
     }
 
-    public function query(string $method, string $path, array $query = []): array
+    public function query(string $method, string $path, array $query = [])
     {
         if (false == isset($query['query']['format'])) {
             $query['query']['format'] = 'json';
         }
         $response = $this->client->request($method, $this->elasticsearchUrl.$path, $query);
-        return $response->toArray();
+        if ('json' == $query['query']['format']) {
+            return $response->toArray();
+        } else {
+            return $response->getContent();
+        }
     }
 }

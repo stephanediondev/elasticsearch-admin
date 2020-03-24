@@ -14,4 +14,53 @@
             {{ appImport.form({'form': form}) }}
         {% endblock %}
     {% endembed %}
+
+    {% if rows is defined %}
+        {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': command, 'badge': rows|length}) }}
+
+                {% if help is defined %}
+                    <p>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="false" aria-controls="collapseHelp">
+                            {{ 'help'|trans }}
+                        </button>
+                    </p>
+
+                    <div class="collapse mb-4" id="collapseHelp">
+                        <div class="card card-body">
+                            <pre><code>{{ help }}</code></pre>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if 0 < rows|length %}
+                    {% embed 'table_embed.html.twig' %}
+                        {% block thead %}
+                            <tr>
+                                {% for header in headers %}
+                                    <th>
+                                        {{ header }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        {% endblock %}
+
+                        {% block tbody %}
+                            {% for row in rows %}
+                                <tr>
+                                    {% for column in row %}
+                                        <td>
+                                            {{ column }}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                    {% endembed %}
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
 {% endblock %}

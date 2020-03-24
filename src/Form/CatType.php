@@ -5,7 +5,6 @@ namespace App\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -17,48 +16,39 @@ class CatType extends AbstractType
         $commands = [
             'allocation',
             'shards',
-            'shards/{index}',
+            //'shards/{index}',
             'master',
             'nodes',
             'tasks',
             'indices',
-            'indices/{index}',
+            //'indices/{index}',
             'segments',
-            'segments/{index}',
+            //'segments/{index}',
             'count',
-            'count/{index}',
+            //'count/{index}',
             'recovery',
-            'recovery/{index}',
+            //'recovery/{index}',
             'health',
             'pending_tasks',
             'aliases',
-            'aliases/{alias}',
+            //'aliases/{alias}',
             'thread_pool',
-            'thread_pool/{thread_pools}',
+            //'thread_pool/{thread_pools}',
             'plugins',
             'fielddata',
-            'fielddata/{fields}',
+            //'fielddata/{fields}',
             'nodeattrs',
             'repositories',
-            'snapshots/{repository}',
+            //'snapshots/{repository}',
             'templates',
         ];
         sort($commands);
 
-        $formats = [
-            'text',
-            'json',
-            'smile',
-            'yaml',
-            'cbor',
-        ];
-
         $fields = [];
 
         $fields[] = 'command';
-        //$fields[] = 'format';
-        $fields[] = 'help';
-        $fields[] = 'verbose';
+        $fields[] = 'headers';
+        $fields[] = 'sort';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -77,35 +67,15 @@ class CatType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'format':
-                    $builder->add('format', ChoiceType::class, [
-                        'choices' => $formats,
-                        'choice_label' => function ($choice, $key, $value) use ($formats) {
-                            return $formats[$key];
-
-                        },
-                        'label' => 'format',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                        ],
-                    ]);
-                    break;
                 case 'headers':
-                    $builder->add('headers', CheckboxType::class, [
+                    $builder->add('headers', TextType::class, [
                         'label' => 'headers',
                         'required' => false,
                     ]);
                     break;
-                case 'help':
-                    $builder->add('help', CheckboxType::class, [
-                        'label' => 'help',
-                        'required' => false,
-                    ]);
-                    break;
-                case 'verbose':
-                    $builder->add('verbose', CheckboxType::class, [
-                        'label' => 'verbose',
+                case 'sort':
+                    $builder->add('sort', TextType::class, [
+                        'label' => 'sort',
                         'required' => false,
                     ]);
                     break;
