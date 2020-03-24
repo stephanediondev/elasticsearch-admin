@@ -27,6 +27,8 @@
                     {{ appImport.dashboardKpi({'title': 'shards'|trans, 'badge': {'title': shards}}) }}
                 {% endif %}
 
+                {{ appImport.dashboardKpi({'title': 'unassigned_shards'|trans, 'badge': {'title': clusterHealth['unassigned_shards']}}) }}
+
                 {% if documents %}
                     {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': documents}}) }}
                 {% endif %}
