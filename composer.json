@@ -17,7 +17,6 @@
         "symfony/http-client": "5.0.*",
         "symfony/intl": "5.0.*",
         "symfony/monolog-bundle": "^3.1",
-        "symfony/notifier": "5.0.*",
         "symfony/process": "5.0.*",
         "symfony/security-bundle": "5.0.*",
         "symfony/serializer-pack": "*",
@@ -25,7 +24,6 @@
         "symfony/translation": "5.0.*",
         "symfony/twig-pack": "*",
         "symfony/validator": "5.0.*",
-        "symfony/web-link": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "5.0.*"
     },
