@@ -49,6 +49,13 @@
                         }) }}
 
                         {{ appImport.buttonModal({
+                            'id': 'IndiceForceMerge' ~ indice['index'],
+                            'title': 'force_merge'|trans,
+                            'body': indice['index'],
+                            'href': path('indices_force_merge', {'index': indice['index']}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
                             'id': 'IndiceCacheClear' ~ indice['index'],
                             'title': 'cache_clear'|trans,
                             'body': indice['index'],

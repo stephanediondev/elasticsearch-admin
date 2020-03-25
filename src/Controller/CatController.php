@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Form\CatFilterType;
+use App\Form\FilterCatType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class CatController extends AbstractAppController
     {
         $parameters = [];
 
-        $form = $this->createForm(CatFilterType::class);
+        $form = $this->createForm(FilterCatType::class);
 
         $form->handleRequest($request);
 

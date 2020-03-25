@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Form\AliasCreateType;
-use App\Form\IndexCreateType;
+use App\Form\CreateAliasType;
+use App\Form\CreateIndexType;
+use App\Form\ReindexType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,6 +37,20 @@ class IndicesController extends AbstractAppController
     }
 
     /**
+     * @Route("/indices/force/merge", name="indices_force_merge_all")
+     */
+    public function forceMergeAll(Request $request): Response
+    {
+        $query = [
+        ];
+        $this->queryManager->query('POST', '/_forcemerge', ['query' => $query]);
+
+        $this->addFlash('success', 'indices_force_merge_all');
+
+        return $this->redirectToRoute('indices', []);
+    }
+
+    /**
      * @Route("/indices/cache/clear", name="indices_cache_clear_all")
      */
     public function cacheClearAll(Request $request): Response
@@ -44,7 +59,7 @@ class IndicesController extends AbstractAppController
         ];
         $this->queryManager->query('POST', '/_cache/clear', ['query' => $query]);
 
-        $this->addFlash('success', 'indices_cache_cleared');
+        $this->addFlash('success', 'indices_cache_clear_all');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -58,7 +73,7 @@ class IndicesController extends AbstractAppController
         ];
         $this->queryManager->query('POST', '/_flush', ['query' => $query]);
 
-        $this->addFlash('success', 'indices_flushed');
+        $this->addFlash('success', 'indices_flush_all');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -72,9 +87,49 @@ class IndicesController extends AbstractAppController
         ];
         $this->queryManager->query('POST', '/_refresh', ['query' => $query]);
 
-        $this->addFlash('success', 'indices_refreshed');
+        $this->addFlash('success', 'indices_refresh_all');
 
         return $this->redirectToRoute('indices', []);
+    }
+
+    /**
+     * @Route("/indices/reindex", name="indices_reindex")
+     */
+    public function reindex(Request $request): Response
+    {
+        $query = [
+            's' => 'index',
+            'h' => 'index'
+        ];
+        $rows = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
+
+        foreach ($rows as $row) {
+            $indices[] = $row['index'];
+        }
+
+        $form = $this->createForm(ReindexType::class, null, ['indices' => $indices]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $body = [
+                'source' => [
+                    'index' => $form->get('source')->getData(),
+                ],
+                'dest' => [
+                    'index' => $form->get('dest')->getData(),
+                ],
+            ];
+            $this->queryManager->query('POST', '/_reindex', ['body' => $body]);
+
+            $this->addFlash('success', 'indices_reindex');
+
+            return $this->redirectToRoute('indices', []);
+        }
+
+        return $this->renderAbstract($request, 'Modules/indices/indices_reindex.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -82,16 +137,20 @@ class IndicesController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $form = $this->createForm(IndexCreateType::class);
+        $form = $this->createForm(CreateIndexType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $query = [
+            $body = [
+                'settings' => [
+                    'number_of_shards' => $form->get('number_of_shards')->getData(),
+                    'number_of_replicas' => $form->get('number_of_replicas')->getData(),
+                ],
             ];
-            $this->queryManager->query('PUT', '/'.$form->get('name')->getData(), ['query' => $query]);
+            $this->queryManager->query('PUT', '/'.$form->get('name')->getData(), ['body' => $body]);
 
-            $this->addFlash('success', 'indice_created');
+            $this->addFlash('success', 'indices_create');
 
             return $this->redirectToRoute('indices_read', ['index' => $form->get('name')->getData()]);
         }
@@ -130,6 +189,7 @@ class IndicesController extends AbstractAppController
 
         if ($indice) {
             $query = [
+                'h' => 'shard,prirep,state,unassigned.reason,docs,store,node'
             ];
             $shards = $this->queryManager->query('GET', '/_cat/shards/'.$index, ['query' => $query]);
 
@@ -190,7 +250,7 @@ class IndicesController extends AbstractAppController
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
         if ($indice) {
-            $form = $this->createForm(AliasCreateType::class);
+            $form = $this->createForm(CreateAliasType::class);
 
             $form->handleRequest($request);
 
@@ -199,7 +259,7 @@ class IndicesController extends AbstractAppController
                 ];
                 $indice = $this->queryManager->query('PUT', '/'.$index.'/_alias/'.$form->get('name')->getData(), ['query' => $query]);
 
-                $this->addFlash('success', 'alias_created');
+                $this->addFlash('success', 'indices_aliases_create');
 
                 return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
             }
@@ -222,7 +282,7 @@ class IndicesController extends AbstractAppController
         ];
         $this->queryManager->query('DELETE', '/'.$index.'/_alias/'.$alias, ['query' => $query]);
 
-        $this->addFlash('success', 'alias_deleted');
+        $this->addFlash('success', 'indices_aliases_delete');
 
         return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
     }
@@ -281,7 +341,7 @@ class IndicesController extends AbstractAppController
         ];
         $this->queryManager->query('DELETE', '/'.$index, ['query' => $query]);
 
-        $this->addFlash('success', 'indice_deleted');
+        $this->addFlash('success', 'indices_delete');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -295,7 +355,7 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('POST', '/'.$index.'/_close', ['query' => $query]);
 
-        $this->addFlash('success', 'indice_closed');
+        $this->addFlash('success', 'indices_close');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -309,7 +369,21 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('POST', '/'.$index.'/_open', ['query' => $query]);
 
-        $this->addFlash('success', 'indice_opened');
+        $this->addFlash('success', 'indices_open');
+
+        return $this->redirectToRoute('indices_read', ['index' => $index]);
+    }
+
+    /**
+     * @Route("/indices/{index}/force/merge", name="indices_force_merge")
+     */
+    public function forceMerge(Request $request, string $index): Response
+    {
+        $query = [
+        ];
+        $indice = $this->queryManager->query('POST', '/'.$index.'/_forcemerge', ['query' => $query]);
+
+        $this->addFlash('success', 'indices_force_merge');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -323,7 +397,7 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('POST', '/'.$index.'/_cache/clear', ['query' => $query]);
 
-        $this->addFlash('success', 'indice_cache_cleared');
+        $this->addFlash('success', 'indices_cache_clear');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -337,7 +411,7 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('POST', '/'.$index.'/_flush', ['query' => $query]);
 
-        $this->addFlash('success', 'indice_flushed');
+        $this->addFlash('success', 'indices_flush');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -351,7 +425,7 @@ class IndicesController extends AbstractAppController
         ];
         $indice = $this->queryManager->query('POST', '/'.$index.'/_refresh', ['query' => $query]);
 
-        $this->addFlash('success', 'indice_refreshed');
+        $this->addFlash('success', 'indices_refresh');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }

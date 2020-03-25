@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 {% import 'app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'create_snapshot'|trans }}{% endblock %}
+{% block head_title %}{{ 'reindex'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans}) }}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': 'create_snapshot'|trans}) }}
+    {{ appImport.heading({'level': 2, 'title': 'reindex'|trans}) }}
 {% endblock %}
 
 {% block buttons %}
     {% embed 'buttons_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.button({'context': 'secondary', 'title': 'cancel'|trans, 'url': path('snapshots', {})}) }}
+            {{ appImport.button({'context': 'secondary', 'title': 'cancel'|trans, 'url': path('indices', {})}) }}
         {% endblock %}
     {% endembed %}
 {% endblock %}

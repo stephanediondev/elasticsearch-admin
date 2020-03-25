@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Form\SnapshotCreateType;
+use App\Form\CreateSnapshotType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,7 +77,7 @@ class SnapshotsController extends AbstractAppController
             $indices[] = $row['index'];
         }
 
-        $form = $this->createForm(SnapshotCreateType::class, null, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(CreateSnapshotType::class, null, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 
@@ -91,7 +91,7 @@ class SnapshotsController extends AbstractAppController
             }
             $this->queryManager->query('PUT', '/_snapshot/'.$form->get('repository')->getData().'/'.$form->get('name')->getData(), ['body' => $body]);
 
-            $this->addFlash('success', 'snapshot_created');
+            $this->addFlash('success', 'snapshots_create');
 
             return $this->redirectToRoute('snapshots_read', ['repository' => $form->get('repository')->getData(), 'snapshot' => $form->get('name')->getData()]);
         }
@@ -159,7 +159,7 @@ class SnapshotsController extends AbstractAppController
         ];
         $this->queryManager->query('DELETE', '/_snapshot/'.$repository.'/'.$snapshot, ['query' => $query]);
 
-        $this->addFlash('success', 'snapshot_deleted');
+        $this->addFlash('success', 'snapshots_delete');
 
         return $this->redirectToRoute('snapshots', []);
     }

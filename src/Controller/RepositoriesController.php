@@ -61,7 +61,7 @@ class RepositoriesController extends AbstractAppController
         ];
         $this->queryManager->query('DELETE', '/_snapshot/'.$repository, ['query' => $query]);
 
-        $this->addFlash('success', 'repository_deleted');
+        $this->addFlash('success', 'repositories_delete');
 
         return $this->redirectToRoute('repositories', []);
     }

@@ -1,7 +1,7 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'shard': true, 'primary': true, 'state': true, 'documents': true, 'size': true, 'node': true} %}
+    {% set columns = {'shard': true, 'primary': true, 'state': true, 'unassigned_reason': true, 'documents': true, 'size': true, 'node': true} %}
 
     {% block thead %}
         <tr>
@@ -22,6 +22,12 @@
                     {% if 'state' == column %}
                         <th>
                             state
+                        </th>
+                    {% endif %}
+
+                    {% if 'unassigned_reason' == column %}
+                        <th>
+                            unassigned_reason
                         </th>
                     {% endif %}
 
@@ -71,6 +77,12 @@
                         {% if 'state' == column %}
                             <td>
                                 {{ row['state'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'unassigned_reason' == column %}
+                            <td>
+                                {{ row['unassigned.reason'] }}
                             </td>
                         {% endif %}
 
