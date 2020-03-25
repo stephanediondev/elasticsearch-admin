@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'indices_tabs.html.twig' with {'active': 'list'} %}
+    {% include 'Modules/indices/indices_tabs.html.twig' with {'active': 'list'} %}
 {% endblock %}
 
 {% block buttons %}
@@ -45,7 +45,7 @@
             {% block content %}
                 {{ appImport.paginator(indices) }}
 
-                {% include 'indices_list.html.twig' with {'indices': indices} %}
+                {% include 'Modules/indices/indices_list.html.twig' with {'indices': indices} %}
 
                 {{ appImport.paginator(indices) }}
             {% endblock %}

@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 {% import 'app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'shards'|trans }}{% endblock %}
+{% block head_title %}{{ indice['index'] }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'shards'|trans, 'badge': shards.total}) }}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': path('indices', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': indice['index']}) }}
 {% endblock %}
 
 {% block tabs %}
-    {% include 'shards_tabs.html.twig' with {'active': 'list'} %}
+    {% include 'Modules/indices/indices_read_tabs.html.twig' with {'active': 'shards'} %}
 {% endblock %}
 
 {% block main_content %}
@@ -18,7 +22,7 @@
             {% block content %}
                 {{ appImport.paginator(shards) }}
 
-                {% include 'shards_list.html.twig' with {'shards': shards} %}
+                {% include 'Modules/indices/indices_read_shards_list.html.twig' with {'shards': shards} %}
 
                 {{ appImport.paginator(shards) }}
             {% endblock %}

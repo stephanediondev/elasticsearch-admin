@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class CatType extends AbstractType
+class CatFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -58,7 +58,6 @@ class CatType extends AbstractType
                         'choices' => $commands,
                         'choice_label' => function ($choice, $key, $value) use ($commands) {
                             return $commands[$key];
-
                         },
                         'label' => 'command',
                         'required' => true,

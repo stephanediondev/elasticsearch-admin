@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'nodes_tabs.html.twig' with {'active': 'list'} %}
+    {% include 'Modules/nodes/nodes_tabs.html.twig' with {'active': 'list'} %}
 {% endblock %}
 
 {% block main_content %}
@@ -18,7 +18,7 @@
             {% block content %}
                 {{ appImport.paginator(nodes) }}
 
-                {% include 'nodes_list.html.twig' with {'nodes': nodes} %}
+                {% include 'Modules/nodes/nodes_list.html.twig' with {'nodes': nodes} %}
 
                 {{ appImport.paginator(nodes) }}
             {% endblock %}

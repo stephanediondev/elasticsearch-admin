@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'snapshots_read_tabs.html.twig' with {'active': 'summary'} %}
+    {% include 'Modules/snapshots/snapshots_read_tabs.html.twig' with {'active': 'summary'} %}
 {% endblock %}
 
 {% block main_content %}
@@ -35,7 +35,7 @@
 
             <p>
                 <strong>{{ 'repository'|trans }}</strong><br>
-                {{ repository }}
+                <a href="{{ path('repositories_read', {'repository': repository}) }}">{{ repository }}</a>
             </p>
 
             <p>

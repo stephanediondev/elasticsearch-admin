@@ -12,19 +12,19 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'indices_read_tabs.html.twig' with {'active': 'shards'} %}
+    {% include 'Modules/indices/indices_read_tabs.html.twig' with {'active': 'documents'} %}
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < shards.total %}
+    {% if 0 < documents.total %}
         {% embed 'card_embed.html.twig' %}
             {% import 'app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.paginator(shards) }}
+                {{ appImport.paginator(documents) }}
 
-                {% include 'indices_read_shards_list.html.twig' with {'shards': shards} %}
+                {% include 'Modules/indices/indices_read_documents_list.html.twig' with {'documents': documents} %}
 
-                {{ appImport.paginator(shards) }}
+                {{ appImport.paginator(documents) }}
             {% endblock %}
         {% endembed %}
     {% endif %}

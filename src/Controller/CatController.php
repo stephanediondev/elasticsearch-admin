@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Form\CatType;
+use App\Form\CatFilterType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class CatController extends AbstractAppController
     {
         $parameters = [];
 
-        $form = $this->createForm(CatType::class);
+        $form = $this->createForm(CatFilterType::class);
 
         $form->handleRequest($request);
 
@@ -44,6 +44,6 @@ class CatController extends AbstractAppController
 
         $parameters['form'] = $form->createView();
 
-        return $this->renderAbstract($request, 'cat_index.html.twig', $parameters);
+        return $this->renderAbstract($request, 'Modules/cat/cat_index.html.twig', $parameters);
     }
 }

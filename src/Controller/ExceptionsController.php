@@ -7,9 +7,9 @@ use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 
-class ExceptionController extends AbstractAppController
+class ExceptionsController extends AbstractAppController
 {
-    public function showException(Request $request, FlattenException $exception, RequestStack $requestStack)
+    public function read(Request $request, FlattenException $exception, RequestStack $requestStack)
     {
         $parameters = [
             'locale' => $requestStack->getMasterRequest()->getLocale(),
@@ -23,7 +23,7 @@ class ExceptionController extends AbstractAppController
                 $parameters['file'] = $exception->getFile();
                 $parameters['line'] = $exception->getLine();
             }
-            return $this->renderAbstract($request, 'Exception/error'.$exception->getStatusCode().'.html.twig', $parameters);
+            return $this->renderAbstract($request, 'Modules/exceptions/error'.$exception->getStatusCode().'.html.twig', $parameters);
         }
     }
 }

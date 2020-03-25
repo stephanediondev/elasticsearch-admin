@@ -27,7 +27,7 @@ class HomeController extends AbstractAppController
             $nodes[$k] = $node['name'];
         }
 
-        return $this->renderAbstract($request, 'home_index.html.twig', [
+        return $this->renderAbstract($request, 'Modules/home/home_index.html.twig', [
             'master_node' => $nodes[$clusterState['master_node']] ?? false,
             'indices' => $clusterStats['indices']['count'] ?? false,
             'shards' => $clusterStats['indices']['shards']['total'] ?? false,

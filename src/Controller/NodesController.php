@@ -35,7 +35,7 @@ class NodesController extends AbstractAppController
             $nodes[$node['name']] = array_merge($nodes[$node['name']], $node);
         }
 
-        return $this->renderAbstract($request, 'nodes_index.html.twig', [
+        return $this->renderAbstract($request, 'Modules/nodes/nodes_index.html.twig', [
             'nodes' => $this->paginatorManager->paginate([
                 'route' => 'nodes',
                 'route_parameters' => [],
@@ -66,7 +66,7 @@ class NodesController extends AbstractAppController
                 $nodes[$k] = $v['name'];
             }
 
-            return $this->renderAbstract($request, 'nodes_read.html.twig', [
+            return $this->renderAbstract($request, 'Modules/nodes/nodes_read.html.twig', [
                 'master_node' => $nodes[$clusterState['master_node']] ?? false,
                 'node' => $node['nodes'][key($node['nodes'])],
             ]);

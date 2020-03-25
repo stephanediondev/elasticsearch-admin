@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'shards'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'shards'|trans, 'badge': shards.total}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/shards/shards_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < shards.total %}
+        {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.paginator(shards) }}
+
+                {% include 'Modules/shards/shards_list.html.twig' with {'shards': shards} %}
+
+                {{ appImport.paginator(shards) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

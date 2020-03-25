@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'tasks_tabs.html.twig' with {'active': 'list'} %}
+    {% include 'Modules/tasks/tasks_tabs.html.twig' with {'active': 'list'} %}
 {% endblock %}
 
 {% block main_content %}
@@ -18,7 +18,7 @@
             {% block content %}
                 {{ appImport.paginator(tasks) }}
 
-                {% include 'tasks_list.html.twig' with {'tasks': tasks} %}
+                {% include 'Modules/tasks/tasks_list.html.twig' with {'tasks': tasks} %}
 
                 {{ appImport.paginator(tasks) }}
             {% endblock %}

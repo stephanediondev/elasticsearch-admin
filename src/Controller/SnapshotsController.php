@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Form\AliasType;
-use App\Form\IndiceType;
+use App\Form\SnapshotCreateType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +37,7 @@ class SnapshotsController extends AbstractAppController
             }
         }
 
-        return $this->renderAbstract($request, 'snapshots_index.html.twig', [
+        return $this->renderAbstract($request, 'Modules/snapshots/snapshots_index.html.twig', [
             'snapshots' => $this->paginatorManager->paginate([
                 'route' => 'snapshots',
                 'route_parameters' => [],
@@ -47,6 +46,58 @@ class SnapshotsController extends AbstractAppController
                 'page' => 1,
                 'size' => count($snapshots),
             ]),
+        ]);
+    }
+
+    /**
+     * @Route("/snapshots/create", name="snapshots_create")
+     */
+    public function create(Request $request): Response
+    {
+        $repositories = [];
+        $indices = [];
+
+        $query = [
+            's' => 'id',
+            'h' => 'id'
+        ];
+        $rows = $this->queryManager->query('GET', '/_cat/repositories', ['query' => $query]);
+
+        foreach ($rows as $row) {
+            $repositories[] = $row['id'];
+        }
+
+        $query = [
+            's' => 'index',
+            'h' => 'index'
+        ];
+        $rows = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
+
+        foreach ($rows as $row) {
+            $indices[] = $row['index'];
+        }
+
+        $form = $this->createForm(SnapshotCreateType::class, null, ['repositories' => $repositories, 'indices' => $indices]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $body = [
+                'ignore_unavailable' => $form->get('ignore_unavailable')->getData(),
+                'include_global_state' => $form->get('include_global_state')->getData(),
+            ];
+            if ($form->has('indices') && $form->get('indices')->getData()) {
+                $body['indices'] = implode(',', $form->get('indices')->getData());
+            }
+            $this->queryManager->query('PUT', '/_snapshot/'.$form->get('repository')->getData().'/'.$form->get('name')->getData(), ['body' => $body]);
+
+            $this->addFlash('success', 'snapshot_created');
+
+            return $this->redirectToRoute('snapshots_read', ['repository' => $form->get('repository')->getData(), 'snapshot' => $form->get('name')->getData()]);
+        }
+
+        return $this->renderAbstract($request, 'Modules/snapshots/snapshots_create.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -60,7 +111,7 @@ class SnapshotsController extends AbstractAppController
         $snapshot = $this->queryManager->query('GET', '/_snapshot/'.$repository.'/'.$snapshot, ['query' => $query]);
 
         if ($snapshot) {
-            return $this->renderAbstract($request, 'snapshots_read.html.twig', [
+            return $this->renderAbstract($request, 'Modules/snapshots/snapshots_read.html.twig', [
                 'repository' => $repository,
                 'snapshot' => $snapshot['snapshots'][0],
             ]);
@@ -89,7 +140,7 @@ class SnapshotsController extends AbstractAppController
                 $nodes[$k] = $row['name'];
             }
 
-            return $this->renderAbstract($request, 'snapshots_read_failures.html.twig', [
+            return $this->renderAbstract($request, 'Modules/snapshots/snapshots_read_failures.html.twig', [
                 'repository' => $repository,
                 'snapshot' => $snapshot['snapshots'][0],
                 'nodes' => $nodes,

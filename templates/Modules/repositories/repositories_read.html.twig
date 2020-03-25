@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ repository['id'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'repositories'|trans, 'link': path('repositories', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': repository['id']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/repositories/repositories_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    {{ appImport.buttonModal({
+                        'id': 'RepositoryDelete' ~ repository['id'],
+                        'title': 'delete'|trans,
+                        'body': repository['id'],
+                        'href': path('repositories_delete', {'repository': repository['id']}),
+                    }) }}
+                {% endblock %}
+            {% endembed %}
+
+            <p>
+                <strong>{{ 'type'|trans }}</strong><br>
+                {{ repository['type'] }}
+            </p>
+
+            {% for k, v in repository['settings'] %}
+                <p>
+                    <strong>{{ k }}</strong><br>
+                    {{ v }}
+                </p>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

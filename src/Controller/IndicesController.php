@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Form\AliasType;
-use App\Form\IndiceType;
+use App\Form\AliasCreateType;
+use App\Form\IndexCreateType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ class IndicesController extends AbstractAppController
         ];
         $indices = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
 
-        return $this->renderAbstract($request, 'indices_index.html.twig', [
+        return $this->renderAbstract($request, 'Modules/indices/indices_index.html.twig', [
             'indices' => $this->paginatorManager->paginate([
                 'route' => 'indices',
                 'route_parameters' => [],
@@ -82,7 +82,7 @@ class IndicesController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $form = $this->createForm(IndiceType::class);
+        $form = $this->createForm(IndexCreateType::class);
 
         $form->handleRequest($request);
 
@@ -96,7 +96,7 @@ class IndicesController extends AbstractAppController
             return $this->redirectToRoute('indices_read', ['index' => $form->get('name')->getData()]);
         }
 
-        return $this->renderAbstract($request, 'indices_create.html.twig', [
+        return $this->renderAbstract($request, 'Modules/indices/indices_create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -111,7 +111,7 @@ class IndicesController extends AbstractAppController
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
         if ($indice) {
-            return $this->renderAbstract($request, 'indices_read.html.twig', [
+            return $this->renderAbstract($request, 'Modules/indices/indices_read.html.twig', [
                 'indice' => $indice[0],
             ]);
         } else {
@@ -133,7 +133,7 @@ class IndicesController extends AbstractAppController
             ];
             $shards = $this->queryManager->query('GET', '/_cat/shards/'.$index, ['query' => $query]);
 
-            return $this->renderAbstract($request, 'indices_read_shards.html.twig', [
+            return $this->renderAbstract($request, 'Modules/indices/indices_read_shards.html.twig', [
                 'indice' => $indice[0],
                 'shards' => $this->paginatorManager->paginate([
                     'route' => 'indices_read_shards',
@@ -164,7 +164,7 @@ class IndicesController extends AbstractAppController
             $aliases = $this->queryManager->query('GET', '/'.$index.'/_alias', ['query' => $query]);
             $aliases = array_keys($aliases[$index]['aliases']);
 
-            return $this->renderAbstract($request, 'indices_read_aliases.html.twig', [
+            return $this->renderAbstract($request, 'Modules/indices/indices_read_aliases.html.twig', [
                 'indice' => $indice[0],
                 'aliases' => $this->paginatorManager->paginate([
                     'route' => 'indices_read_aliases',
@@ -190,7 +190,7 @@ class IndicesController extends AbstractAppController
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
         if ($indice) {
-            $form = $this->createForm(AliasType::class);
+            $form = $this->createForm(AliasCreateType::class);
 
             $form->handleRequest($request);
 
@@ -204,7 +204,7 @@ class IndicesController extends AbstractAppController
                 return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
             }
 
-            return $this->renderAbstract($request, 'aliases_create.html.twig', [
+            return $this->renderAbstract($request, 'Modules/indices/indices_read_aliases_create.html.twig', [
                 'indice' => $indice[0],
                 'form' => $form->createView(),
             ]);
@@ -259,7 +259,7 @@ class IndicesController extends AbstractAppController
             $total = $documents['hits']['total'];
         }
 
-        return $this->renderAbstract($request, 'indices_read_documents.html.twig', [
+        return $this->renderAbstract($request, 'Modules/indices/indices_read_documents.html.twig', [
             'indice' => $indice,
             'documents' => $this->paginatorManager->paginate([
                 'route' => 'indices_read_documents',
