@@ -16,19 +16,18 @@ class SecurityController extends AbstractAppController
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            //return $this->redirectToRoute('cluster');
-        }
+        /*if ($this->getUser()) {
+            return $this->redirectToRoute('cluster');
+        }*/
 
         if ($error = $authenticationUtils->getLastAuthenticationError()) {
-            $this->addFlash('danger', $error);
+            $this->addFlash('danger', $error->getMessageKey());
         }
 
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->renderAbstract($request, 'Modules/security/login.html.twig', [
             'last_username' => $lastUsername,
-            'error' => $error,
         ]);
     }
 
