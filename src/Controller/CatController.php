@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Exception\CallException;
 use App\Form\FilterCatType;
 use App\Model\CallModel;
 use App\Model\ElasticsearchCatModel;
@@ -57,19 +58,23 @@ class CatController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $query = [];
-            if ($cat->getHeaders()) {
-                $query['h'] = $cat->getHeaders();
-            }
-            if ($cat->getSort()) {
-                $query['s'] = $cat->getSort();
-            }
-            $call = new CallModel();
-            $call->setPath('/_cat/'.$cat->getCommandReplace());
-            $call->setQuery($query);
-            $parameters['rows'] = $this->callManager->call($call);
-            if (0 < count($parameters['rows'])) {
-                $parameters['headers'] = array_keys($parameters['rows'][0]);
+            try {
+                $query = [];
+                if ($cat->getHeaders()) {
+                    $query['h'] = $cat->getHeaders();
+                }
+                if ($cat->getSort()) {
+                    $query['s'] = $cat->getSort();
+                }
+                $call = new CallModel();
+                $call->setPath('/_cat/'.$cat->getCommandReplace());
+                $call->setQuery($query);
+                $parameters['rows'] = $this->callManager->call($call);
+                if (0 < count($parameters['rows'])) {
+                    $parameters['headers'] = array_keys($parameters['rows'][0]);
+                }
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
             }
 
             $call = new CallModel();

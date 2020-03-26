@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Exception\CallException;
 use App\Model\CallModel;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -43,10 +44,17 @@ class CallManager
 
         $response = $this->client->request($call->getMethod(), $this->elasticsearchUrl.$call->getPath(), $options);
 
-        if (true == isset($options['query']['format']) && 'json' == $options['query']['format']) {
-            return $response->toArray();
-        } else {
+        if ($response && in_array($response->getStatusCode(), [400, 500])) {
+            $json = json_decode($response->getContent(false), true);
+            if (true == isset($json['error']) && true == isset($json['error']['reason'])) {
+                throw new CallException($json['error']['reason']);
+            }
+        }
+
+        if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {
             return $response->getContent();
+        } else {
+            return $response->toArray();
         }
     }
 }

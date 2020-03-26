@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Exception\CallException;
 use App\Form\CreateSnapshotType;
 use App\Model\CallModel;
 use App\Model\ElasticsearchSnapshotModel;
@@ -84,22 +85,26 @@ class SnapshotsController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $body = [
-                'ignore_unavailable' => $snapshot->getIgnoreUnavailable(),
-                'include_global_state' => $snapshot->getIncludeGlobalState(),
-            ];
-            if ($snapshot->getIndices()) {
-                $body['indices'] = implode(',', $snapshot->getIndices());
+            try {
+                $body = [
+                    'ignore_unavailable' => $snapshot->getIgnoreUnavailable(),
+                    'include_global_state' => $snapshot->getIncludeGlobalState(),
+                ];
+                if ($snapshot->getIndices()) {
+                    $body['indices'] = implode(',', $snapshot->getIndices());
+                }
+                $call = new CallModel();
+                $call->setMethod('PUT');
+                $call->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName());
+                $call->setBody($body);
+                $this->callManager->call($call);
+
+                $this->addFlash('success', 'snapshots_create');
+
+                return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshot->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
             }
-            $call = new CallModel();
-            $call->setMethod('PUT');
-            $call->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName());
-            $call->setBody($body);
-            $this->callManager->call($call);
-
-            $this->addFlash('success', 'snapshots_create');
-
-            return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshot->getName()]);
         }
 
         return $this->renderAbstract($request, 'Modules/snapshots/snapshots_create.html.twig', [

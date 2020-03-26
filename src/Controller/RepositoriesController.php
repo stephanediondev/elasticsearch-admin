@@ -61,10 +61,35 @@ class RepositoriesController extends AbstractAppController
         $call = new CallModel();
         $call->setMethod('DELETE');
         $call->setPath('/_snapshot/'.$repository);
-        $this->callManager->callManager->call($call);
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'repositories_delete');
 
         return $this->redirectToRoute('repositories', []);
+    }
+
+    /**
+     * @Route("/repositories/{repository}/cleanup", name="repositories_cleanup")
+     */
+    public function cleanup(Request $request, string $repository): Response
+    {
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/_snapshot/'.$repository.'/_cleanup');
+        $results = $this->callManager->call($call);
+
+        $this->addFlash('success', 'repositories_cleanup');
+
+        if (true == isset($results['results'])) {
+            if (true == isset($results['results']['deleted_bytes'])) {
+                $this->addFlash('info', 'deleted_bytes: '.$results['results']['deleted_bytes']);
+            }
+
+            if (true == isset($results['results']['deleted_blobs'])) {
+                $this->addFlash('info', 'deleted_blobs: '.$results['results']['deleted_blobs']);
+            }
+        }
+
+        return $this->redirectToRoute('repositories_read', ['repository' => $repository]);
     }
 }

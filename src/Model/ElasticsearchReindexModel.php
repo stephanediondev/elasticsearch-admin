@@ -15,7 +15,7 @@ class ElasticsearchReindexModel
 
     public function setSource(?string $source): self
     {
-        $this->name = $source;
+        $this->source = $source;
 
         return $this;
     }

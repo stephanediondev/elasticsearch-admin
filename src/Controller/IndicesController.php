@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Exception\CallException;
 use App\Form\CreateAliasType;
 use App\Form\CreateIndexType;
 use App\Form\ReindexType;
@@ -125,23 +126,27 @@ class IndicesController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $body = [
-                'source' => [
-                    'index' => $reindex->getSource(),
-                ],
-                'dest' => [
-                    'index' => $reindex->getDestination(),
-                ],
-            ];
-            $call = new CallModel();
-            $call->setMethod('POST');
-            $call->setPath('/_reindex');
-            $call->setBody($body);
-            $this->callManager->call($call);
+            try {
+                $body = [
+                    'source' => [
+                        'index' => $reindex->getSource(),
+                    ],
+                    'dest' => [
+                        'index' => $reindex->getDestination(),
+                    ],
+                ];
+                $call = new CallModel();
+                $call->setMethod('POST');
+                $call->setPath('/_reindex');
+                $call->setBody($body);
+                $this->callManager->call($call);
 
-            $this->addFlash('success', 'indices_reindex');
+                $this->addFlash('success', 'indices_reindex');
 
-            return $this->redirectToRoute('indices_read', ['index' => $reindex->getDestination()]);
+                return $this->redirectToRoute('indices_read', ['index' => $reindex->getDestination()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
 
         return $this->renderAbstract($request, 'Modules/indices/indices_reindex.html.twig', [
@@ -160,21 +165,25 @@ class IndicesController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $body = [
-                'settings' => [
-                    'number_of_shards' => $index->getNumberOfShards(),
-                    'number_of_replicas' => $index->getNumberOfReplicas(),
-                ],
-            ];
-            $call = new CallModel();
-            $call->setMethod('PUT');
-            $call->setPath('/'.$index->getName());
-            $call->setBody($body);
-            $this->callManager->call($call);
+            try {
+                $body = [
+                    'settings' => [
+                        'number_of_shards' => $index->getNumberOfShards(),
+                        'number_of_replicas' => $index->getNumberOfReplicas(),
+                    ],
+                ];
+                $call = new CallModel();
+                $call->setMethod('PUT');
+                $call->setPath('/'.$index->getName());
+                $call->setBody($body);
+                $this->callManager->call($call);
 
-            $this->addFlash('success', 'indices_create');
+                $this->addFlash('success', 'indices_create');
 
-            return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
+                return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
 
         return $this->renderAbstract($request, 'Modules/indices/indices_create.html.twig', [
@@ -278,14 +287,18 @@ class IndicesController extends AbstractAppController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $call = new CallModel();
-                $call->setMethod('PUT');
-                $call->setPath('/'.$index.'/_alias/'.$alias->getName());
-                $this->callManager->call($call);
+                try {
+                    $call = new CallModel();
+                    $call->setMethod('PUT');
+                    $call->setPath('/'.$index.'/_alias/'.$alias->getName());
+                    $this->callManager->call($call);
 
-                $this->addFlash('success', 'indices_aliases_create');
+                    $this->addFlash('success', 'indices_aliases_create');
 
-                return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
+                    return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
             }
 
             return $this->renderAbstract($request, 'Modules/indices/indices_read_aliases_create.html.twig', [

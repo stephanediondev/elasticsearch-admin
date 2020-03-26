@@ -30,6 +30,13 @@
                         'body': repository['id'],
                         'href': path('repositories_delete', {'repository': repository['id']}),
                     }) }}
+
+                    {{ appImport.buttonModal({
+                        'id': 'RepositoryCleanup' ~ repository['id'],
+                        'title': 'cleanup'|trans,
+                        'body': repository['id'],
+                        'href': path('repositories_cleanup', {'repository': repository['id']}),
+                    }) }}
                 {% endblock %}
             {% endembed %}
 

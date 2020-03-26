@@ -15,11 +15,15 @@
         {% endblock %}
     {% endembed %}
 
-    {% if rows is defined %}
+    {% if rows is defined or help is defined %}
         {% embed 'card_embed.html.twig' %}
             {% import 'app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 3, 'title': command, 'badge': rows|length}) }}
+                {% if rows is defined %}
+                    {{ appImport.heading({'level': 3, 'title': command, 'badge': rows|length}) }}
+                {% else %}
+                    {{ appImport.heading({'level': 3, 'title': command}) }}
+                {% endif %}
 
                 {% if help is defined %}
                     <p>
@@ -35,7 +39,7 @@
                     </div>
                 {% endif %}
 
-                {% if 0 < rows|length %}
+                {% if rows is defined and 0 < rows|length %}
                     {% embed 'table_embed.html.twig' %}
                         {% block thead %}
                             <tr>
