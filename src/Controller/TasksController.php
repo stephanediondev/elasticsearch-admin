@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,9 +17,9 @@ class TasksController extends AbstractAppController
     {
         $tasks = [];
 
-        $query = [
-        ];
-        $nodes = $this->queryManager->query('GET', '/_tasks', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_tasks');
+        $nodes = $this->callManager->call($call);
 
         foreach ($nodes['nodes'] as $node) {
             foreach ($node['tasks'] as $task) {

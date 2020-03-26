@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,9 @@ class RepositoriesController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $query = [
-        ];
-        $repositories = $this->queryManager->query('GET', '/_cat/repositories', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/repositories');
+        $repositories = $this->callManager->call($call);
 
         return $this->renderAbstract($request, 'Modules/repositories/repositories_index.html.twig', [
             'repositories' => $this->paginatorManager->paginate([
@@ -35,9 +36,9 @@ class RepositoriesController extends AbstractAppController
      */
     public function read(Request $request, string $repository): Response
     {
-        $query = [
-        ];
-        $repositoryQuery = $this->queryManager->query('GET', '/_snapshot/'.$repository, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_snapshot/'.$repository);
+        $repositoryQuery = $this->callManager->call($call);
         $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
 
         $repositoryQuery['id'] = $repository;
@@ -57,9 +58,10 @@ class RepositoriesController extends AbstractAppController
      */
     public function delete(Request $request, string $repository): Response
     {
-        $query = [
-        ];
-        $this->queryManager->query('DELETE', '/_snapshot/'.$repository, ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('DELETE');
+        $call->setPath('/_snapshot/'.$repository);
+        $this->callManager->callManager->call($call);
 
         $this->addFlash('success', 'repositories_delete');
 

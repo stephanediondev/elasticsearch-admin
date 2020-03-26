@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Form\CreateSnapshotType;
+use App\Model\CallModel;
 use App\Model\ElasticsearchSnapshotModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,18 +20,19 @@ class SnapshotsController extends AbstractAppController
         $repositories = [];
         $snapshots = [];
 
-        $query = [
-        ];
-        $rows = $this->queryManager->query('GET', '/_cat/repositories', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/repositories');
+        $call->setQuery(['s' => 'id', 'h' => 'id']);
+        $rows = $this->callManager->call($call);
 
         foreach ($rows as $row) {
             $repositories[] = $row['id'];
         }
 
         foreach ($repositories as $repository) {
-            $query = [
-            ];
-            $rows = $this->queryManager->query('GET', '/_snapshot/'.$repository.'/_all', ['query' => $query]);
+            $call = new CallModel();
+            $call->setPath('/_snapshot/'.$repository.'/_all');
+            $rows = $this->callManager->call($call);
 
             foreach ($rows['snapshots'] as $row) {
                 $row['repository'] = $repository;
@@ -58,21 +60,19 @@ class SnapshotsController extends AbstractAppController
         $repositories = [];
         $indices = [];
 
-        $query = [
-            's' => 'id',
-            'h' => 'id'
-        ];
-        $rows = $this->queryManager->query('GET', '/_cat/repositories', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/repositories');
+        $call->setQuery(['s' => 'id', 'h' => 'id']);
+        $rows = $this->callManager->call($call);
 
         foreach ($rows as $row) {
             $repositories[] = $row['id'];
         }
 
-        $query = [
-            's' => 'index',
-            'h' => 'index'
-        ];
-        $rows = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/indices');
+        $call->setQuery(['s' => 'index', 'h' => 'index']);
+        $rows = $this->callManager->call($call);
 
         foreach ($rows as $row) {
             $indices[] = $row['index'];
@@ -91,7 +91,11 @@ class SnapshotsController extends AbstractAppController
             if ($snapshot->getIndices()) {
                 $body['indices'] = implode(',', $snapshot->getIndices());
             }
-            $this->queryManager->query('PUT', '/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName(), ['body' => $body]);
+            $call = new CallModel();
+            $call->setMethod('PUT');
+            $call->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName());
+            $call->setBody($body);
+            $this->callManager->call($call);
 
             $this->addFlash('success', 'snapshots_create');
 
@@ -108,9 +112,9 @@ class SnapshotsController extends AbstractAppController
      */
     public function read(Request $request, string $repository, string $snapshot): Response
     {
-        $query = [
-        ];
-        $snapshot = $this->queryManager->query('GET', '/_snapshot/'.$repository.'/'.$snapshot, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $snapshot = $this->callManager->call($call);
 
         if ($snapshot) {
             return $this->renderAbstract($request, 'Modules/snapshots/snapshots_read.html.twig', [
@@ -127,16 +131,16 @@ class SnapshotsController extends AbstractAppController
      */
     public function readFailures(Request $request, string $repository, string $snapshot): Response
     {
-        $query = [
-        ];
-        $snapshot = $this->queryManager->query('GET', '/_snapshot/'.$repository.'/'.$snapshot, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $snapshot = $this->callManager->call($call);
 
         if ($snapshot) {
             $nodes = [];
 
-            $query = [
-            ];
-            $rows = $this->queryManager->query('GET', '/_nodes', ['query' => $query]);
+            $call = new CallModel();
+            $call->setPath('/_nodes');
+            $rows = $this->callManager->call($call);
 
             foreach ($rows['nodes'] as $k => $row) {
                 $nodes[$k] = $row['name'];
@@ -157,9 +161,10 @@ class SnapshotsController extends AbstractAppController
      */
     public function delete(Request $request, string $repository, string $snapshot): Response
     {
-        $query = [
-        ];
-        $this->queryManager->query('DELETE', '/_snapshot/'.$repository.'/'.$snapshot, ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('DELETE');
+        $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'snapshots_delete');
 

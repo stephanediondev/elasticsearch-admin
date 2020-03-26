@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Form\FilterCatType;
+use App\Model\CallModel;
 use App\Model\ElasticsearchCatModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,31 +21,28 @@ class CatController extends AbstractAppController
         $indices = [];
         $aliases = [];
 
-        $query = [
-            's' => 'id',
-            'h' => 'id'
-        ];
-        $rows = $this->queryManager->query('GET', '/_cat/repositories', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/repositories');
+        $call->setQuery(['s' => 'id', 'h' => 'id']);
+        $rows = $this->callManager->call($call);
 
         foreach ($rows as $row) {
             $repositories[] = $row['id'];
         }
 
-        $query = [
-            's' => 'index',
-            'h' => 'index'
-        ];
-        $rows = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/indices');
+        $call->setQuery(['s' => 'index', 'h' => 'index']);
+        $rows = $this->callManager->call($call);
 
         foreach ($rows as $row) {
             $indices[] = $row['index'];
         }
 
-        $query = [
-            's' => 'alias',
-            'h' => 'alias'
-        ];
-        $rows = $this->queryManager->query('GET', '/_cat/aliases', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/aliases');
+        $call->setQuery(['s' => 'alias', 'h' => 'alias']);
+        $rows = $this->callManager->call($call);
 
         foreach ($rows as $row) {
             $aliases[] = $row['alias'];
@@ -66,13 +64,18 @@ class CatController extends AbstractAppController
             if ($cat->getSort()) {
                 $query['s'] = $cat->getSort();
             }
-            $parameters['rows'] = $this->queryManager->query('GET', '/_cat/'.$cat->getCommandReplace(), ['query' => $query]);
+            $call = new CallModel();
+            $call->setPath('/_cat/'.$cat->getCommandReplace());
+            $call->setQuery($query);
+            $parameters['rows'] = $this->callManager->call($call);
             if (0 < count($parameters['rows'])) {
                 $parameters['headers'] = array_keys($parameters['rows'][0]);
             }
 
-            $query = ['help' => 'true', 'format' => 'text'];
-            $parameters['help'] = $this->queryManager->query('GET', '/_cat/'.$cat->getCommandHelp(), ['query' => $query]);
+            $call = new CallModel();
+            $call->setPath('/_cat/'.$cat->getCommandHelp());
+            $call->setQuery(['help' => 'true', 'format' => 'text']);
+            $parameters['help'] = $this->callManager->call($call);
 
             $parameters['command'] = $cat->getCommandReplace();
         }

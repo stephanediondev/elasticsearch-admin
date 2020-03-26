@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Manager\QueryManager;
+use App\Manager\CallManager;
 use App\Manager\PaginatorManager;
+use App\Model\CallModel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,9 +14,9 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
-    public function setQueryManager(QueryManager $queryManager)
+    public function setCallManager(CallManager $callManager)
     {
-        $this->queryManager = $queryManager;
+        $this->callManager = $callManager;
     }
 
     /**
@@ -37,13 +38,14 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
+
+        $call = new CallModel();
+        $call->setPath('/_cluster/health');
+        $clusterHealth = $this->callManager->call($call);
+
+        $parameters['clusterHealth'] = $clusterHealth;
         $parameters['locale'] = $request->getLocale();
         $parameters['routeAttribute'] = $request->attributes->get('_route');
-
-        $query = [
-        ];
-        $clusterHealth = $this->queryManager->query('GET', '/_cluster/health', ['query' => $query]);
-        $parameters['clusterHealth'] = $clusterHealth;
 
         /*if (null === $response) {
             $response = new Response();

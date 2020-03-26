@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,19 +18,18 @@ class NodesController extends AbstractAppController
     {
         $nodes = [];
 
-        $query = [
-            's' => 'name',
-            'h' => 'name,disk.used_percent,uptime,master'
-        ];
-        $nodes1 = $this->queryManager->query('GET', '/_cat/nodes', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/nodes');
+        $call->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,uptime,master']);
+        $nodes1 = $this->callManager->call($call);
 
         foreach ($nodes1 as $node) {
             $nodes[$node['name']] = $node;
         }
 
-        $query = [
-        ];
-        $nodes2 = $this->queryManager->query('GET', '/_nodes', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_nodes');
+        $nodes2 = $this->callManager->call($call);
 
         foreach ($nodes2['nodes'] as $node) {
             $nodes[$node['name']] = array_merge($nodes[$node['name']], $node);
@@ -52,14 +52,14 @@ class NodesController extends AbstractAppController
      */
     public function read(Request $request, string $node): Response
     {
-        $query = [
-        ];
-        $node = $this->queryManager->query('GET', '/_nodes/'.$node, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_nodes/'.$node);
+        $node = $this->callManager->call($call);
 
         if (true == isset($node['nodes'][key($node['nodes'])])) {
-            $query = [
-            ];
-            $clusterState = $this->queryManager->query('GET', '/_cluster/state', ['query' => $query]);
+            $call = new CallModel();
+            $call->setPath('/_cluster/state');
+            $clusterState = $this->callManager->call($call);
 
             $nodes = [];
             foreach ($clusterState['nodes'] as $k => $v) {

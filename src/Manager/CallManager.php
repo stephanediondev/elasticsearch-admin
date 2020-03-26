@@ -2,9 +2,10 @@
 
 namespace App\Manager;
 
+use App\Model\CallModel;
 use Symfony\Component\HttpClient\HttpClient;
 
-class QueryManager
+class CallManager
 {
     /**
      * @required
@@ -17,8 +18,10 @@ class QueryManager
         $this->client = HttpClient::create();
     }
 
-    public function query(string $method, string $path, array $options = [])
+    public function call(CallModel $call)
     {
+        $options = $call->getOptions();
+
         $headers = [];
 
         if (true == isset($options['body'])) {
@@ -26,7 +29,7 @@ class QueryManager
             $headers['Content-Type'] = 'application/json; charset=UTF-8';
         }
 
-        if ('GET' == $method && false == isset($options['query']['format'])) {
+        if ('GET' == $call->getMethod() && false == isset($options['query']['format'])) {
             $options['query']['format'] = 'json';
         }
 
@@ -38,7 +41,7 @@ class QueryManager
             $options['headers'] = $headers;
         }
 
-        $response = $this->client->request($method, $this->elasticsearchUrl.$path, $options);
+        $response = $this->client->request($call->getMethod(), $this->elasticsearchUrl.$call->getPath(), $options);
 
         if (true == isset($options['query']['format']) && 'json' == $options['query']['format']) {
             return $response->toArray();

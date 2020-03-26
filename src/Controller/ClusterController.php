@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,13 +15,13 @@ class ClusterController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $query = [
-        ];
-        $clusterStats = $this->queryManager->query('GET', '/_cluster/stats', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cluster/stats');
+        $clusterStats = $this->callManager->call($call);
 
-        $query = [
-        ];
-        $clusterState = $this->queryManager->query('GET', '/_cluster/state', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cluster/state');
+        $clusterState = $this->callManager->call($call);
 
         $nodes = [];
         foreach ($clusterState['nodes'] as $k => $node) {

@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Form\CreateAliasType;
 use App\Form\CreateIndexType;
 use App\Form\ReindexType;
+use App\Model\CallModel;
 use App\Model\ElasticsearchIndexModel;
 use App\Model\ElasticsearchIndexAliasModel;
 use App\Model\ElasticsearchReindexModel;
@@ -25,7 +26,10 @@ class IndicesController extends AbstractAppController
             's' => 'index',
             'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string'
         ];
-        $indices = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/indices');
+        $call->setQuery($query);
+        $indices = $this->callManager->call($call);
 
         return $this->renderAbstract($request, 'Modules/indices/indices_index.html.twig', [
             'indices' => $this->paginatorManager->paginate([
@@ -44,9 +48,10 @@ class IndicesController extends AbstractAppController
      */
     public function forceMergeAll(Request $request): Response
     {
-        $query = [
-        ];
-        $this->queryManager->query('POST', '/_forcemerge', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/_forcemerge');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_force_merge_all');
 
@@ -58,9 +63,10 @@ class IndicesController extends AbstractAppController
      */
     public function cacheClearAll(Request $request): Response
     {
-        $query = [
-        ];
-        $this->queryManager->query('POST', '/_cache/clear', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/_cache/clear');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_cache_clear_all');
 
@@ -72,9 +78,10 @@ class IndicesController extends AbstractAppController
      */
     public function flushAll(Request $request): Response
     {
-        $query = [
-        ];
-        $this->queryManager->query('POST', '/_flush', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/_flush');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_flush_all');
 
@@ -86,9 +93,10 @@ class IndicesController extends AbstractAppController
      */
     public function refreshAll(Request $request): Response
     {
-        $query = [
-        ];
-        $this->queryManager->query('POST', '/_refresh', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/_refresh');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_refresh_all');
 
@@ -100,11 +108,12 @@ class IndicesController extends AbstractAppController
      */
     public function reindex(Request $request): Response
     {
-        $query = [
-            's' => 'index',
-            'h' => 'index'
-        ];
-        $rows = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
+        $indices = [];
+
+        $call = new CallModel();
+        $call->setPath('/_cat/indices');
+        $call->setQuery(['s' => 'index', 'h' => 'index']);
+        $rows = $this->callManager->call($call);
 
         foreach ($rows as $row) {
             $indices[] = $row['index'];
@@ -124,7 +133,11 @@ class IndicesController extends AbstractAppController
                     'index' => $reindex->getDestination(),
                 ],
             ];
-            $this->queryManager->query('POST', '/_reindex', ['body' => $body]);
+            $call = new CallModel();
+            $call->setMethod('POST');
+            $call->setPath('/_reindex');
+            $call->setBody($body);
+            $this->callManager->call($call);
 
             $this->addFlash('success', 'indices_reindex');
 
@@ -153,7 +166,11 @@ class IndicesController extends AbstractAppController
                     'number_of_replicas' => $index->getNumberOfReplicas(),
                 ],
             ];
-            $this->queryManager->query('PUT', '/'.$index->getName(), ['body' => $body]);
+            $call = new CallModel();
+            $call->setMethod('PUT');
+            $call->setPath('/'.$index->getName());
+            $call->setBody($body);
+            $this->callManager->call($call);
 
             $this->addFlash('success', 'indices_create');
 
@@ -170,9 +187,9 @@ class IndicesController extends AbstractAppController
      */
     public function read(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/indices/'.$index);
+        $indice = $this->callManager->call($call);
 
         if ($indice) {
             return $this->renderAbstract($request, 'Modules/indices/indices_read.html.twig', [
@@ -188,15 +205,15 @@ class IndicesController extends AbstractAppController
      */
     public function shards(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/indices/'.$index);
+        $indice = $this->callManager->call($call);
 
         if ($indice) {
-            $query = [
-                'h' => 'shard,prirep,state,unassigned.reason,docs,store,node'
-            ];
-            $shards = $this->queryManager->query('GET', '/_cat/shards/'.$index, ['query' => $query]);
+            $call = new CallModel();
+            $call->setPath('/_cat/shards/'.$index);
+            $call->setQuery(['h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
+            $shards = $this->callManager->call($call);
 
             return $this->renderAbstract($request, 'Modules/indices/indices_read_shards.html.twig', [
                 'indice' => $indice[0],
@@ -219,14 +236,14 @@ class IndicesController extends AbstractAppController
      */
     public function aliases(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/indices/'.$index);
+        $indice = $this->callManager->call($call);
 
         if ($indice) {
-            $query = [
-            ];
-            $aliases = $this->queryManager->query('GET', '/'.$index.'/_alias', ['query' => $query]);
+            $call = new CallModel();
+            $call->setPath('/'.$index.'/_alias');
+            $aliases = $this->callManager->call($call);
             $aliases = array_keys($aliases[$index]['aliases']);
 
             return $this->renderAbstract($request, 'Modules/indices/indices_read_aliases.html.twig', [
@@ -250,9 +267,9 @@ class IndicesController extends AbstractAppController
      */
     public function createAlias(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/indices/'.$index);
+        $indice = $this->callManager->call($call);
 
         if ($indice) {
             $alias = new ElasticsearchIndexAliasModel();
@@ -261,9 +278,10 @@ class IndicesController extends AbstractAppController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $query = [
-                ];
-                $indice = $this->queryManager->query('PUT', '/'.$index.'/_alias/'.$alias->getName(), ['query' => $query]);
+                $call = new CallModel();
+                $call->setMethod('PUT');
+                $call->setPath('/'.$index.'/_alias/'.$alias->getName());
+                $this->callManager->call($call);
 
                 $this->addFlash('success', 'indices_aliases_create');
 
@@ -284,9 +302,10 @@ class IndicesController extends AbstractAppController
      */
     public function deleteAlias(Request $request, string $index, string $alias): Response
     {
-        $query = [
-        ];
-        $this->queryManager->query('DELETE', '/'.$index.'/_alias/'.$alias, ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('DELETE');
+        $call->setPath('/'.$index.'/_alias/'.$alias);
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_aliases_delete');
 
@@ -298,13 +317,13 @@ class IndicesController extends AbstractAppController
      */
     public function documents(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice1 = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/_cat/indices/'.$index);
+        $indice1 = $this->callManager->call($call);
 
-        $query = [
-        ];
-        $indice2 = $this->queryManager->query('GET', '/'.$index, ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/'.$index);
+        $indice2 = $this->callManager->call($call);
 
         $indice = array_merge($indice1[0], $indice2[key($indice2)]);
 
@@ -314,7 +333,10 @@ class IndicesController extends AbstractAppController
             'size' => $size,
             'from' => ($size * $request->query->get('page', 1)) - $size,
         ];
-        $documents = $this->queryManager->query('GET', '/'.$index.'/_search', ['query' => $query]);
+        $call = new CallModel();
+        $call->setPath('/'.$index.'/_search');
+        $call->setQuery($query);
+        $documents = $this->callManager->call($call);
 
         if (true == isset($documents['hits']['total']['value'])) {
             $total = $documents['hits']['total']['value'];
@@ -343,9 +365,10 @@ class IndicesController extends AbstractAppController
      */
     public function delete(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $this->queryManager->query('DELETE', '/'.$index, ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('DELETE');
+        $call->setPath('/'.$index);
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_delete');
 
@@ -357,9 +380,10 @@ class IndicesController extends AbstractAppController
      */
     public function close(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('POST', '/'.$index.'/_close', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/'.$index.'/_close');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_close');
 
@@ -371,9 +395,10 @@ class IndicesController extends AbstractAppController
      */
     public function open(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('POST', '/'.$index.'/_open', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/'.$index.'/_open');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_open');
 
@@ -385,9 +410,10 @@ class IndicesController extends AbstractAppController
      */
     public function forceMerge(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('POST', '/'.$index.'/_forcemerge', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/'.$index.'/_forcemerge');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_force_merge');
 
@@ -399,9 +425,10 @@ class IndicesController extends AbstractAppController
      */
     public function cacheClear(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('POST', '/'.$index.'/_cache/clear', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/'.$index.'/_cache/clear');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_cache_clear');
 
@@ -413,9 +440,10 @@ class IndicesController extends AbstractAppController
      */
     public function flush(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('POST', '/'.$index.'/_flush', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/'.$index.'/_flush');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_flush');
 
@@ -427,9 +455,10 @@ class IndicesController extends AbstractAppController
      */
     public function refresh(Request $request, string $index): Response
     {
-        $query = [
-        ];
-        $indice = $this->queryManager->query('POST', '/'.$index.'/_refresh', ['query' => $query]);
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/'.$index.'/_refresh');
+        $this->callManager->call($call);
 
         $this->addFlash('success', 'indices_refresh');
 
