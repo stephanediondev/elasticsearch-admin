@@ -28,6 +28,12 @@
                                             {{ fieldSub }}: {{ row['_source'][field][fieldSub] }}<br>
                                         {% endif %}
                                     {% endfor %}
+                                {% else %}
+                                    {% for fieldSub, valueSub in row['_source'][field] %}
+                                        {% if row['_source'][field][fieldSub] is defined and row['_source'][field][fieldSub] is not iterable %}
+                                            {{ fieldSub }}: {{ valueSub }}<br>
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
                             {% else %}
                                 {{ row['_source'][field] }}

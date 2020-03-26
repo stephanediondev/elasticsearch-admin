@@ -44,7 +44,7 @@ class CallManager
 
         $response = $this->client->request($call->getMethod(), $this->elasticsearchUrl.$call->getPath(), $options);
 
-        if ($response && in_array($response->getStatusCode(), [400, 500])) {
+        if ($response && in_array($response->getStatusCode(), [400, 404, 500])) {
             $json = json_decode($response->getContent(false), true);
             if (true == isset($json['error']) && true == isset($json['error']['reason'])) {
                 throw new CallException($json['error']['reason']);
