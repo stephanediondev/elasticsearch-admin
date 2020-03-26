@@ -7,10 +7,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HomeController extends AbstractAppController
+class ClusterController extends AbstractAppController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/cluster", name="cluster")
      */
     public function index(Request $request): Response
     {

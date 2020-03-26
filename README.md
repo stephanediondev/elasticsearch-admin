@@ -1,8 +1,11 @@
 ## Installation
 
 ```
+bin/console security:encode-password
+#encode a password
+
 cp .env.dist .env
-#edit ELASTICSEARCH_URL
+#edit ELASTICSEARCH_URL, EMAIL and ENCODED_PASSWORD
 
 composer install
 

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'login'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'login'|trans}) }}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% block content %}
+            <div class="row">
+                <div class="col-12 offset-md-4 col-md-4">
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="form-group">
+                            <label for="inputEmail" class="required">{{ 'email'|trans }}</label>
+                            <input type="email" value="{{ last_username }}" id="inputEmail" name="email" required="required" autofocus="autofocus" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword" class="required">{{ 'password'|trans }}</label>
+                            <input type="password" id="inputPassword" name="password" required="required" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">{{ 'submit'|trans }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
