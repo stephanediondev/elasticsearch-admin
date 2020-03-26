@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Exception\CallException;
 use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,6 +89,25 @@ class RepositoriesController extends AbstractAppController
             if (true == isset($results['results']['deleted_blobs'])) {
                 $this->addFlash('info', 'deleted_blobs: '.$results['results']['deleted_blobs']);
             }
+        }
+
+        return $this->redirectToRoute('repositories_read', ['repository' => $repository]);
+    }
+
+    /**
+     * @Route("/repositories/{repository}/verify", name="repositories_verify")
+     */
+    public function verify(Request $request, string $repository): Response
+    {
+        try {
+            $call = new CallModel();
+            $call->setMethod('POST');
+            $call->setPath('/_snapshot/'.$repository.'/_verify');
+            $results = $this->callManager->call($call);
+
+            $this->addFlash('success', 'repositories_verify');
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
         }
 
         return $this->redirectToRoute('repositories_read', ['repository' => $repository]);

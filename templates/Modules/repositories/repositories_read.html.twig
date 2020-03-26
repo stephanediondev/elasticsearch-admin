@@ -37,6 +37,13 @@
                         'body': repository['id'],
                         'href': path('repositories_cleanup', {'repository': repository['id']}),
                     }) }}
+
+                    {{ appImport.buttonModal({
+                        'id': 'RepositoryVerify' ~ repository['id'],
+                        'title': 'verify'|trans,
+                        'body': repository['id'],
+                        'href': path('repositories_verify', {'repository': repository['id']}),
+                    }) }}
                 {% endblock %}
             {% endembed %}
 
