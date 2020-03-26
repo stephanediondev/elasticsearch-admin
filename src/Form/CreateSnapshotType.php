@@ -32,6 +32,7 @@ class CreateSnapshotType extends AbstractType
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $options['repositories'][$key];
                         },
+                        'choice_translation_domain' => false,
                         'label' => 'repository',
                         'required' => true,
                         'constraints' => [
@@ -55,6 +56,7 @@ class CreateSnapshotType extends AbstractType
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
                         },
+                        'choice_translation_domain' => false,
                         'label' => 'indices',
                         'required' => false,
                         'attr'  => [

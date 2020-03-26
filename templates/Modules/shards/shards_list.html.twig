@@ -9,49 +9,49 @@
                 {% if true == display %}
                     {% if 'index' == column %}
                         <th>
-                            index
+                            {{ 'index'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'shard' == column %}
                         <th>
-                            shard
+                            {{ 'shard'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'primary' == column %}
                         <th>
-                            primary
+                            {{ 'primary'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'state' == column %}
                         <th>
-                            state
+                            {{ 'state'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'unassigned_reason' == column %}
                         <th>
-                            unassigned_reason
+                            {{ 'unassigned_reason'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'documents' == column %}
                         <th>
-                            documents
+                            {{ 'documents'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'size' == column %}
                         <th>
-                            size
+                            {{ 'size'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'node' == column %}
                         <th>
-                            node
+                            {{ 'node'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}

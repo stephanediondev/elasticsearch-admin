@@ -60,6 +60,7 @@ class FilterCatType extends AbstractType
                         'choice_label' => function ($choice, $key, $value) use ($commands) {
                             return $commands[$key];
                         },
+                        'choice_translation_domain' => false,
                         'label' => 'command',
                         'required' => true,
                         'constraints' => [

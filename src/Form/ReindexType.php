@@ -27,6 +27,7 @@ class ReindexType extends AbstractType
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
                         },
+                        'choice_translation_domain' => false,
                         'label' => 'source',
                         'required' => true,
                         'constraints' => [
@@ -41,6 +42,7 @@ class ReindexType extends AbstractType
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
                         },
+                        'choice_translation_domain' => false,
                         'label' => 'dest',
                         'required' => true,
                         'constraints' => [

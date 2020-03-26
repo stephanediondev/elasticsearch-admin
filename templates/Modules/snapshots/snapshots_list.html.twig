@@ -9,49 +9,49 @@
                 {% if true == display %}
                     {% if 'repository' == column %}
                         <th>
-                            repository
+                            {{ 'repository'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'snapshot' == column %}
                         <th>
-                            snapshot
+                            {{ 'snapshot'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'indices' == column %}
                         <th>
-                            indices
+                            {{ 'indices'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'state' == column %}
                         <th>
-                            state
+                            {{ 'state'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'start_time' == column %}
                         <th>
-                            start_time
+                            {{ 'start_time'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'end_time' == column %}
                         <th>
-                            end_time
+                            {{ 'end_time'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'duration_in_millis' == column %}
                         <th>
-                            duration_in_millis
+                            {{ 'duration_in_millis'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'failures' == column %}
                         <th>
-                            failures
+                            {{ 'failures'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
