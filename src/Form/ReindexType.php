@@ -16,7 +16,7 @@ class ReindexType extends AbstractType
         $fields = [];
 
         $fields[] = 'source';
-        $fields[] = 'dest';
+        $fields[] = 'destination';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -35,15 +35,15 @@ class ReindexType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'dest':
-                    $builder->add('dest', ChoiceType::class, [
+                case 'destination':
+                    $builder->add('destination', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['indices'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
                         },
                         'choice_translation_domain' => false,
-                        'label' => 'dest',
+                        'label' => 'destination',
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),
