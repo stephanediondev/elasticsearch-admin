@@ -6,6 +6,9 @@ use App\Controller\AbstractAppController;
 use App\Form\CreateAliasType;
 use App\Form\CreateIndexType;
 use App\Form\ReindexType;
+use App\Model\ElasticsearchIndexModel;
+use App\Model\ElasticsearchIndexAliasModel;
+use App\Model\ElasticsearchReindexModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -107,24 +110,25 @@ class IndicesController extends AbstractAppController
             $indices[] = $row['index'];
         }
 
-        $form = $this->createForm(ReindexType::class, null, ['indices' => $indices]);
+        $reindex = new ElasticsearchReindexModel();
+        $form = $this->createForm(ReindexType::class, $reindex, ['indices' => $indices]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $body = [
                 'source' => [
-                    'index' => $form->get('source')->getData(),
+                    'index' => $reindex->getSource(),
                 ],
                 'dest' => [
-                    'index' => $form->get('dest')->getData(),
+                    'index' => $reindex->getDestination(),
                 ],
             ];
             $this->queryManager->query('POST', '/_reindex', ['body' => $body]);
 
             $this->addFlash('success', 'indices_reindex');
 
-            return $this->redirectToRoute('indices', []);
+            return $this->redirectToRoute('indices_read', ['index' => $reindex->getDestination()]);
         }
 
         return $this->renderAbstract($request, 'Modules/indices/indices_reindex.html.twig', [
@@ -137,22 +141,23 @@ class IndicesController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $form = $this->createForm(CreateIndexType::class);
+        $index = new ElasticsearchIndexModel();
+        $form = $this->createForm(CreateIndexType::class, $index);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $body = [
                 'settings' => [
-                    'number_of_shards' => $form->get('number_of_shards')->getData(),
-                    'number_of_replicas' => $form->get('number_of_replicas')->getData(),
+                    'number_of_shards' => $index->getNumberOfShards(),
+                    'number_of_replicas' => $index->getNumberOfReplicas(),
                 ],
             ];
-            $this->queryManager->query('PUT', '/'.$form->get('name')->getData(), ['body' => $body]);
+            $this->queryManager->query('PUT', '/'.$index->getName(), ['body' => $body]);
 
             $this->addFlash('success', 'indices_create');
 
-            return $this->redirectToRoute('indices_read', ['index' => $form->get('name')->getData()]);
+            return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
         }
 
         return $this->renderAbstract($request, 'Modules/indices/indices_create.html.twig', [
@@ -250,14 +255,15 @@ class IndicesController extends AbstractAppController
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
         if ($indice) {
-            $form = $this->createForm(CreateAliasType::class);
+            $alias = new ElasticsearchIndexModel();
+            $form = $this->createForm(CreateAliasType::class, $alias);
 
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $query = [
                 ];
-                $indice = $this->queryManager->query('PUT', '/'.$index.'/_alias/'.$form->get('name')->getData(), ['query' => $query]);
+                $indice = $this->queryManager->query('PUT', '/'.$index.'/_alias/'.$alias->getName(), ['query' => $query]);
 
                 $this->addFlash('success', 'indices_aliases_create');
 

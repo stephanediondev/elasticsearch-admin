@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Model\ElasticsearchSnapshotModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -69,7 +70,6 @@ class CreateSnapshotType extends AbstractType
                     break;
                 case 'include_global_state':
                     $builder->add('include_global_state', CheckboxType::class, [
-                        'data' => true,
                         'label' => 'include_global_state',
                         'required' => false,
                     ]);
@@ -81,6 +81,7 @@ class CreateSnapshotType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'data_class' => ElasticsearchSnapshotModel::class,
             'repositories' => [],
             'indices' => [],
         ]);

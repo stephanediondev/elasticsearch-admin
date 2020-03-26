@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Form\CreateSnapshotType;
+use App\Model\ElasticsearchSnapshotModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,23 +78,24 @@ class SnapshotsController extends AbstractAppController
             $indices[] = $row['index'];
         }
 
-        $form = $this->createForm(CreateSnapshotType::class, null, ['repositories' => $repositories, 'indices' => $indices]);
+        $snapshot = new ElasticsearchSnapshotModel();
+        $form = $this->createForm(CreateSnapshotType::class, $snapshot, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $body = [
-                'ignore_unavailable' => $form->get('ignore_unavailable')->getData(),
-                'include_global_state' => $form->get('include_global_state')->getData(),
+                'ignore_unavailable' => $snapshot->getIgnoreUnavailable(),
+                'include_global_state' => $snapshot->getIncludeGlobalState(),
             ];
-            if ($form->has('indices') && $form->get('indices')->getData()) {
-                $body['indices'] = implode(',', $form->get('indices')->getData());
+            if ($snapshot->getIndices()) {
+                $body['indices'] = implode(',', $snapshot->getIndices());
             }
-            $this->queryManager->query('PUT', '/_snapshot/'.$form->get('repository')->getData().'/'.$form->get('name')->getData(), ['body' => $body]);
+            $this->queryManager->query('PUT', '/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName(), ['body' => $body]);
 
             $this->addFlash('success', 'snapshots_create');
 
-            return $this->redirectToRoute('snapshots_read', ['repository' => $form->get('repository')->getData(), 'snapshot' => $form->get('name')->getData()]);
+            return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshot->getName()]);
         }
 
         return $this->renderAbstract($request, 'Modules/snapshots/snapshots_create.html.twig', [

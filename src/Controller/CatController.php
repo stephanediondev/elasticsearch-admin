@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Form\FilterCatType;
+use App\Model\ElasticsearchCatModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,29 +18,28 @@ class CatController extends AbstractAppController
     {
         $parameters = [];
 
-        $form = $this->createForm(FilterCatType::class);
+        $cat = new ElasticsearchCatModel();
+        $form = $this->createForm(FilterCatType::class, $cat);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $command = $form->get('command')->getData();
-
             $query = [];
-            if ($form->has('headers') && $form->get('headers')->getData()) {
-                $query['h'] = $form->get('headers')->getData();
+            if ($cat->getHeaders()) {
+                $query['h'] = $cat->getHeaders();
             }
-            if ($form->has('sort') && $form->get('sort')->getData()) {
-                $query['s'] = $form->get('sort')->getData();
+            if ($cat->getSort()) {
+                $query['s'] = $cat->getSort();
             }
-            $parameters['rows'] = $this->queryManager->query('GET', '/_cat/'.$command, ['query' => $query]);
+            $parameters['rows'] = $this->queryManager->query('GET', '/_cat/'.$cat->getCommand(), ['query' => $query]);
             if (0 < count($parameters['rows'])) {
                 $parameters['headers'] = array_keys($parameters['rows'][0]);
             }
 
             $query = ['help' => 'true', 'format' => 'text'];
-            $parameters['help'] = $this->queryManager->query('GET', '/_cat/'.$command, ['query' => $query]);
+            $parameters['help'] = $this->queryManager->query('GET', '/_cat/'.$cat->getCommand(), ['query' => $query]);
 
-            $parameters['command'] = $command;
+            $parameters['command'] = $cat->getCommand();
         }
 
         $parameters['form'] = $form->createView();

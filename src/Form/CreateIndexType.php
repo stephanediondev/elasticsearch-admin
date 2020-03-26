@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Model\ElasticsearchIndexModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -32,7 +33,6 @@ class CreateIndexType extends AbstractType
                     break;
                 case 'number_of_shards':
                     $builder->add('number_of_shards', IntegerType::class, [
-                        'data' => 5,
                         'label' => 'number_of_shards',
                         'required' => true,
                         'constraints' => [
@@ -46,7 +46,6 @@ class CreateIndexType extends AbstractType
                     break;
                 case 'number_of_replicas':
                     $builder->add('number_of_replicas', IntegerType::class, [
-                        'data' => 1,
                         'label' => 'number_of_replicas',
                         'required' => true,
                         'constraints' => [
@@ -64,7 +63,7 @@ class CreateIndexType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-
+            'data_class' => ElasticsearchIndexModel::class,
         ]);
     }
 
