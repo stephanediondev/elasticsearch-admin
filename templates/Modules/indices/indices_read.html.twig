@@ -80,6 +80,16 @@
             {% endembed %}
 
             <p>
+                <strong>{{ 'shards'|trans }}</strong><br>
+                {{ indice['pri'] }}
+            </p>
+
+            <p>
+                <strong>{{ 'replicas'|trans }}</strong><br>
+                {{ indice['rep'] }}
+            </p>
+
+            <p>
                 <strong>{{ 'documents'|trans }}</strong><br>
                 {{ indice['docs.count'] }}
             </p>

@@ -23,7 +23,7 @@
 
                 {% if help is defined %}
                     <p>
-                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="false" aria-controls="collapseHelp">
+                        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="false" aria-controls="collapseHelp">
                             {{ 'help'|trans }}
                         </button>
                     </p>
@@ -73,28 +73,32 @@
             var command = $('#data_command').val();
 
             if (command.indexOf('{index}') != -1) {
-                $('#data_index').parent().show();
-                $('#data_index').attr('required', 'required');
+                enable('#data_index');
             } else {
-                $('#data_index').parent().hide();
-                $('#data_index').removeAttr('required');
+                disable('#data_index');
             }
 
             if (command.indexOf('{repository}') != -1) {
-                $('#data_repository').parent().show();
-                $('#data_repository').attr('required', 'required');
+                enable('#data_repository');
             } else {
-                $('#data_repository').parent().hide();
-                $('#data_repository').removeAttr('required');
+                disable('#data_repository');
             }
 
             if (command.indexOf('{alias}') != -1) {
-                $('#data_alias').parent().show();
-                $('#data_alias').attr('required', 'required');
+                enable('#data_alias');
             } else {
-                $('#data_alias').parent().hide();
-                $('#data_alias').removeAttr('required');
+                disable('#data_alias');
             }
+        }
+
+        function enable(id) {
+            $(id).parent().show();
+            $(id).attr('required', 'required');
+        }
+
+        function disable(id) {
+            $(id).parent().hide();
+            $(id).removeAttr('required');
         }
 
         toggle();

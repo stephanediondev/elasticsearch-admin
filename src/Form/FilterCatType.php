@@ -73,6 +73,7 @@ class FilterCatType extends AbstractType
                     break;
                 case 'index':
                     $builder->add('index', ChoiceType::class, [
+                        'placeholder' => '-',
                         'choices' => $options['indices'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
