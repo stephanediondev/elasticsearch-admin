@@ -2,4 +2,8 @@
     <li class="nav-item">
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('snapshots', {}) }}">{{ 'list'|trans }}</a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'create' == active %} active{% endif %}" href="{{ path('snapshots_create') }}">{{ 'create_snapshot'|trans }}</a>
+    </li>
 </ul>

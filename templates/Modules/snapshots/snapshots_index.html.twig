@@ -11,15 +11,6 @@
     {% include 'Modules/snapshots/snapshots_tabs.html.twig' with {'active': 'list'} %}
 {% endblock %}
 
-{% block buttons %}
-    {% embed 'buttons_embed.html.twig' %}
-        {% import 'app_import.html.twig' as appImport %}
-        {% block content %}
-            {{ appImport.button({'title': 'create_snapshot'|trans, 'url': path('snapshots_create', {})}) }}
-        {% endblock %}
-    {% endembed %}
-{% endblock %}
-
 {% block main_content %}
     {% if 0 < snapshots.total %}
         {% embed 'card_embed.html.twig' %}

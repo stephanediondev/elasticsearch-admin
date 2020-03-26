@@ -80,6 +80,12 @@ class SnapshotsController extends AbstractAppController
         }
 
         $snapshot = new ElasticsearchSnapshotModel();
+        if ($request->query->get('repository')) {
+            $snapshot->setRepository($request->query->get('repository'));
+        }
+        if ($request->query->get('index')) {
+            $snapshot->setIndices([$request->query->get('index')]);
+        }
         $form = $this->createForm(CreateSnapshotType::class, $snapshot, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);

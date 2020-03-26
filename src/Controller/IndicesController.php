@@ -121,6 +121,9 @@ class IndicesController extends AbstractAppController
         }
 
         $reindex = new ElasticsearchReindexModel();
+        if ($request->query->get('index')) {
+            $reindex->setSource($request->query->get('index'));
+        }
         $form = $this->createForm(ReindexType::class, $reindex, ['indices' => $indices]);
 
         $form->handleRequest($request);

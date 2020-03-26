@@ -15,10 +15,6 @@
     {% embed 'buttons_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.button({'title': 'create_index'|trans, 'url': path('indices_create', {})}) }}
-
-            {{ appImport.button({'title': 'reindex'|trans, 'url': path('indices_reindex', {})}) }}
-
             {{ appImport.buttonModal({
                 'id': 'IndicesForceMergeAll',
                 'title': 'force_merge'|trans,

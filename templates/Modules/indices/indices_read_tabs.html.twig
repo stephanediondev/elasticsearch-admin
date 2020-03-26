@@ -15,5 +15,13 @@
         <li class="nav-item">
             <a class="nav-link{% if 'documents' == active %} active{% endif %}" href="{{ path('indices_read_documents', {'index': indice['index']}) }}">{{ 'documents'|trans }}</a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('snapshots_create', {'index': indice['index']}) }}">{{ 'create_snapshot'|trans }}</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('indices_reindex', {'index': indice['index']}) }}">{{ 'reindex'|trans }}</a>
+        </li>
     {% endif %}
 </ul>
