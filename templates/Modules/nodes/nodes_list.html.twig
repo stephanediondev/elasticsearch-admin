@@ -1,7 +1,7 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master': true, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': true, 'version': true, 'os': true, 'uptime': true, 'free_space': true} %}
+    {% set columns = {'name': true, 'master': true, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': true, 'version': true, 'os': true, 'uptime': true, 'disk_percent': true} %}
 
     {% block thead %}
         <tr>
@@ -56,9 +56,15 @@
                         </th>
                     {% endif %}
 
-                    {% if 'free_space' == column %}
+                    {% if 'disk_percent' == column %}
                         <th>
-                            {{ 'free_space'|trans }}
+                            {{ 'disk_percent'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'ram_percent' == column %}
+                        <th>
+                            {{ 'ram_percent'|trans }}
                         </th>
                     {% endif %}
 
@@ -133,9 +139,9 @@
                             </td>
                         {% endif %}
 
-                        {% if 'free_space' == column %}
+                        {% if 'disk_percent' == column %}
                             <td>
-                                {{ row['disk.avail'] }}
+                                {{ row['disk.used_percent'] }}%
                             </td>
                         {% endif %}
 
