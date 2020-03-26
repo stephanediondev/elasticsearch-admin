@@ -40,7 +40,7 @@
 
             {% for k, v in repository['settings'] %}
                 <p>
-                    <strong>{{ k }}</strong><br>
+                    <strong>{{ k|trans }}</strong><br>
                     {{ v }}
                 </p>
             {% endfor %}

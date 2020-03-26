@@ -17,18 +17,18 @@ class FilterCatType extends AbstractType
         $commands = [
             'allocation',
             'shards',
-            //'shards/{index}',
+            'shards/{index}',
             'master',
             'nodes',
             'tasks',
             'indices',
-            //'indices/{index}',
+            'indices/{index}',
             'segments',
-            //'segments/{index}',
+            'segments/{index}',
             'count',
-            //'count/{index}',
+            'count/{index}',
             'recovery',
-            //'recovery/{index}',
+            'recovery/{index}',
             'health',
             'pending_tasks',
             'aliases',
@@ -40,7 +40,7 @@ class FilterCatType extends AbstractType
             //'fielddata/{fields}',
             'nodeattrs',
             'repositories',
-            //'snapshots/{repository}',
+            'snapshots/{repository}',
             'templates',
         ];
         sort($commands);
@@ -48,6 +48,8 @@ class FilterCatType extends AbstractType
         $fields = [];
 
         $fields[] = 'command';
+        $fields[] = 'index';
+        $fields[] = 'repository';
         $fields[] = 'headers';
         $fields[] = 'sort';
 
@@ -66,6 +68,30 @@ class FilterCatType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                    ]);
+                    break;
+                case 'index':
+                    $builder->add('index', ChoiceType::class, [
+                        'choices' => $options['indices'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['indices'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'index',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'repository':
+                    $builder->add('repository', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['repositories'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['repositories'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'repository',
+                        'required' => false,
+                        'attr' => ['data-break-after' => 'yes'],
                     ]);
                     break;
                 case 'headers':
@@ -88,6 +114,8 @@ class FilterCatType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchCatModel::class,
+            'repositories' => [],
+            'indices' => [],
         ]);
     }
 

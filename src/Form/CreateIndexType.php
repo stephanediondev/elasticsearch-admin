@@ -29,6 +29,7 @@ class CreateIndexType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'attr' => ['data-break-after' => 'yes'],
                     ]);
                     break;
                 case 'number_of_shards':

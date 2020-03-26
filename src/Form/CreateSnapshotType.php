@@ -47,6 +47,7 @@ class CreateSnapshotType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'attr' => ['data-break-after' => 'yes'],
                     ]);
                     break;
                 case 'indices':
@@ -59,7 +60,7 @@ class CreateSnapshotType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'indices',
                         'required' => false,
-                        'attr'  => [
+                        'attr' => [
                             'size' => 10
                         ],
                     ]);

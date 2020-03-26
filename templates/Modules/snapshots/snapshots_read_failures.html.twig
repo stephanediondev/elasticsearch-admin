@@ -19,26 +19,26 @@
     {% embed 'card_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'failures', 'badge': snapshot['failures']|length}) }}
+            {{ appImport.heading({'level': 3, 'title': 'failures'|trans, 'badge': snapshot['failures']|length}) }}
 
             {% if 0 < snapshot['failures']|length %}
                 {% embed 'table_embed.html.twig' %}
                     {% block thead %}
                         <tr>
                             <th>
-                                index
+                                {{ 'index'|trans }}
                             </th>
                             <th>
-                                shard
+                                {{ 'shard'|trans }}
                             </th>
                             <th>
-                                reason
+                                {{ 'reason'|trans }}
                             </th>
                             <th>
-                                node
+                                {{ 'node'|trans }}
                             </th>
                             <th>
-                                status
+                                {{ 'status'|trans }}
                             </th>
                         </tr>
                     {% endblock %}

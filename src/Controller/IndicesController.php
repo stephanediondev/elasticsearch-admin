@@ -255,7 +255,7 @@ class IndicesController extends AbstractAppController
         $indice = $this->queryManager->query('GET', '/_cat/indices/'.$index, ['query' => $query]);
 
         if ($indice) {
-            $alias = new ElasticsearchIndexModel();
+            $alias = new ElasticsearchIndexAliasModel();
             $form = $this->createForm(CreateAliasType::class, $alias);
 
             $form->handleRequest($request);

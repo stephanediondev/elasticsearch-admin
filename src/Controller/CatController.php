@@ -16,10 +16,33 @@ class CatController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $repositories = [];
+        $indices = [];
+
+        $query = [
+            's' => 'id',
+            'h' => 'id'
+        ];
+        $rows = $this->queryManager->query('GET', '/_cat/repositories', ['query' => $query]);
+
+        foreach ($rows as $row) {
+            $repositories[] = $row['id'];
+        }
+
+        $query = [
+            's' => 'index',
+            'h' => 'index'
+        ];
+        $rows = $this->queryManager->query('GET', '/_cat/indices', ['query' => $query]);
+
+        foreach ($rows as $row) {
+            $indices[] = $row['index'];
+        }
+
         $parameters = [];
 
         $cat = new ElasticsearchCatModel();
-        $form = $this->createForm(FilterCatType::class, $cat);
+        $form = $this->createForm(FilterCatType::class, $cat, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 
@@ -31,15 +54,15 @@ class CatController extends AbstractAppController
             if ($cat->getSort()) {
                 $query['s'] = $cat->getSort();
             }
-            $parameters['rows'] = $this->queryManager->query('GET', '/_cat/'.$cat->getCommand(), ['query' => $query]);
+            $parameters['rows'] = $this->queryManager->query('GET', '/_cat/'.$cat->getCommandReplace(), ['query' => $query]);
             if (0 < count($parameters['rows'])) {
                 $parameters['headers'] = array_keys($parameters['rows'][0]);
             }
 
             $query = ['help' => 'true', 'format' => 'text'];
-            $parameters['help'] = $this->queryManager->query('GET', '/_cat/'.$cat->getCommand(), ['query' => $query]);
+            $parameters['help'] = $this->queryManager->query('GET', '/_cat/'.$cat->getCommandHelp(), ['query' => $query]);
 
-            $parameters['command'] = $cat->getCommand();
+            $parameters['command'] = $cat->getCommandReplace();
         }
 
         $parameters['form'] = $form->createView();

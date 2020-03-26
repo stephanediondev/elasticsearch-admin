@@ -6,6 +6,10 @@ class ElasticsearchCatModel
 {
     private $command;
 
+    private $index;
+
+    private $repository;
+
     private $headers;
 
     private $sort;
@@ -18,6 +22,30 @@ class ElasticsearchCatModel
     public function setCommand(?string $command): self
     {
         $this->command = $command;
+
+        return $this;
+    }
+
+    public function getIndex(): ?string
+    {
+        return $this->index;
+    }
+
+    public function setIndex(?string $index): self
+    {
+        $this->index = $index;
+
+        return $this;
+    }
+
+    public function getRepository(): ?string
+    {
+        return $this->repository;
+    }
+
+    public function setRepository(?string $repository): self
+    {
+        $this->repository = $repository;
 
         return $this;
     }
@@ -44,5 +72,31 @@ class ElasticsearchCatModel
         $this->sort = $sort;
 
         return $this;
+    }
+
+    public function getCommandReplace(): ?string
+    {
+        $command = $this->command;
+
+        if(strstr($this->command, '{index}')) {
+            $command = str_replace('{index}', $this->index, $command);
+        }
+
+        if(strstr($this->command, '{repository}')) {
+            $command = str_replace('{repository}', $this->repository, $command);
+        }
+
+        return $command;
+    }
+
+    public function getCommandHelp(): ?string
+    {
+        $command = $this->command;
+
+        if(strstr($this->command, '/')) {
+            $command = substr($command, 0, strpos($command, '/'));
+        }
+
+        return $command;
     }
 }
