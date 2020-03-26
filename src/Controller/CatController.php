@@ -18,6 +18,7 @@ class CatController extends AbstractAppController
     {
         $repositories = [];
         $indices = [];
+        $aliases = [];
 
         $query = [
             's' => 'id',
@@ -39,10 +40,21 @@ class CatController extends AbstractAppController
             $indices[] = $row['index'];
         }
 
+        $query = [
+            's' => 'alias',
+            'h' => 'alias'
+        ];
+        $rows = $this->queryManager->query('GET', '/_cat/aliases', ['query' => $query]);
+
+        foreach ($rows as $row) {
+            $aliases[] = $row['alias'];
+        }
+        $aliases = array_unique($aliases);
+
         $parameters = [];
 
         $cat = new ElasticsearchCatModel();
-        $form = $this->createForm(FilterCatType::class, $cat, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(FilterCatType::class, $cat, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
 
         $form->handleRequest($request);
 

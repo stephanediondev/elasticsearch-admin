@@ -10,6 +10,8 @@ class ElasticsearchCatModel
 
     private $repository;
 
+    private $alias;
+
     private $headers;
 
     private $sort;
@@ -50,6 +52,18 @@ class ElasticsearchCatModel
         return $this;
     }
 
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(?string $alias): self
+    {
+        $this->alias = $alias;
+
+        return $this;
+    }
+
     public function getHeaders(): ?string
     {
         return $this->headers;
@@ -84,6 +98,10 @@ class ElasticsearchCatModel
 
         if(strstr($this->command, '{repository}')) {
             $command = str_replace('{repository}', $this->repository, $command);
+        }
+
+        if(strstr($this->command, '{alias}')) {
+            $command = str_replace('{alias}', $this->alias, $command);
         }
 
         return $command;

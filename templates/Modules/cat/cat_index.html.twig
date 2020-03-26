@@ -64,3 +64,43 @@
         {% endembed %}
     {% endif %}
 {% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function toggle() {
+            var command = $('#data_command').val();
+
+            if (command.indexOf('{index}') != -1) {
+                $('#data_index').parent().show();
+                $('#data_index').attr('required', 'required');
+            } else {
+                $('#data_index').parent().hide();
+                $('#data_index').removeAttr('required');
+            }
+
+            if (command.indexOf('{repository}') != -1) {
+                $('#data_repository').parent().show();
+                $('#data_repository').attr('required', 'required');
+            } else {
+                $('#data_repository').parent().hide();
+                $('#data_repository').removeAttr('required');
+            }
+
+            if (command.indexOf('{alias}') != -1) {
+                $('#data_alias').parent().show();
+                $('#data_alias').attr('required', 'required');
+            } else {
+                $('#data_alias').parent().hide();
+                $('#data_alias').removeAttr('required');
+            }
+        }
+
+        toggle();
+
+        $(document).on('change', '#data_command', function(event) {
+            toggle();
+        });
+    </script>
+{% endblock %}

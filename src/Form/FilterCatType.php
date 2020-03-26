@@ -32,7 +32,7 @@ class FilterCatType extends AbstractType
             'health',
             'pending_tasks',
             'aliases',
-            //'aliases/{alias}',
+            'aliases/{alias}',
             'thread_pool',
             //'thread_pool/{thread_pools}',
             'plugins',
@@ -50,6 +50,7 @@ class FilterCatType extends AbstractType
         $fields[] = 'command';
         $fields[] = 'index';
         $fields[] = 'repository';
+        $fields[] = 'alias';
         $fields[] = 'headers';
         $fields[] = 'sort';
 
@@ -91,6 +92,18 @@ class FilterCatType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'repository',
                         'required' => false,
+                    ]);
+                    break;
+                case 'alias':
+                    $builder->add('alias', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['aliases'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['aliases'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'alias',
+                        'required' => false,
                         'attr' => ['data-break-after' => 'yes'],
                     ]);
                     break;
@@ -116,6 +129,7 @@ class FilterCatType extends AbstractType
             'data_class' => ElasticsearchCatModel::class,
             'repositories' => [],
             'indices' => [],
+            'aliases' => [],
         ]);
     }
 
