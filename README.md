@@ -45,13 +45,23 @@ yarn encore production
 ## Screenshots
 
 ![Cluster](assets/images/cluster.png)
+---
 ![Nodes](assets/images/nodes.png)
+---
 ![Indices](assets/images/indices.png)
+---
 ![Index templates](assets/images/index-templates.png)
+---
 ![Index template: create](assets/images/index-template-create.png)
+---
 ![Repository: create](assets/images/repository-create.png)
+---
 ![SLM policy: create](assets/images/slm-policy-create.png)
+---
 ![SLM policy: history](assets/images/slm-policy-history.png)
+---
 ![Snaphosts](assets/images/snapshots.png)
+---
 ![Snaphost failures](assets/images/snapshot-failures.png)
+---
 ![Cat APIs](assets/images/cat.png)
