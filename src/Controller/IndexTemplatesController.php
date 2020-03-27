@@ -155,20 +155,7 @@ class IndexTemplatesController extends AbstractAppController
 
         if ($template) {
             $templateModel = new ElasticsearchIndexTemplateModel();
-            $templateModel->setName($template['name']);
-            $templateModel->setIndexPatterns(implode(', ', $template['index_patterns']));
-            if (true == isset($template['version'])) {
-                $templateModel->setVersion($template['version']);
-            }
-            if (true == isset($template['order'])) {
-                $templateModel->setOrder($template['order']);
-            }
-            if (true == isset($template['settings'])) {
-                $templateModel->setSettings(json_encode($template['settings'], JSON_PRETTY_PRINT));
-            }
-            if (true == isset($template['mappings'])) {
-                $templateModel->setMappings(json_encode($template['mappings'], JSON_PRETTY_PRINT));
-            }
+            $templateModel->convert($template);
             $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['update' => true]);
 
             $form->handleRequest($request);

@@ -101,4 +101,23 @@ class ElasticsearchIndexTemplateModel
         }
         return $indexPatterns;
     }
+
+    public function convert(?array $template): self
+    {
+        $this->setName($template['name']);
+        $this->setIndexPatterns(implode(', ', $template['index_patterns']));
+        if (true == isset($template['version'])) {
+            $this->setVersion($template['version']);
+        }
+        if (true == isset($template['order'])) {
+            $this->setOrder($template['order']);
+        }
+        if (true == isset($template['settings'])) {
+            $this->setSettings(json_encode($template['settings'], JSON_PRETTY_PRINT));
+        }
+        if (true == isset($template['mappings'])) {
+            $this->setMappings(json_encode($template['mappings'], JSON_PRETTY_PRINT));
+        }
+        return $this;
+    }
 }

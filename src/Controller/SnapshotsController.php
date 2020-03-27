@@ -52,36 +52,36 @@ class SnapshotsController extends AbstractAppController
         $repositories = $this->callManager->selectRepositories();
         $indices = $this->callManager->selectIndices();
 
-        $snapshot = new ElasticsearchSnapshotModel();
+        $snapshotModel = new ElasticsearchSnapshotModel();
         if ($request->query->get('repository')) {
-            $snapshot->setRepository($request->query->get('repository'));
+            $snapshotModel->setRepository($request->query->get('repository'));
         }
         if ($request->query->get('index')) {
-            $snapshot->setIndices([$request->query->get('index')]);
+            $snapshotModel->setIndices([$request->query->get('index')]);
         }
-        $form = $this->createForm(CreateSnapshotType::class, $snapshot, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(CreateSnapshotType::class, $snapshotModel, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $body = [
-                    'ignore_unavailable' => $snapshot->getIgnoreUnavailable(),
-                    'partial' => $snapshot->getPartial(),
-                    'include_global_state' => $snapshot->getIncludeGlobalState(),
+                    'ignore_unavailable' => $snapshotModel->getIgnoreUnavailable(),
+                    'partial' => $snapshotModel->getPartial(),
+                    'include_global_state' => $snapshotModel->getIncludeGlobalState(),
                 ];
-                if ($snapshot->getIndices()) {
-                    $body['indices'] = implode(',', $snapshot->getIndices());
+                if ($snapshotModel->getIndices()) {
+                    $body['indices'] = implode(',', $snapshotModel->getIndices());
                 }
                 $call = new CallModel();
                 $call->setMethod('PUT');
-                $call->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName());
+                $call->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
                 $call->setBody($body);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'snapshots_create');
 
-                return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshot->getName()]);
+                return $this->redirectToRoute('snapshots_read', ['repository' => $snapshotModel->getRepository(), 'snapshot' => $snapshotModel->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }

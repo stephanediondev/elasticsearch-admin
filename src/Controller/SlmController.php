@@ -175,32 +175,7 @@ class SlmController extends AbstractAppController
             $indices = $this->callManager->selectIndices();
 
             $policyModel = new ElasticsearchSlmPolicyModel();
-            $policyModel->setName($policy['name']);
-            $policyModel->setSnapshotName($policy['name']);
-            $policyModel->setSchedule($policy['policy']['schedule']);
-            $policyModel->setRepository($policy['policy']['repository']);
-            if (true == isset($policy['policy']['config']['indices'])) {
-                $policyModel->setIndices($policy['policy']['config']['indices']);
-            }
-            if (true == isset($policy['policy']['retention']['expire_after'])) {
-                $policyModel->setExpireAfter($policy['policy']['retention']['expire_after']);
-            }
-            if (true == isset($policy['policy']['retention']['min_count'])) {
-                $policyModel->setMinCount($policy['policy']['retention']['min_count']);
-            }
-            if (true == isset($policy['policy']['retention']['max_count'])) {
-                $policyModel->setMaxCount($policy['policy']['retention']['max_count']);
-            }
-
-            if (true == isset($policy['policy']['config']['ignore_unavailable'])) {
-                $policyModel->setIgnoreUnavailable($policy['policy']['config']['ignore_unavailable']);
-            }
-            if (true == isset($policy['policy']['config']['partial'])) {
-                $policyModel->setPartial($policy['policy']['config']['partial']);
-            }
-            if (true == isset($policy['policy']['config']['include_global_state'])) {
-                $policyModel->setIncludeGlobalState($policy['policy']['config']['include_global_state']);
-            }
+            $policyModel->convert($policy);
             $form = $this->createForm(CreateSlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
 
             $form->handleRequest($request);

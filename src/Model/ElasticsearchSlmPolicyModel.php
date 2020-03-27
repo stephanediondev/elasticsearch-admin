@@ -191,4 +191,34 @@ class ElasticsearchSlmPolicyModel
 
         return $this;
     }
+
+    public function convert(?array $policy): self
+    {
+        $this->setName($policy['name']);
+        $this->setSnapshotName($policy['name']);
+        $this->setSchedule($policy['policy']['schedule']);
+        $this->setRepository($policy['policy']['repository']);
+        if (true == isset($policy['policy']['config']['indices'])) {
+            $this->setIndices($policy['policy']['config']['indices']);
+        }
+        if (true == isset($policy['policy']['retention']['expire_after'])) {
+            $this->setExpireAfter($policy['policy']['retention']['expire_after']);
+        }
+        if (true == isset($policy['policy']['retention']['min_count'])) {
+            $this->setMinCount($policy['policy']['retention']['min_count']);
+        }
+        if (true == isset($policy['policy']['retention']['max_count'])) {
+            $this->setMaxCount($policy['policy']['retention']['max_count']);
+        }
+        if (true == isset($policy['policy']['config']['ignore_unavailable'])) {
+            $this->setIgnoreUnavailable($policy['policy']['config']['ignore_unavailable']);
+        }
+        if (true == isset($policy['policy']['config']['partial'])) {
+            $this->setPartial($policy['policy']['config']['partial']);
+        }
+        if (true == isset($policy['policy']['config']['include_global_state'])) {
+            $this->setIncludeGlobalState($policy['policy']['config']['include_global_state']);
+        }
+        return $this;
+    }
 }
