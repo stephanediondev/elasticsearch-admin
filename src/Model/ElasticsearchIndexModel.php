@@ -10,6 +10,8 @@ class ElasticsearchIndexModel
 
     private $numberOfReplicas;
 
+    private $mappings;
+
     public function __construct()
     {
         $this->numberOfShards = 5;
@@ -28,26 +30,38 @@ class ElasticsearchIndexModel
         return $this;
     }
 
-    public function getNumberOfShards(): ?string
+    public function getNumberOfShards(): ?int
     {
         return $this->numberOfShards;
     }
 
-    public function setNumberOfShards(?string $numberOfShards): self
+    public function setNumberOfShards(?int $numberOfShards): self
     {
         $this->numberOfShards = $numberOfShards;
 
         return $this;
     }
 
-    public function getNumberOfReplicas(): ?string
+    public function getNumberOfReplicas(): ?int
     {
         return $this->numberOfReplicas;
     }
 
-    public function setNumberOfReplicas(?string $numberOfReplicas): self
+    public function setNumberOfReplicas(?int $numberOfReplicas): self
     {
         $this->numberOfReplicas = $numberOfReplicas;
+
+        return $this;
+    }
+
+    public function getMappings(): ?string
+    {
+        return $this->mappings;
+    }
+
+    public function setMappings(?string $mappings): self
+    {
+        $this->mappings = $mappings;
 
         return $this;
     }

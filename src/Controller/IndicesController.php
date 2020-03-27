@@ -162,6 +162,9 @@ class IndicesController extends AbstractAppController
                         'number_of_replicas' => $index->getNumberOfReplicas(),
                     ],
                 ];
+                if ($index->getMappings()) {
+                    $body['mappings'] = json_decode($index->getMappings(), true);
+                }
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/'.$index->getName());
