@@ -18,17 +18,8 @@ class SnapshotsController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $repositories = [];
+        $repositories = $this->callManager->selectRepositories();
         $snapshots = [];
-
-        $call = new CallModel();
-        $call->setPath('/_cat/repositories');
-        $call->setQuery(['s' => 'id', 'h' => 'id']);
-        $rows = $this->callManager->call($call);
-
-        foreach ($rows as $row) {
-            $repositories[] = $row['id'];
-        }
 
         foreach ($repositories as $repository) {
             $call = new CallModel();
@@ -58,26 +49,8 @@ class SnapshotsController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $repositories = [];
-        $indices = [];
-
-        $call = new CallModel();
-        $call->setPath('/_cat/repositories');
-        $call->setQuery(['s' => 'id', 'h' => 'id']);
-        $rows = $this->callManager->call($call);
-
-        foreach ($rows as $row) {
-            $repositories[] = $row['id'];
-        }
-
-        $call = new CallModel();
-        $call->setPath('/_cat/indices');
-        $call->setQuery(['s' => 'index', 'h' => 'index']);
-        $rows = $this->callManager->call($call);
-
-        foreach ($rows as $row) {
-            $indices[] = $row['index'];
-        }
+        $repositories = $this->callManager->selectRepositories();
+        $indices = $this->callManager->selectIndices();
 
         $snapshot = new ElasticsearchSnapshotModel();
         if ($request->query->get('repository')) {

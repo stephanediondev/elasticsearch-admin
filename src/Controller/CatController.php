@@ -18,37 +18,9 @@ class CatController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $repositories = [];
-        $indices = [];
-        $aliases = [];
-
-        $call = new CallModel();
-        $call->setPath('/_cat/repositories');
-        $call->setQuery(['s' => 'id', 'h' => 'id']);
-        $rows = $this->callManager->call($call);
-
-        foreach ($rows as $row) {
-            $repositories[] = $row['id'];
-        }
-
-        $call = new CallModel();
-        $call->setPath('/_cat/indices');
-        $call->setQuery(['s' => 'index', 'h' => 'index']);
-        $rows = $this->callManager->call($call);
-
-        foreach ($rows as $row) {
-            $indices[] = $row['index'];
-        }
-
-        $call = new CallModel();
-        $call->setPath('/_cat/aliases');
-        $call->setQuery(['s' => 'alias', 'h' => 'alias']);
-        $rows = $this->callManager->call($call);
-
-        foreach ($rows as $row) {
-            $aliases[] = $row['alias'];
-        }
-        $aliases = array_unique($aliases);
+        $repositories = $this->callManager->selectRepositories();
+        $indices = $this->callManager->selectIndices();
+        $aliases = $this->callManager->selectAliases();
 
         $parameters = [];
 

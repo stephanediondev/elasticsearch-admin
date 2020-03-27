@@ -23,13 +23,9 @@ class IndicesController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $query = [
-            's' => 'index',
-            'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string'
-        ];
         $call = new CallModel();
         $call->setPath('/_cat/indices');
-        $call->setQuery($query);
+        $call->setQuery(['s' => 'index', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string']);
         $indices = $this->callManager->call($call);
 
         return $this->renderAbstract($request, 'Modules/indices/indices_index.html.twig', [
@@ -109,16 +105,7 @@ class IndicesController extends AbstractAppController
      */
     public function reindex(Request $request): Response
     {
-        $indices = [];
-
-        $call = new CallModel();
-        $call->setPath('/_cat/indices');
-        $call->setQuery(['s' => 'index', 'h' => 'index']);
-        $rows = $this->callManager->call($call);
-
-        foreach ($rows as $row) {
-            $indices[] = $row['index'];
-        }
+        $indices = $this->callManager->selectIndices();
 
         $reindex = new ElasticsearchReindexModel();
         if ($request->query->get('index')) {
@@ -199,10 +186,7 @@ class IndicesController extends AbstractAppController
      */
     public function read(Request $request, string $index): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_cat/indices/'.$index);
-        $index = $this->callManager->call($call);
-        $index = $index[0];
+        $index = $this->callManager->getIndex($index);
 
         if ($index) {
             return $this->renderAbstract($request, 'Modules/indices/indices_read.html.twig', [
@@ -218,10 +202,7 @@ class IndicesController extends AbstractAppController
      */
     public function shards(Request $request, string $index): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_cat/indices/'.$index);
-        $index = $this->callManager->call($call);
-        $index = $index[0];
+        $index = $this->callManager->getIndex($index);
 
         if ($index) {
             $call = new CallModel();
@@ -250,10 +231,7 @@ class IndicesController extends AbstractAppController
      */
     public function aliases(Request $request, string $index): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_cat/indices/'.$index);
-        $index = $this->callManager->call($call);
-        $index = $index[0];
+        $index = $this->callManager->getIndex($index);
 
         if ($index) {
             $call = new CallModel();
@@ -282,10 +260,7 @@ class IndicesController extends AbstractAppController
      */
     public function createAlias(Request $request, string $index): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_cat/indices/'.$index);
-        $index = $this->callManager->call($call);
-        $index = $index[0];
+        $index = $this->callManager->getIndex($index);
 
         if ($index) {
             $alias = new ElasticsearchIndexAliasModel();
@@ -337,15 +312,13 @@ class IndicesController extends AbstractAppController
      */
     public function documents(Request $request, string $index): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_cat/indices/'.$index);
-        $index1 = $this->callManager->call($call);
+        $index1 = $this->callManager->getIndex($index);
 
         $call = new CallModel();
         $call->setPath('/'.$index);
         $index2 = $this->callManager->call($call);
 
-        $index = array_merge($index1[0], $index2[key($index2)]);
+        $index = array_merge($index1, $index2[key($index2)]);
 
         $size = 100;
         $query = [
