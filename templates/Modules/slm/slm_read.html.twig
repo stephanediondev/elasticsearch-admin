@@ -25,14 +25,14 @@
                 {% import 'app_import.html.twig' as appImport %}
                 {% block content %}
                     {{ appImport.buttonModal({
-                        'id': 'PolicyDelete' ~ policy['name'],
+                        'id': 'PolicyDelete',
                         'title': 'delete'|trans,
                         'body': policy['name'],
                         'href': path('slm_delete', {'name': policy['name']}),
                     }) }}
 
                     {{ appImport.buttonModal({
-                        'id': 'PolicyExecute' ~ policy['name'],
+                        'id': 'PolicyExecute',
                         'title': 'execute'|trans,
                         'body': policy['name'],
                         'href': path('slm_execute', {'name': policy['name']}),

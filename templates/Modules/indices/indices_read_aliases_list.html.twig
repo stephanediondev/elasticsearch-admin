@@ -24,6 +24,7 @@
     {% endblock %}
 
     {% block tbody %}
+        {% set count = 0 %}
         {% for row in aliases.rows %}
             <tr>
                 {% for column, display in columns %}
@@ -37,7 +38,7 @@
                         {% if '_buttons' == column %}
                             <td>
                                 {{ appImport.buttonModal({
-                                    'id': 'AliasDelete' ~ row,
+                                    'id': 'AliasDelete' ~ count,
                                     'title': 'delete'|trans,
                                     'body': row,
                                     'href': path('indices_aliases_delete', {'index': index['index'], 'alias': row}),
@@ -47,6 +48,7 @@
                     {% endif %}
                 {% endfor %}
             </tr>
+            {% set count = count + 1 %}
         {% endfor %}
     {% endblock %}
 {% endembed %}

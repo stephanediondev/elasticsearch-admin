@@ -25,7 +25,7 @@
                 {% import 'app_import.html.twig' as appImport %}
                 {% block content %}
                     {{ appImport.buttonModal({
-                        'id': 'IndexTemplateDelete' ~ template['name'],
+                        'id': 'IndexTemplateDelete',
                         'title': 'delete'|trans,
                         'body': template['name'],
                         'href': path('index_templates_delete', {'name': template['name']}),

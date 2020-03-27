@@ -25,7 +25,7 @@
                 {% import 'app_import.html.twig' as appImport %}
                 {% block content %}
                     {{ appImport.buttonModal({
-                        'id': 'SnapshotDelete' ~ snapshot['uuid'],
+                        'id': 'SnapshotDelete',
                         'title': 'delete'|trans,
                         'body': snapshot['snapshot'],
                         'href': path('snapshots_delete', {'repository': repository, 'snapshot': snapshot['snapshot']}),

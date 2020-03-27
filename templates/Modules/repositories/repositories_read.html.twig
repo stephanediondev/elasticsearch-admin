@@ -25,21 +25,21 @@
                 {% import 'app_import.html.twig' as appImport %}
                 {% block content %}
                     {{ appImport.buttonModal({
-                        'id': 'RepositoryDelete' ~ repository['id'],
+                        'id': 'RepositoryDelete',
                         'title': 'delete'|trans,
                         'body': repository['id'],
                         'href': path('repositories_delete', {'repository': repository['id']}),
                     }) }}
 
                     {{ appImport.buttonModal({
-                        'id': 'RepositoryCleanup' ~ repository['id'],
+                        'id': 'RepositoryCleanup',
                         'title': 'cleanup'|trans,
                         'body': repository['id'],
                         'href': path('repositories_cleanup', {'repository': repository['id']}),
                     }) }}
 
                     {{ appImport.buttonModal({
-                        'id': 'RepositoryVerify' ~ repository['id'],
+                        'id': 'RepositoryVerify',
                         'title': 'verify'|trans,
                         'body': repository['id'],
                         'href': path('repositories_verify', {'repository': repository['id']}),
