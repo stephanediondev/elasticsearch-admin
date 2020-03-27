@@ -201,11 +201,12 @@ class IndicesController extends AbstractAppController
     {
         $call = new CallModel();
         $call->setPath('/_cat/indices/'.$index);
-        $indice = $this->callManager->call($call);
+        $index = $this->callManager->call($call);
+        $index = $index[0];
 
-        if ($indice) {
+        if ($index) {
             return $this->renderAbstract($request, 'Modules/indices/indices_read.html.twig', [
-                'indice' => $indice[0],
+                'index' => $index,
             ]);
         } else {
             throw new NotFoundHttpException();
@@ -219,19 +220,20 @@ class IndicesController extends AbstractAppController
     {
         $call = new CallModel();
         $call->setPath('/_cat/indices/'.$index);
-        $indice = $this->callManager->call($call);
+        $index = $this->callManager->call($call);
+        $index = $index[0];
 
-        if ($indice) {
+        if ($index) {
             $call = new CallModel();
-            $call->setPath('/_cat/shards/'.$index);
+            $call->setPath('/_cat/shards/'.$index['index']);
             $call->setQuery(['h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
             $shards = $this->callManager->call($call);
 
             return $this->renderAbstract($request, 'Modules/indices/indices_read_shards.html.twig', [
-                'indice' => $indice[0],
+                'index' => $index,
                 'shards' => $this->paginatorManager->paginate([
                     'route' => 'indices_read_shards',
-                    'route_parameters' => ['index' => $index],
+                    'route_parameters' => ['index' => $index['index']],
                     'total' => count($shards),
                     'rows' => $shards,
                     'page' => 1,
@@ -250,19 +252,20 @@ class IndicesController extends AbstractAppController
     {
         $call = new CallModel();
         $call->setPath('/_cat/indices/'.$index);
-        $indice = $this->callManager->call($call);
+        $index = $this->callManager->call($call);
+        $index = $index[0];
 
-        if ($indice) {
+        if ($index) {
             $call = new CallModel();
-            $call->setPath('/'.$index.'/_alias');
+            $call->setPath('/'.$index['index'].'/_alias');
             $aliases = $this->callManager->call($call);
-            $aliases = array_keys($aliases[$index]['aliases']);
+            $aliases = array_keys($aliases[$index['index']]['aliases']);
 
             return $this->renderAbstract($request, 'Modules/indices/indices_read_aliases.html.twig', [
-                'indice' => $indice[0],
+                'index' => $index,
                 'aliases' => $this->paginatorManager->paginate([
                     'route' => 'indices_read_aliases',
-                    'route_parameters' => ['index' => $index],
+                    'route_parameters' => ['index' => $index['index']],
                     'total' => count($aliases),
                     'rows' => $aliases,
                     'page' => 1,
@@ -281,9 +284,10 @@ class IndicesController extends AbstractAppController
     {
         $call = new CallModel();
         $call->setPath('/_cat/indices/'.$index);
-        $indice = $this->callManager->call($call);
+        $index = $this->callManager->call($call);
+        $index = $index[0];
 
-        if ($indice) {
+        if ($index) {
             $alias = new ElasticsearchIndexAliasModel();
             $form = $this->createForm(CreateAliasType::class, $alias);
 
@@ -293,19 +297,19 @@ class IndicesController extends AbstractAppController
                 try {
                     $call = new CallModel();
                     $call->setMethod('PUT');
-                    $call->setPath('/'.$index.'/_alias/'.$alias->getName());
+                    $call->setPath('/'.$index['index'].'/_alias/'.$alias->getName());
                     $this->callManager->call($call);
 
                     $this->addFlash('success', 'indices_aliases_create');
 
-                    return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
+                    return $this->redirectToRoute('indices_read_aliases', ['index' => $index['index']]);
                 } catch (CallException $e) {
                     $this->addFlash('danger', $e->getMessage());
                 }
             }
 
             return $this->renderAbstract($request, 'Modules/indices/indices_read_aliases_create.html.twig', [
-                'indice' => $indice[0],
+                'index' => $index,
                 'form' => $form->createView(),
             ]);
         } else {
@@ -335,13 +339,13 @@ class IndicesController extends AbstractAppController
     {
         $call = new CallModel();
         $call->setPath('/_cat/indices/'.$index);
-        $indice1 = $this->callManager->call($call);
+        $index1 = $this->callManager->call($call);
 
         $call = new CallModel();
         $call->setPath('/'.$index);
-        $indice2 = $this->callManager->call($call);
+        $index2 = $this->callManager->call($call);
 
-        $indice = array_merge($indice1[0], $indice2[key($indice2)]);
+        $index = array_merge($index1[0], $index2[key($index2)]);
 
         $size = 100;
         $query = [
@@ -350,7 +354,7 @@ class IndicesController extends AbstractAppController
             'from' => ($size * $request->query->get('page', 1)) - $size,
         ];
         $call = new CallModel();
-        $call->setPath('/'.$index.'/_search');
+        $call->setPath('/'.$index['index'].'/_search');
         $call->setQuery($query);
         $documents = $this->callManager->call($call);
 
@@ -364,10 +368,10 @@ class IndicesController extends AbstractAppController
         }
 
         return $this->renderAbstract($request, 'Modules/indices/indices_read_documents.html.twig', [
-            'indice' => $indice,
+            'index' => $index,
             'documents' => $this->paginatorManager->paginate([
                 'route' => 'indices_read_documents',
-                'route_parameters' => ['index' => $index],
+                'route_parameters' => ['index' => $index['index']],
                 'total' => $total,
                 'rows' => $documents['hits']['hits'],
                 'page' => $request->query->get('page', 1),

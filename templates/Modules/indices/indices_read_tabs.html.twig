@@ -1,27 +1,27 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('indices_read', {'index': indice['index']}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('indices_read', {'index': index['index']}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    {% if 'open' == indice['status'] %}
+    {% if 'open' == index['status'] %}
         <li class="nav-item">
-            <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': indice['index']}) }}">{{ 'shards'|trans }}</a>
+            <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': index['index']}) }}">{{ 'shards'|trans }}</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': indice['index']}) }}">{{ 'aliases'|trans }}</a>
+            <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index['index']}) }}">{{ 'aliases'|trans }}</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link{% if 'documents' == active %} active{% endif %}" href="{{ path('indices_read_documents', {'index': indice['index']}) }}">{{ 'documents'|trans }}</a>
+            <a class="nav-link{% if 'documents' == active %} active{% endif %}" href="{{ path('indices_read_documents', {'index': index['index']}) }}">{{ 'documents'|trans }}</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('snapshots_create', {'index': indice['index']}) }}">{{ 'create_snapshot'|trans }}</a>
+            <a class="nav-link" href="{{ path('snapshots_create', {'index': index['index']}) }}">{{ 'create_snapshot'|trans }}</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('indices_reindex', {'index': indice['index']}) }}">{{ 'reindex'|trans }}</a>
+            <a class="nav-link" href="{{ path('indices_reindex', {'index': index['index']}) }}">{{ 'reindex'|trans }}</a>
         </li>
     {% endif %}
 </ul>
