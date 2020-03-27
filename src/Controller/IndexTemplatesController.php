@@ -41,37 +41,37 @@ class IndexTemplatesController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $template = new ElasticsearchIndexTemplateModel();
-        $form = $this->createForm(CreateIndexTemplateType::class, $template);
+        $templateModel = new ElasticsearchIndexTemplateModel();
+        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $body = [
-                    'index_patterns' => $template->getIndexToArray(),
+                    'index_patterns' => $templateModel->getIndexToArray(),
                 ];
-                if ($template->getVersion()) {
-                    $body['version'] = $template->getVersion();
+                if ($templateModel->getVersion()) {
+                    $body['version'] = $templateModel->getVersion();
                 }
-                if ($template->getOrder()) {
-                    $body['order'] = $template->getOrder();
+                if ($templateModel->getOrder()) {
+                    $body['order'] = $templateModel->getOrder();
                 }
-                if ($template->getSettings()) {
-                    $body['settings'] = json_decode($template->getSettings(), true);
+                if ($templateModel->getSettings()) {
+                    $body['settings'] = json_decode($templateModel->getSettings(), true);
                 }
-                if ($template->getMappings()) {
-                    $body['mappings'] = json_decode($template->getMappings(), true);
+                if ($templateModel->getMappings()) {
+                    $body['mappings'] = json_decode($templateModel->getMappings(), true);
                 }
                 $call = new CallModel();
                 $call->setMethod('PUT');
-                $call->setPath('/_template/'.$template->getName());
+                $call->setPath('/_template/'.$templateModel->getName());
                 $call->setBody($body);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'index_templates_create');
 
-                return $this->redirectToRoute('index_templates_read', ['name' => $template->getName()]);
+                return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -141,6 +141,78 @@ class IndexTemplatesController extends AbstractAppController
             throw new NotFoundHttpException();
         }
     }
+
+    /**
+     * @Route("/index-templates/{name}/update", name="index_templates_update")
+     */
+    public function update(Request $request, string $name): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_template/'.$name);
+        $template = $this->callManager->call($call);
+        $template = $template[$name];
+        $template['name'] = $name;
+
+        if ($template) {
+            $templateModel = new ElasticsearchIndexTemplateModel();
+            $templateModel->setName($template['name']);
+            $templateModel->setIndexPatterns(implode(', ', $template['index_patterns']));
+            if (true == isset($template['version'])) {
+                $templateModel->setVersion($template['version']);
+            }
+            if (true == isset($template['order'])) {
+                $templateModel->setOrder($template['order']);
+            }
+            if (true == isset($template['settings'])) {
+                $templateModel->setSettings(json_encode($template['settings'], JSON_PRETTY_PRINT));
+            }
+            if (true == isset($template['mappings'])) {
+                $templateModel->setMappings(json_encode($template['mappings'], JSON_PRETTY_PRINT));
+            }
+            $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['update' => true]);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $body = [
+                        'index_patterns' => $templateModel->getIndexToArray(),
+                    ];
+                    if ($templateModel->getVersion()) {
+                        $body['version'] = $templateModel->getVersion();
+                    }
+                    if ($templateModel->getOrder()) {
+                        $body['order'] = $templateModel->getOrder();
+                    }
+                    if ($templateModel->getSettings()) {
+                        $body['settings'] = json_decode($templateModel->getSettings(), true);
+                    }
+                    if ($templateModel->getMappings()) {
+                        $body['mappings'] = json_decode($templateModel->getMappings(), true);
+                    }
+                    $call = new CallModel();
+                    $call->setMethod('PUT');
+                    $call->setPath('/_template/'.$templateModel->getName());
+                    $call->setBody($body);
+                    $this->callManager->call($call);
+
+                    $this->addFlash('success', 'index_templates_create');
+
+                    return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
+            }
+
+            return $this->renderAbstract($request, 'Modules/index_templates/index_templates_update.html.twig', [
+                'template' => $template,
+                'form' => $form->createView(),
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
+
 
     /**
      * @Route("/index-templates/{name}/delete", name="index_templates_delete")

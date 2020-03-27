@@ -19,7 +19,9 @@ class CreateIndexTemplateType extends AbstractType
     {
         $fields = [];
 
-        $fields[] = 'name';
+        if (false == $options['update']) {
+            $fields[] = 'name';
+        }
         $fields[] = 'index_patterns';
         $fields[] = 'version';
         $fields[] = 'order';
@@ -99,6 +101,7 @@ class CreateIndexTemplateType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchIndexTemplateModel::class,
+            'update' => false,
         ]);
     }
 
