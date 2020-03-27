@@ -25,6 +25,10 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link" href="{{ path('slm_create', {'index': index['index']}) }}">{{ 'create_policy'|trans }}</a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link" href="{{ path('indices_reindex', {'index': index['index']}) }}">{{ 'reindex'|trans }}</a>
         </li>
     {% endif %}

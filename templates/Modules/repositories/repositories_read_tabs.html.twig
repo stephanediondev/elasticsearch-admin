@@ -6,4 +6,8 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ path('snapshots_create', {'repository': repository['id']}) }}">{{ 'create_snapshot'|trans }}</a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('slm_create', {'repository': repository['id']}) }}">{{ 'create_policy'|trans }}</a>
+    </li>
 </ul>
