@@ -72,6 +72,11 @@
                 {{ policy['policy']['schedule'] }}
             </p>
 
+            <p>
+                <strong>{{ 'next_execution'|trans }}</strong><br>
+                {{ policy['next_execution_millis']|human_datetime }}
+            </p>
+
             {% if policy['policy']['retention'] is defined %}
                 {% if policy['policy']['retention']['expire_after'] is defined %}
                     <p>
