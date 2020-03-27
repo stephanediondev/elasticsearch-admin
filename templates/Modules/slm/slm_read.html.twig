@@ -99,6 +99,27 @@
                     </p>
                 {% endif %}
             {% endif %}
+
+            {% if policy['policy']['config']['ignore_unavailable'] is defined %}
+                <p>
+                    <strong>{{ 'ignore_unavailable'|trans }}</strong><br>
+                    {{ policy['policy']['config']['ignore_unavailable'] }}
+                </p>
+            {% endif %}
+
+            {% if policy['policy']['config']['partial'] is defined %}
+                <p>
+                    <strong>{{ 'partial'|trans }}</strong><br>
+                    {{ policy['policy']['config']['partial'] }}
+                </p>
+            {% endif %}
+
+            {% if policy['policy']['config']['include_global_state'] is defined %}
+                <p>
+                    <strong>{{ 'include_global_state'|trans }}</strong><br>
+                    {{ policy['policy']['config']['include_global_state'] }}
+                </p>
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}

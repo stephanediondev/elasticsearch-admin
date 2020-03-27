@@ -21,6 +21,7 @@ class CreateSnapshotType extends AbstractType
         $fields[] = 'name';
         $fields[] = 'indices';
         $fields[] = 'ignore_unavailable';
+        $fields[] = 'partial';
         $fields[] = 'include_global_state';
 
         foreach ($fields as $field) {
@@ -68,6 +69,12 @@ class CreateSnapshotType extends AbstractType
                 case 'ignore_unavailable':
                     $builder->add('ignore_unavailable', CheckboxType::class, [
                         'label' => 'ignore_unavailable',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'partial':
+                    $builder->add('partial', CheckboxType::class, [
+                        'label' => 'partial',
                         'required' => false,
                     ]);
                     break;

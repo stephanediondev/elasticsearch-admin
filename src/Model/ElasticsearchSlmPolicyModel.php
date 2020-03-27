@@ -20,10 +20,17 @@ class ElasticsearchSlmPolicyModel
 
     private $maxCount;
 
+    private $ignoreUnavailable;
+
+    private $partial;
+
+    private $includeGlobalState;
+
     public function __construct()
     {
         $this->snapshotName = '<nightly-snap-{now/d}>';
         $this->schedule = '0 30 1 * * ?';
+        $this->includeGlobalState = true;
     }
 
     public function getName(): ?string
@@ -147,5 +154,41 @@ class ElasticsearchSlmPolicyModel
         }
 
         return $retention;
+    }
+
+    public function getIgnoreUnavailable(): ?bool
+    {
+        return $this->ignoreUnavailable;
+    }
+
+    public function setIgnoreUnavailable(?bool $ignoreUnavailable): self
+    {
+        $this->ignoreUnavailable = $ignoreUnavailable;
+
+        return $this;
+    }
+
+    public function getPartial(): ?bool
+    {
+        return $this->partial;
+    }
+
+    public function setPartial(?bool $partial): self
+    {
+        $this->partial = $partial;
+
+        return $this;
+    }
+
+    public function getIncludeGlobalState(): ?bool
+    {
+        return $this->includeGlobalState;
+    }
+
+    public function setIncludeGlobalState(?bool $includeGlobalState): self
+    {
+        $this->includeGlobalState = $includeGlobalState;
+
+        return $this;
     }
 }

@@ -67,6 +67,7 @@ class SnapshotsController extends AbstractAppController
             try {
                 $body = [
                     'ignore_unavailable' => $snapshot->getIgnoreUnavailable(),
+                    'partial' => $snapshot->getPartial(),
                     'include_global_state' => $snapshot->getIncludeGlobalState(),
                 ];
                 if ($snapshot->getIndices()) {

@@ -72,6 +72,10 @@ class SlmController extends AbstractAppController
                 } else {
                     $body['config']['indices'] = ['*'];
                 }
+                $body['config']['ignore_unavailable'] = $policy->getIgnoreUnavailable();
+                $body['config']['partial'] = $policy->getPartial();
+                $body['config']['include_global_state'] = $policy->getIncludeGlobalState();
+
                 if ($policy->hasRetention()) {
                     $body['retention'] = $policy->getRetention();
                 }

@@ -12,6 +12,8 @@ class ElasticsearchSnapshotModel
 
     private $ignoreUnavailable;
 
+    private $partial;
+
     private $includeGlobalState;
 
     public function __construct()
@@ -63,6 +65,18 @@ class ElasticsearchSnapshotModel
     public function setIgnoreUnavailable(?bool $ignoreUnavailable): self
     {
         $this->ignoreUnavailable = $ignoreUnavailable;
+
+        return $this;
+    }
+
+    public function getPartial(): ?bool
+    {
+        return $this->partial;
+    }
+
+    public function setPartial(?bool $partial): self
+    {
+        $this->partial = $partial;
 
         return $this;
     }

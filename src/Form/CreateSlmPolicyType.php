@@ -6,6 +6,7 @@ use App\Model\ElasticsearchSlmPolicyModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,6 +26,9 @@ class CreateSlmPolicyType extends AbstractType
         $fields[] = 'expire_after';
         $fields[] = 'min_count';
         $fields[] = 'max_count';
+        $fields[] = 'ignore_unavailable';
+        $fields[] = 'partial';
+        $fields[] = 'include_global_state';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -101,6 +105,24 @@ class CreateSlmPolicyType extends AbstractType
                 case 'max_count':
                     $builder->add('max_count', IntegerType::class, [
                         'label' => 'max_count',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'ignore_unavailable':
+                    $builder->add('ignore_unavailable', CheckboxType::class, [
+                        'label' => 'ignore_unavailable',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'partial':
+                    $builder->add('partial', CheckboxType::class, [
+                        'label' => 'partial',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'include_global_state':
+                    $builder->add('include_global_state', CheckboxType::class, [
+                        'label' => 'include_global_state',
                         'required' => false,
                     ]);
                     break;
