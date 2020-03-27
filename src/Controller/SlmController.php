@@ -56,7 +56,7 @@ class SlmController extends AbstractAppController
         if ($request->query->get('index')) {
             $policyModel->setIndices([$request->query->get('index')]);
         }
-        $form = $this->createForm(CreateSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(CreateSlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 

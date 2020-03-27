@@ -107,11 +107,11 @@ class IndicesController extends AbstractAppController
     {
         $indices = $this->callManager->selectIndices();
 
-        $reindex = new ElasticsearchReindexModel();
+        $reindexModel = new ElasticsearchReindexModel();
         if ($request->query->get('index')) {
-            $reindex->setSource($request->query->get('index'));
+            $reindexModel->setSource($request->query->get('index'));
         }
-        $form = $this->createForm(ReindexType::class, $reindex, ['indices' => $indices]);
+        $form = $this->createForm(ReindexType::class, $reindexModel, ['indices' => $indices]);
 
         $form->handleRequest($request);
 
@@ -119,10 +119,10 @@ class IndicesController extends AbstractAppController
             try {
                 $body = [
                     'source' => [
-                        'index' => $reindex->getSource(),
+                        'index' => $reindexModel->getSource(),
                     ],
                     'dest' => [
-                        'index' => $reindex->getDestination(),
+                        'index' => $reindexModel->getDestination(),
                     ],
                 ];
                 $call = new CallModel();
@@ -133,7 +133,7 @@ class IndicesController extends AbstractAppController
 
                 $this->addFlash('success', 'indices_reindex');
 
-                return $this->redirectToRoute('indices_read', ['index' => $reindex->getDestination()]);
+                return $this->redirectToRoute('indices_read', ['index' => $reindexModel->getDestination()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -149,8 +149,8 @@ class IndicesController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $index = new ElasticsearchIndexModel();
-        $form = $this->createForm(CreateIndexType::class, $index);
+        $indexModel = new ElasticsearchIndexModel();
+        $form = $this->createForm(CreateIndexType::class, $indexModel);
 
         $form->handleRequest($request);
 
@@ -158,22 +158,22 @@ class IndicesController extends AbstractAppController
             try {
                 $body = [
                     'settings' => [
-                        'number_of_shards' => $index->getNumberOfShards(),
-                        'number_of_replicas' => $index->getNumberOfReplicas(),
+                        'number_of_shards' => $indexModel->getNumberOfShards(),
+                        'number_of_replicas' => $indexModel->getNumberOfReplicas(),
                     ],
                 ];
-                if ($index->getMappings()) {
-                    $body['mappings'] = json_decode($index->getMappings(), true);
+                if ($indexModel->getMappings()) {
+                    $body['mappings'] = json_decode($indexModel->getMappings(), true);
                 }
                 $call = new CallModel();
                 $call->setMethod('PUT');
-                $call->setPath('/'.$index->getName());
+                $call->setPath('/'.$indexModel->getName());
                 $call->setBody($body);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'indices_create');
 
-                return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
+                return $this->redirectToRoute('indices_read', ['index' => $indexModel->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -290,8 +290,8 @@ class IndicesController extends AbstractAppController
         $index = $this->callManager->getIndex($index);
 
         if ($index) {
-            $alias = new ElasticsearchIndexAliasModel();
-            $form = $this->createForm(CreateAliasType::class, $alias);
+            $aliasModel = new ElasticsearchIndexAliasModel();
+            $form = $this->createForm(CreateAliasType::class, $aliasModel);
 
             $form->handleRequest($request);
 
@@ -299,7 +299,7 @@ class IndicesController extends AbstractAppController
                 try {
                     $call = new CallModel();
                     $call->setMethod('PUT');
-                    $call->setPath('/'.$index['index'].'/_alias/'.$alias->getName());
+                    $call->setPath('/'.$index['index'].'/_alias/'.$aliasModel->getName());
                     $this->callManager->call($call);
 
                     $this->addFlash('success', 'indices_aliases_create');

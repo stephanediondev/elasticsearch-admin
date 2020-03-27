@@ -24,22 +24,22 @@ class CatController extends AbstractAppController
 
         $parameters = [];
 
-        $cat = new ElasticsearchCatModel();
-        $form = $this->createForm(FilterCatType::class, $cat, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
+        $catModel = new ElasticsearchCatModel();
+        $form = $this->createForm(FilterCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $query = [];
-                if ($cat->getHeaders()) {
-                    $query['h'] = $cat->getHeaders();
+                if ($catModel->getHeaders()) {
+                    $query['h'] = $catModel->getHeaders();
                 }
-                if ($cat->getSort()) {
-                    $query['s'] = $cat->getSort();
+                if ($catModel->getSort()) {
+                    $query['s'] = $catModel->getSort();
                 }
                 $call = new CallModel();
-                $call->setPath('/_cat/'.$cat->getCommandReplace());
+                $call->setPath('/_cat/'.$catModel->getCommandReplace());
                 $call->setQuery($query);
                 $parameters['rows'] = $this->callManager->call($call);
                 if (0 < count($parameters['rows'])) {
@@ -50,11 +50,11 @@ class CatController extends AbstractAppController
             }
 
             $call = new CallModel();
-            $call->setPath('/_cat/'.$cat->getCommandHelp());
+            $call->setPath('/_cat/'.$catModel->getCommandHelp());
             $call->setQuery(['help' => 'true', 'format' => 'text']);
             $parameters['help'] = $this->callManager->call($call);
 
-            $parameters['command'] = $cat->getCommandReplace();
+            $parameters['command'] = $catModel->getCommandReplace();
         }
 
         $parameters['form'] = $form->createView();
