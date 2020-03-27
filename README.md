@@ -32,6 +32,7 @@ yarn encore production
 - [x] Snapshot lifecycle management policies: create, update, delete, execute, history, stats
 - [x] Tasks: list
 - [x] Cat APIs: list
+- [x] Deprecations info
 
 ### Todo
 
@@ -41,7 +42,6 @@ yarn encore production
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: stats, reroute
 - [ ] Repositories: create (url, source, s3, hdfs, azure, gcs)
-- [ ] Deprecations info
 
 ## Screenshots
 
