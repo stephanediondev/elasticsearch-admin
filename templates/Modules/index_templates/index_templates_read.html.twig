@@ -24,8 +24,6 @@
             {% embed 'buttons_embed.html.twig' %}
                 {% import 'app_import.html.twig' as appImport %}
                 {% block content %}
-                    {{ appImport.button({'title': 'update'|trans, 'url': path('index_templates_update', {'name': template['name']})}) }}
-
                     {{ appImport.buttonModal({
                         'id': 'IndexTemplateDelete' ~ template['name'],
                         'title': 'delete'|trans,

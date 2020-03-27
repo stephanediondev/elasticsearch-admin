@@ -18,7 +18,9 @@ class CreateSlmPolicyType extends AbstractType
     {
         $fields = [];
 
-        $fields[] = 'name';
+        if (false == $options['update']) {
+            $fields[] = 'name';
+        }
         $fields[] = 'snapshot_name';
         $fields[] = 'repository';
         $fields[] = 'indices';
@@ -136,6 +138,7 @@ class CreateSlmPolicyType extends AbstractType
             'data_class' => ElasticsearchSlmPolicyModel::class,
             'repositories' => [],
             'indices' => [],
+            'update' => false,
         ]);
     }
 

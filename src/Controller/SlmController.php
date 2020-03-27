@@ -49,12 +49,12 @@ class SlmController extends AbstractAppController
         $repositories = $this->callManager->selectRepositories();
         $indices = $this->callManager->selectIndices();
 
-        $policy = new ElasticsearchSlmPolicyModel();
+        $policyModel = new ElasticsearchSlmPolicyModel();
         if ($request->query->get('repository')) {
-            $policy->setRepository($request->query->get('repository'));
+            $policyModel->setRepository($request->query->get('repository'));
         }
         if ($request->query->get('index')) {
-            $policy->setIndices([$request->query->get('index')]);
+            $policyModel->setIndices([$request->query->get('index')]);
         }
         $form = $this->createForm(CreateSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices]);
 
@@ -63,32 +63,32 @@ class SlmController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $body = [
-                    'schedule' => $policy->getSchedule(),
-                    'name' => $policy->getSnapshotName(),
-                    'repository' => $policy->getRepository(),
+                    'schedule' => $policyModel->getSchedule(),
+                    'name' => $policyModel->getSnapshotName(),
+                    'repository' => $policyModel->getRepository(),
                 ];
-                if ($policy->getIndices()) {
-                    $body['config']['indices'] = $policy->getIndices();
+                if ($policyModel->getIndices()) {
+                    $body['config']['indices'] = $policyModel->getIndices();
                 } else {
                     $body['config']['indices'] = ['*'];
                 }
-                $body['config']['ignore_unavailable'] = $policy->getIgnoreUnavailable();
-                $body['config']['partial'] = $policy->getPartial();
-                $body['config']['include_global_state'] = $policy->getIncludeGlobalState();
+                $body['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
+                $body['config']['partial'] = $policyModel->getPartial();
+                $body['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
 
-                if ($policy->hasRetention()) {
-                    $body['retention'] = $policy->getRetention();
+                if ($policyModel->hasRetention()) {
+                    $body['retention'] = $policyModel->getRetention();
                 }
 
                 $call = new CallModel();
                 $call->setMethod('PUT');
-                $call->setPath('/_slm/policy/'.$policy->getName());
+                $call->setPath('/_slm/policy/'.$policyModel->getName());
                 $call->setBody($body);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'slm_create');
 
-                return $this->redirectToRoute('slm_read', ['name' => $policy->getName()]);
+                return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -153,6 +153,95 @@ class SlmController extends AbstractAppController
         if ($policy) {
             return $this->renderAbstract($request, 'Modules/slm/slm_read_stats.html.twig', [
                 'policy' => $policy,
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
+
+    /**
+     * @Route("/slm/{name}/update", name="slm_update")
+     */
+    public function update(Request $request, string $name): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_slm/policy/'.$name);
+        $policy = $this->callManager->call($call);
+        $policy = $policy[$name];
+        $policy['name'] = $name;
+
+        if ($policy) {
+            $repositories = $this->callManager->selectRepositories();
+            $indices = $this->callManager->selectIndices();
+
+            $policyModel = new ElasticsearchSlmPolicyModel();
+            $policyModel->setName($policy['name']);
+            $policyModel->setSnapshotName($policy['name']);
+            $policyModel->setSchedule($policy['policy']['schedule']);
+            $policyModel->setRepository($policy['policy']['repository']);
+            if (true == isset($policy['policy']['config']['indices'])) {
+                $policyModel->setIndices($policy['policy']['config']['indices']);
+            }
+            if (true == isset($policy['policy']['retention']['expire_after'])) {
+                $policyModel->setExpireAfter($policy['policy']['retention']['expire_after']);
+            }
+            if (true == isset($policy['policy']['retention']['min_count'])) {
+                $policyModel->setMinCount($policy['policy']['retention']['min_count']);
+            }
+            if (true == isset($policy['policy']['retention']['max_count'])) {
+                $policyModel->setMaxCount($policy['policy']['retention']['max_count']);
+            }
+
+            if (true == isset($policy['policy']['config']['ignore_unavailable'])) {
+                $policyModel->setIgnoreUnavailable($policy['policy']['config']['ignore_unavailable']);
+            }
+            if (true == isset($policy['policy']['config']['partial'])) {
+                $policyModel->setPartial($policy['policy']['config']['partial']);
+            }
+            if (true == isset($policy['policy']['config']['include_global_state'])) {
+                $policyModel->setIncludeGlobalState($policy['policy']['config']['include_global_state']);
+            }
+            $form = $this->createForm(CreateSlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $body = [
+                        'schedule' => $policyModel->getSchedule(),
+                        'name' => $policyModel->getSnapshotName(),
+                        'repository' => $policyModel->getRepository(),
+                    ];
+                    if ($policyModel->getIndices()) {
+                        $body['config']['indices'] = $policyModel->getIndices();
+                    } else {
+                        $body['config']['indices'] = ['*'];
+                    }
+                    $body['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
+                    $body['config']['partial'] = $policyModel->getPartial();
+                    $body['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
+
+                    if ($policyModel->hasRetention()) {
+                        $body['retention'] = $policyModel->getRetention();
+                    }
+
+                    $call = new CallModel();
+                    $call->setMethod('PUT');
+                    $call->setPath('/_slm/policy/'.$policyModel->getName());
+                    $call->setBody($body);
+                    $this->callManager->call($call);
+
+                    $this->addFlash('success', 'slm_update');
+
+                    return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
+            }
+
+            return $this->renderAbstract($request, 'Modules/slm/slm_update.html.twig', [
+                'policy' => $policy,
+                'form' => $form->createView(),
             ]);
         } else {
             throw new NotFoundHttpException();
