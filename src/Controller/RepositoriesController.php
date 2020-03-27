@@ -39,33 +39,33 @@ class RepositoriesController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $repository = new ElasticsearchRepositoryModel();
-        $form = $this->createForm(CreateRepositoryType::class, $repository);
+        $repositoryModel = new ElasticsearchRepositoryModel();
+        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $body = [
-                    'type' => $repository->getType(),
+                    'type' => $repositoryModel->getType(),
                     'settings' => [
-                        'location' => $repository->getLocation(),
-                        'compress' => $repository->getCompress(),
-                        'chunk_size' => $repository->getChunkSize(),
-                        'max_restore_bytes_per_sec' => $repository->getMaxRestoreBytesPerSec(),
-                        'max_snapshot_bytes_per_sec' => $repository->getMaxSnapshotBytesPerSec(),
-                        'readonly' => $repository->getReadonly(),
+                        'location' => $repositoryModel->getLocation(),
+                        'compress' => $repositoryModel->getCompress(),
+                        'chunk_size' => $repositoryModel->getChunkSize(),
+                        'max_restore_bytes_per_sec' => $repositoryModel->getMaxRestoreBytesPerSec(),
+                        'max_snapshot_bytes_per_sec' => $repositoryModel->getMaxSnapshotBytesPerSec(),
+                        'readonly' => $repositoryModel->getReadonly(),
                     ],
                 ];
                 $call = new CallModel();
                 $call->setMethod('PUT');
-                $call->setPath('/_snapshot/'.$repository->getName());
+                $call->setPath('/_snapshot/'.$repositoryModel->getName());
                 $call->setBody($body);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'repositories_create');
 
-                return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
+                return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
