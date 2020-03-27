@@ -1,0 +1,71 @@
+{% embed 'table_embed.html.twig' %}
+    {% import 'app_import.html.twig' as appImport %}
+
+    {% set columns = {'name': true, 'index_patterns': true, 'order': true, 'version': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'name' == column %}
+                        <th>
+                            {{ 'name'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'index_patterns' == column %}
+                        <th>
+                            {{ 'index_patterns'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'order' == column %}
+                        <th>
+                            {{ 'order'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'version' == column %}
+                        <th>
+                            {{ 'version'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in indexTemplates.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'name' == column %}
+                            <td>
+                                <a href="{{ path('index_templates_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'index_patterns' == column %}
+                            <td>
+                                {{ row['index_patterns']|replace({'[': '', ']': ''}) }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'order' == column %}
+                            <td>
+                                {{ row['order'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'version' == column %}
+                            <td>
+                                {{ row['version'] }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

@@ -1,0 +1,9 @@
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('index_templates', {}) }}">{{ 'list'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'create' == active %} active{% endif %}" href="{{ path('index_templates_create') }}">{{ 'create_template'|trans }}</a>
+    </li>
+</ul>

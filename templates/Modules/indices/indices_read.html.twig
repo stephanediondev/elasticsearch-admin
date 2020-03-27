@@ -25,7 +25,7 @@
                 {% import 'app_import.html.twig' as appImport %}
                 {% block content %}
                     {{ appImport.buttonModal({
-                        'id': 'IndiceDelete' ~ index['uuid'],
+                        'id': 'IndexDelete' ~ index['uuid'],
                         'title': 'delete'|trans,
                         'body': index['index'],
                         'href': path('indices_delete', {'index': index['index']}),
@@ -33,7 +33,7 @@
 
                     {% if 'close' == index['status'] %}
                         {{ appImport.buttonModal({
-                            'id': 'IndiceOpen' ~ index['uuid'],
+                            'id': 'IndexOpen' ~ index['uuid'],
                             'title': 'open'|trans,
                             'body': index['index'],
                             'href': path('indices_open', {'index': index['index']}),
@@ -42,35 +42,35 @@
 
                     {% if 'open' == index['status'] %}
                         {{ appImport.buttonModal({
-                            'id': 'IndiceClose' ~ index['uuid'],
+                            'id': 'IndexClose' ~ index['uuid'],
                             'title': 'close'|trans,
                             'body': index['index'],
                             'href': path('indices_close', {'index': index['index']}),
                         }) }}
 
                         {{ appImport.buttonModal({
-                            'id': 'IndiceForceMerge' ~ index['uuid'],
+                            'id': 'IndexForceMerge' ~ index['uuid'],
                             'title': 'force_merge'|trans,
                             'body': index['index'],
                             'href': path('indices_force_merge', {'index': index['index']}),
                         }) }}
 
                         {{ appImport.buttonModal({
-                            'id': 'IndiceCacheClear' ~ index['uuid'],
+                            'id': 'IndexCacheClear' ~ index['uuid'],
                             'title': 'cache_clear'|trans,
                             'body': index['index'],
                             'href': path('indices_cache_clear', {'index': index['index']}),
                         }) }}
 
                         {{ appImport.buttonModal({
-                            'id': 'IndiceFlush' ~ index['uuid'],
+                            'id': 'IndexFlush' ~ index['uuid'],
                             'title': 'flush'|trans,
                             'body': index['index'],
                             'href': path('indices_flush', {'index': index['index']}),
                         }) }}
 
                         {{ appImport.buttonModal({
-                            'id': 'IndiceRefresh' ~ index['uuid'],
+                            'id': 'IndexRefresh' ~ index['uuid'],
                             'title': 'refresh'|trans,
                             'body': index['index'],
                             'href': path('indices_refresh', {'index': index['index']}),
