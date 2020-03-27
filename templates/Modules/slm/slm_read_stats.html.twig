@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ policy['name'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'slm'|trans, 'link': path('slm', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': policy['name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/slm/slm_read_tabs.html.twig' with {'active': 'stats'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'snapshots_taken'|trans, 'badge': {'title': policy['stats']['snapshots_taken']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'snapshots_failed'|trans, 'badge': {'title': policy['stats']['snapshots_failed']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'snapshots_deleted'|trans, 'badge': {'title': policy['stats']['snapshots_deleted']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'snapshot_deletion_failures'|trans, 'badge': {'title': policy['stats']['snapshot_deletion_failures']}}) }}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

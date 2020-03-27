@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ policy['name'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'snapshot_policies'|trans, 'link': path('snapshots_policies', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': policy['name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/snapshots/snapshots_tabs.html.twig' with {'active': 'policies'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    {{ appImport.buttonModal({
+                        'id': 'SnapshotDelete' ~ policy['name'],
+                        'title': 'delete'|trans,
+                        'body': policy['name'],
+                        'href': path('snapshots_policies_delete', {'name': policy['name']}),
+                    }) }}
+                {% endblock %}
+            {% endembed %}
+
+            <p>
+                <strong>{{ 'repository'|trans }}</strong><br>
+                <a href="{{ path('repositories_read', {'repository': policy['policy']['repository']}) }}">{{ policy['policy']['repository'] }}</a>
+            </p>
+
+            <p>
+                <strong>{{ 'schedule'|trans }}</strong><br>
+                {{ policy['policy']['schedule'] }}
+            </p>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

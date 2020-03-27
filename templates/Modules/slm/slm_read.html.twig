@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ policy['name'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'slm'|trans, 'link': path('slm', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': policy['name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/slm/slm_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    {{ appImport.buttonModal({
+                        'id': 'PolicyDelete' ~ policy['name'],
+                        'title': 'delete'|trans,
+                        'body': policy['name'],
+                        'href': path('slm_delete', {'name': policy['name']}),
+                    }) }}
+
+                    {{ appImport.buttonModal({
+                        'id': 'PolicyExecute' ~ policy['name'],
+                        'title': 'execute'|trans,
+                        'body': policy['name'],
+                        'href': path('slm_execute', {'name': policy['name']}),
+                    }) }}
+                {% endblock %}
+            {% endembed %}
+
+            <p>
+                <strong>{{ 'version'|trans }}</strong><br>
+                {{ policy['version'] }}
+            </p>
+
+            {% if policy['modified_date_millis'] is defined %}
+                <p>
+                    <strong>{{ 'modified_date'|trans }}</strong><br>
+                    {{ policy['modified_date_millis']|human_datetime }}
+                </p>
+            {% endif %}
+
+            <p>
+                <strong>{{ 'snapshot_name'|trans }}</strong><br>
+                {{ policy['policy']['name'] }}
+            </p>
+
+            <p>
+                <strong>{{ 'repository'|trans }}</strong><br>
+                <a href="{{ path('repositories_read', {'repository': policy['policy']['repository']}) }}">{{ policy['policy']['repository'] }}</a>
+            </p>
+
+            <p>
+                <strong>{{ 'indices'|trans }}</strong><br>
+                {{ policy['policy']['config']['indices']|join(', ') }}
+            </p>
+
+            <p>
+                <strong>{{ 'schedule'|trans }}</strong><br>
+                {{ policy['policy']['schedule'] }}
+            </p>
+
+            {% if policy['policy']['retention'] is defined %}
+                {% if policy['policy']['retention']['expire_after'] is defined %}
+                    <p>
+                        <strong>{{ 'expire_after'|trans }}</strong><br>
+                        {{ policy['policy']['retention']['expire_after'] }}
+                    </p>
+                {% endif %}
+
+                {% if policy['policy']['retention']['min_count'] is defined %}
+                    <p>
+                        <strong>{{ 'min_count'|trans }}</strong><br>
+                        {{ policy['policy']['retention']['min_count'] }}
+                    </p>
+                {% endif %}
+
+                {% if policy['policy']['retention']['max_count'] is defined %}
+                    <p>
+                        <strong>{{ 'max_count'|trans }}</strong><br>
+                        {{ policy['policy']['retention']['max_count'] }}
+                    </p>
+                {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

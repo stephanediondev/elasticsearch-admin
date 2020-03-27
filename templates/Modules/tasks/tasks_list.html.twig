@@ -1,7 +1,7 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'id': true, 'node': true, 'type': true, 'action': true, 'start_time_in_millis': true, 'running_time_in_nanos': true, 'cancellable': true} %}
+    {% set columns = {'id': true, 'node': true, 'type': true, 'action': true, 'start_time': true, 'running_time_in_nanos': true, 'cancellable': true} %}
 
     {% block thead %}
         <tr>
@@ -9,43 +9,43 @@
                 {% if true == display %}
                     {% if 'id' == column %}
                         <th>
-                            id
+                            {{ 'id'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'node' == column %}
                         <th>
-                            node
+                            {{ 'node'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'type' == column %}
                         <th>
-                            type
+                            {{ 'type'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'action' == column %}
                         <th>
-                            action
+                            {{ 'action'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'start_time_in_millis' == column %}
+                    {% if 'start_time' == column %}
                         <th>
-                            start_time_in_millis
+                            {{ 'start_time'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'running_time_in_nanos' == column %}
                         <th>
-                            running_time_in_nanos
+                            {{ 'running_time_in_nanos'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'cancellable' == column %}
                         <th>
-                            cancellable
+                            {{ 'cancellable'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -82,9 +82,9 @@
                             </td>
                         {% endif %}
 
-                        {% if 'start_time_in_millis' == column %}
+                        {% if 'start_time' == column %}
                             <td>
-                                {{ row['start_time_in_millis'] }}
+                                {{ row['start_time_in_millis']|human_datetime }}
                             </td>
                         {% endif %}
 

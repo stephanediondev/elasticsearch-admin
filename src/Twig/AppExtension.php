@@ -16,6 +16,7 @@ class AppExtension extends AbstractExtension
             // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
             new TwigFilter('human_filesize', [$this, 'humanFilesize']),
             new TwigFilter('human_version', [$this, 'humanVersion']),
+            new TwigFilter('human_datetime', [$this, 'humanDatetime']),
         ];
     }
 
@@ -55,5 +56,10 @@ class AppExtension extends AbstractExtension
         $xx = substr($version, 0, -6);
 
         return $xx.'.'.intval($yy).'.'.intval($zz);
+    }
+
+    public function humanDatetime($datetime)
+    {
+        return date('Y-m-d H:i:s', substr($datetime, 0, -3));
     }
 }

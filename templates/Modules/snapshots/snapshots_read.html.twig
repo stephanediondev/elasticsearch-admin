@@ -33,9 +33,21 @@
                 {% endblock %}
             {% endembed %}
 
+            {% if snapshot['metadata']['policy'] is defined %}
+                <p>
+                    <strong>{{ 'policy'|trans }}</strong><br>
+                    <a href="{{ path('slm_read', {'name': snapshot['metadata']['policy']}) }}">{{ snapshot['metadata']['policy'] }}</a>
+                </p>
+            {% endif %}
+
             <p>
                 <strong>{{ 'repository'|trans }}</strong><br>
                 <a href="{{ path('repositories_read', {'repository': repository}) }}">{{ repository }}</a>
+            </p>
+
+            <p>
+                <strong>{{ 'version'|trans }}</strong><br>
+                {{ snapshot['version'] }}
             </p>
 
             <p>
