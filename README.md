@@ -1,16 +1,16 @@
 ## Installation
 
 ```
+composer install
+
+yarn install
+yarn encore production
+
 bin/console security:encode-password
 # Encode a password
 
 cp .env.dist .env
 # Edit ELASTICSEARCH_URL, ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD, EMAIL and ENCODED_PASSWORD
-
-composer install
-
-yarn install
-yarn encore production
 ```
 
 ### Features
