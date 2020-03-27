@@ -41,6 +41,7 @@ yarn encore production
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: stats, reroute
 - [ ] Repositories: create (url, source, s3, hdfs, azure, gcs)
+- [ ] Deprecations info
 
 ## Screenshots
 
