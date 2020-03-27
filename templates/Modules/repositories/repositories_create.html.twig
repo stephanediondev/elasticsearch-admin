@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'create_repository'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'repositories'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/repositories/repositories_tabs.html.twig' with {'active': 'create'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'Shared file system repository'}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/7.6/snapshots-register-repository.html#snapshots-filesystem-repository">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

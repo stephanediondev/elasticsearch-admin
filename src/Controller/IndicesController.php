@@ -189,7 +189,13 @@ class IndicesController extends AbstractAppController
      */
     public function read(Request $request, string $index): Response
     {
-        $index = $this->callManager->getIndex($index);
+        $index1 = $this->callManager->getIndex($index);
+
+        $call = new CallModel();
+        $call->setPath('/'.$index);
+        $index2 = $this->callManager->call($call);
+
+        $index = array_merge($index1, $index2[key($index2)]);
 
         if ($index) {
             return $this->renderAbstract($request, 'Modules/indices/indices_read.html.twig', [
@@ -198,6 +204,24 @@ class IndicesController extends AbstractAppController
         } else {
             throw new NotFoundHttpException();
         }
+    }
+
+    /**
+     * @Route("/indices/{index}/mappings", name="indices_read_mappings")
+     */
+    public function mappings(Request $request, string $index): Response
+    {
+        $index1 = $this->callManager->getIndex($index);
+
+        $call = new CallModel();
+        $call->setPath('/'.$index);
+        $index2 = $this->callManager->call($call);
+
+        $index = array_merge($index1, $index2[key($index2)]);
+
+        return $this->renderAbstract($request, 'Modules/indices/indices_read_mappings.html.twig', [
+            'index' => $index,
+        ]);
     }
 
     /**

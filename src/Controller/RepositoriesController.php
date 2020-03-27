@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
+use App\Form\CreateRepositoryType;
 use App\Model\CallModel;
+use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +31,48 @@ class RepositoriesController extends AbstractAppController
                 'page' => 1,
                 'size' => count($repositories),
             ]),
+        ]);
+    }
+
+    /**
+     * @Route("/repositories/create", name="repositories_create")
+     */
+    public function create(Request $request): Response
+    {
+        $repository = new ElasticsearchRepositoryModel();
+        $form = $this->createForm(CreateRepositoryType::class, $repository);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $body = [
+                    'type' => $repository->getType(),
+                    'settings' => [
+                        'location' => $repository->getLocation(),
+                        'compress' => $repository->getCompress(),
+                        'chunk_size' => $repository->getChunkSize(),
+                        'max_restore_bytes_per_sec' => $repository->getMaxRestoreBytesPerSec(),
+                        'max_snapshot_bytes_per_sec' => $repository->getMaxSnapshotBytesPerSec(),
+                        'readonly' => $repository->getReadonly(),
+                    ],
+                ];
+                $call = new CallModel();
+                $call->setMethod('PUT');
+                $call->setPath('/_snapshot/'.$repository->getName());
+                $call->setBody($body);
+                $this->callManager->call($call);
+
+                $this->addFlash('success', 'repositories_create');
+
+                return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/repositories/repositories_create.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

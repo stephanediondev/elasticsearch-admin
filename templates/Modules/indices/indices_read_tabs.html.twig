@@ -3,6 +3,10 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('indices_read', {'index': index['index']}) }}">{{ 'summary'|trans }}</a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link{% if 'mappings' == active %} active{% endif %}" href="{{ path('indices_read_mappings', {'index': index['index']}) }}">{{ 'mappings'|trans }}</a>
+    </li>
+
     {% if 'open' == index['status'] %}
         <li class="nav-item">
             <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': index['index']}) }}">{{ 'shards'|trans }}</a>

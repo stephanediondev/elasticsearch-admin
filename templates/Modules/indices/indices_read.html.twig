@@ -118,6 +118,20 @@
                 <strong>{{ 'health'|trans }}</strong><br>
                 {{ appImport.badge({'title': index['health'], 'context': index['health']}) }}
             </p>
+
+            {% if index['settings']['index']['version']['created'] is defined %}
+                <p>
+                    <strong>{{ 'version_created'|trans }}</strong><br>
+                    {{ index['settings']['index']['version']['created']|human_version }}
+                </p>
+            {% endif %}
+
+            {% if index['settings']['index']['version']['upgraded'] is defined %}
+                <p>
+                    <strong>{{ 'version_upgraded'|trans }}</strong><br>
+                    {{ index['settings']['index']['version']['upgraded']|human_version }}
+                </p>
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}
