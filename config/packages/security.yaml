@@ -13,17 +13,16 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            pattern: ^/admin/
-            guard:
-                authenticators:
-                    - App\Security\AppCustomAuthenticator
-                provider: users_in_memory
-            logout:
-                path: app_logout
-
-        login_logout:
             anonymous: ~
             guard:
                 authenticators:
                     - App\Security\AppCustomAuthenticator
                 provider: users_in_memory
+            logout:
+                path: /logout
+                target: /
+                invalidate_session: true
+
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: '^/admin', roles: ROLE_ADMIN }

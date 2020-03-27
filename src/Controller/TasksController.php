@@ -8,10 +8,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Route("/admin")
+ */
 class TasksController extends AbstractAppController
 {
     /**
-     * @Route("tasks", name="tasks")
+     * @Route("/tasks", name="tasks")
      */
     public function index(Request $request): Response
     {

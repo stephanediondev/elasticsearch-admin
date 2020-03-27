@@ -2,10 +2,10 @@
 
 ```
 bin/console security:encode-password
-#encode a password
+# Encode a password
 
 cp .env.dist .env
-#edit ELASTICSEARCH_URL, ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD, EMAIL and ENCODED_PASSWORD
+# Edit ELASTICSEARCH_URL, ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD, EMAIL and ENCODED_PASSWORD
 
 composer install
 
@@ -33,10 +33,10 @@ yarn encore production
 - [x] Tasks: list
 - [x] Cat APIs: list
 - [x] Deprecations info
+- [x] Authentication (Symfony)
 
 ### Todo
 
-- [ ] Authentication
 - [ ] Snapshots: restore
 - [ ] Indices: update mappings
 - [ ] Documents (by index): filter, delete

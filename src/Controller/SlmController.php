@@ -11,10 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Route("/admin")
+ */
 class SlmController extends AbstractAppController
 {
     /**
-     * @Route("slm", name="slm")
+     * @Route("/slm", name="slm")
      */
     public function index(Request $request): Response
     {

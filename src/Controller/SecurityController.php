@@ -16,9 +16,9 @@ class SecurityController extends AbstractAppController
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        /*if ($this->getUser()) {
+        if ($this->getUser()) {
             return $this->redirectToRoute('cluster');
-        }*/
+        }
 
         if ($error = $authenticationUtils->getLastAuthenticationError()) {
             $this->addFlash('danger', $error->getMessageKey());
