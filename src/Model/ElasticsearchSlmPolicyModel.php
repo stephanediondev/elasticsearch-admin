@@ -195,7 +195,7 @@ class ElasticsearchSlmPolicyModel
     public function convert(?array $policy): self
     {
         $this->setName($policy['name']);
-        $this->setSnapshotName($policy['name']);
+        $this->setSnapshotName($policy['policy']['name']);
         $this->setSchedule($policy['policy']['schedule']);
         $this->setRepository($policy['policy']['repository']);
         if (true == isset($policy['policy']['config']['indices'])) {
