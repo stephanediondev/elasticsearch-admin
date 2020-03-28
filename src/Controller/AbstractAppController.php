@@ -38,7 +38,6 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
-
         $call = new CallModel();
         $call->setPath('/_cluster/health');
         $clusterHealth = $this->callManager->call($call);

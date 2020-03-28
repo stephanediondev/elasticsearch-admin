@@ -92,15 +92,15 @@ class ElasticsearchCatModel
     {
         $command = $this->command;
 
-        if(strstr($this->command, '{index}')) {
+        if (strstr($this->command, '{index}')) {
             $command = str_replace('{index}', $this->index, $command);
         }
 
-        if(strstr($this->command, '{repository}')) {
+        if (strstr($this->command, '{repository}')) {
             $command = str_replace('{repository}', $this->repository, $command);
         }
 
-        if(strstr($this->command, '{alias}')) {
+        if (strstr($this->command, '{alias}')) {
             $command = str_replace('{alias}', $this->alias, $command);
         }
 
@@ -111,7 +111,7 @@ class ElasticsearchCatModel
     {
         $command = $this->command;
 
-        if(strstr($this->command, '/')) {
+        if (strstr($this->command, '/')) {
             $command = substr($command, 0, strpos($command, '/'));
         }
 
