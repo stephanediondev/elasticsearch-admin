@@ -9,6 +9,8 @@
 
 ## Installation
 
+Configure a vhost with the document root set to "public" folder (ie /var/www/elasticsearch-admin/public)
+
 ```
 composer install
 
