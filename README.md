@@ -1,3 +1,10 @@
+## Requirements
+
+- PHP 7.2.5 or higher
+- PHP extensions: ctype, iconv, tokenizer, xml
+- Composer
+- Yarn
+
 ## Installation
 
 ```
