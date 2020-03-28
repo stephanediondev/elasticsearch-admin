@@ -16,16 +16,18 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < aliases.total %}
-        {% embed 'card_embed.html.twig' %}
-            {% import 'app_import.html.twig' as appImport %}
-            {% block content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'aliases'|trans, 'badge': aliases.total}) }}
+
+            {% if 0 < aliases.total %}
                 {{ appImport.paginator(aliases) }}
 
                 {% include 'Modules/indices/indices_read_aliases_list.html.twig' with {'aliases': aliases} %}
 
                 {{ appImport.paginator(aliases) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}

@@ -16,16 +16,18 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < shards.total %}
-        {% embed 'card_embed.html.twig' %}
-            {% import 'app_import.html.twig' as appImport %}
-            {% block content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'shards'|trans, 'badge': shards.total}) }}
+
+            {% if 0 < shards.total %}
                 {{ appImport.paginator(shards) }}
 
                 {% include 'Modules/indices/indices_read_shards_list.html.twig' with {'shards': shards} %}
 
                 {{ appImport.paginator(shards) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}

@@ -16,16 +16,18 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < documents.total %}
-        {% embed 'card_embed.html.twig' %}
-            {% import 'app_import.html.twig' as appImport %}
-            {% block content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'documents'|trans, 'badge': documents.total}) }}
+
+            {% if 0 < documents.total %}
                 {{ appImport.paginator(documents) }}
 
                 {% include 'Modules/indices/indices_read_documents_list.html.twig' with {'documents': documents} %}
 
                 {{ appImport.paginator(documents) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}

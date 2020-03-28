@@ -11,42 +11,42 @@
     {% include 'Modules/indices/indices_tabs.html.twig' with {'active': 'list'} %}
 {% endblock %}
 
-{% block buttons %}
-    {% embed 'buttons_embed.html.twig' %}
-        {% import 'app_import.html.twig' as appImport %}
-        {% block content %}
-            {{ appImport.buttonModal({
-                'id': 'IndicesForceMergeAll',
-                'title': 'force_merge'|trans,
-                'href': path('indices_force_merge_all', {}),
-            }) }}
-
-            {{ appImport.buttonModal({
-                'id': 'IndicesCacheClearAll',
-                'title': 'cache_clear'|trans,
-                'href': path('indices_cache_clear_all', {}),
-            }) }}
-
-            {{ appImport.buttonModal({
-                'id': 'IndicesFlushAll',
-                'title': 'flush'|trans,
-                'href': path('indices_flush_all', {}),
-            }) }}
-
-            {{ appImport.buttonModal({
-                'id': 'IndicesRefreshAll',
-                'title': 'refresh'|trans,
-                'href': path('indices_refresh_all', {}),
-            }) }}
-        {% endblock %}
-    {% endembed %}
-{% endblock %}
-
 {% block main_content %}
     {% if 0 < indices.total %}
         {% embed 'card_embed.html.twig' %}
             {% import 'app_import.html.twig' as appImport %}
             {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans}) }}
+
+                {% embed 'buttons_embed.html.twig' %}
+                    {% import 'app_import.html.twig' as appImport %}
+                    {% block content %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesForceMergeAll',
+                            'title': 'force_merge'|trans,
+                            'href': path('indices_force_merge_all', {}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesCacheClearAll',
+                            'title': 'cache_clear'|trans,
+                            'href': path('indices_cache_clear_all', {}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesFlushAll',
+                            'title': 'flush'|trans,
+                            'href': path('indices_flush_all', {}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesRefreshAll',
+                            'title': 'refresh'|trans,
+                            'href': path('indices_refresh_all', {}),
+                        }) }}
+                    {% endblock %}
+                {% endembed %}
+
                 {{ appImport.paginator(indices) }}
 
                 {% include 'Modules/indices/indices_list.html.twig' with {'indices': indices} %}

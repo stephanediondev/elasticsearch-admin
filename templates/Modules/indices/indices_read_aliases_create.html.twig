@@ -19,6 +19,8 @@
     {% embed 'card_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'create_alias'|trans}) }}
+
             {% embed 'buttons_embed.html.twig' %}
                 {% import 'app_import.html.twig' as appImport %}
                 {% block content %}
