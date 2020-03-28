@@ -106,15 +106,8 @@
 
     {% block main_content %}
     {% endblock %}
-
-    {% block additional_content %}
-    {% endblock %}
 </div>
-
 {% block scripts %}
-<script type="text/javascript">
-var app_environment = '{{ app.environment }}';
-</script>
 {{ encore_entry_script_tags('app-js') }}
 {% endblock %}
 </body>

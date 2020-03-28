@@ -43,8 +43,6 @@ abstract class AbstractAppController extends AbstractController
         $clusterHealth = $this->callManager->call($call);
 
         $parameters['clusterHealth'] = $clusterHealth;
-        $parameters['locale'] = $request->getLocale();
-        $parameters['routeAttribute'] = $request->attributes->get('_route');
 
         /*if (null === $response) {
             $response = new Response();
