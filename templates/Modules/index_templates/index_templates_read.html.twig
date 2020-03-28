@@ -33,6 +33,13 @@
                 {% endblock %}
             {% endembed %}
 
+            {% if template['settings']['index']['lifecycle'] is defined %}
+                <p>
+                    <strong>{{ 'ilm_policy'|trans }}</strong><br>
+                    <a href="{{ path('ilm_read', {'name': template['settings']['index']['lifecycle']['name']}) }}">{{ template['settings']['index']['lifecycle']['name'] }}</a>
+                </p>
+            {% endif %}
+
             <p>
                 <strong>{{ 'index_patterns'|trans }}</strong><br>
                 {{ template['index_patterns']|join(', ') }}

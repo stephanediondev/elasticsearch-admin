@@ -35,7 +35,7 @@
 
             {% if snapshot['metadata']['policy'] is defined %}
                 <p>
-                    <strong>{{ 'policy'|trans }}</strong><br>
+                    <strong>{{ 'slm_policy'|trans }}</strong><br>
                     <a href="{{ path('slm_read', {'name': snapshot['metadata']['policy']}) }}">{{ snapshot['metadata']['policy'] }}</a>
                 </p>
             {% endif %}

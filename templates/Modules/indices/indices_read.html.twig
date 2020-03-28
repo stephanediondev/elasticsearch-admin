@@ -79,6 +79,13 @@
                 {% endblock %}
             {% endembed %}
 
+            {% if index['settings']['index']['lifecycle'] is defined %}
+                <p>
+                    <strong>{{ 'ilm_policy'|trans }}</strong><br>
+                    <a href="{{ path('ilm_read', {'name': index['settings']['index']['lifecycle']['name']}) }}">{{ index['settings']['index']['lifecycle']['name'] }}</a>
+                </p>
+            {% endif %}
+
             <p>
                 <strong>{{ 'shards'|trans }}</strong><br>
                 {{ index['pri'] }}
