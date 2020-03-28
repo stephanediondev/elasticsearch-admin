@@ -18,7 +18,7 @@
     "name": "elasticsearch-admin",
     "version": "1.0.0",
     "main": "index.js",
-    "author": "Stéphane Dion <divers@sdion.net>",
+    "author": "Stéphane Dion",
     "dependencies": {
         "bootstrap": "^4.4.1",
         "jquery": "^3.4.1",
