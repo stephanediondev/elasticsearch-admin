@@ -23,7 +23,7 @@ class ExceptionsController extends AbstractAppController
                 $parameters['file'] = $exception->getFile();
                 $parameters['line'] = $exception->getLine();
             }
-            return $this->renderAbstract($request, 'Modules/exceptions/error'.$exception->getStatusCode().'.html.twig', $parameters);
+            return $this->renderAbstract($request, 'Modules/exceptions/exceptions_'.$exception->getStatusCode().'.html.twig', $parameters);
         }
     }
 }

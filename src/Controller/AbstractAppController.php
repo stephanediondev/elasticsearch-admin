@@ -27,15 +27,6 @@ abstract class AbstractAppController extends AbstractController
         $this->paginatorManager = $paginatorManager;
     }
 
-    public function addFlashs($results)
-    {
-        foreach ($results as $type => $messages) {
-            foreach ($messages as $message) {
-                $this->addFlash($type, $message);
-            }
-        }
-    }
-
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
         $call = new CallModel();
