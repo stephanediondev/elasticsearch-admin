@@ -23,7 +23,7 @@ class NodesController extends AbstractAppController
 
         $call = new CallModel();
         $call->setPath('/_cat/nodes');
-        $call->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,uptime,master']);
+        $call->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
         $nodes1 = $this->callManager->call($call);
 
         foreach ($nodes1 as $node) {

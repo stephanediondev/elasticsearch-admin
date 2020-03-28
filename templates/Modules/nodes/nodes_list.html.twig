@@ -1,7 +1,7 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master': true, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': true, 'version': true, 'os': true, 'uptime': true, 'disk_percent': true} %}
+    {% set columns = {'name': true, 'master': true, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'process_cpu': true, 'heap_usage': true, 'memory_usage': true, 'disk_usage': true} %}
 
     {% block thead %}
         <tr>
@@ -56,15 +56,27 @@
                         </th>
                     {% endif %}
 
-                    {% if 'disk_percent' == column %}
+                    {% if 'process_cpu' == column %}
                         <th>
-                            {{ 'disk_percent'|trans }}
+                            {{ 'process_cpu'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'ram_percent' == column %}
+                    {% if 'heap_usage' == column %}
                         <th>
-                            {{ 'ram_percent'|trans }}
+                            {{ 'heap_usage'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'memory_usage' == column %}
+                        <th>
+                            {{ 'memory_usage'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'disk_usage' == column %}
+                        <th>
+                            {{ 'disk_usage'|trans }}
                         </th>
                     {% endif %}
 
@@ -86,6 +98,9 @@
                         {% if 'name' == column %}
                             <td>
                                 <a href="{{ path('nodes_read', {'node': row['name']}) }}">{{ row['name'] }}</a>
+                                <br><small>{{ 'os'|trans }}: {{ row['os']['pretty_name'] }}</small>
+                                <br><small>{{ 'ip'|trans }}: {{ row['ip'] }}</small>
+                                <br><small>{{ 'version'|trans }}: {{ row['version'] }}</small>
                             </td>
                         {% endif %}
 
@@ -139,9 +154,31 @@
                             </td>
                         {% endif %}
 
-                        {% if 'disk_percent' == column %}
+
+                        {% if 'process_cpu' == column %}
+                            <td>
+                                {{ row['cpu'] }}%
+                            </td>
+                        {% endif %}
+
+                        {% if 'heap_usage' == column %}
+                            <td>
+                                {{ row['heap.percent'] }}%
+                                <br><small>{{ row['heap.current'] }} / {{ row['heap.max'] }}</small>
+                            </td>
+                        {% endif %}
+
+                        {% if 'memory_usage' == column %}
+                            <td>
+                                {{ row['ram.percent'] }}%
+                                <br><small>{{ row['ram.current'] }} / {{ row['ram.max'] }}</small>
+                            </td>
+                        {% endif %}
+
+                        {% if 'disk_usage' == column %}
                             <td>
                                 {{ row['disk.used_percent'] }}%
+                                <br><small>{{ row['disk.used'] }} / {{ row['disk.total'] }}</small>
                             </td>
                         {% endif %}
 
