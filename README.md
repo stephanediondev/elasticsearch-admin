@@ -61,6 +61,8 @@ cp .env.dist .env
 ---
 ![Indices](assets/images/indices.png)
 ---
+![Index: create](assets/images/index-create.png)
+---
 ![Index templates](assets/images/index-templates.png)
 ---
 ![Index template: create](assets/images/index-template-create.png)
@@ -73,6 +75,6 @@ cp .env.dist .env
 ---
 ![Snaphosts](assets/images/snapshots.png)
 ---
-![Snaphost failures](assets/images/snapshot-failures.png)
+![Snaphost: failures](assets/images/snapshot-failures.png)
 ---
 ![Cat APIs](assets/images/cat.png)
