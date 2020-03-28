@@ -3,22 +3,31 @@
 
 {% block head_title %}{{ 'cluster'|trans }}{% endblock %}
 
-{% block main_content %}
-    <div class="jumbotron mt-3">
-        <h1 class="display-4">{{ clusterHealth['cluster_name'] }}</h1>
-        <h2>{{ appImport.badge({'title': clusterHealth['status'], 'context': clusterHealth['status']}) }}</h2>
-    </div>
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'cluster'|trans}) }}
+{% endblock %}
 
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': clusterHealth['cluster_name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/cluster/cluster_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
     {% embed 'card_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
             <div class="row">
+                {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': clusterHealth['status'], 'context': clusterHealth['status']}}) }}
+
                 {{ appImport.dashboardKpi({'title': 'nodes'|trans, 'badge': {'title': clusterHealth['number_of_nodes']}}) }}
 
                 {% if master_node %}
-                    {{ appImport.dashboardKpi({'title': 'master'|trans, 'badge': {'title': master_node}}) }}
+                    {{ appImport.dashboardKpi({'title': 'master_node'|trans, 'badge': {'title': master_node}}) }}
                 {% endif %}
 
                 {% if indices %}

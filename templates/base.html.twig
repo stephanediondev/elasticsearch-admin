@@ -23,55 +23,55 @@
             <ul class="navbar-nav">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('cluster', {}) }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': clusterHealth['status'], 'context': clusterHealth['status']}) }}</a>
+                        <a class="nav-link" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': clusterHealth['status'], 'context': clusterHealth['status']}) }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('nodes', {}) }}">{{ 'nodes'|trans }}</a>
+                        <a class="nav-link" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('indices', {}) }}">{{ 'indices'|trans }}</a>
+                        <a class="nav-link" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('index_templates', {}) }}">{{ 'index_templates'|trans }}</a>
+                        <a class="nav-link" href="{{ path('index_templates') }}">{{ 'index_templates'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('shards', {}) }}">{{ 'shards'|trans }}</a>
+                        <a class="nav-link" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('repositories', {}) }}">{{ 'repositories'|trans }}</a>
+                        <a class="nav-link" href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('snapshots', {}) }}">{{ 'snapshots'|trans }}</a>
+                        <a class="nav-link" href="{{ path('snapshots') }}">{{ 'snapshots'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('slm', {}) }}">{{ 'slm_short'|trans }}</a>
+                        <a class="nav-link" href="{{ path('slm') }}">{{ 'slm_short'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('tasks', {}) }}">{{ 'tasks'|trans }}</a>
+                        <a class="nav-link" href="{{ path('tasks') }}">{{ 'tasks'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('cat', {}) }}">{{ 'cat'|trans }}</a>
+                        <a class="nav-link" href="{{ path('cat') }}">{{ 'cat'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('deprecations', {}) }}">{{ 'deprecations'|trans }}</a>
+                        <a class="nav-link" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout', {}) }}">{{ 'logout'|trans }}</a>
+                        <a class="nav-link" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login', {}) }}">{{ 'login'|trans }}</a>
+                        <a class="nav-link" href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
                     </li>
                 {% endif %}
             </ul>

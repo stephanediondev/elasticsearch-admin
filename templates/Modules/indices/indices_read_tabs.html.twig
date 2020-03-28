@@ -13,11 +13,15 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link{% if 'documents' == active %} active{% endif %}" href="{{ path('indices_read_documents', {'index': index['index']}) }}">{{ 'documents'|trans }}</a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index['index']}) }}">{{ 'aliases'|trans }}</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link{% if 'documents' == active %} active{% endif %}" href="{{ path('indices_read_documents', {'index': index['index']}) }}">{{ 'documents'|trans }}</a>
+            <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index['index']}) }}">{{ 'create_alias'|trans }}</a>
         </li>
 
         <li class="nav-item">
@@ -25,7 +29,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('slm_create', {'index': index['index']}) }}">{{ 'create_policy'|trans }}</a>
+            <a class="nav-link" href="{{ path('slm_create', {'index': index['index']}) }}">{{ 'create_slm_policy'|trans }}</a>
         </li>
 
         <li class="nav-item">

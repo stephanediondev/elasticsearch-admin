@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateRepositoryType;
+use App\Form\CreateRepositoryFsType;
 use App\Model\CallModel;
-use App\Model\ElasticsearchRepositoryModel;
+use App\Model\ElasticsearchRepositoryFsModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,12 +38,12 @@ class RepositoriesController extends AbstractAppController
     }
 
     /**
-     * @Route("/repositories/create", name="repositories_create")
+     * @Route("/repositories/create/fs", name="repositories_create_fs")
      */
-    public function create(Request $request): Response
+    public function createFs(Request $request): Response
     {
-        $repositoryModel = new ElasticsearchRepositoryModel();
-        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel);
+        $repositoryModel = new ElasticsearchRepositoryFsModel();
+        $form = $this->createForm(CreateRepositoryFsType::class, $repositoryModel);
 
         $form->handleRequest($request);
 
@@ -66,7 +66,7 @@ class RepositoriesController extends AbstractAppController
                 $call->setBody($body);
                 $this->callManager->call($call);
 
-                $this->addFlash('success', 'repositories_create');
+                $this->addFlash('success', 'repositories_create_fs');
 
                 return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
             } catch (CallException $e) {
@@ -74,7 +74,7 @@ class RepositoriesController extends AbstractAppController
             }
         }
 
-        return $this->renderAbstract($request, 'Modules/repositories/repositories_create.html.twig', [
+        return $this->renderAbstract($request, 'Modules/repositories/repositories_create_fs.html.twig', [
             'form' => $form->createView(),
         ]);
     }

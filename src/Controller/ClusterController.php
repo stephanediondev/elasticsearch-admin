@@ -16,7 +16,7 @@ class ClusterController extends AbstractAppController
     /**
      * @Route("/cluster", name="cluster")
      */
-    public function index(Request $request): Response
+    public function read(Request $request): Response
     {
         $call = new CallModel();
         $call->setPath('/_cluster/stats');
@@ -31,7 +31,7 @@ class ClusterController extends AbstractAppController
             $nodes[$k] = $node['name'];
         }
 
-        return $this->renderAbstract($request, 'Modules/home/home_index.html.twig', [
+        return $this->renderAbstract($request, 'Modules/cluster/cluster_read.html.twig', [
             'master_node' => $nodes[$clusterState['master_node']] ?? false,
             'indices' => $clusterStats['indices']['count'] ?? false,
             'shards' => $clusterStats['indices']['shards']['total'] ?? false,

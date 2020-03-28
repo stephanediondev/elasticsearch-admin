@@ -1,9 +1,9 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('repositories', {}) }}">{{ 'list'|trans }}</a>
+        <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('repositories') }}">{{ 'list'|trans }}</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link{% if 'create' == active %} active{% endif %}" href="{{ path('repositories_create') }}">{{ 'create_repository'|trans }}</a>
+        <a class="nav-link{% if 'create_repository_fs' == active %} active{% endif %}" href="{{ path('repositories_create_fs') }}">{{ 'create_repository_fs'|trans }}</a>
     </li>
 </ul>

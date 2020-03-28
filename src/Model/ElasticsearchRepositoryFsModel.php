@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class ElasticsearchRepositoryModel
+class ElasticsearchRepositoryFsModel
 {
     private $type;
 
