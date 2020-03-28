@@ -26,7 +26,7 @@ cp .env.dist .env
 
 ### Features
 
-- [x] Cluster: basic metrics
+- [x] Cluster: basic metrics, settings
 - [x] Nodes: list, read
 - [x] Indices: list, read
 - [x] Indices: create, delete, close, open, force merge, clear cache, flush, refresh, reindex
@@ -52,7 +52,7 @@ cp .env.dist .env
 - [ ] Index lifecycle management policies: create, update, delete
 - [ ] Indices: update mappings
 - [ ] Documents (by index): filter, delete
-- [ ] Cluster: stats, reroute
+- [ ] Cluster: update settings, reroute
 - [ ] Repositories: create (url, source, s3, hdfs, azure, gcs)
 
 ## Screenshots
