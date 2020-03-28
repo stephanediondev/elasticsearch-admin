@@ -1,3 +1,5 @@
+![PHP Composer](https://github.com/stephanediondev/elasticsearch-admin/workflows/PHP%20Composer/badge.svg)
+
 ## Requirements
 
 - PHP 7.2.5 or higher
