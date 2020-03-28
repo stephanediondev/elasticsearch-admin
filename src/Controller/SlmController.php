@@ -45,6 +45,64 @@ class SlmController extends AbstractAppController
     }
 
     /**
+     * @Route("/slm/stats", name="slm_stats")
+     */
+    public function stats(Request $request): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_slm/stats');
+        $stats = $this->callManager->call($call);
+
+        return $this->renderAbstract($request, 'Modules/slm/slm_stats.html.twig', [
+            'stats' => $stats,
+        ]);
+    }
+
+    /**
+     * @Route("/slm/status", name="slm_status")
+     */
+    public function status(Request $request): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_slm/status');
+        $status = $this->callManager->call($call);
+
+        return $this->renderAbstract($request, 'Modules/slm/slm_status.html.twig', [
+            'status' => $status,
+        ]);
+    }
+
+    /**
+     * @Route("/slm/start", name="slm_start")
+     */
+    public function start(Request $request): Response
+    {
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/_slm/start');
+        $status = $this->callManager->call($call);
+
+        $this->addFlash('success', 'slm_start');
+
+        return $this->redirectToRoute('slm_status', []);
+    }
+
+    /**
+     * @Route("/slm/stop", name="slm_stop")
+     */
+    public function stop(Request $request): Response
+    {
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/_slm/stop');
+        $status = $this->callManager->call($call);
+
+        $this->addFlash('success', 'slm_stop');
+
+        return $this->redirectToRoute('slm_status', []);
+    }
+
+    /**
      * @Route("/slm/create", name="slm_create")
      */
     public function create(Request $request): Response

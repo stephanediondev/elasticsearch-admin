@@ -4,7 +4,7 @@
 {% block head_title %}{{ 'slm_short'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'slm'|trans, 'badge': policies.total}) }}
+    {{ appImport.heading({'level': 1, 'title': 'slm'|trans}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -16,7 +16,7 @@
         {% embed 'card_embed.html.twig' %}
             {% import 'app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans}) }}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': policies.total}) }}
 
                 {{ appImport.paginator(policies) }}
 

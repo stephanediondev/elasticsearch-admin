@@ -37,7 +37,7 @@ cp .env.dist .env
 - [x] Repositories: create (fs), delete, cleanup, verify
 - [x] Snapshots: list, read
 - [x] Snapshots: create, delete, failures, restore
-- [x] Snapshot lifecycle management policies: list, read
+- [x] Snapshot lifecycle management policies: list, status, start, stop, read
 - [x] Snapshot lifecycle management policies: create, update, delete, execute, history, stats
 - [x] Tasks: list
 - [x] Cat APIs: list

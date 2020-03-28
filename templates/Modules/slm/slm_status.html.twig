@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'status'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'slm'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/slm/slm_tabs.html.twig' with {'active': 'status'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'status'|trans}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if 'RUNNING' == status['operation_mode'] %}
+                        {{ appImport.buttonModal({
+                            'id': 'SlmStop',
+                            'title': 'stop'|trans,
+                            'href': path('slm_stop', {}),
+                        }) }}
+                    {% else %}
+                        {{ appImport.buttonModal({
+                            'id': 'SlmStart',
+                            'title': 'start'|trans,
+                            'href': path('slm_start', {}),
+                        }) }}
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'operation_mode'|trans, 'badge': {'title': status['operation_mode'], 'context': status['operation_mode']}}) }}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

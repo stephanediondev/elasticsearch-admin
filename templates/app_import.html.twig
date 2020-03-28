@@ -31,12 +31,25 @@
 
     {% if 'red' == params.context %}
         {% set params = params|merge({'context': 'danger'}) %}
+
     {% elseif 'yellow' == params.context %}
         {% set params = params|merge({'context': 'warning'}) %}
+
     {% elseif 'green' == params.context %}
         {% set params = params|merge({'context': 'success'}) %}
+
+    {% elseif 'RUNNING' == params.context %}
+        {% set params = params|merge({'context': 'success'}) %}
+
+    {% elseif 'STOPPING' == params.context %}
+        {% set params = params|merge({'context': 'warning'}) %}
+
+    {% elseif 'STOPPED' == params.context %}
+        {% set params = params|merge({'context': 'danger'}) %}
+
     {% elseif 'true' == params.context %}
         {% set params = params|merge({'context': 'success'}) %}
+
     {% elseif 'false' == params.context %}
         {% set params = params|merge({'context': 'secondary'}) %}
     {% endif %}
