@@ -1,4 +1,6 @@
 {
+    "name": "elasticsearch-admin",
+    "description": "Admin UI for Elasticsearch: cluster, nodes, indices, index templates, repositories, snapshots, documents ...",
     "type": "project",
     "license": "proprietary",
     "require": {
