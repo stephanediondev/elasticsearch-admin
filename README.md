@@ -32,6 +32,7 @@ cp .env.dist .env
 - [x] Aliases (by index): list, create, delete
 - [x] Index templates: list, read
 - [x] Index templates: create, update, delete
+- [x] Index lifecycle management policies: list, status, start, stop, read
 - [x] Shards: list
 - [x] Repositories: list, read
 - [x] Repositories: create (fs), delete, cleanup, verify
@@ -46,6 +47,7 @@ cp .env.dist .env
 
 ### Todo
 
+- [ ] Index lifecycle management policies: create, update, delete
 - [ ] Indices: update mappings
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: stats, reroute

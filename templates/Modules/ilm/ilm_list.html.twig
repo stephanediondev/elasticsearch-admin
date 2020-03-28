@@ -1,0 +1,59 @@
+{% embed 'table_embed.html.twig' %}
+    {% import 'app_import.html.twig' as appImport %}
+
+    {% set columns = {'name': true, 'modified_date': true, 'version': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'name' == column %}
+                        <th>
+                            {{ 'name'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'modified_date' == column %}
+                        <th>
+                            {{ 'modified_date'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'version' == column %}
+                        <th>
+                            {{ 'version'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in policies.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'name' == column %}
+                            <td>
+                                <a href="{{ path('ilm_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'modified_date' == column %}
+                            <td>
+                                {{ row['modified_date'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'version' == column %}
+                            <td>
+                                {{ row['version'] }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}
