@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateSnapshotType;
+use App\Form\RestoreSnapshotType;
 use App\Model\CallModel;
 use App\Model\ElasticsearchSnapshotModel;
+use App\Model\ElasticsearchSnapshotRestoreModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -103,11 +105,12 @@ class SnapshotsController extends AbstractAppController
         $call = new CallModel();
         $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
         $snapshot = $this->callManager->call($call);
+        $snapshot = $snapshot['snapshots'][0];
 
         if ($snapshot) {
             return $this->renderAbstract($request, 'Modules/snapshots/snapshots_read.html.twig', [
                 'repository' => $repository,
-                'snapshot' => $snapshot['snapshots'][0],
+                'snapshot' => $snapshot,
             ]);
         } else {
             throw new NotFoundHttpException();
@@ -122,6 +125,7 @@ class SnapshotsController extends AbstractAppController
         $call = new CallModel();
         $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
         $snapshot = $this->callManager->call($call);
+        $snapshot = $snapshot['snapshots'][0];
 
         if ($snapshot) {
             $nodes = [];
@@ -136,7 +140,7 @@ class SnapshotsController extends AbstractAppController
 
             return $this->renderAbstract($request, 'Modules/snapshots/snapshots_read_failures.html.twig', [
                 'repository' => $repository,
-                'snapshot' => $snapshot['snapshots'][0],
+                'snapshot' => $snapshot,
                 'nodes' => $nodes,
             ]);
         } else {
@@ -157,5 +161,62 @@ class SnapshotsController extends AbstractAppController
         $this->addFlash('success', 'snapshots_delete');
 
         return $this->redirectToRoute('snapshots', []);
+    }
+
+    /**
+     * @Route("/snapshots/{repository}/{snapshot}/restore", name="snapshots_read_restore")
+     */
+    public function restore(Request $request, string $repository, string $snapshot): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $snapshot = $this->callManager->call($call);
+        $snapshot = $snapshot['snapshots'][0];
+
+        if ($snapshot) {
+            $snapshotRestoreModel = new ElasticsearchSnapshotRestoreModel();
+            $snapshotRestoreModel->setIndices($snapshot['indices']);
+            $form = $this->createForm(RestoreSnapshotType::class, $snapshotRestoreModel, ['indices' => $snapshot['indices']]);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $body = [
+                        'ignore_unavailable' => $snapshotRestoreModel->getIgnoreUnavailable(),
+                        'partial' => $snapshotRestoreModel->getPartial(),
+                        'include_global_state' => $snapshotRestoreModel->getIncludeGlobalState(),
+                    ];
+                    if ($snapshotRestoreModel->getRenamePattern()) {
+                        $body['rename_pattern'] = $snapshotRestoreModel->getRenamePattern();
+                    }
+                    if ($snapshotRestoreModel->getRenameReplacement()) {
+                        $body['rename_replacement'] = $snapshotRestoreModel->getRenameReplacement();
+                    }
+                    if ($snapshotRestoreModel->getIndices()) {
+                        $body['indices'] = implode(',', $snapshotRestoreModel->getIndices());
+                    }
+                    $call = new CallModel();
+                    $call->setMethod('POST');
+                    $call->setPath('/_snapshot/'.$repository.'/'.$snapshot['snapshot'].'/_restore');
+                    $call->setBody($body);
+                    $this->callManager->call($call);
+
+                    $this->addFlash('success', 'snapshots_read_restore');
+
+                    return $this->redirectToRoute('snapshots_read', ['repository' => $repository, 'snapshot' => $snapshot['snapshot']]);
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
+            }
+
+            return $this->renderAbstract($request, 'Modules/snapshots/snapshots_read_restore.html.twig', [
+                'form' => $form->createView(),
+                'repository' => $repository,
+                'snapshot' => $snapshot,
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
     }
 }

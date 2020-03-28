@@ -27,7 +27,7 @@ cp .env.dist .env
 - [x] Repositories: list, read
 - [x] Repositories: create (fs), delete, cleanup, verify
 - [x] Snapshots: list, read
-- [x] Snapshots: create, delete, failures
+- [x] Snapshots: create, delete, failures, restore
 - [x] Snapshot lifecycle management policies: list, read
 - [x] Snapshot lifecycle management policies: create, update, delete, execute, history, stats
 - [x] Tasks: list
@@ -37,7 +37,6 @@ cp .env.dist .env
 
 ### Todo
 
-- [ ] Snapshots: restore
 - [ ] Indices: update mappings
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: stats, reroute
