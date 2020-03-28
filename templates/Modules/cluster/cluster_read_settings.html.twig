@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'cluster'|trans }} - {{ clusterHealth['cluster_name'] }} - {{ 'settings'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'cluster'|trans}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': clusterHealth['cluster_name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/cluster/cluster_read_tabs.html.twig' with {'active': 'settings'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
+
+            {% for type, rows in cluster_settings %}
+                {% if 0 < rows|length %}
+                    {{ appImport.heading({'level': 4, 'title': type|trans, 'badge': rows|length}) }}
+
+                    {% embed 'table_embed.html.twig' %}
+                        {% block thead %}
+                            <tr>
+                                <th>{{ 'key'|trans }}</th>
+                                <th>{{ 'value'|trans }}</th>
+                            </tr>
+                        {% endblock %}
+
+                        {% block tbody %}
+                            {% for key, value in rows %}
+                                <tr>
+                                    <td>{{ key }}</td>
+                                    {% if value is iterable %}
+                                        <td>{{ value|join(', ') }}</td>
+                                    {% else %}
+                                        <td>{{ value }}</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                    {% endembed %}
+                {% endif %}
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

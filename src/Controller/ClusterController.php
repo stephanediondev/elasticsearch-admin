@@ -39,4 +39,19 @@ class ClusterController extends AbstractAppController
             'store_size' => $clusterStats['indices']['store']['size_in_bytes'] ?? false,
         ]);
     }
+
+    /**
+     * @Route("/cluster/settings", name="cluster_settings")
+     */
+    public function settings(Request $request): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_cluster/settings');
+        $call->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
+        $clusterSettings = $this->callManager->call($call);
+
+        return $this->renderAbstract($request, 'Modules/cluster/cluster_read_settings.html.twig', [
+            'cluster_settings' => $clusterSettings,
+        ]);
+    }
 }
