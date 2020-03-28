@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ index['index'] }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': path('indices', {})}) }}

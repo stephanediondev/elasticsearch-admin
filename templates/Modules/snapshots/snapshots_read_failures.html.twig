@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ snapshot['snapshot'] }}{% endblock %}
+{% block head_title %}{{ 'snapshot_policies'|trans }} - {{ snapshot['snapshot'] }} - {{ 'failures'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans, 'link': path('snapshots', {})}) }}
