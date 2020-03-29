@@ -41,6 +41,8 @@ class CreateSlmPolicyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'help' => 'help_form.slm_policy.name',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'snapshot_name':
@@ -50,6 +52,8 @@ class CreateSlmPolicyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'help' => 'help_form.slm_policy.snapshot_name',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'repository':
@@ -68,6 +72,8 @@ class CreateSlmPolicyType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
+                        'help' => 'help_form.slm_policy.repository',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'indices':
@@ -83,6 +89,8 @@ class CreateSlmPolicyType extends AbstractType
                         'attr' => [
                             'size' => 10
                         ],
+                        'help' => 'help_form.slm_policy.indices',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'schedule':
@@ -92,42 +100,56 @@ class CreateSlmPolicyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'help' => 'help_form.slm_policy.schedule',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'expire_after':
                     $builder->add('expire_after', TextType::class, [
                         'label' => 'expire_after',
                         'required' => false,
+                        'help' => 'help_form.slm_policy.expire_after',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'min_count':
                     $builder->add('min_count', IntegerType::class, [
                         'label' => 'min_count',
                         'required' => false,
+                        'help' => 'help_form.slm_policy.min_count',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'max_count':
                     $builder->add('max_count', IntegerType::class, [
                         'label' => 'max_count',
                         'required' => false,
+                        'help' => 'help_form.slm_policy.max_count',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'ignore_unavailable':
                     $builder->add('ignore_unavailable', CheckboxType::class, [
                         'label' => 'ignore_unavailable',
                         'required' => false,
+                        'help' => 'help_form.slm_policy.ignore_unavailable',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'partial':
                     $builder->add('partial', CheckboxType::class, [
                         'label' => 'partial',
                         'required' => false,
+                        'help' => 'help_form.slm_policy.partial',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'include_global_state':
                     $builder->add('include_global_state', CheckboxType::class, [
                         'label' => 'include_global_state',
                         'required' => false,
+                        'help' => 'help_form.slm_policy.include_global_state',
+                        'help_html' => true,
                     ]);
                     break;
             }

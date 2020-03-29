@@ -49,42 +49,48 @@ class CreateRepositoryType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'Repository name. Mandatory.',
+                        'help' => 'help_form.repository.name',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'compress':
                     $builder->add('compress', CheckboxType::class, [
                         'label' => 'compress',
                         'required' => false,
-                        'help' => 'Turns on compression of the snapshot files. Compression is applied only to metadata files (index mapping and settings). Data files are not compressed. Defaults to true.',
+                        'help' => 'help_form.repository.compress',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'chunk_size':
                     $builder->add('chunk_size', TextType::class, [
                         'label' => 'chunk_size',
                         'required' => false,
-                        'help' => 'Big files can be broken down into chunks during snapshotting if needed. Specify the chunk size as a value and unit, for example: 1GB, 10MB, 5KB, 500B. Defaults to null (unlimited chunk size).',
+                        'help' => 'help_form.repository.chunk_size',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'max_restore_bytes_per_sec':
                     $builder->add('max_restore_bytes_per_sec', TextType::class, [
                         'label' => 'max_restore_bytes_per_sec',
                         'required' => false,
-                        'help' => 'Throttles per node restore rate. Defaults to 40mb per second.',
+                        'help' => 'help_form.repository.max_restore_bytes_per_sec',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'max_snapshot_bytes_per_sec':
                     $builder->add('max_snapshot_bytes_per_sec', TextType::class, [
                         'label' => 'max_snapshot_bytes_per_sec',
                         'required' => false,
-                        'help' => 'Throttles per node snapshot rate. Defaults to 40mb per second.',
+                        'help' => 'help_form.repository.max_snapshot_bytes_per_sec',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'readonly':
                     $builder->add('readonly', CheckboxType::class, [
                         'label' => 'readonly',
                         'required' => false,
-                        'help' => 'Makes repository read-only. Defaults to false.',
+                        'help' => 'help_form.repository.readonly',
+                        'help_html' => true,
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
@@ -97,7 +103,8 @@ class CreateRepositoryType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'Location of the snapshots. Mandatory. This location (or one of its parent directories) must be registered in the path.repo setting on all master and data nodes.',
+                        'help' => 'help_form.repository.fs.location',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'bucket':
@@ -107,7 +114,8 @@ class CreateRepositoryType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'The name of the bucket to be used for snapshots. Mandatory.',
+                        'help' => 'help_form.repository.s3.bucket',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'client':
@@ -117,28 +125,32 @@ class CreateRepositoryType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'The name of the S3 client to use to connect to S3. Defaults to default.',
+                        'help' => 'help_form.repository.s3.client',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'base_path':
                     $builder->add('base_path', TextType::class, [
                         'label' => 'base_path',
                         'required' => false,
-                        'help' => 'Specifies the path within bucket to repository data. Defaults to value of repositories.s3.base_path or to root directory if not set. Previously, the base_path could take a leading / (forward slash). However, this has been deprecated and setting the base_path now should omit the leading /.',
+                        'help' => 'help_form.repository.s3.base_path',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'server_side_encryption':
                     $builder->add('server_side_encryption', CheckboxType::class, [
                         'label' => 'server_side_encryption',
                         'required' => false,
-                        'help' => 'Encrypts files on the server using AES256 algorithm.',
+                        'help' => 'help_form.repository.s3.server_side_encryption',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'buffer_size':
                     $builder->add('buffer_size', TextType::class, [
                         'label' => 'buffer_size',
                         'required' => false,
-                        'help' => 'Beyond this minimum threshold, the S3 repository will use the AWS Multipart Upload API to split the chunk into several parts and upload each in its own request.',
+                        'help' => 'help_form.repository.s3.buffer_size',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'canned_acl':
@@ -153,7 +165,8 @@ class CreateRepositoryType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'The canned ACL to add to new S3 buckets and objects.',
+                        'help' => 'help_form.repository.s3.canned_acl',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'storage_class':
@@ -168,7 +181,8 @@ class CreateRepositoryType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'The storage class for new objects in the S3 repository.',
+                        'help' => 'help_form.repository.s3.storage_class',
+                        'help_html' => true,
                     ]);
                     break;
             }

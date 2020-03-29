@@ -103,6 +103,10 @@
 </div>
 {% block scripts %}
 {{ encore_entry_script_tags('app-js') }}
+<script type="text/javascript">
+$('label').not('.required').append(' <span class="badge badge-light">{{ 'optional'|trans }}</span>');
+$('label.required').append(' <span class="badge badge-danger">{{ 'required'|trans }}</span>');
+</script>
 {% endblock %}
 </body>
 </html>

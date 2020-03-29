@@ -37,7 +37,8 @@ class CreateIndexTemplateType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'A unique identifier for this template.'
+                        'help' => 'help_form.index_template.name',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'index_patterns':
@@ -47,7 +48,8 @@ class CreateIndexTemplateType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'The index patterns to apply to the template.'
+                        'help' => 'help_form.index_template.index_patterns',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'version':
@@ -60,7 +62,8 @@ class CreateIndexTemplateType extends AbstractType
                         'attr' => [
                             'min' => 1,
                         ],
-                        'help' => 'A number that identifies the template to external management systems (optional).'
+                        'help' => 'help_form.index_template.version',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'order':
@@ -70,7 +73,8 @@ class CreateIndexTemplateType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
-                        'help' => 'The merge order when multiple templates match an index (optional).'
+                        'help' => 'help_form.index_template.order',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'settings':
@@ -80,7 +84,8 @@ class CreateIndexTemplateType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
-                        'help' => 'Define the behavior of your indices (optional).'
+                        'help' => 'help_form.index_template.settings',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'mappings':
@@ -90,7 +95,8 @@ class CreateIndexTemplateType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
-                        'help' => 'Define how to store and index documents (optional).'
+                        'help' => 'help_form.index_template.mappings',
+                        'help_html' => true,
                     ]);
                     break;
             }
