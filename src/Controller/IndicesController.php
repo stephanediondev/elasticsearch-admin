@@ -208,6 +208,24 @@ class IndicesController extends AbstractAppController
     }
 
     /**
+     * @Route("/indices/{index}/settings", name="indices_read_settings")
+     */
+    public function settings(Request $request, string $index): Response
+    {
+        $index1 = $this->callManager->getIndex($index);
+
+        $call = new CallModel();
+        $call->setPath('/'.$index);
+        $index2 = $this->callManager->call($call);
+
+        $index = array_merge($index1, $index2[key($index2)]);
+
+        return $this->renderAbstract($request, 'Modules/indices/indices_read_settings.html.twig', [
+            'index' => $index,
+        ]);
+    }
+
+    /**
      * @Route("/indices/{index}/mappings", name="indices_read_mappings")
      */
     public function mappings(Request $request, string $index): Response

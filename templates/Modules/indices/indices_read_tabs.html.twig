@@ -4,6 +4,10 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('indices_read_settings', {'index': index['index']}) }}">{{ 'settings'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link{% if 'mappings' == active %} active{% endif %}" href="{{ path('indices_read_mappings', {'index': index['index']}) }}">{{ 'mappings'|trans }}</a>
     </li>
 
