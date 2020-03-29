@@ -120,7 +120,7 @@ class IndicesController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $body = [
+                $json = [
                     'source' => [
                         'index' => $reindexModel->getSource(),
                     ],
@@ -131,7 +131,7 @@ class IndicesController extends AbstractAppController
                 $call = new CallModel();
                 $call->setMethod('POST');
                 $call->setPath('/_reindex');
-                $call->setBody($body);
+                $call->setJson($json);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'indices_reindex');
@@ -159,19 +159,19 @@ class IndicesController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $body = [
+                $json = [
                     'settings' => [
                         'number_of_shards' => $indexModel->getNumberOfShards(),
                         'number_of_replicas' => $indexModel->getNumberOfReplicas(),
                     ],
                 ];
                 if ($indexModel->getMappings()) {
-                    $body['mappings'] = json_decode($indexModel->getMappings(), true);
+                    $json['mappings'] = json_decode($indexModel->getMappings(), true);
                 }
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/'.$indexModel->getName());
-                $call->setBody($body);
+                $call->setJson($json);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'indices_create');

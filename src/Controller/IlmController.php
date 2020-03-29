@@ -123,28 +123,28 @@ class IlmController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $body = [
+                $json = [
                     'schedule' => $policyModel->getSchedule(),
                     'name' => $policyModel->getSnapshotName(),
                     'repository' => $policyModel->getRepository(),
                 ];
                 if ($policyModel->getIndices()) {
-                    $body['config']['indices'] = $policyModel->getIndices();
+                    $json['config']['indices'] = $policyModel->getIndices();
                 } else {
-                    $body['config']['indices'] = ['*'];
+                    $json['config']['indices'] = ['*'];
                 }
-                $body['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                $body['config']['partial'] = $policyModel->getPartial();
-                $body['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
+                $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
+                $json['config']['partial'] = $policyModel->getPartial();
+                $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
 
                 if ($policyModel->hasRetention()) {
-                    $body['retention'] = $policyModel->getRetention();
+                    $json['retention'] = $policyModel->getRetention();
                 }
 
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_ilm/policy/'.$policyModel->getName());
-                $call->setBody($body);
+                $call->setJson($json);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'ilm_create');
@@ -243,28 +243,28 @@ class IlmController extends AbstractAppController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 try {
-                    $body = [
+                    $json = [
                         'schedule' => $policyModel->getSchedule(),
                         'name' => $policyModel->getSnapshotName(),
                         'repository' => $policyModel->getRepository(),
                     ];
                     if ($policyModel->getIndices()) {
-                        $body['config']['indices'] = $policyModel->getIndices();
+                        $json['config']['indices'] = $policyModel->getIndices();
                     } else {
-                        $body['config']['indices'] = ['*'];
+                        $json['config']['indices'] = ['*'];
                     }
-                    $body['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                    $body['config']['partial'] = $policyModel->getPartial();
-                    $body['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
+                    $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
+                    $json['config']['partial'] = $policyModel->getPartial();
+                    $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
 
                     if ($policyModel->hasRetention()) {
-                        $body['retention'] = $policyModel->getRetention();
+                        $json['retention'] = $policyModel->getRetention();
                     }
 
                     $call = new CallModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_ilm/policy/'.$policyModel->getName());
-                    $call->setBody($body);
+                    $call->setJson($json);
                     $this->callManager->call($call);
 
                     $this->addFlash('success', 'ilm_update');

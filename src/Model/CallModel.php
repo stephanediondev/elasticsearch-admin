@@ -13,7 +13,7 @@ class CallModel
     public function __construct()
     {
         $this->method = 'GET';
-        $this->options = ['query' => [], 'body' => []];
+        $this->options = ['query' => [], 'body' => false, 'json' => []];
     }
 
     public function getMethod(): ?string
@@ -69,26 +69,26 @@ class CallModel
         return $this;
     }
 
-    public function getBody(): ?array
+    public function getBody(): ?string
     {
         return $this->options['body'];
     }
 
-    public function setBody(?array $body): self
+    public function setBody(?string $body): self
     {
         $this->options['body'] = $body;
 
         return $this;
     }
 
-    public function getBodyJson(): ?string
+    public function getJson(): ?array
     {
-        return json_encode($this->options['body'], true);
+        return $this->options['json'];
     }
 
-    public function setBodyJson(?string $body): self
+    public function setJson(?array $json): self
     {
-        $this->options['body'] = json_decode($body);
+        $this->options['json'] = $json;
 
         return $this;
     }

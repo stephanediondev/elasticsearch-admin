@@ -20,7 +20,7 @@ class RequestType extends AbstractType
 
         $fields[] = 'method';
         $fields[] = 'path';
-        $fields[] = 'body_json';
+        $fields[] = 'body';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -44,9 +44,9 @@ class RequestType extends AbstractType
                         'required' => false,
                     ]);
                     break;
-                case 'body_json':
-                    $builder->add('body_json', TextareaType::class, [
-                        'label' => 'body_json',
+                case 'body':
+                    $builder->add('body', TextareaType::class, [
+                        'label' => 'body',
                         'required' => false,
                         'constraints' => [
                             new Json(),

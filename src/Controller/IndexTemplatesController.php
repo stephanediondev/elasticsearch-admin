@@ -51,25 +51,25 @@ class IndexTemplatesController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $body = [
+                $json = [
                     'index_patterns' => $templateModel->getIndexToArray(),
                 ];
                 if ($templateModel->getVersion()) {
-                    $body['version'] = $templateModel->getVersion();
+                    $json['version'] = $templateModel->getVersion();
                 }
                 if ($templateModel->getOrder()) {
-                    $body['order'] = $templateModel->getOrder();
+                    $json['order'] = $templateModel->getOrder();
                 }
                 if ($templateModel->getSettings()) {
-                    $body['settings'] = json_decode($templateModel->getSettings(), true);
+                    $json['settings'] = json_decode($templateModel->getSettings(), true);
                 }
                 if ($templateModel->getMappings()) {
-                    $body['mappings'] = json_decode($templateModel->getMappings(), true);
+                    $json['mappings'] = json_decode($templateModel->getMappings(), true);
                 }
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_template/'.$templateModel->getName());
-                $call->setBody($body);
+                $call->setJson($json);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'index_templates_create');
@@ -165,25 +165,25 @@ class IndexTemplatesController extends AbstractAppController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 try {
-                    $body = [
+                    $json = [
                         'index_patterns' => $templateModel->getIndexToArray(),
                     ];
                     if ($templateModel->getVersion()) {
-                        $body['version'] = $templateModel->getVersion();
+                        $json['version'] = $templateModel->getVersion();
                     }
                     if ($templateModel->getOrder()) {
-                        $body['order'] = $templateModel->getOrder();
+                        $json['order'] = $templateModel->getOrder();
                     }
                     if ($templateModel->getSettings()) {
-                        $body['settings'] = json_decode($templateModel->getSettings(), true);
+                        $json['settings'] = json_decode($templateModel->getSettings(), true);
                     }
                     if ($templateModel->getMappings()) {
-                        $body['mappings'] = json_decode($templateModel->getMappings(), true);
+                        $json['mappings'] = json_decode($templateModel->getMappings(), true);
                     }
                     $call = new CallModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_template/'.$templateModel->getName());
-                    $call->setBody($body);
+                    $call->setJson($json);
                     $this->callManager->call($call);
 
                     $this->addFlash('success', 'index_templates_create');

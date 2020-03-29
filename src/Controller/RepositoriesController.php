@@ -49,7 +49,7 @@ class RepositoriesController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $body = [
+                $json = [
                     'type' => $repositoryModel->getType(),
                     'settings' => [
                         'location' => $repositoryModel->getLocation(),
@@ -63,7 +63,7 @@ class RepositoriesController extends AbstractAppController
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_snapshot/'.$repositoryModel->getName());
-                $call->setBody($body);
+                $call->setJson($json);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'repositories_create_fs');

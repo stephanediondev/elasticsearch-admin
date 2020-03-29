@@ -70,18 +70,18 @@ class SnapshotsController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $body = [
+                $json = [
                     'ignore_unavailable' => $snapshotModel->getIgnoreUnavailable(),
                     'partial' => $snapshotModel->getPartial(),
                     'include_global_state' => $snapshotModel->getIncludeGlobalState(),
                 ];
                 if ($snapshotModel->getIndices()) {
-                    $body['indices'] = implode(',', $snapshotModel->getIndices());
+                    $json['indices'] = implode(',', $snapshotModel->getIndices());
                 }
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
-                $call->setBody($body);
+                $call->setJson($json);
                 $this->callManager->call($call);
 
                 $this->addFlash('success', 'snapshots_create');
@@ -182,24 +182,24 @@ class SnapshotsController extends AbstractAppController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 try {
-                    $body = [
+                    $json = [
                         'ignore_unavailable' => $snapshotRestoreModel->getIgnoreUnavailable(),
                         'partial' => $snapshotRestoreModel->getPartial(),
                         'include_global_state' => $snapshotRestoreModel->getIncludeGlobalState(),
                     ];
                     if ($snapshotRestoreModel->getRenamePattern()) {
-                        $body['rename_pattern'] = $snapshotRestoreModel->getRenamePattern();
+                        $json['rename_pattern'] = $snapshotRestoreModel->getRenamePattern();
                     }
                     if ($snapshotRestoreModel->getRenameReplacement()) {
-                        $body['rename_replacement'] = $snapshotRestoreModel->getRenameReplacement();
+                        $json['rename_replacement'] = $snapshotRestoreModel->getRenameReplacement();
                     }
                     if ($snapshotRestoreModel->getIndices()) {
-                        $body['indices'] = implode(',', $snapshotRestoreModel->getIndices());
+                        $json['indices'] = implode(',', $snapshotRestoreModel->getIndices());
                     }
                     $call = new CallModel();
                     $call->setMethod('POST');
                     $call->setPath('/_snapshot/'.$repository.'/'.$snapshot['snapshot'].'/_restore');
-                    $call->setBody($body);
+                    $call->setJson($json);
                     $this->callManager->call($call);
 
                     $this->addFlash('success', 'snapshots_read_restore');

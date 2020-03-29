@@ -44,7 +44,7 @@
                     <tr>
                         <th>{{ 'method'|trans }}</th>
                         <th>{{ 'path'|trans }}</th>
-                        <th>{{ 'body_json'|trans }}</th>
+                        <th>{{ 'body'|trans }}</th>
                         <th>{{ 'creation_date'|trans }}</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -124,9 +124,9 @@
                     var row = '<tr id="request-' + cursor.value.id + '">';
                     row += '<td class="method">' + cursor.value.method + '</td>';
                     row += '<td class="path">' + cursor.value.path + '</td>';
-                    row += '<td class="body_json">' + cursor.value.body_json + '</td>';
-                    row += '<td>' + cursor.value.creation_date + '</td>';
-                    row += '<td>';
+                    row += '<td class="body">' + cursor.value.body + '</td>';
+                    row += '<td class="text-nowrap">' + cursor.value.creation_date + '</td>';
+                    row += '<td class="text-nowrap">';
                     row += '<a class="btn btn-secondary btn-sm mr-2 use-request" href="#request-' + cursor.value.id + '">Use</a>';
                     row += '<a class="btn btn-secondary btn-sm remove-request" href="#request-' + cursor.value.id + '">Remove</a>';
                     row += '</td>';
@@ -153,7 +153,7 @@
                 request.creation_date = generateDate();
                 request.method = $('#data_method').val();
                 request.path = $('#data_path').val();
-                request.body_json = $('#data_body_json').val();
+                request.body = $('#data_body').val();
 
                 var requestAdd = resultRequests.transaction(['history'], 'readwrite').objectStore('history').add(request);
                 requestAdd.onsuccess = function() {
@@ -179,7 +179,7 @@
             var row = $(href);
             $('#data_method').val(row.find('.method').text());
             $('#data_path').val(row.find('.path').text());
-            $('#data_body_json').val(row.find('.body_json').text());
+            $('#data_body').val(row.find('.body').text());
 
             window.scrollTo(0, 0);
         });

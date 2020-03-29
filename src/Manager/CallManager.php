@@ -25,9 +25,14 @@ class CallManager
 
         $headers = [];
 
-        if (true == isset($options['body']) && 0 < count($options['body'])) {
-            $options['body'] = json_encode($options['body']);
+        if (false == $options['body']) {
+            unset($options['body']);
+        } else {
             $headers['Content-Type'] = 'application/json; charset=UTF-8';
+        }
+
+        if (0 == count($options['json'])) {
+            unset($options['json']);
         }
 
         if ('GET' == $call->getMethod() && false == isset($options['query']['format'])) {
