@@ -23,8 +23,8 @@ class CreateSlmPolicyType extends AbstractType
         }
         $fields[] = 'snapshot_name';
         $fields[] = 'repository';
-        $fields[] = 'indices';
         $fields[] = 'schedule';
+        $fields[] = 'indices';
         $fields[] = 'expire_after';
         $fields[] = 'min_count';
         $fields[] = 'max_count';
@@ -69,10 +69,21 @@ class CreateSlmPolicyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'help' => 'help_form.slm_policy.repository',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'schedule':
+                    $builder->add('schedule', TextType::class, [
+                        'label' => 'schedule',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
-                        'help' => 'help_form.slm_policy.repository',
+                        'help' => 'help_form.slm_policy.schedule',
                         'help_html' => true,
                     ]);
                     break;
@@ -90,17 +101,6 @@ class CreateSlmPolicyType extends AbstractType
                             'size' => 10
                         ],
                         'help' => 'help_form.slm_policy.indices',
-                        'help_html' => true,
-                    ]);
-                    break;
-                case 'schedule':
-                    $builder->add('schedule', TextType::class, [
-                        'label' => 'schedule',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                        ],
-                        'help' => 'help_form.slm_policy.schedule',
                         'help_html' => true,
                     ]);
                     break;
