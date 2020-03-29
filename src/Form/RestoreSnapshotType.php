@@ -69,7 +69,9 @@ class RestoreSnapshotType extends AbstractType
                     $builder->add('include_global_state', CheckboxType::class, [
                         'label' => 'include_global_state',
                         'required' => false,
-                        'attr' => ['data-break-after' => 'yes'],
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                     ]);
                     break;
             }

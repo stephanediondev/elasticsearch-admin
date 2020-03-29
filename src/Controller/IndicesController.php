@@ -159,12 +159,10 @@ class IndicesController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'settings' => [
-                        'number_of_shards' => $indexModel->getNumberOfShards(),
-                        'number_of_replicas' => $indexModel->getNumberOfReplicas(),
-                    ],
-                ];
+                $json = [];
+                if ($indexModel->getSettings()) {
+                    $json['settings'] = json_decode($indexModel->getSettings(), true);
+                }
                 if ($indexModel->getMappings()) {
                     $json['mappings'] = json_decode($indexModel->getMappings(), true);
                 }

@@ -5,11 +5,9 @@ namespace App\Form;
 use App\Model\ElasticsearchIndexModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 
@@ -20,8 +18,7 @@ class CreateIndexType extends AbstractType
         $fields = [];
 
         $fields[] = 'name';
-        $fields[] = 'number_of_shards';
-        $fields[] = 'number_of_replicas';
+        $fields[] = 'settings';
         $fields[] = 'mappings';
 
         foreach ($fields as $field) {
@@ -33,33 +30,17 @@ class CreateIndexType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                    ]);
-                    break;
-                case 'number_of_shards':
-                    $builder->add('number_of_shards', IntegerType::class, [
-                        'label' => 'number_of_shards',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                            new GreaterThanOrEqual(1),
-                        ],
-                        'attr' => [
-                            'min' => 1,
-                            'max' => 1024,
-                        ],
-                    ]);
-                    break;
-                case 'number_of_replicas':
-                    $builder->add('number_of_replicas', IntegerType::class, [
-                        'label' => 'number_of_replicas',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                            new GreaterThanOrEqual(0),
-                        ],
                         'attr' => [
                             'data-break-after' => 'yes',
-                            'min' => 0,
+                        ],
+                    ]);
+                    break;
+                case 'settings':
+                    $builder->add('settings', TextareaType::class, [
+                        'label' => 'settings',
+                        'required' => false,
+                        'constraints' => [
+                            new Json(),
                         ],
                     ]);
                     break;

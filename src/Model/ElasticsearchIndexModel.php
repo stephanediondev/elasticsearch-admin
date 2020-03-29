@@ -6,16 +6,13 @@ class ElasticsearchIndexModel
 {
     private $name;
 
-    private $numberOfShards;
-
-    private $numberOfReplicas;
+    private $settings;
 
     private $mappings;
 
     public function __construct()
     {
-        $this->numberOfShards = 5;
-        $this->numberOfReplicas = 1;
+        $this->settings = '{"number_of_shards":  5, "number_of_replicas": 1}';
     }
 
     public function getName(): ?string
@@ -30,26 +27,14 @@ class ElasticsearchIndexModel
         return $this;
     }
 
-    public function getNumberOfShards(): ?int
+    public function getSettings(): ?string
     {
-        return $this->numberOfShards;
+        return $this->settings;
     }
 
-    public function setNumberOfShards(?int $numberOfShards): self
+    public function setSettings(?string $settings): self
     {
-        $this->numberOfShards = $numberOfShards;
-
-        return $this;
-    }
-
-    public function getNumberOfReplicas(): ?int
-    {
-        return $this->numberOfReplicas;
-    }
-
-    public function setNumberOfReplicas(?int $numberOfReplicas): self
-    {
-        $this->numberOfReplicas = $numberOfReplicas;
+        $this->settings = $settings;
 
         return $this;
     }

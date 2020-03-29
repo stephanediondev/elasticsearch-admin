@@ -43,7 +43,9 @@ class CreateRepositoryFsType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'attr' => ['data-break-after' => 'yes'],
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                         'help' => 'Location of the snapshots. Mandatory. This location (or one of its parent directories) must be registered in the path.repo setting on all master and data nodes.',
                     ]);
                     break;

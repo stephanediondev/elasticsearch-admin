@@ -105,7 +105,9 @@ class FilterCatType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'alias',
                         'required' => false,
-                        'attr' => ['data-break-after' => 'yes'],
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                     ]);
                     break;
                 case 'headers':

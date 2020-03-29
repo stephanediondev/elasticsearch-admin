@@ -65,7 +65,9 @@ class CreateSlmPolicyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'attr' => ['data-break-after' => 'yes'],
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                     ]);
                     break;
                 case 'indices':
