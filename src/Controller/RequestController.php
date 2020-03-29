@@ -28,6 +28,7 @@ class RequestController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $parameters['response'] = $this->callManager->call($callModel);
+                $parameters['path'] = $callModel->getPath();
 
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
