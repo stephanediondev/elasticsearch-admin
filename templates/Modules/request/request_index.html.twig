@@ -136,6 +136,12 @@
             if (false == $('form').hasClass('request-saved')) {
                 event.preventDefault();
 
+                var path = $('#data_path').val();
+                path = path.trim();
+                if ('/' != path.substring(0, 1)) {
+                    $('#data_path').val('/' + path);
+                }
+
                 var request = {};
                 request.id = generateUniqueID();
                 request.creation_date = utcDate();
