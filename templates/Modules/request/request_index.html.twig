@@ -30,6 +30,143 @@
                         <pre>{{ response|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                     {% endif %}
                 </div>
+            </div>
         {% endblock %}
     {% endembed %}
+
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 4, 'title': 'history'|trans}) }}
+
+            {% embed 'table_embed.html.twig' %}
+                {% block thead %}
+                    <tr>
+                        <th>{{ 'method'|trans }}</th>
+                        <th>{{ 'path'|trans }}</th>
+                        <th>{{ 'body_json'|trans }}</th>
+                        <th>{{ 'creation_date'|trans }}</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                {% endblock %}
+
+                {% block tbody %}
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function generateUniqueID() {
+            function chr4() {
+                return Math.random().toString(16).slice(-4);
+            }
+            return chr4() + chr4() +
+                '-' + chr4() +
+                '-' + chr4() +
+                '-' + chr4() +
+                '-' + chr4() + chr4() + chr4();
+            }
+
+        function utcDate() {
+            var d = new Date();
+            var utc = d.getUTCFullYear() + '-' + addZero(d.getUTCMonth() + 1) + '-' + addZero(d.getUTCDate()) + ' ' + addZero(d.getUTCHours()) + ':' + addZero(d.getUTCMinutes()) + ':' + addZero(d.getUTCSeconds());
+            return utc;
+
+            function addZero(i) {
+                if(i < 10) {
+                    i = '0' + i;
+                }
+                return i;
+            }
+        }
+
+        function removeRequest(id) {
+            $('#' + id).remove();
+
+            var requestGet = resultRequests.transaction('history', 'readonly').objectStore('history').get(id);
+            requestGet.onsuccess = function(e) {
+                resultRequests.transaction(['history'], 'readwrite').objectStore('history').delete(id);
+            };
+        }
+
+        window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+        var openRequests = window.indexedDB.open('requests', 1);
+
+        openRequests.onupgradeneeded = function(IDBVersionChangeEvent) {
+            resultRequests = IDBVersionChangeEvent.target.result;
+
+            if(!resultRequests.objectStoreNames.contains('data')) {
+                var store = resultRequests.createObjectStore('history', {keyPath: 'id'});
+                store.createIndex('creation_date', 'creation_date', { unique: false });
+            }
+        };
+
+        openRequests.onsuccess = function() {
+            $('tbody').html('');
+
+            resultRequests = openRequests.result;
+
+            var objectStore = resultRequests.transaction(['history']).objectStore('history');
+            var index = objectStore.index('creation_date');
+            index.openCursor().onsuccess = function(event) {
+                var cursor = event.target.result;
+                if (cursor) {
+                    var row = '<tr id="request-' + cursor.value.id + '">';
+                    row += '<td class="method">' + cursor.value.method + '</td>';
+                    row += '<td class="path">' + cursor.value.path + '</td>';
+                    row += '<td class="body_json">' + cursor.value.body_json + '</td>';
+                    row += '<td>' + cursor.value.creation_date + '</td>';
+                    row += '<td>';
+                    row += '<a class="btn btn-secondary btn-sm mr-2 use-request" href="#request-' + cursor.value.id + '">Use</a>';
+                    row += '<a class="btn btn-secondary btn-sm remove-request" href="#request-' + cursor.value.id + '">Remove</a>';
+                    row += '</td>';
+                    row += '</tr>';
+                    $('tbody').prepend(row);
+                    cursor.continue();
+                }
+            };
+        };
+
+        $(document).on('submit', 'form', function(event) {
+            if (false == $('form').hasClass('request-saved')) {
+                event.preventDefault();
+
+                var request = {};
+                request.id = generateUniqueID();
+                request.creation_date = utcDate();
+                request.method = $('#data_method').val();
+                request.path = $('#data_path').val();
+                request.body_json = $('#data_body_json').val();
+
+                var requestAdd = resultRequests.transaction(['history'], 'readwrite').objectStore('history').add(request);
+                requestAdd.onsuccess = function() {
+                    $('form').addClass('request-saved');
+                    $('form').submit();
+                };
+            }
+        });
+
+        $(document).on('click', '.remove-request', function(event) {
+            event.preventDefault();
+
+            var href = $(this).attr('href');
+            var id = href.replace('#', '');
+            removeRequest(id);
+        });
+
+        $(document).on('click', '.use-request', function(event) {
+            event.preventDefault();
+
+            var href = $(this).attr('href');
+            var row = $(href);
+            $('#data_method').val(row.find('.method').text());
+            $('#data_path').val(row.find('.path').text());
+            $('#data_body_json').val(row.find('.body_json').text());
+        });
+    </script>
 {% endblock %}
