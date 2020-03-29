@@ -16,10 +16,6 @@ class ElasticsearchIndexTemplateModel
 
     private $mappings;
 
-    public function __construct()
-    {
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -70,24 +66,24 @@ class ElasticsearchIndexTemplateModel
 
     public function getSettings(): ?string
     {
-        return $this->mappings;
+        return $this->settings;
     }
 
-    public function setSettings(?string $mappings): self
+    public function setSettings(?string $settings): self
     {
-        $this->mappings = $mappings;
+        $this->settings = $settings;
 
         return $this;
     }
 
     public function getMappings(): ?string
     {
-        return $this->settings;
+        return $this->mappings;
     }
 
-    public function setMappings(?string $settings): self
+    public function setMappings(?string $mappings): self
     {
-        $this->settings = $settings;
+        $this->mappings = $mappings;
 
         return $this;
     }
@@ -112,10 +108,10 @@ class ElasticsearchIndexTemplateModel
         if (true == isset($template['order'])) {
             $this->setOrder($template['order']);
         }
-        if (true == isset($template['settings'])) {
+        if (true == isset($template['settings']) && 0 < count($template['settings'])) {
             $this->setSettings(json_encode($template['settings'], JSON_PRETTY_PRINT));
         }
-        if (true == isset($template['mappings'])) {
+        if (true == isset($template['mappings']) && 0 < count($template['mappings'])) {
             $this->setMappings(json_encode($template['mappings'], JSON_PRETTY_PRINT));
         }
         return $this;
