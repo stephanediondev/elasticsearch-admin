@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
-class ElasticsearchReindexModel
+use App\Model\AbstractAppModel;
+
+class ElasticsearchReindexModel extends AbstractAppModel
 {
     private $source;
 

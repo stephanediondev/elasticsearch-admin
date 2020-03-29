@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
-class ElasticsearchSlmPolicyModel
+use App\Model\AbstractAppModel;
+
+class ElasticsearchSlmPolicyModel extends AbstractAppModel
 {
     private $name;
 
@@ -211,13 +213,13 @@ class ElasticsearchSlmPolicyModel
             $this->setMaxCount($policy['policy']['retention']['max_count']);
         }
         if (true == isset($policy['policy']['config']['ignore_unavailable'])) {
-            $this->setIgnoreUnavailable($policy['policy']['config']['ignore_unavailable']);
+            $this->setIgnoreUnavailable($this->convertBoolean($policy['policy']['config']['ignore_unavailable']));
         }
         if (true == isset($policy['policy']['config']['partial'])) {
-            $this->setPartial($policy['policy']['config']['partial']);
+            $this->setPartial($this->convertBoolean($policy['policy']['config']['partial']));
         }
         if (true == isset($policy['policy']['config']['include_global_state'])) {
-            $this->setIncludeGlobalState($policy['policy']['config']['include_global_state']);
+            $this->setIncludeGlobalState($this->convertBoolean($policy['policy']['config']['include_global_state']));
         }
         return $this;
     }

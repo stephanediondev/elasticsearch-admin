@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
-class ElasticsearchCatModel
+use App\Model\AbstractAppModel;
+
+class ElasticsearchCatModel extends AbstractAppModel
 {
     private $command;
 

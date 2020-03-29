@@ -164,8 +164,6 @@ class RepositoriesController extends AbstractAppController
                         $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
                     }
 
-                    dump(json_encode($json));
-
                     $call = new CallModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_snapshot/'.$repositoryModel->getName());

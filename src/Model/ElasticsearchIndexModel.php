@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
-class ElasticsearchIndexModel
+use App\Model\AbstractAppModel;
+
+class ElasticsearchIndexModel extends AbstractAppModel
 {
     private $name;
 

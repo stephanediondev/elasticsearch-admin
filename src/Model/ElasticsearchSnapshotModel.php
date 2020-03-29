@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
-class ElasticsearchSnapshotModel
+use App\Model\AbstractAppModel;
+
+class ElasticsearchSnapshotModel extends AbstractAppModel
 {
     private $name;
 

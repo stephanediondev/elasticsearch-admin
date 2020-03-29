@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
-class ElasticsearchRepositoryModel
+use App\Model\AbstractAppModel;
+
+class ElasticsearchRepositoryModel extends AbstractAppModel
 {
     const TYPE_FS = 'fs';
     const TYPE_S3 = 's3';
@@ -149,7 +151,7 @@ class ElasticsearchRepositoryModel
 
         if (true == isset($repository['settings']) && 0 < count($repository['settings'])) {
             if (true == isset($repository['settings']['compress'])) {
-                $this->setCompress($repository['settings']['compress']);
+                $this->setCompress($this->convertBoolean($repository['settings']['compress']));
             }
             if (true == isset($repository['settings']['chunk_size'])) {
                 $this->setChunkSize($repository['settings']['chunk_size']);
@@ -161,7 +163,7 @@ class ElasticsearchRepositoryModel
                 $this->setMaxSnapshotBytesPerSec($repository['settings']['max_snapshot_bytes_per_sec']);
             }
             if (true == isset($repository['settings']['readonly'])) {
-                $this->setReadonly($repository['settings']['readonly']);
+                $this->setReadonly($this->convertBoolean($repository['settings']['readonly']));
             }
 
             // TYPE_FS
@@ -180,7 +182,7 @@ class ElasticsearchRepositoryModel
                 $this->setBasePath($repository['settings']['base_path']);
             }
             if (true == isset($repository['settings']['server_side_encryption'])) {
-                $this->setServerSideEncryption($repository['settings']['server_side_encryption']);
+                $this->setServerSideEncryption($this->convertBoolean($repository['settings']['server_side_encryption']));
             }
             if (true == isset($repository['settings']['buffer_size'])) {
                 $this->setBufferSize($repository['settings']['buffer_size']);

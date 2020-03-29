@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
-class ElasticsearchSnapshotRestoreModel
+use App\Model\AbstractAppModel;
+
+class ElasticsearchSnapshotRestoreModel extends AbstractAppModel
 {
     private $renamePattern;
 

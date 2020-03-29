@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
-class CallModel
+use App\Model\AbstractAppModel;
+
+class CallModel extends AbstractAppModel
 {
     private $method;
 
