@@ -41,10 +41,7 @@ class RequestType extends AbstractType
                 case 'path':
                     $builder->add('path', TextType::class, [
                         'label' => 'path',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                        ],
+                        'required' => false,
                     ]);
                     break;
                 case 'body_json':
