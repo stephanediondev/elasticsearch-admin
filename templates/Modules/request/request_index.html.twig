@@ -86,7 +86,7 @@
         }
 
         function removeRequest(id) {
-            $('#' + id).remove();
+            $('#request-' + id).remove();
 
             var requestGet = resultRequests.transaction('history', 'readonly').objectStore('history').get(id);
             requestGet.onsuccess = function(e) {
@@ -161,7 +161,7 @@
             event.preventDefault();
 
             var href = $(this).attr('href');
-            var id = href.replace('#', '');
+            var id = href.replace('#request-', '');
             removeRequest(id);
         });
 
