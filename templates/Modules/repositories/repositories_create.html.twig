@@ -31,6 +31,12 @@
                             {{ 'help'|trans }}
                         </a>
                     {% endif %}
+
+                    {% if 'gcs' == type %}
+                        <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/repository-gcs-repository.html#repository-gcs-repository">
+                            {{ 'help'|trans }}
+                        </a>
+                    {% endif %}
                 {% endblock %}
             {% endembed %}
 

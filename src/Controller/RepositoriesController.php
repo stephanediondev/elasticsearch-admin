@@ -75,6 +75,12 @@ class RepositoriesController extends AbstractAppController
                     $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
                 }
 
+                if (ElasticsearchRepositoryModel::TYPE_GCS == $repositoryModel->getType()) {
+                    $json['settings']['bucket'] = $repositoryModel->getBucket();
+                    $json['settings']['client'] = $repositoryModel->getClient();
+                    $json['settings']['base_path'] = $repositoryModel->getBasePath();
+                }
+
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_snapshot/'.$repositoryModel->getName());
@@ -162,6 +168,12 @@ class RepositoriesController extends AbstractAppController
                         $json['settings']['buffer_size'] = $repositoryModel->getBufferSize();
                         $json['settings']['canned_acl'] = $repositoryModel->getCannedAcl();
                         $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
+                    }
+
+                    if (ElasticsearchRepositoryModel::TYPE_GCS == $repositoryModel->getType()) {
+                        $json['settings']['bucket'] = $repositoryModel->getBucket();
+                        $json['settings']['client'] = $repositoryModel->getClient();
+                        $json['settings']['base_path'] = $repositoryModel->getBasePath();
                     }
 
                     $call = new CallModel();

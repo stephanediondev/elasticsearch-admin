@@ -40,6 +40,12 @@ class CreateRepositoryType extends AbstractType
             $fields[] = 'storage_class';
         }
 
+        if (ElasticsearchRepositoryModel::TYPE_GCS == $options['type']) {
+            $fields[] = 'bucket';
+            $fields[] = 'client';
+            $fields[] = 'base_path';
+        }
+
         foreach ($fields as $field) {
             switch ($field) {
                 case 'name':
@@ -114,7 +120,7 @@ class CreateRepositoryType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'help_form.repository.s3.bucket',
+                        'help' => 'help_form.repository.'.$options['type'].'.bucket',
                         'help_html' => true,
                     ]);
                     break;
@@ -125,7 +131,7 @@ class CreateRepositoryType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'help_form.repository.s3.client',
+                        'help' => 'help_form.repository.'.$options['type'].'.client',
                         'help_html' => true,
                     ]);
                     break;
@@ -133,7 +139,7 @@ class CreateRepositoryType extends AbstractType
                     $builder->add('base_path', TextType::class, [
                         'label' => 'base_path',
                         'required' => false,
-                        'help' => 'help_form.repository.s3.base_path',
+                        'help' => 'help_form.repository.'.$options['type'].'.base_path',
                         'help_html' => true,
                     ]);
                     break;

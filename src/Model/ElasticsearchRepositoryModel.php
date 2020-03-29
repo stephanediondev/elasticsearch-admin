@@ -8,6 +8,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
 {
     const TYPE_FS = 'fs';
     const TYPE_S3 = 's3';
+    const TYPE_GCS = 'gcs';
 
     private $type;
 
@@ -141,6 +142,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return [
             self::TYPE_FS => self::TYPE_FS,
             self::TYPE_S3 => self::TYPE_S3,
+            self::TYPE_GCS => self::TYPE_GCS,
         ];
     }
 
@@ -171,7 +173,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
                 $this->setLocation($repository['settings']['location']);
             }
 
-            // TYPE_S3
+            // TYPE_S3 or TYPE_GCS
             if (true == isset($repository['settings']['bucket'])) {
                 $this->setBucket($repository['settings']['bucket']);
             }
@@ -181,6 +183,8 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
             if (true == isset($repository['settings']['base_path'])) {
                 $this->setBasePath($repository['settings']['base_path']);
             }
+
+            // TYPE_S3
             if (true == isset($repository['settings']['server_side_encryption'])) {
                 $this->setServerSideEncryption($this->convertBoolean($repository['settings']['server_side_encryption']));
             }
@@ -211,7 +215,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this;
     }
 
-    // TYPE_S3
+    // TYPE_S3 or TYPE_GCS
     public function getBucket(): ?string
     {
         return $this->bucket;
@@ -248,6 +252,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this;
     }
 
+    // TYPE_S3
     public function getServerSideEncryption(): ?bool
     {
         return $this->serverSideEncryption;
