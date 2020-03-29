@@ -25,7 +25,7 @@ class CallManager
 
         $headers = [];
 
-        if (true == isset($options['body'])) {
+        if (true == isset($options['body']) && 0 < count($options['body'])) {
             $options['body'] = json_encode($options['body']);
             $headers['Content-Type'] = 'application/json; charset=UTF-8';
         }
