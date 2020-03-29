@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateRepositoryFsType;
+use App\Form\CreateRepositoryType;
 use App\Model\CallModel;
-use App\Model\ElasticsearchRepositoryFsModel;
+use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,12 +38,13 @@ class RepositoriesController extends AbstractAppController
     }
 
     /**
-     * @Route("/repositories/create/fs", name="repositories_create_fs")
+     * @Route("/repositories/create/{type}", name="repositories_create")
      */
-    public function createFs(Request $request): Response
+    public function create(Request $request, string $type): Response
     {
-        $repositoryModel = new ElasticsearchRepositoryFsModel();
-        $form = $this->createForm(CreateRepositoryFsType::class, $repositoryModel);
+        $repositoryModel = new ElasticsearchRepositoryModel();
+        $repositoryModel->setType($type);
+        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $type]);
 
         $form->handleRequest($request);
 
@@ -52,7 +53,6 @@ class RepositoriesController extends AbstractAppController
                 $json = [
                     'type' => $repositoryModel->getType(),
                     'settings' => [
-                        'location' => $repositoryModel->getLocation(),
                         'compress' => $repositoryModel->getCompress(),
                         'chunk_size' => $repositoryModel->getChunkSize(),
                         'max_restore_bytes_per_sec' => $repositoryModel->getMaxRestoreBytesPerSec(),
@@ -60,13 +60,28 @@ class RepositoriesController extends AbstractAppController
                         'readonly' => $repositoryModel->getReadonly(),
                     ],
                 ];
+
+                if (ElasticsearchRepositoryModel::TYPE_FS == $repositoryModel->getType()) {
+                    $json['settings']['location'] = $repositoryModel->getLocation();
+                }
+
+                if (ElasticsearchRepositoryModel::TYPE_S3 == $repositoryModel->getType()) {
+                    $json['settings']['bucket'] = $repositoryModel->getBucket();
+                    $json['settings']['client'] = $repositoryModel->getClient();
+                    $json['settings']['base_path'] = $repositoryModel->getBasePath();
+                    $json['settings']['server_side_encryption'] = $repositoryModel->getServerSideEncryption();
+                    $json['settings']['buffer_size'] = $repositoryModel->getBufferSize();
+                    $json['settings']['canned_acl'] = $repositoryModel->getCannedAcl();
+                    $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
+                }
+
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_snapshot/'.$repositoryModel->getName());
                 $call->setJson($json);
                 $this->callManager->call($call);
 
-                $this->addFlash('success', 'repositories_create_fs');
+                $this->addFlash('success', 'repositories_create');
 
                 return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
             } catch (CallException $e) {
@@ -74,8 +89,9 @@ class RepositoriesController extends AbstractAppController
             }
         }
 
-        return $this->renderAbstract($request, 'Modules/repositories/repositories_create_fs.html.twig', [
+        return $this->renderAbstract($request, 'Modules/repositories/repositories_create.html.twig', [
             'form' => $form->createView(),
+            'type' => $type,
         ]);
     }
 

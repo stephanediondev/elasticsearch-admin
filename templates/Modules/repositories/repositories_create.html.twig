@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'repositories'|trans }} - {{ ('create_repository_' ~ type)|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'repositories'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/repositories/repositories_tabs.html.twig' with {'active': 'create_repository_' ~ type} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': ('create_repository_' ~ type)|trans}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if 'fs' == type %}
+                        <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-register-repository.html#snapshots-filesystem-repository">
+                            {{ 'help'|trans }}
+                        </a>
+                    {% endif %}
+
+                    {% if 's3' == type %}
+                        <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/repository-s3-repository.html#repository-s3-repository">
+                            {{ 'help'|trans }}
+                        </a>
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

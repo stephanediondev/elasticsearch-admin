@@ -4,6 +4,10 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link{% if 'create_repository_fs' == active %} active{% endif %}" href="{{ path('repositories_create_fs') }}">{{ 'create_repository_fs'|trans }}</a>
+        <a class="nav-link{% if 'create_repository_fs' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'fs'}) }}">{{ 'create_repository_fs'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'create_repository_s3' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 's3'}) }}">{{ 'create_repository_s3'|trans }}</a>
     </li>
 </ul>
