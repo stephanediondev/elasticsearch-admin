@@ -72,10 +72,10 @@
                 '-' + chr4() + chr4() + chr4();
             }
 
-        function utcDate() {
+        function generateDate() {
             var d = new Date();
-            var utc = d.getUTCFullYear() + '-' + addZero(d.getUTCMonth() + 1) + '-' + addZero(d.getUTCDate()) + ' ' + addZero(d.getUTCHours()) + ':' + addZero(d.getUTCMinutes()) + ':' + addZero(d.getUTCSeconds());
-            return utc;
+            d = d.getFullYear() + '-' + addZero(d.getMonth() + 1) + '-' + addZero(d.getDate()) + ' ' + addZero(d.getHours()) + ':' + addZero(d.getMinutes()) + ':' + addZero(d.getSeconds());
+            return d;
 
             function addZero(i) {
                 if(i < 10) {
@@ -144,7 +144,7 @@
 
                 var request = {};
                 request.id = generateUniqueID();
-                request.creation_date = utcDate();
+                request.creation_date = generateDate();
                 request.method = $('#data_method').val();
                 request.path = $('#data_path').val();
                 request.body_json = $('#data_body_json').val();
