@@ -75,26 +75,4 @@
             </p>
         {% endblock %}
     {% endembed %}
-
-    {% embed 'card_embed.html.twig' %}
-        {% import 'app_import.html.twig' as appImport %}
-        {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'jvm'|trans}) }}
-
-            <p>
-                <strong>{{ 'vm_name'|trans }}</strong><br>
-                {{ node['jvm']['vm_name'] }}
-            </p>
-
-            <p>
-                <strong>{{ 'vm_version'|trans }}</strong><br>
-                {{ node['jvm']['vm_version'] }}
-            </p>
-
-            <p>
-                <strong>{{ 'vm_vendor'|trans }}</strong><br>
-                {{ node['jvm']['vm_vendor'] }}
-            </p>
-        {% endblock %}
-    {% endembed %}
 {% endblock %}

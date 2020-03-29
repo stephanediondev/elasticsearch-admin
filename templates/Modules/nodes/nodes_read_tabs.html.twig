@@ -2,4 +2,12 @@
     <li class="nav-item">
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('nodes_read', {'node': node['name']}) }}">{{ 'summary'|trans }}</a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'usage' == active %} active{% endif %}" href="{{ path('nodes_read_usage', {'node': node['name']}) }}">{{ 'usage'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'plugins' == active %} active{% endif %}" href="{{ path('nodes_read_plugins', {'node': node['name']}) }}">{{ 'plugins'|trans }}</a>
+    </li>
 </ul>

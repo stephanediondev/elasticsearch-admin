@@ -77,4 +77,50 @@ class NodesController extends AbstractAppController
             throw new NotFoundHttpException();
         }
     }
+
+    /**
+     * @Route("/nodes/{node}/plugins", name="nodes_read_plugins")
+     */
+    public function plugins(Request $request, string $node): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_nodes/'.$node);
+        $node = $this->callManager->call($call);
+
+        if (true == isset($node['nodes'][key($node['nodes'])])) {
+            $node = $node['nodes'][key($node['nodes'])];
+
+            return $this->renderAbstract($request, 'Modules/nodes/nodes_read_plugins.html.twig', [
+                'node' => $node,
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
+
+    /**
+     * @Route("/nodes/{node}/usage", name="nodes_read_usage")
+     */
+    public function usage(Request $request, string $node): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_nodes/'.$node);
+        $node = $this->callManager->call($call);
+
+        if (true == isset($node['nodes'][key($node['nodes'])])) {
+            $node = $node['nodes'][key($node['nodes'])];
+
+            $call = new CallModel();
+            $call->setPath('/_nodes/'.$node['name'].'/usage');
+            $usage = $this->callManager->call($call);
+            $usage = $usage['nodes'][key($usage['nodes'])];
+
+            return $this->renderAbstract($request, 'Modules/nodes/nodes_read_usage.html.twig', [
+                'usage' => $usage,
+                'node' => $node,
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
 }

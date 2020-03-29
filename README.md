@@ -27,7 +27,7 @@ cp .env.dist .env
 ### Features
 
 - [x] Cluster: basic metrics, settings
-- [x] Nodes: list, read
+- [x] Nodes: list, read, usage, plugins
 - [x] Indices: list, read
 - [x] Indices: create, delete, close, open, force merge, clear cache, flush, refresh, reindex
 - [x] Documents (by index): list
