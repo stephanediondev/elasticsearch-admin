@@ -28,20 +28,15 @@ cp .env.dist .env
 
 - [x] Cluster: basic metrics, settings
 - [x] Nodes: list, read, usage, plugins
-- [x] Indices: list, read
-- [x] Indices: create, delete, close, open, force merge, clear cache, flush, refresh, reindex
+- [x] Indices: list, reindex, create, read, delete, close, open, force merge, clear cache, flush, refresh
 - [x] Documents (by index): list
 - [x] Aliases (by index): list, create, delete
-- [x] Index templates: list, read
-- [x] Index templates: create, update, delete
+- [x] Index templates: list, create, read, update, delete
 - [x] Index lifecycle management policies: list, status, start, stop, read
 - [x] Shards: list
-- [x] Repositories: list, read
-- [x] Repositories: create (fs, s3, gcs), update, delete, cleanup, verify
-- [x] Snapshots: list, read
-- [x] Snapshots: create, delete, failures, restore
-- [x] Snapshot lifecycle management policies: list, status, start, stop, read
-- [x] Snapshot lifecycle management policies: create, update, delete, execute, history, stats
+- [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
+- [x] Snapshots: list, create, read, delete, failures, restore
+- [x] Snapshot lifecycle management policies: list, status, start, stop, create, read, update, delete, execute, history, stats
 - [x] Tasks: list
 - [x] Cat APIs: list
 - [x] Deprecations info
@@ -49,8 +44,8 @@ cp .env.dist .env
 
 ### Todo
 
-- [ ] Index lifecycle management policies: create, update, delete
 - [ ] Indices: update mappings
+- [ ] Index lifecycle management policies: create, update, delete
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: update settings, reroute
 - [ ] Repositories: create (url, source, hdfs, azure)
