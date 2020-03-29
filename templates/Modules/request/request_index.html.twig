@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'request'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'request'|trans}) }}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            <div class="row">
+                <div class="col-12 col-md-4 col-lg-4">
+                    {{ form_start(form, {'action': app.request.uri}) }}
+                        {% for child in form.children %}
+                            {{ form_row(child) }}
+                        {% endfor %}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+
+                <div class="col-12 col-md-8 col-lg-8">
+                    {% if response is defined %}
+                        {{ appImport.heading({'level': 4, 'title': 'response'|trans}) }}
+
+                        <pre>{{ response|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                    {% endif %}
+                </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

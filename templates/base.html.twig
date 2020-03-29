@@ -35,39 +35,32 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('ilm') }}">{{ 'ilm_short'|trans }}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('index_templates') }}">{{ 'index_templates'|trans }}</a>
-                    </li>
-
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="configurationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ 'configuration'|trans }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="configurationDropdown">
+                            <a class="dropdown-item" href="{{ path('index_templates') }}">{{ 'index_templates'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('ilm') }}">{{ 'ilm'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('slm') }}">{{ 'slm'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
+                        </div>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('snapshots') }}">{{ 'snapshots'|trans }}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('slm') }}">{{ 'slm_short'|trans }}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('tasks') }}">{{ 'tasks'|trans }}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('cat') }}">{{ 'cat'|trans }}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ 'tools'|trans }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="toolsDropdown">
+                            <a class="dropdown-item" href="{{ path('snapshots') }}">{{ 'snapshots'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('tasks') }}">{{ 'tasks'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('cat') }}">{{ 'cat'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('request') }}">{{ 'request'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
+                        </div>
                     </li>
 
                     <li class="nav-item">

@@ -13,7 +13,7 @@ class CallModel
     public function __construct()
     {
         $this->method = 'GET';
-        $this->options = [];
+        $this->options = ['query' => [], 'body' => []];
     }
 
     public function getMethod(): ?string
@@ -35,6 +35,9 @@ class CallModel
 
     public function setPath(?string $path): self
     {
+        if ('/' != substr($path, 0, 1)) {
+            $path = '/'.$path;
+        }
         $this->path = $path;
 
         return $this;
@@ -66,10 +69,38 @@ class CallModel
         return $this;
     }
 
+    public function getBody(): ?array
+    {
+        return $this->options['body'];
+    }
+
     public function setBody(?array $body): self
     {
         $this->options['body'] = $body;
 
         return $this;
+    }
+
+    public function getBodyJson(): ?string
+    {
+        return json_encode($this->options['body'], true);
+    }
+
+    public function setBodyJson(?string $body): self
+    {
+        $this->options['body'] = json_decode($body);
+
+        return $this;
+    }
+
+    public static function getMethods(): ?array
+    {
+        return [
+            'GET' => 'GET',
+            'POST' => 'POST',
+            'PUT' => 'PUT',
+            'DELETE' => 'DELETE',
+            'HEAD' => 'HEAD',
+        ];
     }
 }
