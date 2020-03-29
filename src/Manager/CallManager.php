@@ -55,8 +55,14 @@ class CallManager
 
         if ($response && in_array($response->getStatusCode(), [400, 404, 500])) {
             $json = json_decode($response->getContent(false), true);
-            if (true == isset($json['error']) && true == isset($json['error']['reason'])) {
-                throw new CallException($json['error']['reason']);
+
+            if (true == isset($json['error'])) {
+                if (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
+                    throw new CallException($json['error']['caused_by']['reason']);
+
+                } else if (true == isset($json['error']['reason'])) {
+                    throw new CallException($json['error']['reason']);
+                }
             }
         }
 

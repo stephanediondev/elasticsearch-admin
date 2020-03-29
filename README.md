@@ -37,7 +37,7 @@ cp .env.dist .env
 - [x] Index lifecycle management policies: list, status, start, stop, read
 - [x] Shards: list
 - [x] Repositories: list, read
-- [x] Repositories: create (fs, s3), delete, cleanup, verify
+- [x] Repositories: create (fs, s3), update, delete, cleanup, verify
 - [x] Snapshots: list, read
 - [x] Snapshots: create, delete, failures, restore
 - [x] Snapshot lifecycle management policies: list, status, start, stop, read
@@ -53,7 +53,7 @@ cp .env.dist .env
 - [ ] Indices: update mappings
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: update settings, reroute
-- [ ] Repositories: create (url, source, hdfs, azure, gcs), update
+- [ ] Repositories: create (url, source, hdfs, azure, gcs)
 
 ## Screenshots
 

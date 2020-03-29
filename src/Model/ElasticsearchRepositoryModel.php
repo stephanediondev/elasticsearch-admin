@@ -142,6 +142,60 @@ class ElasticsearchRepositoryModel
         ];
     }
 
+    public function convert(?array $repository): self
+    {
+        $this->setName($repository['id']);
+        $this->setType($repository['type']);
+
+        if (true == isset($repository['settings']) && 0 < count($repository['settings'])) {
+            if (true == isset($repository['settings']['compress'])) {
+                $this->setCompress($repository['settings']['compress']);
+            }
+            if (true == isset($repository['settings']['chunk_size'])) {
+                $this->setChunkSize($repository['settings']['chunk_size']);
+            }
+            if (true == isset($repository['settings']['max_restore_bytes_per_sec'])) {
+                $this->setMaxRestoreBytesPerSec($repository['settings']['max_restore_bytes_per_sec']);
+            }
+            if (true == isset($repository['settings']['max_snapshot_bytes_per_sec'])) {
+                $this->setMaxSnapshotBytesPerSec($repository['settings']['max_snapshot_bytes_per_sec']);
+            }
+            if (true == isset($repository['settings']['readonly'])) {
+                $this->setReadonly($repository['settings']['readonly']);
+            }
+
+            // TYPE_FS
+            if (true == isset($repository['settings']['location'])) {
+                $this->setLocation($repository['settings']['location']);
+            }
+
+            // TYPE_S3
+            if (true == isset($repository['settings']['bucket'])) {
+                $this->setBucket($repository['settings']['bucket']);
+            }
+            if (true == isset($repository['settings']['client'])) {
+                $this->setClient($repository['settings']['client']);
+            }
+            if (true == isset($repository['settings']['base_path'])) {
+                $this->setBasePath($repository['settings']['base_path']);
+            }
+            if (true == isset($repository['settings']['server_side_encryption'])) {
+                $this->setServerSideEncryption($repository['settings']['server_side_encryption']);
+            }
+            if (true == isset($repository['settings']['buffer_size'])) {
+                $this->setBufferSize($repository['settings']['buffer_size']);
+            }
+            if (true == isset($repository['settings']['canned_acl'])) {
+                $this->setCannedAcl($repository['settings']['canned_acl']);
+            }
+            if (true == isset($repository['settings']['storage_class'])) {
+                $this->setStorageClass($repository['settings']['storage_class']);
+            }
+        }
+        return $this;
+    }
+
+
     // TYPE_FS
     public function getLocation(): ?string
     {

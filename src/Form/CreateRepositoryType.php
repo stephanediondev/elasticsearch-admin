@@ -17,7 +17,9 @@ class CreateRepositoryType extends AbstractType
     {
         $fields = [];
 
-        $fields[] = 'name';
+        if (false == $options['update']) {
+            $fields[] = 'name';
+        }
         $fields[] = 'chunk_size';
         $fields[] = 'max_restore_bytes_per_sec';
         $fields[] = 'max_snapshot_bytes_per_sec';
@@ -178,6 +180,7 @@ class CreateRepositoryType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ElasticsearchRepositoryModel::class,
             'type' => false,
+            'update' => false,
         ]);
     }
 

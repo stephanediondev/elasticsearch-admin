@@ -118,6 +118,78 @@ class RepositoriesController extends AbstractAppController
     }
 
     /**
+     * @Route("/repositories/{repository}/update", name="repositories_update")
+     */
+    public function update(Request $request, string $repository): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_snapshot/'.$repository);
+        $repositoryQuery = $this->callManager->call($call);
+        $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
+
+        $repositoryQuery['id'] = $repository;
+        $repository = $repositoryQuery;
+
+        if ($repository) {
+            $repositoryModel = new ElasticsearchRepositoryModel();
+            $repositoryModel->convert($repository);
+            $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $repository['type'], 'update' => true]);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $json = [
+                        'type' => $repositoryModel->getType(),
+                        'settings' => [
+                            'compress' => $repositoryModel->getCompress(),
+                            'chunk_size' => $repositoryModel->getChunkSize(),
+                            'max_restore_bytes_per_sec' => $repositoryModel->getMaxRestoreBytesPerSec(),
+                            'max_snapshot_bytes_per_sec' => $repositoryModel->getMaxSnapshotBytesPerSec(),
+                            'readonly' => $repositoryModel->getReadonly(),
+                        ],
+                    ];
+
+                    if (ElasticsearchRepositoryModel::TYPE_FS == $repositoryModel->getType()) {
+                        $json['settings']['location'] = $repositoryModel->getLocation();
+                    }
+
+                    if (ElasticsearchRepositoryModel::TYPE_S3 == $repositoryModel->getType()) {
+                        $json['settings']['bucket'] = $repositoryModel->getBucket();
+                        $json['settings']['client'] = $repositoryModel->getClient();
+                        $json['settings']['base_path'] = $repositoryModel->getBasePath();
+                        $json['settings']['server_side_encryption'] = $repositoryModel->getServerSideEncryption();
+                        $json['settings']['buffer_size'] = $repositoryModel->getBufferSize();
+                        $json['settings']['canned_acl'] = $repositoryModel->getCannedAcl();
+                        $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
+                    }
+
+                    dump(json_encode($json));
+
+                    $call = new CallModel();
+                    $call->setMethod('PUT');
+                    $call->setPath('/_snapshot/'.$repositoryModel->getName());
+                    $call->setJson($json);
+                    $this->callManager->call($call);
+
+                    $this->addFlash('success', 'repositories_update');
+
+                    return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
+            }
+
+            return $this->renderAbstract($request, 'Modules/repositories/repositories_update.html.twig', [
+                'repository' => $repository,
+                'form' => $form->createView(),
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
+
+    /**
      * @Route("/repositories/{repository}/delete", name="repositories_delete")
      */
     public function delete(Request $request, string $repository): Response
