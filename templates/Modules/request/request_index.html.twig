@@ -37,7 +37,7 @@
     {% embed 'card_embed.html.twig' %}
         {% import 'app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 4, 'title': 'history'|trans}) }}
+            {{ appImport.heading({'level': 4, 'title': 'history'|trans, 'badge': 0}) }}
 
             {% embed 'table_embed.html.twig' %}
                 {% block thead %}
@@ -61,6 +61,11 @@
     {{ parent() }}
 
     <script type="text/javascript">
+        function countRows() {
+            var count = $('tbody').find('tr').length;
+            $('h4 .badge').text(count);
+        }
+
         function generateUniqueID() {
             function chr4() {
                 return Math.random().toString(16).slice(-4);
@@ -127,6 +132,7 @@
                     row += '</td>';
                     row += '</tr>';
                     $('tbody').prepend(row);
+                    countRows();
                     cursor.continue();
                 }
             };
@@ -163,6 +169,7 @@
             var href = $(this).attr('href');
             var id = href.replace('#request-', '');
             removeRequest(id);
+            countRows();
         });
 
         $(document).on('click', '.use-request', function(event) {
