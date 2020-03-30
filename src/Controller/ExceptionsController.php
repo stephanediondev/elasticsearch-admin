@@ -15,7 +15,7 @@ class ExceptionsController extends AbstractAppController
             'locale' => $requestStack->getMasterRequest()->getLocale(),
         ];
 
-        $codes = [403, 404, 405, 500, 503];
+        $codes = [401, 403, 404, 405, 500, 503];
 
         if (true == in_array($exception->getStatusCode(), $codes)) {
             if (500 == $exception->getStatusCode()) {

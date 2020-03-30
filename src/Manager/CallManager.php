@@ -53,7 +53,7 @@ class CallManager
             throw new CallException('Not found or method not allowed for '.$call->getPath().' ('.$call->getMethod().')');
         }
 
-        if ($response && in_array($response->getStatusCode(), [400, 404, 500])) {
+        if ($response && in_array($response->getStatusCode(), [400, 401, 404, 500])) {
             $json = json_decode($response->getContent(false), true);
 
             if (true == isset($json['error'])) {

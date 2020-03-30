@@ -39,6 +39,8 @@ class CreateSnapshotType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'help' => 'help_form.snapshot.repository',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'name':
@@ -51,6 +53,8 @@ class CreateSnapshotType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
+                        'help' => 'help_form.snapshot.name',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'indices':
@@ -66,24 +70,32 @@ class CreateSnapshotType extends AbstractType
                         'attr' => [
                             'size' => 10
                         ],
+                        'help' => 'help_form.snapshot.indices',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'ignore_unavailable':
                     $builder->add('ignore_unavailable', CheckboxType::class, [
                         'label' => 'ignore_unavailable',
                         'required' => false,
+                        'help' => 'help_form.snapshot.ignore_unavailable',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'partial':
                     $builder->add('partial', CheckboxType::class, [
                         'label' => 'partial',
                         'required' => false,
+                        'help' => 'help_form.snapshot.partial',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'include_global_state':
                     $builder->add('include_global_state', CheckboxType::class, [
                         'label' => 'include_global_state',
                         'required' => false,
+                        'help' => 'help_form.snapshot.include_global_state',
+                        'help_html' => true,
                     ]);
                     break;
             }

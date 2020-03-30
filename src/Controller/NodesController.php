@@ -35,7 +35,15 @@ class NodesController extends AbstractAppController
         $nodes2 = $this->callManager->call($call);
 
         foreach ($nodes2['nodes'] as $node) {
-            $nodes[$node['name']] = array_merge($nodes[$node['name']], $node);
+            $nodes[$node['name']] = array_merge($node, $nodes[$node['name']]);
+        }
+
+        $call = new CallModel();
+        $call->setPath('/_nodes/stats');
+        $nodes3 = $this->callManager->call($call);
+
+        foreach ($nodes3['nodes'] as $node) {
+            $nodes[$node['name']]['stats'] = $node;
         }
 
         return $this->renderAbstract($request, 'Modules/nodes/nodes_index.html.twig', [
