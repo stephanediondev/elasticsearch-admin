@@ -42,6 +42,10 @@ class CreateIndexType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                            'style' => 'min-height:300px;'
+                        ],
                     ]);
                     break;
                 case 'mappings':
@@ -50,6 +54,9 @@ class CreateIndexType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Json(),
+                        ],
+                        'attr' => [
+                            'style' => 'min-height:300px;'
                         ],
                     ]);
                     break;

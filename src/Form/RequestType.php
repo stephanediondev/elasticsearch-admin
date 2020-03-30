@@ -51,6 +51,9 @@ class RequestType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
+                        'attr' => [
+                            'style' => 'min-height:200px;'
+                        ],
                     ]);
                     break;
             }
