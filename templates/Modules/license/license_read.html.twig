@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'license'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'license'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/license/license_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if true == trial_status %}
+                        {{ appImport.buttonModal({
+                            'id': 'StartTrial',
+                            'title': 'start_trial'|trans,
+                            'href': path('license_start_trial', {}),
+                        }) }}
+                    {% endif %}
+
+                    {% if true == basic_status %}
+                        {{ appImport.buttonModal({
+                            'id': 'StartBasic',
+                            'title': 'start_basic'|trans,
+                            'body': 'help_modal.license.start_basic'|trans,
+                            'href': path('license_start_basic', {}),
+                        }) }}
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+
+            {% if license['type'] is defined %}
+                <p>
+                    <strong>{{ 'type'|trans }}</strong><br>
+                    {{ license['type'] }}
+                </p>
+            {% endif %}
+
+            {% if license['status'] is defined %}
+                <p>
+                    <strong>{{ 'status'|trans }}</strong><br>
+                    {{ license['status'] }}
+                </p>
+            {% endif %}
+
+            {% if license['issue_date_in_millis'] is defined %}
+                <p>
+                    <strong>{{ 'issue_date'|trans }}</strong><br>
+                    {{ license['issue_date_in_millis']|human_datetime }}
+                </p>
+            {% endif %}
+
+            {% if license['expiry_date_in_millis'] is defined %}
+                <p>
+                    <strong>{{ 'expiry_date'|trans }}</strong><br>
+                    {{ license['expiry_date_in_millis']|human_datetime }}
+                </p>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
