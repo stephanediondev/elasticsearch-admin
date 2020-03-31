@@ -18,6 +18,11 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     private $mappings;
 
+    public function __construct()
+    {
+        $this->settings = json_encode(['number_of_shards' =>  1, 'number_of_replicas' => 1], JSON_PRETTY_PRINT);
+    }
+
     public function getName(): ?string
     {
         return $this->name;

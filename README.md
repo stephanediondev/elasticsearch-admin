@@ -26,6 +26,7 @@ cp .env.dist .env
 
 ### Features
 
+- [x] Authentication (Symfony)
 - [x] Cluster: basic metrics, settings
 - [x] Nodes: list, read, usage, plugins
 - [x] Indices: list, reindex, create, read, delete, close, open, force merge, clear cache, flush, refresh
@@ -40,7 +41,7 @@ cp .env.dist .env
 - [x] Tasks: list
 - [x] Cat APIs: list
 - [x] Deprecations info
-- [x] Authentication (Symfony)
+- [x] License: read, start trial, revert to basic
 
 ### Todo
 
