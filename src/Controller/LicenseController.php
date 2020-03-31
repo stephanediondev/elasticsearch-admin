@@ -48,6 +48,7 @@ class LicenseController extends AbstractAppController
         $call = new CallModel();
         $call->setMethod('POST');
         $call->setPath('/_license/start_trial');
+        $call->setQuery(['acknowledge' => 'true']);
         $this->callManager->call($call);
 
         $this->addFlash('success', 'success.license_start_trial');

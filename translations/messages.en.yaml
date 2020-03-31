@@ -269,6 +269,10 @@ success:
     snaphots_delete: "Snapshot deleted"
     snaphots_read_restore: "Snapshot restored"
 
+    license:
+        license_start_trial: "Trial license started"
+        license_start_basic: "License reverted to basic"
+
 tasks: "Tasks"
 toggle_navigation: "Toggle navigation"
 tools: "Tools"
