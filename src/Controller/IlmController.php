@@ -82,7 +82,7 @@ class IlmController extends AbstractAppController
         $call->setPath('/_ilm/start');
         $status = $this->callManager->call($call);
 
-        $this->addFlash('success', 'ilm_start');
+        $this->addFlash('success', 'success.ilm_start');
 
         return $this->redirectToRoute('ilm_status', []);
     }
@@ -97,7 +97,7 @@ class IlmController extends AbstractAppController
         $call->setPath('/_ilm/stop');
         $status = $this->callManager->call($call);
 
-        $this->addFlash('success', 'ilm_stop');
+        $this->addFlash('success', 'success.ilm_stop');
 
         return $this->redirectToRoute('ilm_status', []);
     }
@@ -147,7 +147,7 @@ class IlmController extends AbstractAppController
                 $call->setJson($json);
                 $this->callManager->call($call);
 
-                $this->addFlash('success', 'ilm_create');
+                $this->addFlash('success', 'success.ilm_create');
 
                 return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -267,7 +267,7 @@ class IlmController extends AbstractAppController
                     $call->setJson($json);
                     $this->callManager->call($call);
 
-                    $this->addFlash('success', 'ilm_update');
+                    $this->addFlash('success', 'success.ilm_update');
 
                     return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
                 } catch (CallException $e) {
@@ -294,23 +294,8 @@ class IlmController extends AbstractAppController
         $call->setPath('/_ilm/policy/'.$name);
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'ilm_delete');
+        $this->addFlash('success', 'success.ilm_delete');
 
         return $this->redirectToRoute('ilm', []);
-    }
-
-    /**
-     * @Route("/ilm/{name}/exexute", name="ilm_execute")
-     */
-    public function exexute(Request $request, string $name): Response
-    {
-        $call = new CallModel();
-        $call->setMethod('POST');
-        $call->setPath('/_ilm/policy/'.$name.'/_execute');
-        $this->callManager->call($call);
-
-        $this->addFlash('success', 'ilm_execute');
-
-        return $this->redirectToRoute('ilm_read', ['name' => $name]);
     }
 }

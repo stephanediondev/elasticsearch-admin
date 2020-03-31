@@ -84,10 +84,15 @@ class RepositoriesController extends AbstractAppController
                 $call = new CallModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_snapshot/'.$repositoryModel->getName());
+                if ($repositoryModel->getVerify()) {
+                    $call->setQuery(['verify' => 'true']);
+                } else {
+                    $call->setQuery(['verify' => 'false']);
+                }
                 $call->setJson($json);
                 $this->callManager->call($call);
 
-                $this->addFlash('success', 'repositories_create');
+                $this->addFlash('success', 'success.repositories_create');
 
                 return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
             } catch (CallException $e) {
@@ -179,10 +184,15 @@ class RepositoriesController extends AbstractAppController
                     $call = new CallModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_snapshot/'.$repositoryModel->getName());
+                    if ($repositoryModel->getVerify()) {
+                        $call->setQuery(['verify' => 'true']);
+                    } else {
+                        $call->setQuery(['verify' => 'false']);
+                    }
                     $call->setJson($json);
                     $this->callManager->call($call);
 
-                    $this->addFlash('success', 'repositories_update');
+                    $this->addFlash('success', 'success.repositories_update');
 
                     return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
                 } catch (CallException $e) {
@@ -209,7 +219,7 @@ class RepositoriesController extends AbstractAppController
         $call->setPath('/_snapshot/'.$repository);
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'repositories_delete');
+        $this->addFlash('success', 'success.repositories_delete');
 
         return $this->redirectToRoute('repositories', []);
     }
@@ -224,7 +234,7 @@ class RepositoriesController extends AbstractAppController
         $call->setPath('/_snapshot/'.$repository.'/_cleanup');
         $results = $this->callManager->call($call);
 
-        $this->addFlash('success', 'repositories_cleanup');
+        $this->addFlash('success', 'success.repositories_cleanup');
 
         if (true == isset($results['results'])) {
             if (true == isset($results['results']['deleted_bytes'])) {
@@ -250,7 +260,7 @@ class RepositoriesController extends AbstractAppController
             $call->setPath('/_snapshot/'.$repository.'/_verify');
             $results = $this->callManager->call($call);
 
-            $this->addFlash('success', 'repositories_verify');
+            $this->addFlash('success', 'success.repositories_verify');
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }

@@ -104,6 +104,7 @@ help_form:
         max_restore_bytes_per_sec: "The snapshot restore rate for each node. Examples: 1g, 10mb, 5k, 1024B."
         compress: "Compresses the index mapping and setting files for snapshots. Data files are not compressed."
         readonly: "Only one cluster should have write access to this repository. All other clusters should be read-only."
+        verify: "Verifies the repository on submission."
         fs:
             location: "The location must be registered in the path.repo setting on all master and data nodes."
         s3:
@@ -220,6 +221,45 @@ storage_class: "Storage class"
 store_size: "Store size"
 submit: "Submit"
 summary: "Summary"
+
+success:
+    ilm_create: "ILM policy created"
+    ilm_update: "ILM policy updated"
+    ilm_delete: "ILM policy deleted"
+    ilm_start: "ILM started"
+    ilm_stop: "ILM stopping"
+
+    index_templates_create: "Index template created"
+    index_templates_update: "Index template updated"
+    index_templates_delete: "Index template deleted"
+
+    indices_create: "Index created"
+    indices_update: "Index updated"
+    indices_delete: "Index deleted"
+    indices_close: "Index closed"
+    indices_open: "Index opened"
+    indices_force_merge: "Index forced merge"
+    indices_cache_clear: "Index cache cleared"
+    indices_flush: "Index flushed"
+    indices_refresh: "Index refreshed"
+
+    repositories_create: "Repository created"
+    repositories_update: "Repository updated"
+    repositories_delete: "Repository deleted"
+    repositories_cleanup: "Repository cleaned up"
+    repositories_verify: "Repository verified"
+
+    slm_create: "SLM policy created"
+    slm_update: "SLM policy updated"
+    slm_delete: "SLM policy deleted"
+    slm_execute: "SLM policy executed"
+    slm_start: "SLM started"
+    slm_stop: "SLM stopping"
+
+    snaphots_create: "Snapshot created"
+    snaphots_delete: "Snapshot deleted"
+    snaphots_read_restore: "Snapshot restored"
+
 tasks: "Tasks"
 toggle_navigation: "Toggle navigation"
 tools: "Tools"

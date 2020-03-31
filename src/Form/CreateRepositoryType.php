@@ -25,6 +25,7 @@ class CreateRepositoryType extends AbstractType
         $fields[] = 'max_snapshot_bytes_per_sec';
         $fields[] = 'compress';
         $fields[] = 'readonly';
+        $fields[] = 'verify';
 
         if (ElasticsearchRepositoryModel::TYPE_FS == $options['type']) {
             $fields[] = 'location';
@@ -96,6 +97,14 @@ class CreateRepositoryType extends AbstractType
                         'label' => 'readonly',
                         'required' => false,
                         'help' => 'help_form.repository.readonly',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'verify':
+                    $builder->add('verify', CheckboxType::class, [
+                        'label' => 'verify',
+                        'required' => false,
+                        'help' => 'help_form.repository.verify',
                         'help_html' => true,
                         'attr' => [
                             'data-break-after' => 'yes',

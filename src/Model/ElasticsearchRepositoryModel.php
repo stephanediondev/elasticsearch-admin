@@ -24,6 +24,8 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
 
     private $readonly;
 
+    private $verify;
+
     private $location;
 
     private $bucket;
@@ -47,6 +49,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         $this->maxRestoreBytesPerSec = '40mb';
         $this->maxSnapshotBytesPerSec = '40mb';
         $this->readonly = false;
+        $this->verify = true;
 
         $this->client = 'default';
         $this->cannedAcl = 'private';
@@ -133,6 +136,18 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
     public function setReadonly(?bool $readonly): self
     {
         $this->readonly = $readonly;
+
+        return $this;
+    }
+
+    public function getVerify(): ?bool
+    {
+        return $this->verify;
+    }
+
+    public function setVerify(?bool $verify): self
+    {
+        $this->verify = $verify;
 
         return $this;
     }

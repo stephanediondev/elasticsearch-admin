@@ -53,7 +53,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/_forcemerge');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_force_merge_all');
+        $this->addFlash('success', 'success.indices_force_merge_all');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -68,7 +68,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/_cache/clear');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_cache_clear_all');
+        $this->addFlash('success', 'success.indices_cache_clear_all');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -83,7 +83,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/_flush');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_flush_all');
+        $this->addFlash('success', 'success.indices_flush_all');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -98,7 +98,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/_refresh');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_refresh_all');
+        $this->addFlash('success', 'success.indices_refresh_all');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -134,7 +134,7 @@ class IndicesController extends AbstractAppController
                 $call->setJson($json);
                 $this->callManager->call($call);
 
-                $this->addFlash('success', 'indices_reindex');
+                $this->addFlash('success', 'success.indices_reindex');
 
                 return $this->redirectToRoute('indices_read', ['index' => $reindexModel->getDestination()]);
             } catch (CallException $e) {
@@ -172,7 +172,7 @@ class IndicesController extends AbstractAppController
                 $call->setJson($json);
                 $this->callManager->call($call);
 
-                $this->addFlash('success', 'indices_create');
+                $this->addFlash('success', 'success.indices_create');
 
                 return $this->redirectToRoute('indices_read', ['index' => $indexModel->getName()]);
             } catch (CallException $e) {
@@ -321,7 +321,7 @@ class IndicesController extends AbstractAppController
                     $call->setPath('/'.$index['index'].'/_alias/'.$aliasModel->getName());
                     $this->callManager->call($call);
 
-                    $this->addFlash('success', 'indices_aliases_create');
+                    $this->addFlash('success', 'success.indices_aliases_create');
 
                     return $this->redirectToRoute('indices_read_aliases', ['index' => $index['index']]);
                 } catch (CallException $e) {
@@ -348,7 +348,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/'.$index.'/_alias/'.$alias);
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_aliases_delete');
+        $this->addFlash('success', 'success.indices_aliases_delete');
 
         return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
     }
@@ -409,7 +409,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/'.$index);
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_delete');
+        $this->addFlash('success', 'success.indices_delete');
 
         return $this->redirectToRoute('indices', []);
     }
@@ -424,7 +424,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/'.$index.'/_close');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_close');
+        $this->addFlash('success', 'success.indices_close');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -439,7 +439,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/'.$index.'/_open');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_open');
+        $this->addFlash('success', 'success.indices_open');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -454,7 +454,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/'.$index.'/_forcemerge');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_force_merge');
+        $this->addFlash('success', 'success.indices_force_merge');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -469,7 +469,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/'.$index.'/_cache/clear');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_cache_clear');
+        $this->addFlash('success', 'success.indices_cache_clear');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -484,7 +484,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/'.$index.'/_flush');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_flush');
+        $this->addFlash('success', 'success.indices_flush');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
@@ -499,7 +499,7 @@ class IndicesController extends AbstractAppController
         $call->setPath('/'.$index.'/_refresh');
         $this->callManager->call($call);
 
-        $this->addFlash('success', 'indices_refresh');
+        $this->addFlash('success', 'success.indices_refresh');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
