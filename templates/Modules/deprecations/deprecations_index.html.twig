@@ -18,12 +18,13 @@
                 {% if 0 < rows|length %}
                     {% set rowsFlat = [] %}
                     {% set count = 0 %}
-                    {% for row in rows %}
+                    {% for k, row in rows %}
                         {% if row['level'] is defined %}
                             {% set rowsFlat = rowsFlat|merge({(count): row}) %}
                             {% set count = count + 1 %}
                         {% else %}
                             {% for rowSub in row %}
+                                {% set rowSub = rowSub|merge({'index': k}) %}
                                 {% set rowsFlat = rowsFlat|merge({(count): rowSub}) %}
                                 {% set count = count + 1 %}
                             {% endfor %}
@@ -32,6 +33,13 @@
 
                     {% for row in rowsFlat %}
                         <div class="card card-body{%if false == loop.last %} mb-3{% endif %}">
+                            {% if row['index'] is defined %}
+                                <p>
+                                    <strong>{{ 'index'|trans }}</strong><br>
+                                    {{ row['index'] }}
+                                </p>
+                            {% endif %}
+
                             <p>
                                 <strong>{{ 'level'|trans }}</strong><br>
                                 {{ row['level'] }}
