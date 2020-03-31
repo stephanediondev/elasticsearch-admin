@@ -103,21 +103,21 @@
             {% if policy['policy']['config']['ignore_unavailable'] is defined %}
                 <p>
                     <strong>{{ 'ignore_unavailable'|trans }}</strong><br>
-                    {{ policy['policy']['config']['ignore_unavailable'] }}
+                    {{ ('boolean.' ~ policy['policy']['config']['ignore_unavailable'])|trans }}
                 </p>
             {% endif %}
 
             {% if policy['policy']['config']['partial'] is defined %}
                 <p>
                     <strong>{{ 'partial'|trans }}</strong><br>
-                    {{ policy['policy']['config']['partial'] }}
+                    {{ ('boolean.' ~ policy['policy']['config']['partial'])|trans }}
                 </p>
             {% endif %}
 
             {% if policy['policy']['config']['include_global_state'] is defined %}
                 <p>
                     <strong>{{ 'include_global_state'|trans }}</strong><br>
-                    {{ policy['policy']['config']['include_global_state'] }}
+                    {{ ('boolean.' ~ policy['policy']['config']['include_global_state'])|trans }}
                 </p>
             {% endif %}
         {% endblock %}

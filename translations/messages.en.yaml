@@ -1,6 +1,9 @@
 boolean:
     0: "False"
     1: "True"
+    "": "False"
+    "false": "False"
+    "true": "True"
 
 error403:
     title: "Forbidden"
