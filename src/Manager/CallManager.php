@@ -11,11 +11,12 @@ class CallManager
     /**
      * @required
      */
-    public function init(string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword)
+    public function init(string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
     {
         $this->elasticsearchUrl = $elasticsearchUrl;
         $this->elasticsearchUsername = $elasticsearchUsername;
         $this->elasticsearchPassword = $elasticsearchPassword;
+        $this->sslVerifyPeer = $sslVerifyPeer;
         $this->client = HttpClient::create();
     }
 
@@ -46,6 +47,8 @@ class CallManager
         if (0 < count($headers)) {
             $options['headers'] = $headers;
         }
+
+        $options['verify_peer'] = $this->sslVerifyPeer;
 
         $response = $this->client->request($call->getMethod(), $this->elasticsearchUrl.$call->getPath(), $options);
 
