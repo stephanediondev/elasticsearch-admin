@@ -44,6 +44,11 @@
                 {% endblock %}
             {% endembed %}
 
+            <p>
+                <strong>{{ 'type'|trans }}</strong><br>
+                {{ ('repository_' ~ repository['type'])|trans }}
+            </p>
+
             {{ appImport.form({'form': form}) }}
         {% endblock %}
     {% endembed %}

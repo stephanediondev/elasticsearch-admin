@@ -47,17 +47,93 @@
                 {% endblock %}
             {% endembed %}
 
-            <p>
-                <strong>{{ 'type'|trans }}</strong><br>
-                {{ repository['type'] }}
-            </p>
+            <div class="row">
+                <div class="col-12 col-md-5 col-lg-4">
+                    <p>
+                        <strong>{{ 'type'|trans }}</strong><br>
+                        {{ ('repository_' ~ repository['type'])|trans }}
+                    </p>
 
-            {% for k, v in repository['settings'] %}
-                <p>
-                    <strong>{{ k|trans }}</strong><br>
-                    {{ v }}
-                </p>
-            {% endfor %}
+                    {% if repository['settings']['chunk_size'] %}
+                        <p>
+                            <strong>{{ 'chunk_size'|trans }}</strong><br>
+                            {{ repository['settings']['chunk_size'] }}
+                        </p>
+                    {% endif %}
+
+                    <p>
+                        <strong>{{ 'max_restore_bytes_per_sec'|trans }}</strong><br>
+                        {{ repository['settings']['max_restore_bytes_per_sec'] }}
+                    </p>
+
+                    <p>
+                        <strong>{{ 'max_snapshot_bytes_per_sec'|trans }}</strong><br>
+                        {{ repository['settings']['max_snapshot_bytes_per_sec'] }}
+                    </p>
+
+                    <p>
+                        <strong>{{ 'compress'|trans }}</strong><br>
+                        {{ ('boolean.' ~ repository['settings']['compress'])|trans }}
+                    </p>
+
+                    <p>
+                        <strong>{{ 'readonly'|trans }}</strong><br>
+                        {{ ('boolean.' ~ repository['settings']['readonly'])|trans }}
+                    </p>
+                </div>
+
+                <div class="col-12 col-md-5 col-lg-4">
+                    {% if 'fs' == repository['type'] %}
+                        <p>
+                            <strong>{{ 'location'|trans }}</strong><br>
+                            {{ repository['settings']['location'] }}
+                        </p>
+                    {% endif %}
+
+                    {% if 's3' == repository['type'] or 'gcs' == repository['type'] %}
+                        <p>
+                            <strong>{{ 'bucket'|trans }}</strong><br>
+                            {{ repository['settings']['bucket'] }}
+                        </p>
+
+                        <p>
+                            <strong>{{ 'client'|trans }}</strong><br>
+                            {{ repository['settings']['client'] }}
+                        </p>
+
+                        {% if repository['settings']['base_path'] %}
+                            <p>
+                                <strong>{{ 'base_path'|trans }}</strong><br>
+                                {{ repository['settings']['base_path'] }}
+                            </p>
+                        {% endif %}
+
+                        {% if 's3' == repository['type'] %}
+                            <p>
+                                <strong>{{ 'server_side_encryption'|trans }}</strong><br>
+                                {{ ('boolean.' ~ repository['settings']['server_side_encryption'])|trans }}
+                            </p>
+
+                            {% if repository['settings']['buffer_size'] %}
+                                <p>
+                                    <strong>{{ 'buffer_size'|trans }}</strong><br>
+                                    {{ repository['settings']['buffer_size'] }}
+                                </p>
+                            {% endif %}
+
+                            <p>
+                                <strong>{{ 'canned_acl'|trans }}</strong><br>
+                                {{ repository['settings']['canned_acl'] }}
+                            </p>
+
+                            <p>
+                                <strong>{{ 'storage_class'|trans }}</strong><br>
+                                {{ repository['settings']['storage_class'] }}
+                            </p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         {% endblock %}
     {% endembed %}
 {% endblock %}
