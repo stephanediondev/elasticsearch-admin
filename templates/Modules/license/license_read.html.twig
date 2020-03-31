@@ -68,4 +68,33 @@
             {% endif %}
         {% endblock %}
     {% endembed %}
+
+    {% if xpack['features'] is defined %}
+        {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 4, 'title': 'features'|trans}) }}
+
+                {% embed 'table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'feature'|trans }}</th>
+                            <th>{{ 'available'|trans }}</th>
+                            <th>{{ 'enabled'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for key, value in xpack['features'] %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ ('boolean.' ~ value['available'])|trans }}</td>
+                                <td>{{ ('boolean.' ~ value['enabled'])|trans }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
 {% endblock %}

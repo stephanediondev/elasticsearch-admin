@@ -33,10 +33,15 @@ class LicenseController extends AbstractAppController
         $basicStatus = $this->callManager->call($call);
         $basicStatus = $basicStatus['eligible_to_start_basic'];
 
+        $call = new CallModel();
+        $call->setPath('/_xpack');
+        $xpack = $this->callManager->call($call);
+
         return $this->renderAbstract($request, 'Modules/license/license_read.html.twig', [
             'license' => $license,
             'trial_status' => $trialStatus,
             'basic_status' => $basicStatus,
+            'xpack' => $xpack,
         ]);
     }
 

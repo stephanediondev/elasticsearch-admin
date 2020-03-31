@@ -41,7 +41,7 @@ cp .env.dist .env
 - [x] Tasks: list
 - [x] Cat APIs: list
 - [x] Deprecations info
-- [x] License: read, start trial, revert to basic
+- [x] License: read, start trial, revert to basic, features
 
 ### Todo
 
