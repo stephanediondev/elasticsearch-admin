@@ -54,32 +54,40 @@
                         {{ ('repository_' ~ repository['type'])|trans }}
                     </p>
 
-                    {% if repository['settings']['chunk_size'] %}
+                    {% if repository['settings']['chunk_size'] is defined and repository['settings']['chunk_size'] %}
                         <p>
                             <strong>{{ 'chunk_size'|trans }}</strong><br>
                             {{ repository['settings']['chunk_size'] }}
                         </p>
                     {% endif %}
 
-                    <p>
-                        <strong>{{ 'max_restore_bytes_per_sec'|trans }}</strong><br>
-                        {{ repository['settings']['max_restore_bytes_per_sec'] }}
-                    </p>
+                    {% if repository['settings']['max_restore_bytes_per_sec'] is defined and repository['settings']['max_restore_bytes_per_sec'] %}
+                        <p>
+                            <strong>{{ 'max_restore_bytes_per_sec'|trans }}</strong><br>
+                            {{ repository['settings']['max_restore_bytes_per_sec'] }}
+                        </p>
+                    {% endif %}
 
-                    <p>
-                        <strong>{{ 'max_snapshot_bytes_per_sec'|trans }}</strong><br>
-                        {{ repository['settings']['max_snapshot_bytes_per_sec'] }}
-                    </p>
+                    {% if repository['settings']['max_snapshot_bytes_per_sec'] is defined and repository['settings']['max_snapshot_bytes_per_sec'] %}
+                        <p>
+                            <strong>{{ 'max_snapshot_bytes_per_sec'|trans }}</strong><br>
+                            {{ repository['settings']['max_snapshot_bytes_per_sec'] }}
+                        </p>
+                    {% endif %}
 
-                    <p>
-                        <strong>{{ 'compress'|trans }}</strong><br>
-                        {{ ('boolean.' ~ repository['settings']['compress'])|trans }}
-                    </p>
+                    {% if repository['settings']['compress'] is defined %}
+                        <p>
+                            <strong>{{ 'compress'|trans }}</strong><br>
+                            {{ ('boolean.' ~ repository['settings']['compress'])|trans }}
+                        </p>
+                    {% endif %}
 
-                    <p>
-                        <strong>{{ 'readonly'|trans }}</strong><br>
-                        {{ ('boolean.' ~ repository['settings']['readonly'])|trans }}
-                    </p>
+                    {% if repository['settings']['readonly'] is defined %}
+                        <p>
+                            <strong>{{ 'readonly'|trans }}</strong><br>
+                            {{ ('boolean.' ~ repository['settings']['readonly'])|trans }}
+                        </p>
+                    {% endif %}
                 </div>
 
                 <div class="col-12 col-md-5 col-lg-4">
@@ -121,15 +129,26 @@
                                 </p>
                             {% endif %}
 
-                            <p>
-                                <strong>{{ 'canned_acl'|trans }}</strong><br>
-                                {{ repository['settings']['canned_acl'] }}
-                            </p>
+                            {% if repository['settings']['canned_acl'] is defined %}
+                                <p>
+                                    <strong>{{ 'canned_acl'|trans }}</strong><br>
+                                    {{ repository['settings']['canned_acl'] }}
+                                </p>
+                            {% endif %}
 
-                            <p>
-                                <strong>{{ 'storage_class'|trans }}</strong><br>
-                                {{ repository['settings']['storage_class'] }}
-                            </p>
+                            {% if repository['settings']['storage_class'] is defined %}
+                                <p>
+                                    <strong>{{ 'storage_class'|trans }}</strong><br>
+                                    {{ repository['settings']['storage_class'] }}
+                                </p>
+                            {% endif %}
+
+                            {% if repository['settings']['aws_account'] is defined %}
+                                <p>
+                                    <strong>{{ 'aws_account'|trans }}</strong><br>
+                                    {{ repository['settings']['aws_account'] }}
+                                </p>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </div>
