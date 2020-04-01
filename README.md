@@ -26,7 +26,7 @@ cp .env.dist .env
 
 ### Features
 
-- [x] Connection to Elasticsearch: server-side, no CORS, local (private) or remote server, http or https, with credentials or not
+- [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
 - [x] Login: user managed by Symfony, not related to Elasticsearch
 - [x] Cluster: basic metrics, settings
 - [x] Nodes: list, read, usage, plugins
