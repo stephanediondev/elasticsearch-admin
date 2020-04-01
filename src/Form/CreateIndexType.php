@@ -17,8 +17,10 @@ class CreateIndexType extends AbstractType
     {
         $fields = [];
 
-        $fields[] = 'name';
-        $fields[] = 'settings';
+        if (false == $options['update']) {
+            $fields[] = 'name';
+            $fields[] = 'settings';
+        }
         $fields[] = 'mappings';
 
         foreach ($fields as $field) {
@@ -68,6 +70,7 @@ class CreateIndexType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchIndexModel::class,
+            'update' => false,
         ]);
     }
 

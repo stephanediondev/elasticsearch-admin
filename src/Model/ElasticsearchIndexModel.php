@@ -52,4 +52,13 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
         return $this;
     }
+
+    public function convert(?array $index): self
+    {
+        $this->setName($index['index']);
+        if (true == isset($index['mappings']) && 0 < count($index['mappings'])) {
+            $this->setMappings(json_encode($index['mappings'], JSON_PRETTY_PRINT));
+        }
+        return $this;
+    }
 }

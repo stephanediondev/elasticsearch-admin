@@ -4,6 +4,10 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('indices_update', {'index': index['index']}) }}">{{ 'update'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('indices_read_settings', {'index': index['index']}) }}">{{ 'settings'|trans }}</a>
     </li>
 
@@ -26,14 +30,6 @@
 
         <li class="nav-item">
             <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index['index']}) }}">{{ 'create_alias'|trans }}</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('snapshots_create', {'index': index['index']}) }}">{{ 'create_snapshot'|trans }}</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('slm_create', {'index': index['index']}) }}">{{ 'create_slm_policy'|trans }}</a>
         </li>
 
         <li class="nav-item">

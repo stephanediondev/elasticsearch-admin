@@ -208,6 +208,54 @@ class IndicesController extends AbstractAppController
     }
 
     /**
+     * @Route("/indices/{index}/update", name="indices_update")
+     */
+    public function update(Request $request, string $index): Response
+    {
+        $index1 = $this->callManager->getIndex($index);
+
+        $call = new CallModel();
+        $call->setPath('/'.$index);
+        $index2 = $this->callManager->call($call);
+
+        $index = array_merge($index1, $index2[key($index2)]);
+
+        if ($index) {
+            $indexModel = new ElasticsearchIndexModel();
+            $indexModel->convert($index);
+            $form = $this->createForm(CreateIndexType::class, $indexModel, ['update' => true]);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    if ($indexModel->getMappings()) {
+                        $json = json_decode($indexModel->getMappings(), true);
+                        $call = new CallModel();
+                        $call->setMethod('PUT');
+                        $call->setPath('/'.$indexModel->getName().'/_mapping');
+                        $call->setJson($json);
+                        $this->callManager->call($call);
+                    }
+
+                    $this->addFlash('success', 'success.indices_update');
+
+                    return $this->redirectToRoute('indices_read', ['index' => $indexModel->getName()]);
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
+            }
+
+            return $this->renderAbstract($request, 'Modules/indices/indices_update.html.twig', [
+                'index' => $index,
+                'form' => $form->createView(),
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
+
+    /**
      * @Route("/indices/{index}/settings", name="indices_read_settings")
      */
     public function settings(Request $request, string $index): Response
