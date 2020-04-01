@@ -24,7 +24,7 @@ cp .env.dist .env
 # Edit ELASTICSEARCH_URL, ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD, EMAIL and ENCODED_PASSWORD
 ```
 
-### Features
+## Features
 
 - [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
 - [x] Login: user managed by Symfony, not related to Elasticsearch
@@ -44,7 +44,7 @@ cp .env.dist .env
 - [x] Deprecations info
 - [x] License: read, start trial, revert to basic, features
 
-### Todo
+## Todo
 
 - [ ] Indices: update mappings
 - [ ] Index lifecycle management policies: create, update, delete
