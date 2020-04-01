@@ -1,7 +1,7 @@
 {% embed 'table_embed.html.twig' %}
     {% import 'app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master': true, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': true, 'heap_usage': true} %}
+    {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': true, 'heap_usage': true} %}
 
     {% block thead %}
         <tr>
@@ -98,6 +98,7 @@
                         {% if 'name' == column %}
                             <td>
                                 <a href="{{ path('nodes_read', {'node': row['name']}) }}">{{ row['name'] }}</a>
+                                {% if '*' == row['master'] %}<br>{{ appImport.badge({'title': 'master'|trans, 'context': 'info'}) }}{% endif %}
                                 <br><small>{{ 'host'|trans }}: {{ row['host'] }}</small>
                                 <br><small>{{ 'version_es'|trans }}: {{ row['version'] }}</small>
                                 <br><small>{{ 'version_jvm'|trans }}: {{ row['jvm']['version'] }}</small>
@@ -154,41 +155,40 @@
                             </td>
                         {% endif %}
 
-
                         {% if 'cpu_usage' == column %}
                             <td>
-                                <strong>{{ row['stats']['os']['cpu']['percent'] }}%</strong>
-                                <br><small>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</small>
+                                <strong><span id="{{ row['name'] }}-os-cpu-percent">{{ row['stats']['os']['cpu']['percent'] }}</span>%</strong>
+                                <br><small>{{ 'process'|trans }}: <span id="{{ row['name'] }}-process-cpu-percent">{{ row['stats']['process']['cpu']['percent'] }}</span>%</small>
                             </td>
                         {% endif %}
 
                         {% if 'heap_usage' == column %}
                             <td>
-                                <strong>{{ row['heap.percent'] }}%</strong>
-                                <br><small>{{ 'used'|trans }}: {{ row['heap.current'] }}</small>
-                                <br><small>{{ 'total'|trans }}: {{ row['heap.max'] }}</small>
+                                <strong><span id="{{ row['name'] }}-heap-percent">{{ row['heap.percent'] }}</span>%</strong>
+                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-heap-current">{{ row['heap.current'] }}</span></small>
+                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-heap-max">{{ row['heap.max'] }}</span></small>
                             </td>
                         {% endif %}
 
                         {% if 'memory_usage' == column %}
                             <td>
-                                <strong>{{ row['ram.percent'] }}%</strong>
-                                <br><small>{{ 'used'|trans }}: {{ row['ram.current'] }}</small>
-                                <br><small>{{ 'total'|trans }}: {{ row['ram.max'] }}</small>
+                                <strong><span id="{{ row['name'] }}-ram-percent">{{ row['ram.percent'] }}</span>%</strong>
+                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-ram-current">{{ row['ram.current'] }}</span></small>
+                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-ram-max">{{ row['ram.max'] }}</span></small>
                             </td>
                         {% endif %}
 
                         {% if 'disk_usage' == column %}
                             <td>
-                                <strong>{{ row['disk.used_percent'] }}%</strong>
-                                <br><small>{{ 'used'|trans }}: {{ row['disk.used'] }}</small>
-                                <br><small>{{ 'total'|trans }}: {{ row['disk.total'] }}</small>
+                                <strong><span id="{{ row['name'] }}-disk-used_percent">{{ row['disk.used_percent'] }}</span>%</strong>
+                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-disk-used">{{ row['disk.used'] }}</span></small>
+                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-disk-total">{{ row['disk.total'] }}</span></small>
                             </td>
                         {% endif %}
 
                         {% if 'uptime' == column %}
                             <td>
-                                {{ row['uptime'] }}
+                                <span id="{{ row['name'] }}-uptime">{{ row['uptime'] }}</span>
                             </td>
                         {% endif %}
                     {% endif %}

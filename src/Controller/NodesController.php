@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -56,6 +57,41 @@ class NodesController extends AbstractAppController
                 'size' => count($nodes),
             ]),
         ]);
+    }
+
+    /**
+     * @Route("/nodes/fetch", name="nodes/fetch")
+     */
+    public function fetch(Request $request): JsonResponse
+    {
+        $json = [];
+
+        $call = new CallModel();
+        $call->setPath('/_cat/nodes');
+        $call->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
+        $nodes1 = $this->callManager->call($call);
+
+        foreach ($nodes1 as $node) {
+            $json[$node['name']] = $node;
+        }
+
+        $call = new CallModel();
+        $call->setPath('/_nodes');
+        $nodes2 = $this->callManager->call($call);
+
+        foreach ($nodes2['nodes'] as $node) {
+            $json[$node['name']] = array_merge($node, $json[$node['name']]);
+        }
+
+        $call = new CallModel();
+        $call->setPath('/_nodes/stats');
+        $nodes3 = $this->callManager->call($call);
+
+        foreach ($nodes3['nodes'] as $node) {
+            $json[$node['name']]['stats'] = $node;
+        }
+
+        return new JsonResponse($json, JsonResponse::HTTP_OK);
     }
 
     /**
