@@ -54,22 +54,22 @@ cp .env.dist .env
 
 ## Screenshots
 
-![Cluster](assets/images/resized-cluster.png)
----
-![Nodes](assets/images/resized-nodes.png)
----
-![Indices](assets/images/resized-indices.png)
----
-![Create index](assets/images/resized-index-create.png)
----
-![Index templates](assets/images/resized-index-templates.png)
----
-![Create index template](assets/images/resized-index-template-create.png)
----
-![Create AWS S3 repository](assets/images/resized-repository-create-s3.png)
----
-![Create SLM policy](assets/images/resized-slm-policy-create.png)
----
-![Snaphosts](assets/images/resized-snapshots.png)
----
-![Create snapshot](assets/images/resized-snapshot-create.png)
+[![Cluster](assets/images/resized-cluster.png)](assets/images/original-cluster.png)
+
+[![Nodes](assets/images/resized-nodes.png)](assets/images/original-nodes.png)
+
+[![Indices](assets/images/resized-indices.png)](assets/images/original-indices.png)
+
+[![Create index](assets/images/resized-index-create.png)](assets/images/original-index-create.png)
+
+[![Index templates](assets/images/resized-index-templates.png)](assets/images/original-index-templates.png)
+
+[![Create index template](assets/images/resized-index-template-create.png)](assets/images/original-index-template-create.png)
+
+[![Create AWS S3 repository](assets/images/resized-repository-create-s3.png)](assets/images/original-repository-create-s3.png)
+
+[![Create SLM policy](assets/images/resized-slm-policy-create.png)](assets/images/original-slm-policy-create.png)
+
+[![Snaphosts](assets/images/resized-snapshots.png)](assets/images/original-snapshots.png)
+
+[![Create snapshot](assets/images/resized-snapshot-create.png)](assets/images/original-snapshot-create.png)
