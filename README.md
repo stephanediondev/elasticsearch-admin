@@ -54,26 +54,22 @@ cp .env.dist .env
 
 ## Screenshots
 
-![Cluster](assets/images/cluster.png)
+![Cluster](assets/images/resized-cluster.png)
 ---
-![Nodes](assets/images/nodes.png)
+![Nodes](assets/images/resized-nodes.png)
 ---
-![Indices](assets/images/indices.png)
+![Indices](assets/images/resized-indices.png)
 ---
-![Index: create](assets/images/index-create.png)
+![Create index](assets/images/resized-index-create.png)
 ---
-![Index templates](assets/images/index-templates.png)
+![Index templates](assets/images/resized-index-templates.png)
 ---
-![Index template: create](assets/images/index-template-create.png)
+![Create index template](assets/images/resized-index-template-create.png)
 ---
-![Repository: create](assets/images/repository-create.png)
+![Create AWS S3 repository](assets/images/resized-repository-create-s3.png)
 ---
-![SLM policy: create](assets/images/slm-policy-create.png)
+![Create SLM policy](assets/images/resized-slm-policy-create.png)
 ---
-![SLM policy: history](assets/images/slm-policy-history.png)
+![Snaphosts](assets/images/resized-snapshots.png)
 ---
-![Snaphosts](assets/images/snapshots.png)
----
-![Snaphost: failures](assets/images/snapshot-failures.png)
----
-![Cat APIs](assets/images/cat.png)
+![Create snapshot](assets/images/resized-snapshot-create.png)
