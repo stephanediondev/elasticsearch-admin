@@ -29,7 +29,13 @@
         {% set params = params|merge({'context': 'primary'}) %}
     {% endif %}
 
-    {% if 'red' == params.context %}
+    {% if 'true' == params.context or '1' == params.context %}
+        {% set params = params|merge({'context': 'success'}) %}
+
+    {% elseif 'false' == params.context or '0' == params.context %}
+        {% set params = params|merge({'context': 'secondary'}) %}
+
+    {% elseif 'red' == params.context %}
         {% set params = params|merge({'context': 'danger'}) %}
 
     {% elseif 'yellow' == params.context %}
@@ -46,12 +52,6 @@
 
     {% elseif 'STOPPED' == params.context %}
         {% set params = params|merge({'context': 'danger'}) %}
-
-    {% elseif 'true' == params.context %}
-        {% set params = params|merge({'context': 'success'}) %}
-
-    {% elseif 'false' == params.context %}
-        {% set params = params|merge({'context': 'secondary'}) %}
     {% endif %}
 
     <span class="badge badge-{{ params.context }}">{{ params.title }}</span>

@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'roles'|trans }} - {{ role['role'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'roles'|trans, 'link': path('roles', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': role['role']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/roles/roles_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            <p>
+                <strong>{{ 'reserved'|trans }}</strong><br>
+                {% if role['metadata']['_reserved'] is defined and true == role['metadata']['_reserved'] %}
+                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                {% else %}
+                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                {% endif %}
+            </p>
+
+            {% if role['indices'] is defined and 0 < role['indices']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'indices'|trans}) }}
+
+                {% for record in role['indices'] %}
+                    <p>
+                        #{{ loop.index }}: {{ record['names']|join(', ') }} ({{ record['privileges']|join(', ') }})<br>
+                    </p>
+                {% endfor %}
+            {% endif %}
+
+            {% if role['applications'] is defined and 0 < role['applications']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'applications'|trans}) }}
+
+                {% for record in role['applications'] %}
+                    <p>
+                        #{{ loop.index }}: {{ record['application'] }} ({{ record['privileges']|join(', ') }})<br>
+                    </p>
+                {% endfor %}
+            {% endif %}
+
+
+            {% if role['cluster'] is defined and 0 < role['cluster']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'cluster'|trans}) }}
+
+                <p>
+                    {{ role['cluster']|join(', ') }}
+                </p>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

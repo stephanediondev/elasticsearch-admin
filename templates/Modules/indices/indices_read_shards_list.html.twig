@@ -67,9 +67,9 @@
                         {% if 'primary' == column %}
                             <td>
                                 {% if 'p' == row['prirep'] %}
-                                    {{ appImport.badge({'title': 'true', 'context': 'true'}) }}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                 {% else %}
-                                    {{ appImport.badge({'title': 'false', 'context': 'false'}) }}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}
