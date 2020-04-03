@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 
-class RequestType extends AbstractType
+class ConsoleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

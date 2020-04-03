@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\RequestType;
+use App\Form\ConsoleType;
 use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,7 @@ class ConsoleController extends AbstractAppController
     public function index(Request $request, string $application): Response
     {
         $callModel = new CallModel();
-        $form = $this->createForm(RequestType::class, $callModel);
+        $form = $this->createForm(ConsoleType::class, $callModel);
 
         $form->handleRequest($request);
 

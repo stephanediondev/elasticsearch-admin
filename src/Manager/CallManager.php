@@ -47,12 +47,16 @@ class CallManager
         }
 
         if (CallModel::APPLICATION_KIBANA == $call->getApplication()) {
+            $url = $this->kibanaUrl;
+
             $headers['kbn-xsrf'] = 'true';
 
             if ($this->kibanaUsername && $this->kibanaPassword) {
                 $headers['Authorization'] = 'Basic '.base64_encode($this->kibanaUsername.':'.$this->kibanaPassword);
             }
         } else {
+            $url = $this->elasticsearchUrl;
+
             if ($this->elasticsearchUsername && $this->elasticsearchPassword) {
                 $headers['Authorization'] = 'Basic '.base64_encode($this->elasticsearchUsername.':'.$this->elasticsearchPassword);
             }
@@ -64,11 +68,7 @@ class CallManager
 
         $options['verify_peer'] = $this->sslVerifyPeer;
 
-        if (CallModel::APPLICATION_KIBANA == $call->getApplication()) {
-            $response = $this->client->request($call->getMethod(), $this->kibanaUrl.$call->getPath(), $options);
-        } else {
-            $response = $this->client->request($call->getMethod(), $this->elasticsearchUrl.$call->getPath(), $options);
-        }
+        $response = $this->client->request($call->getMethod(), $url.$call->getPath(), $options);
 
         if ($response && in_array($response->getStatusCode(), [400, 401, 404, 405, 500])) {
             $json = json_decode($response->getContent(false), true);
