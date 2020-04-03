@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class RequestController extends AbstractAppController
+class ConsoleController extends AbstractAppController
 {
     /**
-     * @Route("/request", name="request")
+     * @Route("/console/{application}", name="console")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, string $application): Response
     {
         $callModel = new CallModel();
         $form = $this->createForm(RequestType::class, $callModel);
@@ -27,6 +27,7 @@ class RequestController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                $callModel->setApplication($application);
                 $parameters['response'] = $this->callManager->call($callModel);
                 $parameters['path'] = $callModel->getPath();
 
@@ -36,7 +37,8 @@ class RequestController extends AbstractAppController
         }
 
         $parameters['form'] = $form->createView();
+        $parameters['application'] = $application;
 
-        return $this->renderAbstract($request, 'Modules/request/request_index.html.twig', $parameters);
+        return $this->renderAbstract($request, 'Modules/console/console_index.html.twig', $parameters);
     }
 }

@@ -24,7 +24,7 @@ class IndexTemplatesController extends AbstractAppController
     {
         $call = new CallModel();
         $call->setPath('/_cat/templates');
-        //$call->setQuery(['s' => 'index', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string']);
+        $call->setQuery(['s' => 'name', 'h' => 'name,index_patterns,order,version']);
         $indexTemplates = $this->callManager->call($call);
 
         return $this->renderAbstract($request, 'Modules/index_templates/index_templates_index.html.twig', [

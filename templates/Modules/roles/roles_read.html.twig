@@ -33,17 +33,41 @@
             {% if role['cluster'] is defined and 0 < role['cluster']|length %}
                 {{ appImport.heading({'level': 4, 'title': 'cluster'|trans}) }}
 
-                <p>
-                    {{ role['cluster']|join(', ') }}
-                </p>
+                {% embed 'table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'privilege'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for record in role['cluster'] %}
+                            <tr>
+                                <td>{{ record }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
             {% endif %}
 
             {% if role['run_as'] is defined and 0 < role['run_as']|length %}
                 {{ appImport.heading({'level': 4, 'title': 'run_as'|trans}) }}
 
-                <p>
-                    {{ role['run_as']|join(', ') }}
-                </p>
+                {% embed 'table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'privilege'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for record in role['run_as'] %}
+                            <tr>
+                                <td>{{ record }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
             {% endif %}
 
             {% if role['indices'] is defined and 0 < role['indices']|length %}
@@ -60,8 +84,8 @@
                     {% block tbody %}
                         {% for record in role['indices'] %}
                             <tr>
-                                <td>{{ record['names']|join(', ') }}</td>
-                                <td>{{ record['privileges']|join(', ') }}</td>
+                                <td>{{ record['names']|join('<br>')|raw }}</td>
+                                <td>{{ record['privileges']|join('<br>')|raw }}</td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
@@ -84,8 +108,8 @@
                         {% for record in role['applications'] %}
                             <tr>
                                 <td>{{ record['application'] }}</td>
-                                <td>{{ record['privileges']|join(', ') }}</td>
-                                <td>{{ record['resources']|join(', ') }}</td>
+                                <td>{{ record['privileges']|join('<br>')|raw }}</td>
+                                <td>{{ record['resources']|join('<br>')|raw }}</td>
                             </tr>
                         {% endfor %}
                     {% endblock %}

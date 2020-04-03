@@ -60,7 +60,8 @@
                             <a class="dropdown-item" href="{{ path('snapshots') }}">{{ 'snapshots'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('tasks') }}">{{ 'tasks'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('cat') }}">{{ 'cat'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('request') }}">{{ 'request'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('console', {'application': 'elasticsearch'}) }}">{{ 'console_elasticsearch'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('console', {'application': 'kibana'}) }}">{{ 'console_kibana'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('license') }}">{{ 'license'|trans }}</a>
                         </div>

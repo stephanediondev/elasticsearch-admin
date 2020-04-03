@@ -6,6 +6,11 @@ use App\Model\AbstractAppModel;
 
 class CallModel extends AbstractAppModel
 {
+    const APPLICATION_ELASTICSEARCH = 'elasticssearch';
+    const APPLICATION_KIBANA = 'kibana';
+
+    private $application;
+
     private $method;
 
     private $path;
@@ -14,8 +19,21 @@ class CallModel extends AbstractAppModel
 
     public function __construct()
     {
+        $this->application = self::APPLICATION_ELASTICSEARCH;
         $this->method = 'GET';
         $this->options = ['query' => [], 'body' => false, 'json' => []];
+    }
+
+    public function getApplication(): ?string
+    {
+        return $this->application;
+    }
+
+    public function setApplication(?string $application): self
+    {
+        $this->application = $application;
+
+        return $this;
     }
 
     public function getMethod(): ?string
