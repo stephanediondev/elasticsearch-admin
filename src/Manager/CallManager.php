@@ -64,9 +64,6 @@ class CallManager
 
         $options['verify_peer'] = $this->sslVerifyPeer;
 
-        dump($call->getApplication());
-        dump($headers);
-
         if (CallModel::APPLICATION_KIBANA == $call->getApplication()) {
             $response = $this->client->request($call->getMethod(), $this->kibanaUrl.$call->getPath(), $options);
         } else {
