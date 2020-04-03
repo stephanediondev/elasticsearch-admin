@@ -47,7 +47,22 @@ class NodesController extends AbstractAppController
             $nodes[$node['name']]['stats'] = $node;
         }
 
+        $call = new CallModel();
+        $call->setPath('/_cluster/settings');
+        $call->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
+        $clusterSettings = $this->callManager->call($call);
+
+        $settings = [];
+        foreach ($clusterSettings as $type => $rows) {
+            foreach ($rows as $k => $v) {
+                if (false == array_key_exists($k, $settings)) {
+                    $settings[$k] = $v;
+                }
+            }
+        }
+
         return $this->renderAbstract($request, 'Modules/nodes/nodes_index.html.twig', [
+            'cluster_settings' => $settings,
             'nodes' => $this->paginatorManager->paginate([
                 'route' => 'nodes',
                 'route_parameters' => [],

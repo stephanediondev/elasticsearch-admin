@@ -19,7 +19,6 @@
                         </th>
                     {% endif %}
 
-
                     {% if 'master_eligible' == column %}
                         <th>
                             {{ 'master_eligible'|trans }}
@@ -182,7 +181,11 @@
                             <td>
                                 <strong><span id="{{ row['name'] }}-disk-used_percent">{{ row['disk.used_percent'] }}</span>%</strong>
                                 <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-disk-used">{{ row['disk.used'] }}</span></small>
-                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-disk-total">{{ row['disk.total'] }}</span></small>
+                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-disk-total">{{ row['disk.total'] }}</span></small><br>
+
+                                <span id="{{ row['name'] }}-disk-watermark_low" class="badge badge-warning d-none">{{ 'watermark_low'|trans }}</span>
+                                <span id="{{ row['name'] }}-disk-watermark_high" class="badge badge-danger d-none">{{ 'watermark_high'|trans }}</span>
+                                <span id="{{ row['name'] }}-disk-watermark_flood_stage" class="badge badge-dark d-none">{{ 'watermark_flood_stage'|trans }}</span>
                             </td>
                         {% endif %}
 

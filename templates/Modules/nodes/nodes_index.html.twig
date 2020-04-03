@@ -23,6 +23,16 @@
                 {% include 'Modules/nodes/nodes_list.html.twig' with {'nodes': nodes} %}
 
                 {{ appImport.paginator(nodes) }}
+
+                {% if cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and true == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
+                    <p>
+                        <strong>{{ 'watermarks_disk_usage'|trans }}</strong>:
+                        <span class="badge badge-warning">{{ 'watermark_low'|trans }} ({{ cluster_settings['cluster.routing.allocation.disk.watermark.low'] }})</span>
+                        <span class="badge badge-danger">{{ 'watermark_high'|trans }} ({{ cluster_settings['cluster.routing.allocation.disk.watermark.high'] }})</span>
+                        <span class="badge badge-dark">{{ 'watermark_flood_stage'|trans }} ({{ cluster_settings['cluster.routing.allocation.disk.watermark.flood_stage'] }})</span>
+                        <br><a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/disk-allocator.html#disk-allocator">{{ 'help'|trans }}</a>
+                    </p>
+                {% endif %}
             {% endblock %}
         {% endembed %}
     {% endif %}
@@ -32,6 +42,15 @@
     {{ parent() }}
 
     <script type="text/javascript">
+    {% if cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and true == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
+        var disk_threshold_enabled = true;
+        var disk_watermark_low = {{ cluster_settings['cluster.routing.allocation.disk.watermark.low']|replace({'%': ''}) }};
+        var disk_watermark_high = {{ cluster_settings['cluster.routing.allocation.disk.watermark.high']|replace({'%': ''}) }};
+        var disk_watermark_flood_stage = {{ cluster_settings['cluster.routing.allocation.disk.watermark.flood_stage']|replace({'%': ''}) }};
+    {% else %}
+        var disk_threshold_enabled = false;
+    {% endif %}
+
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -60,6 +79,22 @@
                 $('#' + k + '-disk-used_percent').text(json[k]['disk.used_percent']);
                 $('#' + k + '-disk-used').text(json[k]['disk.used']);
                 $('#' + k + '-disk-total').text(json[k]['disk.total']);
+
+                if (true == disk_threshold_enabled) {
+                    $('#' + k + '-disk-watermark_low').addClass('d-none');
+                    $('#' + k + '-disk-watermark_high').addClass('d-none');
+                    $('#' + k + '-disk-watermark_flood_stage').addClass('d-none');
+
+                    if (disk_watermark_flood_stage <= json[k]['disk.used_percent']) {
+                        $('#' + k + '-disk-watermark_flood_stage').removeClass('d-none');
+
+                    } else if (disk_watermark_high <= json[k]['disk.used_percent']) {
+                        $('#' + k + '-disk-watermark_high').removeClass('d-none');
+
+                    } else if (disk_watermark_low <= json[k]['disk.used_percent']) {
+                        $('#' + k + '-disk-watermark_low').removeClass('d-none');
+                    }
+                }
             }
 
             await sleep(5000);
