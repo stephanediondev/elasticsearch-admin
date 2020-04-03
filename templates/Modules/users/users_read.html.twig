@@ -25,6 +25,13 @@
                 {% embed 'buttons_embed.html.twig' %}
                     {% import 'app_import.html.twig' as appImport %}
                     {% block content %}
+                        {{ appImport.buttonModal({
+                            'id': 'UserDelete',
+                            'title': 'delete'|trans,
+                            'body': user['username'],
+                            'href': path('users_delete', {'user': user['username']}),
+                        }) }}
+
                         {% if false == user['enabled'] %}
                             {{ appImport.buttonModal({
                                 'id': 'UserEnable',

@@ -132,4 +132,21 @@ class CallManager
 
         return $aliases;
     }
+
+    public function selectRoles()
+    {
+        $roles = [];
+
+        $call = new CallModel();
+        $call->setPath('/_security/role');
+        $rows = $this->call($call);
+
+        foreach ($rows as $k => $row) {
+            $roles[] = $k;
+        }
+
+        sort($roles);
+
+        return $roles;
+    }
 }
