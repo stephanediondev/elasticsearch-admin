@@ -301,7 +301,7 @@ class IndicesController extends AbstractAppController
         if ($index) {
             $call = new CallModel();
             $call->setPath('/_cat/shards/'.$index['index']);
-            $call->setQuery(['h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
+            $call->setQuery(['s' => 'shard,prirep', 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
             $shards = $this->callManager->call($call);
 
             return $this->renderAbstract($request, 'Modules/indices/indices_read_shards.html.twig', [

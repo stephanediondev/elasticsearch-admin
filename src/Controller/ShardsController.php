@@ -20,7 +20,7 @@ class ShardsController extends AbstractAppController
     {
         $call = new CallModel();
         $call->setPath('/_cat/shards');
-        $call->setQuery(['h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node']);
+        $call->setQuery(['s' => 'index,shard,prirep', 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node']);
         $shards = $this->callManager->call($call);
 
         return $this->renderAbstract($request, 'Modules/shards/shards_index.html.twig', [
