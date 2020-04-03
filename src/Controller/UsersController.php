@@ -68,6 +68,9 @@ class UsersController extends AbstractAppController
                     'password' => $userModel->getPassword(),
                     'roles' => $userModel->getRoles(),
                 ];
+                if ($userModel->getMetadata()) {
+                    $json['metadata'] = json_decode($userModel->getMetadata(), true);
+                }
                 $call = new CallModel();
                 $call->setMethod('POST');
                 $call->setPath('/_security/user/'.$userModel->getUsername());
@@ -140,6 +143,9 @@ class UsersController extends AbstractAppController
                         'full_name' => $userModel->getFullName(),
                         'roles' => $userModel->getRoles(),
                     ];
+                    if ($userModel->getMetadata()) {
+                        $json['metadata'] = json_decode($userModel->getMetadata(), true);
+                    }
                     $call = new CallModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_security/user/'.$userModel->getUsername());

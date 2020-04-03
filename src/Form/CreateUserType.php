@@ -10,8 +10,10 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Json;
 
 class CreateUserType extends AbstractType
 {
@@ -22,33 +24,14 @@ class CreateUserType extends AbstractType
         if (false == $options['update']) {
             $fields[] = 'username';
             $fields[] = 'password';
-            $fields[] = 'email';
-            $fields[] = 'full_name';
-            $fields[] = 'roles';
-            $fields[] = 'enabled';
-        } else {
-            $fields[] = 'email';
-            $fields[] = 'full_name';
-            $fields[] = 'roles';
         }
+        $fields[] = 'email';
+        $fields[] = 'full_name';
+        $fields[] = 'roles';
+        $fields[] = 'metadata';
 
         foreach ($fields as $field) {
             switch ($field) {
-                case 'roles':
-                    $builder->add('roles', ChoiceType::class, [
-                        'multiple' => true,
-                        'choices' => $options['roles'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['roles'][$key];
-                        },
-                        'choice_translation_domain' => false,
-                        'label' => 'roles',
-                        'required' => false,
-                        'attr' => [
-                            'size' => 10
-                        ],
-                    ]);
-                    break;
                 case 'username':
                     $builder->add('username', TextType::class, [
                         'label' => 'username',
@@ -67,22 +50,44 @@ class CreateUserType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'full_name':
-                    $builder->add('full_name', TextType::class, [
-                        'label' => 'full_name',
-                        'required' => false,
-                    ]);
-                    break;
                 case 'email':
                     $builder->add('email', EmailType::class, [
                         'label' => 'email',
                         'required' => false,
                     ]);
                     break;
-                case 'enabled':
-                    $builder->add('enabled', CheckboxType::class, [
-                        'label' => 'enabled',
+                case 'full_name':
+                    $builder->add('full_name', TextType::class, [
+                        'label' => 'full_name',
                         'required' => false,
+                    ]);
+                    break;
+                case 'roles':
+                    $builder->add('roles', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['roles'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['roles'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'roles',
+                        'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                            'style' => 'min-height:300px;'
+                        ],
+                    ]);
+                    break;
+                case 'metadata':
+                    $builder->add('metadata', TextareaType::class, [
+                        'label' => 'metadata',
+                        'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
+                        'attr' => [
+                            'style' => 'min-height:300px;'
+                        ],
                     ]);
                     break;
             }

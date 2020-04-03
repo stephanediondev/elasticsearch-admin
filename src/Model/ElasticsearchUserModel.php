@@ -18,6 +18,8 @@ class ElasticsearchUserModel extends AbstractAppModel
 
     private $roles;
 
+    private $metadata;
+
     public function __construct()
     {
         $this->enabled = true;
@@ -95,12 +97,27 @@ class ElasticsearchUserModel extends AbstractAppModel
         return $this;
     }
 
+    public function getMetadata(): ?string
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata(?string $metadata): self
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
     public function convert(?array $user): self
     {
         $this->setUsername($user['username']);
         $this->setFullName($user['full_name']);
         $this->setEmail($user['email']);
         $this->setRoles($user['roles']);
+        if (true == isset($user['metadata']) && 0 < count($user['metadata'])) {
+            $this->setMetadata(json_encode($user['metadata'], JSON_PRETTY_PRINT));
+        }
         return $this;
     }
 }

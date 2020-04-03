@@ -53,42 +53,54 @@
                 {% endembed %}
             {% endif %}
 
-            {% if user['full_name'] %}
-                <p>
-                    <strong>{{ 'full_name'|trans }}</strong><br>
-                    {{ user['full_name'] }}
-                </p>
-            {% endif %}
+            <div class="row">
+                <div class="col-12 col-md-5 col-lg-4">
+                    {% if user['full_name'] %}
+                        <p>
+                            <strong>{{ 'full_name'|trans }}</strong><br>
+                            {{ user['full_name'] }}
+                        </p>
+                    {% endif %}
 
-            {% if user['email'] %}
-                <p>
-                    <strong>{{ 'email'|trans }}</strong><br>
-                    {{ user['email'] }}
-                </p>
-            {% endif %}
+                    {% if user['email'] %}
+                        <p>
+                            <strong>{{ 'email'|trans }}</strong><br>
+                            {{ user['email'] }}
+                        </p>
+                    {% endif %}
 
-            {% if user['roles'] is defined and 0 < user['roles']|length %}
-                <p>
-                    <strong>{{ 'roles'|trans }}</strong><br>
-                    {% for record in user['roles'] %}
-                        <a href="{{ path('roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
-            {% endif %}
+                    {% if user['roles'] is defined and 0 < user['roles']|length %}
+                        <p>
+                            <strong>{{ 'roles'|trans }}</strong><br>
+                            {% for record in user['roles'] %}
+                                <a href="{{ path('roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
 
-            <p>
-                <strong>{{ 'enabled'|trans }}</strong><br>
-                {{ appImport.badge({'title': ('boolean.' ~ user['enabled'])|trans, 'context': user['enabled']}) }}
-            </p>
+                    <p>
+                        <strong>{{ 'enabled'|trans }}</strong><br>
+                        {{ appImport.badge({'title': ('boolean.' ~ user['enabled'])|trans, 'context': user['enabled']}) }}
+                    </p>
 
-            <p>
-                <strong>{{ 'reserved'|trans }}</strong><br>
-                {% if user['metadata']['_reserved'] is defined and true == user['metadata']['_reserved'] %}
-                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                {% else %}
-                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                    <p>
+                        <strong>{{ 'reserved'|trans }}</strong><br>
+                        {% if user['metadata']['_reserved'] is defined and true == user['metadata']['_reserved'] %}
+                            {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                        {% else %}
+                            {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                        {% endif %}
+                    </p>
+                </div>
+
+                {% if user['metadata'] is defined and 0 < user['metadata']|length %}
+                    <div class="col-12 col-md-5 col-lg-4">
+                        <p>
+                            <strong>{{ 'metadata'|trans }}</strong><br>
+                            <pre>{{ user['metadata']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                        </p>
+                    </div>
                 {% endif %}
-            </p>
         {% endblock %}
     {% endembed %}
 {% endblock %}
