@@ -77,3 +77,5 @@ cp .env.dist .env
 [![Snaphosts](assets/images/resized-snapshots.png)](assets/images/original-snapshots.png)
 
 [![Create snapshot](assets/images/resized-snapshot-create.png)](assets/images/original-snapshot-create.png)
+
+[![Shards](assets/images/resized-shards.png)](assets/images/original-shards.png)
