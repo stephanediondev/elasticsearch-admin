@@ -23,6 +23,8 @@
 
             {% if 0 < snapshot['failures']|length %}
                 {% embed 'table_embed.html.twig' %}
+                    {% import 'app_import.html.twig' as appImport %}
+
                     {% block thead %}
                         <tr>
                             <th>
@@ -57,7 +59,7 @@
                                 </td>
                                 <td>
                                     {% if nodes[failure['node_id']] is defined %}
-                                        <a href="{{ path('nodes_read', {'node': nodes[failure['node_id']]}) }}">{{ nodes[failure['node_id']] }}</a>
+                                        <a href="{{ path('nodes_read', {'node': nodes[failure['node_id']]}) }}">{{ nodes[failure['node_id']] }}</a>{% if master_node == nodes[failure['node_id']] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
                                     {% else %}
                                         {{ failure['node_id'] }}
                                     {% endif %}

@@ -119,18 +119,10 @@ class NodesController extends AbstractAppController
         $node = $this->callManager->call($call);
 
         if (true == isset($node['nodes'][key($node['nodes'])])) {
-            $call = new CallModel();
-            $call->setPath('/_cluster/state');
-            $clusterState = $this->callManager->call($call);
-
-            $nodes = [];
-            foreach ($clusterState['nodes'] as $k => $v) {
-                $nodes[$k] = $v['name'];
-            }
+            $node = $node['nodes'][key($node['nodes'])];
 
             return $this->renderAbstract($request, 'Modules/nodes/nodes_read.html.twig', [
-                'master_node' => $nodes[$clusterState['master_node']] ?? false,
-                'node' => $node['nodes'][key($node['nodes'])],
+                'node' => $node,
             ]);
         } else {
             throw new NotFoundHttpException();
@@ -175,8 +167,8 @@ class NodesController extends AbstractAppController
             $usage = $usage['nodes'][key($usage['nodes'])];
 
             return $this->renderAbstract($request, 'Modules/nodes/nodes_read_usage.html.twig', [
-                'usage' => $usage,
                 'node' => $node,
+                'usage' => $usage,
             ]);
         } else {
             throw new NotFoundHttpException();

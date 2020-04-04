@@ -101,7 +101,7 @@
                         {% if 'node' == column %}
                             <td>
                                 {% if row['node'] %}
-                                    <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
+                                    <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>{% if master_node == row['node'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
                                 {% endif %}
                             </td>
                         {% endif %}
