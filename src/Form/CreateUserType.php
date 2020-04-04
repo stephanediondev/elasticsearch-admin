@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Json;
 
 class CreateUserType extends AbstractType
@@ -39,6 +40,9 @@ class CreateUserType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'attr' => [
+                            'autocomplete' => 'nope',
+                        ],
                     ]);
                     break;
                 case 'password':
@@ -47,6 +51,13 @@ class CreateUserType extends AbstractType
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),
+                            new Length([
+                                'min' => 6,
+                            ])
+                        ],
+                        'attr' => [
+                            'autocomplete' => 'new-password',
+                            'minlength' => 6,
                         ],
                     ]);
                     break;
@@ -73,6 +84,7 @@ class CreateUserType extends AbstractType
                         'label' => 'roles',
                         'required' => false,
                         'attr' => [
+                            'size' => 10,
                             'data-break-after' => 'yes',
                         ],
                     ]);

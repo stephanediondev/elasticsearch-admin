@@ -98,7 +98,7 @@ class CreateSlmPolicyType extends AbstractType
                         'label' => 'indices',
                         'required' => false,
                         'attr' => [
-                            'size' => 10
+                            'size' => 10,
                         ],
                         'help' => 'help_form.slm_policy.indices',
                         'help_html' => true,

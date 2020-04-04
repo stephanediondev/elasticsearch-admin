@@ -49,7 +49,7 @@ class RestoreSnapshotType extends AbstractType
                         'label' => 'indices',
                         'required' => false,
                         'attr' => [
-                            'size' => 10
+                            'size' => 10,
                         ],
                     ]);
                     break;

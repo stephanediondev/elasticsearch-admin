@@ -68,7 +68,7 @@ class CreateSnapshotType extends AbstractType
                         'label' => 'indices',
                         'required' => false,
                         'attr' => [
-                            'size' => 10
+                            'size' => 10,
                         ],
                         'help' => 'help_form.snapshot.indices',
                         'help_html' => true,
