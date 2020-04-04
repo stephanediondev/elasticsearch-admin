@@ -120,13 +120,13 @@
 
                         {% if 'status' == column %}
                             <td>
-                                {{ row['status'] }}
+                                {{ appImport.badge({'title': row['status']|trans, 'context': row['status']}) }}
                             </td>
                         {% endif %}
 
                         {% if 'health' == column %}
                             <td>
-                                {{ appImport.badge({'title': row['health'], 'context': row['health']}) }}
+                                {{ appImport.badge({'title': row['health']|trans, 'context': row['health']}) }}
                             </td>
                         {% endif %}
 

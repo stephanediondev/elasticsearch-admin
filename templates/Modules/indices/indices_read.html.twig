@@ -118,12 +118,12 @@
 
             <p>
                 <strong>{{ 'status'|trans }}</strong><br>
-                {{ index['status'] }}
+                {{ appImport.badge({'title': index['status']|trans, 'context': index['status']}) }}
             </p>
 
             <p>
                 <strong>{{ 'health'|trans }}</strong><br>
-                {{ appImport.badge({'title': index['health'], 'context': index['health']}) }}
+                {{ appImport.badge({'title': index['health']|trans, 'context': index['health']}) }}
             </p>
 
             {% if index['settings']['index']['version']['created'] is defined %}

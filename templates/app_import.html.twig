@@ -32,7 +32,7 @@
     {% if 'true' == params.context or '1' == params.context %}
         {% set params = params|merge({'context': 'success'}) %}
 
-    {% elseif 'false' == params.context or '0' == params.context %}
+    {% elseif 'false' == params.context or '0' == params.context or 'close' == params.context %}
         {% set params = params|merge({'context': 'secondary'}) %}
 
     {% elseif 'red' == params.context %}
@@ -41,7 +41,7 @@
     {% elseif 'yellow' == params.context %}
         {% set params = params|merge({'context': 'warning'}) %}
 
-    {% elseif 'green' == params.context %}
+    {% elseif 'green' == params.context or 'open' == params.context %}
         {% set params = params|merge({'context': 'success'}) %}
 
     {% elseif 'RUNNING' == params.context %}

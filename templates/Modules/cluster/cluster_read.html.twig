@@ -22,7 +22,7 @@
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
             <div class="row">
-                {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': clusterHealth['status'], 'context': clusterHealth['status']}}) }}
+                {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': clusterHealth['status']|trans, 'context': clusterHealth['status']}}) }}
 
                 {{ appImport.dashboardKpi({'title': 'nodes'|trans, 'badge': {'title': clusterHealth['number_of_nodes']}}) }}
 
