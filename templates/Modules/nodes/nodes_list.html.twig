@@ -91,7 +91,7 @@
 
     {% block tbody %}
         {% for row in nodes.rows %}
-            <tr>
+            <tr class="master_eligible-{{ row['settings']['node']['master'] }} voting_only-{% if row['settings']['node']['voting_only'] is defined %}{{ row['settings']['node']['voting_only'] }}{% else %}false{% endif %} data-{{ row['settings']['node']['data'] }}" data-search="{{ row['name'] }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}

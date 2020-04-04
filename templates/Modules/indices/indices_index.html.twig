@@ -66,32 +66,32 @@
 
                     <p>
                         <strong>{{ 'status'|trans }}</strong><br>
-                        {% for k, v in {'open': 'open'|trans, 'close': 'close'|trans} %}
+                        {% for v in ['open', 'close'] %}
                             <span class="custom-control custom-switch d-inline mr-2">
                                 <input
                                     type="checkbox"
                                     class="custom-control-input searchCheckbox"
-                                    id="{{ k }}Switch"
+                                    id="status{{ v }}Switch"
                                     checked="checked"
-                                    value="status-{{ k }}"
+                                    value="status-{{ v }}"
                                 >
-                                <label class="custom-control-label" for="{{ k }}Switch">{{ v }}</label>
+                                <label class="custom-control-label" for="status{{ v }}Switch">{{ appImport.badge({'title': v|trans, 'context': v}) }}</label>
                             </span>
                         {% endfor %}
                     </p>
 
                     <p>
                         <strong>{{ 'health'|trans }}</strong><br>
-                        {% for k, v in {'red': 'red'|trans, 'yellow': 'yellow'|trans, 'green': 'green'|trans} %}
+                        {% for v in ['red', 'yellow', 'green'] %}
                             <span class="custom-control custom-switch d-inline mr-2">
                                 <input
                                     type="checkbox"
                                     class="custom-control-input searchCheckbox"
-                                    id="{{ k }}Switch"
+                                    id="health{{ v }}Switch"
                                     checked="checked"
-                                    value="health-{{ k }}"
+                                    value="health-{{ v }}"
                                 >
-                                <label class="custom-control-label" for="{{ k }}Switch">{{ v }}</label>
+                                <label class="custom-control-label" for="health{{ v }}Switch">{{ appImport.badge({'title': v|trans, 'context': v}) }}</label>
                             </span>
                         {% endfor %}
                     </p>

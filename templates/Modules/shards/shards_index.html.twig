@@ -27,16 +27,16 @@
                 <div class="collapse" id="collapseFilter">
                     <p>
                         <strong>{{ 'primary'|trans }}</strong><br>
-                        {% for k, v in {'true': 'boolean.true'|trans, 'false': 'boolean.false'|trans} %}
+                        {% for v in ['true', 'false'] %}
                             <span class="custom-control custom-switch d-inline mr-2">
                                 <input
                                     type="checkbox"
                                     class="custom-control-input searchCheckbox"
-                                    id="{{ k }}Switch"
+                                    id="primary{{ v }}Switch"
                                     checked="checked"
-                                    value="primary-{{ k }}"
+                                    value="primary-{{ v }}"
                                 >
-                                <label class="custom-control-label" for="{{ k }}Switch">{{ v }}</label>
+                                <label class="custom-control-label" for="primary{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
                             </span>
                         {% endfor %}
                     </p>
@@ -48,11 +48,11 @@
                                 <input
                                     type="checkbox"
                                     class="custom-control-input searchCheckbox"
-                                    id="{{ v }}Switch"
+                                    id="state{{ v }}Switch"
                                     checked="checked"
                                     value="state-{{ v }}"
                                 >
-                                <label class="custom-control-label" for="{{ v }}Switch">{{ v }}</label>
+                                <label class="custom-control-label" for="state{{ v }}Switch">{{ v }}</label>
                             </span>
                         {% endfor %}
                     </p>

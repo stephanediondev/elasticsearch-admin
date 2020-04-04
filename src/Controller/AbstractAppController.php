@@ -36,15 +36,10 @@ abstract class AbstractAppController extends AbstractController
         $parameters['clusterHealth'] = $clusterHealth;
 
         $call = new CallModel();
-        $call->setPath('/_cluster/state');
-        $clusterState = $this->callManager->call($call);
+        $call->setPath('/_cat/master');
+        $master = $this->callManager->call($call);
 
-        $nodes = [];
-        foreach ($clusterState['nodes'] as $k => $v) {
-            $nodes[$k] = $v['name'];
-        }
-
-        $parameters['master_node'] = $nodes[$clusterState['master_node']] ?? false;
+        $parameters['master_node'] = $master[0]['node'] ?? false;
 
         /*if (null === $response) {
             $response = new Response();
