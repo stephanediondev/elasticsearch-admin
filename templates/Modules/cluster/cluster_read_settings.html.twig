@@ -23,12 +23,12 @@
 
             {% for type, rows in cluster_settings %}
                 {% if 0 < rows|length %}
-                    {{ appImport.heading({'level': 4, 'title': type|trans, 'badge': rows|length}) }}
+                    {{ appImport.heading({'level': 4, 'title': ('settings_' ~ type)|trans, 'badge': rows|length}) }}
 
                     {% embed 'table_embed.html.twig' %}
                         {% block thead %}
                             <tr>
-                                <th>{{ 'key'|trans }}</th>
+                                <th>{{ 'setting'|trans }}</th>
                                 <th>{{ 'value'|trans }}</th>
                             </tr>
                         {% endblock %}
