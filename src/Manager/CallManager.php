@@ -74,6 +74,25 @@ class CallManager
         }
     }
 
+    public function getClusterSettings()
+    {
+        $call = new CallModel();
+        $call->setPath('/_cluster/settings');
+        $call->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
+        $results = $this->call($call);
+
+        $clusterSettings = [];
+        foreach ($results as $type => $rows) {
+            foreach ($rows as $k => $v) {
+                if (false == array_key_exists($k, $clusterSettings)) {
+                    $clusterSettings[$k] = $v;
+                }
+            }
+        }
+
+        return $clusterSettings;
+    }
+
     public function getIndex($index)
     {
         $call = new CallModel();
