@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Form\EditClusterSettingType;
+use App\Model\ElasticsearchClusterSettingModel;
 use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,5 +55,73 @@ class ClusterController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/cluster/cluster_read_settings.html.twig', [
             'cluster_settings' => $clusterSettings,
         ]);
+    }
+
+    /**
+     * @Route("/cluster/settings/{type}/{setting}/edit", name="cluster_settings_edit")
+     */
+    public function edit(Request $request, string $type, string $setting): Response
+    {
+        $clusterSettings = $this->callManager->getClusterSettings();
+
+        if (true == array_key_exists($setting, $clusterSettings)) {
+            $clusterSettingModel = new ElasticsearchClusterSettingModel();
+            $clusterSettingModel->setType($type);
+            $clusterSettingModel->setSetting($setting);
+            $clusterSettingModel->setValue($clusterSettings[$setting]);
+            $form = $this->createForm(EditClusterSettingType::class, $clusterSettingModel);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $json = [
+                        $clusterSettingModel->getType() => [
+                            $clusterSettingModel->getSetting() => $clusterSettingModel->getValue(),
+                        ],
+                    ];
+                    $call = new CallModel();
+                    $call->setMethod('PUT');
+                    $call->setPath('/_cluster/settings');
+                    $call->setJson($json);
+                    $this->callManager->call($call);
+
+                    $this->addFlash('success', 'success.cluster_settings_edit');
+
+                    return $this->redirectToRoute('cluster_settings', []);
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
+            }
+
+            return $this->renderAbstract($request, 'Modules/cluster/cluster_edit_setting.html.twig', [
+                'form' => $form->createView(),
+                'type' => $type,
+                'setting' => $setting,
+            ]);
+        } else {
+            throw new NotFoundHttpException();
+        }
+    }
+
+    /**
+     * @Route("/cluster/settings/{type}/{setting}/remove", name="cluster_settings_remove")
+     */
+    public function remove(Request $request, string $type, string $setting): Response
+    {
+        $json = [
+            $type => [
+                $setting => null,
+            ],
+        ];
+        $call = new CallModel();
+        $call->setMethod('PUT');
+        $call->setPath('/_cluster/settings');
+        $call->setJson($json);
+        $this->callManager->call($call);
+
+        $this->addFlash('success', 'success.cluster_settings_remove');
+
+        return $this->redirectToRoute('cluster_settings', []);
     }
 }

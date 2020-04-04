@@ -28,7 +28,7 @@ cp .env.dist .env
 
 - [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
 - [x] Login: user managed by Symfony, not related to Elasticsearch
-- [x] Cluster: basic metrics, settings
+- [x] Cluster: basic metrics, list settings, update settings
 - [x] Nodes: list, read, usage, plugins
 - [x] Indices: list, reindex, create, read, update (mappings), delete, close, open, force merge, clear cache, flush, refresh
 - [x] Documents (by index): list
@@ -53,7 +53,7 @@ cp .env.dist .env
 - [ ] Roles: create, update, delete
 - [ ] Index lifecycle management policies: create, update, delete
 - [ ] Documents (by index): filter, delete
-- [ ] Cluster: update settings, reroute
+- [ ] Cluster: reroute
 - [ ] Repositories: create (url, source, hdfs, azure)
 
 ## Screenshots
