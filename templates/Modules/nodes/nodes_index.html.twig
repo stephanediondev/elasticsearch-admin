@@ -89,16 +89,6 @@
                 {% include 'Modules/nodes/nodes_list.html.twig' with {'nodes': nodes} %}
 
                 {{ appImport.paginator(nodes) }}
-
-                {% if cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and true == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
-                    <p>
-                        <strong>{{ 'watermarks_disk_usage'|trans }}</strong>:
-                        <span class="badge badge-warning">{{ 'watermark_low'|trans }} ({{ cluster_settings['cluster.routing.allocation.disk.watermark.low'] }})</span>
-                        <span class="badge badge-danger">{{ 'watermark_high'|trans }} ({{ cluster_settings['cluster.routing.allocation.disk.watermark.high'] }})</span>
-                        <span class="badge badge-dark">{{ 'watermark_flood_stage'|trans }} ({{ cluster_settings['cluster.routing.allocation.disk.watermark.flood_stage'] }})</span>
-                        <br><a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/disk-allocator.html#disk-allocator">{{ 'help'|trans }}</a>
-                    </p>
-                {% endif %}
             {% endblock %}
         {% endembed %}
     {% endif %}
