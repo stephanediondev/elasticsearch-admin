@@ -18,6 +18,40 @@
             {% block content %}
                 {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': snapshots.total}) }}
 
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    <p>
+                        <label for="searchInput"><strong>{{ 'snapshot'|trans }}</strong></label>
+                        <input
+                            id="searchInput"
+                            class="form-control form-control-sm"
+                            type="text"
+                            autocomplete="off"
+                        >
+                    </p>
+
+                    <p>
+                        <strong>{{ 'state'|trans }}</strong><br>
+                        {% for v in ['FAILED', 'INCOMPATIBLE', 'IN_PROGRESS', 'PARTIAL', 'SUCCESS'] %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="{{ v }}Switch"
+                                    checked="checked"
+                                    value="state-{{ v }}"
+                                >
+                                <label class="custom-control-label" for="{{ v }}Switch">{{ v }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+                </div>
+
                 {{ appImport.paginator(snapshots) }}
 
                 {% include 'Modules/snapshots/snapshots_list.html.twig' with {'snapshots': snapshots} %}

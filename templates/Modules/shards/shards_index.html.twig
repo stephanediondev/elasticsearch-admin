@@ -18,6 +18,46 @@
             {% block content %}
                 {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': shards.total}) }}
 
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    <p>
+                        <strong>{{ 'primary'|trans }}</strong><br>
+                        {% for k, v in {'true': 'boolean.true'|trans, 'false': 'boolean.false'|trans} %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="{{ k }}Switch"
+                                    checked="checked"
+                                    value="primary-{{ k }}"
+                                >
+                                <label class="custom-control-label" for="{{ k }}Switch">{{ v }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+
+                    <p>
+                        <strong>{{ 'state'|trans }}</strong><br>
+                        {% for v in ['INITIALIZING', 'RELOCATING', 'STARTED', 'UNASSIGNED'] %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="{{ v }}Switch"
+                                    checked="checked"
+                                    value="state-{{ v }}"
+                                >
+                                <label class="custom-control-label" for="{{ v }}Switch">{{ v }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+                </div>
+
                 {{ appImport.paginator(shards) }}
 
                 {% include 'Modules/shards/shards_list.html.twig' with {'shards': shards} %}

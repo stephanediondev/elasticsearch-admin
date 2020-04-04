@@ -47,6 +47,56 @@
                     {% endblock %}
                 {% endembed %}
 
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    <p>
+                        <label for="searchInput"><strong>{{ 'name'|trans }}</strong></label>
+                        <input
+                            id="searchInput"
+                            class="form-control form-control-sm"
+                            type="text"
+                            autocomplete="off"
+                        >
+                    </p>
+
+                    <p>
+                        <strong>{{ 'status'|trans }}</strong><br>
+                        {% for k, v in {'open': 'open'|trans, 'close': 'close'|trans} %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="{{ k }}Switch"
+                                    checked="checked"
+                                    value="status-{{ k }}"
+                                >
+                                <label class="custom-control-label" for="{{ k }}Switch">{{ v }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+
+                    <p>
+                        <strong>{{ 'health'|trans }}</strong><br>
+                        {% for k, v in {'red': 'red'|trans, 'yellow': 'yellow'|trans, 'green': 'green'|trans} %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="{{ k }}Switch"
+                                    checked="checked"
+                                    value="health-{{ k }}"
+                                >
+                                <label class="custom-control-label" for="{{ k }}Switch">{{ v }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+                </div>
+
                 {{ appImport.paginator(indices) }}
 
                 {% include 'Modules/indices/indices_list.html.twig' with {'indices': indices} %}

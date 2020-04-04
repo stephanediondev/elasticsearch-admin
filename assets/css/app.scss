@@ -1,1 +1,9 @@
 @import "~bootstrap/scss/bootstrap.scss";
+
+textarea.form-control {
+    min-height: 300px;
+}
+
+.custom-control-label {
+    cursor: pointer;
+}

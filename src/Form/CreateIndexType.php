@@ -46,7 +46,6 @@ class CreateIndexType extends AbstractType
                         ],
                         'attr' => [
                             'data-break-after' => 'yes',
-                            'style' => 'min-height:300px;'
                         ],
                     ]);
                     break;
@@ -56,9 +55,6 @@ class CreateIndexType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Json(),
-                        ],
-                        'attr' => [
-                            'style' => 'min-height:300px;'
                         ],
                     ]);
                     break;

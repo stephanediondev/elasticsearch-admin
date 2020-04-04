@@ -86,7 +86,6 @@ class CreateIndexTemplateType extends AbstractType
                         ],
                         'attr' => [
                             'data-break-after' => 'yes',
-                            'style' => 'min-height:300px;'
                         ],
                         'help' => 'help_form.index_template.settings',
                         'help_html' => true,
@@ -98,9 +97,6 @@ class CreateIndexTemplateType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Json(),
-                        ],
-                        'attr' => [
-                            'style' => 'min-height:300px;'
                         ],
                         'help' => 'help_form.index_template.mappings',
                         'help_html' => true,

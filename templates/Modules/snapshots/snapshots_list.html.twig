@@ -61,7 +61,7 @@
 
     {% block tbody %}
         {% for row in snapshots.rows %}
-            <tr>
+            <tr class="state-{{ row['state'] }}" data-search="{{ row['snapshot'] }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'repository' == column %}
