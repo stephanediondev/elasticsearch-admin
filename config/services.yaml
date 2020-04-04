@@ -14,11 +14,6 @@ services:
             $elasticsearchUrl: '%env(ELASTICSEARCH_URL)%'
             $elasticsearchUsername: '%env(ELASTICSEARCH_USERNAME)%'
             $elasticsearchPassword: '%env(ELASTICSEARCH_PASSWORD)%'
-
-            $kibanaUrl: '%env(KIBANA_URL)%'
-            $kibanaUsername: '%env(KIBANA_USERNAME)%'
-            $kibanaPassword: '%env(KIBANA_PASSWORD)%'
-
             $sslVerifyPeer: '%env(bool:SSL_VERIFY_PEER)%'
 
     # makes classes in src/ available to be used as services

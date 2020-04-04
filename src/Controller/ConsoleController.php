@@ -16,9 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 class ConsoleController extends AbstractAppController
 {
     /**
-     * @Route("/console/{application}", name="console")
+     * @Route("/console", name="console")
      */
-    public function index(Request $request, string $application): Response
+    public function index(Request $request): Response
     {
         $callModel = new CallModel();
         $form = $this->createForm(ConsoleType::class, $callModel);
@@ -27,7 +27,6 @@ class ConsoleController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $callModel->setApplication($application);
                 $parameters['response'] = $this->callManager->call($callModel);
                 $parameters['path'] = $callModel->getPath();
 
@@ -37,7 +36,6 @@ class ConsoleController extends AbstractAppController
         }
 
         $parameters['form'] = $form->createView();
-        $parameters['application'] = $application;
 
         return $this->renderAbstract($request, 'Modules/console/console_index.html.twig', $parameters);
     }

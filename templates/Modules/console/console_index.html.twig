@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% import 'app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ ('console_' ~ application)|trans }}{% if response is defined %} - {{ path }}{% endif %}{% endblock %}
+{% block head_title %}{{ 'console'|trans }}{% if response is defined %} - {{ path }}{% endif %}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': ('console_' ~ application)|trans}) }}
+    {{ appImport.heading({'level': 1, 'title': 'console'|trans}) }}
 {% endblock %}
 
 {% block main_content %}
@@ -33,4 +33,18 @@
             </div>
         {% endblock %}
     {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).on('submit', 'form', function(event) {
+            var path = $('#data_path').val();
+            path = path.trim();
+            if ('/' != path.substring(0, 1)) {
+                $('#data_path').val('/' + path);
+            }
+        });
+    </script>
 {% endblock %}

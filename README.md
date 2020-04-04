@@ -43,8 +43,7 @@ cp .env.dist .env
 - [x] Roles: list, read
 - [x] Tasks: list
 - [x] Cat APIs: list
-- [x] Elasticsearch console
-- [x] Kibana console
+- [x] Console
 - [x] Deprecations info
 - [x] License: read, start trial, revert to basic, features
 

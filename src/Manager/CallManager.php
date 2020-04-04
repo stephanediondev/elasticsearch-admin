@@ -11,16 +11,11 @@ class CallManager
     /**
      * @required
      */
-    public function init(string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, string $kibanaUrl, string $kibanaUsername, string $kibanaPassword, bool $sslVerifyPeer)
+    public function init(string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
     {
         $this->elasticsearchUrl = $elasticsearchUrl;
         $this->elasticsearchUsername = $elasticsearchUsername;
         $this->elasticsearchPassword = $elasticsearchPassword;
-
-        $this->kibanaUrl = $kibanaUrl;
-        $this->kibanaUsername = $kibanaUsername;
-        $this->kibanaPassword = $kibanaPassword;
-
         $this->sslVerifyPeer = $sslVerifyPeer;
 
         $this->client = HttpClient::create();
@@ -46,20 +41,8 @@ class CallManager
             $options['query']['format'] = 'json';
         }
 
-        if (CallModel::APPLICATION_KIBANA == $call->getApplication()) {
-            $url = $this->kibanaUrl;
-
-            $headers['kbn-xsrf'] = 'true';
-
-            if ($this->kibanaUsername && $this->kibanaPassword) {
-                $headers['Authorization'] = 'Basic '.base64_encode($this->kibanaUsername.':'.$this->kibanaPassword);
-            }
-        } else {
-            $url = $this->elasticsearchUrl;
-
-            if ($this->elasticsearchUsername && $this->elasticsearchPassword) {
-                $headers['Authorization'] = 'Basic '.base64_encode($this->elasticsearchUsername.':'.$this->elasticsearchPassword);
-            }
+        if ($this->elasticsearchUsername && $this->elasticsearchPassword) {
+            $headers['Authorization'] = 'Basic '.base64_encode($this->elasticsearchUsername.':'.$this->elasticsearchPassword);
         }
 
         if (0 < count($headers)) {
@@ -68,7 +51,7 @@ class CallManager
 
         $options['verify_peer'] = $this->sslVerifyPeer;
 
-        $response = $this->client->request($call->getMethod(), $url.$call->getPath(), $options);
+        $response = $this->client->request($call->getMethod(), $this->elasticsearchUrl.$call->getPath(), $options);
 
         if ($response && in_array($response->getStatusCode(), [400, 401, 404, 405, 500])) {
             $json = json_decode($response->getContent(false), true);
