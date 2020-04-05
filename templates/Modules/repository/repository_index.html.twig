@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'repositories'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'repositories'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/repository/repository_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < repositories.total %}
+        {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': repositories.total}) }}
+
+                {{ appImport.paginator(repositories) }}
+
+                {% include 'Modules/repository/repository_list.html.twig' with {'repositories': repositories} %}
+
+                {{ appImport.paginator(repositories) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

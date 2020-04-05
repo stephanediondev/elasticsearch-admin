@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'users'|trans }} - {{ 'create_user'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'users'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/user/user_tabs.html.twig' with {'active': 'create_user'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'create_user'|trans}) }}
+
+            {% embed 'buttons_embed.html.twig' %}
+                {% import 'app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-put-user.html#security-api-put-user">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

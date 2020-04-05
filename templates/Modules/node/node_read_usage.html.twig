@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'nodes'|trans }} - {{ node['name'] }} - {{ 'usage'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'link': path('nodes', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {% if master_node == node['name'] %}
+        {{ appImport.heading({'level': 2, 'title': node['name'], 'badge': 'master'|trans, 'badge_context': 'master_node'}) }}
+    {% else %}
+        {{ appImport.heading({'level': 2, 'title': node['name']}) }}
+    {% endif %}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/node/node_read_tabs.html.twig' with {'active': 'usage'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'usage'|trans}) }}
+
+            <div class="row">
+                {% if usage['rest_actions'] is defined %}
+                    {% for key, value in usage['rest_actions'] %}
+                        {{ appImport.dashboardKpi({'title': key|trans, 'badge': {'title': value}}) }}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

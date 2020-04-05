@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateIlmPolicyType;
+use App\Manager\ElasticsearchIndexManager;
+use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallModel;
 use App\Model\ElasticsearchIlmPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class IlmController extends AbstractAppController
 {
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
+    {
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
+    }
+
     /**
      * @Route("/ilm", name="ilm")
      */
@@ -107,8 +115,8 @@ class IlmController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $repositories = $this->callManager->selectRepositories();
-        $indices = $this->callManager->selectIndices();
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
 
         $policyModel = new ElasticsearchIlmPolicyModel();
         if ($request->query->get('repository')) {
@@ -232,8 +240,8 @@ class IlmController extends AbstractAppController
         $policy['name'] = $name;
 
         if ($policy) {
-            $repositories = $this->callManager->selectRepositories();
-            $indices = $this->callManager->selectIndices();
+            $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+            $indices = $this->elasticsearchIndexManager->selectIndices();
 
             $policyModel = new ElasticsearchIlmPolicyModel();
             $policyModel->convert($policy);

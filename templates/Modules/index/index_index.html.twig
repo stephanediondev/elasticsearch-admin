@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'indices'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/index/index_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < indices.total %}
+        {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': indices.total}) }}
+
+                {% embed 'buttons_embed.html.twig' %}
+                    {% import 'app_import.html.twig' as appImport %}
+                    {% block content %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesForceMergeAll',
+                            'title': 'force_merge'|trans,
+                            'href': path('indices_force_merge_all', {}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesCacheClearAll',
+                            'title': 'cache_clear'|trans,
+                            'href': path('indices_cache_clear_all', {}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesFlushAll',
+                            'title': 'flush'|trans,
+                            'href': path('indices_flush_all', {}),
+                        }) }}
+
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesRefreshAll',
+                            'title': 'refresh'|trans,
+                            'href': path('indices_refresh_all', {}),
+                        }) }}
+                    {% endblock %}
+                {% endembed %}
+
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    <p>
+                        <label for="searchInput"><strong>{{ 'name'|trans }}</strong></label>
+                        <input
+                            id="searchInput"
+                            class="form-control form-control-sm"
+                            type="text"
+                            autocomplete="off"
+                        >
+                    </p>
+
+                    <p>
+                        <strong>{{ 'status'|trans }}</strong><br>
+                        {% for v in ['open', 'close'] %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="status{{ v }}Switch"
+                                    checked="checked"
+                                    value="status-{{ v }}"
+                                >
+                                <label class="custom-control-label" for="status{{ v }}Switch">{{ appImport.badge({'title': v|trans, 'context': v}) }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+
+                    <p>
+                        <strong>{{ 'health'|trans }}</strong><br>
+                        {% for v in ['red', 'yellow', 'green'] %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="health{{ v }}Switch"
+                                    checked="checked"
+                                    value="health-{{ v }}"
+                                >
+                                <label class="custom-control-label" for="health{{ v }}Switch">{{ appImport.badge({'title': v|trans, 'context': v}) }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+                </div>
+
+                {{ appImport.paginator(indices) }}
+
+                {% include 'Modules/index/index_list.html.twig' with {'indices': indices} %}
+
+                {{ appImport.paginator(indices) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

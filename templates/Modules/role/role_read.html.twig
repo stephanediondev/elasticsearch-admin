@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'roles'|trans }} - {{ role['role'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'roles'|trans, 'link': path('roles', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': role['role']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/role/role_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            <p>
+                <strong>{{ 'reserved'|trans }}</strong><br>
+                {% if role['metadata']['_reserved'] is defined and true == role['metadata']['_reserved'] %}
+                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                {% else %}
+                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                {% endif %}
+            </p>
+
+            {% if role['cluster'] is defined and 0 < role['cluster']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'cluster'|trans}) }}
+
+                {% embed 'table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'privilege'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for record in role['cluster'] %}
+                            <tr>
+                                <td>{{ record }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            {% if role['run_as'] is defined and 0 < role['run_as']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'run_as'|trans}) }}
+
+                {% embed 'table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'privilege'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for record in role['run_as'] %}
+                            <tr>
+                                <td>{{ record }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            {% if role['indices'] is defined and 0 < role['indices']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'indices'|trans}) }}
+
+                {% embed 'table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'names'|trans }}</th>
+                            <th>{{ 'privileges'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for record in role['indices'] %}
+                            <tr>
+                                <td>{{ record['names']|join('<br>')|raw }}</td>
+                                <td>{{ record['privileges']|join('<br>')|raw }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            {% if role['applications'] is defined and 0 < role['applications']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'applications'|trans}) }}
+
+                {% embed 'table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'application'|trans }}</th>
+                            <th>{{ 'privileges'|trans }}</th>
+                            <th>{{ 'resources'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for record in role['applications'] %}
+                            <tr>
+                                <td>{{ record['application'] }}</td>
+                                <td>{{ record['privileges']|join('<br>')|raw }}</td>
+                                <td>{{ record['resources']|join('<br>')|raw }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

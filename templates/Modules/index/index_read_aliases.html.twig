@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }} - {{ 'aliases'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': path('indices', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': index['index']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'aliases'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'aliases'|trans, 'badge': aliases.total}) }}
+
+            {% if 0 < aliases.total %}
+                {{ appImport.paginator(aliases) }}
+
+                {% include 'Modules/index/index_read_aliases_list.html.twig' with {'aliases': aliases} %}
+
+                {{ appImport.paginator(aliases) }}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -15,4 +15,4 @@ framework:
     php_errors:
         log: true
 
-    error_controller: App\Controller\ExceptionsController::read
+    error_controller: App\Controller\ExceptionController::read

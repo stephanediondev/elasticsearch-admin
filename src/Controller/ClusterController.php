@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Form\EditClusterSettingType;
+use App\Manager\ElasticsearchClusterManager;
 use App\Model\ElasticsearchClusterSettingModel;
 use App\Model\CallModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ClusterController extends AbstractAppController
 {
+    public function __construct(ElasticsearchClusterManager $elasticsearchClusterManager)
+    {
+        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
+    }
+
     /**
      * @Route("/cluster", name="cluster")
      */
@@ -62,7 +68,7 @@ class ClusterController extends AbstractAppController
      */
     public function edit(Request $request, string $type, string $setting): Response
     {
-        $clusterSettings = $this->callManager->getClusterSettings();
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
         if (true == array_key_exists($setting, $clusterSettings)) {
             $clusterSettingModel = new ElasticsearchClusterSettingModel();

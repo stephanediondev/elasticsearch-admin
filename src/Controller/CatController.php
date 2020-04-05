@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\FilterCatType;
+use App\Manager\ElasticsearchIndexManager;
+use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallModel;
 use App\Model\ElasticsearchCatModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,14 +18,20 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CatController extends AbstractAppController
 {
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
+    {
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
+    }
+
     /**
      * @Route("/cat", name="cat")
      */
     public function index(Request $request): Response
     {
-        $repositories = $this->callManager->selectRepositories();
-        $indices = $this->callManager->selectIndices();
-        $aliases = $this->callManager->selectAliases();
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
+        $aliases = $this->elasticsearchIndexManager->selectAliases();
 
         $parameters = [];
 

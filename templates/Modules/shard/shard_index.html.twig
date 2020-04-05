@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'shards'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'shards'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/shard/shard_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < shards.total %}
+        {% embed 'card_embed.html.twig' %}
+            {% import 'app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': shards.total}) }}
+
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    <p>
+                        <strong>{{ 'primary'|trans }}</strong><br>
+                        {% for v in ['true', 'false'] %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="primary{{ v }}Switch"
+                                    checked="checked"
+                                    value="primary-{{ v }}"
+                                >
+                                <label class="custom-control-label" for="primary{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+
+                    <p>
+                        <strong>{{ 'state'|trans }}</strong><br>
+                        {% for v in ['INITIALIZING', 'RELOCATING', 'STARTED', 'UNASSIGNED'] %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="state{{ v }}Switch"
+                                    checked="checked"
+                                    value="state-{{ v }}"
+                                >
+                                <label class="custom-control-label" for="state{{ v }}Switch">{{ v }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+                </div>
+
+                {{ appImport.paginator(shards) }}
+
+                {% include 'Modules/shard/shard_list.html.twig' with {'shards': shards} %}
+
+                {{ appImport.paginator(shards) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

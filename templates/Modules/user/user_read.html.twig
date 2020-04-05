@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+{% import 'app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'users'|trans }} - {{ user['username'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'users'|trans, 'link': path('users', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': user['username']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/user/user_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'card_embed.html.twig' %}
+        {% import 'app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% if user['metadata']['_reserved'] is not defined or false == user['metadata']['_reserved'] %}
+                {% embed 'buttons_embed.html.twig' %}
+                    {% import 'app_import.html.twig' as appImport %}
+                    {% block content %}
+                        {{ appImport.buttonModal({
+                            'id': 'UserDelete',
+                            'title': 'delete'|trans,
+                            'body': user['username'],
+                            'href': path('users_delete', {'user': user['username']}),
+                        }) }}
+
+                        {% if false == user['enabled'] %}
+                            {{ appImport.buttonModal({
+                                'id': 'UserEnable',
+                                'title': 'enable'|trans,
+                                'body': user['username'],
+                                'href': path('users_enable', {'user': user['username']}),
+                            }) }}
+                        {% endif %}
+
+                        {% if true == user['enabled'] %}
+                            {{ appImport.buttonModal({
+                                'id': 'UserDisable',
+                                'title': 'disable'|trans,
+                                'body': user['username'],
+                                'href': path('users_disable', {'user': user['username']}),
+                            }) }}
+                        {% endif %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            <div class="row">
+                <div class="col-12 col-md-5 col-lg-4">
+                    {% if user['full_name'] %}
+                        <p>
+                            <strong>{{ 'full_name'|trans }}</strong><br>
+                            {{ user['full_name'] }}
+                        </p>
+                    {% endif %}
+
+                    {% if user['email'] %}
+                        <p>
+                            <strong>{{ 'email'|trans }}</strong><br>
+                            {{ user['email'] }}
+                        </p>
+                    {% endif %}
+
+                    {% if user['roles'] is defined and 0 < user['roles']|length %}
+                        <p>
+                            <strong>{{ 'roles'|trans }}</strong><br>
+                            {% for record in user['roles'] %}
+                                <a href="{{ path('roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+
+                    <p>
+                        <strong>{{ 'enabled'|trans }}</strong><br>
+                        {{ appImport.badge({'title': ('boolean.' ~ user['enabled'])|trans, 'context': user['enabled']}) }}
+                    </p>
+
+                    <p>
+                        <strong>{{ 'reserved'|trans }}</strong><br>
+                        {% if user['metadata']['_reserved'] is defined and true == user['metadata']['_reserved'] %}
+                            {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                        {% else %}
+                            {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                        {% endif %}
+                    </p>
+                </div>
+
+                {% if user['metadata'] is defined and 0 < user['metadata']|length %}
+                    <div class="col-12 col-md-5 col-lg-4">
+                        <p>
+                            <strong>{{ 'metadata'|trans }}</strong><br>
+                            <pre>{{ user['metadata']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                        </p>
+                    </div>
+                {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
