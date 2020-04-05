@@ -36,6 +36,8 @@ class CreateRoleType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'help' => 'help_form.role.name',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'cluster':
@@ -48,6 +50,8 @@ class CreateRoleType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'cluster',
                         'required' => false,
+                        'help' => 'help_form.role.cluster',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'run_as':
@@ -63,6 +67,8 @@ class CreateRoleType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
+                        'help' => 'help_form.role.run_as',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'indices':
@@ -72,6 +78,8 @@ class CreateRoleType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
+                        'help' => 'help_form.role.indices',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'applications':
@@ -84,6 +92,8 @@ class CreateRoleType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
+                        'help' => 'help_form.role.applications',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'metadata':
@@ -93,6 +103,8 @@ class CreateRoleType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
+                        'help' => 'help_form.role.metadata',
+                        'help_html' => true,
                     ]);
                     break;
             }

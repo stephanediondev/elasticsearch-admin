@@ -95,6 +95,13 @@ health: "Health"
 heap_usage: "Heap usage"
 help: "Help"
 help_form:
+    role:
+        name: "The name of the role."
+        applications: "A list of application privilege entries."
+        cluster: "A list of cluster privileges. These privileges define the cluster level actions that users with this role are able to execute."
+        run_as: "A list of users that the owners of this role can impersonate."
+        indices: "A list of indices permissions entries."
+        metadata: "Optional meta-data."
     snapshot:
         name: "A unique identifier for this snapshot."
         repository: "The repository where you want to store this snapshot."
