@@ -11,9 +11,13 @@ abstract class AbstractAppControllerTest extends WebTestCase
 {
     protected $client;
 
+    protected $callManager;
+
     protected function setUp(): void
     {
         $this->client = static::createClient();
+
+        $this->callManager = self::$container->get('App\Manager\CallManager');
 
         $session = self::$container->get('session');
 
