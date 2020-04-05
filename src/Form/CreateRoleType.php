@@ -38,15 +38,6 @@ class CreateRoleType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'applications':
-                    $builder->add('applications', TextareaType::class, [
-                        'label' => 'applications',
-                        'required' => false,
-                        'constraints' => [
-                            new Json(),
-                        ],
-                    ]);
-                    break;
                 case 'cluster':
                     $builder->add('cluster', ChoiceType::class, [
                         'multiple' => true,
@@ -58,6 +49,7 @@ class CreateRoleType extends AbstractType
                         'label' => 'cluster',
                         'required' => false,
                         'attr' => [
+                            'data-break-after' => 'yes',
                             'size' => 10,
                         ],
                     ]);
@@ -65,6 +57,15 @@ class CreateRoleType extends AbstractType
                 case 'indices':
                     $builder->add('indices', TextareaType::class, [
                         'label' => 'indices',
+                        'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
+                    ]);
+                    break;
+                case 'applications':
+                    $builder->add('applications', TextareaType::class, [
+                        'label' => 'applications',
                         'required' => false,
                         'constraints' => [
                             new Json(),
@@ -80,9 +81,6 @@ class CreateRoleType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Json(),
-                        ],
-                        'attr' => [
-                            'data-break-after' => 'yes',
                         ],
                     ]);
                     break;
