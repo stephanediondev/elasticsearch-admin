@@ -84,7 +84,6 @@ class CreateUserType extends AbstractType
                         'label' => 'roles',
                         'required' => false,
                         'attr' => [
-                            'size' => 10,
                             'data-break-after' => 'yes',
                         ],
                     ]);

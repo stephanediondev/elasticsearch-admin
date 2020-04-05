@@ -50,7 +50,6 @@ class CreateRoleType extends AbstractType
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
-                            'size' => 10,
                         ],
                     ]);
                     break;

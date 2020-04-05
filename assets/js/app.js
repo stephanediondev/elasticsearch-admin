@@ -3,6 +3,8 @@ global.$ = global.jQuery = $;
 
 require('bootstrap');
 
+require('select2');
+
 function search() {
     //reset
     $(document).find('tbody tr').attr('data-score', 0);
@@ -52,6 +54,10 @@ function search() {
 }
 
 $(document).ready(function () {
+    $('select').select2({
+        theme: 'bootstrap4',
+    });
+
     $(document).on('keyup', '#searchInput', function() {
         search();
     });
