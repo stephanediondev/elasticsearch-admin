@@ -33,4 +33,25 @@ class SlmControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
     }
+
+    public function testRead404()
+    {
+        $this->client->request('GET', '/admin/slm/'.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testReadHistory404()
+    {
+        $this->client->request('GET', '/admin/slm/'.uniqid().'/history');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testReadStats404()
+    {
+        $this->client->request('GET', '/admin/slm/'.uniqid().'/stats');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

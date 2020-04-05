@@ -90,17 +90,17 @@ class IndexTemplateController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_template/'.$name);
-        $template = $this->callManager->call($call);
-        $template = $template[$name];
-        $template['name'] = $name;
+        try {
+            $call = new CallModel();
+            $call->setPath('/_template/'.$name);
+            $template = $this->callManager->call($call);
+            $template = $template[$name];
+            $template['name'] = $name;
 
-        if ($template) {
             return $this->renderAbstract($request, 'Modules/index_template/index_template_read.html.twig', [
                 'template' => $template,
             ]);
-        } else {
+        } catch (CallException $e) {
             throw new NotFoundHttpException();
         }
     }

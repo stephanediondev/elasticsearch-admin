@@ -196,19 +196,19 @@ class IndexController extends AbstractAppController
      */
     public function read(Request $request, string $index): Response
     {
-        $index1 = $this->elasticsearchIndexManager->getIndex($index);
+        try {
+            $index1 = $this->elasticsearchIndexManager->getIndex($index);
 
-        $call = new CallModel();
-        $call->setPath('/'.$index);
-        $index2 = $this->callManager->call($call);
+            $call = new CallModel();
+            $call->setPath('/'.$index);
+            $index2 = $this->callManager->call($call);
 
-        $index = array_merge($index1, $index2[key($index2)]);
+            $index = array_merge($index1, $index2[key($index2)]);
 
-        if ($index) {
             return $this->renderAbstract($request, 'Modules/index/index_read.html.twig', [
                 'index' => $index,
             ]);
-        } else {
+        } catch (CallException $e) {
             throw new NotFoundHttpException();
         }
     }

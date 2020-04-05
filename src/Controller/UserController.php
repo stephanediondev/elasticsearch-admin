@@ -100,17 +100,18 @@ class UserController extends AbstractAppController
      */
     public function read(Request $request, string $user): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($call);
+        try {
+            $call = new CallModel();
+            $call->setPath('/_security/user/'.$user);
+            $user = $this->callManager->call($call);
 
-        if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];
             $userNice['user'] = key($user);
+
             return $this->renderAbstract($request, 'Modules/user/user_read.html.twig', [
                 'user' => $userNice,
             ]);
-        } else {
+        } catch (CallException $e) {
             throw new NotFoundHttpException();
         }
     }

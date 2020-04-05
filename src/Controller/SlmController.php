@@ -12,6 +12,7 @@ use App\Model\ElasticsearchSlmPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/admin")
@@ -173,17 +174,17 @@ class SlmController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_slm/policy/'.$name);
-        $policy = $this->callManager->call($call);
-        $policy = $policy[$name];
-        $policy['name'] = $name;
+        try {
+            $call = new CallModel();
+            $call->setPath('/_slm/policy/'.$name);
+            $policy = $this->callManager->call($call);
+            $policy = $policy[$name];
+            $policy['name'] = $name;
 
-        if ($policy) {
             return $this->renderAbstract($request, 'Modules/slm/slm_read.html.twig', [
                 'policy' => $policy,
             ]);
-        } else {
+        } catch (CallException $e) {
             throw new NotFoundHttpException();
         }
     }
@@ -193,17 +194,17 @@ class SlmController extends AbstractAppController
      */
     public function readHistory(Request $request, string $name): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_slm/policy/'.$name);
-        $policy = $this->callManager->call($call);
-        $policy = $policy[$name];
-        $policy['name'] = $name;
+        try {
+            $call = new CallModel();
+            $call->setPath('/_slm/policy/'.$name);
+            $policy = $this->callManager->call($call);
+            $policy = $policy[$name];
+            $policy['name'] = $name;
 
-        if ($policy) {
             return $this->renderAbstract($request, 'Modules/slm/slm_read_history.html.twig', [
                 'policy' => $policy,
             ]);
-        } else {
+        } catch (CallException $e) {
             throw new NotFoundHttpException();
         }
     }
@@ -213,17 +214,17 @@ class SlmController extends AbstractAppController
      */
     public function readStats(Request $request, string $name): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_slm/policy/'.$name);
-        $policy = $this->callManager->call($call);
-        $policy = $policy[$name];
-        $policy['name'] = $name;
+        try {
+            $call = new CallModel();
+            $call->setPath('/_slm/policy/'.$name);
+            $policy = $this->callManager->call($call);
+            $policy = $policy[$name];
+            $policy['name'] = $name;
 
-        if ($policy) {
             return $this->renderAbstract($request, 'Modules/slm/slm_read_stats.html.twig', [
                 'policy' => $policy,
             ]);
-        } else {
+        } catch (CallException $e) {
             throw new NotFoundHttpException();
         }
     }

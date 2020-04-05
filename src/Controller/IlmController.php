@@ -12,6 +12,7 @@ use App\Model\ElasticsearchIlmPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/admin")
@@ -49,20 +50,6 @@ class IlmController extends AbstractAppController
                 'page' => 1,
                 'size' => count($policies),
             ]),
-        ]);
-    }
-
-    /**
-     * @Route("/ilm/stats", name="ilm_stats")
-     */
-    public function stats(Request $request): Response
-    {
-        $call = new CallModel();
-        $call->setPath('/_ilm/stats');
-        $stats = $this->callManager->call($call);
-
-        return $this->renderAbstract($request, 'Modules/ilm/ilm_stats.html.twig', [
-            'stats' => $stats,
         ]);
     }
 
@@ -111,199 +98,22 @@ class IlmController extends AbstractAppController
     }
 
     /**
-     * @Route("/ilm/create", name="ilm_create")
-     */
-    public function create(Request $request): Response
-    {
-        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-        $indices = $this->elasticsearchIndexManager->selectIndices();
-
-        $policyModel = new ElasticsearchIlmPolicyModel();
-        if ($request->query->get('repository')) {
-            $policyModel->setRepository($request->query->get('repository'));
-        }
-        if ($request->query->get('index')) {
-            $policyModel->setIndices([$request->query->get('index')]);
-        }
-        $form = $this->createForm(CreateIlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $json = [
-                    'schedule' => $policyModel->getSchedule(),
-                    'name' => $policyModel->getSnapshotName(),
-                    'repository' => $policyModel->getRepository(),
-                ];
-                if ($policyModel->getIndices()) {
-                    $json['config']['indices'] = $policyModel->getIndices();
-                } else {
-                    $json['config']['indices'] = ['*'];
-                }
-                $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                $json['config']['partial'] = $policyModel->getPartial();
-                $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
-
-                if ($policyModel->hasRetention()) {
-                    $json['retention'] = $policyModel->getRetention();
-                }
-
-                $call = new CallModel();
-                $call->setMethod('PUT');
-                $call->setPath('/_ilm/policy/'.$policyModel->getName());
-                $call->setJson($json);
-                $this->callManager->call($call);
-
-                $this->addFlash('success', 'success.ilm_create');
-
-                return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
-            } catch (CallException $e) {
-                $this->addFlash('danger', $e->getMessage());
-            }
-        }
-
-        return $this->renderAbstract($request, 'Modules/ilm/ilm_create.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/ilm/{name}", name="ilm_read")
      */
     public function read(Request $request, string $name): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_ilm/policy/'.$name);
-        $policy = $this->callManager->call($call);
-        $policy = $policy[$name];
-        $policy['name'] = $name;
+        try {
+            $call = new CallModel();
+            $call->setPath('/_ilm/policy/'.$name);
+            $policy = $this->callManager->call($call);
+            $policy = $policy[$name];
+            $policy['name'] = $name;
 
-        if ($policy) {
             return $this->renderAbstract($request, 'Modules/ilm/ilm_read.html.twig', [
                 'policy' => $policy,
             ]);
-        } else {
+        } catch (CallException $e) {
             throw new NotFoundHttpException();
         }
-    }
-
-    /**
-     * @Route("/ilm/{name}/history", name="ilm_read_history")
-     */
-    public function readHistory(Request $request, string $name): Response
-    {
-        $call = new CallModel();
-        $call->setPath('/_ilm/policy/'.$name);
-        $policy = $this->callManager->call($call);
-        $policy = $policy[$name];
-        $policy['name'] = $name;
-
-        if ($policy) {
-            return $this->renderAbstract($request, 'Modules/ilm/ilm_read_history.html.twig', [
-                'policy' => $policy,
-            ]);
-        } else {
-            throw new NotFoundHttpException();
-        }
-    }
-
-    /**
-     * @Route("/ilm/{name}/stats", name="ilm_read_stats")
-     */
-    public function readStats(Request $request, string $name): Response
-    {
-        $call = new CallModel();
-        $call->setPath('/_ilm/policy/'.$name);
-        $policy = $this->callManager->call($call);
-        $policy = $policy[$name];
-        $policy['name'] = $name;
-
-        if ($policy) {
-            return $this->renderAbstract($request, 'Modules/ilm/ilm_read_stats.html.twig', [
-                'policy' => $policy,
-            ]);
-        } else {
-            throw new NotFoundHttpException();
-        }
-    }
-
-    /**
-     * @Route("/ilm/{name}/update", name="ilm_update")
-     */
-    public function update(Request $request, string $name): Response
-    {
-        $call = new CallModel();
-        $call->setPath('/_ilm/policy/'.$name);
-        $policy = $this->callManager->call($call);
-        $policy = $policy[$name];
-        $policy['name'] = $name;
-
-        if ($policy) {
-            $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-            $indices = $this->elasticsearchIndexManager->selectIndices();
-
-            $policyModel = new ElasticsearchIlmPolicyModel();
-            $policyModel->convert($policy);
-            $form = $this->createForm(CreateIlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $json = [
-                        'schedule' => $policyModel->getSchedule(),
-                        'name' => $policyModel->getSnapshotName(),
-                        'repository' => $policyModel->getRepository(),
-                    ];
-                    if ($policyModel->getIndices()) {
-                        $json['config']['indices'] = $policyModel->getIndices();
-                    } else {
-                        $json['config']['indices'] = ['*'];
-                    }
-                    $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                    $json['config']['partial'] = $policyModel->getPartial();
-                    $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
-
-                    if ($policyModel->hasRetention()) {
-                        $json['retention'] = $policyModel->getRetention();
-                    }
-
-                    $call = new CallModel();
-                    $call->setMethod('PUT');
-                    $call->setPath('/_ilm/policy/'.$policyModel->getName());
-                    $call->setJson($json);
-                    $this->callManager->call($call);
-
-                    $this->addFlash('success', 'success.ilm_update');
-
-                    return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
-                } catch (CallException $e) {
-                    $this->addFlash('danger', $e->getMessage());
-                }
-            }
-
-            return $this->renderAbstract($request, 'Modules/ilm/ilm_update.html.twig', [
-                'policy' => $policy,
-                'form' => $form->createView(),
-            ]);
-        } else {
-            throw new NotFoundHttpException();
-        }
-    }
-
-    /**
-     * @Route("/ilm/{name}/delete", name="ilm_delete")
-     */
-    public function delete(Request $request, string $name): Response
-    {
-        $call = new CallModel();
-        $call->setMethod('DELETE');
-        $call->setPath('/_ilm/policy/'.$name);
-        $this->callManager->call($call);
-
-        $this->addFlash('success', 'success.ilm_delete');
-
-        return $this->redirectToRoute('ilm', []);
     }
 }

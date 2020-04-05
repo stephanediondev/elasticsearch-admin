@@ -10,6 +10,7 @@ use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/admin")
@@ -111,19 +112,19 @@ class RepositoryController extends AbstractAppController
      */
     public function read(Request $request, string $repository): Response
     {
-        $call = new CallModel();
-        $call->setPath('/_snapshot/'.$repository);
-        $repositoryQuery = $this->callManager->call($call);
-        $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
+        try {
+            $call = new CallModel();
+            $call->setPath('/_snapshot/'.$repository);
+            $repositoryQuery = $this->callManager->call($call);
+            $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
 
-        $repositoryQuery['id'] = $repository;
-        $repository = $repositoryQuery;
+            $repositoryQuery['id'] = $repository;
+            $repository = $repositoryQuery;
 
-        if ($repository) {
             return $this->renderAbstract($request, 'Modules/repository/repository_read.html.twig', [
                 'repository' => $repository,
             ]);
-        } else {
+        } catch (CallException $e) {
             throw new NotFoundHttpException();
         }
     }

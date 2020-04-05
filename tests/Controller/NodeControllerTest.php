@@ -22,6 +22,13 @@ class NodeControllerTest extends AbstractAppControllerTest
         $this->assertTrue($this->client->getResponse()->headers->contains('Content-Type', 'application/json'));
     }
 
+    public function testRead404()
+    {
+        $this->client->request('GET', '/admin/nodes/'.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     public function testRead()
     {
         $call = new CallModel();
