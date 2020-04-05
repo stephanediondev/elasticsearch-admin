@@ -42,6 +42,7 @@ cp .env.dist .env
 - [x] Users: list, create, read, update, delete, enable, disable
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
+- [x] Pipelines: list
 - [x] Cat APIs: list
 - [x] Console
 - [x] Deprecations info
