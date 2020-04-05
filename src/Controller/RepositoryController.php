@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class RepositoryController extends AbstractAppController
 {
     /**
-     * @Route("repositories", name="repositories")
+     * @Route("/repositories", name="repositories")
      */
     public function index(Request $request): Response
     {
