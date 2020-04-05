@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Form\CreateRoleType;
 use App\Manager\ElasticsearchRoleManager;
+use App\Manager\ElasticsearchUserManager;
 use App\Model\CallModel;
 use App\Model\ElasticsearchRoleModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,9 +19,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class RoleController extends AbstractAppController
 {
-    public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager)
+    public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager)
     {
         $this->elasticsearchRoleManager = $elasticsearchRoleManager;
+        $this->elasticsearchUserManager = $elasticsearchUserManager;
     }
 
     /**
@@ -58,7 +60,7 @@ class RoleController extends AbstractAppController
     public function create(Request $request): Response
     {
         $roleModel = new ElasticsearchRoleModel();
-        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges()]);
+        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers()]);
 
         $form->handleRequest($request);
 
@@ -66,15 +68,13 @@ class RoleController extends AbstractAppController
             try {
                 $json = [
                     'cluster' => $roleModel->getCluster(),
+                    'run_as' => $roleModel->getRunAs(),
                 ];
                 if ($roleModel->getApplications()) {
                     $json['applications'] = json_decode($roleModel->getApplications(), true);
                 }
                 if ($roleModel->getIndices()) {
                     $json['indices'] = json_decode($roleModel->getIndices(), true);
-                }
-                if ($roleModel->getRunAs()) {
-                    $json['run_as'] = json_decode($roleModel->getRunAs(), true);
                 }
                 if ($roleModel->getMetadata()) {
                     $json['metadata'] = json_decode($roleModel->getMetadata(), true);
@@ -139,7 +139,7 @@ class RoleController extends AbstractAppController
 
             $roleModel = new ElasticsearchRoleModel();
             $roleModel->convert($role);
-            $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'update' => true]);
+            $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers(), 'update' => true]);
 
             $form->handleRequest($request);
 
@@ -147,15 +147,13 @@ class RoleController extends AbstractAppController
                 try {
                     $json = [
                         'cluster' => $roleModel->getCluster(),
+                        'run_as' => $roleModel->getRunAs(),
                     ];
                     if ($roleModel->getApplications()) {
                         $json['applications'] = json_decode($roleModel->getApplications(), true);
                     }
                     if ($roleModel->getIndices()) {
                         $json['indices'] = json_decode($roleModel->getIndices(), true);
-                    }
-                    if ($roleModel->getRunAs()) {
-                        $json['run_as'] = json_decode($roleModel->getRunAs(), true);
                     }
                     if ($roleModel->getMetadata()) {
                         $json['metadata'] = json_decode($roleModel->getMetadata(), true);

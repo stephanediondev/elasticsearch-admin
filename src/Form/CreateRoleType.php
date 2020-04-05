@@ -22,9 +22,9 @@ class CreateRoleType extends AbstractType
             $fields[] = 'name';
         }
         $fields[] = 'cluster';
+        $fields[] = 'run_as';
         $fields[] = 'indices';
         $fields[] = 'applications';
-        $fields[] = 'run_as';
         $fields[] = 'metadata';
 
         foreach ($fields as $field) {
@@ -47,6 +47,18 @@ class CreateRoleType extends AbstractType
                         },
                         'choice_translation_domain' => false,
                         'label' => 'cluster',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'run_as':
+                    $builder->add('run_as', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['users'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['users'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'run_as',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
@@ -74,15 +86,6 @@ class CreateRoleType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'run_as':
-                    $builder->add('run_as', TextareaType::class, [
-                        'label' => 'run_as',
-                        'required' => false,
-                        'constraints' => [
-                            new Json(),
-                        ],
-                    ]);
-                    break;
                 case 'metadata':
                     $builder->add('metadata', TextareaType::class, [
                         'label' => 'metadata',
@@ -101,6 +104,7 @@ class CreateRoleType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ElasticsearchRoleModel::class,
             'privileges' => [],
+            'users' => [],
             'update' => false,
         ]);
     }

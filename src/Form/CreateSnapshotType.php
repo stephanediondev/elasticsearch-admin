@@ -50,9 +50,6 @@ class CreateSnapshotType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'attr' => [
-                            'data-break-after' => 'yes',
-                        ],
                         'help' => 'help_form.snapshot.name',
                         'help_html' => true,
                     ]);
@@ -67,6 +64,9 @@ class CreateSnapshotType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'indices',
                         'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                         'help' => 'help_form.snapshot.indices',
                         'help_html' => true,
                     ]);

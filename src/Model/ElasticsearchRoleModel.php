@@ -66,12 +66,12 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this;
     }
 
-    public function getRunAs(): ?string
+    public function getRunAs(): ?array
     {
         return $this->runAs;
     }
 
-    public function setRunAs(?string $runAs): self
+    public function setRunAs(?array $runAs): self
     {
         $this->runAs = $runAs;
 
@@ -94,14 +94,12 @@ class ElasticsearchRoleModel extends AbstractAppModel
     {
         $this->setName($role['name']);
         $this->setCluster($role['cluster']);
+        $this->setRunAs($role['run_as']);
         if (true == isset($role['indices']) && 0 < count($role['indices'])) {
             $this->setIndices(json_encode($role['indices'], JSON_PRETTY_PRINT));
         }
         if (true == isset($role['applications']) && 0 < count($role['applications'])) {
             $this->setApplications(json_encode($role['applications'], JSON_PRETTY_PRINT));
-        }
-        if (true == isset($role['run_as']) && 0 < count($role['run_as'])) {
-            $this->setRunAs(json_encode($role['run_as'], JSON_PRETTY_PRINT));
         }
         if (true == isset($role['metadata']) && 0 < count($role['metadata'])) {
             $this->setMetadata(json_encode($role['metadata'], JSON_PRETTY_PRINT));

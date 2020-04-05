@@ -80,9 +80,6 @@ class CreateSlmPolicyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'attr' => [
-                            'data-break-after' => 'yes',
-                        ],
                         'help' => 'help_form.slm_policy.schedule',
                         'help_html' => true,
                     ]);
@@ -97,6 +94,9 @@ class CreateSlmPolicyType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'indices',
                         'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                         'help' => 'help_form.slm_policy.indices',
                         'help_html' => true,
                     ]);
