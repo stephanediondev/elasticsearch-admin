@@ -39,8 +39,8 @@ cp .env.dist .env
 - [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
 - [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Snapshot lifecycle management policies: list, status, start, stop, create, read, update, delete, execute, history, stats
-- [x] Users: list, read, update, delete, enable, disable
-- [x] Roles: list, read
+- [x] Users: list, create, read, update, delete, enable, disable
+- [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
 - [x] Cat APIs: list
 - [x] Console
@@ -50,7 +50,6 @@ cp .env.dist .env
 ## Todo
 
 - [ ] Users: update password
-- [ ] Roles: create, update, delete
 - [ ] Index lifecycle management policies: create, update, delete
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: reroute

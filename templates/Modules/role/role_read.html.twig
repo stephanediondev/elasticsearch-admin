@@ -21,6 +21,20 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
+            {% if role['metadata']['_reserved'] is not defined or false == role['metadata']['_reserved'] %}
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+                    {% block content %}
+                        {{ appImport.buttonModal({
+                            'id': 'UserDelete',
+                            'title': 'delete'|trans,
+                            'body': role['role'],
+                            'href': path('roles_delete', {'role': role['role']}),
+                        }) }}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
             <p>
                 <strong>{{ 'reserved'|trans }}</strong><br>
                 {% if role['metadata']['_reserved'] is defined and true == role['metadata']['_reserved'] %}

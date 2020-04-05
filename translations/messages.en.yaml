@@ -57,6 +57,7 @@ create_slm_policy: "Create SLM policy"
 create_repository_fs: "Create Shared file system repository"
 create_repository_s3: "Create AWS S3 repository"
 create_repository_gcs: "Create Google Cloud Storage repository"
+create_role: "Create role"
 create_snapshot: "Create snapshot"
 create_user: "Create user"
 creation_date: "Creation date"
@@ -319,6 +320,10 @@ success:
     users_delete: "User deleted"
     users_enable: "User enabled"
     users_disable: "User disabled"
+
+    roles_create: "Role created"
+    roles_update: "Role updated"
+    roles_delete: "Role deleted"
 
 tasks: "Tasks"
 toggle_navigation: "Toggle navigation"
