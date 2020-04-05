@@ -58,7 +58,7 @@ class RoleController extends AbstractAppController
     public function create(Request $request): Response
     {
         $roleModel = new ElasticsearchRoleModel();
-        $form = $this->createForm(CreateRoleType::class, $roleModel);
+        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges()]);
 
         $form->handleRequest($request);
 
@@ -139,7 +139,7 @@ class RoleController extends AbstractAppController
 
             $roleModel = new ElasticsearchRoleModel();
             $roleModel->convert($role);
-            $form = $this->createForm(CreateRoleType::class, $roleModel, ['update' => true]);
+            $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'update' => true]);
 
             $form->handleRequest($request);
 

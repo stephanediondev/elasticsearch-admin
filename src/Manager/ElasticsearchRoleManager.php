@@ -31,4 +31,11 @@ class ElasticsearchRoleManager
 
         return $roles;
     }
+
+    public function getPrivileges()
+    {
+        $call = new CallModel();
+        $call->setPath('/_security/privilege/_builtin');
+        return $this->callManager->call($call);
+    }
 }

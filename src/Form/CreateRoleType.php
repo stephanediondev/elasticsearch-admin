@@ -50,9 +50,9 @@ class CreateRoleType extends AbstractType
                 case 'cluster':
                     $builder->add('cluster', ChoiceType::class, [
                         'multiple' => true,
-                        'choices' => $options['cluster'],
+                        'choices' => $options['privileges']['cluster'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['cluster'][$key];
+                            return $options['privileges']['cluster'][$key];
                         },
                         'choice_translation_domain' => false,
                         'label' => 'cluster',
@@ -103,41 +103,7 @@ class CreateRoleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchRoleModel::class,
-            'cluster' => [
-                'all',
-                'create_snapshot',
-                'delegate_pki',
-                'manage',
-                'manage_api_key',
-                'manage_ccr',
-                'manage_data_frame_transforms',
-                'manage_enrich',
-                'manage_ilm',
-                'manage_index_templates',
-                'manage_ingest_pipelines',
-                'manage_ml',
-                'manage_oidc',
-                'manage_own_api_key',
-                'manage_pipeline',
-                'manage_rollup',
-                'manage_saml',
-                'manage_security',
-                'manage_slm',
-                'manage_token',
-                'manage_transform',
-                'manage_watcher',
-                'monitor',
-                'monitor_data_frame_transforms',
-                'monitor_ml',
-                'monitor_rollup',
-                'monitor_snapshot',
-                'monitor_transform',
-                'monitor_watcher',
-                'read_ccr',
-                'read_ilm',
-                'read_slm',
-                'transport_client',
-            ],
+            'privileges' => [],
             'update' => false,
         ]);
     }
