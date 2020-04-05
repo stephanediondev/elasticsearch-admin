@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import 'app_import.html.twig' as appImport %}
+{% import 'Import/app_import.html.twig' as appImport %}
 
 {% block head_title %}{{ 'roles'|trans }} - {{ role['role'] }}{% endblock %}
 
@@ -16,8 +16,8 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'card_embed.html.twig' %}
-        {% import 'app_import.html.twig' as appImport %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
@@ -33,7 +33,7 @@
             {% if role['cluster'] is defined and 0 < role['cluster']|length %}
                 {{ appImport.heading({'level': 4, 'title': 'cluster'|trans}) }}
 
-                {% embed 'table_embed.html.twig' %}
+                {% embed 'Embed/table_embed.html.twig' %}
                     {% block thead %}
                         <tr>
                             <th>{{ 'privilege'|trans }}</th>
@@ -53,7 +53,7 @@
             {% if role['run_as'] is defined and 0 < role['run_as']|length %}
                 {{ appImport.heading({'level': 4, 'title': 'run_as'|trans}) }}
 
-                {% embed 'table_embed.html.twig' %}
+                {% embed 'Embed/table_embed.html.twig' %}
                     {% block thead %}
                         <tr>
                             <th>{{ 'privilege'|trans }}</th>
@@ -73,7 +73,7 @@
             {% if role['indices'] is defined and 0 < role['indices']|length %}
                 {{ appImport.heading({'level': 4, 'title': 'indices'|trans}) }}
 
-                {% embed 'table_embed.html.twig' %}
+                {% embed 'Embed/table_embed.html.twig' %}
                     {% block thead %}
                         <tr>
                             <th>{{ 'names'|trans }}</th>
@@ -95,7 +95,7 @@
             {% if role['applications'] is defined and 0 < role['applications']|length %}
                 {{ appImport.heading({'level': 4, 'title': 'applications'|trans}) }}
 
-                {% embed 'table_embed.html.twig' %}
+                {% embed 'Embed/table_embed.html.twig' %}
                     {% block thead %}
                         <tr>
                             <th>{{ 'application'|trans }}</th>

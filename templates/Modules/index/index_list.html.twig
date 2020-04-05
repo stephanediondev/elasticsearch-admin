@@ -1,5 +1,5 @@
-{% embed 'table_embed.html.twig' %}
-    {% import 'app_import.html.twig' as appImport %}
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
 
     {% set columns = {'name': true, 'shards': true, 'replicas': true, 'documents': true, 'documents_deleted': true, 'primary_size': true, 'total_size': true, 'status': true, 'health': true, 'creation_date': true} %}
 

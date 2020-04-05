@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import 'app_import.html.twig' as appImport %}
+{% import 'Import/app_import.html.twig' as appImport %}
 
 {% block head_title %}{{ 'deprecations'|trans }}{% endblock %}
 
@@ -9,8 +9,8 @@
 
 {% block main_content %}
     {% for key, rows in deprecations %}
-        {% embed 'card_embed.html.twig' %}
-            {% import 'app_import.html.twig' as appImport %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
 
                 {{ appImport.heading({'level': 3, 'title': key|trans, 'badge': rows|length}) }}

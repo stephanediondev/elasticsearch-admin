@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import 'app_import.html.twig' as appImport %}
+{% import 'Import/app_import.html.twig' as appImport %}
 
 {% block head_title %}{{ 'users'|trans }} - {{ user['username'] }}{% endblock %}
 
@@ -16,14 +16,14 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'card_embed.html.twig' %}
-        {% import 'app_import.html.twig' as appImport %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
             {% if user['metadata']['_reserved'] is not defined or false == user['metadata']['_reserved'] %}
-                {% embed 'buttons_embed.html.twig' %}
-                    {% import 'app_import.html.twig' as appImport %}
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
                         {{ appImport.buttonModal({
                             'id': 'UserDelete',

@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% import 'app_import.html.twig' as appImport %}
+{% import 'Import/app_import.html.twig' as appImport %}
 
 {% block head_title %}{{ 'console'|trans }}{% if response is defined %} {{ path }}{% endif %}{% endblock %}
 
@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'card_embed.html.twig' %}
-        {% import 'app_import.html.twig' as appImport %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             <div class="row">
                 <div class="col-12 col-md-4 col-lg-4">
