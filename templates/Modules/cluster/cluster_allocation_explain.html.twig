@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'cluster'|trans }} - {{ clusterHealth['cluster_name'] }} - {{ 'allocation_explain'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'cluster'|trans}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': clusterHealth['cluster_name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/cluster/cluster_read_tabs.html.twig' with {'active': 'allocation_explain'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'allocation_explain'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-allocation-explain.html#cluster-allocation-explain">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {% if allocation_explain['index'] is defined %}
+                <p>
+                    <strong>{{ 'index'|trans }}</strong><br>
+                    <a href="{{ path('indices_read', {'index': allocation_explain['index']}) }}">{{ allocation_explain['index'] }}</a>
+                </p>
+            {% endif %}
+
+            {% if allocation_explain['shard'] is defined %}
+                <p>
+                    <strong>{{ 'shard'|trans }}</strong><br>
+                    {{ allocation_explain['shard'] }}
+                </p>
+            {% endif %}
+
+            {% if allocation_explain['primary'] is defined %}
+                <p>
+                    <strong>{{ 'primary'|trans }}</strong><br>
+                    {{ appImport.badge({'title': ('boolean.' ~ allocation_explain['primary'])|trans, 'context': allocation_explain['primary']}) }}
+                </p>
+            {% endif %}
+
+            {% if allocation_explain['unassigned_info']['reason'] is defined %}
+                <p>
+                    <strong>{{ 'unassigned_reason'|trans }}</strong><br>
+                    {{ allocation_explain['unassigned_info']['reason'] }}
+                </p>
+            {% endif %}
+
+            {% if allocation_explain['allocate_explanation'] is defined %}
+                <p>
+                    <strong>{{ 'allocate_explanation'|trans }}</strong><br>
+                    {{ allocation_explain['allocate_explanation'] }}
+                </p>
+            {% endif %}
+
+            {% if allocation_explain['node_allocation_decisions'] is defined and 0 < allocation_explain['node_allocation_decisions']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'node_allocation_decisions'|trans}) }}
+
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
+                    {% block thead %}
+                        <tr>
+                            <th class="text-nowrap">{{ 'node'|trans }}</th>
+                            <th class="text-nowrap">{{ 'node_decision'|trans }}</th>
+                            <th>{{ 'deciders'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for row in allocation_explain['node_allocation_decisions'] %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('nodes_read', {'node': row['node_name']}) }}">{{ row['node_name'] }}</a>
+                                </td>
+                                <td>
+                                    {{ row['node_decision'] }}
+                                </td>
+                                <td>
+                                    {% if row['deciders'] is defined and 0 < row['deciders']|length %}
+                                        {% for decider in row['deciders'] %}
+                                            {{ decider['decider'] }}:<br> {{ decider['explanation'] }}<br>
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

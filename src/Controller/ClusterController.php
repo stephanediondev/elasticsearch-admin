@@ -49,6 +49,20 @@ class ClusterController extends AbstractAppController
     }
 
     /**
+     * @Route("/cluster/allocation/explain", name="cluster_allocation_explain")
+     */
+    public function allocationExplain(Request $request): Response
+    {
+        $call = new CallModel();
+        $call->setPath('/_cluster/allocation/explain');
+        $allocationExplain = $this->callManager->call($call);
+
+        return $this->renderAbstract($request, 'Modules/cluster/cluster_allocation_explain.html.twig', [
+            'allocation_explain' => $allocationExplain,
+        ]);
+    }
+
+    /**
      * @Route("/cluster/settings", name="cluster_settings")
      */
     public function settings(Request $request): Response

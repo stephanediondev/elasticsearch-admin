@@ -88,7 +88,11 @@
 
                         {% if 'state' == column %}
                             <td>
-                                {{ row['state'] }}
+                                {% if 'UNASSIGNED' == row['state'] %}
+                                    <a href="{{ path('cluster_allocation_explain') }}">{{ row['state'] }}</a>
+                                {% else %}
+                                    {{ row['state'] }}
+                                {% endif %}
                             </td>
                         {% endif %}
 
