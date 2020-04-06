@@ -49,7 +49,7 @@
 
     {% block tbody %}
         {% for row in users.rows %}
-            <tr>
+            <tr class="enabled-{% if row['enabled'] is defined and true == row['enabled'] %}true{% else %}false{% endif %} reserved-{% if row['metadata']['_reserved'] is defined and true == row['metadata']['_reserved'] %}true{% else %}false{% endif %}" data-search="{{ row['username'] }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'username' == column %}

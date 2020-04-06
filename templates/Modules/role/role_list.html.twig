@@ -43,7 +43,7 @@
 
     {% block tbody %}
         {% for row in roles.rows %}
-            <tr>
+            <tr class="reserved-{% if row['metadata']['_reserved'] is defined and true == row['metadata']['_reserved'] %}true{% else %}false{% endif %}" data-search="{{ row['role'] }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'role' == column %}
