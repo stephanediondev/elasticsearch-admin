@@ -50,7 +50,6 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Users: update password
 - [ ] Index lifecycle management policies: create, update, delete
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: reroute

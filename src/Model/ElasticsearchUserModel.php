@@ -14,6 +14,8 @@ class ElasticsearchUserModel extends AbstractAppModel
 
     private $fullName;
 
+    private $changePassword;
+
     private $password;
 
     private $roles;
@@ -23,6 +25,7 @@ class ElasticsearchUserModel extends AbstractAppModel
     public function __construct()
     {
         $this->enabled = true;
+        $this->changePassword = false;
     }
 
     public function getUsername(): ?string
@@ -45,6 +48,18 @@ class ElasticsearchUserModel extends AbstractAppModel
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getChangePassword(): ?bool
+    {
+        return $this->changePassword;
+    }
+
+    public function setChangePassword(?bool $changePassword): self
+    {
+        $this->changePassword = $changePassword;
 
         return $this;
     }

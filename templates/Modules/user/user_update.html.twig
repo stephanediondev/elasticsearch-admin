@@ -34,3 +34,29 @@
         {% endblock %}
     {% endembed %}
 {% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function changePassword() {
+            if ($('#data_change_password').is(':checked')) {
+                $('#data_password').removeAttr('disabled');
+                $('#data_password').attr('required', 'required');
+
+                $('label[for="data_password"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans }}</small>');
+            } else {
+                $('#data_password').attr('disabled', 'disabled');
+                $('#data_password').removeAttr('required');
+
+                $('label[for="data_password"] .badge').remove();
+            }
+        }
+
+        changePassword();
+
+        $(document).on('click', '#data_change_password', function(event) {
+            changePassword();
+        });
+    </script>
+{% endblock %}

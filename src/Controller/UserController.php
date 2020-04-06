@@ -158,6 +158,17 @@ class UserController extends AbstractAppController
                     $call->setJson($json);
                     $this->callManager->call($call);
 
+                    if ($userModel->getChangePassword() && $userModel->getPassword()) {
+                        $json = [
+                            'password' => $userModel->getPassword(),
+                        ];
+                        $call = new CallModel();
+                        $call->setMethod('POST');
+                        $call->setPath('/_security/user/'.$userModel->getUsername().'/_password');
+                        $call->setJson($json);
+                        $this->callManager->call($call);
+                    }
+
                     $this->addFlash('success', 'success.users_update');
 
                     return $this->redirectToRoute('users_read', ['user' => $userModel->getUsername()]);

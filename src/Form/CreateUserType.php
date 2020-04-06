@@ -24,8 +24,10 @@ class CreateUserType extends AbstractType
 
         if (false == $options['update']) {
             $fields[] = 'username';
-            $fields[] = 'password';
+        } else {
+            $fields[] = 'change_password';
         }
+        $fields[] = 'password';
         $fields[] = 'email';
         $fields[] = 'full_name';
         $fields[] = 'roles';
@@ -45,21 +47,44 @@ class CreateUserType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'password':
-                    $builder->add('password', PasswordType::class, [
-                        'label' => 'password',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                            new Length([
-                                'min' => 6,
-                            ])
-                        ],
-                        'attr' => [
-                            'autocomplete' => 'new-password',
-                            'minlength' => 6,
-                        ],
+                case 'change_password':
+                    $builder->add('change_password', CheckboxType::class, [
+                        'label' => 'change_password',
+                        'required' => false,
                     ]);
+                    break;
+                case 'password':
+                    if (false == $options['update']) {
+                        $builder->add('password', PasswordType::class, [
+                            'label' => 'password',
+                            'required' => true,
+                            'constraints' => [
+                                new NotBlank(),
+                                new Length([
+                                    'min' => 6,
+                                ])
+                            ],
+                            'attr' => [
+                                'autocomplete' => 'new-password',
+                                'minlength' => 6,
+                            ],
+                        ]);
+                    } else {
+                        $builder->add('password', PasswordType::class, [
+                            'label' => 'password',
+                            'required' => false,
+                            'constraints' => [
+                                new Length([
+                                    'min' => 6,
+                                ])
+                            ],
+                            'attr' => [
+                                'disabled' => 'disabled',
+                                'autocomplete' => 'new-password',
+                                'minlength' => 6,
+                            ],
+                        ]);
+                    }
                     break;
                 case 'email':
                     $builder->add('email', EmailType::class, [
