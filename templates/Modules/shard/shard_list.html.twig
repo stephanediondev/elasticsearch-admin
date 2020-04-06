@@ -61,7 +61,7 @@
 
     {% block tbody %}
         {% for row in shards.rows %}
-            <tr class="state-{{ row['state'] }} primary-{% if 'p' == row['prirep'] %}true{% else %}false{% endif %}">
+            <tr class="index_system-{% if '.' == row['index']|slice(0, 1) %}true{% else %}false{% endif %} state-{{ row['state'] }} primary-{% if 'p' == row['prirep'] %}true{% else %}false{% endif %}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'index' == column %}

@@ -26,6 +26,22 @@
 
                 <div class="collapse" id="collapseFilter">
                     <p>
+                        <strong>{{ 'index_system'|trans }}</strong><br>
+                        {% for v in ['true', 'false'] %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="index_system{{ v }}Switch"
+                                    checked="checked"
+                                    value="index_system-{{ v }}"
+                                >
+                                <label class="custom-control-label" for="index_system{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
+
+                    <p>
                         <strong>{{ 'primary'|trans }}</strong><br>
                         {% for v in ['true', 'false'] %}
                             <span class="custom-control custom-switch d-inline mr-2">
