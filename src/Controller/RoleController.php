@@ -107,17 +107,18 @@ class RoleController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
         $callResponse = $this->callManager->call($callRequest);
-        $role = $callResponse->getContent();
 
-        if (true == isset($role[key($role)])) {
-            $roleNice = $role[key($role)];
-            $roleNice['role'] = key($role);
-            return $this->renderAbstract($request, 'Modules/role/role_read.html.twig', [
-                'role' => $roleNice,
-            ]);
-        } else {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $role = $callResponse->getContent();
+        $roleNice = $role[key($role)];
+        $roleNice['role'] = key($role);
+
+        return $this->renderAbstract($request, 'Modules/role/role_read.html.twig', [
+            'role' => $roleNice,
+        ]);
     }
 
     /**
@@ -128,60 +129,60 @@ class RoleController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
         $callResponse = $this->callManager->call($callRequest);
-        $role = $callResponse->getContent();
 
-        if (true == isset($role[key($role)])) {
-            $roleNice = $role[key($role)];
-            $roleNice['name'] = key($role);
-            $roleNice['role'] = key($role);
-            $role = $roleNice;
-
-            if (true == isset($role['metadata']) && true == isset($role['metadata']['_reserved']) && true == $role['metadata']['_reserved']) {
-                throw new AccessDeniedHttpException();
-            }
-
-            $roleModel = new ElasticsearchRoleModel();
-            $roleModel->convert($role);
-            $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers(), 'update' => true]);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $json = [
-                        'cluster' => $roleModel->getCluster(),
-                        'run_as' => $roleModel->getRunAs(),
-                    ];
-                    if ($roleModel->getApplications()) {
-                        $json['applications'] = json_decode($roleModel->getApplications(), true);
-                    }
-                    if ($roleModel->getIndices()) {
-                        $json['indices'] = json_decode($roleModel->getIndices(), true);
-                    }
-                    if ($roleModel->getMetadata()) {
-                        $json['metadata'] = json_decode($roleModel->getMetadata(), true);
-                    }
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('PUT');
-                    $callRequest->setPath('/_security/role/'.$roleModel->getName());
-                    $callRequest->setJson($json);
-                    $this->callManager->call($callRequest);
-
-                    $this->addFlash('success', 'success.roles_update');
-
-                    return $this->redirectToRoute('roles_read', ['role' => $roleModel->getName()]);
-                } catch (CallException $e) {
-                    $this->addFlash('danger', $e->getMessage());
-                }
-            }
-
-            return $this->renderAbstract($request, 'Modules/role/role_update.html.twig', [
-                'role' => $roleNice,
-                'form' => $form->createView(),
-            ]);
-        } else {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $role = $callResponse->getContent();
+        $roleNice = $role[key($role)];
+        $roleNice['name'] = key($role);
+        $roleNice['role'] = key($role);
+        $role = $roleNice;
+
+        if (true == isset($role['metadata']) && true == isset($role['metadata']['_reserved']) && true == $role['metadata']['_reserved']) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $roleModel = new ElasticsearchRoleModel();
+        $roleModel->convert($role);
+        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers(), 'update' => true]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = [
+                    'cluster' => $roleModel->getCluster(),
+                    'run_as' => $roleModel->getRunAs(),
+                ];
+                if ($roleModel->getApplications()) {
+                    $json['applications'] = json_decode($roleModel->getApplications(), true);
+                }
+                if ($roleModel->getIndices()) {
+                    $json['indices'] = json_decode($roleModel->getIndices(), true);
+                }
+                if ($roleModel->getMetadata()) {
+                    $json['metadata'] = json_decode($roleModel->getMetadata(), true);
+                }
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_security/role/'.$roleModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
+
+                $this->addFlash('success', 'success.roles_update');
+
+                return $this->redirectToRoute('roles_read', ['role' => $roleModel->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/role/role_update.html.twig', [
+            'role' => $roleNice,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -192,27 +193,27 @@ class RoleController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
         $callResponse = $this->callManager->call($callRequest);
-        $role = $callResponse->getContent();
 
-        if (true == isset($role[key($role)])) {
-            $roleNice = $role[key($role)];
-            $roleNice['role'] = key($role);
-            $role = $roleNice;
-
-            if (true == isset($role['metadata']) && true == isset($role['metadata']['_reserved']) && true == $role['metadata']['_reserved']) {
-                throw new AccessDeniedHttpException();
-            }
-
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('DELETE');
-            $callRequest->setPath('/_security/role/'.$role['role']);
-            $this->callManager->call($callRequest);
-
-            $this->addFlash('success', 'success.roles_delete');
-
-            return $this->redirectToRoute('roles', []);
-        } else {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $role = $callResponse->getContent();
+        $roleNice = $role[key($role)];
+        $roleNice['role'] = key($role);
+        $role = $roleNice;
+
+        if (true == isset($role['metadata']) && true == isset($role['metadata']['_reserved']) && true == $role['metadata']['_reserved']) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_security/role/'.$role['role']);
+        $this->callManager->call($callRequest);
+
+        $this->addFlash('success', 'success.roles_delete');
+
+        return $this->redirectToRoute('roles', []);
     }
 }

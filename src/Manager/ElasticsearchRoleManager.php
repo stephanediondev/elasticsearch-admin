@@ -37,6 +37,8 @@ class ElasticsearchRoleManager
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/privilege/_builtin');
-        return $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+
+        return $callResponse->getContent();
     }
 }

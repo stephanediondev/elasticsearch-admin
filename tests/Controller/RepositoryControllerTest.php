@@ -40,4 +40,11 @@ class RepositoryControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(404);
     }
+
+    public function testUpdate404()
+    {
+        $this->client->request('GET', '/admin/repositories/'.uniqid().'/update');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

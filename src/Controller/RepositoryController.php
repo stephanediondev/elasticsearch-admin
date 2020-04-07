@@ -113,22 +113,23 @@ class RepositoryController extends AbstractAppController
      */
     public function read(Request $request, string $repository): Response
     {
-        try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_snapshot/'.$repository);
-            $callResponse = $this->callManager->call($callRequest);
-            $repositoryQuery = $callResponse->getContent();
-            $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_snapshot/'.$repository);
+        $callResponse = $this->callManager->call($callRequest);
 
-            $repositoryQuery['id'] = $repository;
-            $repository = $repositoryQuery;
-
-            return $this->renderAbstract($request, 'Modules/repository/repository_read.html.twig', [
-                'repository' => $repository,
-            ]);
-        } catch (CallException $e) {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $repositoryQuery = $callResponse->getContent();
+        $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
+
+        $repositoryQuery['id'] = $repository;
+        $repository = $repositoryQuery;
+
+        return $this->renderAbstract($request, 'Modules/repository/repository_read.html.twig', [
+            'repository' => $repository,
+        ]);
     }
 
     /**
@@ -139,78 +140,79 @@ class RepositoryController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository);
         $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            throw new NotFoundHttpException();
+        }
+
         $repositoryQuery = $callResponse->getContent();
         $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
 
         $repositoryQuery['id'] = $repository;
         $repository = $repositoryQuery;
 
-        if ($repository) {
-            $repositoryModel = new ElasticsearchRepositoryModel();
-            $repositoryModel->convert($repository);
-            $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $repository['type'], 'update' => true]);
+        $repositoryModel = new ElasticsearchRepositoryModel();
+        $repositoryModel->convert($repository);
+        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $repository['type'], 'update' => true]);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $json = [
-                        'type' => $repositoryModel->getType(),
-                        'settings' => [
-                            'compress' => $repositoryModel->getCompress(),
-                            'chunk_size' => $repositoryModel->getChunkSize(),
-                            'max_restore_bytes_per_sec' => $repositoryModel->getMaxRestoreBytesPerSec(),
-                            'max_snapshot_bytes_per_sec' => $repositoryModel->getMaxSnapshotBytesPerSec(),
-                            'readonly' => $repositoryModel->getReadonly(),
-                        ],
-                    ];
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = [
+                    'type' => $repositoryModel->getType(),
+                    'settings' => [
+                        'compress' => $repositoryModel->getCompress(),
+                        'chunk_size' => $repositoryModel->getChunkSize(),
+                        'max_restore_bytes_per_sec' => $repositoryModel->getMaxRestoreBytesPerSec(),
+                        'max_snapshot_bytes_per_sec' => $repositoryModel->getMaxSnapshotBytesPerSec(),
+                        'readonly' => $repositoryModel->getReadonly(),
+                    ],
+                ];
 
-                    if (ElasticsearchRepositoryModel::TYPE_FS == $repositoryModel->getType()) {
-                        $json['settings']['location'] = $repositoryModel->getLocation();
-                    }
-
-                    if (ElasticsearchRepositoryModel::TYPE_S3 == $repositoryModel->getType()) {
-                        $json['settings']['bucket'] = $repositoryModel->getBucket();
-                        $json['settings']['client'] = $repositoryModel->getClient();
-                        $json['settings']['base_path'] = $repositoryModel->getBasePath();
-                        $json['settings']['server_side_encryption'] = $repositoryModel->getServerSideEncryption();
-                        $json['settings']['buffer_size'] = $repositoryModel->getBufferSize();
-                        $json['settings']['canned_acl'] = $repositoryModel->getCannedAcl();
-                        $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
-                    }
-
-                    if (ElasticsearchRepositoryModel::TYPE_GCS == $repositoryModel->getType()) {
-                        $json['settings']['bucket'] = $repositoryModel->getBucket();
-                        $json['settings']['client'] = $repositoryModel->getClient();
-                        $json['settings']['base_path'] = $repositoryModel->getBasePath();
-                    }
-
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('PUT');
-                    $callRequest->setPath('/_snapshot/'.$repositoryModel->getName());
-                    if ($repositoryModel->getVerify()) {
-                        $callRequest->setQuery(['verify' => 'true']);
-                    } else {
-                        $callRequest->setQuery(['verify' => 'false']);
-                    }
-                    $callRequest->setJson($json);
-                    $this->callManager->call($callRequest);
-
-                    $this->addFlash('success', 'success.repositories_update');
-
-                    return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
-                } catch (CallException $e) {
-                    $this->addFlash('danger', $e->getMessage());
+                if (ElasticsearchRepositoryModel::TYPE_FS == $repositoryModel->getType()) {
+                    $json['settings']['location'] = $repositoryModel->getLocation();
                 }
-            }
 
-            return $this->renderAbstract($request, 'Modules/repository/repository_update.html.twig', [
-                'repository' => $repository,
-                'form' => $form->createView(),
-            ]);
-        } else {
-            throw new NotFoundHttpException();
+                if (ElasticsearchRepositoryModel::TYPE_S3 == $repositoryModel->getType()) {
+                    $json['settings']['bucket'] = $repositoryModel->getBucket();
+                    $json['settings']['client'] = $repositoryModel->getClient();
+                    $json['settings']['base_path'] = $repositoryModel->getBasePath();
+                    $json['settings']['server_side_encryption'] = $repositoryModel->getServerSideEncryption();
+                    $json['settings']['buffer_size'] = $repositoryModel->getBufferSize();
+                    $json['settings']['canned_acl'] = $repositoryModel->getCannedAcl();
+                    $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
+                }
+
+                if (ElasticsearchRepositoryModel::TYPE_GCS == $repositoryModel->getType()) {
+                    $json['settings']['bucket'] = $repositoryModel->getBucket();
+                    $json['settings']['client'] = $repositoryModel->getClient();
+                    $json['settings']['base_path'] = $repositoryModel->getBasePath();
+                }
+
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_snapshot/'.$repositoryModel->getName());
+                if ($repositoryModel->getVerify()) {
+                    $callRequest->setQuery(['verify' => 'true']);
+                } else {
+                    $callRequest->setQuery(['verify' => 'false']);
+                }
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
+
+                $this->addFlash('success', 'success.repositories_update');
+
+                return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
+
+        return $this->renderAbstract($request, 'Modules/repository/repository_update.html.twig', [
+            'repository' => $repository,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

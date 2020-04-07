@@ -56,7 +56,7 @@ class CallManager
         $callResponse = new CallResponseModel();
         $callResponse->setCode($response->getStatusCode());
 
-        if ($response && in_array($response->getStatusCode(), [400, 401, 404, 405, 500])) {
+        if ($response && in_array($response->getStatusCode(), [400, 401, 405, 500])) {
             $json = json_decode($response->getContent(false), true);
 
             if (true == isset($json['error'])) {
@@ -70,10 +70,12 @@ class CallManager
             throw new CallException('Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')');
         }
 
-        if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {
-            $callResponse->setContentRaw($response->getContent());
-        } else {
-            $callResponse->setContent($response->toArray());
+        if ($response && 404 != $response->getStatusCode()) {
+            if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {
+                $callResponse->setContentRaw($response->getContent());
+            } else {
+                $callResponse->setContent($response->toArray());
+            }
         }
 
         return $callResponse;

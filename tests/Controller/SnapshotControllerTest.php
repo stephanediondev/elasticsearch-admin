@@ -26,4 +26,11 @@ class SnapshotControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(404);
     }
+
+    public function testRestore404()
+    {
+        $this->client->request('GET', '/admin/snapshots/'.uniqid().'/restore');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

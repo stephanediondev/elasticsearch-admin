@@ -26,4 +26,11 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(404);
     }
+
+    public function testUpdate404()
+    {
+        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/update');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

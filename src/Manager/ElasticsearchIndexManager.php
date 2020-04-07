@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
+use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchIndexManager
 {
@@ -20,8 +21,20 @@ class ElasticsearchIndexManager
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices/'.$index);
         $callResponse = $this->callManager->call($callRequest);
-        $index = $callResponse->getContent();
-        $index = $index[0];
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            $index = false;
+        } else {
+            $index1 = $callResponse->getContent();
+            $index1 = $index1[0];
+
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/'.$index);
+            $callResponse = $this->callManager->call($callRequest);
+            $index2 = $callResponse->getContent();
+
+            $index = array_merge($index1, $index2[key($index2)]);
+        }
 
         return $index;
     }

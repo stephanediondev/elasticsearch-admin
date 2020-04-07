@@ -91,20 +91,21 @@ class IndexTemplateController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_template/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-            $template = $callResponse->getContent();
-            $template = $template[$name];
-            $template['name'] = $name;
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_template/'.$name);
+        $callResponse = $this->callManager->call($callRequest);
 
-            return $this->renderAbstract($request, 'Modules/index_template/index_template_read.html.twig', [
-                'template' => $template,
-            ]);
-        } catch (CallException $e) {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $template = $callResponse->getContent();
+        $template = $template[$name];
+        $template['name'] = $name;
+
+        return $this->renderAbstract($request, 'Modules/index_template/index_template_read.html.twig', [
+            'template' => $template,
+        ]);
     }
 
     /**
@@ -115,17 +116,18 @@ class IndexTemplateController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_template/'.$name);
         $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            throw new NotFoundHttpException();
+        }
+
         $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
 
-        if ($template) {
-            return $this->renderAbstract($request, 'Modules/index_template/index_template_read_settings.html.twig', [
-                'template' => $template,
-            ]);
-        } else {
-            throw new NotFoundHttpException();
-        }
+        return $this->renderAbstract($request, 'Modules/index_template/index_template_read_settings.html.twig', [
+            'template' => $template,
+        ]);
     }
 
     /**
@@ -136,17 +138,18 @@ class IndexTemplateController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_template/'.$name);
         $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            throw new NotFoundHttpException();
+        }
+
         $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
 
-        if ($template) {
-            return $this->renderAbstract($request, 'Modules/index_template/index_template_read_mappings.html.twig', [
-                'template' => $template,
-            ]);
-        } else {
-            throw new NotFoundHttpException();
-        }
+        return $this->renderAbstract($request, 'Modules/index_template/index_template_read_mappings.html.twig', [
+            'template' => $template,
+        ]);
     }
 
     /**
@@ -157,55 +160,56 @@ class IndexTemplateController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_template/'.$name);
         $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            throw new NotFoundHttpException();
+        }
+
         $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
 
-        if ($template) {
-            $templateModel = new ElasticsearchIndexTemplateModel();
-            $templateModel->convert($template);
-            $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['update' => true]);
+        $templateModel = new ElasticsearchIndexTemplateModel();
+        $templateModel->convert($template);
+        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['update' => true]);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $json = [
-                        'index_patterns' => $templateModel->getIndexToArray(),
-                    ];
-                    if ($templateModel->getVersion()) {
-                        $json['version'] = $templateModel->getVersion();
-                    }
-                    if ($templateModel->getOrder()) {
-                        $json['order'] = $templateModel->getOrder();
-                    }
-                    if ($templateModel->getSettings()) {
-                        $json['settings'] = json_decode($templateModel->getSettings(), true);
-                    }
-                    if ($templateModel->getMappings()) {
-                        $json['mappings'] = json_decode($templateModel->getMappings(), true);
-                    }
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('PUT');
-                    $callRequest->setPath('/_template/'.$templateModel->getName());
-                    $callRequest->setJson($json);
-                    $this->callManager->call($callRequest);
-
-                    $this->addFlash('success', 'success.index_templates_update');
-
-                    return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
-                } catch (CallException $e) {
-                    $this->addFlash('danger', $e->getMessage());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = [
+                    'index_patterns' => $templateModel->getIndexToArray(),
+                ];
+                if ($templateModel->getVersion()) {
+                    $json['version'] = $templateModel->getVersion();
                 }
-            }
+                if ($templateModel->getOrder()) {
+                    $json['order'] = $templateModel->getOrder();
+                }
+                if ($templateModel->getSettings()) {
+                    $json['settings'] = json_decode($templateModel->getSettings(), true);
+                }
+                if ($templateModel->getMappings()) {
+                    $json['mappings'] = json_decode($templateModel->getMappings(), true);
+                }
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_template/'.$templateModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
-            return $this->renderAbstract($request, 'Modules/index_template/index_template_update.html.twig', [
-                'template' => $template,
-                'form' => $form->createView(),
-            ]);
-        } else {
-            throw new NotFoundHttpException();
+                $this->addFlash('success', 'success.index_templates_update');
+
+                return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
+
+        return $this->renderAbstract($request, 'Modules/index_template/index_template_update.html.twig', [
+            'template' => $template,
+            'form' => $form->createView(),
+        ]);
     }
 
 

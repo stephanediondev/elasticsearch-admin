@@ -106,19 +106,20 @@ class IlmController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_ilm/policy/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-            $policy = $callResponse->getContent();
-            $policy = $policy[$name];
-            $policy['name'] = $name;
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_ilm/policy/'.$name);
+        $callResponse = $this->callManager->call($callRequest);
 
-            return $this->renderAbstract($request, 'Modules/ilm/ilm_read.html.twig', [
-                'policy' => $policy,
-            ]);
-        } catch (CallException $e) {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $policy = $callResponse->getContent();
+        $policy = $policy[$name];
+        $policy['name'] = $name;
+
+        return $this->renderAbstract($request, 'Modules/ilm/ilm_read.html.twig', [
+            'policy' => $policy,
+        ]);
     }
 }

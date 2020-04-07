@@ -179,20 +179,21 @@ class SlmController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_slm/policy/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-            $policy = $callResponse->getContent();
-            $policy = $policy[$name];
-            $policy['name'] = $name;
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/policy/'.$name);
+        $callResponse = $this->callManager->call($callRequest);
 
-            return $this->renderAbstract($request, 'Modules/slm/slm_read.html.twig', [
-                'policy' => $policy,
-            ]);
-        } catch (CallException $e) {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $policy = $callResponse->getContent();
+        $policy = $policy[$name];
+        $policy['name'] = $name;
+
+        return $this->renderAbstract($request, 'Modules/slm/slm_read.html.twig', [
+            'policy' => $policy,
+        ]);
     }
 
     /**
@@ -200,20 +201,21 @@ class SlmController extends AbstractAppController
      */
     public function readHistory(Request $request, string $name): Response
     {
-        try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_slm/policy/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-            $policy = $callResponse->getContent();
-            $policy = $policy[$name];
-            $policy['name'] = $name;
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/policy/'.$name);
+        $callResponse = $this->callManager->call($callRequest);
 
-            return $this->renderAbstract($request, 'Modules/slm/slm_read_history.html.twig', [
-                'policy' => $policy,
-            ]);
-        } catch (CallException $e) {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $policy = $callResponse->getContent();
+        $policy = $policy[$name];
+        $policy['name'] = $name;
+
+        return $this->renderAbstract($request, 'Modules/slm/slm_read_history.html.twig', [
+            'policy' => $policy,
+        ]);
     }
 
     /**
@@ -221,20 +223,21 @@ class SlmController extends AbstractAppController
      */
     public function readStats(Request $request, string $name): Response
     {
-        try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_slm/policy/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-            $policy = $callResponse->getContent();
-            $policy = $policy[$name];
-            $policy['name'] = $name;
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/policy/'.$name);
+        $callResponse = $this->callManager->call($callRequest);
 
-            return $this->renderAbstract($request, 'Modules/slm/slm_read_stats.html.twig', [
-                'policy' => $policy,
-            ]);
-        } catch (CallException $e) {
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             throw new NotFoundHttpException();
         }
+
+        $policy = $callResponse->getContent();
+        $policy = $policy[$name];
+        $policy['name'] = $name;
+
+        return $this->renderAbstract($request, 'Modules/slm/slm_read_stats.html.twig', [
+            'policy' => $policy,
+        ]);
     }
 
     /**
@@ -245,61 +248,62 @@ class SlmController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_slm/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            throw new NotFoundHttpException();
+        }
+
         $policy = $callResponse->getContent();
         $policy = $policy[$name];
         $policy['name'] = $name;
 
-        if ($policy) {
-            $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-            $indices = $this->elasticsearchIndexManager->selectIndices();
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
 
-            $policyModel = new ElasticsearchSlmPolicyModel();
-            $policyModel->convert($policy);
-            $form = $this->createForm(CreateSlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
+        $policyModel = new ElasticsearchSlmPolicyModel();
+        $policyModel->convert($policy);
+        $form = $this->createForm(CreateSlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
 
-            $form->handleRequest($request);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $json = [
-                        'schedule' => $policyModel->getSchedule(),
-                        'name' => $policyModel->getSnapshotName(),
-                        'repository' => $policyModel->getRepository(),
-                    ];
-                    if ($policyModel->getIndices()) {
-                        $json['config']['indices'] = $policyModel->getIndices();
-                    } else {
-                        $json['config']['indices'] = ['*'];
-                    }
-                    $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                    $json['config']['partial'] = $policyModel->getPartial();
-                    $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
-
-                    if ($policyModel->hasRetention()) {
-                        $json['retention'] = $policyModel->getRetention();
-                    }
-
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('PUT');
-                    $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
-                    $callRequest->setJson($json);
-                    $this->callManager->call($callRequest);
-
-                    $this->addFlash('success', 'success.slm_update');
-
-                    return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
-                } catch (CallException $e) {
-                    $this->addFlash('danger', $e->getMessage());
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = [
+                    'schedule' => $policyModel->getSchedule(),
+                    'name' => $policyModel->getSnapshotName(),
+                    'repository' => $policyModel->getRepository(),
+                ];
+                if ($policyModel->getIndices()) {
+                    $json['config']['indices'] = $policyModel->getIndices();
+                } else {
+                    $json['config']['indices'] = ['*'];
                 }
-            }
+                $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
+                $json['config']['partial'] = $policyModel->getPartial();
+                $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
 
-            return $this->renderAbstract($request, 'Modules/slm/slm_update.html.twig', [
-                'policy' => $policy,
-                'form' => $form->createView(),
-            ]);
-        } else {
-            throw new NotFoundHttpException();
+                if ($policyModel->hasRetention()) {
+                    $json['retention'] = $policyModel->getRetention();
+                }
+
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
+
+                $this->addFlash('success', 'success.slm_update');
+
+                return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
+
+        return $this->renderAbstract($request, 'Modules/slm/slm_update.html.twig', [
+            'policy' => $policy,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

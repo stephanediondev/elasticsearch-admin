@@ -197,22 +197,15 @@ class IndexController extends AbstractAppController
      */
     public function read(Request $request, string $index): Response
     {
-        try {
-            $index1 = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $this->elasticsearchIndexManager->getIndex($index);
 
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/'.$index);
-            $callResponse = $this->callManager->call($callRequest);
-            $index2 = $callResponse->getContent();
-
-            $index = array_merge($index1, $index2[key($index2)]);
-
-            return $this->renderAbstract($request, 'Modules/index/index_read.html.twig', [
-                'index' => $index,
-            ]);
-        } catch (CallException $e) {
+        if (false == $index) {
             throw new NotFoundHttpException();
         }
+
+        return $this->renderAbstract($request, 'Modules/index/index_read.html.twig', [
+            'index' => $index,
+        ]);
     }
 
     /**
@@ -220,48 +213,41 @@ class IndexController extends AbstractAppController
      */
     public function update(Request $request, string $index): Response
     {
-        $index1 = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $this->elasticsearchIndexManager->getIndex($index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index);
-        $callResponse = $this->callManager->call($callRequest);
-        $index2 = $callResponse->getContent();
-
-        $index = array_merge($index1, $index2[key($index2)]);
-
-        if ($index) {
-            $indexModel = new ElasticsearchIndexModel();
-            $indexModel->convert($index);
-            $form = $this->createForm(CreateIndexType::class, $indexModel, ['update' => true]);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    if ($indexModel->getMappings()) {
-                        $json = json_decode($indexModel->getMappings(), true);
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setMethod('PUT');
-                        $callRequest->setPath('/'.$indexModel->getName().'/_mapping');
-                        $callRequest->setJson($json);
-                        $this->callManager->call($callRequest);
-                    }
-
-                    $this->addFlash('success', 'success.indices_update');
-
-                    return $this->redirectToRoute('indices_read', ['index' => $indexModel->getName()]);
-                } catch (CallException $e) {
-                    $this->addFlash('danger', $e->getMessage());
-                }
-            }
-
-            return $this->renderAbstract($request, 'Modules/index/index_update.html.twig', [
-                'index' => $index,
-                'form' => $form->createView(),
-            ]);
-        } else {
+        if (false == $index) {
             throw new NotFoundHttpException();
         }
+
+        $indexModel = new ElasticsearchIndexModel();
+        $indexModel->convert($index);
+        $form = $this->createForm(CreateIndexType::class, $indexModel, ['update' => true]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                if ($indexModel->getMappings()) {
+                    $json = json_decode($indexModel->getMappings(), true);
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('PUT');
+                    $callRequest->setPath('/'.$indexModel->getName().'/_mapping');
+                    $callRequest->setJson($json);
+                    $this->callManager->call($callRequest);
+                }
+
+                $this->addFlash('success', 'success.indices_update');
+
+                return $this->redirectToRoute('indices_read', ['index' => $indexModel->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/index/index_update.html.twig', [
+            'index' => $index,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -269,14 +255,11 @@ class IndexController extends AbstractAppController
      */
     public function settings(Request $request, string $index): Response
     {
-        $index1 = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $this->elasticsearchIndexManager->getIndex($index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index);
-        $callResponse = $this->callManager->call($callRequest);
-        $index2 = $callResponse->getContent();
-
-        $index = array_merge($index1, $index2[key($index2)]);
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
 
         return $this->renderAbstract($request, 'Modules/index/index_read_settings.html.twig', [
             'index' => $index,
@@ -288,14 +271,11 @@ class IndexController extends AbstractAppController
      */
     public function mappings(Request $request, string $index): Response
     {
-        $index1 = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $this->elasticsearchIndexManager->getIndex($index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index);
-        $callResponse = $this->callManager->call($callRequest);
-        $index2 = $callResponse->getContent();
-
-        $index = array_merge($index1, $index2[key($index2)]);
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
 
         return $this->renderAbstract($request, 'Modules/index/index_read_mappings.html.twig', [
             'index' => $index,
@@ -309,27 +289,27 @@ class IndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getIndex($index);
 
-        if ($index) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_cat/shards/'.$index['index']);
-            $callRequest->setQuery(['s' => 'shard,prirep', 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
-            $callResponse = $this->callManager->call($callRequest);
-            $shards = $callResponse->getContent();
-
-            return $this->renderAbstract($request, 'Modules/index/index_read_shards.html.twig', [
-                'index' => $index,
-                'shards' => $this->paginatorManager->paginate([
-                    'route' => 'indices_read_shards',
-                    'route_parameters' => ['index' => $index['index']],
-                    'total' => count($shards),
-                    'rows' => $shards,
-                    'page' => 1,
-                    'size' => count($shards),
-                ]),
-            ]);
-        } else {
+        if (false == $index) {
             throw new NotFoundHttpException();
         }
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/shards/'.$index['index']);
+        $callRequest->setQuery(['s' => 'shard,prirep', 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
+        $callResponse = $this->callManager->call($callRequest);
+        $shards = $callResponse->getContent();
+
+        return $this->renderAbstract($request, 'Modules/index/index_read_shards.html.twig', [
+            'index' => $index,
+            'shards' => $this->paginatorManager->paginate([
+                'route' => 'indices_read_shards',
+                'route_parameters' => ['index' => $index['index']],
+                'total' => count($shards),
+                'rows' => $shards,
+                'page' => 1,
+                'size' => count($shards),
+            ]),
+        ]);
     }
 
     /**
@@ -339,27 +319,27 @@ class IndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getIndex($index);
 
-        if ($index) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/'.$index['index'].'/_alias');
-            $callResponse = $this->callManager->call($callRequest);
-            $aliases = $callResponse->getContent();
-            $aliases = array_keys($aliases[$index['index']]['aliases']);
-
-            return $this->renderAbstract($request, 'Modules/index/index_read_aliases.html.twig', [
-                'index' => $index,
-                'aliases' => $this->paginatorManager->paginate([
-                    'route' => 'indices_read_aliases',
-                    'route_parameters' => ['index' => $index['index']],
-                    'total' => count($aliases),
-                    'rows' => $aliases,
-                    'page' => 1,
-                    'size' => count($aliases),
-                ]),
-            ]);
-        } else {
+        if (false == $index) {
             throw new NotFoundHttpException();
         }
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index['index'].'/_alias');
+        $callResponse = $this->callManager->call($callRequest);
+        $aliases = $callResponse->getContent();
+        $aliases = array_keys($aliases[$index['index']]['aliases']);
+
+        return $this->renderAbstract($request, 'Modules/index/index_read_aliases.html.twig', [
+            'index' => $index,
+            'aliases' => $this->paginatorManager->paginate([
+                'route' => 'indices_read_aliases',
+                'route_parameters' => ['index' => $index['index']],
+                'total' => count($aliases),
+                'rows' => $aliases,
+                'page' => 1,
+                'size' => count($aliases),
+            ]),
+        ]);
     }
 
     /**
@@ -369,34 +349,34 @@ class IndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getIndex($index);
 
-        if ($index) {
-            $aliasModel = new ElasticsearchIndexAliasModel();
-            $form = $this->createForm(CreateAliasType::class, $aliasModel);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('PUT');
-                    $callRequest->setPath('/'.$index['index'].'/_alias/'.$aliasModel->getName());
-                    $this->callManager->call($callRequest);
-
-                    $this->addFlash('success', 'success.indices_aliases_create');
-
-                    return $this->redirectToRoute('indices_read_aliases', ['index' => $index['index']]);
-                } catch (CallException $e) {
-                    $this->addFlash('danger', $e->getMessage());
-                }
-            }
-
-            return $this->renderAbstract($request, 'Modules/index/index_read_aliases_create.html.twig', [
-                'index' => $index,
-                'form' => $form->createView(),
-            ]);
-        } else {
+        if (false == $index) {
             throw new NotFoundHttpException();
         }
+
+        $aliasModel = new ElasticsearchIndexAliasModel();
+        $form = $this->createForm(CreateAliasType::class, $aliasModel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/'.$index['index'].'/_alias/'.$aliasModel->getName());
+                $this->callManager->call($callRequest);
+
+                $this->addFlash('success', 'success.indices_aliases_create');
+
+                return $this->redirectToRoute('indices_read_aliases', ['index' => $index['index']]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/index/index_read_aliases_create.html.twig', [
+            'index' => $index,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -419,14 +399,11 @@ class IndexController extends AbstractAppController
      */
     public function documents(Request $request, string $index): Response
     {
-        $index1 = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $this->elasticsearchIndexManager->getIndex($index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index);
-        $callResponse = $this->callManager->call($callRequest);
-        $index2 = $callResponse->getContent();
-
-        $index = array_merge($index1, $index2[key($index2)]);
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
 
         $size = 100;
         $query = [
