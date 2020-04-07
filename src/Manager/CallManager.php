@@ -4,21 +4,20 @@ namespace App\Manager;
 
 use App\Exception\CallException;
 use App\Model\CallModel;
-use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallManager
 {
     /**
      * @required
      */
-    public function init(string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
+    public function init(HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
     {
+        $this->client = $client;
         $this->elasticsearchUrl = $elasticsearchUrl;
         $this->elasticsearchUsername = $elasticsearchUsername;
         $this->elasticsearchPassword = $elasticsearchPassword;
         $this->sslVerifyPeer = $sslVerifyPeer;
-
-        $this->client = HttpClient::create();
     }
 
     public function call(CallModel $call)
