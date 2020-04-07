@@ -71,7 +71,7 @@ class CallManager
         }
 
         if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {
-            $callResponse->setContent($response->getContent());
+            $callResponse->setContentRaw($response->getContent());
         } else {
             $callResponse->setContent($response->toArray());
         }

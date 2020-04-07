@@ -65,7 +65,7 @@ class CatController extends AbstractAppController
             $callRequest->setPath('/_cat/'.$catModel->getCommandHelp());
             $callRequest->setQuery(['help' => 'true', 'format' => 'text']);
             $callResponse = $this->callManager->call($callRequest);
-            $parameters['help'] = $callResponse->getContent();
+            $parameters['help'] = $callResponse->getContentRaw();
 
             $parameters['command'] = $catModel->getCommandReplace();
         }
