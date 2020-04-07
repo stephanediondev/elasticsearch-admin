@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,22 +18,22 @@ class LicenseController extends AbstractAppController
      */
     public function read(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_license');
         $license = $this->callManager->call($call);
         $license = $license['license'];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_license/trial_status');
         $trialStatus = $this->callManager->call($call);
         $trialStatus = $trialStatus['eligible_to_start_trial'];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_license/basic_status');
         $basicStatus = $this->callManager->call($call);
         $basicStatus = $basicStatus['eligible_to_start_basic'];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_xpack');
         $xpack = $this->callManager->call($call);
 
@@ -50,7 +50,7 @@ class LicenseController extends AbstractAppController
      */
     public function startTrial(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('POST');
         $call->setPath('/_license/start_trial');
         $call->setQuery(['acknowledge' => 'true']);
@@ -66,7 +66,7 @@ class LicenseController extends AbstractAppController
      */
     public function startBasic(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('POST');
         $call->setPath('/_license/start_basic');
         $call->setQuery(['acknowledge' => 'true']);

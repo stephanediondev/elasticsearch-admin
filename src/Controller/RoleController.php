@@ -6,7 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Form\CreateRoleType;
 use App\Manager\ElasticsearchRoleManager;
 use App\Manager\ElasticsearchUserManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRoleModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +32,7 @@ class RoleController extends AbstractAppController
     {
         $roles = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/role');
         $roles1 = $this->callManager->call($call);
 
@@ -79,7 +79,7 @@ class RoleController extends AbstractAppController
                 if ($roleModel->getMetadata()) {
                     $json['metadata'] = json_decode($roleModel->getMetadata(), true);
                 }
-                $call = new CallModel();
+                $call = new CallRequestModel();
                 $call->setMethod('POST');
                 $call->setPath('/_security/role/'.$roleModel->getName());
                 $call->setJson($json);
@@ -103,7 +103,7 @@ class RoleController extends AbstractAppController
      */
     public function read(Request $request, string $role): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/role/'.$role);
         $role = $this->callManager->call($call);
 
@@ -123,7 +123,7 @@ class RoleController extends AbstractAppController
      */
     public function update(Request $request, string $role): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/role/'.$role);
         $role = $this->callManager->call($call);
 
@@ -158,7 +158,7 @@ class RoleController extends AbstractAppController
                     if ($roleModel->getMetadata()) {
                         $json['metadata'] = json_decode($roleModel->getMetadata(), true);
                     }
-                    $call = new CallModel();
+                    $call = new CallRequestModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_security/role/'.$roleModel->getName());
                     $call->setJson($json);
@@ -186,7 +186,7 @@ class RoleController extends AbstractAppController
      */
     public function delete(Request $request, string $role): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/role/'.$role);
         $role = $this->callManager->call($call);
 
@@ -199,7 +199,7 @@ class RoleController extends AbstractAppController
                 throw new AccessDeniedHttpException();
             }
 
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setMethod('DELETE');
             $call->setPath('/_security/role/'.$role['role']);
             $this->callManager->call($call);

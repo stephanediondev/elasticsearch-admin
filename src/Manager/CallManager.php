@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Exception\CallException;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallManager
@@ -20,7 +20,7 @@ class CallManager
         $this->sslVerifyPeer = $sslVerifyPeer;
     }
 
-    public function call(CallModel $call)
+    public function call(CallRequestModel $call)
     {
         $options = $call->getOptions();
 

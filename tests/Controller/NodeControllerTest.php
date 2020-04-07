@@ -2,7 +2,7 @@
 
 namespace App\Tests\Controller;
 
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use App\Tests\Controller;
 
 class NodeControllerTest extends AbstractAppControllerTest
@@ -31,7 +31,7 @@ class NodeControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/master');
         $master = $this->callManager->call($call);
 
@@ -42,7 +42,7 @@ class NodeControllerTest extends AbstractAppControllerTest
 
     public function testReadUsage()
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/master');
         $master = $this->callManager->call($call);
 
@@ -53,7 +53,7 @@ class NodeControllerTest extends AbstractAppControllerTest
 
     public function testReadPlugins()
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/master');
         $master = $this->callManager->call($call);
 

@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Manager\CallManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 
 class ElasticsearchRoleManager
 {
@@ -19,7 +19,7 @@ class ElasticsearchRoleManager
     {
         $roles = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/role');
         $rows = $this->callManager->call($call);
 
@@ -34,7 +34,7 @@ class ElasticsearchRoleManager
 
     public function getPrivileges()
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/privilege/_builtin');
         return $this->callManager->call($call);
     }

@@ -7,7 +7,7 @@ use App\Exception\CallException;
 use App\Form\CreateIlmPolicyType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIlmPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +32,7 @@ class IlmController extends AbstractAppController
     {
         $policies = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_ilm/policy');
         $rows = $this->callManager->call($call);
 
@@ -58,7 +58,7 @@ class IlmController extends AbstractAppController
      */
     public function status(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_ilm/status');
         $status = $this->callManager->call($call);
 
@@ -72,7 +72,7 @@ class IlmController extends AbstractAppController
      */
     public function start(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('POST');
         $call->setPath('/_ilm/start');
         $status = $this->callManager->call($call);
@@ -87,7 +87,7 @@ class IlmController extends AbstractAppController
      */
     public function stop(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('POST');
         $call->setPath('/_ilm/stop');
         $status = $this->callManager->call($call);
@@ -103,7 +103,7 @@ class IlmController extends AbstractAppController
     public function read(Request $request, string $name): Response
     {
         try {
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setPath('/_ilm/policy/'.$name);
             $policy = $this->callManager->call($call);
             $policy = $policy[$name];

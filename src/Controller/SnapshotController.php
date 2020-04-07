@@ -8,7 +8,7 @@ use App\Form\CreateSnapshotType;
 use App\Form\RestoreSnapshotType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchSnapshotModel;
 use App\Model\ElasticsearchSnapshotRestoreModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,7 +35,7 @@ class SnapshotController extends AbstractAppController
         $snapshots = [];
 
         foreach ($repositories as $repository) {
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setPath('/_snapshot/'.$repository.'/_all');
             $rows = $this->callManager->call($call);
 
@@ -86,7 +86,7 @@ class SnapshotController extends AbstractAppController
                 if ($snapshotModel->getIndices()) {
                     $json['indices'] = implode(',', $snapshotModel->getIndices());
                 }
-                $call = new CallModel();
+                $call = new CallRequestModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
                 $call->setJson($json);
@@ -110,7 +110,7 @@ class SnapshotController extends AbstractAppController
      */
     public function read(Request $request, string $repository, string $snapshot): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
         $snapshot = $this->callManager->call($call);
         $snapshot = $snapshot['snapshots'][0];
@@ -130,7 +130,7 @@ class SnapshotController extends AbstractAppController
      */
     public function readFailures(Request $request, string $repository, string $snapshot): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
         $snapshot = $this->callManager->call($call);
         $snapshot = $snapshot['snapshots'][0];
@@ -138,7 +138,7 @@ class SnapshotController extends AbstractAppController
         if ($snapshot) {
             $nodes = [];
 
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setPath('/_nodes');
             $rows = $this->callManager->call($call);
 
@@ -161,7 +161,7 @@ class SnapshotController extends AbstractAppController
      */
     public function delete(Request $request, string $repository, string $snapshot): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('DELETE');
         $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
         $this->callManager->call($call);
@@ -176,7 +176,7 @@ class SnapshotController extends AbstractAppController
      */
     public function restore(Request $request, string $repository, string $snapshot): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
         $snapshot = $this->callManager->call($call);
         $snapshot = $snapshot['snapshots'][0];
@@ -204,7 +204,7 @@ class SnapshotController extends AbstractAppController
                     if ($snapshotRestoreModel->getIndices()) {
                         $json['indices'] = implode(',', $snapshotRestoreModel->getIndices());
                     }
-                    $call = new CallModel();
+                    $call = new CallRequestModel();
                     $call->setMethod('POST');
                     $call->setPath('/_snapshot/'.$repository.'/'.$snapshot['snapshot'].'/_restore');
                     $call->setJson($json);

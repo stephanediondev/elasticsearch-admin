@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateIndexTemplateType;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ class IndexTemplateController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/templates');
         $call->setQuery(['s' => 'name', 'h' => 'name,index_patterns,order,version']);
         $indexTemplates = $this->callManager->call($call);
@@ -66,7 +66,7 @@ class IndexTemplateController extends AbstractAppController
                 if ($templateModel->getMappings()) {
                     $json['mappings'] = json_decode($templateModel->getMappings(), true);
                 }
-                $call = new CallModel();
+                $call = new CallRequestModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_template/'.$templateModel->getName());
                 $call->setJson($json);
@@ -91,7 +91,7 @@ class IndexTemplateController extends AbstractAppController
     public function read(Request $request, string $name): Response
     {
         try {
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setPath('/_template/'.$name);
             $template = $this->callManager->call($call);
             $template = $template[$name];
@@ -110,7 +110,7 @@ class IndexTemplateController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_template/'.$name);
         $template = $this->callManager->call($call);
         $template = $template[$name];
@@ -130,7 +130,7 @@ class IndexTemplateController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_template/'.$name);
         $template = $this->callManager->call($call);
         $template = $template[$name];
@@ -150,7 +150,7 @@ class IndexTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_template/'.$name);
         $template = $this->callManager->call($call);
         $template = $template[$name];
@@ -180,7 +180,7 @@ class IndexTemplateController extends AbstractAppController
                     if ($templateModel->getMappings()) {
                         $json['mappings'] = json_decode($templateModel->getMappings(), true);
                     }
-                    $call = new CallModel();
+                    $call = new CallRequestModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_template/'.$templateModel->getName());
                     $call->setJson($json);
@@ -209,7 +209,7 @@ class IndexTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('DELETE');
         $call->setPath('/_template/'.$name);
         $this->callManager->call($call);

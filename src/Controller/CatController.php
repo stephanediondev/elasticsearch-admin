@@ -7,7 +7,7 @@ use App\Exception\CallException;
 use App\Form\FilterCatType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchCatModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +49,7 @@ class CatController extends AbstractAppController
                 if ($catModel->getSort()) {
                     $query['s'] = $catModel->getSort();
                 }
-                $call = new CallModel();
+                $call = new CallRequestModel();
                 $call->setPath('/_cat/'.$catModel->getCommandReplace());
                 $call->setQuery($query);
                 $parameters['rows'] = $this->callManager->call($call);
@@ -60,7 +60,7 @@ class CatController extends AbstractAppController
                 $this->addFlash('danger', $e->getMessage());
             }
 
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setPath('/_cat/'.$catModel->getCommandHelp());
             $call->setQuery(['help' => 'true', 'format' => 'text']);
             $parameters['help'] = $this->callManager->call($call);

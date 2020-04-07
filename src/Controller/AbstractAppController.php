@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Manager\CallManager;
 use App\Manager\PaginatorManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,13 +29,13 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cluster/health');
         $clusterHealth = $this->callManager->call($call);
 
         $parameters['clusterHealth'] = $clusterHealth;
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/master');
         $master = $this->callManager->call($call);
 

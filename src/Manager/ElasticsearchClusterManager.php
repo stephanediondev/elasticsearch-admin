@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Manager\CallManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 
 class ElasticsearchClusterManager
 {
@@ -17,7 +17,7 @@ class ElasticsearchClusterManager
 
     public function getClusterSettings()
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cluster/settings');
         $call->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
         $results = $this->callManager->call($call);

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Form\CreateUserType;
 use App\Manager\ElasticsearchRoleManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchUserModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +30,7 @@ class UserController extends AbstractAppController
     {
         $users = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/user');
         $users1 = $this->callManager->call($call);
 
@@ -76,7 +76,7 @@ class UserController extends AbstractAppController
                 if ($userModel->getMetadata()) {
                     $json['metadata'] = json_decode($userModel->getMetadata(), true);
                 }
-                $call = new CallModel();
+                $call = new CallRequestModel();
                 $call->setMethod('POST');
                 $call->setPath('/_security/user/'.$userModel->getUsername());
                 $call->setJson($json);
@@ -101,7 +101,7 @@ class UserController extends AbstractAppController
     public function read(Request $request, string $user): Response
     {
         try {
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setPath('/_security/user/'.$user);
             $user = $this->callManager->call($call);
 
@@ -121,7 +121,7 @@ class UserController extends AbstractAppController
      */
     public function update(Request $request, string $user): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/user/'.$user);
         $user = $this->callManager->call($call);
 
@@ -152,7 +152,7 @@ class UserController extends AbstractAppController
                     if ($userModel->getMetadata()) {
                         $json['metadata'] = json_decode($userModel->getMetadata(), true);
                     }
-                    $call = new CallModel();
+                    $call = new CallRequestModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_security/user/'.$userModel->getUsername());
                     $call->setJson($json);
@@ -162,7 +162,7 @@ class UserController extends AbstractAppController
                         $json = [
                             'password' => $userModel->getPassword(),
                         ];
-                        $call = new CallModel();
+                        $call = new CallRequestModel();
                         $call->setMethod('POST');
                         $call->setPath('/_security/user/'.$userModel->getUsername().'/_password');
                         $call->setJson($json);
@@ -191,7 +191,7 @@ class UserController extends AbstractAppController
      */
     public function enable(Request $request, string $user): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/user/'.$user);
         $user = $this->callManager->call($call);
 
@@ -209,7 +209,7 @@ class UserController extends AbstractAppController
             }
 
             try {
-                $call = new CallModel();
+                $call = new CallRequestModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_security/user/'.$user['username'].'/_enable');
                 $this->callManager->call($call);
@@ -230,7 +230,7 @@ class UserController extends AbstractAppController
      */
     public function disable(Request $request, string $user): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/user/'.$user);
         $user = $this->callManager->call($call);
 
@@ -248,7 +248,7 @@ class UserController extends AbstractAppController
             }
 
             try {
-                $call = new CallModel();
+                $call = new CallRequestModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_security/user/'.$user['username'].'/_disable');
                 $this->callManager->call($call);
@@ -269,7 +269,7 @@ class UserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/user/'.$user);
         $user = $this->callManager->call($call);
 
@@ -282,7 +282,7 @@ class UserController extends AbstractAppController
                 throw new AccessDeniedHttpException();
             }
 
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setMethod('DELETE');
             $call->setPath('/_security/user/'.$user['username']);
             $this->callManager->call($call);

@@ -4,7 +4,7 @@ namespace App\Model;
 
 use App\Model\AbstractAppModel;
 
-class CallModel extends AbstractAppModel
+class CallRequestModel extends AbstractAppModel
 {
     private $method;
 

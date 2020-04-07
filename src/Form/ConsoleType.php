@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -26,7 +26,7 @@ class ConsoleType extends AbstractType
             switch ($field) {
                 case 'method':
                     $builder->add('method', ChoiceType::class, [
-                        'choices' => CallModel::getMethods(),
+                        'choices' => CallRequestModel::getMethods(),
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $key;
                         },
@@ -63,7 +63,7 @@ class ConsoleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CallModel::class,
+            'data_class' => CallRequestModel::class,
         ]);
     }
 

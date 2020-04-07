@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Manager\CallManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 
 class ElasticsearchRepositoryManager
 {
@@ -19,7 +19,7 @@ class ElasticsearchRepositoryManager
     {
         $repositories = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/repositories');
         $call->setQuery(['s' => 'id', 'h' => 'id']);
         $rows = $this->callManager->call($call);

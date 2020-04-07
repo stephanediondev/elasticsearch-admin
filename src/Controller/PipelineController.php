@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class PipelineController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_ingest/pipeline');
         $pipelines = $this->callManager->call($call);
 

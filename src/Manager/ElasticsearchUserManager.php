@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Manager\CallManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 
 class ElasticsearchUserManager
 {
@@ -19,7 +19,7 @@ class ElasticsearchUserManager
     {
         $users = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_security/user');
         $rows = $this->callManager->call($call);
 

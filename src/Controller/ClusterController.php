@@ -6,7 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Form\EditClusterSettingType;
 use App\Manager\ElasticsearchClusterManager;
 use App\Model\ElasticsearchClusterSettingModel;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,11 +26,11 @@ class ClusterController extends AbstractAppController
      */
     public function read(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cluster/stats');
         $clusterStats = $this->callManager->call($call);
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cluster/state');
         $clusterState = $this->callManager->call($call);
 
@@ -53,7 +53,7 @@ class ClusterController extends AbstractAppController
      */
     public function allocationExplain(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cluster/allocation/explain');
         $allocationExplain = $this->callManager->call($call);
 
@@ -67,7 +67,7 @@ class ClusterController extends AbstractAppController
      */
     public function settings(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cluster/settings');
         $call->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
         $clusterSettings = $this->callManager->call($call);
@@ -100,7 +100,7 @@ class ClusterController extends AbstractAppController
                             $clusterSettingModel->getSetting() => $clusterSettingModel->getValue(),
                         ],
                     ];
-                    $call = new CallModel();
+                    $call = new CallRequestModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_cluster/settings');
                     $call->setJson($json);
@@ -134,7 +134,7 @@ class ClusterController extends AbstractAppController
                 $setting => null,
             ],
         ];
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('PUT');
         $call->setPath('/_cluster/settings');
         $call->setJson($json);

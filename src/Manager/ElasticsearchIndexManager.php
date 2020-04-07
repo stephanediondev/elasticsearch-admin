@@ -3,7 +3,7 @@
 namespace App\Manager;
 
 use App\Manager\CallManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 
 class ElasticsearchIndexManager
 {
@@ -17,7 +17,7 @@ class ElasticsearchIndexManager
 
     public function getIndex($index)
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/indices/'.$index);
         $index = $this->callManager->call($call);
         $index = $index[0];
@@ -29,7 +29,7 @@ class ElasticsearchIndexManager
     {
         $indices = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/indices');
         $call->setQuery(['s' => 'index', 'h' => 'index']);
         $rows = $this->callManager->call($call);
@@ -45,7 +45,7 @@ class ElasticsearchIndexManager
     {
         $aliases = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/aliases');
         $call->setQuery(['s' => 'alias', 'h' => 'alias']);
         $rows = $this->callManager->call($call);

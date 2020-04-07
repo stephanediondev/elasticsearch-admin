@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Manager\ElasticsearchClusterManager;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,7 +28,7 @@ class NodeController extends AbstractAppController
     {
         $nodes = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/nodes');
         $call->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
         $nodes1 = $this->callManager->call($call);
@@ -37,7 +37,7 @@ class NodeController extends AbstractAppController
             $nodes[$node['name']] = $node;
         }
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_nodes');
         $nodes2 = $this->callManager->call($call);
 
@@ -45,7 +45,7 @@ class NodeController extends AbstractAppController
             $nodes[$node['name']] = array_merge($node, $nodes[$node['name']]);
         }
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_nodes/stats');
         $nodes3 = $this->callManager->call($call);
 
@@ -75,7 +75,7 @@ class NodeController extends AbstractAppController
     {
         $json = [];
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/nodes');
         $call->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
         $nodes1 = $this->callManager->call($call);
@@ -84,7 +84,7 @@ class NodeController extends AbstractAppController
             $json[$node['name']] = $node;
         }
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_nodes');
         $nodes2 = $this->callManager->call($call);
 
@@ -92,7 +92,7 @@ class NodeController extends AbstractAppController
             $json[$node['name']] = array_merge($node, $json[$node['name']]);
         }
 
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_nodes/stats');
         $nodes3 = $this->callManager->call($call);
 
@@ -108,7 +108,7 @@ class NodeController extends AbstractAppController
      */
     public function read(Request $request, string $node): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_nodes/'.$node);
         $node = $this->callManager->call($call);
 
@@ -128,7 +128,7 @@ class NodeController extends AbstractAppController
      */
     public function plugins(Request $request, string $node): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_nodes/'.$node);
         $node = $this->callManager->call($call);
 
@@ -148,14 +148,14 @@ class NodeController extends AbstractAppController
      */
     public function usage(Request $request, string $node): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_nodes/'.$node);
         $node = $this->callManager->call($call);
 
         if (true == isset($node['nodes'][key($node['nodes'])])) {
             $node = $node['nodes'][key($node['nodes'])];
 
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setPath('/_nodes/'.$node['name'].'/usage');
             $usage = $this->callManager->call($call);
             $usage = $usage['nodes'][key($usage['nodes'])];

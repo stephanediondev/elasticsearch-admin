@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateRepositoryType;
-use App\Model\CallModel;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,7 @@ class RepositoryController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_cat/repositories');
         $repositories = $this->callManager->call($call);
 
@@ -82,7 +82,7 @@ class RepositoryController extends AbstractAppController
                     $json['settings']['base_path'] = $repositoryModel->getBasePath();
                 }
 
-                $call = new CallModel();
+                $call = new CallRequestModel();
                 $call->setMethod('PUT');
                 $call->setPath('/_snapshot/'.$repositoryModel->getName());
                 if ($repositoryModel->getVerify()) {
@@ -113,7 +113,7 @@ class RepositoryController extends AbstractAppController
     public function read(Request $request, string $repository): Response
     {
         try {
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setPath('/_snapshot/'.$repository);
             $repositoryQuery = $this->callManager->call($call);
             $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
@@ -134,7 +134,7 @@ class RepositoryController extends AbstractAppController
      */
     public function update(Request $request, string $repository): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setPath('/_snapshot/'.$repository);
         $repositoryQuery = $this->callManager->call($call);
         $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
@@ -182,7 +182,7 @@ class RepositoryController extends AbstractAppController
                         $json['settings']['base_path'] = $repositoryModel->getBasePath();
                     }
 
-                    $call = new CallModel();
+                    $call = new CallRequestModel();
                     $call->setMethod('PUT');
                     $call->setPath('/_snapshot/'.$repositoryModel->getName());
                     if ($repositoryModel->getVerify()) {
@@ -215,7 +215,7 @@ class RepositoryController extends AbstractAppController
      */
     public function delete(Request $request, string $repository): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('DELETE');
         $call->setPath('/_snapshot/'.$repository);
         $this->callManager->call($call);
@@ -230,7 +230,7 @@ class RepositoryController extends AbstractAppController
      */
     public function cleanup(Request $request, string $repository): Response
     {
-        $call = new CallModel();
+        $call = new CallRequestModel();
         $call->setMethod('POST');
         $call->setPath('/_snapshot/'.$repository.'/_cleanup');
         $results = $this->callManager->call($call);
@@ -256,7 +256,7 @@ class RepositoryController extends AbstractAppController
     public function verify(Request $request, string $repository): Response
     {
         try {
-            $call = new CallModel();
+            $call = new CallRequestModel();
             $call->setMethod('POST');
             $call->setPath('/_snapshot/'.$repository.'/_verify');
             $results = $this->callManager->call($call);
