@@ -17,9 +17,9 @@ class ElasticsearchIndexManager
 
     public function getIndex($index)
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/indices/'.$index);
-        $index = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/indices/'.$index);
+        $index = $this->callManager->call($callRequest);
         $index = $index[0];
 
         return $index;
@@ -29,10 +29,10 @@ class ElasticsearchIndexManager
     {
         $indices = [];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/indices');
-        $call->setQuery(['s' => 'index', 'h' => 'index']);
-        $rows = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/indices');
+        $callRequest->setQuery(['s' => 'index', 'h' => 'index']);
+        $rows = $this->callManager->call($callRequest);
 
         foreach ($rows as $row) {
             $indices[] = $row['index'];
@@ -45,10 +45,10 @@ class ElasticsearchIndexManager
     {
         $aliases = [];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/aliases');
-        $call->setQuery(['s' => 'alias', 'h' => 'alias']);
-        $rows = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/aliases');
+        $callRequest->setQuery(['s' => 'alias', 'h' => 'alias']);
+        $rows = $this->callManager->call($callRequest);
 
         foreach ($rows as $row) {
             $aliases[] = $row['alias'];

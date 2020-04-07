@@ -18,9 +18,9 @@ class PipelineController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_ingest/pipeline');
-        $pipelines = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_ingest/pipeline');
+        $pipelines = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/pipeline/pipeline_index.html.twig', [
             'pipelines' => $this->paginatorManager->paginate([

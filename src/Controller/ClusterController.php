@@ -26,13 +26,13 @@ class ClusterController extends AbstractAppController
      */
     public function read(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cluster/stats');
-        $clusterStats = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/stats');
+        $clusterStats = $this->callManager->call($callRequest);
 
-        $call = new CallRequestModel();
-        $call->setPath('/_cluster/state');
-        $clusterState = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/state');
+        $clusterState = $this->callManager->call($callRequest);
 
         $nodes = [];
         foreach ($clusterState['nodes'] as $k => $node) {
@@ -53,9 +53,9 @@ class ClusterController extends AbstractAppController
      */
     public function allocationExplain(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cluster/allocation/explain');
-        $allocationExplain = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/allocation/explain');
+        $allocationExplain = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/cluster/cluster_allocation_explain.html.twig', [
             'allocation_explain' => $allocationExplain,
@@ -67,10 +67,10 @@ class ClusterController extends AbstractAppController
      */
     public function settings(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cluster/settings');
-        $call->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
-        $clusterSettings = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/settings');
+        $callRequest->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
+        $clusterSettings = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/cluster/cluster_read_settings.html.twig', [
             'cluster_settings' => $clusterSettings,
@@ -100,11 +100,11 @@ class ClusterController extends AbstractAppController
                             $clusterSettingModel->getSetting() => $clusterSettingModel->getValue(),
                         ],
                     ];
-                    $call = new CallRequestModel();
-                    $call->setMethod('PUT');
-                    $call->setPath('/_cluster/settings');
-                    $call->setJson($json);
-                    $this->callManager->call($call);
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('PUT');
+                    $callRequest->setPath('/_cluster/settings');
+                    $callRequest->setJson($json);
+                    $this->callManager->call($callRequest);
 
                     $this->addFlash('success', 'success.cluster_settings_edit');
 
@@ -134,11 +134,11 @@ class ClusterController extends AbstractAppController
                 $setting => null,
             ],
         ];
-        $call = new CallRequestModel();
-        $call->setMethod('PUT');
-        $call->setPath('/_cluster/settings');
-        $call->setJson($json);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('PUT');
+        $callRequest->setPath('/_cluster/settings');
+        $callRequest->setJson($json);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.cluster_settings_remove');
 

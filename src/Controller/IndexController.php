@@ -32,10 +32,10 @@ class IndexController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/indices');
-        $call->setQuery(['s' => 'index', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
-        $indices = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/indices');
+        $callRequest->setQuery(['s' => 'index', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
+        $indices = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/index/index_index.html.twig', [
             'indices' => $this->paginatorManager->paginate([
@@ -54,10 +54,10 @@ class IndexController extends AbstractAppController
      */
     public function forceMergeAll(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_forcemerge');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_forcemerge');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_force_merge_all');
 
@@ -69,10 +69,10 @@ class IndexController extends AbstractAppController
      */
     public function cacheClearAll(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_cache/clear');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_cache/clear');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_cache_clear_all');
 
@@ -84,10 +84,10 @@ class IndexController extends AbstractAppController
      */
     public function flushAll(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_flush');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_flush');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_flush_all');
 
@@ -99,10 +99,10 @@ class IndexController extends AbstractAppController
      */
     public function refreshAll(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_refresh');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_refresh');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_refresh_all');
 
@@ -134,11 +134,11 @@ class IndexController extends AbstractAppController
                         'index' => $reindexModel->getDestination(),
                     ],
                 ];
-                $call = new CallRequestModel();
-                $call->setMethod('POST');
-                $call->setPath('/_reindex');
-                $call->setJson($json);
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_reindex');
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.indices_reindex');
 
@@ -172,11 +172,11 @@ class IndexController extends AbstractAppController
                 if ($indexModel->getMappings()) {
                     $json['mappings'] = json_decode($indexModel->getMappings(), true);
                 }
-                $call = new CallRequestModel();
-                $call->setMethod('PUT');
-                $call->setPath('/'.$indexModel->getName());
-                $call->setJson($json);
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/'.$indexModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.indices_create');
 
@@ -199,9 +199,9 @@ class IndexController extends AbstractAppController
         try {
             $index1 = $this->elasticsearchIndexManager->getIndex($index);
 
-            $call = new CallRequestModel();
-            $call->setPath('/'.$index);
-            $index2 = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/'.$index);
+            $index2 = $this->callManager->call($callRequest);
 
             $index = array_merge($index1, $index2[key($index2)]);
 
@@ -220,9 +220,9 @@ class IndexController extends AbstractAppController
     {
         $index1 = $this->elasticsearchIndexManager->getIndex($index);
 
-        $call = new CallRequestModel();
-        $call->setPath('/'.$index);
-        $index2 = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index);
+        $index2 = $this->callManager->call($callRequest);
 
         $index = array_merge($index1, $index2[key($index2)]);
 
@@ -237,11 +237,11 @@ class IndexController extends AbstractAppController
                 try {
                     if ($indexModel->getMappings()) {
                         $json = json_decode($indexModel->getMappings(), true);
-                        $call = new CallRequestModel();
-                        $call->setMethod('PUT');
-                        $call->setPath('/'.$indexModel->getName().'/_mapping');
-                        $call->setJson($json);
-                        $this->callManager->call($call);
+                        $callRequest = new CallRequestModel();
+                        $callRequest->setMethod('PUT');
+                        $callRequest->setPath('/'.$indexModel->getName().'/_mapping');
+                        $callRequest->setJson($json);
+                        $this->callManager->call($callRequest);
                     }
 
                     $this->addFlash('success', 'success.indices_update');
@@ -268,9 +268,9 @@ class IndexController extends AbstractAppController
     {
         $index1 = $this->elasticsearchIndexManager->getIndex($index);
 
-        $call = new CallRequestModel();
-        $call->setPath('/'.$index);
-        $index2 = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index);
+        $index2 = $this->callManager->call($callRequest);
 
         $index = array_merge($index1, $index2[key($index2)]);
 
@@ -286,9 +286,9 @@ class IndexController extends AbstractAppController
     {
         $index1 = $this->elasticsearchIndexManager->getIndex($index);
 
-        $call = new CallRequestModel();
-        $call->setPath('/'.$index);
-        $index2 = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index);
+        $index2 = $this->callManager->call($callRequest);
 
         $index = array_merge($index1, $index2[key($index2)]);
 
@@ -305,10 +305,10 @@ class IndexController extends AbstractAppController
         $index = $this->elasticsearchIndexManager->getIndex($index);
 
         if ($index) {
-            $call = new CallRequestModel();
-            $call->setPath('/_cat/shards/'.$index['index']);
-            $call->setQuery(['s' => 'shard,prirep', 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
-            $shards = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_cat/shards/'.$index['index']);
+            $callRequest->setQuery(['s' => 'shard,prirep', 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
+            $shards = $this->callManager->call($callRequest);
 
             return $this->renderAbstract($request, 'Modules/index/index_read_shards.html.twig', [
                 'index' => $index,
@@ -334,9 +334,9 @@ class IndexController extends AbstractAppController
         $index = $this->elasticsearchIndexManager->getIndex($index);
 
         if ($index) {
-            $call = new CallRequestModel();
-            $call->setPath('/'.$index['index'].'/_alias');
-            $aliases = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/'.$index['index'].'/_alias');
+            $aliases = $this->callManager->call($callRequest);
             $aliases = array_keys($aliases[$index['index']]['aliases']);
 
             return $this->renderAbstract($request, 'Modules/index/index_read_aliases.html.twig', [
@@ -370,10 +370,10 @@ class IndexController extends AbstractAppController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 try {
-                    $call = new CallRequestModel();
-                    $call->setMethod('PUT');
-                    $call->setPath('/'.$index['index'].'/_alias/'.$aliasModel->getName());
-                    $this->callManager->call($call);
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('PUT');
+                    $callRequest->setPath('/'.$index['index'].'/_alias/'.$aliasModel->getName());
+                    $this->callManager->call($callRequest);
 
                     $this->addFlash('success', 'success.indices_aliases_create');
 
@@ -397,10 +397,10 @@ class IndexController extends AbstractAppController
      */
     public function deleteAlias(Request $request, string $index, string $alias): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('DELETE');
-        $call->setPath('/'.$index.'/_alias/'.$alias);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/'.$index.'/_alias/'.$alias);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_aliases_delete');
 
@@ -414,9 +414,9 @@ class IndexController extends AbstractAppController
     {
         $index1 = $this->elasticsearchIndexManager->getIndex($index);
 
-        $call = new CallRequestModel();
-        $call->setPath('/'.$index);
-        $index2 = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index);
+        $index2 = $this->callManager->call($callRequest);
 
         $index = array_merge($index1, $index2[key($index2)]);
 
@@ -426,10 +426,10 @@ class IndexController extends AbstractAppController
             'size' => $size,
             'from' => ($size * $request->query->get('page', 1)) - $size,
         ];
-        $call = new CallRequestModel();
-        $call->setPath('/'.$index['index'].'/_search');
-        $call->setQuery($query);
-        $documents = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index['index'].'/_search');
+        $callRequest->setQuery($query);
+        $documents = $this->callManager->call($callRequest);
 
         if (true == isset($documents['hits']['total']['value'])) {
             $total = $documents['hits']['total']['value'];
@@ -458,10 +458,10 @@ class IndexController extends AbstractAppController
      */
     public function delete(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('DELETE');
-        $call->setPath('/'.$index);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/'.$index);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_delete');
 
@@ -473,10 +473,10 @@ class IndexController extends AbstractAppController
      */
     public function close(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/'.$index.'/_close');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_close');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_close');
 
@@ -488,10 +488,10 @@ class IndexController extends AbstractAppController
      */
     public function open(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/'.$index.'/_open');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_open');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_open');
 
@@ -503,10 +503,10 @@ class IndexController extends AbstractAppController
      */
     public function freeze(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/'.$index.'/_freeze');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_freeze');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_freeze');
 
@@ -518,10 +518,10 @@ class IndexController extends AbstractAppController
      */
     public function unfreeze(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/'.$index.'/_unfreeze');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_unfreeze');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_unfreeze');
 
@@ -533,10 +533,10 @@ class IndexController extends AbstractAppController
      */
     public function forceMerge(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/'.$index.'/_forcemerge');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_forcemerge');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_force_merge');
 
@@ -548,10 +548,10 @@ class IndexController extends AbstractAppController
      */
     public function cacheClear(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/'.$index.'/_cache/clear');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_cache/clear');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_cache_clear');
 
@@ -563,10 +563,10 @@ class IndexController extends AbstractAppController
      */
     public function flush(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/'.$index.'/_flush');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_flush');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_flush');
 
@@ -578,10 +578,10 @@ class IndexController extends AbstractAppController
      */
     public function refresh(Request $request, string $index): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/'.$index.'/_refresh');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_refresh');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.indices_refresh');
 

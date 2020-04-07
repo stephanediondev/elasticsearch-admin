@@ -22,9 +22,9 @@ class RepositoryController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/repositories');
-        $repositories = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/repositories');
+        $repositories = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/repository/repository_index.html.twig', [
             'repositories' => $this->paginatorManager->paginate([
@@ -82,16 +82,16 @@ class RepositoryController extends AbstractAppController
                     $json['settings']['base_path'] = $repositoryModel->getBasePath();
                 }
 
-                $call = new CallRequestModel();
-                $call->setMethod('PUT');
-                $call->setPath('/_snapshot/'.$repositoryModel->getName());
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_snapshot/'.$repositoryModel->getName());
                 if ($repositoryModel->getVerify()) {
-                    $call->setQuery(['verify' => 'true']);
+                    $callRequest->setQuery(['verify' => 'true']);
                 } else {
-                    $call->setQuery(['verify' => 'false']);
+                    $callRequest->setQuery(['verify' => 'false']);
                 }
-                $call->setJson($json);
-                $this->callManager->call($call);
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.repositories_create');
 
@@ -113,9 +113,9 @@ class RepositoryController extends AbstractAppController
     public function read(Request $request, string $repository): Response
     {
         try {
-            $call = new CallRequestModel();
-            $call->setPath('/_snapshot/'.$repository);
-            $repositoryQuery = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_snapshot/'.$repository);
+            $repositoryQuery = $this->callManager->call($callRequest);
             $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
 
             $repositoryQuery['id'] = $repository;
@@ -134,9 +134,9 @@ class RepositoryController extends AbstractAppController
      */
     public function update(Request $request, string $repository): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_snapshot/'.$repository);
-        $repositoryQuery = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_snapshot/'.$repository);
+        $repositoryQuery = $this->callManager->call($callRequest);
         $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
 
         $repositoryQuery['id'] = $repository;
@@ -182,16 +182,16 @@ class RepositoryController extends AbstractAppController
                         $json['settings']['base_path'] = $repositoryModel->getBasePath();
                     }
 
-                    $call = new CallRequestModel();
-                    $call->setMethod('PUT');
-                    $call->setPath('/_snapshot/'.$repositoryModel->getName());
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('PUT');
+                    $callRequest->setPath('/_snapshot/'.$repositoryModel->getName());
                     if ($repositoryModel->getVerify()) {
-                        $call->setQuery(['verify' => 'true']);
+                        $callRequest->setQuery(['verify' => 'true']);
                     } else {
-                        $call->setQuery(['verify' => 'false']);
+                        $callRequest->setQuery(['verify' => 'false']);
                     }
-                    $call->setJson($json);
-                    $this->callManager->call($call);
+                    $callRequest->setJson($json);
+                    $this->callManager->call($callRequest);
 
                     $this->addFlash('success', 'success.repositories_update');
 
@@ -215,10 +215,10 @@ class RepositoryController extends AbstractAppController
      */
     public function delete(Request $request, string $repository): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('DELETE');
-        $call->setPath('/_snapshot/'.$repository);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_snapshot/'.$repository);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.repositories_delete');
 
@@ -230,10 +230,10 @@ class RepositoryController extends AbstractAppController
      */
     public function cleanup(Request $request, string $repository): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_snapshot/'.$repository.'/_cleanup');
-        $results = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_snapshot/'.$repository.'/_cleanup');
+        $results = $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.repositories_cleanup');
 
@@ -256,10 +256,10 @@ class RepositoryController extends AbstractAppController
     public function verify(Request $request, string $repository): Response
     {
         try {
-            $call = new CallRequestModel();
-            $call->setMethod('POST');
-            $call->setPath('/_snapshot/'.$repository.'/_verify');
-            $results = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setPath('/_snapshot/'.$repository.'/_verify');
+            $results = $this->callManager->call($callRequest);
 
             $this->addFlash('success', 'success.repositories_verify');
         } catch (CallException $e) {

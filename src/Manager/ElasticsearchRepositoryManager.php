@@ -19,10 +19,10 @@ class ElasticsearchRepositoryManager
     {
         $repositories = [];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/repositories');
-        $call->setQuery(['s' => 'id', 'h' => 'id']);
-        $rows = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/repositories');
+        $callRequest->setQuery(['s' => 'id', 'h' => 'id']);
+        $rows = $this->callManager->call($callRequest);
 
         foreach ($rows as $row) {
             $repositories[] = $row['id'];

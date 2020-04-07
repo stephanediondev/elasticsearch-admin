@@ -19,9 +19,9 @@ class ElasticsearchRoleManager
     {
         $roles = [];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_security/role');
-        $rows = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/role');
+        $rows = $this->callManager->call($callRequest);
 
         foreach ($rows as $k => $row) {
             $roles[] = $k;
@@ -34,8 +34,8 @@ class ElasticsearchRoleManager
 
     public function getPrivileges()
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_security/privilege/_builtin');
-        return $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/privilege/_builtin');
+        return $this->callManager->call($callRequest);
     }
 }

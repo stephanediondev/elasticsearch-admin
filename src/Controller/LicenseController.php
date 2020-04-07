@@ -18,24 +18,24 @@ class LicenseController extends AbstractAppController
      */
     public function read(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_license');
-        $license = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_license');
+        $license = $this->callManager->call($callRequest);
         $license = $license['license'];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_license/trial_status');
-        $trialStatus = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_license/trial_status');
+        $trialStatus = $this->callManager->call($callRequest);
         $trialStatus = $trialStatus['eligible_to_start_trial'];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_license/basic_status');
-        $basicStatus = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_license/basic_status');
+        $basicStatus = $this->callManager->call($callRequest);
         $basicStatus = $basicStatus['eligible_to_start_basic'];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_xpack');
-        $xpack = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_xpack');
+        $xpack = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/license/license_read.html.twig', [
             'license' => $license,
@@ -50,11 +50,11 @@ class LicenseController extends AbstractAppController
      */
     public function startTrial(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_license/start_trial');
-        $call->setQuery(['acknowledge' => 'true']);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_license/start_trial');
+        $callRequest->setQuery(['acknowledge' => 'true']);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.license_start_trial');
 
@@ -66,11 +66,11 @@ class LicenseController extends AbstractAppController
      */
     public function startBasic(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_license/start_basic');
-        $call->setQuery(['acknowledge' => 'true']);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_license/start_basic');
+        $callRequest->setQuery(['acknowledge' => 'true']);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.license_start_basic');
 

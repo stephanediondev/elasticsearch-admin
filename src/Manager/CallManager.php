@@ -20,9 +20,9 @@ class CallManager
         $this->sslVerifyPeer = $sslVerifyPeer;
     }
 
-    public function call(CallRequestModel $call)
+    public function call(CallRequestModel $callRequest)
     {
-        $options = $call->getOptions();
+        $options = $callRequest->getOptions();
 
         $headers = [];
 
@@ -36,7 +36,7 @@ class CallManager
             unset($options['json']);
         }
 
-        if ('GET' == $call->getMethod() && false == isset($options['query']['format'])) {
+        if ('GET' == $callRequest->getMethod() && false == isset($options['query']['format'])) {
             $options['query']['format'] = 'json';
         }
 
@@ -50,7 +50,7 @@ class CallManager
 
         $options['verify_peer'] = $this->sslVerifyPeer;
 
-        $response = $this->client->request($call->getMethod(), $this->elasticsearchUrl.$call->getPath(), $options);
+        $response = $this->client->request($callRequest->getMethod(), $this->elasticsearchUrl.$callRequest->getPath(), $options);
 
         if ($response && in_array($response->getStatusCode(), [400, 401, 404, 405, 500])) {
             $json = json_decode($response->getContent(false), true);
@@ -63,7 +63,7 @@ class CallManager
                     throw new CallException($json['error']['reason']);
                 }
             }
-            throw new CallException('Not found or method not allowed for '.$call->getPath().' ('.$call->getMethod().')');
+            throw new CallException('Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')');
         }
 
         if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {

@@ -30,9 +30,9 @@ class UserController extends AbstractAppController
     {
         $users = [];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_security/user');
-        $users1 = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/user');
+        $users1 = $this->callManager->call($callRequest);
 
         foreach ($users1 as $k => $user) {
             $user['user'] = $k;
@@ -76,11 +76,11 @@ class UserController extends AbstractAppController
                 if ($userModel->getMetadata()) {
                     $json['metadata'] = json_decode($userModel->getMetadata(), true);
                 }
-                $call = new CallRequestModel();
-                $call->setMethod('POST');
-                $call->setPath('/_security/user/'.$userModel->getUsername());
-                $call->setJson($json);
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_security/user/'.$userModel->getUsername());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.users_create');
 
@@ -101,9 +101,9 @@ class UserController extends AbstractAppController
     public function read(Request $request, string $user): Response
     {
         try {
-            $call = new CallRequestModel();
-            $call->setPath('/_security/user/'.$user);
-            $user = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_security/user/'.$user);
+            $user = $this->callManager->call($callRequest);
 
             $userNice = $user[key($user)];
             $userNice['user'] = key($user);
@@ -121,9 +121,9 @@ class UserController extends AbstractAppController
      */
     public function update(Request $request, string $user): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/user/'.$user);
+        $user = $this->callManager->call($callRequest);
 
         if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];
@@ -152,21 +152,21 @@ class UserController extends AbstractAppController
                     if ($userModel->getMetadata()) {
                         $json['metadata'] = json_decode($userModel->getMetadata(), true);
                     }
-                    $call = new CallRequestModel();
-                    $call->setMethod('PUT');
-                    $call->setPath('/_security/user/'.$userModel->getUsername());
-                    $call->setJson($json);
-                    $this->callManager->call($call);
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('PUT');
+                    $callRequest->setPath('/_security/user/'.$userModel->getUsername());
+                    $callRequest->setJson($json);
+                    $this->callManager->call($callRequest);
 
                     if ($userModel->getChangePassword() && $userModel->getPassword()) {
                         $json = [
                             'password' => $userModel->getPassword(),
                         ];
-                        $call = new CallRequestModel();
-                        $call->setMethod('POST');
-                        $call->setPath('/_security/user/'.$userModel->getUsername().'/_password');
-                        $call->setJson($json);
-                        $this->callManager->call($call);
+                        $callRequest = new CallRequestModel();
+                        $callRequest->setMethod('POST');
+                        $callRequest->setPath('/_security/user/'.$userModel->getUsername().'/_password');
+                        $callRequest->setJson($json);
+                        $this->callManager->call($callRequest);
                     }
 
                     $this->addFlash('success', 'success.users_update');
@@ -191,9 +191,9 @@ class UserController extends AbstractAppController
      */
     public function enable(Request $request, string $user): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/user/'.$user);
+        $user = $this->callManager->call($callRequest);
 
         if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];
@@ -209,10 +209,10 @@ class UserController extends AbstractAppController
             }
 
             try {
-                $call = new CallRequestModel();
-                $call->setMethod('PUT');
-                $call->setPath('/_security/user/'.$user['username'].'/_enable');
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_security/user/'.$user['username'].'/_enable');
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.users_enable');
             } catch (CallException $e) {
@@ -230,9 +230,9 @@ class UserController extends AbstractAppController
      */
     public function disable(Request $request, string $user): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/user/'.$user);
+        $user = $this->callManager->call($callRequest);
 
         if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];
@@ -248,10 +248,10 @@ class UserController extends AbstractAppController
             }
 
             try {
-                $call = new CallRequestModel();
-                $call->setMethod('PUT');
-                $call->setPath('/_security/user/'.$user['username'].'/_disable');
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_security/user/'.$user['username'].'/_disable');
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.users_disable');
             } catch (CallException $e) {
@@ -269,9 +269,9 @@ class UserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/user/'.$user);
+        $user = $this->callManager->call($callRequest);
 
         if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];
@@ -282,10 +282,10 @@ class UserController extends AbstractAppController
                 throw new AccessDeniedHttpException();
             }
 
-            $call = new CallRequestModel();
-            $call->setMethod('DELETE');
-            $call->setPath('/_security/user/'.$user['username']);
-            $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('DELETE');
+            $callRequest->setPath('/_security/user/'.$user['username']);
+            $this->callManager->call($callRequest);
 
             $this->addFlash('success', 'success.users_delete');
 

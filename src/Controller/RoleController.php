@@ -32,9 +32,9 @@ class RoleController extends AbstractAppController
     {
         $roles = [];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_security/role');
-        $roles1 = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/role');
+        $roles1 = $this->callManager->call($callRequest);
 
         foreach ($roles1 as $k => $role) {
             $role['role'] = $k;
@@ -79,11 +79,11 @@ class RoleController extends AbstractAppController
                 if ($roleModel->getMetadata()) {
                     $json['metadata'] = json_decode($roleModel->getMetadata(), true);
                 }
-                $call = new CallRequestModel();
-                $call->setMethod('POST');
-                $call->setPath('/_security/role/'.$roleModel->getName());
-                $call->setJson($json);
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_security/role/'.$roleModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.roles_create');
 
@@ -103,9 +103,9 @@ class RoleController extends AbstractAppController
      */
     public function read(Request $request, string $role): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_security/role/'.$role);
-        $role = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/role/'.$role);
+        $role = $this->callManager->call($callRequest);
 
         if (true == isset($role[key($role)])) {
             $roleNice = $role[key($role)];
@@ -123,9 +123,9 @@ class RoleController extends AbstractAppController
      */
     public function update(Request $request, string $role): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_security/role/'.$role);
-        $role = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/role/'.$role);
+        $role = $this->callManager->call($callRequest);
 
         if (true == isset($role[key($role)])) {
             $roleNice = $role[key($role)];
@@ -158,11 +158,11 @@ class RoleController extends AbstractAppController
                     if ($roleModel->getMetadata()) {
                         $json['metadata'] = json_decode($roleModel->getMetadata(), true);
                     }
-                    $call = new CallRequestModel();
-                    $call->setMethod('PUT');
-                    $call->setPath('/_security/role/'.$roleModel->getName());
-                    $call->setJson($json);
-                    $this->callManager->call($call);
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('PUT');
+                    $callRequest->setPath('/_security/role/'.$roleModel->getName());
+                    $callRequest->setJson($json);
+                    $this->callManager->call($callRequest);
 
                     $this->addFlash('success', 'success.roles_update');
 
@@ -186,9 +186,9 @@ class RoleController extends AbstractAppController
      */
     public function delete(Request $request, string $role): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_security/role/'.$role);
-        $role = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_security/role/'.$role);
+        $role = $this->callManager->call($callRequest);
 
         if (true == isset($role[key($role)])) {
             $roleNice = $role[key($role)];
@@ -199,10 +199,10 @@ class RoleController extends AbstractAppController
                 throw new AccessDeniedHttpException();
             }
 
-            $call = new CallRequestModel();
-            $call->setMethod('DELETE');
-            $call->setPath('/_security/role/'.$role['role']);
-            $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('DELETE');
+            $callRequest->setPath('/_security/role/'.$role['role']);
+            $this->callManager->call($callRequest);
 
             $this->addFlash('success', 'success.roles_delete');
 

@@ -29,15 +29,15 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cluster/health');
-        $clusterHealth = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/health');
+        $clusterHealth = $this->callManager->call($callRequest);
 
         $parameters['clusterHealth'] = $clusterHealth;
 
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/master');
-        $master = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/master');
+        $master = $this->callManager->call($callRequest);
 
         $parameters['master_node'] = $master[0]['node'] ?? false;
 

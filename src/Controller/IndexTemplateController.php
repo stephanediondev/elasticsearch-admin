@@ -22,10 +22,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/templates');
-        $call->setQuery(['s' => 'name', 'h' => 'name,index_patterns,order,version']);
-        $indexTemplates = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/templates');
+        $callRequest->setQuery(['s' => 'name', 'h' => 'name,index_patterns,order,version']);
+        $indexTemplates = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
             'indexTemplates' => $this->paginatorManager->paginate([
@@ -66,11 +66,11 @@ class IndexTemplateController extends AbstractAppController
                 if ($templateModel->getMappings()) {
                     $json['mappings'] = json_decode($templateModel->getMappings(), true);
                 }
-                $call = new CallRequestModel();
-                $call->setMethod('PUT');
-                $call->setPath('/_template/'.$templateModel->getName());
-                $call->setJson($json);
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_template/'.$templateModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.index_templates_create');
 
@@ -91,9 +91,9 @@ class IndexTemplateController extends AbstractAppController
     public function read(Request $request, string $name): Response
     {
         try {
-            $call = new CallRequestModel();
-            $call->setPath('/_template/'.$name);
-            $template = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_template/'.$name);
+            $template = $this->callManager->call($callRequest);
             $template = $template[$name];
             $template['name'] = $name;
 
@@ -110,9 +110,9 @@ class IndexTemplateController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_template/'.$name);
-        $template = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_template/'.$name);
+        $template = $this->callManager->call($callRequest);
         $template = $template[$name];
         $template['name'] = $name;
 
@@ -130,9 +130,9 @@ class IndexTemplateController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_template/'.$name);
-        $template = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_template/'.$name);
+        $template = $this->callManager->call($callRequest);
         $template = $template[$name];
         $template['name'] = $name;
 
@@ -150,9 +150,9 @@ class IndexTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_template/'.$name);
-        $template = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_template/'.$name);
+        $template = $this->callManager->call($callRequest);
         $template = $template[$name];
         $template['name'] = $name;
 
@@ -180,11 +180,11 @@ class IndexTemplateController extends AbstractAppController
                     if ($templateModel->getMappings()) {
                         $json['mappings'] = json_decode($templateModel->getMappings(), true);
                     }
-                    $call = new CallRequestModel();
-                    $call->setMethod('PUT');
-                    $call->setPath('/_template/'.$templateModel->getName());
-                    $call->setJson($json);
-                    $this->callManager->call($call);
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('PUT');
+                    $callRequest->setPath('/_template/'.$templateModel->getName());
+                    $callRequest->setJson($json);
+                    $this->callManager->call($callRequest);
 
                     $this->addFlash('success', 'success.index_templates_update');
 
@@ -209,10 +209,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('DELETE');
-        $call->setPath('/_template/'.$name);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_template/'.$name);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.index_templates_delete');
 

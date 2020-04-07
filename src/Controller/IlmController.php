@@ -32,9 +32,9 @@ class IlmController extends AbstractAppController
     {
         $policies = [];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_ilm/policy');
-        $rows = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_ilm/policy');
+        $rows = $this->callManager->call($callRequest);
 
         foreach ($rows as $k => $row) {
             $row['name'] = $k;
@@ -58,9 +58,9 @@ class IlmController extends AbstractAppController
      */
     public function status(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_ilm/status');
-        $status = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_ilm/status');
+        $status = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/ilm/ilm_status.html.twig', [
             'status' => $status,
@@ -72,10 +72,10 @@ class IlmController extends AbstractAppController
      */
     public function start(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_ilm/start');
-        $status = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_ilm/start');
+        $status = $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.ilm_start');
 
@@ -87,10 +87,10 @@ class IlmController extends AbstractAppController
      */
     public function stop(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_ilm/stop');
-        $status = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_ilm/stop');
+        $status = $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.ilm_stop');
 
@@ -103,9 +103,9 @@ class IlmController extends AbstractAppController
     public function read(Request $request, string $name): Response
     {
         try {
-            $call = new CallRequestModel();
-            $call->setPath('/_ilm/policy/'.$name);
-            $policy = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_ilm/policy/'.$name);
+            $policy = $this->callManager->call($callRequest);
             $policy = $policy[$name];
             $policy['name'] = $name;
 

@@ -31,9 +31,9 @@ class NodeControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/master');
-        $master = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/master');
+        $master = $this->callManager->call($callRequest);
 
         $this->client->request('GET', '/admin/nodes/'.$master[0]['node']);
 
@@ -42,9 +42,9 @@ class NodeControllerTest extends AbstractAppControllerTest
 
     public function testReadUsage()
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/master');
-        $master = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/master');
+        $master = $this->callManager->call($callRequest);
 
         $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/usage');
 
@@ -53,9 +53,9 @@ class NodeControllerTest extends AbstractAppControllerTest
 
     public function testReadPlugins()
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_cat/master');
-        $master = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/master');
+        $master = $this->callManager->call($callRequest);
 
         $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/plugins');
 

@@ -18,9 +18,9 @@ class DeprecationController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_migration/deprecations');
-        $deprecations = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_migration/deprecations');
+        $deprecations = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/deprecation/deprecation_index.html.twig', [
             'deprecations' => $deprecations,

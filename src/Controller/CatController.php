@@ -49,10 +49,10 @@ class CatController extends AbstractAppController
                 if ($catModel->getSort()) {
                     $query['s'] = $catModel->getSort();
                 }
-                $call = new CallRequestModel();
-                $call->setPath('/_cat/'.$catModel->getCommandReplace());
-                $call->setQuery($query);
-                $parameters['rows'] = $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setPath('/_cat/'.$catModel->getCommandReplace());
+                $callRequest->setQuery($query);
+                $parameters['rows'] = $this->callManager->call($callRequest);
                 if (0 < count($parameters['rows'])) {
                     $parameters['headers'] = array_keys($parameters['rows'][0]);
                 }
@@ -60,10 +60,10 @@ class CatController extends AbstractAppController
                 $this->addFlash('danger', $e->getMessage());
             }
 
-            $call = new CallRequestModel();
-            $call->setPath('/_cat/'.$catModel->getCommandHelp());
-            $call->setQuery(['help' => 'true', 'format' => 'text']);
-            $parameters['help'] = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_cat/'.$catModel->getCommandHelp());
+            $callRequest->setQuery(['help' => 'true', 'format' => 'text']);
+            $parameters['help'] = $this->callManager->call($callRequest);
 
             $parameters['command'] = $catModel->getCommandReplace();
         }

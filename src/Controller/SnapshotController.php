@@ -35,9 +35,9 @@ class SnapshotController extends AbstractAppController
         $snapshots = [];
 
         foreach ($repositories as $repository) {
-            $call = new CallRequestModel();
-            $call->setPath('/_snapshot/'.$repository.'/_all');
-            $rows = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_snapshot/'.$repository.'/_all');
+            $rows = $this->callManager->call($callRequest);
 
             foreach ($rows['snapshots'] as $row) {
                 $row['repository'] = $repository;
@@ -86,11 +86,11 @@ class SnapshotController extends AbstractAppController
                 if ($snapshotModel->getIndices()) {
                     $json['indices'] = implode(',', $snapshotModel->getIndices());
                 }
-                $call = new CallRequestModel();
-                $call->setMethod('PUT');
-                $call->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
-                $call->setJson($json);
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.snapshots_create');
 
@@ -110,9 +110,9 @@ class SnapshotController extends AbstractAppController
      */
     public function read(Request $request, string $repository, string $snapshot): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $snapshot = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $snapshot = $this->callManager->call($callRequest);
         $snapshot = $snapshot['snapshots'][0];
 
         if ($snapshot) {
@@ -130,17 +130,17 @@ class SnapshotController extends AbstractAppController
      */
     public function readFailures(Request $request, string $repository, string $snapshot): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $snapshot = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $snapshot = $this->callManager->call($callRequest);
         $snapshot = $snapshot['snapshots'][0];
 
         if ($snapshot) {
             $nodes = [];
 
-            $call = new CallRequestModel();
-            $call->setPath('/_nodes');
-            $rows = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_nodes');
+            $rows = $this->callManager->call($callRequest);
 
             foreach ($rows['nodes'] as $k => $row) {
                 $nodes[$k] = $row['name'];
@@ -161,10 +161,10 @@ class SnapshotController extends AbstractAppController
      */
     public function delete(Request $request, string $repository, string $snapshot): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('DELETE');
-        $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.snapshots_delete');
 
@@ -176,9 +176,9 @@ class SnapshotController extends AbstractAppController
      */
     public function restore(Request $request, string $repository, string $snapshot): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $snapshot = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $snapshot = $this->callManager->call($callRequest);
         $snapshot = $snapshot['snapshots'][0];
 
         if ($snapshot) {
@@ -204,11 +204,11 @@ class SnapshotController extends AbstractAppController
                     if ($snapshotRestoreModel->getIndices()) {
                         $json['indices'] = implode(',', $snapshotRestoreModel->getIndices());
                     }
-                    $call = new CallRequestModel();
-                    $call->setMethod('POST');
-                    $call->setPath('/_snapshot/'.$repository.'/'.$snapshot['snapshot'].'/_restore');
-                    $call->setJson($json);
-                    $this->callManager->call($call);
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('POST');
+                    $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot['snapshot'].'/_restore');
+                    $callRequest->setJson($json);
+                    $this->callManager->call($callRequest);
 
                     $this->addFlash('success', 'success.snapshots_read_restore');
 

@@ -32,9 +32,9 @@ class SlmController extends AbstractAppController
     {
         $policies = [];
 
-        $call = new CallRequestModel();
-        $call->setPath('/_slm/policy');
-        $rows = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/policy');
+        $rows = $this->callManager->call($callRequest);
 
         foreach ($rows as $k => $row) {
             $row['name'] = $k;
@@ -58,9 +58,9 @@ class SlmController extends AbstractAppController
      */
     public function stats(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_slm/stats');
-        $stats = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/stats');
+        $stats = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/slm/slm_stats.html.twig', [
             'stats' => $stats,
@@ -72,9 +72,9 @@ class SlmController extends AbstractAppController
      */
     public function status(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_slm/status');
-        $status = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/status');
+        $status = $this->callManager->call($callRequest);
 
         return $this->renderAbstract($request, 'Modules/slm/slm_status.html.twig', [
             'status' => $status,
@@ -86,10 +86,10 @@ class SlmController extends AbstractAppController
      */
     public function start(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_slm/start');
-        $status = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_slm/start');
+        $status = $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.slm_start');
 
@@ -101,10 +101,10 @@ class SlmController extends AbstractAppController
      */
     public function stop(Request $request): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_slm/stop');
-        $status = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_slm/stop');
+        $status = $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.slm_stop');
 
@@ -150,11 +150,11 @@ class SlmController extends AbstractAppController
                     $json['retention'] = $policyModel->getRetention();
                 }
 
-                $call = new CallRequestModel();
-                $call->setMethod('PUT');
-                $call->setPath('/_slm/policy/'.$policyModel->getName());
-                $call->setJson($json);
-                $this->callManager->call($call);
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
 
                 $this->addFlash('success', 'success.slm_create');
 
@@ -175,9 +175,9 @@ class SlmController extends AbstractAppController
     public function read(Request $request, string $name): Response
     {
         try {
-            $call = new CallRequestModel();
-            $call->setPath('/_slm/policy/'.$name);
-            $policy = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_slm/policy/'.$name);
+            $policy = $this->callManager->call($callRequest);
             $policy = $policy[$name];
             $policy['name'] = $name;
 
@@ -195,9 +195,9 @@ class SlmController extends AbstractAppController
     public function readHistory(Request $request, string $name): Response
     {
         try {
-            $call = new CallRequestModel();
-            $call->setPath('/_slm/policy/'.$name);
-            $policy = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_slm/policy/'.$name);
+            $policy = $this->callManager->call($callRequest);
             $policy = $policy[$name];
             $policy['name'] = $name;
 
@@ -215,9 +215,9 @@ class SlmController extends AbstractAppController
     public function readStats(Request $request, string $name): Response
     {
         try {
-            $call = new CallRequestModel();
-            $call->setPath('/_slm/policy/'.$name);
-            $policy = $this->callManager->call($call);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_slm/policy/'.$name);
+            $policy = $this->callManager->call($callRequest);
             $policy = $policy[$name];
             $policy['name'] = $name;
 
@@ -234,9 +234,9 @@ class SlmController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $call = new CallRequestModel();
-        $call->setPath('/_slm/policy/'.$name);
-        $policy = $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/policy/'.$name);
+        $policy = $this->callManager->call($callRequest);
         $policy = $policy[$name];
         $policy['name'] = $name;
 
@@ -270,11 +270,11 @@ class SlmController extends AbstractAppController
                         $json['retention'] = $policyModel->getRetention();
                     }
 
-                    $call = new CallRequestModel();
-                    $call->setMethod('PUT');
-                    $call->setPath('/_slm/policy/'.$policyModel->getName());
-                    $call->setJson($json);
-                    $this->callManager->call($call);
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('PUT');
+                    $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
+                    $callRequest->setJson($json);
+                    $this->callManager->call($callRequest);
 
                     $this->addFlash('success', 'success.slm_update');
 
@@ -298,10 +298,10 @@ class SlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('DELETE');
-        $call->setPath('/_slm/policy/'.$name);
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_slm/policy/'.$name);
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.slm_delete');
 
@@ -313,10 +313,10 @@ class SlmController extends AbstractAppController
      */
     public function exexute(Request $request, string $name): Response
     {
-        $call = new CallRequestModel();
-        $call->setMethod('POST');
-        $call->setPath('/_slm/policy/'.$name.'/_execute');
-        $this->callManager->call($call);
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_slm/policy/'.$name.'/_execute');
+        $this->callManager->call($callRequest);
 
         $this->addFlash('success', 'success.slm_execute');
 
