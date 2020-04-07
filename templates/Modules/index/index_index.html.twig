@@ -111,6 +111,22 @@
                             </span>
                         {% endfor %}
                     </p>
+
+                    <p>
+                        <strong>{{ 'frozen'|trans }}</strong><br>
+                        {% for v in ['true', 'false'] %}
+                            <span class="custom-control custom-switch d-inline mr-2">
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input searchCheckbox"
+                                    id="frozen{{ v }}Switch"
+                                    checked="checked"
+                                    value="frozen-{{ v }}"
+                                >
+                                <label class="custom-control-label" for="frozen{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
+                            </span>
+                        {% endfor %}
+                    </p>
                 </div>
 
                 {{ appImport.paginator(indices) }}

@@ -76,6 +76,23 @@
                             'href': path('indices_refresh', {'index': index['index']}),
                         }) }}
                     {% endif %}
+
+                    {% if index['settings']['index']['frozen'] is defined and 'true' == index['settings']['index']['frozen'] %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexUnfreeze',
+                            'title': 'unfreeze'|trans,
+                            'body': index['index'],
+                            'href': path('indices_unfreeze', {'index': index['index']}),
+                        }) }}
+                    {% else %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexFreeze',
+                            'title': 'freeze'|trans,
+                            'body': index['index'],
+                            'href': path('indices_freeze', {'index': index['index']}),
+                        }) }}
+                    {% endif %}
+
                 {% endblock %}
             {% endembed %}
 
@@ -124,6 +141,15 @@
             <p>
                 <strong>{{ 'health'|trans }}</strong><br>
                 {{ appImport.badge({'title': index['health']|trans, 'context': index['health']}) }}
+            </p>
+
+            <p>
+                <strong>{{ 'frozen'|trans }}</strong><br>
+                {% if index['settings']['index']['frozen'] is defined and 'true' == index['settings']['index']['frozen'] %}
+                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                {% else %}
+                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                {% endif %}
             </p>
 
             {% if index['settings']['index']['version']['created'] is defined %}

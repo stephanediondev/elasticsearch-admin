@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'shards': true, 'replicas': true, 'documents': true, 'documents_deleted': true, 'primary_size': true, 'total_size': true, 'status': true, 'health': true, 'creation_date': true} %}
+    {% set columns = {'name': true, 'shards': true, 'replicas': true, 'documents': true, 'documents_deleted': true, 'primary_size': true, 'total_size': true, 'status': true, 'health': true, 'frozen': true, 'creation_date': true} %}
 
     {% block thead %}
         <tr>
@@ -61,6 +61,12 @@
                         </th>
                     {% endif %}
 
+                    {% if 'frozen' == column %}
+                        <th>
+                            {{ 'frozen'|trans }}
+                        </th>
+                    {% endif %}
+
                     {% if 'creation_date' == column %}
                         <th>
                             {{ 'creation_date'|trans }}
@@ -73,7 +79,7 @@
 
     {% block tbody %}
         {% for row in indices.rows %}
-            <tr class="index_system-{% if '.' == row['index']|slice(0, 1) %}true{% else %}false{% endif %} status-{{ row['status'] }} health-{{ row['health'] }}" data-search="{{ row['index'] }}">
+            <tr class="index_system-{% if '.' == row['index']|slice(0, 1) %}true{% else %}false{% endif %} status-{{ row['status'] }} health-{{ row['health'] }} frozen-{{ row['sth'] }}" data-search="{{ row['index'] }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
@@ -127,6 +133,12 @@
                         {% if 'health' == column %}
                             <td>
                                 {{ appImport.badge({'title': row['health']|trans, 'context': row['health']}) }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'frozen' == column %}
+                            <td>
+                                {{ appImport.badge({'title': ('boolean.' ~ row['sth'])|trans, 'context': row['sth']}) }}
                             </td>
                         {% endif %}
 

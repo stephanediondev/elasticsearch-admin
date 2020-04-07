@@ -30,7 +30,7 @@ cp .env.dist .env
 - [x] Login: user managed by Symfony, not related to Elasticsearch
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings
 - [x] Nodes: list, read, usage, plugins
-- [x] Indices: list, reindex, create, read, update (mappings), delete, close, open, force merge, clear cache, flush, refresh
+- [x] Indices: list, reindex, create, read, update (mappings), delete, close, open, freeze, unfreeze, force merge, clear cache, flush, refresh
 - [x] Documents (by index): list
 - [x] Aliases (by index): list, create, delete
 - [x] Index templates: list, create, read, update, delete

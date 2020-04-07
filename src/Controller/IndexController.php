@@ -34,7 +34,7 @@ class IndexController extends AbstractAppController
     {
         $call = new CallModel();
         $call->setPath('/_cat/indices');
-        $call->setQuery(['s' => 'index', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string']);
+        $call->setQuery(['s' => 'index', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
         $indices = $this->callManager->call($call);
 
         return $this->renderAbstract($request, 'Modules/index/index_index.html.twig', [
@@ -494,6 +494,36 @@ class IndexController extends AbstractAppController
         $this->callManager->call($call);
 
         $this->addFlash('success', 'success.indices_open');
+
+        return $this->redirectToRoute('indices_read', ['index' => $index]);
+    }
+
+    /**
+     * @Route("/indices/{index}/freeze", name="indices_freeze")
+     */
+    public function freeze(Request $request, string $index): Response
+    {
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/'.$index.'/_freeze');
+        $this->callManager->call($call);
+
+        $this->addFlash('success', 'success.indices_freeze');
+
+        return $this->redirectToRoute('indices_read', ['index' => $index]);
+    }
+
+    /**
+     * @Route("/indices/{index}/unfreeze", name="indices_unfreeze")
+     */
+    public function unfreeze(Request $request, string $index): Response
+    {
+        $call = new CallModel();
+        $call->setMethod('POST');
+        $call->setPath('/'.$index.'/_unfreeze');
+        $this->callManager->call($call);
+
+        $this->addFlash('success', 'success.indices_unfreeze');
 
         return $this->redirectToRoute('indices_read', ['index' => $index]);
     }
