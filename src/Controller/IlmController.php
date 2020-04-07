@@ -34,7 +34,8 @@ class IlmController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_ilm/policy');
-        $rows = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $rows = $callResponse->getContent();
 
         foreach ($rows as $k => $row) {
             $row['name'] = $k;
@@ -60,7 +61,8 @@ class IlmController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_ilm/status');
-        $status = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $status = $callResponse->getContent();
 
         return $this->renderAbstract($request, 'Modules/ilm/ilm_status.html.twig', [
             'status' => $status,
@@ -75,7 +77,8 @@ class IlmController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_ilm/start');
-        $status = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $status = $callResponse->getContent();
 
         $this->addFlash('success', 'success.ilm_start');
 
@@ -90,7 +93,8 @@ class IlmController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_ilm/stop');
-        $status = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $status = $callResponse->getContent();
 
         $this->addFlash('success', 'success.ilm_stop');
 
@@ -105,7 +109,8 @@ class IlmController extends AbstractAppController
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_ilm/policy/'.$name);
-            $policy = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $policy = $callResponse->getContent();
             $policy = $policy[$name];
             $policy['name'] = $name;
 

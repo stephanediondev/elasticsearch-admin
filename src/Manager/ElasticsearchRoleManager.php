@@ -21,7 +21,8 @@ class ElasticsearchRoleManager
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role');
-        $rows = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $rows = $callResponse->getContent();
 
         foreach ($rows as $k => $row) {
             $roles[] = $k;

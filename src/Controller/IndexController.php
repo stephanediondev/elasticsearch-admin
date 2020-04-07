@@ -35,7 +35,8 @@ class IndexController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices');
         $callRequest->setQuery(['s' => 'index', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
-        $indices = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $indices = $callResponse->getContent();
 
         return $this->renderAbstract($request, 'Modules/index/index_index.html.twig', [
             'indices' => $this->paginatorManager->paginate([
@@ -201,7 +202,8 @@ class IndexController extends AbstractAppController
 
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/'.$index);
-            $index2 = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $index2 = $callResponse->getContent();
 
             $index = array_merge($index1, $index2[key($index2)]);
 
@@ -222,7 +224,8 @@ class IndexController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index);
-        $index2 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $index2 = $callResponse->getContent();
 
         $index = array_merge($index1, $index2[key($index2)]);
 
@@ -270,7 +273,8 @@ class IndexController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index);
-        $index2 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $index2 = $callResponse->getContent();
 
         $index = array_merge($index1, $index2[key($index2)]);
 
@@ -288,7 +292,8 @@ class IndexController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index);
-        $index2 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $index2 = $callResponse->getContent();
 
         $index = array_merge($index1, $index2[key($index2)]);
 
@@ -308,7 +313,8 @@ class IndexController extends AbstractAppController
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_cat/shards/'.$index['index']);
             $callRequest->setQuery(['s' => 'shard,prirep', 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
-            $shards = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $shards = $callResponse->getContent();
 
             return $this->renderAbstract($request, 'Modules/index/index_read_shards.html.twig', [
                 'index' => $index,
@@ -336,7 +342,8 @@ class IndexController extends AbstractAppController
         if ($index) {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/'.$index['index'].'/_alias');
-            $aliases = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $aliases = $callResponse->getContent();
             $aliases = array_keys($aliases[$index['index']]['aliases']);
 
             return $this->renderAbstract($request, 'Modules/index/index_read_aliases.html.twig', [
@@ -416,7 +423,8 @@ class IndexController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index);
-        $index2 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $index2 = $callResponse->getContent();
 
         $index = array_merge($index1, $index2[key($index2)]);
 
@@ -429,7 +437,8 @@ class IndexController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index['index'].'/_search');
         $callRequest->setQuery($query);
-        $documents = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $documents = $callResponse->getContent();
 
         if (true == isset($documents['hits']['total']['value'])) {
             $total = $documents['hits']['total']['value'];

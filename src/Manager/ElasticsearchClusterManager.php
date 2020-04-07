@@ -20,7 +20,8 @@ class ElasticsearchClusterManager
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cluster/settings');
         $callRequest->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
-        $results = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
 
         $clusterSettings = [];
         foreach ($results as $type => $rows) {

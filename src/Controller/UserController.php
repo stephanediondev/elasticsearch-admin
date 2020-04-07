@@ -32,7 +32,8 @@ class UserController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user');
-        $users1 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $users1 = $callResponse->getContent();
 
         foreach ($users1 as $k => $user) {
             $user['user'] = $k;
@@ -103,7 +104,8 @@ class UserController extends AbstractAppController
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_security/user/'.$user);
-            $user = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $user = $callResponse->getContent();
 
             $userNice = $user[key($user)];
             $userNice['user'] = key($user);
@@ -123,7 +125,8 @@ class UserController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $user = $callResponse->getContent();
 
         if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];
@@ -193,7 +196,8 @@ class UserController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $user = $callResponse->getContent();
 
         if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];
@@ -232,7 +236,8 @@ class UserController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $user = $callResponse->getContent();
 
         if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];
@@ -271,7 +276,8 @@ class UserController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
-        $user = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $user = $callResponse->getContent();
 
         if (true == isset($user[key($user)])) {
             $userNice = $user[key($user)];

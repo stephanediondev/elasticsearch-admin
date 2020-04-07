@@ -21,7 +21,8 @@ class ShardController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/shards');
         $callRequest->setQuery(['s' => 'index,shard,prirep', 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node']);
-        $shards = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $shards = $callResponse->getContent();
 
         return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
             'shards' => $this->paginatorManager->paginate([

@@ -24,7 +24,8 @@ class RepositoryController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/repositories');
-        $repositories = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $repositories = $callResponse->getContent();
 
         return $this->renderAbstract($request, 'Modules/repository/repository_index.html.twig', [
             'repositories' => $this->paginatorManager->paginate([
@@ -115,7 +116,8 @@ class RepositoryController extends AbstractAppController
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_snapshot/'.$repository);
-            $repositoryQuery = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $repositoryQuery = $callResponse->getContent();
             $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
 
             $repositoryQuery['id'] = $repository;
@@ -136,7 +138,8 @@ class RepositoryController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository);
-        $repositoryQuery = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $repositoryQuery = $callResponse->getContent();
         $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
 
         $repositoryQuery['id'] = $repository;
@@ -233,7 +236,8 @@ class RepositoryController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_snapshot/'.$repository.'/_cleanup');
-        $results = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
 
         $this->addFlash('success', 'success.repositories_cleanup');
 
@@ -259,7 +263,8 @@ class RepositoryController extends AbstractAppController
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
             $callRequest->setPath('/_snapshot/'.$repository.'/_verify');
-            $results = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $results = $callResponse->getContent();
 
             $this->addFlash('success', 'success.repositories_verify');
         } catch (CallException $e) {

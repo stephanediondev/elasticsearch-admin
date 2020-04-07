@@ -31,7 +31,8 @@ class NodeController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/nodes');
         $callRequest->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
-        $nodes1 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $nodes1 = $callResponse->getContent();
 
         foreach ($nodes1 as $node) {
             $nodes[$node['name']] = $node;
@@ -39,7 +40,8 @@ class NodeController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes');
-        $nodes2 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $nodes2 = $callResponse->getContent();
 
         foreach ($nodes2['nodes'] as $node) {
             $nodes[$node['name']] = array_merge($node, $nodes[$node['name']]);
@@ -47,7 +49,8 @@ class NodeController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/stats');
-        $nodes3 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $nodes3 = $callResponse->getContent();
 
         foreach ($nodes3['nodes'] as $node) {
             $nodes[$node['name']]['stats'] = $node;
@@ -78,7 +81,8 @@ class NodeController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/nodes');
         $callRequest->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
-        $nodes1 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $nodes1 = $callResponse->getContent();
 
         foreach ($nodes1 as $node) {
             $json[$node['name']] = $node;
@@ -86,7 +90,8 @@ class NodeController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes');
-        $nodes2 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $nodes2 = $callResponse->getContent();
 
         foreach ($nodes2['nodes'] as $node) {
             $json[$node['name']] = array_merge($node, $json[$node['name']]);
@@ -94,7 +99,8 @@ class NodeController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/stats');
-        $nodes3 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $nodes3 = $callResponse->getContent();
 
         foreach ($nodes3['nodes'] as $node) {
             $json[$node['name']]['stats'] = $node;
@@ -110,7 +116,8 @@ class NodeController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$node);
-        $node = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $node = $callResponse->getContent();
 
         if (true == isset($node['nodes'][key($node['nodes'])])) {
             $node = $node['nodes'][key($node['nodes'])];
@@ -130,7 +137,8 @@ class NodeController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$node);
-        $node = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $node = $callResponse->getContent();
 
         if (true == isset($node['nodes'][key($node['nodes'])])) {
             $node = $node['nodes'][key($node['nodes'])];
@@ -150,14 +158,16 @@ class NodeController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$node);
-        $node = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $node = $callResponse->getContent();
 
         if (true == isset($node['nodes'][key($node['nodes'])])) {
             $node = $node['nodes'][key($node['nodes'])];
 
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_nodes/'.$node['name'].'/usage');
-            $usage = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $usage = $callResponse->getContent();
             $usage = $usage['nodes'][key($usage['nodes'])];
 
             return $this->renderAbstract($request, 'Modules/node/node_read_usage.html.twig', [

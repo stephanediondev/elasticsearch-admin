@@ -37,7 +37,8 @@ class SnapshotController extends AbstractAppController
         foreach ($repositories as $repository) {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_snapshot/'.$repository.'/_all');
-            $rows = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $rows = $callResponse->getContent();
 
             foreach ($rows['snapshots'] as $row) {
                 $row['repository'] = $repository;
@@ -112,7 +113,8 @@ class SnapshotController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $snapshot = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $snapshot = $callResponse->getContent();
         $snapshot = $snapshot['snapshots'][0];
 
         if ($snapshot) {
@@ -132,7 +134,8 @@ class SnapshotController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $snapshot = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $snapshot = $callResponse->getContent();
         $snapshot = $snapshot['snapshots'][0];
 
         if ($snapshot) {
@@ -140,7 +143,8 @@ class SnapshotController extends AbstractAppController
 
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_nodes');
-            $rows = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $rows = $callResponse->getContent();
 
             foreach ($rows['nodes'] as $k => $row) {
                 $nodes[$k] = $row['name'];
@@ -178,7 +182,8 @@ class SnapshotController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $snapshot = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $snapshot = $callResponse->getContent();
         $snapshot = $snapshot['snapshots'][0];
 
         if ($snapshot) {

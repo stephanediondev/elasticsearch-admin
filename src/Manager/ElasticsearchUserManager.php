@@ -21,7 +21,8 @@ class ElasticsearchUserManager
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user');
-        $rows = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $rows = $callResponse->getContent();
 
         foreach ($rows as $k => $row) {
             $users[] = $k;

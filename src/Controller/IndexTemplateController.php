@@ -25,7 +25,8 @@ class IndexTemplateController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/templates');
         $callRequest->setQuery(['s' => 'name', 'h' => 'name,index_patterns,order,version']);
-        $indexTemplates = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $indexTemplates = $callResponse->getContent();
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
             'indexTemplates' => $this->paginatorManager->paginate([
@@ -93,7 +94,8 @@ class IndexTemplateController extends AbstractAppController
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_template/'.$name);
-            $template = $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
+            $template = $callResponse->getContent();
             $template = $template[$name];
             $template['name'] = $name;
 
@@ -112,7 +114,8 @@ class IndexTemplateController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_template/'.$name);
-        $template = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
 
@@ -132,7 +135,8 @@ class IndexTemplateController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_template/'.$name);
-        $template = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
 
@@ -152,7 +156,8 @@ class IndexTemplateController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_template/'.$name);
-        $template = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
 

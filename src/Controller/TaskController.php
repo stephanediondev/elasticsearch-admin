@@ -22,7 +22,8 @@ class TaskController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_tasks');
-        $nodes = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $nodes = $callResponse->getContent();
 
         foreach ($nodes['nodes'] as $node) {
             foreach ($node['tasks'] as $task) {

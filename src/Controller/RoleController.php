@@ -34,7 +34,8 @@ class RoleController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role');
-        $roles1 = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $roles1 = $callResponse->getContent();
 
         foreach ($roles1 as $k => $role) {
             $role['role'] = $k;
@@ -105,7 +106,8 @@ class RoleController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
-        $role = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $role = $callResponse->getContent();
 
         if (true == isset($role[key($role)])) {
             $roleNice = $role[key($role)];
@@ -125,7 +127,8 @@ class RoleController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
-        $role = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $role = $callResponse->getContent();
 
         if (true == isset($role[key($role)])) {
             $roleNice = $role[key($role)];
@@ -188,7 +191,8 @@ class RoleController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
-        $role = $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
+        $role = $callResponse->getContent();
 
         if (true == isset($role[key($role)])) {
             $roleNice = $role[key($role)];
