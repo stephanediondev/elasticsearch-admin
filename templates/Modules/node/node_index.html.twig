@@ -141,13 +141,13 @@
                         $('#' + k + '-disk-watermark_high').addClass('d-none');
                         $('#' + k + '-disk-watermark_flood_stage').addClass('d-none');
 
-                        if (disk_watermark_flood_stage <= json[k]['disk.used_percent']) {
+                        if (disk_watermark_flood_stage <= parseFloat(json[k]['disk.used_percent'])) {
                             $('#' + k + '-disk-watermark_flood_stage').removeClass('d-none');
 
-                        } else if (disk_watermark_high <= json[k]['disk.used_percent']) {
+                        } else if (disk_watermark_high <= parseFloat(json[k]['disk.used_percent'])) {
                             $('#' + k + '-disk-watermark_high').removeClass('d-none');
 
-                        } else if (disk_watermark_low <= json[k]['disk.used_percent']) {
+                        } else if (disk_watermark_low <= parseFloat(json[k]['disk.used_percent'])) {
                             $('#' + k + '-disk-watermark_low').removeClass('d-none');
                         }
                     }
