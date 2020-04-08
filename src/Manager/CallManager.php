@@ -70,7 +70,7 @@ class CallManager
             throw new CallException('Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')');
         }
 
-        if ($response && 404 != $response->getStatusCode()) {
+        if ($response && 'HEAD' != $callRequest->getMethod() && 404 != $response->getStatusCode()) {
             if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {
                 $callResponse->setContentRaw($response->getContent());
             } else {

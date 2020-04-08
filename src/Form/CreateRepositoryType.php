@@ -2,17 +2,30 @@
 
 namespace App\Form;
 
+use App\Manager\CallManager;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateRepositoryType extends AbstractType
 {
+    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    {
+        $this->callManager = $callManager;
+        $this->translator = $translator;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $fields = [];
@@ -201,6 +214,26 @@ class CreateRepositoryType extends AbstractType
                     ]);
                     break;
             }
+        }
+
+        if (false == $options['update']) {
+            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+                $form = $event->getForm();
+
+                if ($form->has('name')) {
+                    if ($form->get('name')->getData()) {
+                        $callRequest = new CallRequestModel();
+                        $callRequest->setPath('/_snapshot/'.$form->get('name')->getData());
+                        $callResponse = $this->callManager->call($callRequest);
+
+                        if (Response::HTTP_OK == $callResponse->getCode()) {
+                            $form->get('name')->addError(new FormError(
+                                $this->translator->trans('name_already_used')
+                            ));
+                        }
+                    }
+                }
+            });
         }
     }
 
