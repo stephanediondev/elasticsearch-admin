@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'enrich_short'|trans }} - {{ 'stats'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'enrich'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/enrich/enrich_tabs.html.twig' with {'active': 'stats'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+
+            <div class="row">
+
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

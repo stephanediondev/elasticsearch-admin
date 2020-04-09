@@ -50,6 +50,7 @@ cp .env.dist .env
 
 ## Todo
 
+- [ ] Enrich policies: list, stats, create, read, update, delete, execute
 - [ ] Index lifecycle management policies: create, update, delete
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: reroute
