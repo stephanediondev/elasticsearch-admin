@@ -100,11 +100,11 @@ class CreateEnrichPolicyType extends AbstractType
                     ]);
                     break;
                 case 'enrich_fields':
-                    $builder->add('enrich_fields', ChoiceType::class, [
+                    /*$builder->add('enrich_fields', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => [],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['indices'][$key];
+                            return $key;
                         },
                         'choice_translation_domain' => false,
                         'label' => 'enrich_fields',
@@ -117,7 +117,7 @@ class CreateEnrichPolicyType extends AbstractType
                         ],
                         'help' => 'help_form.enrich_policy.enrich_fields',
                         'help_html' => true,
-                    ]);
+                    ]);*/
                     break;
                 case 'query':
                     $builder->add('query', TextType::class, [
@@ -130,32 +130,66 @@ class CreateEnrichPolicyType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $form = $event->getForm();
+            $this->enrichFields($form, []);
+        });
 
-                if ($form->has('name')) {
-                    if ($form->get('name')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setPath('/_enrich/policy/'.$form->get('name')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $form = $event->getForm();
+            $data = $event->getData();
+            $this->enrichFields($form, $data['indices']);
+        });
+    }
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
-                            $form->get('name')->addError(new FormError(
-                                $this->translator->trans('name_already_used')
-                            ));
-                        }
+    private function enrichFields($form, $indices)
+    {
+        $choices = [];
+
+        dump($indices);
+
+        if (0 < count($indices)) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/'.implode(',', $indices).'/_mapping');
+            $callResponse = $this->callManager->call($callRequest);
+
+            $results = $callResponse->getContent();
+
+            foreach ($results as $result) {
+                if (true == isset($result['mappings']) && true == isset($result['mappings']['properties'])) {
+                    foreach ($result['mappings']['properties'] as $k => $property) {
+                        $choices[$k] = $k;
                     }
                 }
-            });
+            }
         }
+
+        dump($choices);
+
+        $form->add('enrich_fields', ChoiceType::class, [
+            'multiple' => true,
+            'choices' => $choices,
+            'choice_label' => function ($choice, $key, $value) {
+                return $choice;
+            },
+            'choice_translation_domain' => false,
+            'label' => 'enrich_fields',
+            'required' => true,
+            'constraints' => [
+                new NotBlank(),
+            ],
+            'attr' => [
+                'data-break-after' => 'yes',
+            ],
+            'help' => 'help_form.enrich_policy.enrich_fields',
+            'help_html' => true,
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchEnrichPolicyModel::class,
-            'repositories' => [],
             'indices' => [],
             'update' => false,
         ]);

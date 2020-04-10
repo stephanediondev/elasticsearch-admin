@@ -30,3 +30,66 @@
         {% endblock %}
     {% endembed %}
 {% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function refresh() {
+            var indices = $('#data_indices').val();
+            if (0 < indices.length) {
+                indices = indices.join(',');
+
+                fetch('{{ app.request.schemeAndHttpHost}}{{ app.request.baseUrl }}/admin/indices/' + indices + '/mappings/fetch', {
+                    credentials: 'include',
+                    method: 'get'
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(json) {
+                    var selectedOptions = [];
+                    $('#data_enrich_fields').find('option:selected').each(function() {
+                        selectedOptions.push($(this).val());
+                    });
+
+                    $('#data_enrich_fields').find('option').remove();
+
+                    var options = [];
+                    for (var k in json) {
+                        if (false == options.includes(json[k])) {
+                            options.push(json[k]);
+                        }
+                    }
+                    options.sort();
+
+                    for (var k in options) {
+                        var selected = false;
+                        if (true == selectedOptions.includes(options[k])) {
+                            selected = true;
+                        }
+                        var newOption = new Option(options[k], options[k], selected, selected);
+                        $('#data_enrich_fields').append(newOption).trigger('change');
+                    }
+                }).catch(function() {
+                });
+            } else {
+                $('#data_enrich_fields').find('option').remove();
+            }
+        }
+
+        function enable(id) {
+            $(id).parent().show();
+            $(id).attr('required', 'required');
+        }
+
+        function disable(id) {
+            $(id).parent().hide();
+            $(id).removeAttr('required');
+        }
+
+        refresh();
+
+        $(document).on('change', '#data_indices', function(event) {
+            refresh();
+        });
+    </script>
+{% endblock %}

@@ -67,91 +67,30 @@ class EnrichController extends AbstractAppController
     }
 
     /**
-     * @Route("/enrich/status", name="enrich_status")
-     */
-    public function status(Request $request): Response
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_enrich/status');
-        $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
-
-        return $this->renderAbstract($request, 'Modules/enrich/enrich_status.html.twig', [
-            'status' => $status,
-        ]);
-    }
-
-    /**
-     * @Route("/enrich/start", name="enrich_start")
-     */
-    public function start(Request $request): Response
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_enrich/start');
-        $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
-
-        $this->addFlash('success', 'success.enrich_start');
-
-        return $this->redirectToRoute('enrich_status', []);
-    }
-
-    /**
-     * @Route("/enrich/stop", name="enrich_stop")
-     */
-    public function stop(Request $request): Response
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_enrich/stop');
-        $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
-
-        $this->addFlash('success', 'success.enrich_stop');
-
-        return $this->redirectToRoute('enrich_status', []);
-    }
-
-    /**
      * @Route("/enrich/create", name="enrich_create")
      */
     public function create(Request $request): Response
     {
-        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
         $indices = $this->elasticsearchIndexManager->selectIndices();
 
         $policyModel = new ElasticsearchEnrichPolicyModel();
-        if ($request->query->get('repository')) {
-            $policyModel->setRepository($request->query->get('repository'));
-        }
-        if ($request->query->get('index')) {
-            $policyModel->setIndices([$request->query->get('index')]);
-        }
-        $form = $this->createForm(CreateEnrichPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(CreateEnrichPolicyType::class, $policyModel, ['indices' => $indices]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                dump($policyModel->getEnrichFields());
                 $json = [
-                    'schedule' => $policyModel->getSchedule(),
-                    'name' => $policyModel->getSnapshotName(),
-                    'repository' => $policyModel->getRepository(),
+                    $policyModel->getType() => [
+                        'indices' => $policyModel->getIndices(),
+                        'match_field' => $policyModel->getMatchField(),
+                        'enrich_fields' => $policyModel->getEnrichFields(),
+                    ],
                 ];
-                if ($policyModel->getIndices()) {
-                    $json['config']['indices'] = $policyModel->getIndices();
-                } else {
-                    $json['config']['indices'] = ['*'];
+                if ($policyModel->getQuery()) {
+                    $json[$policyModel->getType()]['query'] = $policyModel->getQuery();
                 }
-                $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                $json['config']['partial'] = $policyModel->getPartial();
-                $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
-
-                if ($policyModel->hasRetention()) {
-                    $json['retention'] = $policyModel->getRetention();
-                }
-
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_enrich/policy/'.$policyModel->getName());
