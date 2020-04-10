@@ -34,4 +34,44 @@ class PipelineController extends AbstractAppController
             ]),
         ]);
     }
+
+    /**
+     * @Route("/pipelines/{name}", name="pipelines_read")
+     */
+    public function read(Request $request, string $name): Response
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_ingest/pipeline/'.$name);
+        $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            throw new NotFoundHttpException();
+        }
+
+        $rows = $callResponse->getContent();
+
+        foreach ($rows as $k => $row) {
+            $pipeline = $row;
+            $pipeline['name'] = $k;
+        }
+
+        return $this->renderAbstract($request, 'Modules/pipeline/pipeline_read.html.twig', [
+            'pipeline' => $pipeline,
+        ]);
+    }
+
+    /**
+     * @Route("/pipelines/{name}/delete", name="pipelines_delete")
+     */
+    public function delete(Request $request, string $name): Response
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_ingest/pipeline/'.$name);
+        $this->callManager->call($callRequest);
+
+        $this->addFlash('success', 'success.pipeline_delete');
+
+        return $this->redirectToRoute('pipeline', []);
+    }
 }

@@ -14,6 +14,7 @@ use App\Model\ElasticsearchIndexAliasModel;
 use App\Model\ElasticsearchReindexModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -48,6 +49,29 @@ class IndexController extends AbstractAppController
                 'size' => count($indices),
             ]),
         ]);
+    }
+
+    /**
+     * @Route("/indices/{indices}/mappings/fetch", name="indices_mappings_fetch")
+     */
+    public function fetchMappings(Request $request, string $indices): JsonResponse
+    {
+        $json = [];
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$indices.'/_mapping');
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
+
+        foreach ($results as $result) {
+            if (true == isset($result['mappings']) && true == isset($result['mappings']['properties'])) {
+                foreach ($result['mappings']['properties'] as $k => $property) {
+                    $json[] = $k;
+                }
+            }
+        }
+
+        return new JsonResponse($json, JsonResponse::HTTP_OK);
     }
 
     /**

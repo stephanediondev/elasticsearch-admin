@@ -19,6 +19,7 @@
         "symfony/framework-bundle": "5.0.*",
         "symfony/http-client": "5.0.*",
         "symfony/intl": "5.0.*",
+        "symfony/messenger": "5.0.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/process": "5.0.*",
         "symfony/security-bundle": "5.0.*",

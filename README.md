@@ -42,6 +42,7 @@ cp .env.dist .env
 - [x] Users: list, create, read, update, delete, enable, disable
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
+- [x] Enrich policies: list, create, read, delete
 - [x] Pipelines: list
 - [x] Cat APIs: list
 - [x] Console
@@ -50,6 +51,7 @@ cp .env.dist .env
 
 ## Todo
 
+- [ ] Enrich policies: stats, execute
 - [ ] Index lifecycle management policies: create, update, delete
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: reroute

@@ -72,7 +72,7 @@ class NodeController extends AbstractAppController
     }
 
     /**
-     * @Route("/nodes/fetch", name="nodes/fetch")
+     * @Route("/nodes/fetch", name="nodes_fetch")
      */
     public function fetch(Request $request): JsonResponse
     {
