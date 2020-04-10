@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'pipeline_short'|trans }} - {{ pipeline['name'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'pipeline'|trans, 'link': path('pipelines', {})}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': pipeline['name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/pipeline/pipeline_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {{ appImport.buttonModal({
+                        'id': 'PipelineDelete',
+                        'title': 'delete'|trans,
+                        'body': pipeline['name'],
+                        'href': path('pipelines_delete', {'name': pipeline['name']}),
+                    }) }}
+
+                    {{ appImport.buttonModal({
+                        'id': 'PipelineSimulate',
+                        'title': 'simulate'|trans,
+                        'body': pipeline['name'],
+                        'href': path('pipelines_simulate', {'name': pipeline['name']}),
+                    }) }}
+                {% endblock %}
+            {% endembed %}
+
+            {% if pipeline['indices'] is defined %}
+                <p>
+                    <strong>{{ 'indices'|trans }}</strong><br>
+                    {{ pipeline['indices']|join(', ') }}
+                </p>
+            {% endif %}
+
+            <p>
+                <strong>{{ 'description'|trans }}</strong><br>
+                {{ pipeline['description'] }}
+            </p>
+
+            {% if pipeline['processors'] is defined and 0 < pipeline['processors']|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'processor'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for rows in pipeline['processors'] %}
+                            {% for k, row in rows %}
+                                <tr>
+                                    <td>
+                                        {{ k }}
+                                        {% if 'enrich' == k and row['policy_name'] is defined %}<a href="{{ path('enrich_read', {'name': row['policy_name']}) }}">{{ row['policy_name'] }}</a>{% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -30,7 +30,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                {{ k }}
+                                <a href="{{ path('pipelines_read', {'name': k}) }}">{{ k }}</a>
                             </td>
                         {% endif %}
 
