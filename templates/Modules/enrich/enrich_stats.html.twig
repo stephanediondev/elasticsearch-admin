@@ -15,11 +15,71 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'executing_policies'|trans, 'badge': stats['executing_policies']|length}) }}
 
-            <div class="row">
+            {% if 0 < stats['executing_policies']|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'policy'|trans }}</th>
+                            <th>{{ 'phase'|trans }}</th>
+                        </tr>
+                    {% endblock %}
 
-            </div>
+                    {% block tbody %}
+                        {% for row in stats['executing_policies'] %}
+                            <tr>
+                                <td>
+                                    {{ row['name'] }}
+                                </td>
+                                <td>
+                                    {% if row['task']['status']['phase'] is defined %}
+                                        {{ row['task']['status']['phase'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            {{ appImport.heading({'level': 3, 'title': 'coordinator_stats'|trans, 'badge': stats['coordinator_stats']|length}) }}
+
+            {% if 0 < stats['coordinator_stats']|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'node_id'|trans }}</th>
+                            <th>{{ 'queue_size'|trans }}</th>
+                            <th>{{ 'remote_requests_current'|trans }}</th>
+                            <th>{{ 'remote_requests_total'|trans }}</th>
+                            <th>{{ 'executed_searches_total'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for row in stats['coordinator_stats'] %}
+                            <tr>
+                                <td>
+                                    {{ row['node_id'] }}
+                                </td>
+                                <td>
+                                    {{ row['queue_size'] }}
+                                </td>
+                                <td>
+                                    {{ row['remote_requests_current'] }}
+                                </td>
+                                <td>
+                                    {{ row['remote_requests_total'] }}
+                                </td>
+                                <td>
+                                    {{ row['executed_searches_total'] }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}

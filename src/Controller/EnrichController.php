@@ -73,8 +73,6 @@ class EnrichController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $stats = $callResponse->getContent();
 
-        $stats = [];//TODO
-
         return $this->renderAbstract($request, 'Modules/enrich/enrich_stats.html.twig', [
             'stats' => $stats,
         ]);
@@ -170,9 +168,9 @@ class EnrichController extends AbstractAppController
     }
 
     /**
-     * @Route("/enrich/{name}/exexute", name="enrich_execute")
+     * @Route("/enrich/{name}/execute", name="enrich_execute")
      */
-    public function exexute(Request $request, string $name): Response
+    public function execute(Request $request, string $name): Response
     {
         /*$callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
@@ -184,6 +182,6 @@ class EnrichController extends AbstractAppController
 
         $this->addFlash('success', 'success.enrich_execute');
 
-        return $this->redirectToRoute('enrich_read', ['name' => $name]);
+        return $this->redirectToRoute('enrich_stats');
     }
 }

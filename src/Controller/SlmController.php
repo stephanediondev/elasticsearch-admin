@@ -322,9 +322,9 @@ class SlmController extends AbstractAppController
     }
 
     /**
-     * @Route("/slm/{name}/exexute", name="slm_execute")
+     * @Route("/slm/{name}/execute", name="slm_execute")
      */
-    public function exexute(Request $request, string $name): Response
+    public function execute(Request $request, string $name): Response
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
