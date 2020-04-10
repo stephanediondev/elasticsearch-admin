@@ -97,4 +97,21 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
             'geo_match' => 'geo_match',
         ];
     }
+
+    public function convert(?array $policy): self
+    {
+        $this->setType($policy['type']);
+        $this->setName($policy['name']);
+        if (true == isset($policy['indices'])) {
+            $this->setIndices($policy['indices']);
+        }
+        $this->setMatchField($policy['match_field']);
+        if (true == isset($policy['enrich_fields'])) {
+            $this->setEnrichFields($policy['enrich_fields']);
+        }
+        if (true == isset($policy['query'])) {
+            $this->setQuery($policy['query']);
+        }
+        return $this;
+    }
 }

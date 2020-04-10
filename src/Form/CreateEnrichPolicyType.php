@@ -132,23 +132,22 @@ class CreateEnrichPolicyType extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
-            $this->enrichFields($form, []);
+            $data = $event->getData();
+            $this->enrichFields($form, $data->getIndices(), $data->getEnrichFields());
         });
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();
-            $this->enrichFields($form, $data['indices']);
+            $this->enrichFields($form, $data['indices'], []);
         });
     }
 
-    private function enrichFields($form, $indices)
+    private function enrichFields($form, $indices, $selected)
     {
         $choices = [];
 
-        dump($indices);
-
-        if (0 < count($indices)) {
+        if ($indices && 0 < count($indices)) {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/'.implode(',', $indices).'/_mapping');
             $callResponse = $this->callManager->call($callRequest);
@@ -164,9 +163,8 @@ class CreateEnrichPolicyType extends AbstractType
             }
         }
 
-        dump($choices);
-
         $form->add('enrich_fields', ChoiceType::class, [
+            'data' => $selected,
             'multiple' => true,
             'choices' => $choices,
             'choice_label' => function ($choice, $key, $value) {

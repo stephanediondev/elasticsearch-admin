@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'snapshot_name': true, 'repository': true, 'schedule': true, 'next_execution': true, 'version': true} %}
+    {% set columns = {'name': true, 'indices': true, 'match_field': true, 'enrich_fields': true, 'query': true} %}
 
     {% block thead %}
         <tr>
@@ -13,33 +13,27 @@
                         </th>
                     {% endif %}
 
-                    {% if 'snapshot_name' == column %}
+                    {% if 'indices' == column %}
                         <th>
-                            {{ 'snapshot_name'|trans }}
+                            {{ 'indices'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'repository' == column %}
+                    {% if 'match_field' == column %}
                         <th>
-                            {{ 'repository'|trans }}
+                            {{ 'match_field'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'schedule' == column %}
+                    {% if 'enrich_fields' == column %}
                         <th>
-                            {{ 'schedule'|trans }}
+                            {{ 'enrich_fields'|trans }}
                         </th>
                     {% endif %}
 
-                    {% if 'next_execution' == column %}
+                    {% if 'query' == column %}
                         <th>
-                            {{ 'next_execution'|trans }}
-                        </th>
-                    {% endif %}
-
-                    {% if 'version' == column %}
-                        <th>
-                            {{ 'version'|trans }}
+                            {{ 'query'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -58,9 +52,9 @@
                             </td>
                         {% endif %}
 
-                        {% if 'snapshot_name' == column %}
+                        {% if 'indices' == column %}
                             <td>
-                                {{ row['policy']['name'] }}
+                                {{ row['indices']|join(', ') }}
                             </td>
                         {% endif %}
 
@@ -70,21 +64,21 @@
                             </td>
                         {% endif %}
 
-                        {% if 'schedule' == column %}
+                        {% if 'match_field' == column %}
                             <td>
-                                {{ row['policy']['schedule'] }}
+                                {{ row['match_field'] }}
                             </td>
                         {% endif %}
 
-                        {% if 'next_execution' == column %}
+                        {% if 'enrich_fields' == column %}
                             <td>
-                                {{ row['next_execution_millis']|human_datetime }}
+                                {{ row['enrich_fields']|join(', ') }}
                             </td>
                         {% endif %}
 
-                        {% if 'version' == column %}
+                        {% if 'query' == column %}
                             <td>
-                                {{ row['version'] }}
+                                {{ row['query'] }}
                             </td>
                         {% endif %}
                     {% endif %}

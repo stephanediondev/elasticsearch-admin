@@ -37,6 +37,17 @@ class EnrichController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
+        foreach ($rows['policies'] as $row) {
+            $policy = [];
+            $policy['type'] = key($row['config']);
+            $policy['name'] = $row['config'][$policy['type']]['name'];
+            $policy['indices'] = $row['config'][$policy['type']]['indices'];
+            $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
+            $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
+            $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
+            $policies[] = $policy;
+        }
+
         return $this->renderAbstract($request, 'Modules/enrich/enrich_index.html.twig', [
             'policies' => $this->paginatorManager->paginate([
                 'route' => 'policies',
@@ -80,7 +91,6 @@ class EnrichController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                dump($policyModel->getEnrichFields());
                 $json = [
                     $policyModel->getType() => [
                         'indices' => $policyModel->getIndices(),
@@ -123,122 +133,21 @@ class EnrichController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
+        $rows = $callResponse->getContent();
+
+        foreach ($rows['policies'] as $row) {
+            $policy = [];
+            $policy['type'] = key($row['config']);
+            $policy['name'] = $row['config'][$policy['type']]['name'];
+            $policy['indices'] = $row['config'][$policy['type']]['indices'];
+            $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
+            $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
+            $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
+            $policies[] = $policy;
+        }
 
         return $this->renderAbstract($request, 'Modules/enrich/enrich_read.html.twig', [
             'policy' => $policy,
-        ]);
-    }
-
-    /**
-     * @Route("/enrich/{name}/history", name="enrich_read_history")
-     */
-    public function readHistory(Request $request, string $name): Response
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_enrich/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            throw new NotFoundHttpException();
-        }
-
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
-
-        return $this->renderAbstract($request, 'Modules/enrich/enrich_read_history.html.twig', [
-            'policy' => $policy,
-        ]);
-    }
-
-    /**
-     * @Route("/enrich/{name}/stats", name="enrich_read_stats")
-     */
-    public function readStats(Request $request, string $name): Response
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_enrich/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            throw new NotFoundHttpException();
-        }
-
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
-
-        return $this->renderAbstract($request, 'Modules/enrich/enrich_read_stats.html.twig', [
-            'policy' => $policy,
-        ]);
-    }
-
-    /**
-     * @Route("/enrich/{name}/update", name="enrich_update")
-     */
-    public function update(Request $request, string $name): Response
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_enrich/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            throw new NotFoundHttpException();
-        }
-
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
-
-        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-        $indices = $this->elasticsearchIndexManager->selectIndices();
-
-        $policyModel = new ElasticsearchEnrichPolicyModel();
-        $policyModel->convert($policy);
-        $form = $this->createForm(CreateEnrichPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $json = [
-                    'schedule' => $policyModel->getSchedule(),
-                    'name' => $policyModel->getSnapshotName(),
-                    'repository' => $policyModel->getRepository(),
-                ];
-                if ($policyModel->getIndices()) {
-                    $json['config']['indices'] = $policyModel->getIndices();
-                } else {
-                    $json['config']['indices'] = ['*'];
-                }
-                $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                $json['config']['partial'] = $policyModel->getPartial();
-                $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
-
-                if ($policyModel->hasRetention()) {
-                    $json['retention'] = $policyModel->getRetention();
-                }
-
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_enrich/policy/'.$policyModel->getName());
-                $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
-
-                $this->addFlash('success', 'success.enrich_update');
-
-                return $this->redirectToRoute('enrich_read', ['name' => $policyModel->getName()]);
-            } catch (CallException $e) {
-                $this->addFlash('danger', $e->getMessage());
-            }
-        }
-
-        return $this->renderAbstract($request, 'Modules/enrich/enrich_update.html.twig', [
-            'policy' => $policy,
-            'form' => $form->createView(),
         ]);
     }
 
