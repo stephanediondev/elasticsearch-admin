@@ -30,13 +30,6 @@
                         'body': pipeline['name'],
                         'href': path('pipelines_delete', {'name': pipeline['name']}),
                     }) }}
-
-                    {{ appImport.buttonModal({
-                        'id': 'PipelineSimulate',
-                        'title': 'simulate'|trans,
-                        'body': pipeline['name'],
-                        'href': path('pipelines_simulate', {'name': pipeline['name']}),
-                    }) }}
                 {% endblock %}
             {% endembed %}
 

@@ -74,19 +74,4 @@ class PipelineController extends AbstractAppController
 
         return $this->redirectToRoute('pipeline', []);
     }
-
-    /**
-     * @Route("/pipelines/{name}/simulate", name="pipelines_simulate")
-     */
-    public function simulate(Request $request, string $name): Response
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_ingest/pipeline/'.$name.'/_simulate');
-        $this->callManager->call($callRequest);
-
-        $this->addFlash('success', 'success.pipeline_simulate');
-
-        return $this->redirectToRoute('pipeline_read', ['name' => $name]);
-    }
 }

@@ -7,22 +7,25 @@ use App\Exception\CallException;
 use App\Form\CreateEnrichPolicyType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
+use App\Message\EnrichExecuteMessage;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchEnrichPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * @Route("/admin")
  */
 class EnrichController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, MessageBusInterface $bus)
     {
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
         $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
+        $this->bus = $bus;
     }
 
     /**
@@ -171,10 +174,13 @@ class EnrichController extends AbstractAppController
      */
     public function exexute(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
+        /*$callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_enrich/policy/'.$name.'/_execute');
-        $this->callManager->call($callRequest);
+        $this->callManager->call($callRequest);*/
+
+        $message = new EnrichExecuteMessage($name);
+        $this->bus->dispatch($message);
 
         $this->addFlash('success', 'success.enrich_execute');
 
