@@ -88,45 +88,6 @@ class CreateEnrichPolicyType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'match_field':
-                    /*$builder->add('match_field', TextType::class, [
-                        'label' => 'match_field',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                        ],
-                        'help' => 'help_form.enrich_policy.match_field',
-                        'help_html' => true,
-                    ]);*/
-                    break;
-                case 'enrich_fields':
-                    /*$builder->add('enrich_fields', ChoiceType::class, [
-                        'multiple' => true,
-                        'choices' => [],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $key;
-                        },
-                        'choice_translation_domain' => false,
-                        'label' => 'enrich_fields',
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                        ],
-                        'attr' => [
-                            'data-break-after' => 'yes',
-                        ],
-                        'help' => 'help_form.enrich_policy.enrich_fields',
-                        'help_html' => true,
-                    ]);*/
-                    break;
-                case 'query':
-                    $builder->add('query', TextType::class, [
-                        'label' => 'query',
-                        'required' => false,
-                        'help' => 'help_form.enrich_policy.query',
-                        'help_html' => true,
-                    ]);
-                    break;
             }
         }
 
@@ -200,6 +161,13 @@ class CreateEnrichPolicyType extends AbstractType
                 'data-break-after' => 'yes',
             ],
             'help' => 'help_form.enrich_policy.enrich_fields',
+            'help_html' => true,
+        ]);
+
+        $form->add('query', TextType::class, [
+            'label' => 'query',
+            'required' => false,
+            'help' => 'help_form.enrich_policy.query',
             'help_html' => true,
         ]);
     }

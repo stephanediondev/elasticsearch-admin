@@ -73,8 +73,20 @@ class EnrichController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $stats = $callResponse->getContent();
 
+        $nodes = [];
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_nodes');
+        $callResponse = $this->callManager->call($callRequest);
+        $rows = $callResponse->getContent();
+
+        foreach ($rows['nodes'] as $k => $row) {
+            $nodes[$k] = $row['name'];
+        }
+
         return $this->renderAbstract($request, 'Modules/enrich/enrich_stats.html.twig', [
             'stats' => $stats,
+            'nodes' => $nodes,
         ]);
     }
 

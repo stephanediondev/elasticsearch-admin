@@ -15,7 +15,18 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'executing_policies'|trans, 'badge': stats['executing_policies']|length}) }}
+            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/enrich-stats-api.html#enrich-stats-api">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.heading({'level': 4, 'title': 'executing_policies'|trans, 'badge': stats['executing_policies']|length}) }}
 
             {% if 0 < stats['executing_policies']|length %}
                 {% embed 'Embed/table_embed.html.twig' %}
@@ -43,13 +54,15 @@
                 {% endembed %}
             {% endif %}
 
-            {{ appImport.heading({'level': 3, 'title': 'coordinator_stats'|trans, 'badge': stats['coordinator_stats']|length}) }}
+            {{ appImport.heading({'level': 4, 'title': 'coordinator_stats'|trans, 'badge': stats['coordinator_stats']|length}) }}
 
             {% if 0 < stats['coordinator_stats']|length %}
                 {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
                     {% block thead %}
                         <tr>
-                            <th>{{ 'node_id'|trans }}</th>
+                            <th>{{ 'node'|trans }}</th>
                             <th>{{ 'queue_size'|trans }}</th>
                             <th>{{ 'remote_requests_current'|trans }}</th>
                             <th>{{ 'remote_requests_total'|trans }}</th>
@@ -61,7 +74,11 @@
                         {% for row in stats['coordinator_stats'] %}
                             <tr>
                                 <td>
-                                    {{ row['node_id'] }}
+                                    {% if nodes[row['node_id']] is defined %}
+                                        <a href="{{ path('nodes_read', {'node': nodes[row['node_id']]}) }}">{{ nodes[row['node_id']] }}</a>{% if master_node == nodes[row['node_id']] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                    {% else %}
+                                        {{ row['node_id'] }}
+                                    {% endif %}
                                 </td>
                                 <td>
                                     {{ row['queue_size'] }}
