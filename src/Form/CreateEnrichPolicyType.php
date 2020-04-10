@@ -89,7 +89,7 @@ class CreateEnrichPolicyType extends AbstractType
                     ]);
                     break;
                 case 'match_field':
-                    $builder->add('match_field', TextType::class, [
+                    /*$builder->add('match_field', TextType::class, [
                         'label' => 'match_field',
                         'required' => true,
                         'constraints' => [
@@ -97,7 +97,7 @@ class CreateEnrichPolicyType extends AbstractType
                         ],
                         'help' => 'help_form.enrich_policy.match_field',
                         'help_html' => true,
-                    ]);
+                    ]);*/
                     break;
                 case 'enrich_fields':
                     /*$builder->add('enrich_fields', ChoiceType::class, [
@@ -163,6 +163,25 @@ class CreateEnrichPolicyType extends AbstractType
             }
         }
 
+        $form->add('match_field', ChoiceType::class, [
+            'placeholder' => '-',
+            'choices' => $choices,
+            'choice_label' => function ($choice, $key, $value) {
+                return $choice;
+            },
+            'choice_translation_domain' => false,
+            'label' => 'match_field',
+            'required' => true,
+            'constraints' => [
+                new NotBlank(),
+            ],
+            'attr' => [
+                'class' => 'update-fields',
+            ],
+            'help' => 'help_form.enrich_policy.match_field',
+            'help_html' => true,
+        ]);
+
         $form->add('enrich_fields', ChoiceType::class, [
             'data' => $selected,
             'multiple' => true,
@@ -177,6 +196,7 @@ class CreateEnrichPolicyType extends AbstractType
                 new NotBlank(),
             ],
             'attr' => [
+                'class' => 'update-fields',
                 'data-break-after' => 'yes',
             ],
             'help' => 'help_form.enrich_policy.enrich_fields',

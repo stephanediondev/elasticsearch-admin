@@ -46,13 +46,6 @@
                 }).then(function(response) {
                     return response.json();
                 }).then(function(json) {
-                    var selectedOptions = [];
-                    $('#data_enrich_fields').find('option:selected').each(function() {
-                        selectedOptions.push($(this).val());
-                    });
-
-                    $('#data_enrich_fields').find('option').remove();
-
                     var options = [];
                     for (var k in json) {
                         if (false == options.includes(json[k])) {
@@ -61,29 +54,36 @@
                     }
                     options.sort();
 
-                    for (var k in options) {
-                        var selected = false;
-                        if (true == selectedOptions.includes(options[k])) {
-                            selected = true;
+                    $(document).find('.update-fields').each(function() {
+                        var select = $(this);
+                        var selectedOptions = [];
+                        select.find('option:selected').each(function() {
+                            selectedOptions.push($(this).val());
+                        });
+
+                        select.find('option').remove();
+
+                        if (typeof select.attr('multiple') == 'undefined') {
+                            var newOption = new Option('-', '', false, false);
+                            select.append(newOption).trigger('change');
                         }
-                        var newOption = new Option(options[k], options[k], selected, selected);
-                        $('#data_enrich_fields').append(newOption).trigger('change');
-                    }
+
+                        for (var k in options) {
+                            var selected = false;
+                            if (true == selectedOptions.includes(options[k])) {
+                                selected = true;
+                            }
+                            var newOption = new Option(options[k], options[k], selected, selected);
+                            select.append(newOption).trigger('change');
+                        }
+                    });
                 }).catch(function() {
                 });
             } else {
-                $('#data_enrich_fields').find('option').remove();
+                $(document).find('.update-fields').each(function() {
+                    $(this).find('option').remove();
+                });
             }
-        }
-
-        function enable(id) {
-            $(id).parent().show();
-            $(id).attr('required', 'required');
-        }
-
-        function disable(id) {
-            $(id).parent().hide();
-            $(id).removeAttr('required');
         }
 
         refresh();
