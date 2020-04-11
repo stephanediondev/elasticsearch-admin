@@ -44,7 +44,7 @@ cp .env.dist .env
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
 - [x] Enrich policies: list, stats, create, read, delete, execute (asynchronous)
-- [x] Pipelines: list
+- [x] Pipelines: list, read
 - [x] Cat APIs: list
 - [x] Console
 - [x] Deprecations info

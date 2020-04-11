@@ -45,11 +45,28 @@
                 {{ pipeline['description'] }}
             </p>
 
+            {% if pipeline['version'] is defined %}
+                <p>
+                    <strong>{{ 'version'|trans }}</strong><br>
+                    {{ pipeline['version'] }}
+                </p>
+            {% endif %}
+
+            {% if pipeline['on_failure'] is defined and 0 < pipeline['on_failure']|length %}
+                <p>
+                    <strong>{{ 'on_failure'|trans }}</strong><br>
+                    <pre>{{ pipeline['on_failure']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                </p>
+            {% endif %}
+
             {% if pipeline['processors'] is defined and 0 < pipeline['processors']|length %}
+                {{ appImport.heading({'level': 4, 'title': 'processors'|trans, 'badge': pipeline['processors']|length}) }}
+
                 {% embed 'Embed/table_embed.html.twig' %}
                     {% block thead %}
                         <tr>
                             <th>{{ 'processor'|trans }}</th>
+                            <th>{{ 'configuration'|trans }}</th>
                         </tr>
                     {% endblock %}
 
@@ -59,7 +76,9 @@
                                 <tr>
                                     <td>
                                         {{ k }}
-                                        {% if 'enrich' == k and row['policy_name'] is defined %}<a href="{{ path('enrich_read', {'name': row['policy_name']}) }}">{{ row['policy_name'] }}</a>{% endif %}
+                                    </td>
+                                    <td>
+                                        <pre>{{ row|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                                     </td>
                                 </tr>
                             {% endfor %}

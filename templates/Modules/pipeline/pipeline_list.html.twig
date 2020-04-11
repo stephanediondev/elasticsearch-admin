@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'description': true} %}
+    {% set columns = {'name': true, 'description': true, 'version': true} %}
 
     {% block thead %}
         <tr>
@@ -16,6 +16,12 @@
                     {% if 'description' == column %}
                         <th>
                             {{ 'description'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'version' == column %}
+                        <th>
+                            {{ 'version'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -37,6 +43,14 @@
                         {% if 'description' == column %}
                             <td>
                                 {{ row['description'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'version' == column %}
+                            <td>
+                                {% if row['version'] is defined %}
+                                    {{ row['version'] }}
+                                {% endif %}
                             </td>
                         {% endif %}
                     {% endif %}
