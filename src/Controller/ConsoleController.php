@@ -20,15 +20,16 @@ class ConsoleController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $callModel = new CallRequestModel();
-        $form = $this->createForm(ConsoleType::class, $callModel);
+        $callRequest = new CallRequestModel();
+        $form = $this->createForm(ConsoleType::class, $callRequest);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $parameters['response'] = $this->callManager->call($callModel);
-                $parameters['path'] = $callModel->getPath();
+                $callResponse = $this->callManager->call($callRequest);
+                $parameters['response'] = $callResponse->getContent();
+                $parameters['path'] = $callRequest->getPath();
 
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
