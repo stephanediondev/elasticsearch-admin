@@ -40,7 +40,7 @@ cp .env.dist .env
 - [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
 - [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Snapshot lifecycle management policies: list, status, start, stop, create, read, update, delete, execute, history, stats
-- [x] Users: list, create, read, update, delete, enable, disable
+- [x] Users (native realm): list, create, read, update, delete, enable, disable
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
 - [x] Enrich policies: list, stats, create, read, delete, execute (asynchronous)
