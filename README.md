@@ -6,6 +6,7 @@
 - PHP extensions: ctype, iconv, tokenizer, xml
 - Composer
 - Yarn
+- RabbitMQ (optional, for asynchronous messaging)
 
 ## Installation
 
@@ -42,7 +43,7 @@ cp .env.dist .env
 - [x] Users: list, create, read, update, delete, enable, disable
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
-- [x] Enrich policies: list, create, read, delete
+- [x] Enrich policies: list, stats, create, read, delete, execute (asynchronous)
 - [x] Pipelines: list
 - [x] Cat APIs: list
 - [x] Console
@@ -51,7 +52,6 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Enrich policies: stats, execute
 - [ ] Index lifecycle management policies: create, update, delete
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: reroute
