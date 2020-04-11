@@ -13,6 +13,13 @@ class RoleControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
     }
 
+    public function testCreate()
+    {
+        $this->client->request('GET', '/admin/roles/create');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
     public function testRead404()
     {
         $this->client->request('GET', '/admin/role/'.uniqid());
