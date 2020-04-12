@@ -29,6 +29,7 @@ class ConsoleController extends AbstractAppController
             try {
                 $callResponse = $this->callManager->call($callRequest);
                 $parameters['response'] = $callResponse->getContent();
+                $parameters['method'] = $callRequest->getMethod();
                 $parameters['path'] = $callRequest->getPath();
 
             } catch (CallException $e) {

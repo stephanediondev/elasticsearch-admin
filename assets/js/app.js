@@ -5,6 +5,13 @@ require('bootstrap');
 
 require('select2');
 
+import { saveAs } from 'file-saver';
+var slug = require('slug');
+slug.charmap['/'] = '-';
+slug.charmap['?'] = '-';
+slug.charmap['='] = '-';
+global.slug = slug;
+
 function search() {
     //reset
     $(document).find('tbody tr').attr('data-score', 0);
