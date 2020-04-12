@@ -43,11 +43,6 @@ abstract class AbstractAppController extends AbstractController
 
         $parameters['master_node'] = $master[0]['node'] ?? false;
 
-        /*if (null === $response) {
-            $response = new Response();
-        }
-        $response->headers->set('Symfony-Debug-Toolbar-Replace', 1);*/
-
         return $this->render($view, $parameters, $response);
     }
 }
