@@ -142,11 +142,11 @@ class EnrichController extends AbstractAppController
         $callRequest->setPath('/_enrich/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        $rows = $callResponse->getContent();
+
+        if (false == isset($rows['policies']) || 0 == count($rows['policies'])) {
             throw new NotFoundHttpException();
         }
-
-        $rows = $callResponse->getContent();
 
         foreach ($rows['policies'] as $row) {
             $policy = [];
@@ -156,7 +156,6 @@ class EnrichController extends AbstractAppController
             $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
             $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
             $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
-            $policies[] = $policy;
         }
 
         return $this->renderAbstract($request, 'Modules/enrich/enrich_read.html.twig', [

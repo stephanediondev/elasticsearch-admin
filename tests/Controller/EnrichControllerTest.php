@@ -26,4 +26,11 @@ class EnrichControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
     }
+
+    public function testRead404()
+    {
+        $this->client->request('GET', '/_enrich/policy/'.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

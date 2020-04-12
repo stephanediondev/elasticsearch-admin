@@ -12,4 +12,11 @@ class PipelineControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
     }
+
+    public function testRead404()
+    {
+        $this->client->request('GET', '/_ingest/pipeline/'.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
 }
