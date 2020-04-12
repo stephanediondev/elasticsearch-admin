@@ -91,7 +91,11 @@
 
     {% block tbody %}
         {% for row in nodes.rows %}
-            <tr class="master_eligible-{{ row['settings']['node']['master'] }} voting_only-{% if row['settings']['node']['voting_only'] is defined %}{{ row['settings']['node']['voting_only'] }}{% else %}false{% endif %} data-{{ row['settings']['node']['data'] }}" data-search="{{ row['name'] }}">
+            {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
+                <tr>
+            {% else %}
+                <tr class="master_eligible-{{ row['settings']['node']['master'] }} voting_only-{% if row['settings']['node']['voting_only'] is defined %}{{ row['settings']['node']['voting_only'] }}{% else %}false{% endif %} data-{{ row['settings']['node']['data'] }}" data-search="{{ row['name'] }}">
+            {% endif %}
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
@@ -116,23 +120,32 @@
 
                         {% if 'master_eligible' == column %}
                             <td>
-                                {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['master'])|trans, 'context': row['settings']['node']['master']}) }}
+                                {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
+                                {% else %}
+                                    {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['master'])|trans, 'context': row['settings']['node']['master']}) }}
+                                {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'voting_only' == column %}
                             <td>
-                                {% if row['settings']['node']['voting_only'] is defined %}
-                                    {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['voting_only'])|trans, 'context': row['settings']['node']['voting_only']}) }}
+                                {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
                                 {% else %}
-                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                    {% if row['settings']['node']['voting_only'] is defined %}
+                                        {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['voting_only'])|trans, 'context': row['settings']['node']['voting_only']}) }}
+                                    {% else %}
+                                        {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'data' == column %}
                             <td>
-                                {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['data'])|trans, 'context': row['settings']['node']['data']}) }}
+                                {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
+                                {% else %}
+                                    {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['data'])|trans, 'context': row['settings']['node']['data']}) }}
+                                {% endif %}
                             </td>
                         {% endif %}
 

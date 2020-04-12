@@ -25,24 +25,27 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
-            <p>
-                <strong>{{ 'master_eligible'|trans }}</strong><br>
-                {{ appImport.badge({'title': ('boolean.' ~ node['settings']['node']['master'])|trans, 'context': node['settings']['node']['master']}) }}
-            </p>
+            {% if node['settings']['discovery']['type'] is defined and 'single-node' == node['settings']['discovery']['type'] %}
+            {% else %}
+                <p>
+                    <strong>{{ 'master_eligible'|trans }}</strong><br>
+                    {{ appImport.badge({'title': ('boolean.' ~ node['settings']['node']['master'])|trans, 'context': node['settings']['node']['master']}) }}
+                </p>
 
-            <p>
-                <strong>{{ 'voting_only'|trans }}</strong><br>
-                {% if node['settings']['node']['voting_only'] is defined %}
-                    {{ appImport.badge({'title': ('boolean.' ~ node['settings']['node']['voting_only'])|trans, 'context': node['settings']['node']['voting_only']}) }}
-                {% else %}
-                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
-                {% endif %}
-            </p>
+                <p>
+                    <strong>{{ 'voting_only'|trans }}</strong><br>
+                    {% if node['settings']['node']['voting_only'] is defined %}
+                        {{ appImport.badge({'title': ('boolean.' ~ node['settings']['node']['voting_only'])|trans, 'context': node['settings']['node']['voting_only']}) }}
+                    {% else %}
+                        {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                    {% endif %}
+                </p>
 
-            <p>
-                <strong>{{ 'data'|trans }}</strong><br>
-                {{ appImport.badge({'title': ('boolean.' ~ node['settings']['node']['data'])|trans, 'context': node['settings']['node']['data']}) }}
-            </p>
+                <p>
+                    <strong>{{ 'data'|trans }}</strong><br>
+                    {{ appImport.badge({'title': ('boolean.' ~ node['settings']['node']['data'])|trans, 'context': node['settings']['node']['data']}) }}
+                </p>
+            {% endif %}
 
             <p>
                 <strong>{{ 'ip'|trans }}</strong><br>
