@@ -34,7 +34,7 @@ abstract class AbstractAppController extends AbstractController
         $callResponse = $this->callManager->call($callRequest);
         $clusterHealth = $callResponse->getContent();
 
-        $parameters['clusterHealth'] = $clusterHealth;
+        $parameters['cluster_health'] = $clusterHealth;
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/master');

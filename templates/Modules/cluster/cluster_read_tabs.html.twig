@@ -7,7 +7,7 @@
         <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}</a>
     </li>
 
-    {% if 0 < clusterHealth['unassigned_shards'] %}
+    {% if 0 < cluster_health['unassigned_shards'] %}
         <li class="nav-item">
             <a class="nav-link{% if 'allocation_explain' == active %} active{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
         </li>

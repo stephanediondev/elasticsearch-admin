@@ -24,7 +24,7 @@
             <ul class="navbar-nav">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': clusterHealth['status']|trans, 'context': clusterHealth['status']}) }}</a>
+                        <a class="nav-link" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': cluster_health['status']|trans, 'context': cluster_health['status']}) }}</a>
                     </li>
 
                     <li class="nav-item">

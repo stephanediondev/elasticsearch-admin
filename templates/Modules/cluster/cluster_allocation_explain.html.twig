@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'cluster'|trans }} - {{ clusterHealth['cluster_name'] }} - {{ 'allocation_explain'|trans }}{% endblock %}
+{% block head_title %}{{ 'cluster'|trans }} - {{ cluster_health['cluster_name'] }} - {{ 'allocation_explain'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'cluster'|trans}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': clusterHealth['cluster_name']}) }}
+    {{ appImport.heading({'level': 2, 'title': cluster_health['cluster_name']}) }}
 {% endblock %}
 
 {% block tabs %}
