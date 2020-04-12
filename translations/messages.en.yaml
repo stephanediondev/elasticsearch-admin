@@ -130,7 +130,7 @@ help_form:
         snapshot_name: "The name for the snapshots. A unique identifier is automatically added to each name. Supports <a target=\"_blank\" href=\"https://www.elastic.co/guide/en/elasticsearch/reference/current/date-math-index-names.html#date-math-index-names\">date math expressions</a>."
         repository: "The repository where you want to store the snapshots."
         indices: "Indices to back up."
-        schedule: "The frequency at which to take the snapshots. Use <a target=\"_blank\" href=\"https://www.elastic.co/guide/en/elasticsearch/reference/7.6/trigger-schedule.html#schedule-cron\">cron expression</a>."
+        schedule: "The frequency at which to take the snapshots. Use <a target=\"_blank\" href=\"https://www.elastic.co/guide/en/elasticsearch/reference/current/trigger-schedule.html#schedule-cron\">cron expression</a>."
         expire_after: "The time to wait before deleting snapshots."
         min_count: "The minimum number of snapshots to store in your cluster."
         max_count: "The maximum number of snapshots to store in your cluster."
