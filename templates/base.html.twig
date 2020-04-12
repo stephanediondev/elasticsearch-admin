@@ -45,12 +45,27 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="configurationDropdown">
                             <a class="dropdown-item" href="{{ path('index_templates') }}">{{ 'index_templates'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('ilm') }}">{{ 'ilm'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('slm') }}">{{ 'slm'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('ilm') }}">
+                                {{ 'ilm'|trans }}
+                                {% if xpack_features['ilm']['enabled'] is not defined or false == xpack_features['ilm']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
+                            <a class="dropdown-item" href="{{ path('slm') }}">
+                                {{ 'slm'|trans }}
+                                {% if xpack_features['slm']['enabled'] is not defined or false == xpack_features['slm']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
                             <a class="dropdown-item" href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('enrich') }}">{{ 'enrich'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('users') }}">{{ 'users'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('roles') }}">{{ 'roles'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('enrich') }}">
+                                {{ 'enrich'|trans }}
+                                {% if xpack_features['enrich']['enabled'] is not defined or false == xpack_features['enrich']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
+                            <a class="dropdown-item" href="{{ path('users') }}">
+                                {{ 'users'|trans }}
+                                {% if xpack_features['security']['enabled'] is not defined or false == xpack_features['security']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
+                            <a class="dropdown-item" href="{{ path('roles') }}">
+                                {{ 'roles'|trans }}
+                                {% if xpack_features['security']['enabled'] is not defined or false == xpack_features['security']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
                         </div>
                     </li>
 

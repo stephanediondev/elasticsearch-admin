@@ -43,6 +43,13 @@ abstract class AbstractAppController extends AbstractController
 
         $parameters['master_node'] = $master[0]['node'] ?? false;
 
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_xpack');
+        $callResponse = $this->callManager->call($callRequest);
+        $xpack = $callResponse->getContent();
+
+        $parameters['xpack_features'] = $xpack['features'];
+
         return $this->render($view, $parameters, $response);
     }
 }
