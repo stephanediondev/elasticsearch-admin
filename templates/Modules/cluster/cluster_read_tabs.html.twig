@@ -12,20 +12,4 @@
             <a class="nav-link{% if 'allocation_explain' == active %} active{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
         </li>
     {% endif %}
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('indices_create') }}">{{ 'create_index'|trans }}</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('index_templates_create') }}">{{ 'create_index_template'|trans }}</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('slm_create') }}">{{ 'create_slm_policy'|trans }}</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('snapshots_create') }}">{{ 'create_snapshot'|trans }}</a>
-    </li>
 </ul>
