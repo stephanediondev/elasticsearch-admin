@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }} - {{ 'settings'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': index['index']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'lifecycle'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'lifecycle'|trans}) }}
+
+            {% if true == lifecycle['managed'] %}
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+                    {% block content %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexRemovePolicy',
+                            'title': 'remove_policy'|trans,
+                            'body': lifecycle['policy'],
+                            'href': path('indices_remove_policy', {'index': index['index']}),
+                        }) }}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            <p>
+                <strong>{{ 'managed'|trans }}</strong><br>
+                {{ appImport.badge({'title': ('boolean.' ~ lifecycle['managed'])|trans, 'context': lifecycle['managed']}) }}
+            </p>
+
+            {% if true == lifecycle['managed'] %}
+                <p>
+                    <strong>{{ 'ilm_policy'|trans }}</strong><br>
+                    <a href="{{ path('ilm_read', {'name': lifecycle['policy']}) }}">{{ lifecycle['policy'] }}</a>
+                </p>
+
+                <pre>{{ lifecycle|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -31,11 +31,11 @@ cp .env.dist .env
 - [x] Login: user managed by Symfony, not related to Elasticsearch
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings
 - [x] Nodes: list, read, usage, plugins
-- [x] Indices: list, reindex, create, read, update (mappings), delete, close, open, freeze, unfreeze, force merge, clear cache, flush, refresh
+- [x] Indices: list, reindex, create, read, update (mappings), lifecycle (explain, remove policy), delete, close, open, freeze, unfreeze, force merge, clear cache, flush, refresh
 - [x] Documents (by index): list
 - [x] Aliases (by index): list, create, delete
 - [x] Index templates: list, create, read, update, delete
-- [x] Index lifecycle management policies: list, status, start, stop, read
+- [x] Index lifecycle management policies: list, status, start, stop, create, read, update, delete
 - [x] Shards: list
 - [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
 - [x] Snapshots: list, create, read, delete, failures, restore
@@ -52,7 +52,6 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Index lifecycle management policies: create, update, delete
 - [ ] Documents (by index): filter, delete
 - [ ] Cluster: reroute
 - [ ] Repositories: create (url, source, hdfs, azure)

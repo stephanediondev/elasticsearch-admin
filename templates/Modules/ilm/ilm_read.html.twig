@@ -21,6 +21,18 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {{ appImport.buttonModal({
+                        'id': 'PolicyDelete',
+                        'title': 'delete'|trans,
+                        'body': policy['name'],
+                        'href': path('ilm_delete', {'name': policy['name']}),
+                    }) }}
+                {% endblock %}
+            {% endembed %}
+
             <p>
                 <strong>{{ 'modified_date'|trans }}</strong><br>
                 {{ policy['modified_date'] }}

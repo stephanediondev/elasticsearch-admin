@@ -5,8 +5,6 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateIlmPolicyType;
-use App\Manager\ElasticsearchIndexManager;
-use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIlmPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,12 +17,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class IlmController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
-    {
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
-        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
-    }
-
     /**
      * @Route("/ilm", name="ilm")
      */
@@ -102,6 +94,54 @@ class IlmController extends AbstractAppController
     }
 
     /**
+     * @Route("/ilm/create", name="ilm_create")
+     */
+    public function create(Request $request): Response
+    {
+        $policyModel = new ElasticsearchIlmPolicyModel();
+        $form = $this->createForm(CreateIlmPolicyType::class, $policyModel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = [
+                    'policy' => [
+                        'phases' => [],
+                    ],
+                ];
+                if ($policyModel->getHot()) {
+                    $json['policy']['phases']['hot'] = json_decode($policyModel->getHot(), true);
+                }
+                if ($policyModel->getWarm()) {
+                    $json['policy']['phases']['warm'] = json_decode($policyModel->getWarm(), true);
+                }
+                if ($policyModel->getCold()) {
+                    $json['policy']['phases']['cold'] = json_decode($policyModel->getCold(), true);
+                }
+                if ($policyModel->getDelete()) {
+                    $json['policy']['phases']['delete'] = json_decode($policyModel->getDelete(), true);
+                }
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
+
+                $this->addFlash('success', 'flash_success.ilm_create');
+
+                return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/ilm/ilm_create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/ilm/{name}", name="ilm_read")
      */
     public function read(Request $request, string $name): Response
@@ -121,5 +161,82 @@ class IlmController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/ilm/ilm_read.html.twig', [
             'policy' => $policy,
         ]);
+    }
+
+    /**
+     * @Route("/ilm/{name}/update", name="ilm_update")
+     */
+    public function update(Request $request, string $name): Response
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_ilm/policy/'.$name);
+        $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            throw new NotFoundHttpException();
+        }
+
+        $policy = $callResponse->getContent();
+        $policy = $policy[$name];
+        $policy['name'] = $name;
+
+        $policyModel = new ElasticsearchIlmPolicyModel();
+        $policyModel->convert($policy);
+        $form = $this->createForm(CreateIlmPolicyType::class, $policyModel, ['update' => true]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = [
+                    'policy' => [
+                        'phases' => [],
+                    ],
+                ];
+                if ($policyModel->getHot()) {
+                    $json['policy']['phases']['hot'] = json_decode($policyModel->getHot(), true);
+                }
+                if ($policyModel->getWarm()) {
+                    $json['policy']['phases']['warm'] = json_decode($policyModel->getWarm(), true);
+                }
+                if ($policyModel->getCold()) {
+                    $json['policy']['phases']['cold'] = json_decode($policyModel->getCold(), true);
+                }
+                if ($policyModel->getDelete()) {
+                    $json['policy']['phases']['delete'] = json_decode($policyModel->getDelete(), true);
+                }
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());
+                $callRequest->setJson($json);
+                $this->callManager->call($callRequest);
+
+                $this->addFlash('success', 'flash_success.ilm_update');
+
+                return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/ilm/ilm_update.html.twig', [
+            'policy' => $policy,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/ilm/{name}/delete", name="ilm_delete")
+     */
+    public function delete(Request $request, string $name): Response
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_ilm/policy/'.$name);
+        $this->callManager->call($callRequest);
+
+        $this->addFlash('success', 'flash_success.ilm_delete');
+
+        return $this->redirectToRoute('ilm', []);
     }
 }

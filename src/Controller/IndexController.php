@@ -307,6 +307,51 @@ class IndexController extends AbstractAppController
     }
 
     /**
+     * @Route("/indices/{index}/lifecycle", name="indices_read_lifecycle")
+     */
+    public function lifecycle(Request $request, string $index): Response
+    {
+        $index = $this->elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath($index['index'].'/_ilm/explain');
+        $callResponse = $this->callManager->call($callRequest);
+        $lifecycle = $callResponse->getContent();
+        $lifecycle = $lifecycle['indices'][$index['index']];
+
+        return $this->renderAbstract($request, 'Modules/index/index_read_lifecycle.html.twig', [
+            'index' => $index,
+            'lifecycle' => $lifecycle,
+        ]);
+    }
+
+    /**
+     * @Route("/indices/{index}/remove/policy", name="indices_remove_policy")
+     */
+    public function removePolicy(Request $request, string $index): Response
+    {
+        $index = $this->elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath($index['index'].'/_ilm/remove');
+        $callResponse = $this->callManager->call($callRequest);
+        $callResponse->getContent();
+
+        $this->addFlash('success', 'flash_success.indices_remove_policy');
+
+        return $this->redirectToRoute('indices_read_lifecycle', ['index' => $index['index']]);
+    }
+
+    /**
      * @Route("/indices/{index}/shards", name="indices_read_shards")
      */
     public function shards(Request $request, string $index): Response

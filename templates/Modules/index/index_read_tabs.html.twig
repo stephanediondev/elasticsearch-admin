@@ -1,3 +1,4 @@
+{% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('indices_read', {'index': index['index']}) }}">{{ 'summary'|trans }}</a>
@@ -13,6 +14,10 @@
 
     <li class="nav-item">
         <a class="nav-link{% if 'mappings' == active %} active{% endif %}" href="{{ path('indices_read_mappings', {'index': index['index']}) }}">{{ 'mappings'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'lifecycle' == active %} active{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index['index']}) }}">{{ 'lifecycle'|trans }}{% if index['settings']['index']['lifecycle'] is defined %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
     </li>
 
     {% if 'open' == index['status'] %}
