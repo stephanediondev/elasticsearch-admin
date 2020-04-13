@@ -62,8 +62,7 @@ class CallManager
             if (true == isset($json['error'])) {
                 if (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
                     throw new CallException($json['error']['caused_by']['reason']);
-
-                } else if (true == isset($json['error']['reason'])) {
+                } elseif (true == isset($json['error']['reason'])) {
                     throw new CallException($json['error']['reason']);
                 }
             }

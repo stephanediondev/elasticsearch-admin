@@ -31,7 +31,6 @@ class ConsoleController extends AbstractAppController
                 $parameters['response'] = $callResponse->getContent();
                 $parameters['method'] = $callRequest->getMethod();
                 $parameters['path'] = $callRequest->getPath();
-
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
