@@ -110,7 +110,7 @@ class ClusterController extends AbstractAppController
                     $callRequest->setJson($json);
                     $this->callManager->call($callRequest);
 
-                    $this->addFlash('success', 'success.cluster_settings_edit');
+                    $this->addFlash('success', 'flash_success.cluster_settings_edit');
 
                     return $this->redirectToRoute('cluster_settings', []);
                 } catch (CallException $e) {
@@ -144,7 +144,7 @@ class ClusterController extends AbstractAppController
         $callRequest->setJson($json);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.cluster_settings_remove');
+        $this->addFlash('success', 'flash_success.cluster_settings_remove');
 
         return $this->redirectToRoute('cluster_settings', []);
     }

@@ -16,7 +16,7 @@
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': indices.total}) }}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': indices.total}}) }}
 
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
@@ -54,79 +54,15 @@
                 </p>
 
                 <div class="collapse" id="collapseFilter">
-                    <p>
-                        <label for="searchInput"><strong>{{ 'name'|trans }}</strong></label>
-                        <input
-                            id="searchInput"
-                            class="form-control form-control-sm"
-                            type="text"
-                            autocomplete="off"
-                        >
-                    </p>
+                    {{ appImport.filterText({'label': 'name'|trans}) }}
 
-                    <p>
-                        <strong>{{ 'index_system'|trans }}</strong><br>
-                        {% for v in ['true', 'false'] %}
-                            <span class="custom-control custom-switch d-inline mr-2">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input searchCheckbox"
-                                    id="index_system{{ v }}Switch"
-                                    checked="checked"
-                                    value="index_system-{{ v }}"
-                                >
-                                <label class="custom-control-label" for="index_system{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
-                            </span>
-                        {% endfor %}
-                    </p>
+                    {{ appImport.filterCheckboxesBoolean({'title': 'index_system'|trans, 'prefix': 'index_system'}) }}
 
-                    <p>
-                        <strong>{{ 'status'|trans }}</strong><br>
-                        {% for v in ['open', 'close'] %}
-                            <span class="custom-control custom-switch d-inline mr-2">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input searchCheckbox"
-                                    id="status{{ v }}Switch"
-                                    checked="checked"
-                                    value="status-{{ v }}"
-                                >
-                                <label class="custom-control-label" for="status{{ v }}Switch">{{ appImport.badge({'title': v|trans, 'context': v}) }}</label>
-                            </span>
-                        {% endfor %}
-                    </p>
+                    {{ appImport.filterCheckboxes({'title': 'status'|trans, 'prefix': 'status', 'choices': ['open', 'close']}) }}
 
-                    <p>
-                        <strong>{{ 'health'|trans }}</strong><br>
-                        {% for v in ['red', 'yellow', 'green'] %}
-                            <span class="custom-control custom-switch d-inline mr-2">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input searchCheckbox"
-                                    id="health{{ v }}Switch"
-                                    checked="checked"
-                                    value="health-{{ v }}"
-                                >
-                                <label class="custom-control-label" for="health{{ v }}Switch">{{ appImport.badge({'title': v|trans, 'context': v}) }}</label>
-                            </span>
-                        {% endfor %}
-                    </p>
+                    {{ appImport.filterCheckboxes({'title': 'health'|trans, 'prefix': 'health', 'choices': ['red', 'yellow', 'green']}) }}
 
-                    <p>
-                        <strong>{{ 'frozen'|trans }}</strong><br>
-                        {% for v in ['true', 'false'] %}
-                            <span class="custom-control custom-switch d-inline mr-2">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input searchCheckbox"
-                                    id="frozen{{ v }}Switch"
-                                    checked="checked"
-                                    value="frozen-{{ v }}"
-                                >
-                                <label class="custom-control-label" for="frozen{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
-                            </span>
-                        {% endfor %}
-                    </p>
+                    {{ appImport.filterCheckboxesBoolean({'title': 'frozen'|trans, 'prefix': 'frozen'}) }}
                 </div>
 
                 {{ appImport.paginator(indices) }}

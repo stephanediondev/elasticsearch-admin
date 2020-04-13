@@ -32,7 +32,7 @@
 
             {% for type, rows in cluster_settings %}
                 {% if 0 < rows|length %}
-                    {{ appImport.heading({'level': 4, 'title': ('settings_' ~ type)|trans, 'badge': rows|length}) }}
+                    {{ appImport.heading({'level': 4, 'title': ('settings_' ~ type)|trans, 'badge': {'title': rows|length}}) }}
 
                     {% embed 'Embed/table_embed.html.twig' %}
                         {% import 'Import/app_import.html.twig' as appImport %}

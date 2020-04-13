@@ -1,15 +1,76 @@
+{% macro filterText(params) %}
+    <p>
+        <label for="searchInput"><strong>{{ params.label }}</strong></label>
+        <input
+            id="searchInput"
+            class="form-control form-control-sm"
+            type="text"
+            autocomplete="off"
+        >
+    </p>
+{% endmacro %}
+
+{% macro filterCheckboxesBoolean(params) %}
+    <p>
+        <strong>{{ params.title }}</strong><br>
+        {% for v in ['true', 'false'] %}
+            <span class="custom-control custom-switch d-inline mr-2">
+                <input
+                    type="checkbox"
+                    class="custom-control-input searchCheckbox"
+                    id="{{ params.prefix }}-{{ v }}Switch"
+                    checked="checked"
+                    value="{{ params.prefix }}-{{ v }}"
+                >
+                <label class="custom-control-label" for="{{ params.prefix }}-{{ v }}Switch">
+                    {{ _self.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}
+                </label>
+            </span>
+        {% endfor %}
+    </p>
+{% endmacro %}
+
+{% macro filterCheckboxes(params) %}
+    <p>
+        <strong>{{ params.title }}</strong><br>
+        {% for v in params.choices %}
+            <span class="custom-control custom-switch d-inline mr-2">
+                <input
+                    type="checkbox"
+                    class="custom-control-input searchCheckbox"
+                    id="{{ params.prefix }}-{{ v }}Switch"
+                    checked="checked"
+                    value="{{ params.prefix }}-{{ v }}"
+                >
+                <label class="custom-control-label" for="{{ params.prefix }}-{{ v }}Switch">
+                    {{ v|trans }}
+                </label>
+            </span>
+        {% endfor %}
+    </p>
+{% endmacro %}
+
 {% macro heading(params) %}
     {% if params.level is not defined %}
         {% set params = params|merge({'level': 1}) %}
     {% endif %}
 
-    {% if params.badge_context is not defined %}
-        {% set params = params|merge({'badge_context': 'light'}) %}
-    {% endif %}
-
     <h{{ params.level }}{% if 1 == params.level %} class="mt-3"{% endif %}>
-        {% if params.link is defined %}{{ _self.link({'url': params.link, 'title': params.title|raw})}}{% else %}{{ params.title|raw }}{% endif %}
-        {% if params.badge is defined %} {{ _self.badge({'title': params.badge, 'context': params.badge_context}) }}{% endif %}
+        {% if params.link is defined %}
+            {{ _self.link({'url': params.link.url, 'title': params.title|raw})}}
+        {% else %}
+            {{ params.title|raw }}
+        {% endif %}
+
+        {% if params.badge is defined %}
+            {% set badge = params.badge %}
+
+            {% if badge.context is not defined %}
+                {% set badge = badge|merge({'context': 'light'}) %}
+            {% endif %}
+
+            {{ _self.badge(badge) }}
+        {% endif %}
     </h{{ params.level }}>
 {% endmacro %}
 

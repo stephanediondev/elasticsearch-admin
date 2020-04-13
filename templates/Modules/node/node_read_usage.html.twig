@@ -4,12 +4,12 @@
 {% block head_title %}{{ 'nodes'|trans }} - {{ node['name'] }} - {{ 'usage'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'link': path('nodes', {})}) }}
+    {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'link': {'url': path('nodes', {})}}) }}
 {% endblock %}
 
 {% block heading_2 %}
     {% if master_node == node['name'] %}
-        {{ appImport.heading({'level': 2, 'title': node['name'], 'badge': 'master'|trans, 'badge_context': 'master_node'}) }}
+        {{ appImport.heading({'level': 2, 'title': node['name'], 'badge': {'title': 'master'|trans, 'context': 'master_node'}}) }}
     {% else %}
         {{ appImport.heading({'level': 2, 'title': node['name']}) }}
     {% endif %}

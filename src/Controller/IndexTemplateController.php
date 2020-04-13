@@ -73,7 +73,7 @@ class IndexTemplateController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.index_templates_create');
+                $this->addFlash('success', 'flash_success.index_templates_create');
 
                 return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
             } catch (CallException $e) {
@@ -198,7 +198,7 @@ class IndexTemplateController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.index_templates_update');
+                $this->addFlash('success', 'flash_success.index_templates_update');
 
                 return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
             } catch (CallException $e) {
@@ -223,7 +223,7 @@ class IndexTemplateController extends AbstractAppController
         $callRequest->setPath('/_template/'.$name);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.index_templates_delete');
+        $this->addFlash('success', 'flash_success.index_templates_delete');
 
         return $this->redirectToRoute('index_templates', []);
     }

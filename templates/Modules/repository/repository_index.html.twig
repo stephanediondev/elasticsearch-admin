@@ -16,7 +16,7 @@
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': repositories.total}) }}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': repositories.total}}) }}
 
                 {{ appImport.paginator(repositories) }}
 

@@ -4,7 +4,7 @@
 {% block head_title %}{{ 'users'|trans }} - {{ user['user'] }} - {{ 'update'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'users'|trans, 'link': path('users', {})}) }}
+    {{ appImport.heading({'level': 1, 'title': 'users'|trans, 'link': {'url': path('users', {})}}) }}
 {% endblock %}
 
 {% block heading_2 %}

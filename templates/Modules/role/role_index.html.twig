@@ -16,7 +16,7 @@
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': roles.total}) }}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': roles.total}}) }}
 
                 <p>
                     <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
@@ -25,31 +25,9 @@
                 </p>
 
                 <div class="collapse" id="collapseFilter">
-                    <p>
-                        <label for="searchInput"><strong>{{ 'role'|trans }}</strong></label>
-                        <input
-                            id="searchInput"
-                            class="form-control form-control-sm"
-                            type="text"
-                            autocomplete="off"
-                        >
-                    </p>
+                    {{ appImport.filterText({'label': 'role'|trans}) }}
 
-                    <p>
-                        <strong>{{ 'reserved'|trans }}</strong><br>
-                        {% for v in ['true', 'false'] %}
-                            <span class="custom-control custom-switch d-inline mr-2">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input searchCheckbox"
-                                    id="reserved{{ v }}Switch"
-                                    checked="checked"
-                                    value="reserved-{{ v }}"
-                                >
-                                <label class="custom-control-label" for="reserved{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
-                            </span>
-                        {% endfor %}
-                    </p>
+                    {{ appImport.filterCheckboxesBoolean({'title': 'reserved'|trans, 'prefix': 'reserved'}) }}
                 </div>
 
                 {{ appImport.paginator(roles) }}

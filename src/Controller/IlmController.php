@@ -80,7 +80,7 @@ class IlmController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $status = $callResponse->getContent();
 
-        $this->addFlash('success', 'success.ilm_start');
+        $this->addFlash('success', 'flash_success.ilm_start');
 
         return $this->redirectToRoute('ilm_status', []);
     }
@@ -96,7 +96,7 @@ class IlmController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $status = $callResponse->getContent();
 
-        $this->addFlash('success', 'success.ilm_stop');
+        $this->addFlash('success', 'flash_success.ilm_stop');
 
         return $this->redirectToRoute('ilm_status', []);
     }

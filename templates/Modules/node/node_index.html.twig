@@ -16,7 +16,7 @@
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': nodes.total}) }}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': nodes.total}}) }}
 
                 <p>
                     <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
@@ -25,63 +25,13 @@
                 </p>
 
                 <div class="collapse" id="collapseFilter">
-                    <p>
-                        <label for="searchInput"><strong>{{ 'name'|trans }}</strong></label>
-                        <input
-                            id="searchInput"
-                            class="form-control form-control-sm"
-                            type="text"
-                            autocomplete="off"
-                        >
-                    </p>
+                    {{ appImport.filterText({'label': 'name'|trans}) }}
 
-                    <p>
-                        <strong>{{ 'master_eligible'|trans }}</strong><br>
-                        {% for v in ['true', 'false'] %}
-                            <span class="custom-control custom-switch d-inline mr-2">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input searchCheckbox"
-                                    id="master_eligible{{ v }}Switch"
-                                    checked="checked"
-                                    value="master_eligible-{{ v }}"
-                                >
-                                <label class="custom-control-label" for="master_eligible{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
-                            </span>
-                        {% endfor %}
-                    </p>
+                    {{ appImport.filterCheckboxesBoolean({'title': 'master_eligible'|trans, 'prefix': 'master_eligible'}) }}
 
-                    <p>
-                        <strong>{{ 'voting_only'|trans }}</strong><br>
-                        {% for v in ['true', 'false'] %}
-                            <span class="custom-control custom-switch d-inline mr-2">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input searchCheckbox"
-                                    id="voting_only{{ v }}Switch"
-                                    checked="checked"
-                                    value="voting_only-{{ v }}"
-                                >
-                                <label class="custom-control-label" for="voting_only{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
-                            </span>
-                        {% endfor %}
-                    </p>
+                    {{ appImport.filterCheckboxesBoolean({'title': 'voting_only'|trans, 'prefix': 'voting_only'}) }}
 
-                    <p>
-                        <strong>{{ 'data'|trans }}</strong><br>
-                        {% for v in ['true', 'false'] %}
-                            <span class="custom-control custom-switch d-inline mr-2">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input searchCheckbox"
-                                    id="data{{ v }}Switch"
-                                    checked="checked"
-                                    value="data-{{ v }}"
-                                >
-                                <label class="custom-control-label" for="data{{ v }}Switch">{{ appImport.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}</label>
-                            </span>
-                        {% endfor %}
-                    </p>
+                    {{ appImport.filterCheckboxesBoolean({'title': 'data'|trans, 'prefix': 'data'}) }}
                 </div>
 
                 {{ appImport.paginator(nodes) }}

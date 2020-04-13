@@ -95,7 +95,7 @@ class SlmController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $status = $callResponse->getContent();
 
-        $this->addFlash('success', 'success.slm_start');
+        $this->addFlash('success', 'flash_success.slm_start');
 
         return $this->redirectToRoute('slm_status', []);
     }
@@ -111,7 +111,7 @@ class SlmController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $status = $callResponse->getContent();
 
-        $this->addFlash('success', 'success.slm_stop');
+        $this->addFlash('success', 'flash_success.slm_stop');
 
         return $this->redirectToRoute('slm_status', []);
     }
@@ -161,7 +161,7 @@ class SlmController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.slm_create');
+                $this->addFlash('success', 'flash_success.slm_create');
 
                 return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -292,7 +292,7 @@ class SlmController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.slm_update');
+                $this->addFlash('success', 'flash_success.slm_update');
 
                 return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -316,7 +316,7 @@ class SlmController extends AbstractAppController
         $callRequest->setPath('/_slm/policy/'.$name);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.slm_delete');
+        $this->addFlash('success', 'flash_success.slm_delete');
 
         return $this->redirectToRoute('slm', []);
     }
@@ -331,7 +331,7 @@ class SlmController extends AbstractAppController
         $callRequest->setPath('/_slm/policy/'.$name.'/_execute');
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.slm_execute');
+        $this->addFlash('success', 'flash_success.slm_execute');
 
         return $this->redirectToRoute('slm_read', ['name' => $name]);
     }

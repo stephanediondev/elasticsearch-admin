@@ -120,7 +120,7 @@ class EnrichController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.enrich_create');
+                $this->addFlash('success', 'flash_success.enrich_create');
 
                 return $this->redirectToRoute('enrich_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -173,7 +173,7 @@ class EnrichController extends AbstractAppController
         $callRequest->setPath('/_enrich/policy/'.$name);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.enrich_delete');
+        $this->addFlash('success', 'flash_success.enrich_delete');
 
         return $this->redirectToRoute('enrich', []);
     }
@@ -191,7 +191,7 @@ class EnrichController extends AbstractAppController
         $message = new EnrichExecuteMessage($name);
         $this->bus->dispatch($message);
 
-        $this->addFlash('success', 'success.enrich_execute');
+        $this->addFlash('success', 'flash_success.enrich_execute');
 
         return $this->redirectToRoute('enrich_stats');
     }

@@ -89,16 +89,18 @@
                         {% if 'state' == column %}
                             <td>
                                 {% if 'UNASSIGNED' == row['state'] %}
-                                    <a href="{{ path('cluster_allocation_explain') }}">{{ row['state'] }}</a>
+                                    <a href="{{ path('cluster_allocation_explain') }}">{{ row['state']|trans }}</a>
                                 {% else %}
-                                    {{ row['state'] }}
+                                    {{ row['state']|trans }}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'unassigned_reason' == column %}
                             <td>
-                                {{ row['unassigned.reason'] }}
+                                {% if row['unassigned.reason'] %}
+                                    {{ row['unassigned.reason']|trans }}
+                                {% endif %}
                             </td>
                         {% endif %}
 

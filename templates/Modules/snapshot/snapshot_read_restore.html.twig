@@ -4,7 +4,7 @@
 {% block head_title %}{{ 'snapshots'|trans }} - {{ snapshot['snapshot'] }} - {{ 'restore'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans, 'link': path('snapshots', {})}) }}
+    {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans, 'link': {'url': path('snapshots', {})}}) }}
 {% endblock %}
 
 {% block heading_2 %}

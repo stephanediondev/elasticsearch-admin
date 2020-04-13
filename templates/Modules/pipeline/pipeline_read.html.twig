@@ -4,7 +4,7 @@
 {% block head_title %}{{ 'pipelines'|trans }} - {{ pipeline['name'] }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'pipelines'|trans, 'link': path('pipelines', {})}) }}
+    {{ appImport.heading({'level': 1, 'title': 'pipelines'|trans, 'link': {'url': path('pipelines', {})}}) }}
 {% endblock %}
 
 {% block heading_2 %}
@@ -60,7 +60,7 @@
             {% endif %}
 
             {% if pipeline['processors'] is defined and 0 < pipeline['processors']|length %}
-                {{ appImport.heading({'level': 4, 'title': 'processors'|trans, 'badge': pipeline['processors']|length}) }}
+                {{ appImport.heading({'level': 4, 'title': 'processors'|trans, 'badge': {'title': pipeline['processors']|length}}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
                     {% block thead %}

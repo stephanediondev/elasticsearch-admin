@@ -94,7 +94,7 @@ class SnapshotController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.snapshots_create');
+                $this->addFlash('success', 'flash_success.snapshots_create');
 
                 return $this->redirectToRoute('snapshots_read', ['repository' => $snapshotModel->getRepository(), 'snapshot' => $snapshotModel->getName()]);
             } catch (CallException $e) {
@@ -173,7 +173,7 @@ class SnapshotController extends AbstractAppController
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.snapshots_delete');
+        $this->addFlash('success', 'flash_success.snapshots_delete');
 
         return $this->redirectToRoute('snapshots', []);
     }
@@ -222,7 +222,7 @@ class SnapshotController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.snapshots_read_restore');
+                $this->addFlash('success', 'flash_success.snapshots_read_restore');
 
                 return $this->redirectToRoute('snapshots_read', ['repository' => $repository, 'snapshot' => $snapshot['snapshot']]);
             } catch (CallException $e) {

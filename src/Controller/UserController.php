@@ -83,7 +83,7 @@ class UserController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.users_create');
+                $this->addFlash('success', 'flash_success.users_create');
 
                 return $this->redirectToRoute('users_read', ['user' => $userModel->getUsername()]);
             } catch (CallException $e) {
@@ -175,7 +175,7 @@ class UserController extends AbstractAppController
                     $this->callManager->call($callRequest);
                 }
 
-                $this->addFlash('success', 'success.users_update');
+                $this->addFlash('success', 'flash_success.users_update');
 
                 return $this->redirectToRoute('users_read', ['user' => $userModel->getUsername()]);
             } catch (CallException $e) {
@@ -221,7 +221,7 @@ class UserController extends AbstractAppController
             $callRequest->setPath('/_security/user/'.$user['username'].'/_enable');
             $this->callManager->call($callRequest);
 
-            $this->addFlash('success', 'success.users_enable');
+            $this->addFlash('success', 'flash_success.users_enable');
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
@@ -261,7 +261,7 @@ class UserController extends AbstractAppController
             $callRequest->setPath('/_security/user/'.$user['username'].'/_disable');
             $this->callManager->call($callRequest);
 
-            $this->addFlash('success', 'success.users_disable');
+            $this->addFlash('success', 'flash_success.users_disable');
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
@@ -296,7 +296,7 @@ class UserController extends AbstractAppController
         $callRequest->setPath('/_security/user/'.$user['username']);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.users_delete');
+        $this->addFlash('success', 'flash_success.users_delete');
 
         return $this->redirectToRoute('users', []);
     }

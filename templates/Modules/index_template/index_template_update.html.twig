@@ -4,7 +4,7 @@
 {% block head_title %}{{ 'index_templates'|trans }} - {{ template['name'] }} - {{ 'update'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'index_templates'|trans, 'link': path('index_templates', {})}) }}
+    {{ appImport.heading({'level': 1, 'title': 'index_templates'|trans, 'link': {'url': path('index_templates', {})}}) }}
 {% endblock %}
 
 {% block heading_2 %}

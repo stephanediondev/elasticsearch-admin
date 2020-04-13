@@ -60,7 +60,7 @@ class LicenseController extends AbstractAppController
         $callRequest->setQuery(['acknowledge' => 'true']);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.license_start_trial');
+        $this->addFlash('success', 'flash_success.license_start_trial');
 
         return $this->redirectToRoute('license', []);
     }
@@ -76,7 +76,7 @@ class LicenseController extends AbstractAppController
         $callRequest->setQuery(['acknowledge' => 'true']);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.license_start_basic');
+        $this->addFlash('success', 'flash_success.license_start_basic');
 
         return $this->redirectToRoute('license', []);
     }

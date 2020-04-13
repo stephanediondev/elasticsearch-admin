@@ -26,7 +26,7 @@
                 {% endblock %}
             {% endembed %}
 
-            {{ appImport.heading({'level': 4, 'title': 'executing_policies'|trans, 'badge': stats['executing_policies']|length}) }}
+            {{ appImport.heading({'level': 4, 'title': 'executing_policies'|trans, 'badge': {'title': stats['executing_policies']|length}}) }}
 
             {% if 0 < stats['executing_policies']|length %}
                 {% embed 'Embed/table_embed.html.twig' %}
@@ -54,7 +54,7 @@
                 {% endembed %}
             {% endif %}
 
-            {{ appImport.heading({'level': 4, 'title': 'coordinator_stats'|trans, 'badge': stats['coordinator_stats']|length}) }}
+            {{ appImport.heading({'level': 4, 'title': 'coordinator_stats'|trans, 'badge': {'title': stats['coordinator_stats']|length}}) }}
 
             {% if 0 < stats['coordinator_stats']|length %}
                 {% embed 'Embed/table_embed.html.twig' %}

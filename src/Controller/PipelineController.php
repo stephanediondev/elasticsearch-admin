@@ -71,7 +71,7 @@ class PipelineController extends AbstractAppController
         $callRequest->setPath('/_ingest/pipeline/'.$name);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.pipeline_delete');
+        $this->addFlash('success', 'flash_success.pipeline_delete');
 
         return $this->redirectToRoute('pipeline', []);
     }

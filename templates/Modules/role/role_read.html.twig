@@ -4,7 +4,7 @@
 {% block head_title %}{{ 'roles'|trans }} - {{ role['role'] }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'roles'|trans, 'link': path('roles', {})}) }}
+    {{ appImport.heading({'level': 1, 'title': 'roles'|trans, 'link': {'url': path('roles', {})}}) }}
 {% endblock %}
 
 {% block heading_2 %}

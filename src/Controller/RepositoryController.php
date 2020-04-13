@@ -94,7 +94,7 @@ class RepositoryController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.repositories_create');
+                $this->addFlash('success', 'flash_success.repositories_create');
 
                 return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
             } catch (CallException $e) {
@@ -201,7 +201,7 @@ class RepositoryController extends AbstractAppController
                 $callRequest->setJson($json);
                 $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'success.repositories_update');
+                $this->addFlash('success', 'flash_success.repositories_update');
 
                 return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
             } catch (CallException $e) {
@@ -225,7 +225,7 @@ class RepositoryController extends AbstractAppController
         $callRequest->setPath('/_snapshot/'.$repository);
         $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'success.repositories_delete');
+        $this->addFlash('success', 'flash_success.repositories_delete');
 
         return $this->redirectToRoute('repositories', []);
     }
@@ -241,7 +241,7 @@ class RepositoryController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        $this->addFlash('success', 'success.repositories_cleanup');
+        $this->addFlash('success', 'flash_success.repositories_cleanup');
 
         if (true == isset($results['results'])) {
             if (true == isset($results['results']['deleted_bytes'])) {
@@ -268,7 +268,7 @@ class RepositoryController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
             $results = $callResponse->getContent();
 
-            $this->addFlash('success', 'success.repositories_verify');
+            $this->addFlash('success', 'flash_success.repositories_verify');
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
