@@ -84,7 +84,7 @@
 
                         {% if 'state' == column %}
                             <td>
-                                {{ row['state']|trans }}
+                                {{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}
                             </td>
                         {% endif %}
 

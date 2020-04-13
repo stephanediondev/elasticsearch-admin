@@ -57,7 +57,7 @@
 
             <p>
                 <strong>{{ 'state'|trans }}</strong><br>
-                {{ snapshot['state']|trans }}
+                {{ appImport.badge({'title': snapshot['state']|trans, 'context': snapshot['state']}) }}
             </p>
 
             <p>
