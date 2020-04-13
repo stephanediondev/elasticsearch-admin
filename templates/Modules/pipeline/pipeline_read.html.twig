@@ -4,7 +4,7 @@
 {% block head_title %}{{ 'pipelines'|trans }} - {{ pipeline['name'] }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'pipelines'|trans, 'link': {'url': path('pipelines', {})}}) }}
+    {{ appImport.heading({'level': 1, 'title': 'pipelines'|trans, 'link': {'url': path('pipelines')}}) }}
 {% endblock %}
 
 {% block heading_2 %}

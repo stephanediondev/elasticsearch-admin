@@ -4,7 +4,7 @@
 {% block head_title %}{{ 'repositories'|trans }} - {{ repository['id'] }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'repositories'|trans, 'link': {'url': path('repositories', {})}}) }}
+    {{ appImport.heading({'level': 1, 'title': 'repositories'|trans, 'link': {'url': path('repositories')}}) }}
 {% endblock %}
 
 {% block heading_2 %}

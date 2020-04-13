@@ -24,13 +24,13 @@
                         {{ appImport.buttonModal({
                             'id': 'SlmStop',
                             'title': 'stop'|trans,
-                            'href': path('slm_stop', {}),
+                            'href': path('slm_stop'),
                         }) }}
                     {% else %}
                         {{ appImport.buttonModal({
                             'id': 'SlmStart',
                             'title': 'start'|trans,
-                            'href': path('slm_start', {}),
+                            'href': path('slm_start'),
                         }) }}
                     {% endif %}
                 {% endblock %}

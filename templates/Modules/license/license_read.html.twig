@@ -24,7 +24,7 @@
                         {{ appImport.buttonModal({
                             'id': 'StartTrial',
                             'title': 'start_trial'|trans,
-                            'href': path('license_start_trial', {}),
+                            'href': path('license_start_trial'),
                         }) }}
                     {% endif %}
 
@@ -33,7 +33,7 @@
                             'id': 'StartBasic',
                             'title': 'start_basic'|trans,
                             'body': 'help_modal.license.start_basic'|trans,
-                            'href': path('license_start_basic', {}),
+                            'href': path('license_start_basic'),
                         }) }}
                     {% endif %}
                 {% endblock %}
