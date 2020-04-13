@@ -3,7 +3,7 @@
 ## Requirements
 
 - PHP 7.2.5 or higher
-- PHP extensions: ctype, iconv, tokenizer, xml
+- PHP extensions: ctype, iconv, intl, tokenizer, xml
 - Composer
 - Yarn
 - RabbitMQ (optional, for asynchronous messaging)
