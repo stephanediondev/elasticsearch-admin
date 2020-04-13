@@ -123,10 +123,10 @@
     {% endblock %}
 </div>
 {% block scripts %}
-{{ encore_entry_script_tags('app-js') }}
 <script type="text/javascript">
-$('label.required').append(' <small class="badge badge-info ml-1">{{ 'required'|trans }}</small>');
+var trans_required = '{{ 'required'|trans|escape('js') }}';
 </script>
+{{ encore_entry_script_tags('app-js') }}
 {% endblock %}
 </body>
 </html>

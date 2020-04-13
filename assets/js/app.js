@@ -61,6 +61,8 @@ function search() {
 }
 
 $(document).ready(function () {
+    $('label.required').append(' <small class="badge badge-info ml-1">' + trans_required + '</small>');
+
     $('select').select2({
         theme: 'bootstrap4',
     });
