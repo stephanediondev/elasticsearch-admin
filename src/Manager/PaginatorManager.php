@@ -2,8 +2,6 @@
 
 namespace App\Manager;
 
-use Symfony\Component\HttpClient\HttpClient;
-
 class PaginatorManager
 {
     public function paginate($paginate): array

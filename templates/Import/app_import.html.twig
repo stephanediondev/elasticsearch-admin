@@ -97,7 +97,7 @@
     {% if params.context in ['true', '1', 'green', 'open', 'STARTED', 'RUNNING', 'SUCCESS'] %}
         {% set params = params|merge({'context': 'success'}) %}
 
-    {% elseif 'false' == params.context or '0' == params.context or 'close' == params.context %}
+    {% elseif params.context in ['false', '0', 'close'] %}
         {% set params = params|merge({'context': 'secondary'}) %}
 
     {% elseif params.context in ['red', 'STOPPED', 'UNASSIGNED', 'FAILED', 'INCOMPATIBLE'] %}
