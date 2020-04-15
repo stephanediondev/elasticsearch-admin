@@ -11,19 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractAppController extends AbstractController
 {
-    /**
-     * @required
-     */
-    public function setCallManager(CallManager $callManager)
+    public function __construct(CallManager $callManager, PaginatorManager $paginatorManager)
     {
         $this->callManager = $callManager;
-    }
-
-    /**
-     * @required
-     */
-    public function setPaginatorManager(PaginatorManager $paginatorManager)
-    {
         $this->paginatorManager = $paginatorManager;
     }
 

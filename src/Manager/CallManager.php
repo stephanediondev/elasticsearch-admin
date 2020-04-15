@@ -9,10 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallManager
 {
-    /**
-     * @required
-     */
-    public function init(HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
+    public function __construct(HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
     {
         $this->client = $client;
         $this->elasticsearchUrl = $elasticsearchUrl;

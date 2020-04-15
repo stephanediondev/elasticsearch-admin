@@ -16,11 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ClusterController extends AbstractAppController
 {
-    public function __construct(ElasticsearchClusterManager $elasticsearchClusterManager)
-    {
-        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
-    }
-
     /**
      * @Route("/cluster", name="cluster")
      */
@@ -84,9 +79,9 @@ class ClusterController extends AbstractAppController
     /**
      * @Route("/cluster/settings/{type}/{setting}/edit", name="cluster_settings_edit")
      */
-    public function edit(Request $request, string $type, string $setting): Response
+    public function edit(Request $request, string $type, string $setting, ElasticsearchClusterManager $elasticsearchClusterManager): Response
     {
-        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+        $clusterSettings = $elasticsearchClusterManager->getClusterSettings();
 
         if (true == array_key_exists($setting, $clusterSettings)) {
             $clusterSettingModel = new ElasticsearchClusterSettingModel();

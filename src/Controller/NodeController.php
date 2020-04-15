@@ -16,15 +16,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class NodeController extends AbstractAppController
 {
-    public function __construct(ElasticsearchClusterManager $elasticsearchClusterManager)
-    {
-        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
-    }
-
     /**
      * @Route("/nodes", name="nodes")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, ElasticsearchClusterManager $elasticsearchClusterManager): Response
     {
         $nodes = [];
 
@@ -56,7 +51,7 @@ class NodeController extends AbstractAppController
             $nodes[$node['name']]['stats'] = $node;
         }
 
-        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+        $clusterSettings = $elasticsearchClusterManager->getClusterSettings();
 
         return $this->renderAbstract($request, 'Modules/node/node_index.html.twig', [
             'cluster_settings' => $clusterSettings,

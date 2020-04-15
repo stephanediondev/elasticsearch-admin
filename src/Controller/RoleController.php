@@ -19,12 +19,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class RoleController extends AbstractAppController
 {
-    public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager)
-    {
-        $this->elasticsearchRoleManager = $elasticsearchRoleManager;
-        $this->elasticsearchUserManager = $elasticsearchUserManager;
-    }
-
     /**
      * @Route("/roles", name="roles")
      */
@@ -58,10 +52,10 @@ class RoleController extends AbstractAppController
     /**
      * @Route("/roles/create", name="roles_create")
      */
-    public function create(Request $request): Response
+    public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
     {
         $roleModel = new ElasticsearchRoleModel();
-        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers()]);
+        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $elasticsearchRoleManager->getPrivileges(), 'users' => $elasticsearchUserManager->selectUsers()]);
 
         $form->handleRequest($request);
 
@@ -124,7 +118,7 @@ class RoleController extends AbstractAppController
     /**
      * @Route("/roles/{role}/update", name="roles_update")
      */
-    public function update(Request $request, string $role): Response
+    public function update(Request $request, string $role, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
@@ -146,7 +140,7 @@ class RoleController extends AbstractAppController
 
         $roleModel = new ElasticsearchRoleModel();
         $roleModel->convert($role);
-        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers(), 'update' => true]);
+        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $elasticsearchRoleManager->getPrivileges(), 'users' => $elasticsearchUserManager->selectUsers(), 'update' => true]);
 
         $form->handleRequest($request);
 

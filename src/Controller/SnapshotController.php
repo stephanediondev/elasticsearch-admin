@@ -21,18 +21,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SnapshotController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
-    {
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
-        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
-    }
-
     /**
      * @Route("/snapshots", name="snapshots")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): Response
     {
-        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $repositories = $elasticsearchRepositoryManager->selectRepositories();
         $snapshots = [];
 
         foreach ($repositories as $repository) {
@@ -62,10 +56,10 @@ class SnapshotController extends AbstractAppController
     /**
      * @Route("/snapshots/create", name="snapshots_create")
      */
-    public function create(Request $request): Response
+    public function create(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-        $indices = $this->elasticsearchIndexManager->selectIndices();
+        $repositories = $elasticsearchRepositoryManager->selectRepositories();
+        $indices = $elasticsearchIndexManager->selectIndices();
 
         $snapshotModel = new ElasticsearchSnapshotModel();
         if ($request->query->get('repository')) {

@@ -18,20 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CatController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
-    {
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
-        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
-    }
-
     /**
      * @Route("/cat", name="cat")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): Response
     {
-        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-        $indices = $this->elasticsearchIndexManager->selectIndices();
-        $aliases = $this->elasticsearchIndexManager->selectAliases();
+        $repositories = $elasticsearchRepositoryManager->selectRepositories();
+        $indices = $elasticsearchIndexManager->selectIndices();
+        $aliases = $elasticsearchIndexManager->selectAliases();
 
         $parameters = [];
 

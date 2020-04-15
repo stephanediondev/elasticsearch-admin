@@ -2,19 +2,12 @@
 
 namespace App\Manager;
 
+use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 
-class ElasticsearchClusterManager
+class ElasticsearchClusterManager extends AbstractAppManager
 {
-    /**
-     * @required
-     */
-    public function setCallManager(CallManager $callManager)
-    {
-        $this->callManager = $callManager;
-    }
-
     public function getClusterSettings()
     {
         $callRequest = new CallRequestModel();

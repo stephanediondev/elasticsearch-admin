@@ -18,11 +18,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class UserController extends AbstractAppController
 {
-    public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager)
-    {
-        $this->elasticsearchRoleManager = $elasticsearchRoleManager;
-    }
-
     /**
      * @Route("/users", name="users")
      */
@@ -56,9 +51,9 @@ class UserController extends AbstractAppController
     /**
      * @Route("/users/create", name="users_create")
      */
-    public function create(Request $request): Response
+    public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
-        $roles = $this->elasticsearchRoleManager->selectRoles();
+        $roles = $elasticsearchRoleManager->selectRoles();
 
         $userModel = new ElasticsearchUserModel();
         $form = $this->createForm(CreateUserType::class, $userModel, ['roles' => $roles]);
@@ -121,7 +116,7 @@ class UserController extends AbstractAppController
     /**
      * @Route("/users/{user}/update", name="users_update")
      */
-    public function update(Request $request, string $user): Response
+    public function update(Request $request, string $user, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
@@ -140,7 +135,7 @@ class UserController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $roles = $this->elasticsearchRoleManager->selectRoles();
+        $roles = $elasticsearchRoleManager->selectRoles();
 
         $userModel = new ElasticsearchUserModel();
         $userModel->convert($user);

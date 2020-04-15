@@ -19,12 +19,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SlmController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
-    {
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
-        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
-    }
-
     /**
      * @Route("/slm", name="slm")
      */
@@ -119,10 +113,10 @@ class SlmController extends AbstractAppController
     /**
      * @Route("/slm/create", name="slm_create")
      */
-    public function create(Request $request): Response
+    public function create(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-        $indices = $this->elasticsearchIndexManager->selectIndices();
+        $repositories = $elasticsearchRepositoryManager->selectRepositories();
+        $indices = $elasticsearchIndexManager->selectIndices();
 
         $policyModel = new ElasticsearchSlmPolicyModel();
         if ($request->query->get('repository')) {
@@ -243,7 +237,7 @@ class SlmController extends AbstractAppController
     /**
      * @Route("/slm/{name}/update", name="slm_update")
      */
-    public function update(Request $request, string $name): Response
+    public function update(Request $request, string $name, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_slm/policy/'.$name);
@@ -257,8 +251,8 @@ class SlmController extends AbstractAppController
         $policy = $policy[$name];
         $policy['name'] = $name;
 
-        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-        $indices = $this->elasticsearchIndexManager->selectIndices();
+        $repositories = $elasticsearchRepositoryManager->selectRepositories();
+        $indices = $elasticsearchIndexManager->selectIndices();
 
         $policyModel = new ElasticsearchSlmPolicyModel();
         $policyModel->convert($policy);

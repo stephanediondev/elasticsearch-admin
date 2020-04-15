@@ -23,11 +23,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class IndexController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
-    {
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
-    }
-
     /**
      * @Route("/indices", name="indices")
      */
@@ -137,9 +132,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/reindex", name="indices_reindex")
      */
-    public function reindex(Request $request): Response
+    public function reindex(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $indices = $this->elasticsearchIndexManager->selectIndices();
+        $indices = $elasticsearchIndexManager->selectIndices();
 
         $reindexModel = new ElasticsearchReindexModel();
         if ($request->query->get('index')) {
@@ -219,9 +214,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}", name="indices_read")
      */
-    public function read(Request $request, string $index): Response
+    public function read(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -235,9 +230,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/update", name="indices_update")
      */
-    public function update(Request $request, string $index): Response
+    public function update(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -277,9 +272,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/settings", name="indices_read_settings")
      */
-    public function settings(Request $request, string $index): Response
+    public function settings(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -293,9 +288,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/mappings", name="indices_read_mappings")
      */
-    public function mappings(Request $request, string $index): Response
+    public function mappings(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -309,9 +304,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/lifecycle", name="indices_read_lifecycle")
      */
-    public function lifecycle(Request $request, string $index): Response
+    public function lifecycle(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -332,9 +327,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/remove/policy", name="indices_remove_policy")
      */
-    public function removePolicy(Request $request, string $index): Response
+    public function removePolicy(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -354,9 +349,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/shards", name="indices_read_shards")
      */
-    public function shards(Request $request, string $index): Response
+    public function shards(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -384,9 +379,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/aliases", name="indices_read_aliases")
      */
-    public function aliases(Request $request, string $index): Response
+    public function aliases(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -414,9 +409,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/aliases/create", name="indices_aliases_create")
      */
-    public function createAlias(Request $request, string $index): Response
+    public function createAlias(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();
@@ -466,9 +461,9 @@ class IndexController extends AbstractAppController
     /**
      * @Route("/indices/{index}/documents", name="indices_read_documents")
      */
-    public function documents(Request $request, string $index): Response
+    public function documents(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $index = $this->elasticsearchIndexManager->getIndex($index);
+        $index = $elasticsearchIndexManager->getIndex($index);
 
         if (false == $index) {
             throw new NotFoundHttpException();

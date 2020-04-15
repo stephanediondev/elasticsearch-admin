@@ -6,7 +6,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateEnrichPolicyType;
 use App\Manager\ElasticsearchIndexManager;
-use App\Manager\ElasticsearchRepositoryManager;
 use App\Message\EnrichExecuteMessage;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchEnrichPolicyModel;
@@ -21,13 +20,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 class EnrichController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, MessageBusInterface $bus)
-    {
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
-        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
-        $this->bus = $bus;
-    }
-
     /**
      * @Route("/enrich", name="enrich")
      */
@@ -93,9 +85,9 @@ class EnrichController extends AbstractAppController
     /**
      * @Route("/enrich/create", name="enrich_create")
      */
-    public function create(Request $request): Response
+    public function create(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $indices = $this->elasticsearchIndexManager->selectIndices();
+        $indices = $elasticsearchIndexManager->selectIndices();
 
         $policyModel = new ElasticsearchEnrichPolicyModel();
         $form = $this->createForm(CreateEnrichPolicyType::class, $policyModel, ['indices' => $indices]);
@@ -181,7 +173,7 @@ class EnrichController extends AbstractAppController
     /**
      * @Route("/enrich/{name}/execute", name="enrich_execute")
      */
-    public function execute(Request $request, string $name): Response
+    public function execute(Request $request, string $name, MessageBusInterface $bus): Response
     {
         /*$callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
@@ -189,7 +181,7 @@ class EnrichController extends AbstractAppController
         $this->callManager->call($callRequest);*/
 
         $message = new EnrichExecuteMessage($name);
-        $this->bus->dispatch($message);
+        $bus->dispatch($message);
 
         $this->addFlash('success', 'flash_success.enrich_execute');
 

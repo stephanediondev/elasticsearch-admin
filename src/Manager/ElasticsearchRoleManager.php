@@ -2,19 +2,12 @@
 
 namespace App\Manager;
 
+use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 
-class ElasticsearchRoleManager
+class ElasticsearchRoleManager extends AbstractAppManager
 {
-    /**
-     * @required
-     */
-    public function setCallManager(CallManager $callManager)
-    {
-        $this->callManager = $callManager;
-    }
-
     public function selectRoles()
     {
         $roles = [];

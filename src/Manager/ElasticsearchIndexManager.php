@@ -2,20 +2,13 @@
 
 namespace App\Manager;
 
+use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\HttpFoundation\Response;
 
-class ElasticsearchIndexManager
+class ElasticsearchIndexManager extends AbstractAppManager
 {
-    /**
-     * @required
-     */
-    public function setCallManager(CallManager $callManager)
-    {
-        $this->callManager = $callManager;
-    }
-
     public function getIndex($index)
     {
         $callRequest = new CallRequestModel();
