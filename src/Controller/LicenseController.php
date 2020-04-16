@@ -62,7 +62,7 @@ class LicenseController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.license_start_trial');
 
-        return $this->redirectToRoute('license', []);
+        return $this->redirectToRoute('license');
     }
 
     /**
@@ -78,6 +78,6 @@ class LicenseController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.license_start_basic');
 
-        return $this->redirectToRoute('license', []);
+        return $this->redirectToRoute('license');
     }
 }

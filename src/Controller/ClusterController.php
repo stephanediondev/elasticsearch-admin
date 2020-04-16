@@ -107,7 +107,7 @@ class ClusterController extends AbstractAppController
 
                     $this->addFlash('success', 'flash_success.cluster_settings_edit');
 
-                    return $this->redirectToRoute('cluster_settings', []);
+                    return $this->redirectToRoute('cluster_settings');
                 } catch (CallException $e) {
                     $this->addFlash('danger', $e->getMessage());
                 }
@@ -141,6 +141,6 @@ class ClusterController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.cluster_settings_remove');
 
-        return $this->redirectToRoute('cluster_settings', []);
+        return $this->redirectToRoute('cluster_settings');
     }
 }

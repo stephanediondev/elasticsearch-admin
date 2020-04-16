@@ -293,6 +293,6 @@ class UserController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.users_delete');
 
-        return $this->redirectToRoute('users', []);
+        return $this->redirectToRoute('users');
     }
 }

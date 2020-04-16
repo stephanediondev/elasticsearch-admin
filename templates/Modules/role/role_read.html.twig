@@ -26,7 +26,7 @@
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
                         {{ appImport.buttonModal({
-                            'id': 'UserDelete',
+                            'id': 'RoleDelete',
                             'title': 'delete'|trans,
                             'body': role['role'],
                             'href': path('roles_delete', {'role': role['role']}),

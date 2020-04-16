@@ -227,7 +227,7 @@ class RepositoryController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.repositories_delete');
 
-        return $this->redirectToRoute('repositories', []);
+        return $this->redirectToRoute('repositories');
     }
 
     /**

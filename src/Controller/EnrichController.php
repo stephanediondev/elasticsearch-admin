@@ -167,7 +167,7 @@ class EnrichController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.enrich_delete');
 
-        return $this->redirectToRoute('enrich', []);
+        return $this->redirectToRoute('enrich');
     }
 
     /**

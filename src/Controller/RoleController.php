@@ -208,6 +208,6 @@ class RoleController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.roles_delete');
 
-        return $this->redirectToRoute('roles', []);
+        return $this->redirectToRoute('roles');
     }
 }

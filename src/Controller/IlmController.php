@@ -74,7 +74,7 @@ class IlmController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.ilm_start');
 
-        return $this->redirectToRoute('ilm_status', []);
+        return $this->redirectToRoute('ilm_status');
     }
 
     /**
@@ -90,7 +90,7 @@ class IlmController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.ilm_stop');
 
-        return $this->redirectToRoute('ilm_status', []);
+        return $this->redirectToRoute('ilm_status');
     }
 
     /**
@@ -237,6 +237,6 @@ class IlmController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.ilm_delete');
 
-        return $this->redirectToRoute('ilm', []);
+        return $this->redirectToRoute('ilm');
     }
 }

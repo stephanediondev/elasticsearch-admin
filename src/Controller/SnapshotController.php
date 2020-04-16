@@ -169,7 +169,7 @@ class SnapshotController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.snapshots_delete');
 
-        return $this->redirectToRoute('snapshots', []);
+        return $this->redirectToRoute('snapshots');
     }
 
     /**

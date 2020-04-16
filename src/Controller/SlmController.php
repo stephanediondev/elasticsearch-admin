@@ -91,7 +91,7 @@ class SlmController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.slm_start');
 
-        return $this->redirectToRoute('slm_status', []);
+        return $this->redirectToRoute('slm_status');
     }
 
     /**
@@ -107,7 +107,7 @@ class SlmController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.slm_stop');
 
-        return $this->redirectToRoute('slm_status', []);
+        return $this->redirectToRoute('slm_status');
     }
 
     /**
@@ -312,7 +312,7 @@ class SlmController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.slm_delete');
 
-        return $this->redirectToRoute('slm', []);
+        return $this->redirectToRoute('slm');
     }
 
     /**

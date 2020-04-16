@@ -81,7 +81,7 @@ class IndexController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.indices_force_merge_all');
 
-        return $this->redirectToRoute('indices', []);
+        return $this->redirectToRoute('indices');
     }
 
     /**
@@ -96,7 +96,7 @@ class IndexController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.indices_cache_clear_all');
 
-        return $this->redirectToRoute('indices', []);
+        return $this->redirectToRoute('indices');
     }
 
     /**
@@ -111,7 +111,7 @@ class IndexController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.indices_flush_all');
 
-        return $this->redirectToRoute('indices', []);
+        return $this->redirectToRoute('indices');
     }
 
     /**
@@ -126,7 +126,7 @@ class IndexController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.indices_refresh_all');
 
-        return $this->redirectToRoute('indices', []);
+        return $this->redirectToRoute('indices');
     }
 
     /**
@@ -515,7 +515,7 @@ class IndexController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.indices_delete');
 
-        return $this->redirectToRoute('indices', []);
+        return $this->redirectToRoute('indices');
     }
 
     /**

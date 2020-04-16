@@ -5,7 +5,7 @@
 - PHP 7.2.5 or higher
 - PHP extensions: ctype, iconv, intl, tokenizer, xml
 - Composer
-- Yarn
+- npm
 - RabbitMQ (optional, for asynchronous messaging)
 
 ## Installation
@@ -15,8 +15,8 @@ Configure a vhost with the document root set to "public" folder (ie /var/www/ela
 ```
 composer install
 
-yarn install
-yarn encore production
+npm install
+npm run build
 
 bin/console security:encode-password
 # Encode a password

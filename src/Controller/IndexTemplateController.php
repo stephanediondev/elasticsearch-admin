@@ -225,6 +225,6 @@ class IndexTemplateController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.index_templates_delete');
 
-        return $this->redirectToRoute('index_templates', []);
+        return $this->redirectToRoute('index_templates');
     }
 }
