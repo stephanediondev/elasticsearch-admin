@@ -42,6 +42,9 @@ class ConsoleType extends AbstractType
                     $builder->add('path', TextType::class, [
                         'label' => 'path',
                         'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                     ]);
                     break;
                 case 'body':
