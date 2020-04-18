@@ -41,7 +41,7 @@ class RoutesForLaravelCommand extends Command
 
                 $path = substr($route->getPath(), 7);
 
-                if ('cat' ==  $path || 'console' ==  $path || true == in_array($method, ['create', 'update', 'reindex', 'createAlias'])) {
+                if ('cluster_settings_edit' == $name || 'cat' ==  $path || 'console' ==  $path || true == in_array($method, ['create', 'update', 'reindex', 'createAlias'])) {
                     $output->writeln('    Route::match([\'get\', \'post\'], \''.$path.'\', \''.$controller.'@'.$method.'\')->name(\''.$name.'\');');
                 } else {
                     $output->writeln('    Route::get(\''.$path.'\', \''.$controller.'@'.$method.'\')->name(\''.$name.'\');');

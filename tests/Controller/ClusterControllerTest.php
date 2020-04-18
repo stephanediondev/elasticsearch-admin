@@ -17,4 +17,18 @@ class ClusterControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
     }
+
+    public function testEditPersistent()
+    {
+        $this->client->request('GET', '/admin/cluster/settings/persistent/cluster.routing.allocation.disk.watermark.low/edit');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
+    public function testEditTransient()
+    {
+        $this->client->request('GET', '/admin/cluster/settings/transient/cluster.routing.allocation.disk.watermark.low/edit');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
 }
