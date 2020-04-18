@@ -73,6 +73,6 @@ class PipelineController extends AbstractAppController
 
         $this->addFlash('success', 'flash_success.pipeline_delete');
 
-        return $this->redirectToRoute('pipeline');
+        return $this->redirectToRoute('pipelines');
     }
 }
