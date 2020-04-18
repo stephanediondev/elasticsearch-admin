@@ -1,34 +1,11 @@
-![PHP Composer](https://github.com/stephanediondev/elasticsearch-admin/workflows/PHP%20Composer/badge.svg)
+## Frameworks
 
-## Requirements
-
-- PHP 7.2.5 or higher
-- PHP extensions: ctype, iconv, intl, tokenizer, xml
-- Composer
-- npm
-- RabbitMQ (optional, for asynchronous messaging)
-
-## Installation
-
-Configure a vhost with the document root set to "public" folder (ie /var/www/elasticsearch-admin/public)
-
-```
-composer install
-
-npm install
-npm run build
-
-bin/console security:encode-password
-# Encode a password
-
-cp .env.dist .env
-# Edit ELASTICSEARCH_URL, ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD, EMAIL and ENCODED_PASSWORD
-```
+- [Symfony](https://github.com/stephanediondev/elasticsearch-admin-symfony)
+- [Laravel](https://github.com/stephanediondev/elasticsearch-admin-laravel)
 
 ## Features
 
 - [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
-- [x] Login: user managed by Symfony, not related to Elasticsearch
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings
 - [x] Nodes: list, read, usage, plugins
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle (explain, remove policy), delete, close, open, freeze, unfreeze, force merge, clear cache, flush, refresh
