@@ -2,8 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Controller;
-
 class PipelineControllerTest extends AbstractAppControllerTest
 {
     public function testIndex()

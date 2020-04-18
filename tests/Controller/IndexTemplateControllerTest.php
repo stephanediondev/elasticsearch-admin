@@ -2,8 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Controller;
-
 class IndexTemplateControllerTest extends AbstractAppControllerTest
 {
     public function testIndex()

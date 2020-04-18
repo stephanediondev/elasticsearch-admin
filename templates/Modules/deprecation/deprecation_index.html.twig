@@ -12,7 +12,6 @@
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-
                 {{ appImport.heading({'level': 3, 'title': key|trans, 'badge': {'title': rows|length}}) }}
 
                 {% if 0 < rows|length %}

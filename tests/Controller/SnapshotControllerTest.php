@@ -2,8 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Controller;
-
 class SnapshotControllerTest extends AbstractAppControllerTest
 {
     public function testIndex()

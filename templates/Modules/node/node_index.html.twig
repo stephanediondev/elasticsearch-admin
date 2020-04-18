@@ -62,7 +62,7 @@
         }
         function fetchNodes() {
             console.log('fetchNodes');
-            fetch('{{ app.request.schemeAndHttpHost}}{{ app.request.baseUrl }}/admin/nodes/fetch', {
+            fetch('{{ path('nodes_fetch') }}', {
                 credentials: 'include',
                 method: 'get'
             }).then(function(response) {

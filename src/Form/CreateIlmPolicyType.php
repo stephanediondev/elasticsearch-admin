@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateIlmPolicyType extends AbstractType
@@ -54,6 +55,9 @@ class CreateIlmPolicyType extends AbstractType
                     $builder->add('hot', TextareaType::class, [
                         'label' => 'hot',
                         'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
                         'help' => 'help_form.ilm_policy.hot',
                         'help_html' => true,
                     ]);
@@ -62,6 +66,9 @@ class CreateIlmPolicyType extends AbstractType
                     $builder->add('warm', TextareaType::class, [
                         'label' => 'warm',
                         'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
@@ -73,6 +80,9 @@ class CreateIlmPolicyType extends AbstractType
                     $builder->add('cold', TextareaType::class, [
                         'label' => 'cold',
                         'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
                         'help' => 'help_form.ilm_policy.cold',
                         'help_html' => true,
                     ]);
@@ -81,6 +91,9 @@ class CreateIlmPolicyType extends AbstractType
                     $builder->add('delete', TextareaType::class, [
                         'label' => 'delete',
                         'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
                         'help' => 'help_form.ilm_policy.delete',
                         'help_html' => true,
                     ]);

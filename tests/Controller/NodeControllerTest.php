@@ -3,8 +3,6 @@
 namespace App\Tests\Controller;
 
 use App\Model\CallRequestModel;
-use App\Tests\Controller;
-
 class NodeControllerTest extends AbstractAppControllerTest
 {
     public function testIndex()
