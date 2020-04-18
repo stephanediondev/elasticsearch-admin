@@ -1,7 +1,4 @@
-## Frameworks
-
-- [Symfony](https://github.com/stephanediondev/elasticsearch-admin-symfony)
-- [Laravel](https://github.com/stephanediondev/elasticsearch-admin-laravel)
+## Available with [Symfony](https://github.com/stephanediondev/elasticsearch-admin-symfony) or [Laravel](https://github.com/stephanediondev/elasticsearch-admin-laravel)
 
 ## Features
 
