@@ -1,5 +1,13 @@
 ## Available with [Symfony](https://github.com/stephanediondev/elasticsearch-admin-symfony) or [Laravel](https://github.com/stephanediondev/elasticsearch-admin-laravel)
 
+## Requirements
+
+- PHP 7.2.5 or higher
+- PHP extensions: ctype, iconv, intl, tokenizer, xml
+- Composer
+- npm
+- RabbitMQ (optional, for asynchronous messaging)
+
 ## Features
 
 - [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
