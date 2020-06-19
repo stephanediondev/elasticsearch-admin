@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'enrich'|trans }} - {{ 'create_enrich_policy'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'enrich'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/enrich/enrich_tabs.html.twig' with {'active': 'create_enrich_policy'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'create_enrich_policy'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/put-enrich-policy-api.html#put-enrich-policy-api">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function refresh() {
+            var indices = $('#data_indices').val();
+            if (0 < indices.length) {
+                indices = indices.join(',');
+
+                fetch('{{ app.request.schemeAndHttpHost}}{{ app.request.baseUrl }}/admin/indices/' + indices + '/mappings/fetch', {
+                    credentials: 'include',
+                    method: 'get'
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(json) {
+                    var options = [];
+                    for (var k in json) {
+                        if (false == options.includes(json[k])) {
+                            options.push(json[k]);
+                        }
+                    }
+                    options.sort();
+
+                    $(document).find('.update-fields').each(function() {
+                        var select = $(this);
+                        var selectedOptions = [];
+                        select.find('option:selected').each(function() {
+                            selectedOptions.push($(this).val());
+                        });
+
+                        select.find('option').remove();
+
+                        if (typeof select.attr('multiple') == 'undefined') {
+                            var newOption = new Option('-', '', false, false);
+                            select.append(newOption).trigger('change');
+                        }
+
+                        for (var k in options) {
+                            var selected = false;
+                            if (true == selectedOptions.includes(options[k])) {
+                                selected = true;
+                            }
+                            var newOption = new Option(options[k], options[k], selected, selected);
+                            select.append(newOption).trigger('change');
+                        }
+                    });
+                }).catch(function() {
+                });
+            } else {
+                $(document).find('.update-fields').each(function() {
+                    $(this).find('option').remove();
+                });
+            }
+        }
+
+        refresh();
+
+        $(document).on('change', '#data_indices', function(event) {
+            refresh();
+        });
+    </script>
+{% endblock %}

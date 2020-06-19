@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'ilm_short'|trans }} - {{ policy['name'] }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'ilm'|trans, 'link': {'url': path('ilm')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': policy['name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/ilm/ilm_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {{ appImport.buttonModal({
+                        'id': 'PolicyDelete',
+                        'title': 'delete'|trans,
+                        'body': policy['name'],
+                        'href': path('ilm_delete', {'name': policy['name']}),
+                    }) }}
+                {% endblock %}
+            {% endembed %}
+
+            <p>
+                <strong>{{ 'modified_date'|trans }}</strong><br>
+                {{ policy['modified_date'] }}
+            </p>
+
+            <p>
+                <strong>{{ 'version'|trans }}</strong><br>
+                {{ policy['version'] }}
+            </p>
+        {% endblock %}
+    {% endembed %}
+
+
+    {% for name, phase in policy['policy']['phases'] %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': name}) }}
+
+                {% if phase['min_age'] is defined %}
+                    <p>
+                        <strong>{{ 'min_age'|trans }}</strong><br>
+                        {{ phase['min_age'] }}
+                    </p>
+
+                    {% if phase['actions'] is defined %}
+                        {% for name, action_properties in phase['actions'] %}
+                            <div class="card card-body{%if false == loop.last %} mb-3{% endif %}">
+                                {{ appImport.heading({'level': 4, 'title': name}) }}
+
+                                {% for name, action_property in action_properties %}
+                                    {% if action_property is not iterable %}
+                                        <p>
+                                            <strong>{{ name|trans }}</strong><br>
+                                            {{ action_property }}
+                                        </p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
+    {% endfor %}
+{% endblock %}

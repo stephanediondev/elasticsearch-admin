@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }} - {{ 'shards'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': index['index']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'shards'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'shards'|trans, 'badge': {'title': shards.total}}) }}
+
+            {% if 0 < shards.total %}
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    {{ appImport.filterCheckboxesBoolean({'title': 'primary'|trans, 'prefix': 'primary'}) }}
+
+                    {{ appImport.filterCheckboxes({'title': 'state'|trans, 'prefix': 'state', 'choices': ['INITIALIZING', 'RELOCATING', 'STARTED', 'UNASSIGNED']}) }}
+                </div>
+
+                {{ appImport.paginator(shards) }}
+
+                {% include 'Modules/index/index_read_shards_list.html.twig' with {'shards': shards} %}
+
+                {{ appImport.paginator(shards) }}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

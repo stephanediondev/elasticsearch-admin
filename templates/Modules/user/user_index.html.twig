@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'users'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'users'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/user/user_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < users.total %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': users.total}}) }}
+
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    {{ appImport.filterText({'label': 'username'|trans}) }}
+
+                    {{ appImport.filterCheckboxesBoolean({'title': 'enabled'|trans, 'prefix': 'enabled'}) }}
+
+                    {{ appImport.filterCheckboxesBoolean({'title': 'reserved'|trans, 'prefix': 'reserved'}) }}
+                </div>
+
+                {{ appImport.paginator(users) }}
+
+                {% include 'Modules/user/user_list.html.twig' with {'users': users} %}
+
+                {{ appImport.paginator(users) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

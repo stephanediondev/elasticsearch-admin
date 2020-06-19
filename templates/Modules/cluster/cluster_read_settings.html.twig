@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'cluster'|trans }} - {{ cluster_health['cluster_name'] }} - {{ 'settings'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'cluster'|trans}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': cluster_health['cluster_name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/cluster/cluster_read_tabs.html.twig' with {'active': 'settings'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-update-settings.html#cluster-update-settings">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {% for type, rows in cluster_settings %}
+                {% if 0 < rows|length %}
+                    {{ appImport.heading({'level': 4, 'title': ('settings_' ~ type)|trans, 'badge': {'title': rows|length}}) }}
+
+                    {% embed 'Embed/table_embed.html.twig' %}
+                        {% import 'Import/app_import.html.twig' as appImport %}
+
+                        {% block thead %}
+                            <tr>
+                                <th>{{ 'setting'|trans }}</th>
+                                <th>{{ 'value'|trans }}</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        {% endblock %}
+
+                        {% block tbody %}
+                            {% for key, value in rows %}
+                                <tr>
+                                    <td>{{ key }}</td>
+                                    <td>
+                                        {% if value is iterable %}
+                                            {{ value|join(', ') }}
+                                        {% else %}
+                                            {{ value }}
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="text-nowrap text-right">
+                                        {% if value is not iterable %}
+                                            {% if 'defaults' != type %}
+                                                {{ appImport.buttonModal({
+                                                    'id': 'SettingRemove' ~ loop.index ~ type,
+                                                    'title': 'remove'|trans,
+                                                    'body': key,
+                                                    'href': path('cluster_settings_remove', {'type': type, 'setting': key}),
+                                                }) }}
+
+                                                <a href="{{ path('cluster_settings_edit', {'type': type, 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                                    {{ ('edit_as_' ~ type)|trans }}
+                                                </a>
+                                            {% elseif key not in cluster_settings_not_dynamic %}
+                                                <a href="{{ path('cluster_settings_edit', {'type': 'persistent', 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                                    {{ 'edit_as_persistent'|trans }}
+                                                </a>
+
+                                                <a href="{{ path('cluster_settings_edit', {'type': 'transient', 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                                    {{ 'edit_as_transient'|trans }}
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                    {% endembed %}
+                {% endif %}
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

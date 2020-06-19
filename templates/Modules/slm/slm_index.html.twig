@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'slm_short'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'slm'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/slm/slm_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < policies.total %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': policies.total}}) }}
+
+                {{ appImport.paginator(policies) }}
+
+                {% include 'Modules/slm/slm_list.html.twig' with {'policies': policies} %}
+
+                {{ appImport.paginator(policies) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

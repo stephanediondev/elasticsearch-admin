@@ -1,0 +1,13 @@
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('ilm') }}">{{ 'list'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'status' == active %} active{% endif %}" href="{{ path('ilm_status') }}">{{ 'status'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'create_ilm_policy' == active %} active{% endif %}" href="{{ path('ilm_create') }}">{{ 'create_ilm_policy'|trans }}</a>
+    </li>
+</ul>

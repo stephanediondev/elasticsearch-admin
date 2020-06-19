@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'nodes'|trans }} - {{ node['name'] }} - {{ 'reload_secure_settings'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'link': {'url': path('nodes')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {% if master_node == node['name'] %}
+        {{ appImport.heading({'level': 2, 'title': node['name'], 'badge': {'title': 'master'|trans, 'context': 'master_node'}}) }}
+    {% else %}
+        {{ appImport.heading({'level': 2, 'title': node['name']}) }}
+    {% endif %}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/node/node_read_tabs.html.twig' with {'active': 'reload_secure_settings'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'reload_secure_settings'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-reload-secure-settings.html#cluster-nodes-reload-secure-settings">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% if response is defined %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 4, 'title': 'response'|trans}) }}
+
+                <pre id="response">{{ response|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

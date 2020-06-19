@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'slm_short'|trans }} - {{ 'stats'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'slm'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/slm/slm_tabs.html.twig' with {'active': 'stats'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'retention_runs'|trans, 'badge': {'title': stats['retention_runs']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'retention_failed'|trans, 'badge': {'title': stats['retention_failed']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'retention_timed_out'|trans, 'badge': {'title': stats['retention_timed_out']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'retention_deletion_time'|trans, 'badge': {'title': stats['retention_deletion_time']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'total_snapshots_taken'|trans, 'badge': {'title': stats['total_snapshots_taken']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'total_snapshots_failed'|trans, 'badge': {'title': stats['total_snapshots_failed']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'total_snapshots_deleted'|trans, 'badge': {'title': stats['total_snapshots_deleted']}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'total_snapshot_deletion_failures'|trans, 'badge': {'title': stats['total_snapshot_deletion_failures']}}) }}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

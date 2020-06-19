@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('roles_read', {'role': role['role']}) }}">{{ 'summary'|trans }}</a>
+    </li>
+
+    {% if role['metadata']['_reserved'] is not defined or false == role['metadata']['_reserved'] %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('roles_update', {'role': role['role']}) }}">{{ 'update'|trans }}</a>
+        </li>
+    {% endif %}
+</ul>

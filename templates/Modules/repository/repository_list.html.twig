@@ -1,0 +1,47 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'id': true, 'type': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'id' == column %}
+                        <th>
+                            id
+                        </th>
+                    {% endif %}
+
+                    {% if 'type' == column %}
+                        <th>
+                            type
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in repositories.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'id' == column %}
+                            <td>
+                                <a href="{{ path('repositories_read', {'repository': row['id']}) }}">{{ row['id'] }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'type' == column %}
+                            <td>
+                                {{ row['type'] }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

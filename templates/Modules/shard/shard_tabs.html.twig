@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('shards') }}">{{ 'list'|trans }}</a>
+    </li>
+
+    {% if 0 < cluster_health['unassigned_shards'] %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
+        </li>
+    {% endif %}
+</ul>

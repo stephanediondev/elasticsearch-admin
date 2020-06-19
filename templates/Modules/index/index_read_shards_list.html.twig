@@ -1,0 +1,123 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'shard': true, 'primary': true, 'state': true, 'unassigned_reason': true, 'documents': true, 'size': true, 'node': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'shard' == column %}
+                        <th>
+                            {{ 'shard'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'primary' == column %}
+                        <th>
+                            {{ 'primary'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'state' == column %}
+                        <th>
+                            {{ 'state'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'unassigned_reason' == column %}
+                        <th>
+                            {{ 'unassigned_reason'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'documents' == column %}
+                        <th>
+                            {{ 'documents'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'size' == column %}
+                        <th>
+                            {{ 'size'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'node' == column %}
+                        <th>
+                            {{ 'node'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in shards.rows %}
+            <tr class="state-{{ row['state'] }} primary-{% if 'p' == row['prirep'] %}true{% else %}false{% endif %}">
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'shard' == column %}
+                            <td>
+                                {{ row['shard'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'primary' == column %}
+                            <td>
+                                {% if 'p' == row['prirep'] %}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'state' == column %}
+                            <td>
+                                {% if 'UNASSIGNED' == row['state'] %}
+                                    <a href="{{ path('cluster_allocation_explain') }}">{{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}</a>
+                                {% else %}
+                                    {{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'unassigned_reason' == column %}
+                            <td>
+                                {% if row['unassigned.reason'] %}
+                                    {{ appImport.badge({'title': row['unassigned.reason']|trans, 'context': 'danger'}) }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'documents' == column %}
+                            <td>
+                                {{ row['docs'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'size' == column %}
+                            <td>
+                                {{ row['store'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'node' == column %}
+                            <td>
+                                {% if row['node'] %}
+                                    {% if 'RELOCATING' != row['state'] %}
+                                        <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>{% if master_node == row['node'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                    {% else %}
+                                        {{ row['node'] }}
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

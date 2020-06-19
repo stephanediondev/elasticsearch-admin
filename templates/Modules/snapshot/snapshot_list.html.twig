@@ -1,0 +1,136 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'repository': true, 'snapshot': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration_in_millis': true, 'failures': true, 'version': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'repository' == column %}
+                        <th>
+                            {{ 'repository'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'snapshot' == column %}
+                        <th>
+                            {{ 'snapshot'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'indices' == column %}
+                        <th>
+                            {{ 'indices'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'state' == column %}
+                        <th>
+                            {{ 'state'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'start_time' == column %}
+                        <th>
+                            {{ 'start_time'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'end_time' == column %}
+                        <th>
+                            {{ 'end_time'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'duration_in_millis' == column %}
+                        <th>
+                            {{ 'duration_in_millis'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'failures' == column %}
+                        <th>
+                            {{ 'failures'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'version' == column %}
+                        <th>
+                            {{ 'version'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in snapshots.rows %}
+            <tr class="state-{{ row['state'] }}" data-search="{{ row['snapshot'] }}">
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'repository' == column %}
+                            <td>
+                                <a href="{{ path('repositories_read', {'repository': row['repository']}) }}">{{ row['repository'] }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'snapshot' == column %}
+                            <td>
+                                <a href="{{ path('snapshots_read', {'repository': row['repository'], 'snapshot': row['snapshot']}) }}">{{ row['snapshot'] }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'indices' == column %}
+                            <td>
+                                {{ row['indices']|join(', ') }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'state' == column %}
+                            <td>
+                                {{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'start_time' == column %}
+                            <td>
+                                {{ row['start_time'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'end_time' == column %}
+                            <td>
+                                {{ row['end_time'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'duration_in_millis' == column %}
+                            <td>
+                                {{ row['duration_in_millis'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'failures' == column %}
+                            {% set failuresTotal = row['failures']|length %}
+                            <td>
+                                {% if 0 < failuresTotal %}
+                                    <a href="{{ path('snapshots_read_failures', {'repository': row['repository'], 'snapshot': row['snapshot']}) }}">{{ failuresTotal }}</a>
+                                {% else %}
+                                    {{ failuresTotal }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'version' == column %}
+                            <td>
+                                {{ row['version'] }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

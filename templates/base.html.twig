@@ -1,0 +1,132 @@
+{% import 'Import/app_import.html.twig' as appImport %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+<meta charset="UTF-8">
+<title>{% block head_title %}elasticsearch-admin{% endblock %}</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="shortcut icon" href="{{ asset('favicon-' ~ cluster_health['status'] ~ '.png') }}">
+{% block styles %}
+{{ encore_entry_link_tags('app-css') }}
+{% endblock %}
+</head>
+<body>
+<div class="container-fluid">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="{{ 'toggle_navigation'|trans }}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': cluster_health['status']|trans, 'context': cluster_health['status']}) }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="configurationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ 'configuration'|trans }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="configurationDropdown">
+                            <a class="dropdown-item" href="{{ path('index_templates') }}">{{ 'index_templates'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('ilm') }}">
+                                {{ 'ilm'|trans }}
+                                {% if xpack_features['ilm']['enabled'] is not defined or false == xpack_features['ilm']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
+                            <a class="dropdown-item" href="{{ path('slm') }}">
+                                {{ 'slm'|trans }}
+                                {% if xpack_features['slm']['enabled'] is not defined or false == xpack_features['slm']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
+                            <a class="dropdown-item" href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('enrich') }}">
+                                {{ 'enrich'|trans }}
+                                {% if xpack_features['enrich']['enabled'] is not defined or false == xpack_features['enrich']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
+                            <a class="dropdown-item" href="{{ path('users') }}">
+                                {{ 'users'|trans }}
+                                {% if xpack_features['security']['enabled'] is not defined or false == xpack_features['security']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
+                            <a class="dropdown-item" href="{{ path('roles') }}">
+                                {{ 'roles'|trans }}
+                                {% if xpack_features['security']['enabled'] is not defined or false == xpack_features['security']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ 'tools'|trans }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="toolsDropdown">
+                            <a class="dropdown-item" href="{{ path('snapshots') }}">{{ 'snapshots'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('pipelines') }}">{{ 'pipelines'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('tasks') }}">{{ 'tasks'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('cat') }}">{{ 'cat'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('console') }}">{{ 'console'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('license') }}">{{ 'license'|trans }}</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    {% block heading_1 %}
+    {% endblock %}
+
+    {% for label, messages in flashes|default(app.flashes) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message|trans }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="{{ 'close'|trans }}">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block heading_2 %}
+    {% endblock %}
+
+    {% block tabs %}
+    {% endblock %}
+
+    {% block form_search %}
+    {% endblock %}
+
+    {% block main_content %}
+    {% endblock %}
+</div>
+{% block scripts %}
+<script type="text/javascript">
+var trans_required = '{{ 'required'|trans|escape('js') }}';
+</script>
+{{ encore_entry_script_tags('app-js') }}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('slm') }}">{{ 'list'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'status' == active %} active{% endif %}" href="{{ path('slm_status') }}">{{ 'status'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'stats' == active %} active{% endif %}" href="{{ path('slm_stats') }}">{{ 'stats'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'create_slm_policy' == active %} active{% endif %}" href="{{ path('slm_create') }}">{{ 'create_slm_policy'|trans }}</a>
+    </li>
+</ul>

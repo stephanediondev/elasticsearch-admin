@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'enrich'|trans }} - {{ 'stats'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'enrich'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/enrich/enrich_tabs.html.twig' with {'active': 'stats'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/enrich-stats-api.html#enrich-stats-api">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.heading({'level': 4, 'title': 'executing_policies'|trans, 'badge': {'title': stats['executing_policies']|length}}) }}
+
+            {% if 0 < stats['executing_policies']|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'policy'|trans }}</th>
+                            <th>{{ 'phase'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for row in stats['executing_policies'] %}
+                            <tr>
+                                <td>
+                                    {{ row['name'] }}
+                                </td>
+                                <td>
+                                    {% if row['task']['status']['phase'] is defined %}
+                                        {{ row['task']['status']['phase'] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            {{ appImport.heading({'level': 4, 'title': 'coordinator_stats'|trans, 'badge': {'title': stats['coordinator_stats']|length}}) }}
+
+            {% if 0 < stats['coordinator_stats']|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'node'|trans }}</th>
+                            <th>{{ 'queue_size'|trans }}</th>
+                            <th>{{ 'remote_requests_current'|trans }}</th>
+                            <th>{{ 'remote_requests_total'|trans }}</th>
+                            <th>{{ 'executed_searches_total'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for row in stats['coordinator_stats'] %}
+                            <tr>
+                                <td>
+                                    {% if nodes[row['node_id']] is defined %}
+                                        <a href="{{ path('nodes_read', {'node': nodes[row['node_id']]}) }}">{{ nodes[row['node_id']] }}</a>{% if master_node == nodes[row['node_id']] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                    {% else %}
+                                        {{ row['node_id'] }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ row['queue_size'] }}
+                                </td>
+                                <td>
+                                    {{ row['remote_requests_current'] }}
+                                </td>
+                                <td>
+                                    {{ row['remote_requests_total'] }}
+                                </td>
+                                <td>
+                                    {{ row['executed_searches_total'] }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'console'|trans }}{% if response is defined %} {{ path }}{% endif %}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'console'|trans}) }}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% if response is defined %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 4, 'title': 'response'|trans}) }}
+
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+                    {% block content %}
+                        <a class="btn btn-secondary btn-sm" href="#" id="save">
+                            {{ 'save'|trans }}
+                        </a>
+                    {% endblock %}
+                {% endembed %}
+
+                <pre id="response">{{ response|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).on('submit', 'form', function(event) {
+            var path = $('#data_path').val();
+            path = path.trim();
+            if ('/' != path.substring(0, 1)) {
+                $('#data_path').val('/' + path);
+            }
+        });
+
+        {% if response is defined %}
+            $(document).on('click', '#save', function(event) {
+                event.preventDefault();
+                var jsonString = $('#response').text();
+                var blob = new Blob([jsonString], {'type': 'application/json;charset=utf-8'});
+                saveAs(blob, 'response-{{ method }}' + slug('{{ path }}') + '.json');
+            });
+        {% endif %}
+    </script>
+{% endblock %}
