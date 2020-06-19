@@ -1,4 +1,4 @@
-## Available with [Symfony](https://github.com/stephanediondev/elasticsearch-admin-symfony) or [Laravel](https://github.com/stephanediondev/elasticsearch-admin-laravel)
+![PHP Composer](https://github.com/stephanediondev/elasticsearch-admin-symfony/workflows/PHP%20Composer/badge.svg)
 
 ## Requirements
 
@@ -7,13 +7,33 @@
 - npm
 - RabbitMQ (optional, for asynchronous messaging)
 
+## Installation
+
+Configure a vhost with the document root set to "public" folder (ie /var/www/elasticsearch-admin-symfony/public)
+
+```
+composer install
+
+npm install
+npm run build
+
+bin/console security:encode-password
+# Encode a password
+
+cp .env.dist .env
+# Edit ELASTICSEARCH_URL, EMAIL and ENCODED_PASSWORD
+# If Elasticsearch security features are enabled, edit ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
+```
+
 ## Features
 
 - [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
-- [x] Cluster: basic metrics, allocation explain, list settings, update settings
-- [x] Nodes: list, read, usage, plugins
+- [x] Login: user managed by Symfony, not related to Elasticsearch
+- [x] Cluster: basic metrics, allocation explain, list settings, update settings (transient or persistent)
+- [x] Nodes: list, read, usage, plugins, reload secure settings
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle (explain, remove policy), delete, close, open, freeze, unfreeze, force merge, clear cache, flush, refresh
-- [x] Documents (by index): list
+- [x] Documents (by index): list, delete all
+- [x] Bulk (by index): import documents from CSV, XLSX and ODS
 - [x] Aliases (by index): list, create, delete
 - [x] Index templates: list, create, read, update, delete
 - [x] Index lifecycle management policies: list, status, start, stop, create, read, update, delete
@@ -33,7 +53,7 @@
 
 ## Todo
 
-- [ ] Documents (by index): filter, delete
+- [ ] Documents (by index): filter, delete, import, export
 - [ ] Cluster: reroute
 - [ ] Repositories: create (url, source, hdfs, azure)
 
