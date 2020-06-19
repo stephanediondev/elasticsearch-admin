@@ -1,4 +1,4 @@
-![PHP Composer](https://github.com/stephanediondev/elasticsearch-admin-symfony/workflows/PHP%20Composer/badge.svg)
+![PHP Composer](https://github.com/stephanediondev/elasticsearch-admin/workflows/PHP%20Composer/badge.svg)
 
 ## Requirements
 
@@ -9,7 +9,7 @@
 
 ## Installation
 
-Configure a vhost with the document root set to "public" folder (ie /var/www/elasticsearch-admin-symfony/public)
+Configure a vhost with the document root set to "public" folder (ie /var/www/elasticsearch-admin/public)
 
 ```
 composer install
@@ -53,7 +53,7 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Documents (by index): filter, delete, import, export
+- [ ] Documents (by index): filter, delete, export
 - [ ] Cluster: reroute
 - [ ] Repositories: create (url, source, hdfs, azure)
 

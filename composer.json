@@ -1,7 +1,7 @@
 {
-    "name": "stephanediondev/elasticsearch-admin-symfony",
-    "description": "Admin UI for Elasticsearch with Symfony: cluster, nodes, indices, index templates, repositories, snapshots, documents ...",
-    "homepage": "https://github.com/stephanediondev/elasticsearch-admin-symfony",
+    "name": "stephanediondev/elasticsearch-admin",
+    "description": "Admin UI for Elasticsearch: cluster, nodes, indices, index templates, repositories, snapshots, documents ...",
+    "homepage": "https://github.com/stephanediondev/elasticsearch-admin",
     "license": "MIT",
     "type": "project",
     "require": {
