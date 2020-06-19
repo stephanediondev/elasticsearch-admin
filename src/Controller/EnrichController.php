@@ -6,14 +6,12 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateEnrichPolicyType;
 use App\Manager\ElasticsearchIndexManager;
-use App\Message\EnrichExecuteMessage;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchEnrichPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
  * @Route("/admin")
@@ -110,9 +108,9 @@ class EnrichController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_enrich/policy/'.$policyModel->getName());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.enrich_create');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('enrich_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -163,9 +161,9 @@ class EnrichController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_enrich/policy/'.$name);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.enrich_delete');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('enrich');
     }
@@ -173,17 +171,14 @@ class EnrichController extends AbstractAppController
     /**
      * @Route("/enrich/{name}/execute", name="enrich_execute")
      */
-    public function execute(Request $request, string $name, MessageBusInterface $bus): Response
+    public function execute(Request $request, string $name): Response
     {
-        /*$callRequest = new CallRequestModel();
+        $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_enrich/policy/'.$name.'/_execute');
-        $this->callManager->call($callRequest);*/
+        $callResponse = $this->callManager->call($callRequest);
 
-        $message = new EnrichExecuteMessage($name);
-        $bus->dispatch($message);
-
-        $this->addFlash('success', 'flash_success.enrich_execute');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('enrich_stats');
     }

@@ -92,9 +92,9 @@ class RepositoryController extends AbstractAppController
                     $callRequest->setQuery(['verify' => 'false']);
                 }
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.repositories_create');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
             } catch (CallException $e) {
@@ -199,9 +199,9 @@ class RepositoryController extends AbstractAppController
                     $callRequest->setQuery(['verify' => 'false']);
                 }
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.repositories_update');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
             } catch (CallException $e) {
@@ -223,9 +223,9 @@ class RepositoryController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_snapshot/'.$repository);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.repositories_delete');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('repositories');
     }
@@ -235,22 +235,16 @@ class RepositoryController extends AbstractAppController
      */
     public function cleanup(Request $request, string $repository): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_snapshot/'.$repository.'/_cleanup');
-        $callResponse = $this->callManager->call($callRequest);
-        $results = $callResponse->getContent();
+        try {
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setPath('/_snapshot/'.$repository.'/_cleanup');
+            $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.repositories_cleanup');
+            $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        if (true == isset($results['results'])) {
-            if (true == isset($results['results']['deleted_bytes'])) {
-                $this->addFlash('info', 'deleted_bytes: '.$results['results']['deleted_bytes']);
-            }
-
-            if (true == isset($results['results']['deleted_blobs'])) {
-                $this->addFlash('info', 'deleted_blobs: '.$results['results']['deleted_blobs']);
-            }
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
         }
 
         return $this->redirectToRoute('repositories_read', ['repository' => $repository]);
@@ -266,9 +260,9 @@ class RepositoryController extends AbstractAppController
             $callRequest->setMethod('POST');
             $callRequest->setPath('/_snapshot/'.$repository.'/_verify');
             $callResponse = $this->callManager->call($callRequest);
-            $results = $callResponse->getContent();
 
-            $this->addFlash('success', 'flash_success.repositories_verify');
+            $this->addFlash('info', json_encode($callResponse->getContent()));
+
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }

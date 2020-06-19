@@ -58,9 +58,9 @@ class LicenseController extends AbstractAppController
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_xpack/license/start_trial');
         $callRequest->setQuery(['acknowledge' => 'true']);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.license_start_trial');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('license');
     }
@@ -74,9 +74,9 @@ class LicenseController extends AbstractAppController
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_xpack/license/start_basic');
         $callRequest->setQuery(['acknowledge' => 'true']);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.license_start_basic');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('license');
     }

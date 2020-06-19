@@ -104,9 +104,9 @@ class ClusterController extends AbstractAppController
                     $callRequest->setMethod('PUT');
                     $callRequest->setPath('/_cluster/settings');
                     $callRequest->setJson($json);
-                    $this->callManager->call($callRequest);
+                    $callResponse = $this->callManager->call($callRequest);
 
-                    $this->addFlash('success', 'flash_success.cluster_settings_edit');
+                    $this->addFlash('info', json_encode($callResponse->getContent()));
 
                     return $this->redirectToRoute('cluster_settings');
                 } catch (CallException $e) {
@@ -138,9 +138,9 @@ class ClusterController extends AbstractAppController
         $callRequest->setMethod('PUT');
         $callRequest->setPath('/_cluster/settings');
         $callRequest->setJson($json);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.cluster_settings_remove');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('cluster_settings');
     }

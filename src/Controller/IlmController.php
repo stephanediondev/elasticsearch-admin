@@ -70,9 +70,8 @@ class IlmController extends AbstractAppController
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_ilm/start');
         $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
 
-        $this->addFlash('success', 'flash_success.ilm_start');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('ilm_status');
     }
@@ -86,9 +85,8 @@ class IlmController extends AbstractAppController
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_ilm/stop');
         $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
 
-        $this->addFlash('success', 'flash_success.ilm_stop');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('ilm_status');
     }
@@ -126,9 +124,9 @@ class IlmController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.ilm_create');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -209,9 +207,9 @@ class IlmController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.ilm_update');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -233,9 +231,9 @@ class IlmController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_ilm/policy/'.$name);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.ilm_delete');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('ilm');
     }

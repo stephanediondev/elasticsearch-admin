@@ -5,7 +5,6 @@
 - PHP 7.2.5 or higher
 - Composer
 - npm
-- RabbitMQ (optional, for asynchronous messaging)
 
 ## Installation
 
@@ -45,7 +44,7 @@ cp .env.dist .env
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
 - [x] Remote clusters: list
-- [x] Enrich policies: list, stats, create, read, delete, execute (asynchronous)
+- [x] Enrich policies: list, stats, create, read, delete, execute
 - [x] Pipelines: list, read
 - [x] Cat APIs: list
 - [x] Console

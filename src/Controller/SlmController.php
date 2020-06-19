@@ -87,9 +87,8 @@ class SlmController extends AbstractAppController
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_slm/start');
         $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
 
-        $this->addFlash('success', 'flash_success.slm_start');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('slm_status');
     }
@@ -103,9 +102,8 @@ class SlmController extends AbstractAppController
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_slm/stop');
         $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
 
-        $this->addFlash('success', 'flash_success.slm_stop');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('slm_status');
     }
@@ -153,9 +151,9 @@ class SlmController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.slm_create');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -284,9 +282,9 @@ class SlmController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.slm_update');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
             } catch (CallException $e) {
@@ -308,9 +306,9 @@ class SlmController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_slm/policy/'.$name);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.slm_delete');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('slm');
     }
@@ -323,9 +321,9 @@ class SlmController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_slm/policy/'.$name.'/_execute');
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.slm_execute');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('slm_read', ['name' => $name]);
     }

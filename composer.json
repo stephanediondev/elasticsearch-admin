@@ -20,7 +20,6 @@
         "symfony/framework-bundle": "5.1.*",
         "symfony/http-client": "5.1.*",
         "symfony/intl": "5.1.*",
-        "symfony/messenger": "5.1.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/process": "5.1.*",
         "symfony/security-bundle": "5.1.*",

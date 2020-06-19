@@ -76,9 +76,9 @@ class UserController extends AbstractAppController
                 $callRequest->setMethod('POST');
                 $callRequest->setPath('/_security/user/'.$userModel->getUsername());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.users_create');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('users_read', ['user' => $userModel->getUsername()]);
             } catch (CallException $e) {
@@ -157,7 +157,9 @@ class UserController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_security/user/'.$userModel->getUsername());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 if ($userModel->getChangePassword() && $userModel->getPassword()) {
                     $json = [
@@ -167,10 +169,10 @@ class UserController extends AbstractAppController
                     $callRequest->setMethod('POST');
                     $callRequest->setPath('/_security/user/'.$userModel->getUsername().'/_password');
                     $callRequest->setJson($json);
-                    $this->callManager->call($callRequest);
-                }
+                    $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.users_update');
+                    $this->addFlash('info', json_encode($callResponse->getContent()));
+                }
 
                 return $this->redirectToRoute('users_read', ['user' => $userModel->getUsername()]);
             } catch (CallException $e) {
@@ -214,9 +216,10 @@ class UserController extends AbstractAppController
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setPath('/_security/user/'.$user['username'].'/_enable');
-            $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
 
-            $this->addFlash('success', 'flash_success.users_enable');
+            $this->addFlash('info', json_encode($callResponse->getContent()));
+
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
@@ -254,9 +257,10 @@ class UserController extends AbstractAppController
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setPath('/_security/user/'.$user['username'].'/_disable');
-            $this->callManager->call($callRequest);
+            $callResponse = $this->callManager->call($callRequest);
 
-            $this->addFlash('success', 'flash_success.users_disable');
+            $this->addFlash('info', json_encode($callResponse->getContent()));
+
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
@@ -289,9 +293,9 @@ class UserController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_security/user/'.$user['username']);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.users_delete');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('users');
     }

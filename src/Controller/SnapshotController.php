@@ -88,9 +88,9 @@ class SnapshotController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.snapshots_create');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('snapshots_read', ['repository' => $snapshotModel->getRepository(), 'snapshot' => $snapshotModel->getName()]);
             } catch (CallException $e) {
@@ -167,9 +167,9 @@ class SnapshotController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.snapshots_delete');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('snapshots');
     }
@@ -216,9 +216,9 @@ class SnapshotController extends AbstractAppController
                 $callRequest->setMethod('POST');
                 $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot['snapshot'].'/_restore');
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.snapshots_read_restore');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('snapshots_read', ['repository' => $repository, 'snapshot' => $snapshot['snapshot']]);
             } catch (CallException $e) {

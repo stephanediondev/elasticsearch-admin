@@ -78,9 +78,9 @@ class RoleController extends AbstractAppController
                 $callRequest->setMethod('POST');
                 $callRequest->setPath('/_security/role/'.$roleModel->getName());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.roles_create');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('roles_read', ['role' => $roleModel->getName()]);
             } catch (CallException $e) {
@@ -163,9 +163,9 @@ class RoleController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_security/role/'.$roleModel->getName());
                 $callRequest->setJson($json);
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
 
-                $this->addFlash('success', 'flash_success.roles_update');
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 return $this->redirectToRoute('roles_read', ['role' => $roleModel->getName()]);
             } catch (CallException $e) {
@@ -204,9 +204,9 @@ class RoleController extends AbstractAppController
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_security/role/'.$role['role']);
-        $this->callManager->call($callRequest);
+        $callResponse = $this->callManager->call($callRequest);
 
-        $this->addFlash('success', 'flash_success.roles_delete');
+        $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('roles');
     }
