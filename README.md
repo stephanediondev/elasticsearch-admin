@@ -44,6 +44,7 @@ cp .env.dist .env
 - [x] Users (native realm): list, create, read, update, delete, enable, disable
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
+- [x] Remote clusters: list
 - [x] Enrich policies: list, stats, create, read, delete, execute (asynchronous)
 - [x] Pipelines: list, read
 - [x] Cat APIs: list

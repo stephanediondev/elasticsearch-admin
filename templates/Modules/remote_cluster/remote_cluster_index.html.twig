@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'remote_clusters'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'remote_clusters'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/remote_cluster/remote_cluster_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': remoteClusters.total}}) }}
+
+            {% if 0 < remoteClusters.total %}
+                {{ appImport.paginator(remoteClusters) }}
+
+                {% include 'Modules/remote_cluster/remote_cluster_list.html.twig' with {'remoteClusters': remoteClusters} %}
+
+                {{ appImport.paginator(remoteClusters) }}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

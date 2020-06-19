@@ -1,0 +1,95 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'name': true, 'connected': true, 'mode': true, 'addresses': true, 'connections': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'name' == column %}
+                        <th>
+                            {{ 'name'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'connected' == column %}
+                        <th>
+                            {{ 'connected'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'mode' == column %}
+                        <th>
+                            {{ 'mode'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'addresses' == column %}
+                        <th>
+                            {{ 'addresses'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'connections' == column %}
+                        <th>
+                            {{ 'connections'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for name, row in remoteClusters.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'name' == column %}
+                            <td>
+                                {{ name }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'connected' == column %}
+                            <td>
+                                {% if 'true' == row['connected'] %}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'mode' == column %}
+                            <td>
+                                {{ row['mode'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'addresses' == column %}
+                            <td>
+                                {% if 'proxy' == row['mode'] %}
+                                    {{ row['proxy_address'] }}
+                                {% else %}
+                                    {{ row['seeds']|join(', ') }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'connections' == column %}
+                            <td>
+                                {% if 'proxy' == row['mode'] %}
+                                    {{ row['num_proxy_sockets_connected'] }}
+                                {% else %}
+                                    {{ row['num_nodes_connected'] }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}
