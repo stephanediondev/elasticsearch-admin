@@ -80,3 +80,7 @@ cp .env.dist .env
 [![Create snapshot](assets/images/resized-snapshot-create.png)](assets/images/original-snapshot-create.png)
 
 [![Shards](assets/images/resized-shards.png)](assets/images/original-shards.png)
+
+[![Create enrich policy](assets/images/resized-enrich-create.png)](assets/images/original-enrich-create.png)
+
+[![Cluster settings](assets/images/resized-cluster-settings.png)](assets/images/original-cluster-settings.png)
