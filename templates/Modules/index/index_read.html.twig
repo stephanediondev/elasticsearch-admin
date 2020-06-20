@@ -99,68 +99,38 @@
                 {% endembed %}
             {% endif %}
 
-            <p>
-                <strong>{{ 'shards'|trans }}</strong><br>
-                {{ index['pri'] }}
-            </p>
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'shards'|trans, 'badge': {'title': index['pri']}}) }}
 
-            <p>
-                <strong>{{ 'replicas'|trans }}</strong><br>
-                {{ index['rep'] }}
-            </p>
+                {{ appImport.dashboardKpi({'title': 'replicas'|trans, 'badge': {'title': index['rep']}}) }}
 
-            <p>
-                <strong>{{ 'documents'|trans }}</strong><br>
-                {{ index['docs.count'] }}
-            </p>
+                {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': index['docs.count']}}) }}
 
-            <p>
-                <strong>{{ 'documents_deleted'|trans }}</strong><br>
-                {{ index['docs.deleted'] }}
-            </p>
+                {{ appImport.dashboardKpi({'title': 'documents_deleted'|trans, 'badge': {'title': index['docs.deleted']}}) }}
 
-            <p>
-                <strong>{{ 'primary_size'|trans }}</strong><br>
-                {{ index['pri.store.size'] }}
-            </p>
+                {{ appImport.dashboardKpi({'title': 'primary_size'|trans, 'badge': {'title': index['pri.store.size']}}) }}
 
-            <p>
-                <strong>{{ 'total_size'|trans }}</strong><br>
-                {{ index['store.size'] }}
-            </p>
+                {{ appImport.dashboardKpi({'title': 'total_size'|trans, 'badge': {'title': index['store.size']}}) }}
 
-            <p>
-                <strong>{{ 'status'|trans }}</strong><br>
-                {{ appImport.badge({'title': index['status']|trans, 'context': index['status']}) }}
-            </p>
+                {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': index['status']|trans, 'context': index['status']}}) }}
 
-            <p>
-                <strong>{{ 'health'|trans }}</strong><br>
-                {{ appImport.badge({'title': index['health']|trans, 'context': index['health']}) }}
-            </p>
+                {{ appImport.dashboardKpi({'title': 'health'|trans, 'badge': {'title': index['health']|trans, 'context': index['health']}}) }}
 
-            <p>
-                <strong>{{ 'frozen'|trans }}</strong><br>
                 {% if index['settings']['index']['frozen'] is defined and 'true' == index['settings']['index']['frozen'] %}
-                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                    {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
                 {% else %}
-                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                    {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
                 {% endif %}
-            </p>
 
-            {% if index['settings']['index']['version']['created'] is defined %}
-                <p>
-                    <strong>{{ 'version_created'|trans }}</strong><br>
-                    {{ index['settings']['index']['version']['created']|human_version }}
-                </p>
-            {% endif %}
 
-            {% if index['settings']['index']['version']['upgraded'] is defined %}
-                <p>
-                    <strong>{{ 'version_upgraded'|trans }}</strong><br>
-                    {{ index['settings']['index']['version']['upgraded']|human_version }}
-                </p>
-            {% endif %}
+                {% if index['settings']['index']['version']['created'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'version_created'|trans, 'badge': {'title': index['settings']['index']['version']['created']|human_version}}) }}
+                {% endif %}
+
+                {% if index['settings']['index']['version']['upgraded'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'version_upgraded'|trans, 'badge': {'title': index['settings']['index']['version']['upgraded']|human_version}}) }}
+                {% endif %}
+            </div>
         {% endblock %}
     {% endembed %}
 {% endblock %}
