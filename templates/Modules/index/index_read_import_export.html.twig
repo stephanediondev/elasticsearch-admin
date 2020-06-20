@@ -23,11 +23,11 @@
 
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% block content %}
-                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
-                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
-                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
-                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
-                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
                     {% endblock %}
                 {% endembed %}
         {% endblock %}
