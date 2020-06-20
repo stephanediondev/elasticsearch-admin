@@ -67,4 +67,17 @@ class NodeControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Plugins');
     }
+
+    public function testReadReloadSecureSettings()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/master');
+        $callResponse = $this->callManager->call($callRequest);
+        $master = $callResponse->getContent();
+
+        $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/reload-secure-settings');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Reload secure settings');
+    }
 }
