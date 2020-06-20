@@ -336,7 +336,14 @@ class IndexController extends AbstractAppController
                                     if ($value instanceof \Datetime) {
                                         $value = $value->format('Y-m-d');
                                     }
-                                    $line[$headers[$key]] = $value;
+                                    if (true == array_key_exists($headers[$key], $index['mappings_flat']) && 'geo_point' == $index['mappings_flat'][$headers[$key]]) {
+                                        if (strstr($value, ',')) {
+                                            list($lat, $lon) = explode(',', $value);
+                                            $line[$headers[$key]] = ['lat' => $lat, 'lon' => $lon];
+                                        }
+                                    } else {
+                                        $line[$headers[$key]] = $value;
+                                    }
                                 }
                             }
 
@@ -689,7 +696,7 @@ class IndexController extends AbstractAppController
                     $line[] = $row['_id'];
                     foreach ($index['mappings_flat'] as $field => $type) {
                         if (true == isset($row['_source'][$field])) {
-                            if ('geo_point' == $type) {
+                            if ('geo_point' == $type && true == is_array($row['_source'][$field])) {
                                 $line[] = $row['_source'][$field]['lat'].','.$row['_source'][$field]['lon'];
                             } else {
                                 $line[] = $row['_source'][$field];
