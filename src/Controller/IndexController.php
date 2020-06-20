@@ -14,6 +14,7 @@ use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexModel;
 use App\Model\ElasticsearchIndexAliasModel;
 use App\Model\ElasticsearchReindexModel;
+use Box\Spout\Common\Exception\UnsupportedTypeException;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Symfony\Component\Routing\Annotation\Route;
@@ -579,11 +580,8 @@ class IndexController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $documents = $callResponse->getContent();
 
-        $relation = false;
-
         if (true == isset($documents['hits']['total']['value'])) {
             $total = $documents['hits']['total']['value'];
-            $relation = $documents['hits']['total']['relation'];
             if ('eq' != $documents['hits']['total']['relation']) {
                 $this->addFlash('info', 'lower_bound_of_the_total');
             }
@@ -593,7 +591,6 @@ class IndexController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/index/index_read_documents.html.twig', [
             'index' => $index,
-            'relation' => $relation,
             'documents' => $this->paginatorManager->paginate([
                 'route' => 'indices_read_documents',
                 'route_parameters' => ['index' => $index['index']],
@@ -662,14 +659,14 @@ class IndexController extends AbstractAppController
                 throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
         }
 
-        $size = 10000;
+        $size = 1000;
         $query = [
             'sort' => '_id:desc',
             'size' => $size,
             'from' => ($size * $request->query->get('page', 1)) - $size,
         ];
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index['index'].'/_search');
+        $callRequest->setPath('/'.$index['index'].'/_search?scroll=1m');
         $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $documents = $callResponse->getContent();
@@ -686,24 +683,38 @@ class IndexController extends AbstractAppController
             }
             $lines[] = WriterEntityFactory::createRowFromArray($line);
 
-            foreach ($documents['hits']['hits'] as $row) {
-                $line = [];
-                $line[] = $row['_id'];
-                foreach ($index['mappings_flat'] as $field => $type) {
-                    if (true == isset($row['_source'][$field])) {
-                        $line[] = $row['_source'][$field];
-                    } else {
-                        $keys = explode('.', $field);
+            while (0 < count($documents['hits']['hits'])) {
+                foreach ($documents['hits']['hits'] as $row) {
+                    $line = [];
+                    $line[] = $row['_id'];
+                    foreach ($index['mappings_flat'] as $field => $type) {
+                        if (true == isset($row['_source'][$field])) {
+                            if ('geo_point' == $type) {
+                                $line[] = $row['_source'][$field]['lat'].','.$row['_source'][$field]['lon'];
+                            } else {
+                                $line[] = $row['_source'][$field];
+                            }
+                        } else {
+                            $keys = explode('.', $field);
 
-                        $arr = $row['_source'];
-                        foreach ($keys as $key) {
-                            $arr = &$arr[$key];
+                            $arr = $row['_source'];
+                            foreach ($keys as $key) {
+                                $arr = &$arr[$key];
+                            }
+                            $line[] = $arr;
                         }
-                        $line[] = $arr;
                     }
+                    $lines[] = WriterEntityFactory::createRowFromArray($line);
                 }
-                $lines[] = WriterEntityFactory::createRowFromArray($line);
+
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_search/scroll');
+                $callRequest->setJson(['scroll' => '1m', 'scroll_id' => $documents['_scroll_id']]);
+                $callResponse = $this->callManager->call($callRequest);
+                $documents = $callResponse->getContent();
             }
+
             $writer->addRows($lines);
             $writer->close();
         }, Response::HTTP_OK, [

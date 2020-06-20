@@ -32,20 +32,16 @@
                             'href': path('indices_delete_documents', {'index': index['index']}),
                         }) }}
 
-                        {% if 'eq' == relation %}
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupExport" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ 'export'|trans }}
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupExport">
-                                    <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
-                                    <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
-                                    <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
-                                    <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
-                                    <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
-                                </div>
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupExport" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ 'export'|trans }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupExport">
+                                <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
+                                <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
+                                <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
                             </div>
-                        {% endif %}
+                        </div>
                     {% endblock %}
                 {% endembed %}
 
