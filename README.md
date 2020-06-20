@@ -31,7 +31,7 @@ cp .env.dist .env
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings (transient or persistent)
 - [x] Nodes: list, read, usage, plugins, reload secure settings
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle (explain, remove policy), delete, close, open, freeze, unfreeze, force merge, clear cache, flush, refresh
-- [x] Documents (by index): list, delete all
+- [x] Documents (by index): list, delete all, export (CSV, XLSX, TSV and ODS)
 - [x] Bulk (by index): import documents from CSV, XLSX and ODS
 - [x] Aliases (by index): list, create, delete
 - [x] Index templates: list, create, read, update, delete
@@ -53,7 +53,7 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Documents (by index): filter, delete, export
+- [ ] Documents (by index): filter, delete
 - [ ] Cluster: reroute
 - [ ] Repositories: create (url, source, hdfs, azure)
 
