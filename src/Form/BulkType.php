@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class BulkType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $fields = [];

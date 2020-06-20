@@ -219,7 +219,6 @@ class UserController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
-
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
@@ -260,7 +259,6 @@ class UserController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
-
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }

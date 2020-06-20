@@ -358,7 +358,6 @@ class IndexController extends AbstractAppController
                 $callRequest->setBody($body);
                 $callResponse = $this->callManager->call($callRequest);
                 $parameters['response'] = $callResponse->getContent();
-
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }

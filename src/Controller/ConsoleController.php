@@ -20,6 +20,8 @@ class ConsoleController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $parameters = [];
+
         $callRequest = new CallRequestModel();
         $form = $this->createForm(ConsoleType::class, $callRequest);
 

@@ -210,7 +210,6 @@ class NodeController extends AbstractAppController
                     $callRequest->setJson($json);
                     $callResponse = $this->callManager->call($callRequest);
                     $parameters['response'] = $callResponse->getContent();
-
                 } catch (CallException $e) {
                     $this->addFlash('danger', $e->getMessage());
                 }

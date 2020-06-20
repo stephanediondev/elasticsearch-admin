@@ -23,11 +23,11 @@ class CatController extends AbstractAppController
      */
     public function index(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): Response
     {
+        $parameters = [];
+
         $repositories = $elasticsearchRepositoryManager->selectRepositories();
         $indices = $elasticsearchIndexManager->selectIndices();
         $aliases = $elasticsearchIndexManager->selectAliases();
-
-        $parameters = [];
 
         $catModel = new ElasticsearchCatModel();
         $form = $this->createForm(FilterCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
