@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }} - {{ 'bulk'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }} - {{ 'import_export'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
@@ -12,14 +12,31 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'bulk'} %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'import_export'} %}
 {% endblock %}
 
 {% block main_content %}
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'bulk'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'export'|trans}) }}
+
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% block content %}
+                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
+                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
+                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
+                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
+                        <a class="btn btn-primary" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
+                    {% endblock %}
+                {% endembed %}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'import'|trans}) }}
 
             <p>
                 <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="false" aria-controls="collapseHelp">
@@ -41,12 +58,12 @@
                     {% block tbody %}
                         <tr>
                             <td>_id</td>
-                            <td>{{ 'bulk_note_id'|trans }}</td>
+                            <td>{{ 'import_note_id'|trans }}</td>
                         </tr>
                         {% for field, type in index['mappings_flat'] %}
                             <tr>
                                 <td>{{ field }}</td>
-                                <td>{{ type }}</td>
+                                <td>{{ type }}{% if 'geo_point' == type %} (latitude,longitude){% endif %}</td>
                             </tr>
                         {% endfor %}
                     {% endblock %}

@@ -12,19 +12,19 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class BulkType extends AbstractType
+class ImportIndexType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $fields = [];
 
-        $fields[] = 'bulk_file';
+        $fields[] = 'import_file';
 
         foreach ($fields as $field) {
             switch ($field) {
-                case 'bulk_file':
-                    $builder->add('bulk_file', FileType::class, [
-                        'label' => 'bulk_file',
+                case 'import_file':
+                    $builder->add('import_file', FileType::class, [
+                        'label' => 'import_file',
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),

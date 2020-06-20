@@ -31,17 +31,6 @@
                             'body': index['index'],
                             'href': path('indices_delete_documents', {'index': index['index']}),
                         }) }}
-
-                        <div class="btn-group" role="group">
-                            <button id="btnGroupExport" type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ 'export'|trans }}
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupExport">
-                                <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
-                                <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
-                                <a class="dropdown-item" href="{{ path('indices_export_documents', {'index': index['index'], 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
-                            </div>
-                        </div>
                     {% endblock %}
                 {% endembed %}
 

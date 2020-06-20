@@ -6,7 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateAliasType;
 use App\Form\CreateIndexType;
-use App\Form\BulkType;
+use App\Form\ImportIndexType;
 use App\Form\ReindexType;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\ElasticsearchIndexManager;
@@ -284,9 +284,9 @@ class IndexController extends AbstractAppController
     }
 
     /**
-     * @Route("/indices/{index}/bulk", name="indices_bulk")
+     * @Route("/indices/{index}/import-export", name="indices_read_import_export")
      */
-    public function bulk(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    public function readImportExport(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
         $index = $elasticsearchIndexManager->getIndex($index);
 
@@ -298,7 +298,7 @@ class IndexController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $form = $this->createForm(BulkType::class);
+        $form = $this->createForm(ImportIndexType::class);
 
         $form->handleRequest($request);
 
@@ -309,7 +309,7 @@ class IndexController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $file = $form->get('bulk_file')->getData();
+                $file = $form->get('import_file')->getData();
 
                 $reader = ReaderEntityFactory::createReaderFromFile($file->getClientOriginalName());
 
@@ -373,7 +373,102 @@ class IndexController extends AbstractAppController
             }
         }
 
-        return $this->renderAbstract($request, 'Modules/index/index_bulk.html.twig', $parameters);
+        return $this->renderAbstract($request, 'Modules/index/index_read_import_export.html.twig', $parameters);
+    }
+
+    /**
+     * @Route("/indices/{index}/export", name="indices_read_export")
+     */
+    public function readExport(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): StreamedResponse
+    {
+        $index = $elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        set_time_limit(0);
+
+        $type = $request->query->get('type', 'csv');
+        $delimiter = $request->query->get('delimiter', ';');
+        $filename = $index['index'].'-'.date('Y-m-d-His').'.'.$type;
+
+        switch ($type) {
+            case 'xlsx':
+                $writer = WriterEntityFactory::createXLSXWriter();
+                break;
+            case 'ods':
+                $writer = WriterEntityFactory::createODSWriter();
+                break;
+            case 'csv':
+                $writer = WriterEntityFactory::createCSVWriter();
+                $writer->setFieldDelimiter($delimiter);
+                break;
+            default:
+                throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
+        }
+
+        $size = 1000;
+        $query = [
+            'sort' => '_id:desc',
+            'size' => $size,
+            'from' => ($size * $request->query->get('page', 1)) - $size,
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index['index'].'/_search?scroll=1m');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        $documents = $callResponse->getContent();
+
+        return new StreamedResponse(function () use ($writer, $index, $documents) {
+            $writer->openToFile('php://output');
+
+            $lines = [];
+
+            $line = [];
+            $line[] = '_id';
+            foreach ($index['mappings_flat'] as $field => $type) {
+                $line[] = $field;
+            }
+            $lines[] = WriterEntityFactory::createRowFromArray($line);
+
+            while (0 < count($documents['hits']['hits'])) {
+                foreach ($documents['hits']['hits'] as $row) {
+                    $line = [];
+                    $line[] = $row['_id'];
+                    foreach ($index['mappings_flat'] as $field => $type) {
+                        if (true == isset($row['_source'][$field])) {
+                            if ('geo_point' == $type && true == is_array($row['_source'][$field])) {
+                                $line[] = $row['_source'][$field]['lat'].','.$row['_source'][$field]['lon'];
+                            } else {
+                                $line[] = $row['_source'][$field];
+                            }
+                        } else {
+                            $keys = explode('.', $field);
+
+                            $arr = $row['_source'];
+                            foreach ($keys as $key) {
+                                $arr = &$arr[$key];
+                            }
+                            $line[] = $arr;
+                        }
+                    }
+                    $lines[] = WriterEntityFactory::createRowFromArray($line);
+                }
+
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_search/scroll');
+                $callRequest->setJson(['scroll' => '1m', 'scroll_id' => $documents['_scroll_id']]);
+                $callResponse = $this->callManager->call($callRequest);
+                $documents = $callResponse->getContent();
+            }
+
+            $writer->addRows($lines);
+            $writer->close();
+        }, Response::HTTP_OK, [
+            'Content-Disposition' => 'attachment; filename='.$filename,
+        ]);
     }
 
     /**
@@ -632,101 +727,6 @@ class IndexController extends AbstractAppController
         $this->callManager->call($callRequest);
 
         return $this->redirectToRoute('indices_read_documents', ['index' => $index['index']]);
-    }
-
-    /**
-     * @Route("/indices/{index}/documents/export", name="indices_export_documents")
-     */
-    public function documentsExport(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): StreamedResponse
-    {
-        $index = $elasticsearchIndexManager->getIndex($index);
-
-        if (false == $index) {
-            throw new NotFoundHttpException();
-        }
-
-        set_time_limit(0);
-
-        $type = $request->query->get('type', 'csv');
-        $delimiter = $request->query->get('delimiter', ';');
-        $filename = $index['index'].'-'.date('Y-m-d-His').'.'.$type;
-
-        switch ($type) {
-            case 'xlsx':
-                $writer = WriterEntityFactory::createXLSXWriter();
-                break;
-            case 'ods':
-                $writer = WriterEntityFactory::createODSWriter();
-                break;
-            case 'csv':
-                $writer = WriterEntityFactory::createCSVWriter();
-                $writer->setFieldDelimiter($delimiter);
-                break;
-            default:
-                throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
-        }
-
-        $size = 1000;
-        $query = [
-            'sort' => '_id:desc',
-            'size' => $size,
-            'from' => ($size * $request->query->get('page', 1)) - $size,
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index['index'].'/_search?scroll=1m');
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $documents = $callResponse->getContent();
-
-        return new StreamedResponse(function () use ($writer, $index, $documents) {
-            $writer->openToFile('php://output');
-
-            $lines = [];
-
-            $line = [];
-            $line[] = '_id';
-            foreach ($index['mappings_flat'] as $field => $type) {
-                $line[] = $field;
-            }
-            $lines[] = WriterEntityFactory::createRowFromArray($line);
-
-            while (0 < count($documents['hits']['hits'])) {
-                foreach ($documents['hits']['hits'] as $row) {
-                    $line = [];
-                    $line[] = $row['_id'];
-                    foreach ($index['mappings_flat'] as $field => $type) {
-                        if (true == isset($row['_source'][$field])) {
-                            if ('geo_point' == $type && true == is_array($row['_source'][$field])) {
-                                $line[] = $row['_source'][$field]['lat'].','.$row['_source'][$field]['lon'];
-                            } else {
-                                $line[] = $row['_source'][$field];
-                            }
-                        } else {
-                            $keys = explode('.', $field);
-
-                            $arr = $row['_source'];
-                            foreach ($keys as $key) {
-                                $arr = &$arr[$key];
-                            }
-                            $line[] = $arr;
-                        }
-                    }
-                    $lines[] = WriterEntityFactory::createRowFromArray($line);
-                }
-
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('POST');
-                $callRequest->setPath('/_search/scroll');
-                $callRequest->setJson(['scroll' => '1m', 'scroll_id' => $documents['_scroll_id']]);
-                $callResponse = $this->callManager->call($callRequest);
-                $documents = $callResponse->getContent();
-            }
-
-            $writer->addRows($lines);
-            $writer->close();
-        }, Response::HTTP_OK, [
-            'Content-Disposition' => 'attachment; filename='.$filename,
-        ]);
     }
 
     /**

@@ -28,11 +28,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link{% if 'documents' == active %} active{% endif %}" href="{{ path('indices_read_documents', {'index': index['index']}) }}">{{ 'documents'|trans }}</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link{% if 'bulk' == active %} active{% endif %}" href="{{ path('indices_bulk', {'index': index['index']}) }}">{{ 'bulk'|trans }}</a>
+            <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index['index']}) }}">{{ 'import_export'|trans }}</a>
         </li>
 
         <li class="nav-item">
