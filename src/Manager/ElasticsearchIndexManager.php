@@ -28,9 +28,32 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
             $index = array_merge($index1, $index2[key($index2)]);
             $index['is_system'] = '.' == substr($index['index'], 0, 1);
+
+            if (true == isset($index['mappings']) && true == isset($index['mappings']['properties'])) {
+                $index['mappings_flat'] = $this->mappingsFlat($index['mappings']['properties']);
+            } else {
+                $index['mappings_flat'] = [];
+            }
         }
 
         return $index;
+    }
+
+    private function mappingsFlat(array $properties, string $prefix = '')
+    {
+        $mappingsFlat = [];
+        foreach ($properties as $property => $keys) {
+            if ('' != $prefix) {
+                $property = $prefix.'.'.$property;
+            }
+
+            if (true == isset($keys['properties'])) {
+                $mappingsFlat = array_merge($mappingsFlat, $this->mappingsFlat($keys['properties'], $property));
+            } else {
+                $mappingsFlat[$property] = $keys['type'];
+            }
+        }
+        return $mappingsFlat;
     }
 
     public function selectIndices()

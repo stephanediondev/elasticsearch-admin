@@ -21,9 +21,37 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'bulk'|trans}) }}
 
-            <p class="lead">
-                {{ 'bulk_help'|trans }}
+            <p>
+                <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="false" aria-controls="collapseHelp">
+                    {{ 'help'|trans }}
+                </button>
             </p>
+
+            <div class="collapse mb-4" id="collapseHelp">
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'field'|trans }}</th>
+                            <th>{{ 'type'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        <tr>
+                            <td>_id</td>
+                            <td>{{ 'bulk_note_id'|trans }}</td>
+                        </tr>
+                        {% for field, type in index['mappings_flat'] %}
+                            <tr>
+                                <td>{{ field }}</td>
+                                <td>{{ type }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            </div>
 
             {{ appImport.form({'form': form}) }}
         {% endblock %}
