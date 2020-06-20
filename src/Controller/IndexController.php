@@ -15,10 +15,12 @@ use App\Model\ElasticsearchIndexModel;
 use App\Model\ElasticsearchIndexAliasModel;
 use App\Model\ElasticsearchReindexModel;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -577,8 +579,11 @@ class IndexController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $documents = $callResponse->getContent();
 
+        $relation = false;
+
         if (true == isset($documents['hits']['total']['value'])) {
             $total = $documents['hits']['total']['value'];
+            $relation = $documents['hits']['total']['relation'];
             if ('eq' != $documents['hits']['total']['relation']) {
                 $this->addFlash('info', 'lower_bound_of_the_total');
             }
@@ -588,6 +593,7 @@ class IndexController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/index/index_read_documents.html.twig', [
             'index' => $index,
+            'relation' => $relation,
             'documents' => $this->paginatorManager->paginate([
                 'route' => 'indices_read_documents',
                 'route_parameters' => ['index' => $index['index']],
@@ -622,6 +628,75 @@ class IndexController extends AbstractAppController
         $this->callManager->call($callRequest);
 
         return $this->redirectToRoute('indices_read_documents', ['index' => $index['index']]);
+    }
+
+    /**
+     * @Route("/indices/{index}/documents/export", name="indices_export_documents")
+     */
+    public function documentsExport(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): StreamedResponse
+    {
+        $index = $elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        set_time_limit(0);
+
+        $type = $request->query->get('type', 'csv');
+        $delimiter = $request->query->get('delimiter', ';');
+        $filename = $index['index'].'-'.date('Y-m-d-His').'.'.$type;
+
+        switch ($type) {
+            case 'xlsx':
+                $writer = WriterEntityFactory::createXLSXWriter();
+                break;
+            case 'ods':
+                $writer = WriterEntityFactory::createODSWriter();
+                break;
+            case 'csv':
+                $writer = WriterEntityFactory::createCSVWriter();
+                $writer->setFieldDelimiter($delimiter);
+                break;
+            default:
+                throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
+        }
+
+        $size = 10000;
+        $query = [
+            'sort' => '_id:desc',
+            'size' => $size,
+            'from' => ($size * $request->query->get('page', 1)) - $size,
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index['index'].'/_search');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        $documents = $callResponse->getContent();
+
+        return new StreamedResponse(function () use ($writer, $index, $documents) {
+            $writer->openToFile('php://output');
+
+            $lines = [];
+
+            $line = [];
+            foreach ($index['mappings_flat'] as $field => $type) {
+                $line[] = $field;
+            }
+            $lines[] = WriterEntityFactory::createRowFromArray($line);
+
+            foreach ($documents as $row) {
+                $line = [];
+                foreach ($index['mappings_flat'] as $field => $type) {
+                    $line[] = 'TODO';
+                }
+                $lines[] = WriterEntityFactory::createRowFromArray($line);
+            }
+            $writer->addRows($lines);
+            $writer->close();
+        }, Response::HTTP_OK, [
+            'Content-Disposition' => 'attachment; filename='.$filename,
+        ]);
     }
 
     /**
