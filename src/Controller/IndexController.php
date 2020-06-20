@@ -685,10 +685,14 @@ class IndexController extends AbstractAppController
             }
             $lines[] = WriterEntityFactory::createRowFromArray($line);
 
-            foreach ($documents as $row) {
+            foreach ($documents['hits']['hits'] as $row) {
                 $line = [];
                 foreach ($index['mappings_flat'] as $field => $type) {
-                    $line[] = 'TODO';
+                    if (true == isset($row['_source'][$field])) {
+                        $line[] = $row['_source'][$field];
+                    } else {
+                        $line[] = 'TODO';
+                    }
                 }
                 $lines[] = WriterEntityFactory::createRowFromArray($line);
             }
