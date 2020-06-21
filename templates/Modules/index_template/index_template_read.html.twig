@@ -45,6 +45,13 @@
                 {{ template['index_patterns']|join(', ') }}
             </p>
 
+            {% if template['version'] is defined %}
+                <p>
+                    <strong>{{ 'version'|trans }}</strong><br>
+                    {{ template['version'] }}
+                </p>
+            {% endif %}
+
             <p>
                 <strong>{{ 'order'|trans }}</strong><br>
                 {{ template['order'] }}
