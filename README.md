@@ -58,6 +58,8 @@ cp .env.dist .env
 
 [![Nodes](assets/images/resized-nodes.png)](assets/images/original-nodes.png)
 
+[![Node](assets/images/resized-node.png)](assets/images/original-node.png)
+
 [![Indices](assets/images/resized-indices.png)](assets/images/original-indices.png)
 
 [![Create index](assets/images/resized-index-create.png)](assets/images/original-index-create.png)
