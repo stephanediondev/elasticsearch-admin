@@ -30,75 +30,77 @@
                 {% endblock %}
             {% endembed %}
 
-            {% if allocation_explain['index'] is defined %}
-                <p>
-                    <strong>{{ 'index'|trans }}</strong><br>
-                    <a href="{{ path('indices_read', {'index': allocation_explain['index']}) }}">{{ allocation_explain['index'] }}</a>
-                </p>
-            {% endif %}
+            {% if allocation_explain %}
+                {% if allocation_explain['index'] is defined %}
+                    <p>
+                        <strong>{{ 'index'|trans }}</strong><br>
+                        <a href="{{ path('indices_read', {'index': allocation_explain['index']}) }}">{{ allocation_explain['index'] }}</a>
+                    </p>
+                {% endif %}
 
-            {% if allocation_explain['shard'] is defined %}
-                <p>
-                    <strong>{{ 'shard'|trans }}</strong><br>
-                    {{ allocation_explain['shard'] }}
-                </p>
-            {% endif %}
+                {% if allocation_explain['shard'] is defined %}
+                    <p>
+                        <strong>{{ 'shard'|trans }}</strong><br>
+                        {{ allocation_explain['shard'] }}
+                    </p>
+                {% endif %}
 
-            {% if allocation_explain['primary'] is defined %}
-                <p>
-                    <strong>{{ 'primary'|trans }}</strong><br>
-                    {{ appImport.badge({'title': ('boolean.' ~ allocation_explain['primary'])|trans, 'context': allocation_explain['primary']}) }}
-                </p>
-            {% endif %}
+                {% if allocation_explain['primary'] is defined %}
+                    <p>
+                        <strong>{{ 'primary'|trans }}</strong><br>
+                        {{ appImport.badge({'title': ('boolean.' ~ allocation_explain['primary'])|trans, 'context': allocation_explain['primary']}) }}
+                    </p>
+                {% endif %}
 
-            {% if allocation_explain['unassigned_info']['reason'] is defined %}
-                <p>
-                    <strong>{{ 'unassigned_reason'|trans }}</strong><br>
-                    {{ allocation_explain['unassigned_info']['reason'] }}
-                </p>
-            {% endif %}
+                {% if allocation_explain['unassigned_info']['reason'] is defined %}
+                    <p>
+                        <strong>{{ 'unassigned_reason'|trans }}</strong><br>
+                        {{ allocation_explain['unassigned_info']['reason'] }}
+                    </p>
+                {% endif %}
 
-            {% if allocation_explain['allocate_explanation'] is defined %}
-                <p>
-                    <strong>{{ 'allocate_explanation'|trans }}</strong><br>
-                    {{ allocation_explain['allocate_explanation'] }}
-                </p>
-            {% endif %}
+                {% if allocation_explain['allocate_explanation'] is defined %}
+                    <p>
+                        <strong>{{ 'allocate_explanation'|trans }}</strong><br>
+                        {{ allocation_explain['allocate_explanation'] }}
+                    </p>
+                {% endif %}
 
-            {% if allocation_explain['node_allocation_decisions'] is defined and 0 < allocation_explain['node_allocation_decisions']|length %}
-                {{ appImport.heading({'level': 4, 'title': 'node_allocation_decisions'|trans}) }}
+                {% if allocation_explain['node_allocation_decisions'] is defined and 0 < allocation_explain['node_allocation_decisions']|length %}
+                    {{ appImport.heading({'level': 4, 'title': 'node_allocation_decisions'|trans}) }}
 
-                {% embed 'Embed/table_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
+                    {% embed 'Embed/table_embed.html.twig' %}
+                        {% import 'Import/app_import.html.twig' as appImport %}
 
-                    {% block thead %}
-                        <tr>
-                            <th class="text-nowrap">{{ 'node'|trans }}</th>
-                            <th class="text-nowrap">{{ 'node_decision'|trans }}</th>
-                            <th>{{ 'deciders'|trans }}</th>
-                        </tr>
-                    {% endblock %}
-
-                    {% block tbody %}
-                        {% for row in allocation_explain['node_allocation_decisions'] %}
+                        {% block thead %}
                             <tr>
-                                <td>
-                                    <a href="{{ path('nodes_read', {'node': row['node_name']}) }}">{{ row['node_name'] }}</a>{% if master_node == row['node_name'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
-                                </td>
-                                <td>
-                                    {{ row['node_decision'] }}
-                                </td>
-                                <td>
-                                    {% if row['deciders'] is defined and 0 < row['deciders']|length %}
-                                        {% for decider in row['deciders'] %}
-                                            {{ decider['decider'] }}:<br> {{ decider['explanation'] }}<br>
-                                        {% endfor %}
-                                    {% endif %}
-                                </td>
+                                <th class="text-nowrap">{{ 'node'|trans }}</th>
+                                <th class="text-nowrap">{{ 'node_decision'|trans }}</th>
+                                <th>{{ 'deciders'|trans }}</th>
                             </tr>
-                        {% endfor %}
-                    {% endblock %}
-                {% endembed %}
+                        {% endblock %}
+
+                        {% block tbody %}
+                            {% for row in allocation_explain['node_allocation_decisions'] %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('nodes_read', {'node': row['node_name']}) }}">{{ row['node_name'] }}</a>{% if master_node == row['node_name'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                    </td>
+                                    <td>
+                                        {{ row['node_decision'] }}
+                                    </td>
+                                    <td>
+                                        {% if row['deciders'] is defined and 0 < row['deciders']|length %}
+                                            {% for decider in row['deciders'] %}
+                                                {{ decider['decider'] }}:<br> {{ decider['explanation'] }}<br>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                    {% endembed %}
+                {% endif %}
             {% endif %}
         {% endblock %}
     {% endembed %}

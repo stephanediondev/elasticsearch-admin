@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Exception\CallException;
 use App\Form\EditClusterSettingType;
 use App\Manager\ElasticsearchClusterManager;
 use App\Model\ElasticsearchClusterSettingModel;
@@ -50,10 +51,16 @@ class ClusterController extends AbstractAppController
      */
     public function allocationExplain(Request $request): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/allocation/explain');
-        $callResponse = $this->callManager->call($callRequest);
-        $allocationExplain = $callResponse->getContent();
+        $allocationExplain = false;
+
+        try {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_cluster/allocation/explain');
+            $callResponse = $this->callManager->call($callRequest);
+            $allocationExplain = $callResponse->getContent();
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
+        }
 
         return $this->renderAbstract($request, 'Modules/cluster/cluster_allocation_explain.html.twig', [
             'allocation_explain' => $allocationExplain,
