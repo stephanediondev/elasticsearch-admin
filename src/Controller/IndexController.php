@@ -405,6 +405,9 @@ class IndexController extends AbstractAppController
                 $writer = WriterEntityFactory::createCSVWriter();
                 $writer->setFieldDelimiter($delimiter);
                 break;
+            case 'geojson':
+                $writer = 'geojson';
+                break;
             default:
                 throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
         }
@@ -422,27 +425,42 @@ class IndexController extends AbstractAppController
         $documents = $callResponse->getContent();
 
         return new StreamedResponse(function () use ($writer, $index, $documents) {
-            $writer->openToFile('php://output');
+            if ('geojson' == $writer) {
+                $outputStream = fopen('php://output', 'wb');
 
-            $lines = [];
+                $json = [];
+                $json['type'] = 'FeatureCollection';
+                $json['features'] = [];
 
-            $line = [];
-            $line[] = '_id';
-            foreach ($index['mappings_flat'] as $field => $type) {
-                $line[] = $field;
+            } else {
+                $writer->openToFile('php://output');
+
+                $lines = [];
+
+                $line = [];
+                $line[] = '_id';
+                foreach ($index['mappings_flat'] as $field => $type) {
+                    $line[] = $field;
+                }
+                $lines[] = WriterEntityFactory::createRowFromArray($line);
             }
-            $lines[] = WriterEntityFactory::createRowFromArray($line);
 
             while (0 < count($documents['hits']['hits'])) {
                 foreach ($documents['hits']['hits'] as $row) {
+                    $geoPoint = false;
+
                     $line = [];
-                    $line[] = $row['_id'];
+                    $line['_id'] = $row['_id'];
                     foreach ($index['mappings_flat'] as $field => $type) {
                         if (true == isset($row['_source'][$field])) {
                             if ('geo_point' == $type && true == is_array($row['_source'][$field])) {
-                                $line[] = $row['_source'][$field]['lat'].','.$row['_source'][$field]['lon'];
+                                $geoPoint = $row['_source'][$field]['lat'].','.$row['_source'][$field]['lon'];
+                                $line[$field] = $geoPoint;
                             } else {
-                                $line[] = $row['_source'][$field];
+                                if ('geo_point' == $type && '' != $row['_source'][$field]) {
+                                    $line[$field] = $row['_source'][$field];
+                                }
+                                $line[$field] = $row['_source'][$field];
                             }
                         } else {
                             $keys = explode('.', $field);
@@ -451,10 +469,26 @@ class IndexController extends AbstractAppController
                             foreach ($keys as $key) {
                                 $arr = &$arr[$key];
                             }
-                            $line[] = $arr;
+                            $line[$field] = $arr;
                         }
                     }
-                    $lines[] = WriterEntityFactory::createRowFromArray($line);
+
+                    if ('geojson' == $writer && $geoPoint) {
+                        list($latitude, $longitude) = explode(',', $geoPoint);
+
+                        $feature = [];
+                        $feature['type'] = 'Feature';
+                        $feature['geometry'] = [
+                            'type' => 'Point',
+                            'coordinates' => [$longitude, $latitude],
+                        ];
+                        $feature['properties'] = $line;
+
+                        $json['features'][] = $feature;
+
+                    } else {
+                        $lines[] = WriterEntityFactory::createRowFromArray($line);
+                    }
                 }
 
                 $callRequest = new CallRequestModel();
@@ -465,8 +499,13 @@ class IndexController extends AbstractAppController
                 $documents = $callResponse->getContent();
             }
 
-            $writer->addRows($lines);
-            $writer->close();
+            if ('geojson' == $writer) {
+                fwrite($outputStream, json_encode($json));
+
+            } else {
+                $writer->addRows($lines);
+                $writer->close();
+            }
         }, Response::HTTP_OK, [
             'Content-Disposition' => 'attachment; filename='.$filename,
         ]);

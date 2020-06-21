@@ -34,6 +34,8 @@ class ElasticsearchIndexManager extends AbstractAppManager
             } else {
                 $index['mappings_flat'] = [];
             }
+
+            $index['has_geo_point'] = in_array('geo_point', $index['mappings_flat']);
         }
 
         return $index;
