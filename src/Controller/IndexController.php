@@ -431,7 +431,6 @@ class IndexController extends AbstractAppController
                 $json = [];
                 $json['type'] = 'FeatureCollection';
                 $json['features'] = [];
-
             } else {
                 $writer->openToFile('php://output');
 
@@ -485,7 +484,6 @@ class IndexController extends AbstractAppController
                         $feature['properties'] = $line;
 
                         $json['features'][] = $feature;
-
                     } else {
                         $lines[] = WriterEntityFactory::createRowFromArray($line);
                     }
@@ -501,7 +499,6 @@ class IndexController extends AbstractAppController
 
             if ('geojson' == $writer) {
                 fwrite($outputStream, json_encode($json));
-
             } else {
                 $writer->addRows($lines);
                 $writer->close();
