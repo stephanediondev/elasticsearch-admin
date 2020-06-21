@@ -27,24 +27,26 @@
             <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': index['index']}) }}">{{ 'shards'|trans }}</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link{% if 'search' == active %} active{% endif %}" href="{{ path('indices_read_search', {'index': index['index']}) }}">{{ 'search'|trans }}</a>
-        </li>
+        {% if false == index['is_system'] %}
+            <li class="nav-item">
+                <a class="nav-link{% if 'search' == active %} active{% endif %}" href="{{ path('indices_read_search', {'index': index['index']}) }}">{{ 'search'|trans }}</a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index['index']}) }}">{{ 'import_export'|trans }}</a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index['index']}) }}">{{ 'import_export'|trans }}</a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index['index']}) }}">{{ 'aliases'|trans }}</a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index['index']}) }}">{{ 'aliases'|trans }}</a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index['index']}) }}">{{ 'create_alias'|trans }}</a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index['index']}) }}">{{ 'create_alias'|trans }}</a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('indices_reindex', {'index': index['index']}) }}">{{ 'reindex'|trans }}</a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('indices_reindex', {'index': index['index']}) }}">{{ 'reindex'|trans }}</a>
+            </li>
+        {% endif %}
     {% endif %}
 </ul>
