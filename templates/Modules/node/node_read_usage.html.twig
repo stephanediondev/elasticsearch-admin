@@ -25,6 +25,8 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'usage'|trans}) }}
 
+            <hr>
+
             <div class="row">
                 {% if usage['rest_actions'] is defined %}
                     {% for key, value in usage['rest_actions'] %}

@@ -91,7 +91,7 @@
 
 {% macro badge(params) %}
     {% if params.context is not defined %}
-        {% set params = params|merge({'context': 'primary'}) %}
+        {% set params = params|merge({'context': 'info'}) %}
     {% endif %}
 
     {% if params.context in ['true', '1', 'green', 'open', 'STARTED', 'RUNNING', 'SUCCESS'] %}

@@ -21,6 +21,8 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
 
+            <hr>
+
             <div class="row">
                 {{ appImport.dashboardKpi({'title': 'snapshots_taken'|trans, 'badge': {'title': policy['stats']['snapshots_taken']}}) }}
 
