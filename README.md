@@ -56,11 +56,15 @@ cp .env.dist .env
 
 [![Cluster](assets/images/resized-cluster.png)](assets/images/original-cluster.png)
 
+[![Cluster settings](assets/images/resized-cluster-settings.png)](assets/images/original-cluster-settings.png)
+
 [![Nodes](assets/images/resized-nodes.png)](assets/images/original-nodes.png)
 
 [![Node](assets/images/resized-node.png)](assets/images/original-node.png)
 
 [![Indices](assets/images/resized-indices.png)](assets/images/original-indices.png)
+
+[![Index](assets/images/resized-index.png)](assets/images/original-index.png)
 
 [![Create index](assets/images/resized-index-create.png)](assets/images/original-index-create.png)
 
@@ -79,5 +83,3 @@ cp .env.dist .env
 [![Shards](assets/images/resized-shards.png)](assets/images/original-shards.png)
 
 [![Create enrich policy](assets/images/resized-enrich-create.png)](assets/images/original-enrich-create.png)
-
-[![Cluster settings](assets/images/resized-cluster-settings.png)](assets/images/original-cluster-settings.png)
