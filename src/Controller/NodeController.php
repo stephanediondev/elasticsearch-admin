@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Exception\CallException;
 use App\Form\ReloadSecureSettingsType;
 use App\Manager\ElasticsearchClusterManager;
 use App\Model\CallRequestModel;

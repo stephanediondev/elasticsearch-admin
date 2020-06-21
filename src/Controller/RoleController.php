@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Exception\CallException;
 use App\Form\CreateRoleType;
 use App\Manager\ElasticsearchRoleManager;
 use App\Manager\ElasticsearchUserManager;
