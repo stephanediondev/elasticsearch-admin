@@ -8,6 +8,7 @@ use App\Form\CreateAliasType;
 use App\Form\CreateIndexType;
 use App\Form\ImportIndexType;
 use App\Form\ReindexType;
+use App\Form\SearchIndexType;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
@@ -929,37 +930,48 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        $size = 100;
-        $query = [
-            'sort' => '_id:desc',
-            'size' => $size,
-            'from' => ($size * $request->query->get('page', 1)) - $size,
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index['index'].'/_search');
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $documents = $callResponse->getContent();
+        $form = $this->createForm(SearchIndexType::class);
 
-        if (true == isset($documents['hits']['total']['value'])) {
-            $total = $documents['hits']['total']['value'];
-            if ('eq' != $documents['hits']['total']['relation']) {
-                $this->addFlash('info', 'lower_bound_of_the_total');
-            }
-        } else {
-            $total = $documents['hits']['total'];
-        }
+        $form->handleRequest($request);
 
-        return $this->renderAbstract($request, 'Modules/index/index_read_search.html.twig', [
+        $parameters = [
             'index' => $index,
-            'documents' => $this->paginatorManager->paginate([
+            'form' => $form->createView(),
+        ];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $size = 100;
+            $query = [
+                'q' => $form->get('query')->getData(),
+                'sort' => '_id:desc',
+                'size' => $size,
+                'from' => ($size * $request->query->get('page', 1)) - $size,
+            ];
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/'.$index['index'].'/_search');
+            $callRequest->setQuery($query);
+            $callResponse = $this->callManager->call($callRequest);
+            $documents = $callResponse->getContent();
+
+            if (true == isset($documents['hits']['total']['value'])) {
+                $total = $documents['hits']['total']['value'];
+                if ('eq' != $documents['hits']['total']['relation']) {
+                    $this->addFlash('info', 'lower_bound_of_the_total');
+                }
+            } else {
+                $total = $documents['hits']['total'];
+            }
+
+            $parameters['documents'] = $this->paginatorManager->paginate([
                 'route' => 'indices_read_search',
                 'route_parameters' => ['index' => $index['index']],
                 'total' => $total,
                 'rows' => $documents['hits']['hits'],
                 'page' => $request->query->get('page', 1),
                 'size' => $size,
-            ]),
-        ]);
+            ]);
+        }
+
+        return $this->renderAbstract($request, 'Modules/index/index_read_search.html.twig', $parameters);
     }
 }

@@ -19,15 +19,26 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'documents'|trans, 'badge': {'title': documents.total}}) }}
+            {{ appImport.heading({'level': 3, 'title': 'search'|trans}) }}
 
-            {% if 0 < documents.total %}
-                {{ appImport.paginator(documents) }}
-
-                {% include 'Modules/index/index_read_search_list.html.twig' with {'documents': documents} %}
-
-                {{ appImport.paginator(documents) }}
-            {% endif %}
+            {{ appImport.form({'form': form}) }}
         {% endblock %}
     {% endembed %}
+
+    {% if documents is defined %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'documents'|trans, 'badge': {'title': documents.total}}) }}
+
+                {% if 0 < documents.total %}
+                    {{ appImport.paginator(documents) }}
+
+                    {% include 'Modules/index/index_read_search_list.html.twig' with {'documents': documents} %}
+
+                    {{ appImport.paginator(documents) }}
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
 {% endblock %}

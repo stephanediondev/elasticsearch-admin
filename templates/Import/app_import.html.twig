@@ -205,10 +205,12 @@
 
 {% macro paginator(params) %}
     {% if 1 < params.pages %}
+        {% set parameters = params.route_parameters|merge(app.request.query.all) %}
+
         <ul class="pagination">
             {% if params.previous %}
                 <li class="page-item">
-                    <a class="page-link" rel="prev" href="{{ path(params.route, params.route_parameters|merge({'page': params.previous})) }}">&laquo;&nbsp;{{ 'previous'|trans }}</a>
+                    <a class="page-link" rel="prev" href="{{ path(params.route, parameters|merge({'page': params.previous})) }}">&laquo;&nbsp;{{ 'previous'|trans }}</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
@@ -218,7 +220,7 @@
 
             {% if params.first %}
                 <li class="page-item">
-                    <a class="page-link" rel="next" href="{{ path(params.route, params.route_parameters|merge({'page': params.first})) }}">{{ params.first }}</a>
+                    <a class="page-link" rel="next" href="{{ path(params.route, parameters|merge({'page': params.first})) }}">{{ params.first }}</a>
                 </li>
                 {% if params.first != params.start_page - 1 %}
                     <li class="page-item disabled">
@@ -230,7 +232,7 @@
             {% for page in params.pages_slice %}
                 {% if page != params.page %}
                     <li class="page-item">
-                        <a class="page-link" href="{{ path(params.route, params.route_parameters|merge({'page': page})) }}">{{ page }}</a>
+                        <a class="page-link" href="{{ path(params.route, parameters|merge({'page': page})) }}">{{ page }}</a>
                     </li>
                 {% else %}
                     <li class="page-item active">
@@ -246,13 +248,13 @@
                     </li>
                 {% endif %}
                 <li class="page-item">
-                    <a class="page-link" rel="next" href="{{ path(params.route, params.route_parameters|merge({'page': params.last})) }}">{{ params.last }}</a>
+                    <a class="page-link" rel="next" href="{{ path(params.route, parameters|merge({'page': params.last})) }}">{{ params.last }}</a>
                 </li>
             {% endif %}
 
             {% if params.next %}
                 <li class="page-item">
-                    <a class="page-link" rel="next" href="{{ path(params.route, params.route_parameters|merge({'page': params.next})) }}">{{ 'next'|trans }}&nbsp;&raquo;</a>
+                    <a class="page-link" rel="next" href="{{ path(params.route, parameters|merge({'page': params.next})) }}">{{ 'next'|trans }}&nbsp;&raquo;</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
