@@ -69,7 +69,11 @@
                 {% set badge = badge|merge({'context': 'light'}) %}
             {% endif %}
 
-            <small>{{ _self.badge(badge) }}</small>
+            {% if 2 == params.level %}
+                <small>{{ _self.badge(badge) }}</small>
+            {% else %}
+                {{ _self.badge(badge) }}
+            {% endif %}
         {% endif %}
     </h{{ params.level }}>
 {% endmacro %}
