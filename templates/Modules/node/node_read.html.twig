@@ -25,6 +25,8 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
+            <hr>
+
             <div class="row">
                 {% if node['settings']['discovery']['type'] is defined and 'single-node' == node['settings']['discovery']['type'] %}
                     {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
