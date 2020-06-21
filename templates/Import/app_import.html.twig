@@ -69,7 +69,7 @@
                 {% set badge = badge|merge({'context': 'light'}) %}
             {% endif %}
 
-            {{ _self.badge(badge) }}
+            <small>{{ _self.badge(badge) }}</small>
         {% endif %}
     </h{{ params.level }}>
 {% endmacro %}
