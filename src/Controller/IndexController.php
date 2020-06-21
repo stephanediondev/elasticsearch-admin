@@ -660,76 +660,6 @@ class IndexController extends AbstractAppController
     }
 
     /**
-     * @Route("/indices/{index}/documents", name="indices_read_documents")
-     */
-    public function documents(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
-    {
-        $index = $elasticsearchIndexManager->getIndex($index);
-
-        if (false == $index) {
-            throw new NotFoundHttpException();
-        }
-
-        $size = 100;
-        $query = [
-            'sort' => '_id:desc',
-            'size' => $size,
-            'from' => ($size * $request->query->get('page', 1)) - $size,
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index['index'].'/_search');
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $documents = $callResponse->getContent();
-
-        if (true == isset($documents['hits']['total']['value'])) {
-            $total = $documents['hits']['total']['value'];
-            if ('eq' != $documents['hits']['total']['relation']) {
-                $this->addFlash('info', 'lower_bound_of_the_total');
-            }
-        } else {
-            $total = $documents['hits']['total'];
-        }
-
-        return $this->renderAbstract($request, 'Modules/index/index_read_documents.html.twig', [
-            'index' => $index,
-            'documents' => $this->paginatorManager->paginate([
-                'route' => 'indices_read_documents',
-                'route_parameters' => ['index' => $index['index']],
-                'total' => $total,
-                'rows' => $documents['hits']['hits'],
-                'page' => $request->query->get('page', 1),
-                'size' => $size,
-            ]),
-        ]);
-    }
-
-    /**
-     * @Route("/indices/{index}/documents/delete", name="indices_delete_documents")
-     */
-    public function documentsDelete(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
-    {
-        $index = $elasticsearchIndexManager->getIndex($index);
-
-        if (false == $index) {
-            throw new NotFoundHttpException();
-        }
-
-        $json = [
-            'query' => [
-                'match_all' => (object)[],
-            ],
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_delete_by_query');
-        $callRequest->setJson($json);
-        $this->callManager->call($callRequest);
-
-        return $this->redirectToRoute('indices_read_documents', ['index' => $index['index']]);
-    }
-
-    /**
      * @Route("/indices/{index}/delete", name="indices_delete")
      */
     public function delete(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
@@ -952,5 +882,84 @@ class IndexController extends AbstractAppController
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+    }
+
+    /**
+     * @Route("/indices/{index}/empty", name="indices_empty")
+     */
+    public function empty(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    {
+        $index = $elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        $json = [
+            'query' => [
+                'match_all' => (object)[],
+            ],
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index['index'].'/_delete_by_query');
+        $callRequest->setJson($json);
+        $callResponse = $this->callManager->call($callRequest);
+
+        $this->addFlash('info', json_encode($callResponse->getContent()));
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index['index'].'/_refresh');
+        $callResponse = $this->callManager->call($callRequest);
+
+        $this->addFlash('info', json_encode($callResponse->getContent()));
+
+        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+    }
+
+    /**
+     * @Route("/indices/{index}/search", name="indices_read_search")
+     */
+    public function search(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    {
+        $index = $elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        $size = 100;
+        $query = [
+            'sort' => '_id:desc',
+            'size' => $size,
+            'from' => ($size * $request->query->get('page', 1)) - $size,
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/'.$index['index'].'/_search');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        $documents = $callResponse->getContent();
+
+        if (true == isset($documents['hits']['total']['value'])) {
+            $total = $documents['hits']['total']['value'];
+            if ('eq' != $documents['hits']['total']['relation']) {
+                $this->addFlash('info', 'lower_bound_of_the_total');
+            }
+        } else {
+            $total = $documents['hits']['total'];
+        }
+
+        return $this->renderAbstract($request, 'Modules/index/index_read_search.html.twig', [
+            'index' => $index,
+            'documents' => $this->paginatorManager->paginate([
+                'route' => 'indices_read_search',
+                'route_parameters' => ['index' => $index['index']],
+                'total' => $total,
+                'rows' => $documents['hits']['hits'],
+                'page' => $request->query->get('page', 1),
+                'size' => $size,
+            ]),
+        ]);
     }
 }

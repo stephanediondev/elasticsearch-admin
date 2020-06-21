@@ -95,6 +95,15 @@
                                 'href': path('indices_freeze', {'index': index['index']}),
                             }) }}
                         {% endif %}
+
+                        {% if 0 < index['docs.count'] %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndexEmpty',
+                                'title': 'empty'|trans,
+                                'body': index['index'],
+                                'href': path('indices_empty', {'index': index['index']}),
+                            }) }}
+                        {% endif %}
                     {% endblock %}
                 {% endembed %}
             {% endif %}

@@ -28,6 +28,10 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link{% if 'search' == active %} active{% endif %}" href="{{ path('indices_read_search', {'index': index['index']}) }}">{{ 'search'|trans }}</a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index['index']}) }}">{{ 'import_export'|trans }}</a>
         </li>
 
