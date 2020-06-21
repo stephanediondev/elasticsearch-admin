@@ -21,6 +21,8 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
+            <hr>
+
             <div class="row">
                 {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': cluster_health['status']|trans, 'context': cluster_health['status']}}) }}
 
