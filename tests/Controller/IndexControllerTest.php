@@ -42,6 +42,13 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testUpdate403()
+    {
+        $this->client->request('GET', '/admin/indices/.test/update');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
     public function testSettings404()
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/settings');
@@ -56,6 +63,13 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testLifecycle404()
+    {
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/lifecycle');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     public function testShards404()
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/shards');
@@ -63,11 +77,32 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testDocuments404()
+    public function testSearch404()
     {
-        $this->client->request('GET', '/admin/indices/'.uniqid().'/documents');
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/search');
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testSearch403()
+    {
+        $this->client->request('GET', '/admin/indices/.test/search');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testImportExport404()
+    {
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/import-export');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testImportExport403()
+    {
+        $this->client->request('GET', '/admin/indices/.test/import-export');
+
+        $this->assertResponseStatusCodeSame(403);
     }
 
     public function testAliases404()
@@ -75,5 +110,40 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/'.uniqid().'/aliases');
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testCreateAlias404()
+    {
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/aliases/create');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testRefresh404()
+    {
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/refresh');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testRefresh403()
+    {
+        $this->client->request('GET', '/admin/indices/.test/refresh');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testEmpty404()
+    {
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/empty');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testEmpty403()
+    {
+        $this->client->request('GET', '/admin/indices/.test/empty');
+
+        $this->assertResponseStatusCodeSame(403);
     }
 }
