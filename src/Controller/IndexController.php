@@ -937,6 +937,10 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
+        if (true == $index['is_system']) {
+            throw new AccessDeniedHttpException();
+        }
+
         $json = [
             'query' => [
                 'match_all' => (object)[],
@@ -969,6 +973,10 @@ class IndexController extends AbstractAppController
 
         if (false == $index) {
             throw new NotFoundHttpException();
+        }
+
+        if (true == $index['is_system']) {
+            throw new AccessDeniedHttpException();
         }
 
         $form = $this->createForm(SearchIndexType::class);
