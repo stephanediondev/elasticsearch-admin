@@ -470,7 +470,11 @@ class IndexController extends AbstractAppController
                                 if ('geo_point' == $type && '' != $row['_source'][$field]) {
                                     $line[$field] = $row['_source'][$field];
                                 }
-                                $line[$field] = $row['_source'][$field];
+                                if (true == is_array($row['_source'][$field])) {
+                                    $line[$field] = implode(PHP_EOL, $row['_source'][$field]);
+                                } else {
+                                    $line[$field] = $row['_source'][$field];
+                                }
                             }
                         } else {
                             $keys = explode('.', $field);
