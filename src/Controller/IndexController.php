@@ -337,6 +337,12 @@ class IndexController extends AbstractAppController
                                     if ($value instanceof \Datetime) {
                                         $value = $value->format('Y-m-d');
                                     }
+                                    if (true == array_key_exists($headers[$key], $index['mappings_flat']) && 'keyword' == $index['mappings_flat'][$headers[$key]]) {
+                                        $parts = explode(PHP_EOL, $value);
+                                        if (1 < count($parts)) {
+                                            $value = $parts;
+                                        }
+                                    }
                                     if (true == array_key_exists($headers[$key], $index['mappings_flat']) && 'geo_point' == $index['mappings_flat'][$headers[$key]]) {
                                         if (strstr($value, ',')) {
                                             list($lat, $lon) = explode(',', $value);

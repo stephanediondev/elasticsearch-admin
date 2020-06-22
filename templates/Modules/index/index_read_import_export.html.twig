@@ -66,7 +66,7 @@
                         {% for field, type in index['mappings_flat'] %}
                             <tr>
                                 <td>{{ field }}</td>
-                                <td>{{ type }}{% if 'geo_point' == type %} (latitude,longitude){% endif %}</td>
+                                <td>{{ type }}{% if 'geo_point' == type %} ({{ 'import_note_geo_point'|trans }}){% endif %}{% if 'keyword' == type %} ({{ 'import_note_keyword'|trans }}){% endif %}</td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
