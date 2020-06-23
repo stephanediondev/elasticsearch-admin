@@ -3,9 +3,11 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('index_templates_read', {'name': template['name']}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('index_templates_update', {'name': template['name']}) }}">{{ 'update'|trans }}</a>
-    </li>
+    {% if false == template['is_system'] %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('index_templates_update', {'name': template['name']}) }}">{{ 'update'|trans }}</a>
+        </li>
+    {% endif %}
 
     <li class="nav-item">
         <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('index_templates_read_settings', {'name': template['name']}) }}">{{ 'settings'|trans }}</a>

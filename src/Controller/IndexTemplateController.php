@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -102,6 +103,7 @@ class IndexTemplateController extends AbstractAppController
         $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
+        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_read.html.twig', [
             'template' => $template,
@@ -124,6 +126,7 @@ class IndexTemplateController extends AbstractAppController
         $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
+        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_read_settings.html.twig', [
             'template' => $template,
@@ -146,6 +149,7 @@ class IndexTemplateController extends AbstractAppController
         $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
+        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_read_mappings.html.twig', [
             'template' => $template,
@@ -168,6 +172,11 @@ class IndexTemplateController extends AbstractAppController
         $template = $callResponse->getContent();
         $template = $template[$name];
         $template['name'] = $name;
+        $template['is_system'] = '.' == substr($template['name'], 0, 1);
+
+        if (true == $template['is_system']) {
+            throw new AccessDeniedHttpException();
+        }
 
         $templateModel = new ElasticsearchIndexTemplateModel();
         $templateModel->convert($template);
@@ -218,6 +227,23 @@ class IndexTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_template/'.$name);
+        $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            throw new NotFoundHttpException();
+        }
+
+        $template = $callResponse->getContent();
+        $template = $template[$name];
+        $template['name'] = $name;
+        $template['is_system'] = '.' == substr($template['name'], 0, 1);
+
+        if (true == $template['is_system']) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_template/'.$name);
