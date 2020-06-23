@@ -52,6 +52,13 @@ cp .env.dist .env
 
 - [ ] Repositories: create (url, source, hdfs, azure)
 
+## Unit tests
+
+```
+bin/console app:test-indices
+bin/phpunit
+```
+
 ## Screenshots
 
 [![Cluster](assets/images/resized-cluster.png)](assets/images/original-cluster.png)
