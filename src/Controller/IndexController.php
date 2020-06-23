@@ -588,6 +588,10 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
+        if (true == $index['is_system']) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath($index['index'].'/_ilm/remove');
