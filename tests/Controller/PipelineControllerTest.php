@@ -2,8 +2,14 @@
 
 namespace App\Tests\Controller;
 
+/**
+ * @Route("/admin")
+ */
 class PipelineControllerTest extends AbstractAppControllerTest
 {
+    /**
+     * @Route("/pipelines", name="pipelines")
+     */
     public function testIndex()
     {
         $this->client->request('GET', '/admin/pipelines');
@@ -12,6 +18,9 @@ class PipelineControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Pipelines');
     }
 
+    /**
+     * @Route("/pipelines/{name}", name="pipelines_read")
+     */
     public function testRead404()
     {
         $this->client->request('GET', '/_ingest/pipeline/'.uniqid());

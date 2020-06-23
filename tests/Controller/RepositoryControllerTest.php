@@ -2,8 +2,14 @@
 
 namespace App\Tests\Controller;
 
+/**
+ * @Route("/admin")
+ */
 class RepositoryControllerTest extends AbstractAppControllerTest
 {
+    /**
+     * @Route("/repositories", name="repositories")
+     */
     public function testIndex()
     {
         $this->client->request('GET', '/admin/repositories');
@@ -12,6 +18,9 @@ class RepositoryControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Repositories');
     }
 
+    /**
+     * @Route("/repositories/create/{type}", name="repositories_create")
+     */
     public function testCreateFs()
     {
         $this->client->request('GET', '/admin/repositories/create/fs');
@@ -36,6 +45,9 @@ class RepositoryControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Repositories - Create Google Cloud Storage repository');
     }
 
+    /**
+     * @Route("/repositories/{repository}", name="repositories_read")
+     */
     public function testRead404()
     {
         $this->client->request('GET', '/admin/repositories/'.uniqid());
@@ -43,6 +55,9 @@ class RepositoryControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
+    /**
+     * @Route("/repositories/{repository}/update", name="repositories_update")
+     */
     public function testUpdate404()
     {
         $this->client->request('GET', '/admin/repositories/'.uniqid().'/update');

@@ -2,8 +2,14 @@
 
 namespace App\Tests\Controller;
 
+/**
+ * @Route("/admin")
+ */
 class RemoteClusterControllerTest extends AbstractAppControllerTest
 {
+    /**
+     * @Route("/remote-clusters", name="remote_clusters")
+     */
     public function testIndex()
     {
         $this->client->request('GET', '/admin/remote-clusters');

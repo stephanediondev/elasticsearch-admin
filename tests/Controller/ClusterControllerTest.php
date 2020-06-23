@@ -4,8 +4,14 @@ namespace App\Tests\Controller;
 
 use App\Model\CallRequestModel;
 
+/**
+ * @Route("/admin")
+ */
 class ClusterControllerTest extends AbstractAppControllerTest
 {
+    /**
+     * @Route("/cluster", name="cluster")
+     */
     public function testRead()
     {
         $callRequest = new CallRequestModel();
@@ -19,6 +25,25 @@ class ClusterControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name']);
     }
 
+    /**
+     * @Route("/cluster/allocation/explain", name="cluster_allocation_explain")
+     */
+    public function testAllocationExplain()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/health');
+        $callResponse = $this->callManager->call($callRequest);
+        $clusterHealth = $callResponse->getContent();
+
+        $this->client->request('GET', '/admin/cluster/allocation/explain');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Allocation explain');
+    }
+
+    /**
+     * @Route("/cluster/settings", name="cluster_settings")
+     */
     public function testSettings()
     {
         $callRequest = new CallRequestModel();
@@ -32,6 +57,9 @@ class ClusterControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Settings');
     }
 
+    /**
+     * @Route("/cluster/settings/{type}/{setting}/edit", name="cluster_settings_edit")
+     */
     public function testEditPersistent()
     {
         $this->client->request('GET', '/admin/cluster/settings/persistent/cluster.routing.allocation.disk.watermark.low/edit');

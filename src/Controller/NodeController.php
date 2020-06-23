@@ -131,7 +131,7 @@ class NodeController extends AbstractAppController
     /**
      * @Route("/nodes/{node}/plugins", name="nodes_read_plugins")
      */
-    public function plugins(Request $request, string $node): Response
+    public function readPlugins(Request $request, string $node): Response
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$node);
@@ -152,7 +152,7 @@ class NodeController extends AbstractAppController
     /**
      * @Route("/nodes/{node}/usage", name="nodes_read_usage")
      */
-    public function usage(Request $request, string $node): Response
+    public function readUsage(Request $request, string $node): Response
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$node);
@@ -180,7 +180,7 @@ class NodeController extends AbstractAppController
     /**
      * @Route("/nodes/{node}/reload-secure-settings", name="nodes_reload_secure_settings")
      */
-    public function reloadSecureSettings(Request $request, string $node): Response
+    public function readReloadSecureSettings(Request $request, string $node): Response
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$node);

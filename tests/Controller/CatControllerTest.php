@@ -2,8 +2,14 @@
 
 namespace App\Tests\Controller;
 
+/**
+ * @Route("/admin")
+ */
 class CatControllerTest extends AbstractAppControllerTest
 {
+    /**
+     * @Route("/cat", name="cat")
+     */
     public function testIndex()
     {
         $this->client->request('GET', '/admin/cat');

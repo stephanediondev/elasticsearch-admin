@@ -4,8 +4,14 @@ namespace App\Tests\Controller;
 
 use App\Model\CallRequestModel;
 
+/**
+ * @Route("/admin")
+ */
 class NodeControllerTest extends AbstractAppControllerTest
 {
+    /**
+     * @Route("/nodes", name="nodes")
+     */
     public function testIndex()
     {
         $this->client->request('GET', '/admin/nodes');
@@ -14,6 +20,9 @@ class NodeControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Nodes');
     }
 
+    /**
+     * @Route("/nodes/fetch", name="nodes_fetch")
+     */
     public function testFetch()
     {
         $this->client->request('GET', '/admin/nodes/fetch');
@@ -22,6 +31,9 @@ class NodeControllerTest extends AbstractAppControllerTest
         $this->assertTrue($this->client->getResponse()->headers->contains('Content-Type', 'application/json'));
     }
 
+    /**
+     * @Route("/nodes/{node}", name="nodes_read")
+     */
     public function testRead404()
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid());
@@ -42,19 +54,9 @@ class NodeControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Nodes - '.$master[0]['node']);
     }
 
-    public function testReadUsage()
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/master');
-        $callResponse = $this->callManager->call($callRequest);
-        $master = $callResponse->getContent();
-
-        $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/usage');
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Usage');
-    }
-
+    /**
+     * @Route("/nodes/{node}/plugins", name="nodes_read_plugins")
+     */
     public function testReadPlugins()
     {
         $callRequest = new CallRequestModel();
@@ -68,6 +70,25 @@ class NodeControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Plugins');
     }
 
+    /**
+     * @Route("/nodes/{node}/usage", name="nodes_read_usage")
+     */
+    public function testReadUsage()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/master');
+        $callResponse = $this->callManager->call($callRequest);
+        $master = $callResponse->getContent();
+
+        $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/usage');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Usage');
+    }
+
+    /**
+     * @Route("/nodes/{node}/reload-secure-settings", name="nodes_reload_secure_settings")
+     */
     public function testReadReloadSecureSettings()
     {
         $callRequest = new CallRequestModel();
