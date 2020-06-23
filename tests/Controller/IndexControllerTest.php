@@ -35,6 +35,13 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testRead()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
     public function testUpdate404()
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/update');
@@ -44,9 +51,16 @@ class IndexControllerTest extends AbstractAppControllerTest
 
     public function testUpdate403()
     {
-        $this->client->request('GET', '/admin/indices/.test/update');
+        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/update');
 
         $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdate()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/update');
+
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testSettings404()
@@ -56,11 +70,25 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testSettings()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/settings');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
     public function testMappings404()
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/mappings');
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testMappings()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/mappings');
+
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testLifecycle404()
@@ -70,11 +98,25 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testLifecycle()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/lifecycle');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
     public function testShards404()
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/shards');
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testShards()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/shards');
+
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testSearch404()
@@ -86,9 +128,16 @@ class IndexControllerTest extends AbstractAppControllerTest
 
     public function testSearch403()
     {
-        $this->client->request('GET', '/admin/indices/.test/search');
+        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/search');
 
         $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testSearch()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/search');
+
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testImportExport404()
@@ -100,9 +149,16 @@ class IndexControllerTest extends AbstractAppControllerTest
 
     public function testImportExport403()
     {
-        $this->client->request('GET', '/admin/indices/.test/import-export');
+        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/import-export');
 
         $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testImportExport()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/import-export');
+
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testAliases404()
@@ -112,11 +168,25 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testAliases()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/aliases');
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
     public function testCreateAlias404()
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/aliases/create');
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testCreateAlias()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/aliases/create');
+
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testRefresh404()
@@ -128,7 +198,7 @@ class IndexControllerTest extends AbstractAppControllerTest
 
     public function testRefresh403()
     {
-        $this->client->request('GET', '/admin/indices/.test/refresh');
+        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/refresh');
 
         $this->assertResponseStatusCodeSame(403);
     }
@@ -142,7 +212,7 @@ class IndexControllerTest extends AbstractAppControllerTest
 
     public function testEmpty403()
     {
-        $this->client->request('GET', '/admin/indices/.test/empty');
+        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/empty');
 
         $this->assertResponseStatusCodeSame(403);
     }

@@ -1,0 +1,47 @@
+{
+    "properties": {
+        "a": {
+            "properties": {
+                "b": {
+                    "properties": {
+                        "c": {
+                            "properties": {
+                                "d": {
+                                    "properties": {
+                                        "e": {
+                                            "type": "text"
+                                        },
+                                        "f": {
+                                            "type": "text"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "date": {
+            "type": "date"
+        },
+        "title": {
+            "type": "text",
+            "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+            }
+        },
+        "status": {
+            "type": "keyword"
+        },
+        "geolocation": {
+            "type": "geo_point"
+        },
+        "tags": {
+            "type": "keyword"
+        }
+    }
+}
