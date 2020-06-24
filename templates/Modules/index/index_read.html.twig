@@ -119,9 +119,9 @@
 
                 {{ appImport.dashboardKpi({'title': 'documents_deleted'|trans, 'badge': {'title': index['docs.deleted']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'primary_size'|trans, 'badge': {'title': index['pri.store.size']}}) }}
+                {{ appImport.dashboardKpi({'title': 'primary_size'|trans, 'badge': {'title': index['pri.store.size']|human_filesize}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'total_size'|trans, 'badge': {'title': index['store.size']}}) }}
+                {{ appImport.dashboardKpi({'title': 'total_size'|trans, 'badge': {'title': index['store.size']|human_filesize}}) }}
 
                 {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': index['status']|trans, 'context': index['status']}}) }}
 

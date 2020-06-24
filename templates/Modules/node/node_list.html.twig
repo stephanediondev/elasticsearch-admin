@@ -180,24 +180,24 @@
                         {% if 'heap_usage' == column %}
                             <td>
                                 <strong><span id="{{ row['name'] }}-heap-percent">{{ row['heap.percent'] }}</span>%</strong>
-                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-heap-current">{{ row['heap.current'] }}</span></small>
-                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-heap-max">{{ row['heap.max'] }}</span></small>
+                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-heap-current">{{ row['heap.current']|human_filesize }}</span></small>
+                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-heap-max">{{ row['heap.max']|human_filesize }}</span></small>
                             </td>
                         {% endif %}
 
                         {% if 'memory_usage' == column %}
                             <td>
                                 <strong><span id="{{ row['name'] }}-ram-percent">{{ row['ram.percent'] }}</span>%</strong>
-                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-ram-current">{{ row['ram.current'] }}</span></small>
-                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-ram-max">{{ row['ram.max'] }}</span></small>
+                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-ram-current">{{ row['ram.current']|human_filesize }}</span></small>
+                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-ram-max">{{ row['ram.max']|human_filesize }}</span></small>
                             </td>
                         {% endif %}
 
                         {% if 'disk_usage' == column %}
                             <td>
                                 <strong><span id="{{ row['name'] }}-disk-used_percent">{{ row['disk.used_percent'] }}</span>%</strong>
-                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-disk-used">{{ row['disk.used'] }}</span></small>
-                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-disk-total">{{ row['disk.total'] }}</span></small><br>
+                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-disk-used">{{ row['disk.used']|human_filesize }}</span></small>
+                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-disk-total">{{ row['disk.total']|human_filesize }}</span></small><br>
 
                                 <span id="{{ row['name'] }}-disk-watermark_low" class="badge badge-warning d-none">{{ 'watermark_low'|trans }}</span>
                                 <span id="{{ row['name'] }}-disk-watermark_high" class="badge badge-danger d-none">{{ 'watermark_high'|trans }}</span>

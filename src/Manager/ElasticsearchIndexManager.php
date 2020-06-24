@@ -13,6 +13,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices/'.$index);
+        $callRequest->setQuery(['bytes' => 'b']);
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {

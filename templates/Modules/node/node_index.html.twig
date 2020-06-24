@@ -57,6 +57,17 @@
             var disk_threshold_enabled = false;
         {% endif %}
 
+        function humanFilesize(size) {
+            var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            var step = 1024;
+            var i = 0;
+            while ((size / step) > 0.9) {
+                size = size / step;
+                i++;
+            }
+            size = Math.round(size * 100) / 100;
+            return size + ' ' + units[i];
+        }
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -75,16 +86,16 @@
                     $('#' + k + '-process-cpu-percent').text(json[k]['stats']['process']['cpu']['percent']);
 
                     $('#' + k + '-heap-percent').text(json[k]['heap.percent']);
-                    $('#' + k + '-heap-current').text(json[k]['heap.current']);
-                    $('#' + k + '-heap-max').text(json[k]['heap.max']);
+                    $('#' + k + '-heap-current').text(humanFilesize(json[k]['heap.current']));
+                    $('#' + k + '-heap-max').text(humanFilesize(json[k]['heap.max']));
 
                     $('#' + k + '-ram-percent').text(json[k]['ram.percent']);
-                    $('#' + k + '-ram-current').text(json[k]['ram.current']);
-                    $('#' + k + '-ram-max').text(json[k]['ram.max']);
+                    $('#' + k + '-ram-current').text(humanFilesize(json[k]['ram.current']));
+                    $('#' + k + '-ram-max').text(humanFilesize(json[k]['ram.max']));
 
                     $('#' + k + '-disk-used_percent').text(json[k]['disk.used_percent']);
-                    $('#' + k + '-disk-used').text(json[k]['disk.used']);
-                    $('#' + k + '-disk-total').text(json[k]['disk.total']);
+                    $('#' + k + '-disk-used').text(humanFilesize(json[k]['disk.used']));
+                    $('#' + k + '-disk-total').text(humanFilesize(json[k]['disk.total']));
 
                     if (true == disk_threshold_enabled) {
                         $('#' + k + '-disk-watermark_low').addClass('d-none');

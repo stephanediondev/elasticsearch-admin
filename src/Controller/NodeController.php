@@ -28,7 +28,7 @@ class NodeController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/nodes');
-        $callRequest->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
+        $callRequest->setQuery(['bytes' => 'b', 's' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
         $callResponse = $this->callManager->call($callRequest);
         $nodes1 = $callResponse->getContent();
 
@@ -78,7 +78,7 @@ class NodeController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/nodes');
-        $callRequest->setQuery(['s' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
+        $callRequest->setQuery(['bytes' => 'b', 's' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
         $callResponse = $this->callManager->call($callRequest);
         $nodes1 = $callResponse->getContent();
 

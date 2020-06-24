@@ -112,7 +112,7 @@
 
                         {% if 'size' == column %}
                             <td>
-                                {{ row['store'] }}
+                                {{ row['store']|human_filesize }}
                             </td>
                         {% endif %}
 

@@ -114,13 +114,13 @@
 
                         {% if 'primary_size' == column %}
                             <td>
-                                {{ row['pri.store.size'] }}
+                                {{ row['pri.store.size']|human_filesize }}
                             </td>
                         {% endif %}
 
                         {% if 'total_size' == column %}
                             <td>
-                                {{ row['store.size'] }}
+                                {{ row['store.size']|human_filesize }}
                             </td>
                         {% endif %}
 
