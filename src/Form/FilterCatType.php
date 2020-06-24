@@ -54,6 +54,8 @@ class FilterCatType extends AbstractType
         $fields[] = 'headers';
         $fields[] = 'sort';
 
+        $builder->setMethod('GET');
+
         foreach ($fields as $field) {
             switch ($field) {
                 case 'command':
