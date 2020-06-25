@@ -9,25 +9,25 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ 'name'|trans }}
+                            {{ appImport.sort({'url': path('index_templates'), 's': 'name', 'title': 'name'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'index_patterns' == column %}
                         <th>
-                            {{ 'index_patterns'|trans }}
+                            {{ appImport.sort({'url': path('index_templates'), 's': 'index_patterns', 'title': 'index_patterns'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'order' == column %}
                         <th>
-                            {{ 'order'|trans }}
+                            {{ appImport.sort({'url': path('index_templates'), 's': 'order', 'title': 'order'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'version' == column %}
                         <th>
-                            {{ 'version'|trans }}
+                            {{ appImport.sort({'url': path('index_templates'), 's': 'version', 'title': 'version'|trans})}}
                         </th>
                     {% endif %}
                 {% endif %}

@@ -9,67 +9,67 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ 'name'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'index', 'title': 'name'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'shards' == column %}
                         <th>
-                            {{ 'shards'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'pri', 'title': 'shards'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'replicas' == column %}
                         <th>
-                            {{ 'replicas'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'rep', 'title': 'replicas'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'documents' == column %}
                         <th>
-                            {{ 'documents'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'docs.count', 'title': 'documents'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'documents_deleted' == column %}
                         <th>
-                            {{ 'documents_deleted'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'docs.deleted', 'title': 'documents_deleted'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'primary_size' == column %}
                         <th>
-                            {{ 'primary_size'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'pri.store.size', 'title': 'primary_size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'total_size' == column %}
                         <th>
-                            {{ 'total_size'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'store.size', 'title': 'total_size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'status' == column %}
                         <th>
-                            {{ 'status'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'status', 'title': 'status'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'health' == column %}
                         <th>
-                            {{ 'health'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'health', 'title': 'health'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'frozen' == column %}
                         <th>
-                            {{ 'frozen'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'sth', 'title': 'frozen'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'creation_date' == column %}
                         <th>
-                            {{ 'creation_date'|trans }}
+                            {{ appImport.sort({'url': path('indices'), 's': 'creation.date.string', 'title': 'creation_date'|trans})}}
                         </th>
                     {% endif %}
                 {% endif %}

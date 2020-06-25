@@ -38,7 +38,7 @@ class IndexController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices');
-        $callRequest->setQuery(['bytes' => 'b', 's' => 'index', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
+        $callRequest->setQuery(['bytes' => 'b', 's' => $request->query->get('s', 'index:asc'), 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
         $callResponse = $this->callManager->call($callRequest);
         $indices = $callResponse->getContent();
 
@@ -615,7 +615,7 @@ class IndexController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/shards/'.$index['index']);
-        $callRequest->setQuery(['bytes' => 'b', 's' => 'shard,prirep', 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
+        $callRequest->setQuery(['bytes' => 'b', 's' => $request->query->get('s', 'shard:asc,prirep:asc'), 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
         $callResponse = $this->callManager->call($callRequest);
         $shards = $callResponse->getContent();
 

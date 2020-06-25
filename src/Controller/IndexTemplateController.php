@@ -25,7 +25,7 @@ class IndexTemplateController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/templates');
-        $callRequest->setQuery(['s' => 'name', 'h' => 'name,index_patterns,order,version']);
+        $callRequest->setQuery(['s' => $request->query->get('s', 'name:asc'), 'h' => 'name,index_patterns,order,version']);
         $callResponse = $this->callManager->call($callRequest);
         $indexTemplates = $callResponse->getContent();
 
