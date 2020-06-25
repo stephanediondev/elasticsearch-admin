@@ -59,7 +59,7 @@
                                     {% embed 'Embed/stats_table_row_embed.html.twig' %}
                                         {% block title %}
                                             {% if key in ['indices_by_documents', 'indices_by_total_size'] %}
-                                                {{ row.title }}
+                                                <a class="text-secondary" href="{{ path('indices_read', {'index': row.title}) }}">{{ row.title }}</a>
                                             {% else %}
                                                 {{ row.title|trans }}
                                             {% endif %}
