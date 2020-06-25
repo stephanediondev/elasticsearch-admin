@@ -17,6 +17,8 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
 
+            <hr>
+
             <div class="row">
                 {% for key, total in data.totals %}
                     {% if 'indices_total_size' == key %}
@@ -26,6 +28,8 @@
                     {% endif %}
                 {% endfor %}
             </div>
+
+            <hr>
 
             <div class="card-columns">
                 {% for key, table in data.tables %}
