@@ -74,6 +74,8 @@ bin/phpunit
 
 [![Indices](assets/images/resized-indices.png)](assets/images/original-indices.png)
 
+[![Indices stats](assets/images/resized-indices-stats.png)](assets/images/original-indices-stats.png)
+
 [![Index](assets/images/resized-index.png)](assets/images/original-index.png)
 
 [![Create index](assets/images/resized-index-create.png)](assets/images/original-index-create.png)
