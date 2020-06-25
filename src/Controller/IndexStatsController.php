@@ -26,31 +26,26 @@ class IndexStatsController extends AbstractAppController
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['indices_total'] = 0;
-        $data['totals']['indices_health_green'] = 0;
-        $data['totals']['indices_documents'] = 0;
-        $data['totals']['indices_size'] = 0;
+        $data['totals']['indices_total_documents'] = 0;
+        $data['totals']['indices_total_size'] = 0;
 
         $tables = [
             'indices_by_status' => 'status',
             'indices_by_health' => 'health',
-            'indices_by_frozen' => 'sth',
             'indices_by_documents' => 'docs.count',
-            'indices_by_size' => 'store.size',
+            'indices_by_total_size' => 'store.size',
         ];
 
         foreach ($indices as $index) {
-            if ('green' == $index['health']) {
-                $data['totals']['indices_health_green']++;
-            }
             $data['totals']['indices_total']++;
 
-            $data['totals']['indices_documents'] += $index['docs.count'];
-            $data['totals']['indices_size'] += $index['store.size'];
+            $data['totals']['indices_total_documents'] += $index['docs.count'];
+            $data['totals']['indices_total_size'] += $index['store.size'];
 
             foreach ($tables as $key => $table) {
                 switch ($key) {
                     case 'indices_by_documents':
-                    case 'indices_by_size':
+                    case 'indices_by_total_size':
                         $data['tables'][$key]['results'][] = ['total' => $index[$table], 'title' => $index['index']];
                         break;
                     default:

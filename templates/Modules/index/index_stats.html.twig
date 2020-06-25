@@ -19,10 +19,8 @@
 
             <div class="row">
                 {% for key, total in data.totals %}
-                    {% if 'indices_size' == key %}
+                    {% if 'indices_total_size' == key %}
                         {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total|human_filesize}}) }}
-                    {% elseif 'indices_health_green' == key %}
-                        {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total, 'context': 'green'}}) }}
                     {% else %}
                         {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total}}) }}
                     {% endif %}
@@ -40,15 +38,15 @@
                             {% block content %}
                                 {% for row in table.results %}
                                     {% if 'indices_by_documents' == key %}
-                                        {% set percent = appImport.getPercent(data.totals.indices_documents, row.total, 1) %}
-                                    {% elseif 'indices_by_size' == key %}
-                                        {% set percent = appImport.getPercent(data.totals.indices_size, row.total, 1) %}
+                                        {% set percent = appImport.getPercent(data.totals.indices_total_documents, row.total, 1) %}
+                                    {% elseif 'indices_by_total_size' == key %}
+                                        {% set percent = appImport.getPercent(data.totals.indices_total_size, row.total, 1) %}
                                     {% else %}
                                         {% set percent = appImport.getPercent(data.totals.indices_total, row.total, 1) %}
                                     {% endif %}
 
                                     {% set class = 'progress-bar' %}
-                                    {% if key in ['indices_by_documents', 'indices_by_size'] %}
+                                    {% if key in ['indices_by_documents', 'indices_by_total_size'] %}
                                         {% set class = class ~ ' ' ~ appImport.convertColor({}) %}
                                     {% else %}
                                         {% set class = class ~ ' ' ~ appImport.convertColor({'context': row.title}) %}
@@ -56,35 +54,15 @@
 
                                     {% embed 'Embed/stats_table_row_embed.html.twig' %}
                                         {% block title %}
-                                            {% if 'accounts_by_classification' == key %}
-                                                {% if 'undefined' == row.title %}
-                                                    {{ row.title|trans }}
-                                                {% else %}
-                                                    {{ ('c.account_classification.classification.' ~ row.title)|trans }}
-                                                {% endif %}
-                                            {% elseif 'accounts_by_status' == key %}
-                                                {{ appImport.addFilter({'path': 'backend_accounts_dashboard', 'array': {'company': companyAttribute, 'filter[status]': row.title}, 'link': ('c.account.status.' ~ row.title)|trans}) }}
-                                            {% elseif 'factories_by_qc_responsible' == key %}
-                                                {% if 'undefined' == row.title %}
-                                                    {{ row.title|trans }}
-                                                {% else %}
-                                                    {{ appImport.addFilter({'path': 'backend_accounts_dashboard', 'array': {'company': companyAttribute, 'filter[qcResponsible]': row.title}, 'link': ('c.account.qc_responsible.' ~ row.title)|trans}) }}
-                                                {% endif %}
-                                            {% elseif 'accounts_by_country' == key %}
-                                                {% if 'undefined' == row.title %}
-                                                    {{ row.title|trans }}
-                                                {% else %}
-                                                    {{ appImport.addFilter({'path': 'backend_accounts_dashboard', 'array': {'company': companyAttribute, 'filter[country]': row.id}, 'link': row.title}) }}
-                                                {% endif %}
-                                            {% elseif '_by_month' in key %}
-                                                <span data-timestamp="{{ row.title|date('U') * 1000 }}">{{ row.title|date('F Y') }}</span>
-                                            {% else %}
+                                            {% if key in ['indices_by_documents', 'indices_by_total_size'] %}
                                                 {{ row.title }}
+                                            {% else %}
+                                                {{ row.title|trans }}
                                             {% endif %}
                                         {% endblock %}
 
                                         {% block total %}
-                                            {% if 'indices_by_size' == key %}
+                                            {% if 'indices_by_total_size' == key %}
                                                 {{ row.total|human_filesize }}
                                             {% else %}
                                                 {{ row.total }}
