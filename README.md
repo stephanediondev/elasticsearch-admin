@@ -52,6 +52,7 @@ cp .env.dist .env
 
 - [ ] Indices: update (dynamic index settings)
 - [ ] Repositories: create (url, source, hdfs, azure)
+- [ ] License: update
 
 ## Unit tests
 
