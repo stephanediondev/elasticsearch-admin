@@ -38,7 +38,7 @@ class IndexController extends AbstractAppController
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices');
-        $callRequest->setQuery(['bytes' => 'b', 's' => $request->query->get('s', 'index:asc'), 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
+        $callRequest->setQuery(['expand_wildcards' => 'all', 'bytes' => 'b', 's' => $request->query->get('s', 'index:asc'), 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
         $callResponse = $this->callManager->call($callRequest);
         $indices = $callResponse->getContent();
 
