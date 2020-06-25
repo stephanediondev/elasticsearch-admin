@@ -66,6 +66,8 @@ bin/phpunit
 
 [![Cluster settings](assets/images/resized-cluster-settings.png)](assets/images/original-cluster-settings.png)
 
+[![Cluster allocation explain](assets/images/resized-cluster-allocation-explain.png)](assets/images/original-cluster-allocation-explain.png)
+
 [![Nodes](assets/images/resized-nodes.png)](assets/images/original-nodes.png)
 
 [![Node](assets/images/resized-node.png)](assets/images/original-node.png)
