@@ -283,3 +283,42 @@
         </ul>
     {% endif %}
 {% endmacro %}
+
+{% macro getPercent(total, partial, round) %}
+{% apply spaceless %}
+    {% if(total > 0) %}
+        {% set percent = (partial * 100) / total %}
+    {% else %}
+        {% set percent = 0 %}
+    {% endif %}
+
+    {{ percent|round(round) }}
+{% endapply %}
+{% endmacro %}
+
+{% macro convertColor(params) %}
+    {% if params.context is not defined %}
+        {% set params = params|merge({'context': 'info'}) %}
+    {% endif %}
+
+    {% if params.context in ['true', '1', 'green', 'open', 'STARTED', 'RUNNING', 'SUCCESS'] %}
+        {% set params = params|merge({'context': 'success'}) %}
+
+    {% elseif params.context in ['false', '0', 'close'] %}
+        {% set params = params|merge({'context': 'secondary'}) %}
+
+    {% elseif params.context in ['red', 'STOPPED', 'UNASSIGNED', 'FAILED', 'INCOMPATIBLE'] %}
+        {% set params = params|merge({'context': 'danger'}) %}
+
+    {% elseif params.context in ['yellow', 'STOPPING', 'RELOCATING', 'IN_PROGRESS', 'PARTIAL'] %}
+        {% set params = params|merge({'context': 'warning'}) %}
+
+    {% elseif params.context in ['INITIALIZING'] %}
+        {% set params = params|merge({'context': 'light'}) %}
+
+    {% elseif params.context in ['master_node'] %}
+        {% set params = params|merge({'context': 'info'}) %}
+    {% endif %}
+
+    bg-{{ params.context }}
+{% endmacro %}

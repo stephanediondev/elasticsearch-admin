@@ -4,6 +4,10 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link{% if 'charts' == active %} active{% endif %}" href="{{ path('indices_charts') }}">{{ 'charts'|trans }}</a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link{% if 'create_index' == active %} active{% endif %}" href="{{ path('indices_create') }}">{{ 'create_index'|trans }}</a>
     </li>
 

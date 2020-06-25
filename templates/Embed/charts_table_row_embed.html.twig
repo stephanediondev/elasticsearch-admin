@@ -1,0 +1,21 @@
+<tr{% if limit < loop.index %} class="d-none"{% endif %}>
+
+<td class="align-middle row-label">
+{% apply spaceless %}
+{% block title %}
+{% endblock %}
+{% endapply %}
+</td>
+
+<td class="align-middle">
+    <div class="progress" style="width:100px;">
+        <div class="{{ class }}" role="progressbar" style="width:{{ percent }}%" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">
+        </div>
+    </div>
+</td>
+
+<td class="align-middle text-right">{{ percent }}%</td>
+
+<td class="align-middle font-italic text-right row-data" data-total="{{ row.total }}">{% block total %}{% endblock %}</td>
+
+</tr>

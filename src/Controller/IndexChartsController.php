@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Controller;
+
+use App\Controller\AbstractAppController;
+use App\Model\CallRequestModel;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * @Route("/admin")
+ */
+class IndexChartsController extends AbstractAppController
+{
+    /**
+     * @Route("/indices/charts", name="indices_charts")
+     */
+    public function index(Request $request): Response
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/indices');
+        $callRequest->setQuery(['expand_wildcards' => 'all', 'bytes' => 'b', 'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth']);
+        $callResponse = $this->callManager->call($callRequest);
+        $indices = $callResponse->getContent();
+
+        $data = ['totals' => [], 'tables' => []];
+        $data['totals']['indices_total'] = 0;
+        $data['totals']['indices_health_green'] = 0;
+        $data['totals']['indices_documents'] = 0;
+        $data['totals']['indices_size'] = 0;
+
+        $tables = [
+            'indices_by_status' => 'status',
+            'indices_by_health' => 'health',
+            'indices_by_frozen' => 'sth',
+            'indices_by_documents' => 'docs.count',
+            'indices_by_size' => 'store.size',
+        ];
+
+        foreach ($indices as $index) {
+            if ('green' == $index['health']) {
+                $data['totals']['indices_health_green']++;
+            }
+            $data['totals']['indices_total']++;
+
+            $data['totals']['indices_documents'] += $index['docs.count'];
+            $data['totals']['indices_size'] += $index['store.size'];
+
+            foreach ($tables as $key => $table) {
+                switch ($key) {
+                    case 'indices_by_documents':
+                    case 'indices_by_size':
+                        $data['tables'][$key]['results'][] = ['total' => $index[$table], 'title' => $index['index']];
+                        break;
+                    default:
+                        if (false == isset($data['tables'][$key]['results'][$index[$table]])) {
+                            $data['tables'][$key]['results'][$index[$table]] = ['total' => 0, 'title' => $index[$table]];
+                        }
+                        $data['tables'][$key]['results'][$index[$table]]['total']++;
+                        break;
+
+                }
+            }
+        }
+
+        foreach ($tables as $key => $table) {
+            usort($data['tables'][$key]['results'], [$this, 'sortByTotal']);
+        }
+
+        return $this->renderAbstract($request, 'Modules/index/index_charts.html.twig', [
+            'data' => $data,
+        ]);
+    }
+
+    private function sortByTotal($a, $b) {
+        return $b['total'] - $a['total'];
+    }
+}

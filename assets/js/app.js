@@ -5,6 +5,13 @@ require('bootstrap');
 
 require('select2');
 
+var flot = require('flot');
+global.flot = flot;
+
+require('flot-pie');
+
+require('jquery-flot-resize');
+
 import bsCustomFileInput from 'bs-custom-file-input';
 global.bsCustomFileInput = bsCustomFileInput;
 
@@ -78,5 +85,12 @@ $(document).ready(function () {
 
     $(document).on('click', '.searchCheckbox', function() {
         search();
+    });
+
+    $(document).on('click', '.dashboard-table-expand', function(event) {
+        event.preventDefault();
+        $(this).remove();
+        var table = $($(this).attr('href'));
+        table.find('tr').removeClass('d-none');
     });
 });

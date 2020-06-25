@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'indices'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/index/index_tabs.html.twig' with {'active': 'charts'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'charts'|trans}) }}
+
+            <div class="row">
+                {% for key, total in data.totals %}
+                    {% if 'indices_size' == key %}
+                        {{ appImport.dashboardKpi({'title': ('charts.' ~ key)|trans, 'badge': {'title': total|human_filesize}}) }}
+                    {% elseif 'indices_health_green' == key %}
+                        {{ appImport.dashboardKpi({'title': ('charts.' ~ key)|trans, 'badge': {'title': total, 'context': 'green'}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': ('charts.' ~ key)|trans, 'badge': {'title': total}}) }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="card-columns">
+                {% for key, table in data.tables %}
+                    {% if 0 < table.results|length %}
+                        {% embed 'Embed/charts_table_embed.html.twig' %}
+                            {% import 'Import/app_import.html.twig' as appImport %}
+
+                            {% block title %}{{ ('charts.' ~ key)|trans }}{% endblock %}
+
+                            {% block content %}
+                                {% for row in table.results %}
+                                    {% if 'indices_by_documents' == key %}
+                                        {% set percent = appImport.getPercent(data.totals.indices_documents, row.total, 1) %}
+                                    {% elseif 'indices_by_size' == key %}
+                                        {% set percent = appImport.getPercent(data.totals.indices_size, row.total, 1) %}
+                                    {% else %}
+                                        {% set percent = appImport.getPercent(data.totals.indices_total, row.total, 1) %}
+                                    {% endif %}
+
+                                    {% set class = 'progress-bar' %}
+                                    {% if key in ['indices_by_documents', 'indices_by_size'] %}
+                                        {% set class = class ~ ' ' ~ appImport.convertColor({}) %}
+                                    {% else %}
+                                        {% set class = class ~ ' ' ~ appImport.convertColor({'context': row.title}) %}
+                                    {% endif %}
+
+                                    {% embed 'Embed/charts_table_row_embed.html.twig' %}
+                                        {% block title %}
+                                            {% if 'accounts_by_classification' == key %}
+                                                {% if 'undefined' == row.title %}
+                                                    {{ row.title|trans }}
+                                                {% else %}
+                                                    {{ ('c.account_classification.classification.' ~ row.title)|trans }}
+                                                {% endif %}
+                                            {% elseif 'accounts_by_status' == key %}
+                                                {{ appImport.addFilter({'path': 'backend_accounts_dashboard', 'array': {'company': companyAttribute, 'filter[status]': row.title}, 'link': ('c.account.status.' ~ row.title)|trans}) }}
+                                            {% elseif 'factories_by_qc_responsible' == key %}
+                                                {% if 'undefined' == row.title %}
+                                                    {{ row.title|trans }}
+                                                {% else %}
+                                                    {{ appImport.addFilter({'path': 'backend_accounts_dashboard', 'array': {'company': companyAttribute, 'filter[qcResponsible]': row.title}, 'link': ('c.account.qc_responsible.' ~ row.title)|trans}) }}
+                                                {% endif %}
+                                            {% elseif 'accounts_by_country' == key %}
+                                                {% if 'undefined' == row.title %}
+                                                    {{ row.title|trans }}
+                                                {% else %}
+                                                    {{ appImport.addFilter({'path': 'backend_accounts_dashboard', 'array': {'company': companyAttribute, 'filter[country]': row.id}, 'link': row.title}) }}
+                                                {% endif %}
+                                            {% elseif '_by_month' in key %}
+                                                <span data-timestamp="{{ row.title|date('U') * 1000 }}">{{ row.title|date('F Y') }}</span>
+                                            {% else %}
+                                                {{ row.title }}
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block total %}
+                                            {% if 'indices_by_size' == key %}
+                                                {{ row.total|human_filesize }}
+                                            {% else %}
+                                                {{ row.total }}
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endfor %}
+                            {% endblock %}
+                        {% endembed %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
