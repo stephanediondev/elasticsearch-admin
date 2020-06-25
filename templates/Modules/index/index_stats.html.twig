@@ -1,30 +1,30 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ 'stats'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans}) }}
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index/index_tabs.html.twig' with {'active': 'charts'} %}
+    {% include 'Modules/index/index_tabs.html.twig' with {'active': 'stats'} %}
 {% endblock %}
 
 {% block main_content %}
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'charts'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
 
             <div class="row">
                 {% for key, total in data.totals %}
                     {% if 'indices_size' == key %}
-                        {{ appImport.dashboardKpi({'title': ('charts.' ~ key)|trans, 'badge': {'title': total|human_filesize}}) }}
+                        {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total|human_filesize}}) }}
                     {% elseif 'indices_health_green' == key %}
-                        {{ appImport.dashboardKpi({'title': ('charts.' ~ key)|trans, 'badge': {'title': total, 'context': 'green'}}) }}
+                        {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total, 'context': 'green'}}) }}
                     {% else %}
-                        {{ appImport.dashboardKpi({'title': ('charts.' ~ key)|trans, 'badge': {'title': total}}) }}
+                        {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total}}) }}
                     {% endif %}
                 {% endfor %}
             </div>
@@ -32,10 +32,10 @@
             <div class="card-columns">
                 {% for key, table in data.tables %}
                     {% if 0 < table.results|length %}
-                        {% embed 'Embed/charts_table_embed.html.twig' %}
+                        {% embed 'Embed/stats_table_embed.html.twig' %}
                             {% import 'Import/app_import.html.twig' as appImport %}
 
-                            {% block title %}{{ ('charts.' ~ key)|trans }}{% endblock %}
+                            {% block title %}{{ ('stats_data.' ~ key)|trans }}{% endblock %}
 
                             {% block content %}
                                 {% for row in table.results %}
@@ -54,7 +54,7 @@
                                         {% set class = class ~ ' ' ~ appImport.convertColor({'context': row.title}) %}
                                     {% endif %}
 
-                                    {% embed 'Embed/charts_table_row_embed.html.twig' %}
+                                    {% embed 'Embed/stats_table_row_embed.html.twig' %}
                                         {% block title %}
                                             {% if 'accounts_by_classification' == key %}
                                                 {% if 'undefined' == row.title %}

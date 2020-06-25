@@ -5,13 +5,6 @@ require('bootstrap');
 
 require('select2');
 
-var flot = require('flot');
-global.flot = flot;
-
-require('flot-pie');
-
-require('jquery-flot-resize');
-
 import bsCustomFileInput from 'bs-custom-file-input';
 global.bsCustomFileInput = bsCustomFileInput;
 

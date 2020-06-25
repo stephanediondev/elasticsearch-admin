@@ -11,7 +11,7 @@
 
         {% block all %}
             {% if limit < table.results|length %}
-                <a href="#{{ key }}" class="btn btn-light btn-sm text-center d-block dashboard-table-expand">{{ 'b.all'|trans }} ({{ table.results|length }})</a>
+                <a href="#{{ key }}" class="btn btn-light btn-sm text-center d-block dashboard-table-expand">{{ 'all'|trans }} ({{ table.results|length }})</a>
             {% endif %}
         {% endblock %}
     </div>

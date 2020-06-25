@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class IndexChartsController extends AbstractAppController
+class IndexStatsController extends AbstractAppController
 {
     /**
-     * @Route("/indices/charts", name="indices_charts")
+     * @Route("/indices/stats", priority=10, name="indices_stats")
      */
     public function index(Request $request): Response
     {
@@ -68,7 +68,7 @@ class IndexChartsController extends AbstractAppController
             usort($data['tables'][$key]['results'], [$this, 'sortByTotal']);
         }
 
-        return $this->renderAbstract($request, 'Modules/index/index_charts.html.twig', [
+        return $this->renderAbstract($request, 'Modules/index/index_stats.html.twig', [
             'data' => $data,
         ]);
     }
