@@ -20,7 +20,7 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     public function __construct()
     {
-        $this->settings = json_encode(['number_of_shards' => 1, 'number_of_replicas' => 0], JSON_PRETTY_PRINT);
+        $this->settings = json_encode(['number_of_shards' => 1, 'auto_expand_replicas' => '0-1'], JSON_PRETTY_PRINT);
     }
 
     public function getName(): ?string
