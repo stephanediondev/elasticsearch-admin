@@ -31,37 +31,32 @@
             {% endembed %}
 
             {% if allocation_explain %}
-                {% if allocation_explain['index'] is defined %}
-                    <p>
-                        <strong>{{ 'index'|trans }}</strong><br>
-                        <a href="{{ path('indices_read', {'index': allocation_explain['index']}) }}">{{ allocation_explain['index'] }}</a>
-                    </p>
-                {% endif %}
+                <hr>
 
-                {% if allocation_explain['shard'] is defined %}
-                    <p>
-                        <strong>{{ 'shard'|trans }}</strong><br>
-                        {{ allocation_explain['shard'] }}
-                    </p>
-                {% endif %}
+                <div class="row">
+                    {% if allocation_explain['index'] is defined %}
+                        {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['index']}}) }}
+                    {% endif %}
 
-                {% if allocation_explain['primary'] is defined %}
-                    <p>
-                        <strong>{{ 'primary'|trans }}</strong><br>
-                        {{ appImport.badge({'title': ('boolean.' ~ allocation_explain['primary'])|trans, 'context': allocation_explain['primary']}) }}
-                    </p>
-                {% endif %}
+                    {% if allocation_explain['shard'] is defined %}
+                        {{ appImport.dashboardKpi({'title': 'shard'|trans, 'badge': {'title': allocation_explain['shard']}}) }}
+                    {% endif %}
 
-                {% if allocation_explain['unassigned_info']['reason'] is defined %}
-                    <p>
-                        <strong>{{ 'unassigned_reason'|trans }}</strong><br>
-                        {{ allocation_explain['unassigned_info']['reason'] }}
-                    </p>
-                {% endif %}
+                    {% if allocation_explain['primary'] is defined %}
+                        {{ appImport.dashboardKpi({'title': 'primary'|trans, 'badge': {'title': ('boolean.' ~ allocation_explain['primary'])|trans, 'context': allocation_explain['primary']}}) }}
+                    {% endif %}
+
+                    {% if allocation_explain['unassigned_info']['reason'] is defined %}
+                        {{ appImport.dashboardKpi({'title': 'unassigned_reason'|trans, 'badge': {'title': allocation_explain['unassigned_info']['reason']|trans, 'context': 'danger'}}) }}
+                    {% endif %}
+                </div>
+
+                <hr>
 
                 {% if allocation_explain['allocate_explanation'] is defined %}
+                    {{ appImport.heading({'level': 4, 'title': 'explanation'|trans}) }}
+
                     <p>
-                        <strong>{{ 'allocate_explanation'|trans }}</strong><br>
                         {{ allocation_explain['allocate_explanation'] }}
                     </p>
                 {% endif %}
