@@ -62,6 +62,8 @@ bin/console app:phpunit && bin/phpunit
 
 ## Screenshots
 
+[![Login](assets/images/resized-login.png)](assets/images/original-login.png)
+
 [![Cluster](assets/images/resized-cluster.png)](assets/images/original-cluster.png)
 
 [![Cluster settings](assets/images/resized-cluster-settings.png)](assets/images/original-cluster-settings.png)
