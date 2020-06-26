@@ -29,7 +29,63 @@ class PhpunitCommand extends Command
     {
         $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
 
+        // role
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('GET');
+        $callRequest->setPath('/_security/role/'.$names[0]);
+        $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_OK == $callResponse->getCode()) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('DELETE');
+            $callRequest->setPath('/_security/role/'.$names[0]);
+            $this->callManager->call($callRequest);
+        }
+
+        $json = [
+            'cluster' => [],
+            'run_as' => [],
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setJson($json);
+        $callRequest->setPath('/_security/role/'.$names[0]);
+        $this->callManager->call($callRequest);
+
+        $output->writeln('<info>Role created: '.$names[0].'</info>');
+
+        // user
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('GET');
+        $callRequest->setPath('/_security/user/'.$names[0]);
+        $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_OK == $callResponse->getCode()) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('DELETE');
+            $callRequest->setPath('/_security/user/'.$names[0]);
+            $this->callManager->call($callRequest);
+        }
+
+        $json = [
+            'password' => $names[0],
+            'roles' => [$names[0]],
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setJson($json);
+        $callRequest->setPath('/_security/user/'.$names[0]);
+        $this->callManager->call($callRequest);
+
+        $output->writeln('<info>User created: '.$names[0].'</info>');
+
         foreach ($names as $name) {
+            $json = [
+                'settings' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1'],
+                'mappings' => json_decode(file_get_contents(__DIR__.'/mappings.json'), true),
+            ];
+
+            // index
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('HEAD');
             $callRequest->setPath('/'.$name);
@@ -42,10 +98,6 @@ class PhpunitCommand extends Command
                 $this->callManager->call($callRequest);
             }
 
-            $json = [
-                'settings' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1'],
-                'mappings' => json_decode(file_get_contents(__DIR__.'/elasticsearch-admin-test.json'), true),
-            ];
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setJson($json);
@@ -53,9 +105,8 @@ class PhpunitCommand extends Command
             $this->callManager->call($callRequest);
 
             $output->writeln('<info>Index created: '.$name.'</info>');
-        }
 
-        foreach ($names as $name) {
+            // index template
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('HEAD');
             $callRequest->setPath('/_template/'.$name);
@@ -68,11 +119,7 @@ class PhpunitCommand extends Command
                 $this->callManager->call($callRequest);
             }
 
-            $json = [
-                'index_patterns' => $name,
-                'settings' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1'],
-                'mappings' => json_decode(file_get_contents(__DIR__.'/elasticsearch-admin-test.json'), true),
-            ];
+            $json['index_patterns'] = $name;
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setJson($json);
