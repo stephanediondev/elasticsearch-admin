@@ -134,6 +134,7 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/lifecycle');
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Lifecycle');
     }
 
     /**
@@ -151,6 +152,7 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/shards');
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Shards');
     }
 
     /**
@@ -175,6 +177,7 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/search');
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Search');
     }
 
     /**
@@ -199,6 +202,7 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/import-export');
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Import / Export');
     }
 
     /**
@@ -216,6 +220,7 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/aliases');
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Aliases');
     }
 
     /**
@@ -233,6 +238,7 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/aliases/create');
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Create alias');
     }
 
     /**
