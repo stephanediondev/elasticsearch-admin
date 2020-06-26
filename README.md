@@ -35,8 +35,8 @@ cp .env.dist .env
 - [x] Index lifecycle management policies: list, status, start, stop, create, read, update, delete
 - [x] Shards: list
 - [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
-- [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Snapshot lifecycle management policies: list, status, start, stop, create, read, update, delete, execute, history, stats
+- [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Users (native realm): list, create, read, update, delete, enable, disable
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
@@ -86,6 +86,8 @@ bin/console app:phpunit && bin/phpunit
 
 [![Create index template](assets/images/resized-index-template-create.png)](assets/images/original-index-template-create.png)
 
+[![Shards](assets/images/resized-shards.png)](assets/images/original-shards.png)
+
 [![Create AWS S3 repository](assets/images/resized-repository-create-s3.png)](assets/images/original-repository-create-s3.png)
 
 [![Create SLM policy](assets/images/resized-slm-policy-create.png)](assets/images/original-slm-policy-create.png)
@@ -93,7 +95,5 @@ bin/console app:phpunit && bin/phpunit
 [![Snaphosts](assets/images/resized-snapshots.png)](assets/images/original-snapshots.png)
 
 [![Create snapshot](assets/images/resized-snapshot-create.png)](assets/images/original-snapshot-create.png)
-
-[![Shards](assets/images/resized-shards.png)](assets/images/original-shards.png)
 
 [![Create enrich policy](assets/images/resized-enrich-create.png)](assets/images/original-enrich-create.png)
