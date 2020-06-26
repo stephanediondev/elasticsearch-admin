@@ -73,6 +73,42 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     }
 
     /**
+     * @Route("/index-templates/{name}/settings", name="index_templates_read_settings")
+     */
+    public function testSettings404()
+    {
+        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/settings');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testSettings()
+    {
+        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/settings');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Index templates - elasticsearch-admin-test - Settings');
+    }
+
+    /**
+     * @Route("/index-templates/{name}/mappings", name="index_templates_read_mappings")
+     */
+    public function testMappings404()
+    {
+        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/mappings');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testMappings()
+    {
+        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/mappings');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Index templates - elasticsearch-admin-test - Mappings');
+    }
+
+    /**
      * @Route("/index-templates/{name}/delete", name="index_templates_delete")
      */
     public function testDelete404()
