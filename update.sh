@@ -1,3 +1,5 @@
 git fetch origin
 git reset --hard origin/master
-bin/console cache:clear --env=prod
+composer install
+npm install
+npm run build
