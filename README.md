@@ -42,7 +42,7 @@ cp .env.dist .env
 - [x] Tasks: list
 - [x] Remote clusters: list
 - [x] Enrich policies: list, stats, create, read, delete, execute
-- [x] Pipelines: list, read
+- [x] Pipelines: list, create, read, update, delete
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
 - [x] Deprecations info

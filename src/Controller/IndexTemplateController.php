@@ -221,7 +221,6 @@ class IndexTemplateController extends AbstractAppController
         ]);
     }
 
-
     /**
      * @Route("/index-templates/{name}/delete", name="index_templates_delete")
      */

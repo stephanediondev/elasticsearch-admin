@@ -2,4 +2,8 @@
     <li class="nav-item">
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('pipelines') }}">{{ 'list'|trans }}</a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'create_pipeline' == active %} active{% endif %}" href="{{ path('pipelines_create') }}">{{ 'create_pipeline'|trans }}</a>
+    </li>
 </ul>

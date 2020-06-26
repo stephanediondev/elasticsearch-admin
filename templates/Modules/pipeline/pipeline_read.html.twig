@@ -40,10 +40,12 @@
                 </p>
             {% endif %}
 
-            <p>
-                <strong>{{ 'description'|trans }}</strong><br>
-                {{ pipeline['description'] }}
-            </p>
+            {% if pipeline['description'] is defined %}
+                <p>
+                    <strong>{{ 'description'|trans }}</strong><br>
+                    {{ pipeline['description'] }}
+                </p>
+            {% endif %}
 
             {% if pipeline['version'] is defined %}
                 <p>
