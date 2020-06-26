@@ -2,7 +2,8 @@
 
 ## Requirements
 
-- PHP 7.2.5 or higher
+- Elasticsearch 6.x or 7.x
+- Web server running PHP 7.2.5 or higher
 - Composer
 - npm
 

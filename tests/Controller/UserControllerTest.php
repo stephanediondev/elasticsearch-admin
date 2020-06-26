@@ -14,8 +14,12 @@ class UserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/users');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Users');
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Users');
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     /**
@@ -25,8 +29,12 @@ class UserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/users/create');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Users - Create user');
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Users - Create user');
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     /**
@@ -36,15 +44,23 @@ class UserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/users/'.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testRead()
     {
         $this->client->request('GET', '/admin/users/elasticsearch-admin-test');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Users - elasticsearch-admin-test');
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Users - elasticsearch-admin-test');
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     /**
@@ -54,22 +70,34 @@ class UserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/users/'.uniqid().'/update');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testUpdate403()
     {
         $this->client->request('GET', '/admin/users/elastic/update');
 
-        $this->assertResponseStatusCodeSame(403);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testUpdate()
     {
         $this->client->request('GET', '/admin/users/elasticsearch-admin-test/update');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Users - elasticsearch-admin-test - Update');
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Users - elasticsearch-admin-test - Update');
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     /**
@@ -79,21 +107,33 @@ class UserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/users/'.uniqid().'/disable');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testDisable403()
     {
         $this->client->request('GET', '/admin/users/elastic/disable');
 
-        $this->assertResponseStatusCodeSame(403);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testDisable()
     {
         $this->client->request('GET', '/admin/users/elasticsearch-admin-test/disable');
 
-        $this->assertResponseStatusCodeSame(302);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(302);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     /**
@@ -103,21 +143,33 @@ class UserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/users/'.uniqid().'/enable');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testEnable403()
     {
         $this->client->request('GET', '/admin/users/elastic/enable');
 
-        $this->assertResponseStatusCodeSame(403);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testEnable()
     {
         $this->client->request('GET', '/admin/users/elasticsearch-admin-test/enable');
 
-        $this->assertResponseStatusCodeSame(302);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(302);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     /**
@@ -127,20 +179,32 @@ class UserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/users/'.uniqid().'/delete');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testDelete403()
     {
         $this->client->request('GET', '/admin/users/elastic/delete');
 
-        $this->assertResponseStatusCodeSame(403);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     public function testDelete()
     {
         $this->client->request('GET', '/admin/users/elasticsearch-admin-test/delete');
 
-        $this->assertResponseStatusCodeSame(302);
+        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+            $this->assertResponseStatusCodeSame(302);
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 }

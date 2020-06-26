@@ -14,8 +14,12 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Enrich policies');
+        if (true == isset($this->xpack['features']['enrich']) && true == $this->xpack['features']['enrich']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Enrich policies');
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     /**
@@ -25,8 +29,12 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/stats');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Enrich policies - Stats');
+        if (true == isset($this->xpack['features']['enrich']) && true == $this->xpack['features']['enrich']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Enrich policies - Stats');
+        } else {
+            $this->assertResponseStatusCodeSame(500);
+        }
     }
 
     /**

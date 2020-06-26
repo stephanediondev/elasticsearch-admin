@@ -29,55 +29,62 @@ class PhpunitCommand extends Command
     {
         $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
 
-        // role
         $callRequest = new CallRequestModel();
-        $callRequest->setMethod('GET');
-        $callRequest->setPath('/_security/role/'.$names[0]);
+        $callRequest->setPath('/_xpack');
         $callResponse = $this->callManager->call($callRequest);
+        $xpack = $callResponse->getContent();
 
-        if (Response::HTTP_OK == $callResponse->getCode()) {
+        if (true == isset($xpack['features']['security']) && true == $xpack['features']['security']['enabled']) {
+            // role
             $callRequest = new CallRequestModel();
-            $callRequest->setMethod('DELETE');
+            $callRequest->setMethod('GET');
+            $callRequest->setPath('/_security/role/'.$names[0]);
+            $callResponse = $this->callManager->call($callRequest);
+
+            if (Response::HTTP_OK == $callResponse->getCode()) {
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('DELETE');
+                $callRequest->setPath('/_security/role/'.$names[0]);
+                $this->callManager->call($callRequest);
+            }
+
+            $json = [
+                'cluster' => [],
+                'run_as' => [],
+            ];
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setJson($json);
             $callRequest->setPath('/_security/role/'.$names[0]);
             $this->callManager->call($callRequest);
-        }
 
-        $json = [
-            'cluster' => [],
-            'run_as' => [],
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setJson($json);
-        $callRequest->setPath('/_security/role/'.$names[0]);
-        $this->callManager->call($callRequest);
+            $output->writeln('<info>Role created: '.$names[0].'</info>');
 
-        $output->writeln('<info>Role created: '.$names[0].'</info>');
-
-        // user
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('GET');
-        $callRequest->setPath('/_security/user/'.$names[0]);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_OK == $callResponse->getCode()) {
+            // user
             $callRequest = new CallRequestModel();
-            $callRequest->setMethod('DELETE');
+            $callRequest->setMethod('GET');
+            $callRequest->setPath('/_security/user/'.$names[0]);
+            $callResponse = $this->callManager->call($callRequest);
+
+            if (Response::HTTP_OK == $callResponse->getCode()) {
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('DELETE');
+                $callRequest->setPath('/_security/user/'.$names[0]);
+                $this->callManager->call($callRequest);
+            }
+
+            $json = [
+                'password' => $names[0],
+                'roles' => [$names[0]],
+            ];
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setJson($json);
             $callRequest->setPath('/_security/user/'.$names[0]);
             $this->callManager->call($callRequest);
+
+            $output->writeln('<info>User created: '.$names[0].'</info>');
         }
-
-        $json = [
-            'password' => $names[0],
-            'roles' => [$names[0]],
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setJson($json);
-        $callRequest->setPath('/_security/user/'.$names[0]);
-        $this->callManager->call($callRequest);
-
-        $output->writeln('<info>User created: '.$names[0].'</info>');
 
         foreach ($names as $name) {
             $json = [
@@ -101,7 +108,7 @@ class PhpunitCommand extends Command
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setJson($json);
-            $callRequest->setPath('/'.$name);
+            $callRequest->setPath('/'.$name.'?include_type_name=false');
             $this->callManager->call($callRequest);
 
             $output->writeln('<info>Index created: '.$name.'</info>');
@@ -123,7 +130,7 @@ class PhpunitCommand extends Command
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setJson($json);
-            $callRequest->setPath('/_template/'.$name);
+            $callRequest->setPath('/_template/'.$name.'?include_type_name=false');
             $this->callManager->call($callRequest);
 
             $output->writeln('<info>Index template created: '.$name.'</info>');
