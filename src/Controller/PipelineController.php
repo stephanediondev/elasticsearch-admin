@@ -159,7 +159,7 @@ class PipelineController extends AbstractAppController
         }
 
         return $this->renderAbstract($request, 'Modules/pipeline/pipeline_update.html.twig', [
-            'template' => $pipeline,
+            'pipeline' => $pipeline,
             'form' => $form->createView(),
         ]);
     }
