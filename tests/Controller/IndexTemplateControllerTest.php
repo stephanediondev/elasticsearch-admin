@@ -39,6 +39,14 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testRead()
+    {
+        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Index templates - elasticsearch-admin-test');
+    }
+
     /**
      * @Route("/index-templates/{name}/update", name="index_templates_update")
      */
@@ -48,4 +56,44 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(404);
     }
+
+    public function testUpdate403()
+    {
+        $this->client->request('GET', '/admin/index-templates/.elasticsearch-admin-test/update');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdate()
+    {
+        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/update');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Index templates - elasticsearch-admin-test - Update');
+    }
+
+    /**
+     * @Route("/index-templates/{name}/delete", name="index_templates_delete")
+     */
+    public function testDelete404()
+    {
+        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/delete');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testDelete403()
+    {
+        $this->client->request('GET', '/admin/index-templates/.elasticsearch-admin-test/delete');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDelete()
+    {
+        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/delete');
+
+        $this->assertResponseStatusCodeSame(302);
+    }
 }
+

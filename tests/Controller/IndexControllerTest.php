@@ -55,6 +55,7 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test');
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test');
     }
 
     /**
@@ -79,6 +80,7 @@ class IndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/update');
 
         $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Update');
     }
 
     /**

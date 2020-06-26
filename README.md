@@ -57,8 +57,7 @@ cp .env.dist .env
 ## Unit tests
 
 ```
-bin/console app:test-indices
-bin/phpunit
+bin/console app:phpunit && bin/phpunit
 ```
 
 ## Screenshots
