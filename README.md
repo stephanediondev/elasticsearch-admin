@@ -32,18 +32,18 @@ cp .env.dist .env
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings (transient or persistent)
 - [x] Nodes: list, read, usage, plugins, reload secure settings
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle (explain, remove policy), delete, close, open, freeze, unfreeze, force merge, clear cache, flush, refresh, empty, import (XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
-- [x] Index templates: list, create, read, update, delete
-- [x] Index lifecycle management policies: list, status, start, stop, create, read, update, delete
+- [x] Index templates: list, create, read, update, delete, copy
+- [x] Index lifecycle management policies: list, status, start, stop, create, read, update, delete, copy
 - [x] Shards: list
 - [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
-- [x] Snapshot lifecycle management policies: list, status, start, stop, create, read, update, delete, execute, history, stats
+- [x] Snapshot lifecycle management policies: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
 - [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Users (native realm): list, create, read, update, delete, enable, disable
 - [x] Roles: list, create, read, update, delete
 - [x] Tasks: list
 - [x] Remote clusters: list
 - [x] Enrich policies: list, stats, create, read, delete, execute
-- [x] Pipelines: list, create, read, update, delete
+- [x] Pipelines: list, create, read, update, delete, copy
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
 - [x] Deprecations info
