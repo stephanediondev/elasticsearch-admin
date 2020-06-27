@@ -40,6 +40,7 @@ class CreateIndexTemplateType extends AbstractType
         $fields[] = 'order';
         $fields[] = 'settings';
         $fields[] = 'mappings';
+        $fields[] = 'aliases';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -112,6 +113,17 @@ class CreateIndexTemplateType extends AbstractType
                             new Json(),
                         ],
                         'help' => 'help_form.index_template.mappings',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'aliases':
+                    $builder->add('aliases', TextareaType::class, [
+                        'label' => 'aliases',
+                        'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
+                        'help' => 'help_form.index_template.aliases',
                         'help_html' => true,
                     ]);
                     break;

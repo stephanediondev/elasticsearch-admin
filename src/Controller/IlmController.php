@@ -282,6 +282,7 @@ class IlmController extends AbstractAppController
             try {
                 $callRequest = new CallRequestModel();
                 $callRequest->setPath('/_template/'.$applyPolicyModel->getIndexTemplate());
+                $callRequest->setQuery(['flat_settings' => 'true']);
                 $callResponse = $this->callManager->call($callRequest);
 
                 if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {

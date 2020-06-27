@@ -92,6 +92,9 @@ class IndexTemplateController extends AbstractAppController
                 if ($templateModel->getMappings()) {
                     $json['mappings'] = json_decode($templateModel->getMappings(), true);
                 }
+                if ($templateModel->getAliases()) {
+                    $json['aliases'] = json_decode($templateModel->getAliases(), true);
+                }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_template/'.$templateModel->getName());
@@ -224,6 +227,9 @@ class IndexTemplateController extends AbstractAppController
                 }
                 if ($templateModel->getMappings()) {
                     $json['mappings'] = json_decode($templateModel->getMappings(), true);
+                }
+                if ($templateModel->getAliases()) {
+                    $json['aliases'] = json_decode($templateModel->getAliases(), true);
                 }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');

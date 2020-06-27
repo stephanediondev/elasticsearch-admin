@@ -18,6 +18,8 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     private $mappings;
 
+    private $aliases;
+
     public function __construct()
     {
         $this->settings = json_encode(['number_of_shards' => 1, 'auto_expand_replicas' => '0-1'], JSON_PRETTY_PRINT);
@@ -95,6 +97,18 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    public function getAliases(): ?string
+    {
+        return $this->aliases;
+    }
+
+    public function setAliases(?string $aliases): self
+    {
+        $this->aliases = $aliases;
+
+        return $this;
+    }
+
     public function getIndexToArray(): ?array
     {
         $indexPatterns = [];
@@ -120,6 +134,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         }
         if (true == isset($template['mappings']) && 0 < count($template['mappings'])) {
             $this->setMappings(json_encode($template['mappings'], JSON_PRETTY_PRINT));
+        }
+        if (true == isset($template['aliases']) && 0 < count($template['aliases'])) {
+            $this->setAliases(json_encode($template['aliases'], JSON_PRETTY_PRINT));
         }
         return $this;
     }
