@@ -6,4 +6,8 @@
     <li class="nav-item">
         <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('ilm_update', {'name': policy['name']}) }}">{{ 'update'|trans }}</a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link{% if 'apply' == active %} active{% endif %}" href="{{ path('ilm_apply', {'name': policy['name']}) }}">{{ 'apply'|trans }}</a>
+    </li>
 </ul>
