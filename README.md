@@ -39,7 +39,7 @@ cp .env.dist .env
 - [x] Snapshot lifecycle management policies: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
 - [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Users (native realm): list, create, read, update, delete, enable, disable
-- [x] Roles: list, create, read, update, delete
+- [x] Roles: list, create, read, update, delete, copy
 - [x] Tasks: list
 - [x] Remote clusters: list
 - [x] Enrich policies: list, stats, create, read, delete, execute

@@ -31,6 +31,8 @@
                             'body': role['role'],
                             'href': path('roles_delete', {'role': role['role']}),
                         }) }}
+
+                        <a class="btn btn-primary btn-sm" href="{{ path('roles_create', {'role': role['role']}) }}">{{ 'copy'|trans }}</a>
                     {% endblock %}
                 {% endembed %}
             {% endif %}

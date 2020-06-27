@@ -55,7 +55,28 @@ class RoleController extends AbstractAppController
      */
     public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
     {
+        $role = false;
+
+        if ($request->query->get('role')) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_security/role/'.$request->query->get('role'));
+            $callResponse = $this->callManager->call($callRequest);
+
+            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+                throw new NotFoundHttpException();
+            }
+
+            $role = $callResponse->getContent();
+            $roleNice = $role[key($role)];
+            $roleNice['name'] = key($role).'-copy';
+            $roleNice['role'] = key($role);
+            $role = $roleNice;
+        }
+
         $roleModel = new ElasticsearchRoleModel();
+        if ($role) {
+            $roleModel->convert($role);
+        }
         $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $elasticsearchRoleManager->getPrivileges(), 'users' => $elasticsearchUserManager->selectUsers()]);
 
         $form->handleRequest($request);
