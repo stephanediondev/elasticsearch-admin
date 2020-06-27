@@ -46,7 +46,31 @@ class IndexTemplateController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
+        $template = false;
+
+        if ($request->query->get('template')) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_template/'.$request->query->get('template'));
+            $callResponse = $this->callManager->call($callRequest);
+
+            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+                throw new NotFoundHttpException();
+            }
+
+            $template = $callResponse->getContent();
+            $template = $template[$request->query->get('template')];
+            $template['name'] = $request->query->get('template').'-copy';
+            $template['is_system'] = '.' == substr($template['name'], 0, 1);
+
+            if (true == $template['is_system']) {
+                throw new AccessDeniedHttpException();
+            }
+        }
+
         $templateModel = new ElasticsearchIndexTemplateModel();
+        if ($template) {
+            $templateModel->convert($template);
+        }
         $form = $this->createForm(CreateIndexTemplateType::class, $templateModel);
 
         $form->handleRequest($request);

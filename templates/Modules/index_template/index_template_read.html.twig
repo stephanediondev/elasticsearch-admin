@@ -31,6 +31,8 @@
                             'body': template['name'],
                             'href': path('index_templates_delete', {'name': template['name']}),
                         }) }}
+
+                        <a class="btn btn-primary btn-sm" href="{{ path('index_templates_create', {'template': template['name']}) }}">{{ 'copy'|trans }}</a>
                     {% endblock %}
                 {% endembed %}
             {% endif %}
