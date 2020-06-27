@@ -31,6 +31,8 @@
                         'href': path('slm_delete', {'name': policy['name']}),
                     }) }}
 
+                    <a class="btn btn-primary btn-sm" href="{{ path('slm_create', {'policy': policy['name']}) }}">{{ 'copy'|trans }}</a>
+
                     {{ appImport.buttonModal({
                         'id': 'PolicyExecute',
                         'title': 'execute'|trans,

@@ -30,6 +30,8 @@
                         'body': policy['name'],
                         'href': path('ilm_delete', {'name': policy['name']}),
                     }) }}
+
+                    <a class="btn btn-primary btn-sm" href="{{ path('ilm_create', {'policy': policy['name']}) }}">{{ 'copy'|trans }}</a>
                 {% endblock %}
             {% endembed %}
 

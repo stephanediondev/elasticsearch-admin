@@ -44,7 +44,26 @@ class PipelineController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
+        $pipeline = false;
+
+        if ($request->query->get('pipeline')) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_ingest/pipeline/'.$request->query->get('pipeline'));
+            $callResponse = $this->callManager->call($callRequest);
+
+            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+                throw new NotFoundHttpException();
+            }
+
+            $pipeline = $callResponse->getContent();
+            $pipeline = $pipeline[$request->query->get('pipeline')];
+            $pipeline['name'] = $request->query->get('pipeline').'-copy';
+        }
+
         $pipelineModel = new ElasticsearchPipelineModel();
+        if ($pipeline) {
+            $pipelineModel->convert($pipeline);
+        }
         $form = $this->createForm(CreatePipelineType::class, $pipelineModel);
 
         $form->handleRequest($request);

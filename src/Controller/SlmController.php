@@ -116,12 +116,31 @@ class SlmController extends AbstractAppController
         $repositories = $elasticsearchRepositoryManager->selectRepositories();
         $indices = $elasticsearchIndexManager->selectIndices();
 
+        $policy = false;
+
+        if ($request->query->get('policy')) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_slm/policy/'.$request->query->get('policy'));
+            $callResponse = $this->callManager->call($callRequest);
+
+            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+                throw new NotFoundHttpException();
+            }
+
+            $policy = $callResponse->getContent();
+            $policy = $policy[$request->query->get('policy')];
+            $policy['name'] = $request->query->get('policy').'-copy';
+        }
+
         $policyModel = new ElasticsearchSlmPolicyModel();
         if ($request->query->get('repository')) {
             $policyModel->setRepository($request->query->get('repository'));
         }
         if ($request->query->get('index')) {
             $policyModel->setIndices([$request->query->get('index')]);
+        }
+        if ($policy) {
+            $policyModel->convert($policy);
         }
         $form = $this->createForm(CreateSlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices]);
 

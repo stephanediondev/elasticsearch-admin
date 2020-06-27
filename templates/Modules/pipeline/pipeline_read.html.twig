@@ -30,6 +30,8 @@
                         'body': pipeline['name'],
                         'href': path('pipelines_delete', {'name': pipeline['name']}),
                     }) }}
+
+                    <a class="btn btn-primary btn-sm" href="{{ path('pipelines_create', {'pipeline': pipeline['name']}) }}">{{ 'copy'|trans }}</a>
                 {% endblock %}
             {% endembed %}
 
