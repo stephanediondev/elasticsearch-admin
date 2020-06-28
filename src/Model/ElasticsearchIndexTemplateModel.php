@@ -20,6 +20,8 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     private $aliases;
 
+    private $composedOf;
+
     public function __construct()
     {
         $this->settings = json_encode(['index.number_of_shards' => 1, 'index.auto_expand_replicas' => '0-1'], JSON_PRETTY_PRINT);
@@ -109,6 +111,18 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    public function getComposedOf(): ?array
+    {
+        return $this->composedOf;
+    }
+
+    public function setComposedOf(?array $composedOf): self
+    {
+        $this->composedOf = $composedOf;
+
+        return $this;
+    }
+
     public function getIndexToArray(): ?array
     {
         $indexPatterns = [];
@@ -138,6 +152,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         if (true == isset($template['aliases']) && 0 < count($template['aliases'])) {
             $this->setAliases(json_encode($template['aliases'], JSON_PRETTY_PRINT));
         }
+        if (true == isset($template['composed_of']) && 0 < count($template['composed_of'])) {
+            $this->setComposedOf($template['composed_of']);
+        }
         return $this;
     }
 
@@ -165,6 +182,10 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
         if ($this->getAliases()) {
             $json['aliases'] = json_decode($this->getAliases(), true);
+        }
+
+        if ($this->getComposedOf()) {
+            $json['composed_of'] = $this->getComposedOf();
         }
 
         return $json;

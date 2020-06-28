@@ -96,6 +96,7 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         if (true == isset($template['aliases']) && 0 < count($template['aliases'])) {
             $this->setAliases(json_encode($template['aliases'], JSON_PRETTY_PRINT));
         }
+
         return $this;
     }
 

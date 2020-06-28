@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -41,6 +42,9 @@ class CreateIndexTemplateType extends AbstractType
         $fields[] = 'settings';
         $fields[] = 'mappings';
         $fields[] = 'aliases';
+        if (true == isset($options['root']['version']) && true == isset($options['root']['version']['number']) && 0 <= version_compare($options['root']['version']['number'], '7.8')) {
+            $fields[] = 'composed_of';
+        }
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -127,6 +131,23 @@ class CreateIndexTemplateType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
+                case 'composed_of':
+                    $builder->add('composed_of', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['component_templates'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['component_templates'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'composed_of',
+                        'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
+                        'help' => 'help_form.index_template.composed_of',
+                        'help_html' => true,
+                    ]);
+                    break;
             }
         }
 
@@ -156,6 +177,8 @@ class CreateIndexTemplateType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchIndexTemplateModel::class,
+            'root' => [],
+            'component_templates' => [],
             'update' => false,
         ]);
     }

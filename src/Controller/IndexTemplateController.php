@@ -67,11 +67,29 @@ class IndexTemplateController extends AbstractAppController
             }
         }
 
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/');
+        $callResponse = $this->callManager->call($callRequest);
+        $root = $callResponse->getContent();
+
+        $componentTemplates = [];
+        if (true == isset($root['version']) && true == isset($root['version']['number']) && 0 <= version_compare($root['version']['number'], '7.8')) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_component_template');
+            $callResponse = $this->callManager->call($callRequest);
+            $results = $callResponse->getContent();
+
+            $results = $results['component_templates'];
+            foreach ($results as $row) {
+                $componentTemplates[] = $row['name'];
+            }
+        }
+
         $templateModel = new ElasticsearchIndexTemplateModel();
         if ($template) {
             $templateModel->convert($template);
         }
-        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel);
+        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['root' => $root, 'component_templates' => $componentTemplates]);
 
         $form->handleRequest($request);
 
@@ -188,9 +206,27 @@ class IndexTemplateController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/');
+        $callResponse = $this->callManager->call($callRequest);
+        $root = $callResponse->getContent();
+
+        $componentTemplates = [];
+        if (true == isset($root['version']) && true == isset($root['version']['number']) && 0 <= version_compare($root['version']['number'], '7.8')) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_component_template');
+            $callResponse = $this->callManager->call($callRequest);
+            $results = $callResponse->getContent();
+
+            $results = $results['component_templates'];
+            foreach ($results as $row) {
+                $componentTemplates[] = $row['name'];
+            }
+        }
+
         $templateModel = new ElasticsearchIndexTemplateModel();
         $templateModel->convert($template);
-        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['update' => true]);
+        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['root' => $root, 'component_templates' => $componentTemplates, 'update' => true]);
 
         $form->handleRequest($request);
 
