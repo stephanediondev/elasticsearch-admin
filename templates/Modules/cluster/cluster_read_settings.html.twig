@@ -51,7 +51,7 @@
                                     <td>{{ key }}</td>
                                     <td>
                                         {% if value is iterable %}
-                                            {{ value|join(', ') }}
+                                            {{ value|join(', ') }}{{ appImport.badge({'title': 'array'|trans, 'context': 'secondary'}) }}
                                         {% else %}
                                             {{ value }}
                                         {% endif %}

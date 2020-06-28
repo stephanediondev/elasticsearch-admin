@@ -44,14 +44,14 @@
                             <td>{{ key }}</td>
                             <td>
                                 {% if value is iterable %}
-                                    {{ value|join(', ') }}
+                                    {{ value|join(', ') }}{{ appImport.badge({'title': 'array'|trans, 'context': 'secondary'}) }}
                                 {% else %}
                                     {{ value }}
                                 {% endif %}
                             </td>
 
                             <td class="text-nowrap text-right">
-                                {% if key not in exclude_settings %}
+                                {% if value is not iterable and key not in exclude_settings %}
                                     {{ appImport.buttonModal({
                                         'id': 'SettingRemove' ~ loop.index,
                                         'title': 'remove'|trans,
