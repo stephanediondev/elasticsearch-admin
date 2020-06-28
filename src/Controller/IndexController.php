@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateAliasType;
 use App\Form\CreateIndexType;
+use App\Form\CreateIndexSettingType;
 use App\Form\ImportIndexType;
 use App\Form\ReindexType;
 use App\Form\SearchIndexType;
@@ -14,6 +15,7 @@ use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexModel;
 use App\Model\ElasticsearchIndexAliasModel;
+use App\Model\ElasticsearchIndexSettingModel;
 use App\Model\ElasticsearchReindexModel;
 use Box\Spout\Common\Exception\UnsupportedTypeException;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
@@ -541,9 +543,109 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
+        $indexSettingModel = new ElasticsearchIndexSettingModel();
+        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = $indexSettingModel->getJson();
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/'.$index['index'].'/_settings');
+                $callRequest->setJson($json);
+                $callResponse = $this->callManager->call($callRequest);
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
+
+                return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
         return $this->renderAbstract($request, 'Modules/index/index_read_settings.html.twig', [
+            'form' => $form->createView(),
             'index' => $index,
+            'exclude_settings' => (new ElasticsearchIndexModel())->getExcludeSettings(),
+            'update' => false,
         ]);
+    }
+
+    /**
+     * @Route("/indices/{index}/setting/{setting}/update", name="indices_setting_update")
+     */
+    public function settingUpdate(Request $request, string $index, string $setting, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    {
+        $index = $elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        $indexSettingModel = new ElasticsearchIndexSettingModel();
+        $indexSettingModel->setName($setting);
+        $indexSettingModel->setValue($index['settings'][$setting]);
+        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel, ['update' => true]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = $indexSettingModel->getJson();
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/'.$index['index'].'/_settings');
+                $callRequest->setJson($json);
+                $callResponse = $this->callManager->call($callRequest);
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
+
+                return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/index/index_read_settings.html.twig', [
+            'form' => $form->createView(),
+            'index' => $index,
+            'update' => true,
+        ]);
+    }
+
+    /**
+     * @Route("/indices/{index}/setting/{setting}/remove", name="indices_setting_remove")
+     */
+    public function settingRemove(Request $request, string $index, string $setting, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    {
+        $index = $elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        $indexSettingModel = new ElasticsearchIndexSettingModel();
+        $indexSettingModel->setName($setting);
+        $indexSettingModel->setValue(null);
+
+        try {
+            $json = $indexSettingModel->getJson();
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('PUT');
+            $callRequest->setPath('/'.$index['index'].'/_settings');
+            $callRequest->setJson($json);
+            $callResponse = $this->callManager->call($callRequest);
+
+            $this->addFlash('info', json_encode($callResponse->getContent()));
+
+            return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
     }
 
     /**

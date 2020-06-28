@@ -53,6 +53,23 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return $this;
     }
 
+    public function getExcludeSettings(): ?array
+    {
+        return [
+            'index.creation_date',
+            'index.provided_name',
+            'index.uuid',
+            'index.version.created',
+            'index.version.upgraded',
+            'index.number_of_shards',
+            'index.shard.check_on_startup',
+            'index.codec',
+            'index.routing_partition_size',
+            'index.load_fixed_bitset_filters_eagerly',
+            'index.hidden',
+        ];
+    }
+
     public function convert(?array $index): self
     {
         $this->setName($index['index']);

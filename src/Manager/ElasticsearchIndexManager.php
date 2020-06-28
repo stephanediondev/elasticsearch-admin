@@ -24,6 +24,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/'.$index);
+            $callRequest->setQuery(['flat_settings' => 'true']);
             $callResponse = $this->callManager->call($callRequest);
             $index2 = $callResponse->getContent();
 

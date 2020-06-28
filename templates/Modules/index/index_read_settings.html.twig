@@ -19,9 +19,68 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
+            {% if false == update %}
+                {{ appImport.heading({'level': 3, 'title': 'add_setting'|trans}) }}
+            {% else %}
+                {{ appImport.heading({'level': 3, 'title': 'update_setting'|trans}) }}
 
-            <pre>{{ index['settings']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+                    {% block content %}
+                        <a class="btn btn-secondary btn-sm" href="{{ path('indices_read_settings', {'index': index['index']}) }}">
+                            {{ 'cancel'|trans }}
+                        </a>
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
+            {{ appImport.form({'form': form}) }}
+
+            {% if false == update %}
+                {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
+
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'setting'|trans }}</th>
+                            <th>{{ 'value'|trans }}</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for key, value in index['settings'] %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>
+                                    {% if value is iterable %}
+                                        {{ value|join(', ') }}
+                                    {% else %}
+                                        {{ value }}
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-nowrap text-right">
+                                    {% if key not in exclude_settings %}
+                                        {{ appImport.buttonModal({
+                                            'id': 'SettingRemove' ~ loop.index,
+                                            'title': 'remove'|trans,
+                                            'body': key,
+                                            'href': path('indices_setting_remove', {'index': index['index'], 'setting': key}),
+                                        }) }}
+
+                                        <a href="{{ path('indices_setting_update', {'index': index['index'], 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                            {{ ('update')|trans }}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}
