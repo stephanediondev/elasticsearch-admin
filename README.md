@@ -43,7 +43,7 @@ cp .env.dist .env
 - [x] Roles: list, create, read, update, delete, copy
 - [x] Tasks: list
 - [x] Remote clusters: list
-- [x] Enrich policies: list, stats, create, read, delete, execute
+- [x] Enrich policies (7.5): list, stats, create, read, delete, execute
 - [x] Pipelines: list, create, read, update, delete, copy
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
