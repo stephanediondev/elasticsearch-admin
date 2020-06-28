@@ -543,8 +543,25 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
+        return $this->renderAbstract($request, 'Modules/index/index_read_settings.html.twig', [
+            'index' => $index,
+            'exclude_settings' => (new ElasticsearchIndexModel())->getExcludeSettings(),
+        ]);
+    }
+
+    /**
+     * @Route("/indices/{index}/setting/add", name="indices_setting_add")
+     */
+    public function settingAdd(Request $request, string $index, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    {
+        $index = $elasticsearchIndexManager->getIndex($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
         $indexSettingModel = new ElasticsearchIndexSettingModel();
-        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel);
+        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel, ['update' => true]);
 
         $form->handleRequest($request);
 
@@ -565,11 +582,9 @@ class IndexController extends AbstractAppController
             }
         }
 
-        return $this->renderAbstract($request, 'Modules/index/index_read_settings.html.twig', [
+        return $this->renderAbstract($request, 'Modules/index/index_read_settings_add.html.twig', [
             'form' => $form->createView(),
             'index' => $index,
-            'exclude_settings' => (new ElasticsearchIndexModel())->getExcludeSettings(),
-            'update' => false,
         ]);
     }
 
@@ -608,10 +623,9 @@ class IndexController extends AbstractAppController
             }
         }
 
-        return $this->renderAbstract($request, 'Modules/index/index_read_settings.html.twig', [
+        return $this->renderAbstract($request, 'Modules/index/index_read_settings_update.html.twig', [
             'form' => $form->createView(),
             'index' => $index,
-            'update' => true,
         ]);
     }
 
