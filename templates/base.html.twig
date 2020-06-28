@@ -45,6 +45,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="configurationDropdown">
                             <a class="dropdown-item" href="{{ path('index_templates') }}">{{ 'index_templates'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('component_templates') }}">{{ 'component_templates'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('ilm') }}">
                                 {{ 'ilm'|trans }}
                                 {% if xpack_features['ilm']['enabled'] is not defined or false == xpack_features['ilm']['enabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}

@@ -1,0 +1,47 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'name': true, 'version': false} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'name' == column %}
+                        <th>
+                            {{ 'name'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'version' == column %}
+                        <th>
+                            {{ 'version'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in componentTemplates.rows %}
+            <tr class="component_template_system-{% if '.' == row['name']|slice(0, 1) %}true{% else %}false{% endif %}" data-search="{{ row['name'] }}">
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'name' == column %}
+                            <td>
+                                <a href="{{ path('component_templates_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'version' == column %}
+                            <td>
+                                {{ row['version'] }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'component_templates'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'component_templates'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/component_template/component_template_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < componentTemplates.total %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': componentTemplates.total}}) }}
+
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    {{ appImport.filterText({'label': 'name'|trans}) }}
+
+                    {{ appImport.filterCheckboxesBoolean({'title': 'component_template_system'|trans, 'prefix': 'component_template_system'}) }}
+                </div>
+
+                {{ appImport.paginator(componentTemplates) }}
+
+                {% include 'Modules/component_template/component_template_list.html.twig' with {'componentTemplates': componentTemplates} %}
+
+                {{ appImport.paginator(componentTemplates) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

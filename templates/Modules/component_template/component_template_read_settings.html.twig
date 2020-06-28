@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'component_templates'|trans }} - {{ template['name'] }} - {{ 'settings'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'component_templates'|trans, 'link': {'url': path('component_templates')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': template['name']}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/component_template/component_template_read_tabs.html.twig' with {'active': 'settings'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
+
+            {% if template['settings'] is defined %}
+                <pre>{{ template['settings']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
