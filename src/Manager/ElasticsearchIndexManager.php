@@ -50,6 +50,22 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $index;
     }
 
+    public function closeIndex($index)
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_close');
+        return $this->callManager->call($callRequest);
+    }
+
+    public function openIndex($index)
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$index.'/_open');
+        return $this->callManager->call($callRequest);
+    }
+
     private function mappingsFlat(array $properties, string $prefix = '')
     {
         $mappingsFlat = [];

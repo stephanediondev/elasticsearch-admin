@@ -566,6 +566,8 @@ class IndexController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $callResponse = $elasticsearchIndexManager->closeIndex($index['index']);
+
             try {
                 $json = $indexSettingModel->getJson();
                 $callRequest = new CallRequestModel();
@@ -576,8 +578,12 @@ class IndexController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
+                $callResponse = $elasticsearchIndexManager->openIndex($index['index']);
+
                 return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
             } catch (CallException $e) {
+                $callResponse = $elasticsearchIndexManager->openIndex($index['index']);
+
                 $this->addFlash('danger', $e->getMessage());
             }
         }
@@ -607,6 +613,8 @@ class IndexController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $callResponse = $elasticsearchIndexManager->closeIndex($index['index']);
+
             try {
                 $json = $indexSettingModel->getJson();
                 $callRequest = new CallRequestModel();
@@ -617,8 +625,12 @@ class IndexController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
+                $callResponse = $elasticsearchIndexManager->openIndex($index['index']);
+
                 return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
             } catch (CallException $e) {
+                $callResponse = $elasticsearchIndexManager->openIndex($index['index']);
+
                 $this->addFlash('danger', $e->getMessage());
             }
         }
@@ -878,10 +890,7 @@ class IndexController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_close');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $elasticsearchIndexManager->closeIndex($index['index']);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -903,10 +912,7 @@ class IndexController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_open');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $elasticsearchIndexManager->openIndex($index['index']);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
