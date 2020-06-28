@@ -95,4 +95,31 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
         }
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'policy' => [
+                'phases' => [],
+            ],
+        ];
+
+        if ($this->getHot()) {
+            $json['policy']['phases']['hot'] = json_decode($this->getHot(), true);
+        }
+
+        if ($this->getWarm()) {
+            $json['policy']['phases']['warm'] = json_decode($this->getWarm(), true);
+        }
+
+        if ($this->getCold()) {
+            $json['policy']['phases']['cold'] = json_decode($this->getCold(), true);
+        }
+
+        if ($this->getDelete()) {
+            $json['policy']['phases']['delete'] = json_decode($this->getDelete(), true);
+        }
+
+        return $json;
+    }
 }

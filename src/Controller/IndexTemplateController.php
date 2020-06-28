@@ -77,24 +77,7 @@ class IndexTemplateController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'index_patterns' => $templateModel->getIndexToArray(),
-                ];
-                if ($templateModel->getVersion()) {
-                    $json['version'] = $templateModel->getVersion();
-                }
-                if ($templateModel->getOrder()) {
-                    $json['order'] = $templateModel->getOrder();
-                }
-                if ($templateModel->getSettings()) {
-                    $json['settings'] = json_decode($templateModel->getSettings(), true);
-                }
-                if ($templateModel->getMappings()) {
-                    $json['mappings'] = json_decode($templateModel->getMappings(), true);
-                }
-                if ($templateModel->getAliases()) {
-                    $json['aliases'] = json_decode($templateModel->getAliases(), true);
-                }
+                $json = $templateModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_template/'.$templateModel->getName());
@@ -213,24 +196,7 @@ class IndexTemplateController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'index_patterns' => $templateModel->getIndexToArray(),
-                ];
-                if ($templateModel->getVersion()) {
-                    $json['version'] = $templateModel->getVersion();
-                }
-                if ($templateModel->getOrder()) {
-                    $json['order'] = $templateModel->getOrder();
-                }
-                if ($templateModel->getSettings()) {
-                    $json['settings'] = json_decode($templateModel->getSettings(), true);
-                }
-                if ($templateModel->getMappings()) {
-                    $json['mappings'] = json_decode($templateModel->getMappings(), true);
-                }
-                if ($templateModel->getAliases()) {
-                    $json['aliases'] = json_decode($templateModel->getAliases(), true);
-                }
+                $json = $templateModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_template/'.$templateModel->getName());

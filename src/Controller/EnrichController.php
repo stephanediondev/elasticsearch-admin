@@ -94,16 +94,7 @@ class EnrichController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    $policyModel->getType() => [
-                        'indices' => $policyModel->getIndices(),
-                        'match_field' => $policyModel->getMatchField(),
-                        'enrich_fields' => $policyModel->getEnrichFields(),
-                    ],
-                ];
-                if ($policyModel->getQuery()) {
-                    $json[$policyModel->getType()]['query'] = $policyModel->getQuery();
-                }
+                $json = $policyModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_enrich/policy/'.$policyModel->getName());

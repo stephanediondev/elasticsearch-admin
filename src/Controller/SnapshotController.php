@@ -76,14 +76,7 @@ class SnapshotController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'ignore_unavailable' => $snapshotModel->getIgnoreUnavailable(),
-                    'partial' => $snapshotModel->getPartial(),
-                    'include_global_state' => $snapshotModel->getIncludeGlobalState(),
-                ];
-                if ($snapshotModel->getIndices()) {
-                    $json['indices'] = implode(',', $snapshotModel->getIndices());
-                }
+                $json = $snapshotModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
@@ -198,20 +191,7 @@ class SnapshotController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'ignore_unavailable' => $snapshotRestoreModel->getIgnoreUnavailable(),
-                    'partial' => $snapshotRestoreModel->getPartial(),
-                    'include_global_state' => $snapshotRestoreModel->getIncludeGlobalState(),
-                ];
-                if ($snapshotRestoreModel->getRenamePattern()) {
-                    $json['rename_pattern'] = $snapshotRestoreModel->getRenamePattern();
-                }
-                if ($snapshotRestoreModel->getRenameReplacement()) {
-                    $json['rename_replacement'] = $snapshotRestoreModel->getRenameReplacement();
-                }
-                if ($snapshotRestoreModel->getIndices()) {
-                    $json['indices'] = implode(',', $snapshotRestoreModel->getIndices());
-                }
+                $json = $snapshotRestoreModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
                 $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot['snapshot'].'/_restore');

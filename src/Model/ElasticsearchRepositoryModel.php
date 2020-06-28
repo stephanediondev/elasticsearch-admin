@@ -339,4 +339,40 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
             'intelligent_tiering' => 'intelligent_tiering',
         ];
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'type' => $this->getType(),
+            'settings' => [
+                'compress' => $this->getCompress(),
+                'chunk_size' => $this->getChunkSize(),
+                'max_restore_bytes_per_sec' => $this->getMaxRestoreBytesPerSec(),
+                'max_snapshot_bytes_per_sec' => $this->getMaxSnapshotBytesPerSec(),
+                'readonly' => $this->getReadonly(),
+            ],
+        ];
+
+        if (self::TYPE_FS == $this->getType()) {
+            $json['settings']['location'] = $this->getLocation();
+        }
+
+        if (self::TYPE_S3 == $this->getType()) {
+            $json['settings']['bucket'] = $this->getBucket();
+            $json['settings']['client'] = $this->getClient();
+            $json['settings']['base_path'] = $this->getBasePath();
+            $json['settings']['server_side_encryption'] = $this->getServerSideEncryption();
+            $json['settings']['buffer_size'] = $this->getBufferSize();
+            $json['settings']['canned_acl'] = $this->getCannedAcl();
+            $json['settings']['storage_class'] = $this->getStorageClass();
+        }
+
+        if (self::TYPE_GCS == $this->getType()) {
+            $json['settings']['bucket'] = $this->getBucket();
+            $json['settings']['client'] = $this->getClient();
+            $json['settings']['base_path'] = $this->getBasePath();
+        }
+
+        return $json;
+    }
 }

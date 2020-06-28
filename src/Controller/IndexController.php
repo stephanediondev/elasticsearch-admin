@@ -169,14 +169,7 @@ class IndexController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'source' => [
-                        'index' => $reindexModel->getSource(),
-                    ],
-                    'dest' => [
-                        'index' => $reindexModel->getDestination(),
-                    ],
-                ];
+                $json = $reindexModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
                 $callRequest->setPath('/_reindex');

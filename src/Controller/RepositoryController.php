@@ -52,37 +52,7 @@ class RepositoryController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'type' => $repositoryModel->getType(),
-                    'settings' => [
-                        'compress' => $repositoryModel->getCompress(),
-                        'chunk_size' => $repositoryModel->getChunkSize(),
-                        'max_restore_bytes_per_sec' => $repositoryModel->getMaxRestoreBytesPerSec(),
-                        'max_snapshot_bytes_per_sec' => $repositoryModel->getMaxSnapshotBytesPerSec(),
-                        'readonly' => $repositoryModel->getReadonly(),
-                    ],
-                ];
-
-                if (ElasticsearchRepositoryModel::TYPE_FS == $repositoryModel->getType()) {
-                    $json['settings']['location'] = $repositoryModel->getLocation();
-                }
-
-                if (ElasticsearchRepositoryModel::TYPE_S3 == $repositoryModel->getType()) {
-                    $json['settings']['bucket'] = $repositoryModel->getBucket();
-                    $json['settings']['client'] = $repositoryModel->getClient();
-                    $json['settings']['base_path'] = $repositoryModel->getBasePath();
-                    $json['settings']['server_side_encryption'] = $repositoryModel->getServerSideEncryption();
-                    $json['settings']['buffer_size'] = $repositoryModel->getBufferSize();
-                    $json['settings']['canned_acl'] = $repositoryModel->getCannedAcl();
-                    $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
-                }
-
-                if (ElasticsearchRepositoryModel::TYPE_GCS == $repositoryModel->getType()) {
-                    $json['settings']['bucket'] = $repositoryModel->getBucket();
-                    $json['settings']['client'] = $repositoryModel->getClient();
-                    $json['settings']['base_path'] = $repositoryModel->getBasePath();
-                }
-
+                $json = $repositoryModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_snapshot/'.$repositoryModel->getName());
@@ -159,37 +129,7 @@ class RepositoryController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'type' => $repositoryModel->getType(),
-                    'settings' => [
-                        'compress' => $repositoryModel->getCompress(),
-                        'chunk_size' => $repositoryModel->getChunkSize(),
-                        'max_restore_bytes_per_sec' => $repositoryModel->getMaxRestoreBytesPerSec(),
-                        'max_snapshot_bytes_per_sec' => $repositoryModel->getMaxSnapshotBytesPerSec(),
-                        'readonly' => $repositoryModel->getReadonly(),
-                    ],
-                ];
-
-                if (ElasticsearchRepositoryModel::TYPE_FS == $repositoryModel->getType()) {
-                    $json['settings']['location'] = $repositoryModel->getLocation();
-                }
-
-                if (ElasticsearchRepositoryModel::TYPE_S3 == $repositoryModel->getType()) {
-                    $json['settings']['bucket'] = $repositoryModel->getBucket();
-                    $json['settings']['client'] = $repositoryModel->getClient();
-                    $json['settings']['base_path'] = $repositoryModel->getBasePath();
-                    $json['settings']['server_side_encryption'] = $repositoryModel->getServerSideEncryption();
-                    $json['settings']['buffer_size'] = $repositoryModel->getBufferSize();
-                    $json['settings']['canned_acl'] = $repositoryModel->getCannedAcl();
-                    $json['settings']['storage_class'] = $repositoryModel->getStorageClass();
-                }
-
-                if (ElasticsearchRepositoryModel::TYPE_GCS == $repositoryModel->getType()) {
-                    $json['settings']['bucket'] = $repositoryModel->getBucket();
-                    $json['settings']['client'] = $repositoryModel->getClient();
-                    $json['settings']['base_path'] = $repositoryModel->getBasePath();
-                }
-
+                $json = $repositoryModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_snapshot/'.$repositoryModel->getName());

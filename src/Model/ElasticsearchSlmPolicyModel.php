@@ -223,4 +223,31 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         }
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'schedule' => $this->getSchedule(),
+            'name' => $this->getSnapshotName(),
+            'repository' => $this->getRepository(),
+        ];
+
+        if ($this->getIndices()) {
+            $json['config']['indices'] = $this->getIndices();
+        } else {
+            $json['config']['indices'] = ['*'];
+        }
+
+        $json['config']['ignore_unavailable'] = $this->getIgnoreUnavailable();
+
+        $json['config']['partial'] = $this->getPartial();
+
+        $json['config']['include_global_state'] = $this->getIncludeGlobalState();
+
+        if ($this->hasRetention()) {
+            $json['retention'] = $this->getRetention();
+        }
+
+        return $json;
+    }
 }

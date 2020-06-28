@@ -96,4 +96,27 @@ class ElasticsearchSnapshotRestoreModel extends AbstractAppModel
 
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'ignore_unavailable' => $this->getIgnoreUnavailable(),
+            'partial' => $this->getPartial(),
+            'include_global_state' => $this->getIncludeGlobalState(),
+        ];
+
+        if ($this->getRenamePattern()) {
+            $json['rename_pattern'] = $this->getRenamePattern();
+        }
+
+        if ($this->getRenameReplacement()) {
+            $json['rename_replacement'] = $this->getRenameReplacement();
+        }
+
+        if ($this->getIndices()) {
+            $json['indices'] = implode(',', $this->getIndices());
+        }
+
+        return $json;
+    }
 }

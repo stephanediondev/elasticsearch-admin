@@ -94,4 +94,19 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'ignore_unavailable' => $this->getIgnoreUnavailable(),
+            'partial' => $this->getPartial(),
+            'include_global_state' => $this->getIncludeGlobalState(),
+        ];
+
+        if ($this->getIndices()) {
+            $json['indices'] = implode(',', $this->getIndices());
+        }
+
+        return $json;
+    }
 }

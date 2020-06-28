@@ -140,4 +140,33 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         }
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'index_patterns' => $this->getIndexToArray(),
+        ];
+
+        if ($this->getVersion()) {
+            $json['version'] = $this->getVersion();
+        }
+
+        if ($this->getOrder()) {
+            $json['order'] = $this->getOrder();
+        }
+
+        if ($this->getSettings()) {
+            $json['settings'] = json_decode($this->getSettings(), true);
+        }
+
+        if ($this->getMappings()) {
+            $json['mappings'] = json_decode($this->getMappings(), true);
+        }
+
+        if ($this->getAliases()) {
+            $json['aliases'] = json_decode($this->getAliases(), true);
+        }
+
+        return $json;
+    }
 }

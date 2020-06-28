@@ -33,4 +33,18 @@ class ElasticsearchReindexModel extends AbstractAppModel
 
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'source' => [
+                'index' => $this->getSource(),
+            ],
+            'dest' => [
+                'index' => $this->getDestination(),
+            ],
+        ];
+
+        return $json;
+    }
 }

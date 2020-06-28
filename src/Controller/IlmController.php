@@ -125,23 +125,7 @@ class IlmController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'policy' => [
-                        'phases' => [],
-                    ],
-                ];
-                if ($policyModel->getHot()) {
-                    $json['policy']['phases']['hot'] = json_decode($policyModel->getHot(), true);
-                }
-                if ($policyModel->getWarm()) {
-                    $json['policy']['phases']['warm'] = json_decode($policyModel->getWarm(), true);
-                }
-                if ($policyModel->getCold()) {
-                    $json['policy']['phases']['cold'] = json_decode($policyModel->getCold(), true);
-                }
-                if ($policyModel->getDelete()) {
-                    $json['policy']['phases']['delete'] = json_decode($policyModel->getDelete(), true);
-                }
+                $json = $policyModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());
@@ -208,23 +192,7 @@ class IlmController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'policy' => [
-                        'phases' => [],
-                    ],
-                ];
-                if ($policyModel->getHot()) {
-                    $json['policy']['phases']['hot'] = json_decode($policyModel->getHot(), true);
-                }
-                if ($policyModel->getWarm()) {
-                    $json['policy']['phases']['warm'] = json_decode($policyModel->getWarm(), true);
-                }
-                if ($policyModel->getCold()) {
-                    $json['policy']['phases']['cold'] = json_decode($policyModel->getCold(), true);
-                }
-                if ($policyModel->getDelete()) {
-                    $json['policy']['phases']['delete'] = json_decode($policyModel->getDelete(), true);
-                }
+                $json = $policyModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());

@@ -93,4 +93,25 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         }
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'processors' => json_decode($this->getProcessors(), true),
+        ];
+
+        if ($this->getVersion()) {
+            $json['version'] = $this->getVersion();
+        }
+
+        if ($this->getDescription()) {
+            $json['description'] = $this->getDescription();
+        }
+
+        if ($this->getOnFailure()) {
+            $json['on_failure'] = json_decode($this->getOnFailure(), true);
+        }
+
+        return $json;
+    }
 }

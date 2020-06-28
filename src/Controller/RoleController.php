@@ -83,19 +83,7 @@ class RoleController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'cluster' => $roleModel->getCluster(),
-                    'run_as' => $roleModel->getRunAs(),
-                ];
-                if ($roleModel->getApplications()) {
-                    $json['applications'] = json_decode($roleModel->getApplications(), true);
-                }
-                if ($roleModel->getIndices()) {
-                    $json['indices'] = json_decode($roleModel->getIndices(), true);
-                }
-                if ($roleModel->getMetadata()) {
-                    $json['metadata'] = json_decode($roleModel->getMetadata(), true);
-                }
+                $json = $roleModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
                 $callRequest->setPath('/_security/role/'.$roleModel->getName());
@@ -168,19 +156,7 @@ class RoleController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'cluster' => $roleModel->getCluster(),
-                    'run_as' => $roleModel->getRunAs(),
-                ];
-                if ($roleModel->getApplications()) {
-                    $json['applications'] = json_decode($roleModel->getApplications(), true);
-                }
-                if ($roleModel->getIndices()) {
-                    $json['indices'] = json_decode($roleModel->getIndices(), true);
-                }
-                if ($roleModel->getMetadata()) {
-                    $json['metadata'] = json_decode($roleModel->getMetadata(), true);
-                }
+                $json = $roleModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_security/role/'.$roleModel->getName());

@@ -106,4 +106,26 @@ class ElasticsearchRoleModel extends AbstractAppModel
         }
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            'cluster' => $this->getCluster(),
+            'run_as' => $this->getRunAs(),
+        ];
+
+        if ($this->getApplications()) {
+            $json['applications'] = json_decode($this->getApplications(), true);
+        }
+
+        if ($this->getIndices()) {
+            $json['indices'] = json_decode($this->getIndices(), true);
+        }
+
+        if ($this->getMetadata()) {
+            $json['metadata'] = json_decode($this->getMetadata(), true);
+        }
+
+        return $json;
+    }
 }

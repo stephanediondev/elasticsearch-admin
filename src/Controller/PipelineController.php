@@ -70,18 +70,7 @@ class PipelineController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'processors' => json_decode($pipelineModel->getProcessors(), true),
-                ];
-                if ($pipelineModel->getVersion()) {
-                    $json['version'] = $pipelineModel->getVersion();
-                }
-                if ($pipelineModel->getDescription()) {
-                    $json['description'] = $pipelineModel->getDescription();
-                }
-                if ($pipelineModel->getOnFailure()) {
-                    $json['on_failure'] = json_decode($pipelineModel->getOnFailure(), true);
-                }
+                $json = $pipelineModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_ingest/pipeline/'.$pipelineModel->getName());
@@ -151,18 +140,7 @@ class PipelineController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'processors' => json_decode($pipelineModel->getProcessors(), true),
-                ];
-                if ($pipelineModel->getVersion()) {
-                    $json['version'] = $pipelineModel->getVersion();
-                }
-                if ($pipelineModel->getDescription()) {
-                    $json['description'] = $pipelineModel->getDescription();
-                }
-                if ($pipelineModel->getOnFailure()) {
-                    $json['on_failure'] = json_decode($pipelineModel->getOnFailure(), true);
-                }
+                $json = $pipelineModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_ingest/pipeline/'.$pipelineModel->getName());

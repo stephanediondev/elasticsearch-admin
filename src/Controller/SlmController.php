@@ -148,24 +148,7 @@ class SlmController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'schedule' => $policyModel->getSchedule(),
-                    'name' => $policyModel->getSnapshotName(),
-                    'repository' => $policyModel->getRepository(),
-                ];
-                if ($policyModel->getIndices()) {
-                    $json['config']['indices'] = $policyModel->getIndices();
-                } else {
-                    $json['config']['indices'] = ['*'];
-                }
-                $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                $json['config']['partial'] = $policyModel->getPartial();
-                $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
-
-                if ($policyModel->hasRetention()) {
-                    $json['retention'] = $policyModel->getRetention();
-                }
-
+                $json = $policyModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
@@ -279,24 +262,7 @@ class SlmController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'schedule' => $policyModel->getSchedule(),
-                    'name' => $policyModel->getSnapshotName(),
-                    'repository' => $policyModel->getRepository(),
-                ];
-                if ($policyModel->getIndices()) {
-                    $json['config']['indices'] = $policyModel->getIndices();
-                } else {
-                    $json['config']['indices'] = ['*'];
-                }
-                $json['config']['ignore_unavailable'] = $policyModel->getIgnoreUnavailable();
-                $json['config']['partial'] = $policyModel->getPartial();
-                $json['config']['include_global_state'] = $policyModel->getIncludeGlobalState();
-
-                if ($policyModel->hasRetention()) {
-                    $json['retention'] = $policyModel->getRetention();
-                }
-
+                $json = $policyModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/_slm/policy/'.$policyModel->getName());

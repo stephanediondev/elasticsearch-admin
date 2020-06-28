@@ -114,4 +114,21 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         }
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            $this->getType() => [
+                'indices' => $this->getIndices(),
+                'match_field' => $this->getMatchField(),
+                'enrich_fields' => $this->getEnrichFields(),
+            ],
+        ];
+
+        if ($this->getQuery()) {
+            $json[$this->getType()]['query'] = $this->getQuery();
+        }
+
+        return $json;
+    }
 }
