@@ -47,4 +47,15 @@ class ElasticsearchClusterSettingModel extends AbstractAppModel
 
         return $this;
     }
+
+    public function getJson(): array
+    {
+        $json = [
+            $this->getType() => [
+                $this->getSetting() => $this->getValue(),
+            ],
+        ];
+
+        return $json;
+    }
 }

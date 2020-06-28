@@ -202,9 +202,7 @@ class NodeController extends AbstractAppController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 try {
-                    $json = [
-                        'secure_settings_password' => $reloadSecureSettingsModel->getSecureSettingsPassword() ?  $reloadSecureSettingsModel->getSecureSettingsPassword() : '',
-                    ];
+                    $json = $reloadSecureSettingsModel->getJson();
                     $callRequest = new CallRequestModel();
                     $callRequest->setMethod('POST');
                     $callRequest->setPath('/_nodes/'.$node['name'].'/reload_secure_settings');

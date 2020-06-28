@@ -102,11 +102,7 @@ class ClusterController extends AbstractAppController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 try {
-                    $json = [
-                        $clusterSettingModel->getType() => [
-                            $clusterSettingModel->getSetting() => $clusterSettingModel->getValue(),
-                        ],
-                    ];
+                    $json = $clusterSettingModel->getJson();
                     $callRequest = new CallRequestModel();
                     $callRequest->setMethod('PUT');
                     $callRequest->setPath('/_cluster/settings');
