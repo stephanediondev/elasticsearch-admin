@@ -53,7 +53,7 @@ cp .env.dist .env
 ## Todo
 
 - [ ] Indices: update (dynamic index settings)
-- [ ] Index templates: update (composed of component templates)
+- [ ] Index templates: handle legacy (_template) and new version (_index_template) since 7.8
 - [ ] Repositories: create (url, source, hdfs, azure)
 - [ ] License: update
 
