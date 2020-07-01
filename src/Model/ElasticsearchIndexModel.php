@@ -12,11 +12,6 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     private $mappings;
 
-    public function __construct()
-    {
-        $this->settings = json_encode(['index.number_of_shards' => 1, 'index.auto_expand_replicas' => '0-1'], JSON_PRETTY_PRINT);
-    }
-
     public function getName(): ?string
     {
         return $this->name;

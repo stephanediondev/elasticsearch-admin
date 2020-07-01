@@ -7,13 +7,14 @@ use App\Exception\CallException;
 use App\Form\CreateIlmPolicyType;
 use App\Form\ApplyIlmPolicyType;
 use App\Model\CallRequestModel;
-use App\Model\ElasticsearchIndexTemplateModel;
+use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use App\Model\ElasticsearchIlmPolicyModel;
 use App\Model\ElasticsearchApplyIlmPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -25,6 +26,10 @@ class IlmController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        if (false == isset($this->xpack['features']['ilm']['enabled']) || false == $this->xpack['features']['ilm']['enabled']) {
+            throw new AccessDeniedHttpException();
+        }
+
         $policies = [];
 
         $callRequest = new CallRequestModel();
@@ -231,14 +236,13 @@ class IlmController extends AbstractAppController
         $policy['name'] = $name;
 
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/templates');
-        $callRequest->setQuery(['s' => 'name:asc', 'h' => 'name']);
+        $callRequest->setPath('/_template');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
         $indexTemplates = [];
-        foreach ($results as $row) {
-            $indexTemplates[] = $row['name'];
+        foreach ($results as $name => $row) {
+            $indexTemplates[] = $name;
         }
 
         $applyPolicyModel = new ElasticsearchApplyIlmPolicyModel();
@@ -266,7 +270,7 @@ class IlmController extends AbstractAppController
                     throw new AccessDeniedHttpException();
                 }
 
-                $templateModel = new ElasticsearchIndexTemplateModel();
+                $templateModel = new ElasticsearchIndexTemplateLegacyModel();
                 $templateModel->convert($template);
 
                 $settings = json_decode($templateModel->getSettings(), true);
@@ -296,7 +300,7 @@ class IlmController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('index_templates_read', ['name' => $applyPolicyModel->getIndexTemplate()]);
+                return $this->redirectToRoute('index_templates_legacy_read', ['name' => $applyPolicyModel->getIndexTemplate()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }

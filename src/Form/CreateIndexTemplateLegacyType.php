@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
-use App\Model\ElasticsearchIndexTemplateModel;
+use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateIndexTemplateType extends AbstractType
+class CreateIndexTemplateLegacyType extends AbstractType
 {
     public function __construct(CallManager $callManager, TranslatorInterface $translator)
     {
@@ -38,8 +38,7 @@ class CreateIndexTemplateType extends AbstractType
         }
         $fields[] = 'index_patterns';
         $fields[] = 'version';
-        $fields[] = 'priority';
-        $fields[] = 'composed_of';
+        $fields[] = 'order';
         $fields[] = 'settings';
         $fields[] = 'mappings';
         $fields[] = 'aliases';
@@ -82,28 +81,14 @@ class CreateIndexTemplateType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'priority':
-                    $builder->add('priority', IntegerType::class, [
-                        'label' => 'priority',
-                        'required' => false,
-                        'help' => 'help_form.index_template.priority',
-                        'help_html' => true,
-                    ]);
-                    break;
-                case 'composed_of':
-                    $builder->add('composed_of', ChoiceType::class, [
-                        'multiple' => true,
-                        'choices' => $options['component_templates'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['component_templates'][$key];
-                        },
-                        'choice_translation_domain' => false,
-                        'label' => 'composed_of',
+                case 'order':
+                    $builder->add('order', IntegerType::class, [
+                        'label' => 'order',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
-                        'help' => 'help_form.index_template.composed_of',
+                        'help' => 'help_form.index_template.order',
                         'help_html' => true,
                     ]);
                     break;
@@ -154,7 +139,7 @@ class CreateIndexTemplateType extends AbstractType
                     if ($form->get('name')->getData()) {
                         $callRequest = new CallRequestModel();
                         $callRequest->setMethod('HEAD');
-                        $callRequest->setPath('/_index_template/'.$form->get('name')->getData());
+                        $callRequest->setPath('/_template/'.$form->get('name')->getData());
                         $callResponse = $this->callManager->call($callRequest);
 
                         if (Response::HTTP_OK == $callResponse->getCode()) {
@@ -171,8 +156,7 @@ class CreateIndexTemplateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ElasticsearchIndexTemplateModel::class,
-            'component_templates' => [],
+            'data_class' => ElasticsearchIndexTemplateLegacyModel::class,
             'update' => false,
         ]);
     }

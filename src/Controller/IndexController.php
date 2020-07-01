@@ -38,18 +38,13 @@ class IndexController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/');
-        $callResponse = $this->callManager->call($callRequest);
-        $root = $callResponse->getContent();
-
         $query = [
             'bytes' => 'b',
             's' => $request->query->get('s', 'index:asc'),
             'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
-        if (true == isset($root['version']) && true == isset($root['version']['number']) && 0 <= version_compare($root['version']['number'], '7.7')) {
+        if (true == $this->checkVersion('7.7')) {
             $query['expand_wildcards'] = 'all';
         }
 

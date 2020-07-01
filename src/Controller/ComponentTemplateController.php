@@ -21,8 +21,12 @@ class ComponentTemplateController extends AbstractAppController
     /**
      * @Route("/component-templates", name="component_templates")
      */
-    public function component(Request $request): Response
+    public function index(Request $request): Response
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_component_template');
         $callResponse = $this->callManager->call($callRequest);

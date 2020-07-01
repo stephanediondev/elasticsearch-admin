@@ -21,7 +21,9 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
 
-            <pre>{{ template['settings']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            {% if template['index_template']['template']['settings'] is defined %}
+                <pre>{{ template['index_template']['template']['settings']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}

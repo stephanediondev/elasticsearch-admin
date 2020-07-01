@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -24,6 +25,10 @@ class SlmController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        if (false == isset($this->xpack['features']['slm']['enabled']) || false == $this->xpack['features']['slm']['enabled']) {
+            throw new AccessDeniedHttpException();
+        }
+
         $policies = [];
 
         $callRequest = new CallRequestModel();

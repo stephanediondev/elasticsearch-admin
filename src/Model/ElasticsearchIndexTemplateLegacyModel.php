@@ -4,11 +4,15 @@ namespace App\Model;
 
 use App\Model\AbstractAppModel;
 
-class ElasticsearchComponentTemplateModel extends AbstractAppModel
+class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
 {
     private $name;
 
+    private $indexPatterns;
+
     private $version;
+
+    private $order;
 
     private $settings;
 
@@ -28,6 +32,18 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    public function getIndexPatterns(): ?string
+    {
+        return $this->indexPatterns;
+    }
+
+    public function setIndexPatterns(?string $indexPatterns): self
+    {
+        $this->indexPatterns = $indexPatterns;
+
+        return $this;
+    }
+
     public function getVersion(): ?int
     {
         return $this->version;
@@ -36,6 +52,18 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
     public function setVersion(?int $version): self
     {
         $this->version = $version;
+
+        return $this;
+    }
+
+    public function getOrder(): ?int
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?int $order): self
+    {
+        $this->order = $order;
 
         return $this;
     }
@@ -76,11 +104,25 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    public function getIndexToArray(): ?array
+    {
+        $indexPatterns = [];
+
+        foreach (explode(',', $this->indexPatterns) as $indexPattern) {
+            $indexPatterns[] = trim($indexPattern);
+        }
+        return $indexPatterns;
+    }
+
     public function convert(?array $template): self
     {
         $this->setName($template['name']);
+        $this->setIndexPatterns(implode(', ', $template['index_patterns']));
         if (true == isset($template['version'])) {
             $this->setVersion($template['version']);
+        }
+        if (true == isset($template['order'])) {
+            $this->setOrder($template['order']);
         }
         if (true == isset($template['settings']) && 0 < count($template['settings'])) {
             $this->setSettings(json_encode($template['settings'], JSON_PRETTY_PRINT));
@@ -91,30 +133,33 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         if (true == isset($template['aliases']) && 0 < count($template['aliases'])) {
             $this->setAliases(json_encode($template['aliases'], JSON_PRETTY_PRINT));
         }
-
         return $this;
     }
 
     public function getJson(): array
     {
         $json = [
-            'template' => [],
+            'index_patterns' => $this->getIndexToArray(),
         ];
 
         if ($this->getVersion()) {
-            $json['template']['version'] = $this->getVersion();
+            $json['version'] = $this->getVersion();
+        }
+
+        if ($this->getOrder()) {
+            $json['order'] = $this->getOrder();
         }
 
         if ($this->getSettings()) {
-            $json['template']['settings'] = json_decode($this->getSettings(), true);
+            $json['settings'] = json_decode($this->getSettings(), true);
         }
 
         if ($this->getMappings()) {
-            $json['template']['mappings'] = json_decode($this->getMappings(), true);
+            $json['mappings'] = json_decode($this->getMappings(), true);
         }
 
         if ($this->getAliases()) {
-            $json['template']['aliases'] = json_decode($this->getAliases(), true);
+            $json['aliases'] = json_decode($this->getAliases(), true);
         }
 
         return $json;

@@ -24,6 +24,10 @@ class UserController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        if (false == isset($this->xpack['features']['security']['enabled']) || false == $this->xpack['features']['security']['enabled']) {
+            throw new AccessDeniedHttpException();
+        }
+
         $users = [];
 
         $callRequest = new CallRequestModel();

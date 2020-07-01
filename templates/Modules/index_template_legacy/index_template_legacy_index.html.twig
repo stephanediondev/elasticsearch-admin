@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'index_templates_legacy'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'index_templates_legacy'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/index_template_legacy/index_template_legacy_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < indexTemplates.total %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': indexTemplates.total}}) }}
+
+                <p>
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {{ 'filter'|trans }}
+                    </button>
+                </p>
+
+                <div class="collapse" id="collapseFilter">
+                    {{ appImport.filterText({'label': 'name'|trans}) }}
+
+                    {{ appImport.filterCheckboxesBoolean({'title': 'index_template_system'|trans, 'prefix': 'index_template_system'}) }}
+                </div>
+
+                {{ appImport.paginator(indexTemplates) }}
+
+                {% include 'Modules/index_template_legacy/index_template_legacy_list.html.twig' with {'indexTemplates': indexTemplates} %}
+
+                {{ appImport.paginator(indexTemplates) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

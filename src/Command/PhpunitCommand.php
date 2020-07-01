@@ -87,11 +87,6 @@ class PhpunitCommand extends Command
         }
 
         foreach ($names as $name) {
-            $json = [
-                'settings' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1'],
-                'mappings' => json_decode(file_get_contents(__DIR__.'/mappings.json'), true),
-            ];
-
             // index
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('HEAD');
@@ -105,6 +100,8 @@ class PhpunitCommand extends Command
                 $this->callManager->call($callRequest);
             }
 
+            $json = [
+            ];
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setJson($json);
@@ -113,7 +110,7 @@ class PhpunitCommand extends Command
 
             $output->writeln('<info>Index created: '.$name.'</info>');
 
-            // index template
+            // index template legacy
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('HEAD');
             $callRequest->setPath('/_template/'.$name);
@@ -126,11 +123,37 @@ class PhpunitCommand extends Command
                 $this->callManager->call($callRequest);
             }
 
-            $json['index_patterns'] = $name;
+            $json = [
+                'index_patterns' => $name,
+            ];
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setJson($json);
             $callRequest->setPath('/_template/'.$name.'?include_type_name=false');
+            $this->callManager->call($callRequest);
+
+            $output->writeln('<info>Index template legacy created: '.$name.'</info>');
+
+            // index template
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('HEAD');
+            $callRequest->setPath('/_index_template/'.$name);
+            $callResponse = $this->callManager->call($callRequest);
+
+            if (Response::HTTP_OK == $callResponse->getCode()) {
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('DELETE');
+                $callRequest->setPath('/_index_template/'.$name);
+                $this->callManager->call($callRequest);
+            }
+
+            $json = [
+                'index_patterns' => $name,
+            ];
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('PUT');
+            $callRequest->setJson($json);
+            $callRequest->setPath('/_index_template/'.$name);
             $this->callManager->call($callRequest);
 
             $output->writeln('<info>Index template created: '.$name.'</info>');

@@ -1,5 +1,5 @@
 {% embed 'Embed/table_embed.html.twig' %}
-    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true} %}
+    {% set columns = {'name': true, 'index_patterns': true, 'order': true, 'version': true} %}
 
     {% block thead %}
         <tr>
@@ -17,9 +17,9 @@
                         </th>
                     {% endif %}
 
-                    {% if 'priority' == column %}
+                    {% if 'order' == column %}
                         <th>
-                            {{ 'priority'|trans }}
+                            {{ 'order'|trans }}
                         </th>
                     {% endif %}
 
@@ -34,33 +34,33 @@
     {% endblock %}
 
     {% block tbody %}
-        {% for row in indexTemplates.rows %}
-            <tr class="index_template_system-{% if '.' == row['name']|slice(0, 1) %}true{% else %}false{% endif %}" data-search="{{ row['name'] }}">
+        {% for name, row in indexTemplates.rows %}
+            <tr class="index_template_system-{% if '.' == name|slice(0, 1) %}true{% else %}false{% endif %}" data-search="{{ name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('index_templates_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                                <a href="{{ path('index_templates_legacy_read', {'name': name}) }}">{{ name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'index_patterns' == column %}
                             <td>
-                                {{ row['index_template']['index_patterns']|join(', ')|replace({'[': '', ']': ''}) }}
+                                {{ row['index_patterns']|join(',')|replace({'[': '', ']': ''}) }}
                             </td>
                         {% endif %}
 
-                        {% if 'priority' == column %}
+                        {% if 'order' == column %}
                             <td>
-                                {% if row['priority'] is defined %}
-                                    {{ row['priority'] }}
+                                {% if row['order'] is defined %}
+                                    {{ row['order'] }}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'version' == column %}
                             <td>
-                                {% if row['priority'] is defined %}
+                                {% if row['version'] is defined %}
                                     {{ row['version'] }}
                                 {% endif %}
                             </td>

@@ -12,7 +12,7 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     private $version;
 
-    private $order;
+    private $priority;
 
     private $settings;
 
@@ -21,11 +21,6 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
     private $aliases;
 
     private $composedOf;
-
-    public function __construct()
-    {
-        $this->settings = json_encode(['index.number_of_shards' => 1, 'index.auto_expand_replicas' => '0-1'], JSON_PRETTY_PRINT);
-    }
 
     public function getName(): ?string
     {
@@ -63,14 +58,14 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
-    public function getOrder(): ?int
+    public function getPriority(): ?int
     {
-        return $this->order;
+        return $this->priority;
     }
 
-    public function setOrder(?int $order): self
+    public function setPriority(?int $priority): self
     {
-        $this->order = $order;
+        $this->priority = $priority;
 
         return $this;
     }
@@ -136,24 +131,26 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
     public function convert(?array $template): self
     {
         $this->setName($template['name']);
-        $this->setIndexPatterns(implode(', ', $template['index_patterns']));
-        if (true == isset($template['version'])) {
-            $this->setVersion($template['version']);
+        $this->setIndexPatterns(implode(', ', $template['index_template']['index_patterns']));
+        if (true == isset($template['index_template']['version'])) {
+            $this->setVersion($template['index_template']['version']);
         }
-        if (true == isset($template['order'])) {
-            $this->setOrder($template['order']);
+        if (true == isset($template['index_template']['priority'])) {
+            $this->setPriority($template['index_template']['priority']);
         }
-        if (true == isset($template['settings']) && 0 < count($template['settings'])) {
-            $this->setSettings(json_encode($template['settings'], JSON_PRETTY_PRINT));
+        if (true == isset($template['index_template']['composed_of']) && 0 < count($template['index_template']['composed_of'])) {
+            $this->setComposedOf($template['index_template']['composed_of']);
         }
-        if (true == isset($template['mappings']) && 0 < count($template['mappings'])) {
-            $this->setMappings(json_encode($template['mappings'], JSON_PRETTY_PRINT));
-        }
-        if (true == isset($template['aliases']) && 0 < count($template['aliases'])) {
-            $this->setAliases(json_encode($template['aliases'], JSON_PRETTY_PRINT));
-        }
-        if (true == isset($template['composed_of']) && 0 < count($template['composed_of'])) {
-            $this->setComposedOf($template['composed_of']);
+        if (true == isset($template['index_template']['template']) && 0 < count($template['index_template']['template'])) {
+            if (true == isset($template['index_template']['template']['settings']) && 0 < count($template['index_template']['template']['settings'])) {
+                $this->setSettings(json_encode($template['index_template']['template']['settings'], JSON_PRETTY_PRINT));
+            }
+            if (true == isset($template['index_template']['template']['mappings']) && 0 < count($template['index_template']['template']['mappings'])) {
+                $this->setMappings(json_encode($template['index_template']['template']['mappings'], JSON_PRETTY_PRINT));
+            }
+            if (true == isset($template['index_template']['template']['aliases']) && 0 < count($template['index_template']['template']['aliases'])) {
+                $this->setAliases(json_encode($template['index_template']['template']['aliases'], JSON_PRETTY_PRINT));
+            }
         }
         return $this;
     }
@@ -168,24 +165,28 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
             $json['version'] = $this->getVersion();
         }
 
-        if ($this->getOrder()) {
-            $json['order'] = $this->getOrder();
-        }
-
-        if ($this->getSettings()) {
-            $json['settings'] = json_decode($this->getSettings(), true);
-        }
-
-        if ($this->getMappings()) {
-            $json['mappings'] = json_decode($this->getMappings(), true);
-        }
-
-        if ($this->getAliases()) {
-            $json['aliases'] = json_decode($this->getAliases(), true);
+        if ($this->getPriority()) {
+            $json['priority'] = $this->getPriority();
         }
 
         if ($this->getComposedOf()) {
             $json['composed_of'] = $this->getComposedOf();
+        }
+
+        if ($this->getSettings() || $this->getMappings() || $this->getAliases()) {
+            $json['template'] = [];
+        }
+
+        if ($this->getSettings()) {
+            $json['template']['settings'] = json_decode($this->getSettings(), true);
+        }
+
+        if ($this->getMappings()) {
+            $json['template']['mappings'] = json_decode($this->getMappings(), true);
+        }
+
+        if ($this->getAliases()) {
+            $json['template']['aliases'] = json_decode($this->getAliases(), true);
         }
 
         return $json;

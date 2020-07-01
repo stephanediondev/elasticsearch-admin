@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'index_templates'|trans }} - {{ template['name'] }}{% endblock %}
+{% block head_title %}{{ 'index_templates_legacy'|trans }} - {{ template['name'] }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'index_templates'|trans, 'link': {'url': path('index_templates')}}) }}
+    {{ appImport.heading({'level': 1, 'title': 'index_templates_legacy'|trans, 'link': {'url': path('index_templates_legacy')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index_template/index_template_read_tabs.html.twig' with {'active': 'summary'} %}
+    {% include 'Modules/index_template_legacy/index_template_legacy_read_tabs.html.twig' with {'active': 'summary'} %}
 {% endblock %}
 
 {% block main_content %}
@@ -29,10 +29,10 @@
                             'id': 'IndexTemplateDelete',
                             'title': 'delete'|trans,
                             'body': template['name'],
-                            'href': path('index_templates_delete', {'name': template['name']}),
+                            'href': path('index_templates_legacy_delete', {'name': template['name']}),
                         }) }}
 
-                        <a class="btn btn-primary btn-sm" href="{{ path('index_templates_create', {'template': template['name']}) }}">{{ 'copy'|trans }}</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('index_templates_legacy_create', {'template': template['name']}) }}">{{ 'copy'|trans }}</a>
                     {% endblock %}
                 {% endembed %}
             {% endif %}
@@ -46,29 +46,20 @@
 
             <p>
                 <strong>{{ 'index_patterns'|trans }}</strong><br>
-                {{ template['index_template']['index_patterns']|join(', ') }}
+                {{ template['index_patterns']|join(', ') }}
             </p>
 
-            {% if template['index_template']['version'] is defined %}
+            {% if template['version'] is defined %}
                 <p>
                     <strong>{{ 'version'|trans }}</strong><br>
-                    {{ template['index_template']['version'] }}
+                    {{ template['version'] }}
                 </p>
             {% endif %}
 
-            {% if template['index_template']['priority'] is defined %}
-                <p>
-                    <strong>{{ 'priority'|trans }}</strong><br>
-                    {{ template['index_template']['priority'] }}
-                </p>
-            {% endif %}
-
-            {% if template['index_template']['composed_of'] is defined %}
-                <p>
-                    <strong>{{ 'composed_of'|trans }}</strong><br>
-                    {{ template['index_template']['composed_of']|join(', ') }}
-                </p>
-            {% endif %}
+            <p>
+                <strong>{{ 'order'|trans }}</strong><br>
+                {{ template['order'] }}
+            </p>
         {% endblock %}
     {% endembed %}
 {% endblock %}

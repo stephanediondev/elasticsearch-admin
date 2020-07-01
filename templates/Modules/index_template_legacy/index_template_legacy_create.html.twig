@@ -1,30 +1,26 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'index_templates'|trans }} - {{ template['name'] }} - {{ 'update'|trans }}{% endblock %}
+{% block head_title %}{{ 'index_templates_legacy'|trans }} - {{ 'create_index_template'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'index_templates'|trans, 'link': {'url': path('index_templates')}}) }}
-{% endblock %}
-
-{% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': template['name']}) }}
+    {{ appImport.heading({'level': 1, 'title': 'index_templates_legacy'|trans}) }}
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index_template/index_template_read_tabs.html.twig' with {'active': 'update'} %}
+    {% include 'Modules/index_template_legacy/index_template_legacy_tabs.html.twig' with {'active': 'create_index_template'} %}
 {% endblock %}
 
 {% block main_content %}
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'update'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'create_index_template'|trans}) }}
 
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-template.html#indices-put-template">
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates-v1.html#indices-templates-v1">
                         {{ 'help'|trans }}
                     </a>
                 {% endblock %}
