@@ -34,6 +34,8 @@ class IndexTemplateController extends AbstractAppController
 
         $indexTemplates = $indexTemplates['index_templates'];
 
+        usort($indexTemplates, [$this, 'sortByName']);
+
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
             'indexTemplates' => $this->paginatorManager->paginate([
                 'route' => 'index_templates',
@@ -44,6 +46,10 @@ class IndexTemplateController extends AbstractAppController
                 'size' => count($indexTemplates),
             ]),
         ]);
+    }
+
+    private function sortByName($a, $b) {
+        return $b['name'] < $a['name'];
     }
 
     /**

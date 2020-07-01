@@ -28,6 +28,8 @@ class IndexTemplateLegacyController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $indexTemplates = $callResponse->getContent();
 
+        ksort($indexTemplates);
+
         return $this->renderAbstract($request, 'Modules/index_template_legacy/index_template_legacy_index.html.twig', [
             'indexTemplates' => $this->paginatorManager->paginate([
                 'route' => 'index_templates_legacy',
