@@ -80,7 +80,7 @@
                             }) }}
                         {% endif %}
 
-                        {% if index['settings']['index']['frozen'] is defined and 'true' == index['settings']['index']['frozen'] %}
+                        {% if index['settings']['index.frozen'] is defined and 'true' == index['settings']['index.frozen'] %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexUnfreeze',
                                 'title': 'unfreeze'|trans,
@@ -127,19 +127,18 @@
 
                 {{ appImport.dashboardKpi({'title': 'health'|trans, 'badge': {'title': index['health']|trans, 'context': index['health']}}) }}
 
-                {% if index['settings']['index']['frozen'] is defined and 'true' == index['settings']['index']['frozen'] %}
+                {% if index['settings']['index.frozen'] is defined and 'true' == index['settings']['index.frozen'] %}
                     {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
                 {% else %}
                     {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
                 {% endif %}
 
-
-                {% if index['settings']['index']['version']['created'] is defined %}
-                    {{ appImport.dashboardKpi({'title': 'version_created'|trans, 'badge': {'title': index['settings']['index']['version']['created']|human_version}}) }}
+                {% if index['settings']['index.version.created'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'version_created'|trans, 'badge': {'title': index['settings']['index.version.created']|human_version}}) }}
                 {% endif %}
 
-                {% if index['settings']['index']['version']['upgraded'] is defined %}
-                    {{ appImport.dashboardKpi({'title': 'version_upgraded'|trans, 'badge': {'title': index['settings']['index']['version']['upgraded']|human_version}}) }}
+                {% if index['settings']['index.version.upgraded'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'version_upgraded'|trans, 'badge': {'title': index['settings']['index.version.upgraded']|human_version}}) }}
                 {% endif %}
             </div>
         {% endblock %}
