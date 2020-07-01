@@ -53,7 +53,7 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Indices: update (dynamic index settings)
+- [ ] Indices: update (dynamic index settings), shrink, split
 - [ ] Index templates (legacy): convert to new version
 - [ ] Repositories: create (url, source, hdfs, azure)
 - [ ] License: update
