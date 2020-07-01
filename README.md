@@ -32,7 +32,7 @@ cp .env.dist .env
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings (transient or persistent)
 - [x] Nodes: list, read, usage, plugins, reload secure settings
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle (explain, remove policy), delete, close, open, freeze, unfreeze, force merge, clear cache, flush, refresh, empty, import (XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
-- [x] Index templates legacy: list, create, read, update, delete, copy
+- [x] Index templates (legacy): list, create, read, update, delete, copy
 - [x] Index templates (7.8): list, create, read, update, delete, copy
 - [x] Component templates (7.8): list, create, read, update, delete, copy
 - [x] Index lifecycle management policies (6.6): list, status, start, stop, create, read, update, delete, copy
@@ -54,6 +54,7 @@ cp .env.dist .env
 ## Todo
 
 - [ ] Indices: update (dynamic index settings)
+- [ ] Index templates (legacy): convert to new version
 - [ ] Repositories: create (url, source, hdfs, azure)
 - [ ] License: update
 
