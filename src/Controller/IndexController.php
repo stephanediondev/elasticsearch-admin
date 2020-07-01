@@ -473,18 +473,7 @@ class IndexController extends AbstractAppController
                     $line['_id'] = $row['_id'];
                     foreach ($index['mappings_flat'] as $field => $type) {
                         if (true == isset($row['_source'][$field])) {
-                            if ('geo_point' == $type && true == is_array($row['_source'][$field])) {
-                                $geoPoint = $row['_source'][$field]['lat'].','.$row['_source'][$field]['lon'];
-                                $line[$field] = $geoPoint;
-                            } else {
-                                if ('geo_point' == $type && '' != $row['_source'][$field]) {
-                                    $line[$field] = $row['_source'][$field];
-                                } else if ('geojson' != $writer && true == is_array($row['_source'][$field])) {
-                                    $line[$field] = implode(PHP_EOL, $row['_source'][$field]);
-                                } else {
-                                    $line[$field] = $row['_source'][$field];
-                                }
-                            }
+                            $content = $row['_source'][$field];
                         } else {
                             $keys = explode('.', $field);
 
@@ -492,7 +481,21 @@ class IndexController extends AbstractAppController
                             foreach ($keys as $key) {
                                 $arr = &$arr[$key];
                             }
-                            $line[$field] = $arr;
+
+                            $content = $arr;
+                        }
+
+                        if ('geo_point' == $type && true == is_array($content)) {
+                            $geoPoint = $content['lat'].','.$content['lon'];
+                            $line[$field] = $geoPoint;
+                        } else {
+                            if ('geo_point' == $type && '' != $content) {
+                                $line[$field] = $content;
+                            } else if ('geojson' != $writer && true == is_array($content)) {
+                                $line[$field] = implode(PHP_EOL, $content);
+                            } else {
+                                $line[$field] = $content;
+                            }
                         }
                     }
 
