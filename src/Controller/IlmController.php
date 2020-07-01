@@ -245,6 +245,8 @@ class IlmController extends AbstractAppController
             $indexTemplates[] = $name;
         }
 
+        sort($indexTemplates);
+
         $applyPolicyModel = new ElasticsearchApplyIlmPolicyModel();
         $form = $this->createForm(ApplyIlmPolicyType::class, $applyPolicyModel, ['index_templates' => $indexTemplates]);
 
