@@ -36,7 +36,7 @@ class ComponentTemplateController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/component_template/component_template_index.html.twig', [
             'componentTemplates' => $this->paginatorManager->paginate([
-                'route' => 'componentTemplates',
+                'route' => 'component_templates',
                 'route_parameters' => [],
                 'total' => count($componentTemplates),
                 'rows' => $componentTemplates,

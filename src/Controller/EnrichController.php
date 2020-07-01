@@ -48,7 +48,7 @@ class EnrichController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/enrich/enrich_index.html.twig', [
             'policies' => $this->paginatorManager->paginate([
-                'route' => 'policies',
+                'route' => 'enrich',
                 'route_parameters' => [],
                 'total' => count($policies),
                 'rows' => $policies,

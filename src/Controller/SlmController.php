@@ -43,7 +43,7 @@ class SlmController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/slm/slm_index.html.twig', [
             'policies' => $this->paginatorManager->paginate([
-                'route' => 'policies',
+                'route' => 'slm',
                 'route_parameters' => [],
                 'total' => count($policies),
                 'rows' => $policies,

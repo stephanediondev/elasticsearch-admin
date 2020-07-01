@@ -30,7 +30,7 @@ class IndexTemplateLegacyController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/index_template_legacy/index_template_legacy_index.html.twig', [
             'indexTemplates' => $this->paginatorManager->paginate([
-                'route' => 'indexTemplates',
+                'route' => 'index_templates_legacy',
                 'route_parameters' => [],
                 'total' => count($indexTemplates),
                 'rows' => $indexTemplates,

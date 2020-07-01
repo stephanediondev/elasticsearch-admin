@@ -44,7 +44,7 @@ class IlmController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/ilm/ilm_index.html.twig', [
             'policies' => $this->paginatorManager->paginate([
-                'route' => 'policies',
+                'route' => 'ilm',
                 'route_parameters' => [],
                 'total' => count($policies),
                 'rows' => $policies,

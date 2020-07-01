@@ -25,7 +25,7 @@ class RemoteClusterController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/remote_cluster/remote_cluster_index.html.twig', [
             'remoteClusters' => $this->paginatorManager->paginate([
-                'route' => 'remoteClusters',
+                'route' => 'remote_clusters',
                 'route_parameters' => [],
                 'total' => count($remoteClusters),
                 'rows' => $remoteClusters,

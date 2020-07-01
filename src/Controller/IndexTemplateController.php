@@ -36,7 +36,7 @@ class IndexTemplateController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
             'indexTemplates' => $this->paginatorManager->paginate([
-                'route' => 'indexTemplates',
+                'route' => 'index_templates',
                 'route_parameters' => [],
                 'total' => count($indexTemplates),
                 'rows' => $indexTemplates,
