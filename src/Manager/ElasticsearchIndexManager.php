@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchIndexManager extends AbstractAppManager
 {
-    public function getIndex($index)
+    public function getByName(string $name)
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/indices/'.$index);
+        $callRequest->setPath('/_cat/indices/'.$name);
         $callRequest->setQuery(['bytes' => 'b']);
         $callResponse = $this->callManager->call($callRequest);
 
@@ -23,7 +23,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
             $index1 = $index1[0];
 
             $callRequest = new CallRequestModel();
-            $callRequest->setPath('/'.$index);
+            $callRequest->setPath('/'.$name);
             $callRequest->setQuery(['flat_settings' => 'true']);
             $callResponse = $this->callManager->call($callRequest);
             $index2 = $callResponse->getContent();

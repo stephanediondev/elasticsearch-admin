@@ -11,10 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractAppController extends AbstractController
 {
-    public function __construct(CallManager $callManager, PaginatorManager $paginatorManager)
+    /**
+     * @required
+     */
+    public function setCallManager(CallManager $callManager)
     {
         $this->callManager = $callManager;
-        $this->paginatorManager = $paginatorManager;
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/');
@@ -25,6 +27,14 @@ abstract class AbstractAppController extends AbstractController
         $callRequest->setPath('/_xpack');
         $callResponse = $this->callManager->call($callRequest);
         $this->xpack = $callResponse->getContent();
+    }
+
+    /**
+     * @required
+     */
+    public function setPaginatorManager(PaginatorManager $paginatorManager)
+    {
+        $this->paginatorManager = $paginatorManager;
     }
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response

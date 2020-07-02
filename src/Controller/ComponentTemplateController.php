@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateComponentTemplateType;
+use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchComponentTemplateModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +19,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ComponentTemplateController extends AbstractAppController
 {
+    public function __construct(ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager)
+    {
+        $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;
+    }
+
     /**
      * @Route("/component-templates", name="component_templates")
      */
@@ -27,12 +33,7 @@ class ComponentTemplateController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template');
-        $callResponse = $this->callManager->call($callRequest);
-        $componentTemplates = $callResponse->getContent();
-
-        $componentTemplates = $componentTemplates['component_templates'];
+        $componentTemplates = $this->elasticsearchComponentTemplateManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/component_template/component_template_index.html.twig', [
             'componentTemplates' => $this->paginatorManager->paginate([
@@ -54,23 +55,17 @@ class ComponentTemplateController extends AbstractAppController
         $template = false;
 
         if ($request->query->get('template')) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_component_template/'.$request->query->get('template'));
-            $callResponse = $this->callManager->call($callRequest);
+            $template = $this->elasticsearchComponentTemplateManager->getByName($request->query->get('template'));
 
-            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            if (false == $template) {
                 throw new NotFoundHttpException();
             }
-
-            $template = $callResponse->getContent();
-            $template = $template['component_templates'][0];
-            $template = array_merge($template, $template['component_template']['template']);
-            $template['name'] = $template['name'].'-copy';
-            $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
             if (true == $template['is_system']) {
                 throw new AccessDeniedHttpException();
             }
+
+            $template['name'] = $template['name'].'-copy';
         }
 
         $templateModel = new ElasticsearchComponentTemplateModel();
@@ -83,12 +78,7 @@ class ComponentTemplateController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $templateModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_component_template/'.$templateModel->getName());
-                $callRequest->setBody(json_encode($json, JSON_FORCE_OBJECT));
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchComponentTemplateManager->send($templateModel);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -108,18 +98,11 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['component_templates'][0];
-        $template = array_merge($template, $template['component_template']['template']);
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/component_template/component_template_read.html.twig', [
             'template' => $template,
@@ -131,18 +114,11 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['component_templates'][0];
-        $template = array_merge($template, $template['component_template']['template']);
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/component_template/component_template_read_settings.html.twig', [
             'template' => $template,
@@ -154,18 +130,11 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['component_templates'][0];
-        $template = array_merge($template, $template['component_template']['template']);
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/component_template/component_template_read_mappings.html.twig', [
             'template' => $template,
@@ -177,18 +146,11 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['component_templates'][0];
-        $template = array_merge($template, $template['component_template']['template']);
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         if (true == $template['is_system']) {
             throw new AccessDeniedHttpException();
@@ -202,12 +164,7 @@ class ComponentTemplateController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $templateModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_component_template/'.$templateModel->getName());
-                $callRequest->setBody(json_encode($json, JSON_FORCE_OBJECT));
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchComponentTemplateManager->send($templateModel);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -228,18 +185,11 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['component_templates'][0];
-        $template = array_merge($template, $template['component_template']['template']);
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         if (true == $template['is_system']) {
             throw new AccessDeniedHttpException();

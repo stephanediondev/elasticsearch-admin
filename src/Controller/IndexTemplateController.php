@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateIndexTemplateType;
+use App\Manager\ElasticsearchComponentTemplateManager;
+use App\Manager\ElasticsearchIndexTemplateManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +20,12 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class IndexTemplateController extends AbstractAppController
 {
+    public function __construct(ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager, ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager)
+    {
+        $this->elasticsearchIndexTemplateManager = $elasticsearchIndexTemplateManager;
+        $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;
+    }
+
     /**
      * @Route("/index-templates", name="index_templates")
      */
@@ -60,29 +68,20 @@ class IndexTemplateController extends AbstractAppController
         $template = false;
 
         if ($request->query->get('template')) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_index_template/'.$request->query->get('template'));
-            $callResponse = $this->callManager->call($callRequest);
+            $template = $this->elasticsearchIndexTemplateManager->getByName($request->query->get('template'));
 
-            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            if (false == $template) {
                 throw new NotFoundHttpException();
             }
-
-            $template = $callResponse->getContent();
-            $template = $template['index_templates'][0];
-            $template['name'] = $template['name'].'-copy';
-            $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
             if (true == $template['is_system']) {
                 throw new AccessDeniedHttpException();
             }
+
+            $template['name'] = $template['name'].'-copy';
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template');
-        $callResponse = $this->callManager->call($callRequest);
-        $results = $callResponse->getContent();
-        $results = $results['component_templates'];
+        $results = $this->elasticsearchComponentTemplateManager->getAll();
 
         $componentTemplates = [];
         foreach ($results as $row) {
@@ -99,12 +98,7 @@ class IndexTemplateController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $templateModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_index_template/'.$templateModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchIndexTemplateManager->send($templateModel);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -124,17 +118,11 @@ class IndexTemplateController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['index_templates'][0];
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_read.html.twig', [
             'template' => $template,
@@ -146,17 +134,11 @@ class IndexTemplateController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['index_templates'][0];
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_read_settings.html.twig', [
             'template' => $template,
@@ -168,17 +150,11 @@ class IndexTemplateController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['index_templates'][0];
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_read_mappings.html.twig', [
             'template' => $template,
@@ -190,27 +166,17 @@ class IndexTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['index_templates'][0];
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         if (true == $template['is_system']) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template');
-        $callResponse = $this->callManager->call($callRequest);
-        $results = $callResponse->getContent();
-        $results = $results['component_templates'];
+        $results = $this->elasticsearchComponentTemplateManager->getAll();
 
         $componentTemplates = [];
         foreach ($results as $row) {
@@ -225,12 +191,7 @@ class IndexTemplateController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $templateModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_index_template/'.$templateModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchIndexTemplateManager->send($templateModel);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -251,17 +212,11 @@ class IndexTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $template) {
             throw new NotFoundHttpException();
         }
-
-        $template = $callResponse->getContent();
-        $template = $template['index_templates'][0];
-        $template['is_system'] = '.' == substr($template['name'], 0, 1);
 
         if (true == $template['is_system']) {
             throw new AccessDeniedHttpException();

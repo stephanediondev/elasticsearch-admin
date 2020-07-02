@@ -79,17 +79,17 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
     public function convert(?array $template): self
     {
         $this->setName($template['name']);
-        if (true == isset($template['version'])) {
-            $this->setVersion($template['version']);
+        if (true == isset($template['component_template']['version'])) {
+            $this->setVersion($template['component_template']['version']);
         }
-        if (true == isset($template['settings']) && 0 < count($template['settings'])) {
-            $this->setSettings(json_encode($template['settings'], JSON_PRETTY_PRINT));
+        if (true == isset($template['component_template']['template']['settings']) && 0 < count($template['component_template']['template']['settings'])) {
+            $this->setSettings(json_encode($template['component_template']['template']['settings'], JSON_PRETTY_PRINT));
         }
-        if (true == isset($template['mappings']) && 0 < count($template['mappings'])) {
-            $this->setMappings(json_encode($template['mappings'], JSON_PRETTY_PRINT));
+        if (true == isset($template['component_template']['template']['mappings']) && 0 < count($template['component_template']['template']['mappings'])) {
+            $this->setMappings(json_encode($template['component_template']['template']['mappings'], JSON_PRETTY_PRINT));
         }
-        if (true == isset($template['aliases']) && 0 < count($template['aliases'])) {
-            $this->setAliases(json_encode($template['aliases'], JSON_PRETTY_PRINT));
+        if (true == isset($template['component_template']['template']['aliases']) && 0 < count($template['component_template']['template']['aliases'])) {
+            $this->setAliases(json_encode($template['component_template']['template']['aliases'], JSON_PRETTY_PRINT));
         }
 
         return $this;
@@ -102,7 +102,7 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         ];
 
         if ($this->getVersion()) {
-            $json['template']['version'] = $this->getVersion();
+            $json['version'] = $this->getVersion();
         }
 
         if ($this->getSettings()) {
