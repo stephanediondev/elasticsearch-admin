@@ -167,7 +167,7 @@ class PhpunitCommand extends Command
             if (Response::HTTP_OK == $callResponse->getCode()) {
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('DELETE');
-                $callRequest->setPath('/_index_template/'.$name);
+                $callRequest->setPath('/_component_template/'.$name);
                 $this->callManager->call($callRequest);
             }
 
