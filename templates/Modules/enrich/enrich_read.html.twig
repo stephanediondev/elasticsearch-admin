@@ -37,8 +37,15 @@
                         'body': policy['name'],
                         'href': path('enrich_execute', {'name': policy['name']}),
                     }) }}
+
+                    <a class="btn btn-primary btn-sm" href="{{ path('enrich_create', {'policy': policy['name']}) }}">{{ 'copy'|trans }}</a>
                 {% endblock %}
             {% endembed %}
+
+            <p>
+                <strong>{{ 'type'|trans }}</strong><br>
+                {{ policy['type'] }}
+            </p>
 
             {% if policy['indices'] is defined %}
                 <p>

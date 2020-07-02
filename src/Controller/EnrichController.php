@@ -92,7 +92,30 @@ class EnrichController extends AbstractAppController
     {
         $indices = $elasticsearchIndexManager->selectIndices();
 
+        $policy = false;
+
+        if ($request->query->get('policy')) {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_enrich/policy/'.$request->query->get('policy'));
+            $callResponse = $this->callManager->call($callRequest);
+
+            $rows = $callResponse->getContent();
+
+            foreach ($rows['policies'] as $row) {
+                $policy = [];
+                $policy['type'] = key($row['config']);
+                $policy['name'] = $row['config'][$policy['type']]['name'];
+                $policy['indices'] = $row['config'][$policy['type']]['indices'];
+                $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
+                $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
+                $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
+            }
+        }
+
         $policyModel = new ElasticsearchEnrichPolicyModel();
+        if ($policy) {
+            $policyModel->convert($policy);
+        }
         $form = $this->createForm(CreateEnrichPolicyType::class, $policyModel, ['indices' => $indices]);
 
         $form->handleRequest($request);
