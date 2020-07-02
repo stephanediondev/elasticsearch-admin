@@ -42,37 +42,51 @@ class IndexStatsController extends AbstractAppController
         $data['totals']['indices_total_size'] = 0;
 
         $tables = [
-            'indices_by_status' => 'status',
-            'indices_by_health' => 'health',
-            'indices_by_documents' => 'docs.count',
-            'indices_by_total_size' => 'store.size',
+            'indices_by_status',
+            'indices_by_health',
+            'indices_by_documents',
+            'indices_by_total_size',
         ];
 
         foreach ($indices as $index) {
             $data['totals']['indices_total']++;
 
-            $data['totals']['indices_total_documents'] += $index['docs.count'];
-            $data['totals']['indices_total_size'] += $index['store.size'];
+            $data['totals']['indices_total_documents'] += $index->getDocuments();
+            $data['totals']['indices_total_size'] += $index->getTotalSize();
 
-            foreach ($tables as $key => $table) {
-                switch ($key) {
+            foreach ($tables as $table) {
+                switch ($table) {
                     case 'indices_by_documents':
+                        $data['tables'][$table]['results'][] = ['total' => $index->getDocuments(), 'title' => $index->getName()];
+                        break;
                     case 'indices_by_total_size':
-                        $data['tables'][$key]['results'][] = ['total' => $index[$table], 'title' => $index['index']];
+                        $data['tables'][$table]['results'][] = ['total' => $index->getTotalSize(), 'title' => $index->getName()];
                         break;
-                    default:
-                        if (false == isset($data['tables'][$key]['results'][$index[$table]])) {
-                            $data['tables'][$key]['results'][$index[$table]] = ['total' => 0, 'title' => $index[$table]];
+                    case 'indices_by_status':
+                    case 'indices_by_health':
+                        switch ($table) {
+                            case 'indices_by_status':
+                                $key = $index->getStatus();
+                                break;
+                            case 'indices_by_health':
+                                $key = $index->getHealth();
+                                break;
+                            default:
+                                $key = false;
                         }
-                        $data['tables'][$key]['results'][$index[$table]]['total']++;
+                        if ($key) {
+                            if (false == isset($data['tables'][$table]['results'][$key])) {
+                                $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
+                            }
+                            $data['tables'][$table]['results'][$key]['total']++;
+                        }
                         break;
-
                 }
             }
         }
 
-        foreach ($tables as $key => $table) {
-            usort($data['tables'][$key]['results'], [$this, 'sortByTotal']);
+        foreach ($tables as $table) {
+            usort($data['tables'][$table]['results'], [$this, 'sortByTotal']);
         }
 
         return $this->renderAbstract($request, 'Modules/index/index_stats.html.twig', [

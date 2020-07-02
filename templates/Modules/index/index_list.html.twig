@@ -79,72 +79,72 @@
 
     {% block tbody %}
         {% for row in indices.rows %}
-            <tr class="index_system-{% if '.' == row['index']|slice(0, 1) %}true{% else %}false{% endif %} status-{{ row['status'] }} health-{{ row['health'] }} frozen-{{ row['sth'] }}" data-search="{{ row['index'] }}">
+            <tr class="index_system-{% if row.isSystem %}true{% else %}false{% endif %} status-{{ row.status }} health-{{ row.health }} frozen-{{ row.frozen }}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('indices_read', {'index': row['index']}) }}">{{ row['index'] }}</a>
+                                <a href="{{ path('indices_read', {'index': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'shards' == column %}
                             <td>
-                                {{ row['pri'] }}
+                                {{ row.shards }}
                             </td>
                         {% endif %}
 
                         {% if 'replicas' == column %}
                             <td>
-                                {{ row['rep'] }}
+                                {{ row.replicas }}
                             </td>
                         {% endif %}
 
                         {% if 'documents' == column %}
                             <td>
-                                {{ row['docs.count'] }}
+                                {{ row.documents }}
                             </td>
                         {% endif %}
 
                         {% if 'documents_deleted' == column %}
                             <td>
-                                {{ row['docs.deleted'] }}
+                                {{ row.documentsDeleted }}
                             </td>
                         {% endif %}
 
                         {% if 'primary_size' == column %}
                             <td>
-                                {{ row['pri.store.size']|human_filesize }}
+                                {{ row.primarySize|human_filesize }}
                             </td>
                         {% endif %}
 
                         {% if 'total_size' == column %}
                             <td>
-                                {{ row['store.size']|human_filesize }}
+                                {{ row.totalSize|human_filesize }}
                             </td>
                         {% endif %}
 
                         {% if 'status' == column %}
                             <td>
-                                {{ appImport.badge({'title': row['status']|trans, 'context': row['status']}) }}
+                                {{ appImport.badge({'title': row.status|trans, 'context': row.status}) }}
                             </td>
                         {% endif %}
 
                         {% if 'health' == column %}
                             <td>
-                                {{ appImport.badge({'title': row['health']|trans, 'context': row['health']}) }}
+                                {{ appImport.badge({'title': row.health|trans, 'context': row.health}) }}
                             </td>
                         {% endif %}
 
                         {% if 'frozen' == column %}
                             <td>
-                                {{ appImport.badge({'title': ('boolean.' ~ row['sth'])|trans, 'context': row['sth']}) }}
+                                {{ appImport.badge({'title': ('boolean.' ~ row.frozen)|trans, 'context': row.frozen}) }}
                             </td>
                         {% endif %}
 
                         {% if 'creation_date' == column %}
                             <td>
-                                {{ row['creation.date.string'] }}
+                                {{ row.creationDate }}
                             </td>
                         {% endif %}
                     {% endif %}

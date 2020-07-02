@@ -5,6 +5,7 @@ namespace App\Manager;
 use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
+use App\Model\ElasticsearchIndexModel;
 use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchIndexManager extends AbstractAppManager
@@ -56,7 +57,16 @@ class ElasticsearchIndexManager extends AbstractAppManager
         $callRequest->setPath('/_cat/indices');
         $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
-        return $callResponse->getContent();
+        $results = $callResponse->getContent();
+
+        $indices = [];
+        foreach ($results as $row) {
+            $indexModel = new ElasticsearchIndexModel();
+            $indexModel->convert($row);
+            $indices[] = $indexModel;
+        }
+
+        return $indices;
     }
 
     public function closeIndex($index)
