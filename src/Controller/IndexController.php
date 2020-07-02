@@ -54,11 +54,7 @@ class IndexController extends AbstractAppController
             $query['expand_wildcards'] = 'all';
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/indices');
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $indices = $callResponse->getContent();
+        $indices = $this->elasticsearchIndexManager->getAll($query);
 
         return $this->renderAbstract($request, 'Modules/index/index_index.html.twig', [
             'indices' => $this->paginatorManager->paginate([

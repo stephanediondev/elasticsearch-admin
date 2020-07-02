@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class IndexStatsController extends AbstractAppController
 {
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
+    {
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+    }
+
     /**
      * @Route("/indices/stats", priority=10, name="indices_stats")
      */
@@ -28,11 +34,7 @@ class IndexStatsController extends AbstractAppController
             $query['expand_wildcards'] = 'all';
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/indices');
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $indices = $callResponse->getContent();
+        $indices = $this->elasticsearchIndexManager->getAll($query);
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['indices_total'] = 0;

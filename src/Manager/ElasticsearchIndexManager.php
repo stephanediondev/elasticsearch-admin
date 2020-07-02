@@ -50,6 +50,15 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $index;
     }
 
+    public function getAll(array $query)
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/indices');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        return $callResponse->getContent();
+    }
+
     public function closeIndex($index)
     {
         $callRequest = new CallRequestModel();
