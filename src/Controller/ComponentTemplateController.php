@@ -6,7 +6,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateComponentTemplateType;
 use App\Manager\ElasticsearchComponentTemplateManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchComponentTemplateModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;

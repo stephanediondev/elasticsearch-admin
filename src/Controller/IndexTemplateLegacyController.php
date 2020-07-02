@@ -6,7 +6,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateIndexTemplateLegacyType;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
