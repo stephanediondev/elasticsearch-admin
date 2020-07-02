@@ -35,6 +35,8 @@ class ComponentTemplateController extends AbstractAppController
 
         $componentTemplates = $this->elasticsearchComponentTemplateManager->getAll();
 
+        usort($componentTemplates, [$this, 'sortByName']);
+
         return $this->renderAbstract($request, 'Modules/component_template/component_template_index.html.twig', [
             'componentTemplates' => $this->paginatorManager->paginate([
                 'route' => 'component_templates',
@@ -45,6 +47,10 @@ class ComponentTemplateController extends AbstractAppController
                 'size' => count($componentTemplates),
             ]),
         ]);
+    }
+
+    private function sortByName($a, $b) {
+        return $b['name'] < $a['name'];
     }
 
     /**
