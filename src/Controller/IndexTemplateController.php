@@ -74,7 +74,7 @@ class IndexTemplateController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
-            if (true == $template['is_system']) {
+            if (true == $template->isSystem()) {
                 throw new AccessDeniedHttpException();
             }
 
@@ -172,7 +172,7 @@ class IndexTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template['is_system']) {
+        if (true == $template->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -183,19 +183,17 @@ class IndexTemplateController extends AbstractAppController
             $componentTemplates[] = $row['name'];
         }
 
-        $templateModel = new ElasticsearchIndexTemplateModel();
-        $templateModel->convert($template);
-        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['component_templates' => $componentTemplates, 'update' => true]);
+        $form = $this->createForm(CreateIndexTemplateType::class, $template, ['component_templates' => $componentTemplates, 'update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $callResponse = $this->elasticsearchIndexTemplateManager->send($templateModel);
+                $callResponse = $this->elasticsearchIndexTemplateManager->send($template);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
+                return $this->redirectToRoute('index_templates_read', ['name' => $template->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -218,7 +216,7 @@ class IndexTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template['is_system']) {
+        if (true == $template->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 

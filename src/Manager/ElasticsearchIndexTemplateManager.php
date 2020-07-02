@@ -13,18 +13,18 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
     public function getByName(string $name)
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template/'.$name);
+        $callRequest->setPath('/_index_template/'.$name.'?flat_settings=true');
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $template = false;
+            $templateModel = false;
         } else {
             $template = $callResponse->getContent();
-            $template = $template['index_templates'][0];
-            $template['is_system'] = '.' == substr($template['name'], 0, 1);
+            $templateModel = new ElasticsearchIndexTemplateModel();
+            $templateModel->convert($template['index_templates'][0]);
         }
 
-        return $template;
+        return $templateModel;
     }
 
     public function send(ElasticsearchIndexTemplateModel $templateModel)
