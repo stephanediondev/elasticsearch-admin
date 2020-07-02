@@ -29,6 +29,21 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Index templates - Create index template');
     }
 
+    public function testCreateCopy404()
+    {
+        $this->client->request('GET', '/admin/index-templates/create?template='.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testCreateCopy()
+    {
+        $this->client->request('GET', '/admin/index-templates/create?template=elasticsearch-admin-test');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Index templates - Create index template');
+    }
+
     /**
      * @Route("/index-templates/{name}", name="index_templates_read")
      */

@@ -171,16 +171,18 @@ class CreateIndexTemplateType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if ($form->has('name') && $form->get('name')->getData()) {
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('HEAD');
-                $callRequest->setPath('/_index_template/'.$form->get('name')->getData());
-                $callResponse = $this->callManager->call($callRequest);
+            if (false == $options['update']) {
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('HEAD');
+                    $callRequest->setPath('/_index_template/'.$form->get('name')->getData());
+                    $callResponse = $this->callManager->call($callRequest);
 
-                if (Response::HTTP_OK == $callResponse->getCode()) {
-                    $form->get('name')->addError(new FormError(
-                        $this->translator->trans('name_already_used')
-                    ));
+                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
+                        ));
+                    }
                 }
             }
 

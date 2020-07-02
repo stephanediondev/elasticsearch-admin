@@ -33,24 +33,18 @@ class ComponentTemplateController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $componentTemplates = $this->elasticsearchComponentTemplateManager->getAll();
-
-        usort($componentTemplates, [$this, 'sortByName']);
+        $templates = $this->elasticsearchComponentTemplateManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/component_template/component_template_index.html.twig', [
-            'componentTemplates' => $this->paginatorManager->paginate([
+            'templates' => $this->paginatorManager->paginate([
                 'route' => 'component_templates',
                 'route_parameters' => [],
-                'total' => count($componentTemplates),
-                'rows' => $componentTemplates,
+                'total' => count($templates),
+                'rows' => $templates,
                 'page' => 1,
-                'size' => count($componentTemplates),
+                'size' => count($templates),
             ]),
         ]);
-    }
-
-    private function sortByName($a, $b) {
-        return $b['name'] < $a['name'];
     }
 
     /**
@@ -67,28 +61,27 @@ class ComponentTemplateController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
-            if (true == $template['is_system']) {
+            if (true == $template->isSystem()) {
                 throw new AccessDeniedHttpException();
             }
 
-            $template['name'] = $template['name'].'-copy';
+            $template->setName($template->getName().'-copy');
         }
 
-        $templateModel = new ElasticsearchComponentTemplateModel();
-        if ($template) {
-            $templateModel->convert($template);
+        if (false == $template) {
+            $template = new ElasticsearchComponentTemplateModel();
         }
-        $form = $this->createForm(CreateComponentTemplateType::class, $templateModel);
+        $form = $this->createForm(CreateComponentTemplateType::class, $template);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $callResponse = $this->elasticsearchComponentTemplateManager->send($templateModel);
+                $callResponse = $this->elasticsearchComponentTemplateManager->send($template);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('component_templates_read', ['name' => $templateModel->getName()]);
+                return $this->redirectToRoute('component_templates_read', ['name' => $template->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -158,23 +151,21 @@ class ComponentTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template['is_system']) {
+        if (true == $template->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
-        $templateModel = new ElasticsearchComponentTemplateModel();
-        $templateModel->convert($template);
-        $form = $this->createForm(CreateComponentTemplateType::class, $templateModel, ['update' => true]);
+        $form = $this->createForm(CreateComponentTemplateType::class, $template, ['update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $callResponse = $this->elasticsearchComponentTemplateManager->send($templateModel);
+                $callResponse = $this->elasticsearchComponentTemplateManager->send($template);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('component_templates_read', ['name' => $templateModel->getName()]);
+                return $this->redirectToRoute('component_templates_read', ['name' => $template->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -197,7 +188,7 @@ class ComponentTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template['is_system']) {
+        if (true == $template->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 

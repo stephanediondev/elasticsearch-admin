@@ -74,7 +74,7 @@ class IndexTemplateController extends AbstractAppController
 
         $componentTemplates = [];
         foreach ($results as $row) {
-            $componentTemplates[] = $row['name'];
+            $componentTemplates[] = $row->getName();
         }
 
         if (false == $template) {
@@ -168,7 +168,7 @@ class IndexTemplateController extends AbstractAppController
 
         $componentTemplates = [];
         foreach ($results as $row) {
-            $componentTemplates[] = $row['name'];
+            $componentTemplates[] = $row->getName();
         }
 
         $form = $this->createForm(CreateIndexTemplateType::class, $template, ['component_templates' => $componentTemplates, 'update' => true]);

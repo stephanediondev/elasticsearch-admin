@@ -35,7 +35,7 @@
 
     {% block tbody %}
         {% for row in templates.rows %}
-            <tr class="index_template_system-{% if '.' == row.name|slice(0, 1) %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
+            <tr class="index_template_system-{% if row.isSystem %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}

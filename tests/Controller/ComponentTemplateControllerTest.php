@@ -29,6 +29,21 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Component templates - Create component template');
     }
 
+    public function testCreateCopy404()
+    {
+        $this->client->request('GET', '/admin/component-templates/create?template='.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testCreateCopy()
+    {
+        $this->client->request('GET', '/admin/component-templates/create?template=elasticsearch-admin-test');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Component templates - Create component template');
+    }
+
     /**
      * @Route("/component-templates/{name}", name="component_templates_read")
      */
