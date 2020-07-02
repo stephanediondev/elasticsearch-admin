@@ -34,34 +34,34 @@
     {% endblock %}
 
     {% block tbody %}
-        {% for name, row in indexTemplates.rows %}
-            <tr class="index_template_system-{% if '.' == name|slice(0, 1) %}true{% else %}false{% endif %}" data-search="{{ name }}">
+        {% for row in templates.rows %}
+            <tr class="index_template_system-{% if row.isSystem %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('index_templates_legacy_read', {'name': name}) }}">{{ name }}</a>
+                                <a href="{{ path('index_templates_legacy_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'index_patterns' == column %}
                             <td>
-                                {{ row['index_patterns']|join(',')|replace({'[': '', ']': ''}) }}
+                                {{ row.indexPatterns|join(',')|replace({'[': '', ']': ''}) }}
                             </td>
                         {% endif %}
 
                         {% if 'order' == column %}
                             <td>
-                                {% if row['order'] is defined %}
-                                    {{ row['order'] }}
+                                {% if row.order %}
+                                    {{ row.order }}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'version' == column %}
                             <td>
-                                {% if row['version'] is defined %}
-                                    {{ row['version'] }}
+                                {% if row.version %}
+                                    {{ row.version }}
                                 {% endif %}
                             </td>
                         {% endif %}

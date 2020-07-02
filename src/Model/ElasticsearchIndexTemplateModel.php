@@ -70,36 +70,48 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
-    public function getSettings(): ?string
+    public function getSettings(): ?array
     {
         return $this->settings;
     }
 
-    public function setSettings(?string $settings): self
+    public function setSettings($settings): self
     {
         $this->settings = $settings;
 
         return $this;
     }
 
-    public function getMappings(): ?string
+    public function getSetting($key): ?string
+    {
+        return $this->settings[$key] ?? false;
+    }
+
+    public function setSetting(?string $key, ?string $value): self
+    {
+        $this->settings[$key] = $value;
+
+        return $this;
+    }
+
+    public function getMappings(): ?array
     {
         return $this->mappings;
     }
 
-    public function setMappings(?string $mappings): self
+    public function setMappings($mappings): self
     {
         $this->mappings = $mappings;
 
         return $this;
     }
 
-    public function getAliases(): ?string
+    public function getAliases(): ?array
     {
         return $this->aliases;
     }
 
-    public function setAliases(?string $aliases): self
+    public function setAliases($aliases): self
     {
         $this->aliases = $aliases;
 
@@ -128,6 +140,11 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $indexPatterns;
     }
 
+    public function isSystem(): ?bool
+    {
+        return '.' == substr($this->getName(), 0, 1);
+    }
+
     public function convert(?array $template): self
     {
         $this->setName($template['name']);
@@ -143,13 +160,13 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         }
         if (true == isset($template['index_template']['template']) && 0 < count($template['index_template']['template'])) {
             if (true == isset($template['index_template']['template']['settings']) && 0 < count($template['index_template']['template']['settings'])) {
-                $this->setSettings(json_encode($template['index_template']['template']['settings'], JSON_PRETTY_PRINT));
+                $this->setSettings($template['index_template']['template']['settings']);
             }
             if (true == isset($template['index_template']['template']['mappings']) && 0 < count($template['index_template']['template']['mappings'])) {
-                $this->setMappings(json_encode($template['index_template']['template']['mappings'], JSON_PRETTY_PRINT));
+                $this->setMappings($template['index_template']['template']['mappings']);
             }
             if (true == isset($template['index_template']['template']['aliases']) && 0 < count($template['index_template']['template']['aliases'])) {
-                $this->setAliases(json_encode($template['index_template']['template']['aliases'], JSON_PRETTY_PRINT));
+                $this->setAliases($template['index_template']['template']['aliases']);
             }
         }
         return $this;
@@ -178,15 +195,15 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         }
 
         if ($this->getSettings()) {
-            $json['template']['settings'] = json_decode($this->getSettings(), true);
+            $json['template']['settings'] = $this->getSettings();
         }
 
         if ($this->getMappings()) {
-            $json['template']['mappings'] = json_decode($this->getMappings(), true);
+            $json['template']['mappings'] = $this->getMappings();
         }
 
         if ($this->getAliases()) {
-            $json['template']['aliases'] = json_decode($this->getAliases(), true);
+            $json['template']['aliases'] = $this->getAliases();
         }
 
         return $json;

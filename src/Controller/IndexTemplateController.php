@@ -7,7 +7,6 @@ use App\Exception\CallException;
 use App\Form\CreateIndexTemplateType;
 use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Manager\ElasticsearchIndexTemplateManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,29 +34,18 @@ class IndexTemplateController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template');
-        $callResponse = $this->callManager->call($callRequest);
-        $indexTemplates = $callResponse->getContent();
-
-        $indexTemplates = $indexTemplates['index_templates'];
-
-        usort($indexTemplates, [$this, 'sortByName']);
+        $templates = $this->elasticsearchIndexTemplateManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
-            'indexTemplates' => $this->paginatorManager->paginate([
+            'templates' => $this->paginatorManager->paginate([
                 'route' => 'index_templates',
                 'route_parameters' => [],
-                'total' => count($indexTemplates),
-                'rows' => $indexTemplates,
+                'total' => count($templates),
+                'rows' => $templates,
                 'page' => 1,
-                'size' => count($indexTemplates),
+                'size' => count($templates),
             ]),
         ]);
-    }
-
-    private function sortByName($a, $b) {
-        return $b['name'] < $a['name'];
     }
 
     /**
@@ -74,35 +62,34 @@ class IndexTemplateController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
-            if (true == $template['is_system']) {
+            if (true == $template->isSystem()) {
                 throw new AccessDeniedHttpException();
             }
 
-            $template['name'] = $template['name'].'-copy';
+            $template->setName($template->getName().'-copy');
         }
 
         $results = $this->elasticsearchComponentTemplateManager->getAll();
 
         $componentTemplates = [];
         foreach ($results as $row) {
-            $componentTemplates[] = $row['name'];
+            $componentTemplates[] = $row->getName();
         }
 
-        $templateModel = new ElasticsearchIndexTemplateModel();
-        if ($template) {
-            $templateModel->convert($template);
+        if (false == $template) {
+            $template = new ElasticsearchIndexTemplateModel();
         }
-        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['component_templates' => $componentTemplates]);
+        $form = $this->createForm(CreateIndexTemplateType::class, $template, ['component_templates' => $componentTemplates]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $callResponse = $this->elasticsearchIndexTemplateManager->send($templateModel);
+                $callResponse = $this->elasticsearchIndexTemplateManager->send($template);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
+                return $this->redirectToRoute('index_templates_read', ['name' => $template->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -172,7 +159,7 @@ class IndexTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template['is_system']) {
+        if (true == $template->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -180,22 +167,20 @@ class IndexTemplateController extends AbstractAppController
 
         $componentTemplates = [];
         foreach ($results as $row) {
-            $componentTemplates[] = $row['name'];
+            $componentTemplates[] = $row->getName();
         }
 
-        $templateModel = new ElasticsearchIndexTemplateModel();
-        $templateModel->convert($template);
-        $form = $this->createForm(CreateIndexTemplateType::class, $templateModel, ['component_templates' => $componentTemplates, 'update' => true]);
+        $form = $this->createForm(CreateIndexTemplateType::class, $template, ['component_templates' => $componentTemplates, 'update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $callResponse = $this->elasticsearchIndexTemplateManager->send($templateModel);
+                $callResponse = $this->elasticsearchIndexTemplateManager->send($template);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('index_templates_read', ['name' => $templateModel->getName()]);
+                return $this->redirectToRoute('index_templates_read', ['name' => $template->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -218,14 +203,11 @@ class IndexTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template['is_system']) {
+        if (true == $template->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_index_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexTemplateManager->delete($template);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

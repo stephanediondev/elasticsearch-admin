@@ -12,11 +12,11 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < indexTemplates.total %}
+    {% if 0 < templates.total %}
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': indexTemplates.total}}) }}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': templates.total}}) }}
 
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
@@ -33,11 +33,11 @@
                     {{ appImport.filterCheckboxesBoolean({'title': 'index_template_system'|trans, 'prefix': 'index_template_system'}) }}
                 </div>
 
-                {{ appImport.paginator(indexTemplates) }}
+                {{ appImport.paginator(templates) }}
 
-                {% include 'Modules/index_template/index_template_list.html.twig' with {'indexTemplates': indexTemplates} %}
+                {% include 'Modules/index_template/index_template_list.html.twig' with {'templates': templates} %}
 
-                {{ appImport.paginator(indexTemplates) }}
+                {{ appImport.paginator(templates) }}
             {% endblock %}
         {% endembed %}
     {% endif %}

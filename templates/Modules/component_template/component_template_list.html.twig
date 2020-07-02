@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'version': false} %}
+    {% set columns = {'name': true, 'version': true} %}
 
     {% block thead %}
         <tr>
@@ -24,19 +24,19 @@
     {% endblock %}
 
     {% block tbody %}
-        {% for row in componentTemplates.rows %}
-            <tr class="component_template_system-{% if '.' == row['name']|slice(0, 1) %}true{% else %}false{% endif %}" data-search="{{ row['name'] }}">
+        {% for row in templates.rows %}
+            <tr class="component_template_system-{% if row.isSystem %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('component_templates_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                                <a href="{{ path('component_templates_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'version' == column %}
                             <td>
-                                {{ row['version'] }}
+                                {{ row.version }}
                             </td>
                         {% endif %}
                     {% endif %}

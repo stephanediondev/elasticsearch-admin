@@ -17,24 +17,34 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $template = false;
+            $templateModel = false;
         } else {
             $template = $callResponse->getContent();
-            $template = $template['component_templates'][0];
-            $template['is_system'] = '.' == substr($template['name'], 0, 1);
+
+            $templateModel = new ElasticsearchComponentTemplateModel();
+            $templateModel->convert($template['component_templates'][0]);
         }
 
-        return $template;
+        return $templateModel;
     }
 
     public function getAll()
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template');
+        $callRequest->setPath('/_component_template?flat_settings=true');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
+        $results = $results['component_templates'];
+        usort($results, [$this, 'sortByName']);
 
-        return $results['component_templates'];
+        $templates = [];
+        foreach ($results as $row) {
+            $templateModel = new ElasticsearchComponentTemplateModel();
+            $templateModel->convert($row);
+            $templates[] = $templateModel;
+        }
+
+        return $templates;
     }
 
     public function send(ElasticsearchComponentTemplateModel $templateModel)
@@ -46,5 +56,18 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
         $callRequest->setBody(json_encode($json, JSON_FORCE_OBJECT));
 
         return $this->callManager->call($callRequest);
+    }
+
+    public function delete(ElasticsearchComponentTemplateModel $templateModel)
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_component_template/'.$templateModel->getName());
+
+        return $this->callManager->call($callRequest);
+    }
+
+    private function sortByName($a, $b) {
+        return $b['name'] < $a['name'];
     }
 }
