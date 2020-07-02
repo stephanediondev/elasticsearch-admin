@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'index_templates_legacy'|trans }} - {{ template['name'] }}{% endblock %}
+{% block head_title %}{{ 'index_templates_legacy'|trans }} - {{ template.name }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'index_templates_legacy'|trans, 'link': {'url': path('index_templates_legacy')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': template['name']}) }}
+    {{ appImport.heading({'level': 2, 'title': template.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -21,44 +21,44 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
-            {% if false == template['is_system'] %}
+            {% if false == template.isSystem %}
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
                         {{ appImport.buttonModal({
                             'id': 'IndexTemplateDelete',
                             'title': 'delete'|trans,
-                            'body': template['name'],
-                            'href': path('index_templates_legacy_delete', {'name': template['name']}),
+                            'body': template.name,
+                            'href': path('index_templates_legacy_delete', {'name': template.name}),
                         }) }}
 
-                        <a class="btn btn-primary btn-sm" href="{{ path('index_templates_legacy_create', {'template': template['name']}) }}">{{ 'copy'|trans }}</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('index_templates_legacy_create', {'template': template.name}) }}">{{ 'copy'|trans }}</a>
                     {% endblock %}
                 {% endembed %}
             {% endif %}
 
-            {% if template['settings']['index']['lifecycle'] is defined %}
+            {% if template.setting('index.lifecycle.name') %}
                 <p>
                     <strong>{{ 'ilm_policy'|trans }}</strong><br>
-                    <a href="{{ path('ilm_read', {'name': template['settings']['index']['lifecycle']['name']}) }}">{{ template['settings']['index']['lifecycle']['name'] }}</a>
+                    <a href="{{ path('ilm_read', {'name': template.setting('index.lifecycle.name')}) }}">{{ template.setting('index.lifecycle.name') }}</a>
                 </p>
             {% endif %}
 
             <p>
                 <strong>{{ 'index_patterns'|trans }}</strong><br>
-                {{ template['index_patterns']|join(', ') }}
+                {{ template.indexPatterns|join(', ') }}
             </p>
 
-            {% if template['version'] is defined %}
+            {% if template.version %}
                 <p>
                     <strong>{{ 'version'|trans }}</strong><br>
-                    {{ template['version'] }}
+                    {{ template.version }}
                 </p>
             {% endif %}
 
             <p>
                 <strong>{{ 'order'|trans }}</strong><br>
-                {{ template['order'] }}
+                {{ template.order }}
             </p>
         {% endblock %}
     {% endembed %}

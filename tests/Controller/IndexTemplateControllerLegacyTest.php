@@ -29,6 +29,21 @@ class IndexTemplateControllerLegacyTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Index templates (legacy) - Create index template');
     }
 
+    public function testCreateCopy404()
+    {
+        $this->client->request('GET', '/admin/index-templates-legacy/create?template='.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testCreateCopy()
+    {
+        $this->client->request('GET', '/admin/index-templates-legacy/create?template=elasticsearch-admin-test');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Index templates (legacy) - Create index template');
+    }
+
     /**
      * @Route("/index-templates-legacy/{name}", name="index_templates_legacy_read")
      */

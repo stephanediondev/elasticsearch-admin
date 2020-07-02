@@ -20,6 +20,7 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
             $templateModel = false;
         } else {
             $template = $callResponse->getContent();
+
             $templateModel = new ElasticsearchComponentTemplateModel();
             $templateModel->convert($template['component_templates'][0]);
         }
