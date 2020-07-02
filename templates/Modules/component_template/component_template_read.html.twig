@@ -37,10 +37,10 @@
                 {% endembed %}
             {% endif %}
 
-            {% if template['version'] is defined %}
+            {% if template['component_template']['version'] is defined %}
                 <p>
                     <strong>{{ 'version'|trans }}</strong><br>
-                    {{ template['version'] }}
+                    {{ template['component_template']['version'] }}
                 </p>
             {% endif %}
         {% endblock %}
