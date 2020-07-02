@@ -27,6 +27,27 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
         return $templateModel;
     }
 
+    public function getAll()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_index_template?flat_settings=true');
+        $callResponse = $this->callManager->call($callRequest);
+        $indexTemplates = $callResponse->getContent();
+
+        $indexTemplates = $indexTemplates['index_templates'];
+
+        usort($indexTemplates, [$this, 'sortByName']);
+
+        $results = [];
+        foreach ($indexTemplates as $indexTemplate) {
+            $templateModel = new ElasticsearchIndexTemplateModel();
+            $templateModel->convert($indexTemplate);
+            $results[] = $templateModel;
+        }
+
+        return $results;
+    }
+
     public function send(ElasticsearchIndexTemplateModel $templateModel)
     {
         $json = $templateModel->getJson();
@@ -36,5 +57,10 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
         $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
+    }
+
+
+    private function sortByName($a, $b) {
+        return $b['name'] < $a['name'];
     }
 }

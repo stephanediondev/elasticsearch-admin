@@ -34,34 +34,34 @@
     {% endblock %}
 
     {% block tbody %}
-        {% for row in indexTemplates.rows %}
-            <tr class="index_template_system-{% if '.' == row['name']|slice(0, 1) %}true{% else %}false{% endif %}" data-search="{{ row['name'] }}">
+        {% for row in templates.rows %}
+            <tr class="index_template_system-{% if '.' == row.name|slice(0, 1) %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('index_templates_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                                <a href="{{ path('index_templates_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'index_patterns' == column %}
                             <td>
-                                {{ row['index_template']['index_patterns']|join(', ')|replace({'[': '', ']': ''}) }}
+                                {{ row.indexPatterns|join(', ')|replace({'[': '', ']': ''}) }}
                             </td>
                         {% endif %}
 
                         {% if 'priority' == column %}
                             <td>
-                                {% if row['priority'] is defined %}
-                                    {{ row['priority'] }}
+                                {% if row.priority %}
+                                    {{ row.priority }}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'version' == column %}
                             <td>
-                                {% if row['priority'] is defined %}
-                                    {{ row['version'] }}
+                                {% if row.version %}
+                                    {{ row.version }}
                                 {% endif %}
                             </td>
                         {% endif %}

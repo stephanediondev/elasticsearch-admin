@@ -35,29 +35,18 @@ class IndexTemplateController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template');
-        $callResponse = $this->callManager->call($callRequest);
-        $indexTemplates = $callResponse->getContent();
-
-        $indexTemplates = $indexTemplates['index_templates'];
-
-        usort($indexTemplates, [$this, 'sortByName']);
+        $templates = $this->elasticsearchIndexTemplateManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
-            'indexTemplates' => $this->paginatorManager->paginate([
+            'templates' => $this->paginatorManager->paginate([
                 'route' => 'index_templates',
                 'route_parameters' => [],
-                'total' => count($indexTemplates),
-                'rows' => $indexTemplates,
+                'total' => count($templates),
+                'rows' => $templates,
                 'page' => 1,
-                'size' => count($indexTemplates),
+                'size' => count($templates),
             ]),
         ]);
-    }
-
-    private function sortByName($a, $b) {
-        return $b['name'] < $a['name'];
     }
 
     /**
