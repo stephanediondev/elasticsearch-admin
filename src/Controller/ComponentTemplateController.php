@@ -192,10 +192,7 @@ class ComponentTemplateController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_component_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchComponentTemplateManager->delete($template);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

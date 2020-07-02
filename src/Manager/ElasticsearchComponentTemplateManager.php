@@ -57,6 +57,15 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    public function delete(ElasticsearchComponentTemplateModel $templateModel)
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_component_template/'.$templateModel->getName());
+
+        return $this->callManager->call($callRequest);
+    }
+
     private function sortByName($a, $b) {
         return $b['name'] < $a['name'];
     }

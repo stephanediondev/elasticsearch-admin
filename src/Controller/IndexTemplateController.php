@@ -208,10 +208,7 @@ class IndexTemplateController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_index_template/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexTemplateManager->delete($template);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
