@@ -1,6 +1,6 @@
 {
     "name": "elasticsearch-admin",
-    "description": "Admin UI for Elasticsearch: cluster, nodes, indices, index templates, repositories, snapshots, import / export ...",
+    "description": "Web administration for Elasticsearch: cluster, nodes, indices, index templates, repositories, snapshots, import / export ...",
     "homepage": "https://github.com/stephanediondev/elasticsearch-admin",
     "license": "MIT",
     "private": true,
