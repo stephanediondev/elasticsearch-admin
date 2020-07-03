@@ -18,7 +18,7 @@ class RoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -33,7 +33,7 @@ class RoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - Create role');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -47,7 +47,7 @@ class RoleControllerTest extends AbstractAppControllerTest
         if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
             $this->assertResponseStatusCodeSame(404);
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -59,7 +59,7 @@ class RoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - elasticsearch-admin-test');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -73,7 +73,7 @@ class RoleControllerTest extends AbstractAppControllerTest
         if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
             $this->assertResponseStatusCodeSame(404);
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -84,7 +84,7 @@ class RoleControllerTest extends AbstractAppControllerTest
         if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
             $this->assertResponseStatusCodeSame(403);
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -96,7 +96,7 @@ class RoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - elasticsearch-admin-test - Update');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -110,7 +110,7 @@ class RoleControllerTest extends AbstractAppControllerTest
         if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
             $this->assertResponseStatusCodeSame(404);
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -121,7 +121,7 @@ class RoleControllerTest extends AbstractAppControllerTest
         if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
             $this->assertResponseStatusCodeSame(403);
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -132,7 +132,7 @@ class RoleControllerTest extends AbstractAppControllerTest
         if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
             $this->assertResponseStatusCodeSame(302);
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 }

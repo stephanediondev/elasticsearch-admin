@@ -18,7 +18,7 @@ class SlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -33,7 +33,7 @@ class SlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Stats');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -48,7 +48,7 @@ class SlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Status');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -59,8 +59,12 @@ class SlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/create');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('SLM policies - Create SLM policy');
+        if (true == isset($this->xpack['features']['slm']) && true == $this->xpack['features']['slm']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('SLM policies - Create SLM policy');
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
@@ -70,7 +74,11 @@ class SlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/'.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['slm']) && true == $this->xpack['features']['slm']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
@@ -80,7 +88,11 @@ class SlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/history');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['slm']) && true == $this->xpack['features']['slm']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
@@ -90,7 +102,11 @@ class SlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/stats');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['slm']) && true == $this->xpack['features']['slm']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
@@ -100,6 +116,10 @@ class SlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/update');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['slm']) && true == $this->xpack['features']['slm']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 }

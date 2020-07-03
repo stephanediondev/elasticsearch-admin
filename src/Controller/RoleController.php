@@ -20,15 +20,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class RoleController extends AbstractAppController
 {
+    public function __construct()
+    {
+        if (false == isset($this->xpack['features']['security']['enabled']) || false == $this->xpack['features']['security']['enabled']) {
+            throw new AccessDeniedHttpException();
+        }
+    }
+
     /**
      * @Route("/roles", name="roles")
      */
     public function index(Request $request): Response
     {
-        if (false == isset($this->xpack['features']['security']['enabled']) || false == $this->xpack['features']['security']['enabled']) {
-            throw new AccessDeniedHttpException();
-        }
-
         $roles = [];
 
         $callRequest = new CallRequestModel();

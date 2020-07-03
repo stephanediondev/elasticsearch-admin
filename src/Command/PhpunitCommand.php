@@ -30,6 +30,11 @@ class PhpunitCommand extends Command
         $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
 
         $callRequest = new CallRequestModel();
+        $callRequest->setPath('/');
+        $callResponse = $this->callManager->call($callRequest);
+        $this->root = $callResponse->getContent();
+
+        $callRequest = new CallRequestModel();
         $callRequest->setPath('/_xpack');
         $callResponse = $this->callManager->call($callRequest);
         $xpack = $callResponse->getContent();
@@ -134,55 +139,66 @@ class PhpunitCommand extends Command
 
             $output->writeln('<info>Index template legacy created: '.$name.'</info>');
 
-            // index template
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('HEAD');
-            $callRequest->setPath('/_index_template/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-
-            if (Response::HTTP_OK == $callResponse->getCode()) {
+            if (true == $this->checkVersion('7.8')) {
+                // index template
                 $callRequest = new CallRequestModel();
-                $callRequest->setMethod('DELETE');
+                $callRequest->setMethod('HEAD');
+                $callRequest->setPath('/_index_template/'.$name);
+                $callResponse = $this->callManager->call($callRequest);
+
+                if (Response::HTTP_OK == $callResponse->getCode()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('DELETE');
+                    $callRequest->setPath('/_index_template/'.$name);
+                    $this->callManager->call($callRequest);
+                }
+
+                $json = [
+                    'index_patterns' => $name,
+                ];
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setJson($json);
                 $callRequest->setPath('/_index_template/'.$name);
                 $this->callManager->call($callRequest);
-            }
 
-            $json = [
-                'index_patterns' => $name,
-            ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('PUT');
-            $callRequest->setJson($json);
-            $callRequest->setPath('/_index_template/'.$name);
-            $this->callManager->call($callRequest);
+                $output->writeln('<info>Index template created: '.$name.'</info>');
 
-            $output->writeln('<info>Index template created: '.$name.'</info>');
-
-            // component template
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('HEAD');
-            $callRequest->setPath('/_component_template/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-
-            if (Response::HTTP_OK == $callResponse->getCode()) {
+                // component template
                 $callRequest = new CallRequestModel();
-                $callRequest->setMethod('DELETE');
+                $callRequest->setMethod('HEAD');
+                $callRequest->setPath('/_component_template/'.$name);
+                $callResponse = $this->callManager->call($callRequest);
+
+                if (Response::HTTP_OK == $callResponse->getCode()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('DELETE');
+                    $callRequest->setPath('/_component_template/'.$name);
+                    $this->callManager->call($callRequest);
+                }
+
+                $json = [
+                    'template' => (object)[],
+                ];
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setJson($json);
                 $callRequest->setPath('/_component_template/'.$name);
                 $this->callManager->call($callRequest);
+
+                $output->writeln('<info>Component template created: '.$name.'</info>');
             }
-
-            $json = [
-                'template' => (object)[],
-            ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('PUT');
-            $callRequest->setJson($json);
-            $callRequest->setPath('/_component_template/'.$name);
-            $this->callManager->call($callRequest);
-
-            $output->writeln('<info>Component template created: '.$name.'</info>');
         }
 
         return Command::SUCCESS;
+    }
+
+    private function checkVersion($versionGoal)
+    {
+        if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
+            return true;
+        }
+
+        return false;
     }
 }

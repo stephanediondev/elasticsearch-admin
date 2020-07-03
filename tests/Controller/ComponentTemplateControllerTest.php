@@ -14,8 +14,12 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/component-templates');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Component templates');
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Component templates');
+        }
     }
 
     /**
@@ -25,23 +29,35 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/component-templates/create');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Component templates - Create component template');
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Component templates - Create component template');
+        }
     }
 
     public function testCreateCopy404()
     {
         $this->client->request('GET', '/admin/component-templates/create?template='.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testCreateCopy()
     {
         $this->client->request('GET', '/admin/component-templates/create?template=elasticsearch-admin-test');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Component templates - Create component template');
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Component templates - Create component template');
+        }
     }
 
     /**
@@ -51,15 +67,23 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testRead()
     {
         $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Component templates - elasticsearch-admin-test');
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test');
+        }
     }
 
     /**
@@ -69,22 +93,34 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/update');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testUpdate403()
     {
         $this->client->request('GET', '/admin/component-templates/.elasticsearch-admin-test/update');
 
-        $this->assertResponseStatusCodeSame(403);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     public function testUpdate()
     {
         $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/update');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Update');
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Update');
+        }
     }
 
     /**
@@ -94,15 +130,23 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/settings');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testSettings()
     {
         $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/settings');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Settings');
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Settings');
+        }
     }
 
     /**
@@ -112,15 +156,23 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/mappings');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testMappings()
     {
         $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/mappings');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Mappings');
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Mappings');
+        }
     }
 
     /**
@@ -130,20 +182,32 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/delete');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testDelete403()
     {
         $this->client->request('GET', '/admin/component-templates/.elasticsearch-admin-test/delete');
 
-        $this->assertResponseStatusCodeSame(403);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     public function testDelete()
     {
         $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/delete');
 
-        $this->assertResponseStatusCodeSame(302);
+        if (false == $this->checkVersion('7.8')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
     }
 }

@@ -19,15 +19,18 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class EnrichController extends AbstractAppController
 {
+    public function __construct()
+    {
+        if (false == isset($this->xpack['features']['enrich']['enabled']) || false == $this->xpack['features']['enrich']['enabled']) {
+            throw new AccessDeniedHttpException();
+        }
+    }
+
     /**
      * @Route("/enrich", name="enrich")
      */
     public function index(Request $request): Response
     {
-        if (false == isset($this->xpack['features']['enrich']['enabled']) || false == $this->xpack['features']['enrich']['enabled']) {
-            throw new AccessDeniedHttpException();
-        }
-
         $policies = [];
 
         $callRequest = new CallRequestModel();

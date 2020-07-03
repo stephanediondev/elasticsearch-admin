@@ -20,6 +20,10 @@ class ComponentTemplateController extends AbstractAppController
 {
     public function __construct(ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager)
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;
     }
 
@@ -28,10 +32,6 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        if (false == $this->checkVersion('7.8')) {
-            throw new AccessDeniedHttpException();
-        }
-
         $templates = $this->elasticsearchComponentTemplateManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/component_template/component_template_index.html.twig', [

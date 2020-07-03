@@ -14,8 +14,12 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('ILM policies');
+        if (true == isset($this->xpack['features']['ilm']) && true == $this->xpack['features']['ilm']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('ILM policies');
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
@@ -25,8 +29,12 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/status');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('ILM policies - Status');
+        if (true == isset($this->xpack['features']['ilm']) && true == $this->xpack['features']['ilm']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('ILM policies - Status');
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
@@ -36,8 +44,12 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/create');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('ILM policies - Create ILM policy');
+        if (true == isset($this->xpack['features']['ilm']) && true == $this->xpack['features']['ilm']['enabled']) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('ILM policies - Create ILM policy');
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
@@ -47,6 +59,10 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/'.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == isset($this->xpack['features']['ilm']) && true == $this->xpack['features']['ilm']['enabled']) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 }

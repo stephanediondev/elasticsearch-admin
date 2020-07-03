@@ -23,6 +23,11 @@ abstract class AbstractAppControllerTest extends WebTestCase
         $this->callManager = self::$container->get('App\Manager\CallManager');
 
         $callRequest = new CallRequestModel();
+        $callRequest->setPath('/');
+        $callResponse = $this->callManager->call($callRequest);
+        $this->root = $callResponse->getContent();
+
+        $callRequest = new CallRequestModel();
         $callRequest->setPath('/_xpack');
         $callResponse = $this->callManager->call($callRequest);
         $this->xpack = $callResponse->getContent();
@@ -37,5 +42,14 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         $cookie = new Cookie($session->getName(), $session->getId());
         $this->client->getCookieJar()->set($cookie);
+    }
+
+    protected function checkVersion($versionGoal)
+    {
+        if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
+            return true;
+        }
+
+        return false;
     }
 }

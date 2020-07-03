@@ -21,15 +21,20 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class IlmController extends AbstractAppController
 {
+    public function __construct()
+    {
+        dump($this->xpack);
+
+        if (false == isset($this->xpack['features']['ilm']['enabled']) || false == $this->xpack['features']['ilm']['enabled']) {
+            throw new AccessDeniedHttpException();
+        }
+    }
+
     /**
      * @Route("/ilm", name="ilm")
      */
     public function index(Request $request): Response
     {
-        if (false == isset($this->xpack['features']['ilm']['enabled']) || false == $this->xpack['features']['ilm']['enabled']) {
-            throw new AccessDeniedHttpException();
-        }
-
         $policies = [];
 
         $callRequest = new CallRequestModel();
