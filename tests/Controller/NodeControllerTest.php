@@ -98,7 +98,11 @@ class NodeControllerTest extends AbstractAppControllerTest
 
         $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/reload-secure-settings');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Reload secure settings');
+        if (false == $this->checkVersion('6.4')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Reload secure settings');
+        }
     }
 }

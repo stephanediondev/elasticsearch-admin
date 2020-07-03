@@ -7,6 +7,7 @@ use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -24,17 +25,22 @@ class LicenseController extends AbstractAppController
         $license = $callResponse->getContent();
         $license = $license['license'];
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_xpack/license/trial_status');
-        $callResponse = $this->callManager->call($callRequest);
-        $trialStatus = $callResponse->getContent();
-        $trialStatus = $trialStatus['eligible_to_start_trial'];
+        if (false == $this->checkVersion('6.6')) {
+            $trialStatus = false;
+            $basicStatus = false;
+        } else {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_xpack/license/trial_status');
+            $callResponse = $this->callManager->call($callRequest);
+            $trialStatus = $callResponse->getContent();
+            $trialStatus = $trialStatus['eligible_to_start_trial'];
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_xpack/license/basic_status');
-        $callResponse = $this->callManager->call($callRequest);
-        $basicStatus = $callResponse->getContent();
-        $basicStatus = $basicStatus['eligible_to_start_basic'];
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_xpack/license/basic_status');
+            $callResponse = $this->callManager->call($callRequest);
+            $basicStatus = $callResponse->getContent();
+            $basicStatus = $basicStatus['eligible_to_start_basic'];
+        }
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_xpack');
@@ -54,6 +60,10 @@ class LicenseController extends AbstractAppController
      */
     public function startTrial(Request $request): Response
     {
+        if (false == $this->checkVersion('6.6')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_xpack/license/start_trial');
@@ -70,6 +80,10 @@ class LicenseController extends AbstractAppController
      */
     public function startBasic(Request $request): Response
     {
+        if (false == $this->checkVersion('6.6')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_xpack/license/start_basic');

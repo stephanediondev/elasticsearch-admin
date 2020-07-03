@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -182,6 +183,10 @@ class NodeController extends AbstractAppController
      */
     public function readReloadSecureSettings(Request $request, string $node): Response
     {
+        if (false == $this->checkVersion('6.4')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$node);
         $callResponse = $this->callManager->call($callRequest);

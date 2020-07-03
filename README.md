@@ -30,7 +30,7 @@ cp .env.dist .env
 - [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
 - [x] Login: user managed by Symfony, not related to Elasticsearch
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings (transient or persistent)
-- [x] Nodes: list, read, usage, plugins, reload secure settings
+- [x] Nodes: list, read, usage, plugins, reload secure settings (6.4)
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle explain / remove policy (6.6), delete, close / open, freeze / unfreeze (6.6), force merge, clear cache, flush, refresh, empty, import (XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
 - [x] Index templates (legacy): list, create, read, update, delete, copy
 - [x] Index templates (7.8): list, create, read, update, delete, copy
@@ -49,7 +49,7 @@ cp .env.dist .env
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
 - [x] Deprecations info
-- [x] License: read, start trial, revert to basic, features
+- [x] License: read, status / start trial / revert to basic (6.6), features
 
 ## Todo
 
