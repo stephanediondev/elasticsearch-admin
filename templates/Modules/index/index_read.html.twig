@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': index['index']}) }}
+    {{ appImport.heading({'level': 2, 'title': index.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -21,87 +21,87 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
-            {% if false == index['is_system'] %}
+            {% if false == index.isSystem %}
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
                         {{ appImport.buttonModal({
                             'id': 'IndexDelete',
                             'title': 'delete'|trans,
-                            'body': index['index'],
-                            'href': path('indices_delete', {'index': index['index']}),
+                            'body': index.name,
+                            'href': path('indices_delete', {'index': index.name}),
                         }) }}
 
-                        {% if 'close' == index['status'] %}
+                        {% if 'close' == index.status %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexOpen',
                                 'title': 'open'|trans,
-                                'body': index['index'],
-                                'href': path('indices_open', {'index': index['index']}),
+                                'body': index.name,
+                                'href': path('indices_open', {'index': index.name}),
                             }) }}
                         {% endif %}
 
-                        {% if 'open' == index['status'] %}
+                        {% if 'open' == index.status %}
                             {% if cluster_settings['cluster.indices.close.enable'] is defined and 'true' == cluster_settings['cluster.indices.close.enable'] %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexClose',
                                     'title': 'close'|trans,
-                                    'body': index['index'],
-                                    'href': path('indices_close', {'index': index['index']}),
+                                    'body': index.name,
+                                    'href': path('indices_close', {'index': index.name}),
                                 }) }}
                             {% endif %}
 
                             {{ appImport.buttonModal({
                                 'id': 'IndexForceMerge',
                                 'title': 'force_merge'|trans,
-                                'body': index['index'],
-                                'href': path('indices_force_merge', {'index': index['index']}),
+                                'body': index.name,
+                                'href': path('indices_force_merge', {'index': index.name}),
                             }) }}
 
                             {{ appImport.buttonModal({
                                 'id': 'IndexCacheClear',
                                 'title': 'cache_clear'|trans,
-                                'body': index['index'],
-                                'href': path('indices_cache_clear', {'index': index['index']}),
+                                'body': index.name,
+                                'href': path('indices_cache_clear', {'index': index.name}),
                             }) }}
 
                             {{ appImport.buttonModal({
                                 'id': 'IndexFlush',
                                 'title': 'flush'|trans,
-                                'body': index['index'],
-                                'href': path('indices_flush', {'index': index['index']}),
+                                'body': index.name,
+                                'href': path('indices_flush', {'index': index.name}),
                             }) }}
 
                             {{ appImport.buttonModal({
                                 'id': 'IndexRefresh',
                                 'title': 'refresh'|trans,
-                                'body': index['index'],
-                                'href': path('indices_refresh', {'index': index['index']}),
+                                'body': index.name,
+                                'href': path('indices_refresh', {'index': index.name}),
                             }) }}
                         {% endif %}
 
-                        {% if index['settings']['index.frozen'] is defined and 'true' == index['settings']['index.frozen'] %}
+                        {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexUnfreeze',
                                 'title': 'unfreeze'|trans,
-                                'body': index['index'],
-                                'href': path('indices_unfreeze', {'index': index['index']}),
+                                'body': index.name,
+                                'href': path('indices_unfreeze', {'index': index.name}),
                             }) }}
                         {% else %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexFreeze',
                                 'title': 'freeze'|trans,
-                                'body': index['index'],
-                                'href': path('indices_freeze', {'index': index['index']}),
+                                'body': index.name,
+                                'href': path('indices_freeze', {'index': index.name}),
                             }) }}
                         {% endif %}
 
-                        {% if 0 < index['docs.count'] %}
+                        {% if 0 < index.documents %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexEmpty',
                                 'title': 'empty'|trans,
-                                'body': index['index'],
-                                'href': path('indices_empty', {'index': index['index']}),
+                                'body': index.name,
+                                'href': path('indices_empty', {'index': index.name}),
                             }) }}
                         {% endif %}
                     {% endblock %}
@@ -111,34 +111,34 @@
             <hr>
 
             <div class="row">
-                {{ appImport.dashboardKpi({'title': 'shards'|trans, 'badge': {'title': index['pri']}}) }}
+                {{ appImport.dashboardKpi({'title': 'shards'|trans, 'badge': {'title': index.shards}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'replicas'|trans, 'badge': {'title': index['rep']}}) }}
+                {{ appImport.dashboardKpi({'title': 'replicas'|trans, 'badge': {'title': index.replicas}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': index['docs.count']}}) }}
+                {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': index.documents}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'documents_deleted'|trans, 'badge': {'title': index['docs.deleted']}}) }}
+                {{ appImport.dashboardKpi({'title': 'documents_deleted'|trans, 'badge': {'title': index.documentsDeleted}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'primary_size'|trans, 'badge': {'title': index['pri.store.size']|human_filesize}}) }}
+                {{ appImport.dashboardKpi({'title': 'primary_size'|trans, 'badge': {'title': index.primarySize|human_filesize}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'total_size'|trans, 'badge': {'title': index['store.size']|human_filesize}}) }}
+                {{ appImport.dashboardKpi({'title': 'total_size'|trans, 'badge': {'title': index.totalSize|human_filesize}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': index['status']|trans, 'context': index['status']}}) }}
+                {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': index.status|trans, 'context': index.status}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'health'|trans, 'badge': {'title': index['health']|trans, 'context': index['health']}}) }}
+                {{ appImport.dashboardKpi({'title': 'health'|trans, 'badge': {'title': index.health|trans, 'context': index.health}}) }}
 
-                {% if index['settings']['index.frozen'] is defined and 'true' == index['settings']['index.frozen'] %}
+                {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
                     {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
                 {% else %}
                     {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
                 {% endif %}
 
-                {% if index['settings']['index.version.created'] is defined %}
-                    {{ appImport.dashboardKpi({'title': 'version_created'|trans, 'badge': {'title': index['settings']['index.version.created']|human_version}}) }}
+                {% if index.setting('index.version.created') %}
+                    {{ appImport.dashboardKpi({'title': 'version_created'|trans, 'badge': {'title': index.setting('index.version.created')|human_version}}) }}
                 {% endif %}
 
-                {% if index['settings']['index.version.upgraded'] is defined %}
-                    {{ appImport.dashboardKpi({'title': 'version_upgraded'|trans, 'badge': {'title': index['settings']['index.version.upgraded']|human_version}}) }}
+                {% if index.setting('index.version.upgraded') %}
+                    {{ appImport.dashboardKpi({'title': 'version_upgraded'|trans, 'badge': {'title': index.setting('index.version.upgraded')|human_version}}) }}
                 {% endif %}
             </div>
         {% endblock %}

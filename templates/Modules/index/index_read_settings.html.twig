@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }} - {{ 'settings'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'settings'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': index['index']}) }}
+    {{ appImport.heading({'level': 2, 'title': index.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -21,11 +21,13 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
 
-            {% embed 'Embed/buttons_embed.html.twig' %}
-                {% block content %}
-                    <a class="btn btn-primary btn-sm" href="{{ path('indices_setting_add', {'index': index['index']}) }}">{{ 'add'|trans }}</a>
-                {% endblock %}
-            {% endembed %}
+            {% if false == index.isSystem %}
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% block content %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_setting_add', {'index': index.name}) }}">{{ 'add'|trans }}</a>
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
 
             {% embed 'Embed/table_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
@@ -34,12 +36,14 @@
                     <tr>
                         <th>{{ 'setting'|trans }}</th>
                         <th>{{ 'value'|trans }}</th>
-                        <th>&nbsp;</th>
+                        {% if false == index.isSystem %}
+                            <th>&nbsp;</th>
+                        {% endif %}
                     </tr>
                 {% endblock %}
 
                 {% block tbody %}
-                    {% for key, value in index['settings'] %}
+                    {% for key, value in index.settings %}
                         <tr>
                             <td>{{ key }}</td>
                             <td>
@@ -50,20 +54,22 @@
                                 {% endif %}
                             </td>
 
-                            <td class="text-nowrap text-right">
-                                {% if value is not iterable and key not in exclude_settings %}
-                                    {{ appImport.buttonModal({
-                                        'id': 'SettingRemove' ~ loop.index,
-                                        'title': 'remove'|trans,
-                                        'body': key,
-                                        'href': path('indices_setting_remove', {'index': index['index'], 'setting': key}),
-                                    }) }}
+                            {% if false == index.isSystem %}
+                                <td class="text-nowrap text-right">
+                                    {% if value is not iterable and key not in exclude_settings %}
+                                        {{ appImport.buttonModal({
+                                            'id': 'SettingRemove' ~ loop.index,
+                                            'title': 'remove'|trans,
+                                            'body': key,
+                                            'href': path('indices_setting_remove', {'index': index.name, 'setting': key}),
+                                        }) }}
 
-                                    <a href="{{ path('indices_setting_update', {'index': index['index'], 'setting': key}) }}" class="btn btn-primary btn-sm">
-                                        {{ ('update')|trans }}
-                                    </a>
-                                {% endif %}
-                            </td>
+                                        <a href="{{ path('indices_setting_update', {'index': index.name, 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                            {{ ('update')|trans }}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 {% endblock %}

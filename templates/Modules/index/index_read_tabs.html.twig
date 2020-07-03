@@ -1,51 +1,51 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('indices_read', {'index': index['index']}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('indices_read', {'index': index.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    {% if false == index['is_system'] %}
+    {% if false == index.isSystem %}
         <li class="nav-item">
-            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('indices_update', {'index': index['index']}) }}">{{ 'update'|trans }}</a>
+            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('indices_update', {'index': index.name}) }}">{{ 'update'|trans }}</a>
         </li>
     {% endif %}
 
     <li class="nav-item">
-        <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('indices_read_settings', {'index': index['index']}) }}">{{ 'settings'|trans }}</a>
+        <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('indices_read_settings', {'index': index.name}) }}">{{ 'settings'|trans }}</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link{% if 'mappings' == active %} active{% endif %}" href="{{ path('indices_read_mappings', {'index': index['index']}) }}">{{ 'mappings'|trans }}</a>
+        <a class="nav-link{% if 'mappings' == active %} active{% endif %}" href="{{ path('indices_read_mappings', {'index': index.name}) }}">{{ 'mappings'|trans }}</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link{% if 'lifecycle' == active %} active{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index['index']}) }}">{{ 'lifecycle'|trans }}{% if index['settings']['index']['lifecycle'] is defined %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
+        <a class="nav-link{% if 'lifecycle' == active %} active{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index.name}) }}">{{ 'lifecycle'|trans }}{% if index.setting('index.lifecycle.name') %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
     </li>
 
-    {% if 'open' == index['status'] %}
+    {% if 'open' == index.status %}
         <li class="nav-item">
-            <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': index['index']}) }}">{{ 'shards'|trans }}</a>
+            <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': index.name}) }}">{{ 'shards'|trans }}</a>
         </li>
 
-        {% if false == index['is_system'] %}
+        {% if false == index.isSystem %}
             <li class="nav-item">
-                <a class="nav-link{% if 'search' == active %} active{% endif %}" href="{{ path('indices_read_search', {'index': index['index']}) }}">{{ 'search'|trans }}</a>
+                <a class="nav-link{% if 'search' == active %} active{% endif %}" href="{{ path('indices_read_search', {'index': index.name}) }}">{{ 'search'|trans }}</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index['index']}) }}">{{ 'import_export'|trans }}</a>
+                <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index.name}) }}">{{ 'import_export'|trans }}</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index['index']}) }}">{{ 'aliases'|trans }}</a>
+                <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index.name}) }}">{{ 'aliases'|trans }}</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index['index']}) }}">{{ 'create_alias'|trans }}</a>
+                <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index.name}) }}">{{ 'create_alias'|trans }}</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('indices_reindex', {'index': index['index']}) }}">{{ 'reindex'|trans }}</a>
+                <a class="nav-link" href="{{ path('indices_reindex', {'index': index.name}) }}">{{ 'reindex'|trans }}</a>
             </li>
         {% endif %}
     {% endif %}

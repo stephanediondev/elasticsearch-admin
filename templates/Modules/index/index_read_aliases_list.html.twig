@@ -41,7 +41,7 @@
                                     'id': 'AliasDelete' ~ count,
                                     'title': 'delete'|trans,
                                     'body': row,
-                                    'href': path('indices_aliases_delete', {'index': index['index'], 'alias': row}),
+                                    'href': path('indices_aliases_delete', {'index': index.name, 'alias': row}),
                                 }) }}
                             </td>
                         {% endif %}

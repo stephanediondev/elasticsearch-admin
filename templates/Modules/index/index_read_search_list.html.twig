@@ -4,7 +4,7 @@
             <th>
                 _id
             </th>
-            {% for field, properties in index['mappings']['properties'] %}
+            {% for field, properties in index.mappings['properties'] %}
                 <th>
                     {{ field }}
                 </th>
@@ -18,12 +18,12 @@
                 <td>
                     {{ row['_id'] }}
                 </td>
-                {% for field, properties in index['mappings']['properties'] %}
+                {% for field, properties in index.mappings['properties'] %}
                     <td>
                         {% if row['_source'][field] is defined %}
                             {% if row['_source'][field] is iterable %}
-                                {% if index['mappings']['properties'][field]['properties'] is defined %}
-                                    {% for fieldSub, propertiesSub in index['mappings']['properties'][field]['properties'] %}
+                                {% if index.mappings['properties'][field]['properties'] is defined %}
+                                    {% for fieldSub, propertiesSub in index.mappings['properties'][field]['properties'] %}
                                         {% if row['_source'][field][fieldSub] is defined and row['_source'][field][fieldSub] is not iterable %}
                                             {{ fieldSub }}: {{ row['_source'][field][fieldSub] }}<br>
                                         {% endif %}

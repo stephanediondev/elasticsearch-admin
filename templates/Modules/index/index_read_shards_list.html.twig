@@ -9,43 +9,43 @@
                 {% if true == display %}
                     {% if 'shard' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index['index']}), 's': 'shard', 'title': 'shard'|trans})}}
+                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index.name}), 's': 'shard', 'title': 'shard'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'primary' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index['index']}), 's': 'prirep', 'title': 'primary'|trans})}}
+                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index.name}), 's': 'prirep', 'title': 'primary'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'state' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index['index']}), 's': 'state', 'title': 'state'|trans})}}
+                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index.name}), 's': 'state', 'title': 'state'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'unassigned_reason' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index['index']}), 's': 'unassigned.reason', 'title': 'unassigned_reason'|trans})}}
+                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index.name}), 's': 'unassigned.reason', 'title': 'unassigned_reason'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'documents' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index['index']}), 's': 'docs', 'title': 'documents'|trans})}}
+                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index.name}), 's': 'docs', 'title': 'documents'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'size' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index['index']}), 's': 'store', 'title': 'size'|trans})}}
+                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index.name}), 's': 'store', 'title': 'size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'node' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index['index']}), 's': 'node', 'title': 'node'|trans})}}
+                            {{ appImport.sort({'url': path('indices_read_shards', {'index': index.name}), 's': 'node', 'title': 'node'|trans})}}
                         </th>
                     {% endif %}
                 {% endif %}

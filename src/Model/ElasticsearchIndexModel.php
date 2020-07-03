@@ -32,6 +32,8 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     private $mappings;
 
+    private $mappingsFlat;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -164,28 +166,62 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return $this;
     }
 
-    public function getSettings(): ?string
+    public function getSettings(): ?array
     {
         return $this->settings;
     }
 
-    public function setSettings(?string $settings): self
+    public function setSettings($settings): self
     {
         $this->settings = $settings;
 
         return $this;
     }
 
-    public function getMappings(): ?string
+    public function getSetting($key): ?string
+    {
+        return $this->settings[$key] ?? false;
+    }
+
+    public function setSetting(?string $key, ?string $value): self
+    {
+        $this->settings[$key] = $value;
+
+        return $this;
+    }
+
+    public function getMappings(): ?array
     {
         return $this->mappings;
     }
 
-    public function setMappings(?string $mappings): self
+    public function setMappings($mappings): self
     {
         $this->mappings = $mappings;
 
         return $this;
+    }
+
+    public function getMappingsFlat(): ?array
+    {
+        return $this->mappingsFlat;
+    }
+
+    public function setMappingsFlat($mappingsFlat): self
+    {
+        $this->mappingsFlat = $mappingsFlat;
+
+        return $this;
+    }
+
+    public function isSystem(): ?bool
+    {
+        return '.' == substr($this->getName(), 0, 1);
+    }
+
+    public function hasGeoPoint(): ?bool
+    {
+        return $this->getMappingsFlat() && in_array('geo_point', $this->getMappingsFlat());
     }
 
     public function getExcludeSettings(): ?array
@@ -203,11 +239,6 @@ class ElasticsearchIndexModel extends AbstractAppModel
             'index.load_fixed_bitset_filters_eagerly',
             'index.hidden',
         ];
-    }
-
-    public function isSystem(): ?bool
-    {
-        return '.' == substr($this->getName(), 0, 1);
     }
 
     public function convert(?array $index): self
@@ -254,9 +285,18 @@ class ElasticsearchIndexModel extends AbstractAppModel
             $this->setCreationDate($index['creation.date.string']);
         }
 
-        if (true == isset($index['mappings']) && 0 < count($index['mappings'])) {
-            $this->setMappings(json_encode($index['mappings'], JSON_PRETTY_PRINT));
+        if (true == isset($index['settings']) && 0 < count($index['settings'])) {
+            $this->setSettings($index['settings']);
         }
+
+        if (true == isset($index['mappings']) && 0 < count($index['mappings'])) {
+            $this->setMappings($index['mappings']);
+        }
+
+        if (true == isset($index['mappings_flat']) && 0 < count($index['mappings_flat'])) {
+            $this->setMappingsFlat($index['mappings_flat']);
+        }
+
         return $this;
     }
 }

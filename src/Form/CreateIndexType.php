@@ -74,26 +74,52 @@ class CreateIndexType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
 
-                if ($form->has('name')) {
-                    if ($form->get('name')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setMethod('HEAD');
-                        $callRequest->setPath('/'.$form->get('name')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+            if ($form->has('mappings') && $form->get('mappings')->getData()) {
+                $fieldOptions = $form->get('mappings')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('mappings')->getData(), JSON_PRETTY_PRINT);
+                $form->add('mappings', TextareaType::class, $fieldOptions);
+            }
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
-                            $form->get('name')->addError(new FormError(
-                                $this->translator->trans('name_already_used')
-                            ));
-                        }
+            if ($form->has('settings') && $form->get('settings')->getData()) {
+                $fieldOptions = $form->get('settings')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('settings')->getData(), JSON_PRETTY_PRINT);
+                $form->add('settings', TextareaType::class, $fieldOptions);
+            }
+        });
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
+
+            if (false == $options['update']) {
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('HEAD');
+                    $callRequest->setPath('/'.$form->get('name')->getData());
+                    $callResponse = $this->callManager->call($callRequest);
+
+                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
+                        ));
                     }
                 }
-            });
-        }
+            }
+
+            if ($form->has('settings') && $form->get('settings')->getData()) {
+                $template = $event->getData();
+                $template->setSettings(json_decode($form->get('settings')->getData(), true));
+                $event->setData($template);
+            }
+
+            if ($form->has('mappings') && $form->get('mappings')->getData()) {
+                $template = $event->getData();
+                $template->setMappings(json_decode($form->get('mappings')->getData(), true));
+                $event->setData($template);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

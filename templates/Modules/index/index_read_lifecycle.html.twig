@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }} - {{ 'lifecycle'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'lifecycle'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': index['index']}) }}
+    {{ appImport.heading({'level': 2, 'title': index.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -21,7 +21,7 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'lifecycle'|trans}) }}
 
-            {% if false == index['is_system'] and true == lifecycle['managed'] %}
+            {% if false == index.isSystem and true == lifecycle['managed'] %}
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
@@ -29,7 +29,7 @@
                             'id': 'IndexRemovePolicy',
                             'title': 'remove_policy'|trans,
                             'body': lifecycle['policy'],
-                            'href': path('indices_remove_policy', {'index': index['index']}),
+                            'href': path('indices_remove_policy', {'index': index.name}),
                         }) }}
                     {% endblock %}
                 {% endembed %}

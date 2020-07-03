@@ -18,7 +18,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $index = false;
+            $indexModel = false;
         } else {
             $index1 = $callResponse->getContent();
             $index1 = $index1[0];
@@ -30,7 +30,6 @@ class ElasticsearchIndexManager extends AbstractAppManager
             $index2 = $callResponse->getContent();
 
             $index = array_merge($index1, $index2[key($index2)]);
-            $index['is_system'] = '.' == substr($index['index'], 0, 1);
 
             if (true == isset($index['mappings']) && false == isset($index['mappings']['properties']) && 0 < count($index['mappings'])) {
                 $firstKey = array_key_first($index['mappings']);
@@ -45,10 +44,11 @@ class ElasticsearchIndexManager extends AbstractAppManager
                 $index['mappings_flat'] = [];
             }
 
-            $index['has_geo_point'] = in_array('geo_point', $index['mappings_flat']);
+            $indexModel = new ElasticsearchIndexModel();
+            $indexModel->convert($index);
         }
 
-        return $index;
+        return $indexModel;
     }
 
     public function getAll(array $query)

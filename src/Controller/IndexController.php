@@ -193,29 +193,29 @@ class IndexController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $indexModel = new ElasticsearchIndexModel();
-        $form = $this->createForm(CreateIndexType::class, $indexModel);
+        $index = new ElasticsearchIndexModel();
+        $form = $this->createForm(CreateIndexType::class, $index);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $json = [];
-                if ($indexModel->getSettings()) {
-                    $json['settings'] = json_decode($indexModel->getSettings(), true);
+                if ($index->getSettings()) {
+                    $json['settings'] = $index->getSettings();
                 }
-                if ($indexModel->getMappings()) {
-                    $json['mappings'] = json_decode($indexModel->getMappings(), true);
+                if ($index->getMappings()) {
+                    $json['mappings'] = $index->getMappings();
                 }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
-                $callRequest->setPath('/'.$indexModel->getName());
+                $callRequest->setPath('/'.$index->getName());
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('indices_read', ['index' => $indexModel->getName()]);
+                return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -256,30 +256,28 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
-        $indexModel = new ElasticsearchIndexModel();
-        $indexModel->convert($index);
-        $form = $this->createForm(CreateIndexType::class, $indexModel, ['update' => true]);
+        $form = $this->createForm(CreateIndexType::class, $index, ['update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if ($indexModel->getMappings()) {
-                    $json = json_decode($indexModel->getMappings(), true);
+                if ($index->getMappings()) {
+                    $json = $index->getMappings();
                     $callRequest = new CallRequestModel();
                     $callRequest->setMethod('PUT');
-                    $callRequest->setPath('/'.$indexModel->getName().'/_mapping');
+                    $callRequest->setPath('/'.$index->getName().'/_mapping');
                     $callRequest->setJson($json);
                     $callResponse = $this->callManager->call($callRequest);
 
                     $this->addFlash('info', json_encode($callResponse->getContent()));
                 }
 
-                return $this->redirectToRoute('indices_read', ['index' => $indexModel->getName()]);
+                return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -302,7 +300,7 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -344,13 +342,13 @@ class IndexController extends AbstractAppController
                                     if ($value instanceof \Datetime) {
                                         $value = $value->format('Y-m-d');
                                     }
-                                    if (true == array_key_exists($headers[$key], $index['mappings_flat']) && 'keyword' == $index['mappings_flat'][$headers[$key]]) {
+                                    if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'keyword' == $index->getMappingsFlat()[$headers[$key]]) {
                                         $parts = explode(PHP_EOL, $value);
                                         if (1 < count($parts)) {
                                             $value = $parts;
                                         }
                                     }
-                                    if (true == array_key_exists($headers[$key], $index['mappings_flat']) && 'geo_point' == $index['mappings_flat'][$headers[$key]]) {
+                                    if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'geo_point' == $index->getMappingsFlat()[$headers[$key]]) {
                                         if (strstr($value, ',')) {
                                             list($lat, $lon) = explode(',', $value);
                                             $line[$headers[$key]] = ['lat' => $lat, 'lon' => $lon];
@@ -378,14 +376,14 @@ class IndexController extends AbstractAppController
 
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
-                $callRequest->setPath($index['index'].'/_bulk');
+                $callRequest->setPath($index->getName().'/_bulk');
                 $callRequest->setBody($body);
                 $callResponse = $this->callManager->call($callRequest);
                 $parameters['response'] = $callResponse->getContent();
 
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
-                $callRequest->setPath('/'.$index['index'].'/_refresh');
+                $callRequest->setPath('/'.$index->getName().'/_refresh');
                 $callResponse = $this->callManager->call($callRequest);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
@@ -410,7 +408,7 @@ class IndexController extends AbstractAppController
 
         $type = $request->query->get('type', 'csv');
         $delimiter = $request->query->get('delimiter', ';');
-        $filename = $index['index'].'-'.date('Y-m-d-His').'.'.$type;
+        $filename = $index->getName().'-'.date('Y-m-d-His').'.'.$type;
 
         switch ($type) {
             case 'xlsx':
@@ -437,7 +435,7 @@ class IndexController extends AbstractAppController
             'from' => ($size * $request->query->get('page', 1)) - $size,
         ];
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index['index'].'/_search?scroll=1m');
+        $callRequest->setPath('/'.$index->getName().'/_search?scroll=1m');
         $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $documents = $callResponse->getContent();
@@ -456,7 +454,7 @@ class IndexController extends AbstractAppController
 
                 $line = [];
                 $line[] = '_id';
-                foreach ($index['mappings_flat'] as $field => $type) {
+                foreach ($index->getMappingsFlat() as $field => $type) {
                     $line[] = $field;
                 }
                 $lines[] = WriterEntityFactory::createRowFromArray($line);
@@ -468,7 +466,7 @@ class IndexController extends AbstractAppController
 
                     $line = [];
                     $line['_id'] = $row['_id'];
-                    foreach ($index['mappings_flat'] as $field => $type) {
+                    foreach ($index->getMappingsFlat() as $field => $type) {
                         if (true == isset($row['_source'][$field])) {
                             $content = $row['_source'][$field];
                         } else {
@@ -566,23 +564,23 @@ class IndexController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $callResponse = $this->elasticsearchIndexManager->closeIndex($index['index']);
+            $callResponse = $this->elasticsearchIndexManager->closeIndex($index->getName());
 
             try {
                 $json = $indexSettingModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
-                $callRequest->setPath('/'.$index['index'].'/_settings');
+                $callRequest->setPath('/'.$index->getName().'/_settings');
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                $callResponse = $this->elasticsearchIndexManager->openIndex($index['index']);
+                $callResponse = $this->elasticsearchIndexManager->openIndex($index->getName());
 
-                return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
+                return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
             } catch (CallException $e) {
-                $callResponse = $this->elasticsearchIndexManager->openIndex($index['index']);
+                $callResponse = $this->elasticsearchIndexManager->openIndex($index->getName());
 
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -613,23 +611,23 @@ class IndexController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $callResponse = $this->elasticsearchIndexManager->closeIndex($index['index']);
+            $callResponse = $this->elasticsearchIndexManager->closeIndex($index->getName());
 
             try {
                 $json = $indexSettingModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
-                $callRequest->setPath('/'.$index['index'].'/_settings');
+                $callRequest->setPath('/'.$index->getName().'/_settings');
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                $callResponse = $this->elasticsearchIndexManager->openIndex($index['index']);
+                $callResponse = $this->elasticsearchIndexManager->openIndex($index->getName());
 
-                return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
+                return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
             } catch (CallException $e) {
-                $callResponse = $this->elasticsearchIndexManager->openIndex($index['index']);
+                $callResponse = $this->elasticsearchIndexManager->openIndex($index->getName());
 
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -660,18 +658,18 @@ class IndexController extends AbstractAppController
             $json = $indexSettingModel->getJson();
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
-            $callRequest->setPath('/'.$index['index'].'/_settings');
+            $callRequest->setPath('/'.$index->getName().'/_settings');
             $callRequest->setJson($json);
             $callResponse = $this->callManager->call($callRequest);
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
 
-            return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
+            return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
 
-        return $this->redirectToRoute('indices_read_settings', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
     }
 
     /**
@@ -702,10 +700,10 @@ class IndexController extends AbstractAppController
         }
 
         $callRequest = new CallRequestModel();
-        $callRequest->setPath($index['index'].'/_ilm/explain');
+        $callRequest->setPath($index->getName().'/_ilm/explain');
         $callResponse = $this->callManager->call($callRequest);
         $lifecycle = $callResponse->getContent();
-        $lifecycle = $lifecycle['indices'][$index['index']];
+        $lifecycle = $lifecycle['indices'][$index->getName()];
 
         return $this->renderAbstract($request, 'Modules/index/index_read_lifecycle.html.twig', [
             'index' => $index,
@@ -724,18 +722,18 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath($index['index'].'/_ilm/remove');
+        $callRequest->setPath($index->getName().'/_ilm/remove');
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read_lifecycle', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read_lifecycle', ['index' => $index->getName()]);
     }
 
     /**
@@ -750,7 +748,7 @@ class IndexController extends AbstractAppController
         }
 
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/shards/'.$index['index']);
+        $callRequest->setPath('/_cat/shards/'.$index->getName());
         $callRequest->setQuery(['bytes' => 'b', 's' => $request->query->get('s', 'shard:asc,prirep:asc'), 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
         $callResponse = $this->callManager->call($callRequest);
         $shards = $callResponse->getContent();
@@ -759,7 +757,7 @@ class IndexController extends AbstractAppController
             'index' => $index,
             'shards' => $this->paginatorManager->paginate([
                 'route' => 'indices_read_shards',
-                'route_parameters' => ['index' => $index['index']],
+                'route_parameters' => ['index' => $index->getName()],
                 'total' => count($shards),
                 'rows' => $shards,
                 'page' => 1,
@@ -780,16 +778,16 @@ class IndexController extends AbstractAppController
         }
 
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index['index'].'/_alias');
+        $callRequest->setPath('/'.$index->getName().'/_alias');
         $callResponse = $this->callManager->call($callRequest);
         $aliases = $callResponse->getContent();
-        $aliases = array_keys($aliases[$index['index']]['aliases']);
+        $aliases = array_keys($aliases[$index->getName()]['aliases']);
 
         return $this->renderAbstract($request, 'Modules/index/index_read_aliases.html.twig', [
             'index' => $index,
             'aliases' => $this->paginatorManager->paginate([
                 'route' => 'indices_read_aliases',
-                'route_parameters' => ['index' => $index['index']],
+                'route_parameters' => ['index' => $index->getName()],
                 'total' => count($aliases),
                 'rows' => $aliases,
                 'page' => 1,
@@ -818,12 +816,12 @@ class IndexController extends AbstractAppController
             try {
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
-                $callRequest->setPath('/'.$index['index'].'/_alias/'.$aliasModel->getName());
+                $callRequest->setPath('/'.$index->getName().'/_alias/'.$aliasModel->getName());
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('indices_read_aliases', ['index' => $index['index']]);
+                return $this->redirectToRoute('indices_read_aliases', ['index' => $index->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -861,13 +859,13 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/'.$index['index']);
+        $callRequest->setPath('/'.$index->getName());
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
@@ -886,15 +884,15 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
-        $callResponse = $this->elasticsearchIndexManager->closeIndex($index['index']);
+        $callResponse = $this->elasticsearchIndexManager->closeIndex($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -908,15 +906,15 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
-        $callResponse = $this->elasticsearchIndexManager->openIndex($index['index']);
+        $callResponse = $this->elasticsearchIndexManager->openIndex($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -930,18 +928,18 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_freeze');
+        $callRequest->setPath('/'.$index->getName().'/_freeze');
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -955,18 +953,18 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_unfreeze');
+        $callRequest->setPath('/'.$index->getName().'/_unfreeze');
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -980,18 +978,18 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_forcemerge');
+        $callRequest->setPath('/'.$index->getName().'/_forcemerge');
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -1005,18 +1003,18 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_cache/clear');
+        $callRequest->setPath('/'.$index->getName().'/_cache/clear');
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -1030,18 +1028,18 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_flush');
+        $callRequest->setPath('/'.$index->getName().'/_flush');
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -1055,18 +1053,18 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_refresh');
+        $callRequest->setPath('/'.$index->getName().'/_refresh');
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -1080,7 +1078,7 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1091,7 +1089,7 @@ class IndexController extends AbstractAppController
         ];
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_delete_by_query');
+        $callRequest->setPath('/'.$index->getName().'/_delete_by_query');
         $callRequest->setJson($json);
         $callResponse = $this->callManager->call($callRequest);
 
@@ -1099,12 +1097,12 @@ class IndexController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index['index'].'/_refresh');
+        $callRequest->setPath('/'.$index->getName().'/_refresh');
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read', ['index' => $index['index']]);
+        return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
     /**
@@ -1118,7 +1116,7 @@ class IndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $index['is_system']) {
+        if (true == $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1140,7 +1138,7 @@ class IndexController extends AbstractAppController
                 'from' => ($size * $request->query->get('page', 1)) - $size,
             ];
             $callRequest = new CallRequestModel();
-            $callRequest->setPath('/'.$index['index'].'/_search');
+            $callRequest->setPath('/'.$index->getName().'/_search');
             $callRequest->setQuery($query);
             $callResponse = $this->callManager->call($callRequest);
             $documents = $callResponse->getContent();
@@ -1156,7 +1154,7 @@ class IndexController extends AbstractAppController
 
             $parameters['documents'] = $this->paginatorManager->paginate([
                 'route' => 'indices_read_search',
-                'route_parameters' => ['index' => $index['index']],
+                'route_parameters' => ['index' => $index->getName()],
                 'total' => $total,
                 'rows' => $documents['hits']['hits'],
                 'page' => $request->query->get('page', 1),

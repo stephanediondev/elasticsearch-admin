@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }} - {{ index['index'] }} - {{ 'import_export'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'import_export'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': index['index']}) }}
+    {{ appImport.heading({'level': 2, 'title': index.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -23,13 +23,13 @@
 
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% block content %}
-                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
-                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
-                        {% if true == index['has_geo_point'] %}
-                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index['index'], 'type': 'geojson'}|merge(app.request.query.all)) }}">GEOJSON</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
+                        {% if true == index.hasGeoPoint %}
+                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'geojson'}|merge(app.request.query.all)) }}">GEOJSON</a>
                         {% endif %}
                     {% endblock %}
                 {% endembed %}
@@ -63,7 +63,7 @@
                             <td>_id</td>
                             <td>{{ 'import_note_id'|trans }}</td>
                         </tr>
-                        {% for field, type in index['mappings_flat'] %}
+                        {% for field, type in index.mappingsFlat %}
                             <tr>
                                 <td>{{ field }}</td>
                                 <td>{{ type }}{% if 'geo_point' == type %} ({{ 'import_note_geo_point'|trans }}){% endif %}{% if 'keyword' == type %} ({{ 'import_note_keyword'|trans }}){% endif %}</td>
