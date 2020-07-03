@@ -130,16 +130,11 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
     public function selectIndices()
     {
+        $rows = $this->getAll(['s' => 'index', 'h' => 'index']);
+
         $indices = [];
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/indices');
-        $callRequest->setQuery(['s' => 'index', 'h' => 'index']);
-        $callResponse = $this->callManager->call($callRequest);
-        $rows = $callResponse->getContent();
-
         foreach ($rows as $row) {
-            $indices[] = $row['index'];
+            $indices[] = $row->getName();
         }
 
         return $indices;
