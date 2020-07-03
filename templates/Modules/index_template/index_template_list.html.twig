@@ -1,5 +1,5 @@
 {% embed 'Embed/table_embed.html.twig' %}
-    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true} %}
+    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true} %}
 
     {% block thead %}
         <tr>
@@ -26,6 +26,12 @@
                     {% if 'version' == column %}
                         <th>
                             {{ 'version'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'composed_of' == column %}
+                        <th>
+                            {{ 'composed_of'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -62,6 +68,14 @@
                             <td>
                                 {% if row.version %}
                                     {{ row.version }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'composed_of' == column %}
+                            <td>
+                                {% if row.composedOf %}
+                                    {{ row.composedOf|join(', ') }}
                                 {% endif %}
                             </td>
                         {% endif %}
