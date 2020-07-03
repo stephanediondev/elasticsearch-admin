@@ -14,7 +14,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles');
         } else {
@@ -29,7 +29,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/create');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - Create role');
         } else {
@@ -44,7 +44,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/'.uniqid());
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -55,7 +55,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/elasticsearch-admin-test');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - elasticsearch-admin-test');
         } else {
@@ -70,7 +70,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/'.uniqid().'/update');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -81,7 +81,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/superuser/update');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -92,7 +92,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/elasticsearch-admin-test/update');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - elasticsearch-admin-test - Update');
         } else {
@@ -107,7 +107,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/'.uniqid().'/delete');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -118,7 +118,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/superuser/delete');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -129,7 +129,7 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/elasticsearch-admin-test/delete');
 
-        if (true == isset($this->xpack['features']['security']) && true == $this->xpack['features']['security']['enabled']) {
+        if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(302);
         } else {
             $this->assertResponseStatusCodeSame(403);

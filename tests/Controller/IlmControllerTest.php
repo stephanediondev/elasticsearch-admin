@@ -14,7 +14,7 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm');
 
-        if (true == isset($this->xpack['features']['ilm']) && true == $this->xpack['features']['ilm']['enabled']) {
+        if (true == $this->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies');
         } else {
@@ -29,7 +29,7 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/status');
 
-        if (true == isset($this->xpack['features']['ilm']) && true == $this->xpack['features']['ilm']['enabled']) {
+        if (true == $this->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - Status');
         } else {
@@ -44,7 +44,7 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/create');
 
-        if (true == isset($this->xpack['features']['ilm']) && true == $this->xpack['features']['ilm']['enabled']) {
+        if (true == $this->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - Create ILM policy');
         } else {
@@ -59,7 +59,7 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/'.uniqid());
 
-        if (true == isset($this->xpack['features']['ilm']) && true == $this->xpack['features']['ilm']['enabled']) {
+        if (true == $this->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);

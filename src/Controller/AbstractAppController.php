@@ -53,9 +53,9 @@ abstract class AbstractAppController extends AbstractController
 
         $parameters['master_node'] = $master[0]['node'] ?? false;
 
-        $parameters['xpack_features'] = $this->xpack['features'];
+        $parameters['root'] = $this->root;
 
-        $parameters['version_7_8'] = $this->checkVersion('7.8');
+        $parameters['xpack'] = $this->xpack;
 
         return $this->render($view, $parameters, $response);
     }
@@ -63,6 +63,15 @@ abstract class AbstractAppController extends AbstractController
     protected function checkVersion($versionGoal)
     {
         if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function hasFeature($feature)
+    {
+        if (true == isset($this->xpack['features'][$feature]) && true == $this->xpack['features'][$feature]['available'] && true == $this->xpack['features'][$feature]['enabled']) {
             return true;
         }
 

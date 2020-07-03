@@ -52,4 +52,13 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         return false;
     }
+
+    protected function hasFeature($feature)
+    {
+        if (true == isset($this->xpack['features'][$feature]) && true == $this->xpack['features'][$feature]['available'] && true == $this->xpack['features'][$feature]['enabled']) {
+            return true;
+        }
+
+        return false;
+    }
 }

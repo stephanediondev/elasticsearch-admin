@@ -19,18 +19,15 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class EnrichController extends AbstractAppController
 {
-    public function __construct()
-    {
-        if (false == isset($this->xpack['features']['enrich']['enabled']) || false == $this->xpack['features']['enrich']['enabled']) {
-            throw new AccessDeniedHttpException();
-        }
-    }
-
     /**
      * @Route("/enrich", name="enrich")
      */
     public function index(Request $request): Response
     {
+        if (false == $this->hasFeature('enrich')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $policies = [];
 
         $callRequest = new CallRequestModel();
@@ -66,6 +63,10 @@ class EnrichController extends AbstractAppController
      */
     public function stats(Request $request): Response
     {
+        if (false == $this->hasFeature('enrich')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_enrich/_stats');
         $callResponse = $this->callManager->call($callRequest);
@@ -93,6 +94,10 @@ class EnrichController extends AbstractAppController
      */
     public function create(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
+        if (false == $this->hasFeature('enrich')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $indices = $elasticsearchIndexManager->selectIndices();
 
         $policy = false;
@@ -150,6 +155,10 @@ class EnrichController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('enrich')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_enrich/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
@@ -180,6 +189,10 @@ class EnrichController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('enrich')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_enrich/policy/'.$name);
@@ -195,6 +208,10 @@ class EnrichController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('enrich')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_enrich/policy/'.$name.'/_execute');

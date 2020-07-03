@@ -80,20 +80,22 @@
                             }) }}
                         {% endif %}
 
-                        {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
-                            {{ appImport.buttonModal({
-                                'id': 'IndexUnfreeze',
-                                'title': 'unfreeze'|trans,
-                                'body': index.name,
-                                'href': path('indices_unfreeze', {'index': index.name}),
-                            }) }}
-                        {% else %}
-                            {{ appImport.buttonModal({
-                                'id': 'IndexFreeze',
-                                'title': 'freeze'|trans,
-                                'body': index.name,
-                                'href': path('indices_freeze', {'index': index.name}),
-                            }) }}
+                        {% if true == check_version(root, '6.6') %}
+                            {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
+                                {{ appImport.buttonModal({
+                                    'id': 'IndexUnfreeze',
+                                    'title': 'unfreeze'|trans,
+                                    'body': index.name,
+                                    'href': path('indices_unfreeze', {'index': index.name}),
+                                }) }}
+                            {% else %}
+                                {{ appImport.buttonModal({
+                                    'id': 'IndexFreeze',
+                                    'title': 'freeze'|trans,
+                                    'body': index.name,
+                                    'href': path('indices_freeze', {'index': index.name}),
+                                }) }}
+                            {% endif %}
                         {% endif %}
 
                         {% if 0 < index.documents %}

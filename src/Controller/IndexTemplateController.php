@@ -21,10 +21,6 @@ class IndexTemplateController extends AbstractAppController
 {
     public function __construct(ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager, ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager)
     {
-        if (false == $this->checkVersion('7.8')) {
-            throw new AccessDeniedHttpException();
-        }
-
         $this->elasticsearchIndexTemplateManager = $elasticsearchIndexTemplateManager;
         $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;
     }
@@ -34,6 +30,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $templates = $this->elasticsearchIndexTemplateManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
@@ -53,6 +53,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $template = false;
 
         if ($request->query->get('template')) {
@@ -105,6 +109,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
         if (false == $template) {
@@ -121,6 +129,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
         if (false == $template) {
@@ -137,6 +149,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
         if (false == $template) {
@@ -153,6 +169,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
         if (false == $template) {
@@ -197,6 +217,10 @@ class IndexTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        if (false == $this->checkVersion('7.8')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
         if (false == $template) {
