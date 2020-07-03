@@ -42,7 +42,8 @@ class GenerateFaviconsCommand extends Command
         'green' => '28a745',
     ];
 
-    private function generateFavicon($color, $size) {
+    private function generateFavicon($color, $size)
+    {
         $file = __DIR__.'/../../public/favicon-'.$color.'.png';
 
         $image = imagecreate($size, $size);

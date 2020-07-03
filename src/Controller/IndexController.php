@@ -488,7 +488,7 @@ class IndexController extends AbstractAppController
                         } else {
                             if ('geo_point' == $type && '' != $content) {
                                 $line[$field] = $content;
-                            } else if ('geojson' != $writer && true == is_array($content)) {
+                            } elseif ('geojson' != $writer && true == is_array($content)) {
                                 $line[$field] = implode(PHP_EOL, $content);
                             } else {
                                 $line[$field] = $content;

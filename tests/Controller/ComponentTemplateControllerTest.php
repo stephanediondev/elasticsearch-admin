@@ -147,4 +147,3 @@ class ComponentTemplateControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(302);
     }
 }
-

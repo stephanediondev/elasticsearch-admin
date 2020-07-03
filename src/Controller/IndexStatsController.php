@@ -94,7 +94,8 @@ class IndexStatsController extends AbstractAppController
         ]);
     }
 
-    private function sortByTotal($a, $b) {
+    private function sortByTotal($a, $b)
+    {
         return $b['total'] - $a['total'];
     }
 }

@@ -147,4 +147,3 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(302);
     }
 }
-

@@ -67,7 +67,8 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    private function sortByName($a, $b) {
+    private function sortByName($a, $b)
+    {
         return $b['name'] < $a['name'];
     }
 }
