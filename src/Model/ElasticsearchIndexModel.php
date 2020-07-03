@@ -219,9 +219,9 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return '.' == substr($this->getName(), 0, 1);
     }
 
-    public function hasGeoPoint(): ?bool
+    public function hasMappingType($type): ?bool
     {
-        return $this->getMappingsFlat() && in_array('geo_point', $this->getMappingsFlat());
+        return $this->getMappingsFlat() && in_array($type, $this->getMappingsFlat());
     }
 
     public function getExcludeSettings(): ?array
