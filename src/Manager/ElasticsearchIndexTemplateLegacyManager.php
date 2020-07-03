@@ -5,19 +5,20 @@ namespace App\Manager;
 use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
+use App\Model\CallResponseModel;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
 {
-    public function getByName(string $name)
+    public function getByName(string $name): ?ElasticsearchIndexTemplateLegacyModel
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_template/'.$name.'?flat_settings=true');
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $templateModel = false;
+            $templateModel = null;
         } else {
             $template = $callResponse->getContent();
             $template = $template[$name];
@@ -30,7 +31,7 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
         return $templateModel;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_template');
@@ -50,7 +51,7 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
         return $templates;
     }
 
-    public function send(ElasticsearchIndexTemplateLegacyModel $templateModel)
+    public function send(ElasticsearchIndexTemplateLegacyModel $templateModel): CallResponseModel
     {
         $json = $templateModel->getJson();
         $callRequest = new CallRequestModel();
@@ -61,11 +62,11 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function delete(ElasticsearchIndexTemplateLegacyModel $templateModel)
+    public function deleteByName(string $name): CallResponseModel
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_template/'.$templateModel->getName());
+        $callRequest->setPath('/_template/'.$name);
 
         return $this->callManager->call($callRequest);
     }

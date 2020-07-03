@@ -187,7 +187,7 @@ class IndexTemplateLegacyController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callResponse = $this->elasticsearchIndexTemplateLegacyManager->delete($template);
+        $callResponse = $this->elasticsearchIndexTemplateLegacyManager->deleteByName($template->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

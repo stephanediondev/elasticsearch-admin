@@ -863,10 +863,7 @@ class IndexController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/'.$index->getName());
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->deleteByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -888,7 +885,7 @@ class IndexController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callResponse = $this->elasticsearchIndexManager->closeIndex($index->getName());
+        $callResponse = $this->elasticsearchIndexManager->closeByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -910,7 +907,7 @@ class IndexController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callResponse = $this->elasticsearchIndexManager->openIndex($index->getName());
+        $callResponse = $this->elasticsearchIndexManager->openByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -932,10 +929,7 @@ class IndexController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index->getName().'/_freeze');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->freezeByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -957,10 +951,7 @@ class IndexController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index->getName().'/_unfreeze');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->unfreezeByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

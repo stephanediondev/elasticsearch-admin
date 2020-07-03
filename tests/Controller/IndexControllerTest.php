@@ -338,6 +338,54 @@ class IndexControllerTest extends AbstractAppControllerTest
     }
 
     /**
+     * @Route("/indices/{index}/freeze", name="indices_freeze")
+     */
+    public function testFreeze404()
+    {
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/freeze');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testFreeze403()
+    {
+        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/freeze');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testFreeze()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/freeze');
+
+        $this->assertResponseStatusCodeSame(302);
+    }
+
+    /**
+     * @Route("/indices/{index}/unfreeze", name="indices_unfreeze")
+     */
+    public function testUnfreeze404()
+    {
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/unfreeze');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testUnfreeze403()
+    {
+        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/unfreeze');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUnfreeze()
+    {
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/unfreeze');
+
+        $this->assertResponseStatusCodeSame(302);
+    }
+
+    /**
      * @Route("/indices/{index}/delete", name="indices_delete")
      */
     public function testDelete404()

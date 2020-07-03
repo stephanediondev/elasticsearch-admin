@@ -5,19 +5,20 @@ namespace App\Manager;
 use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
+use App\Model\CallResponseModel;
 use App\Model\ElasticsearchComponentTemplateModel;
 use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchComponentTemplateManager extends AbstractAppManager
 {
-    public function getByName(string $name)
+    public function getByName(string $name): ?ElasticsearchComponentTemplateModel
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_component_template/'.$name);
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $templateModel = false;
+            $templateModel = null;
         } else {
             $template = $callResponse->getContent();
 
@@ -28,7 +29,7 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
         return $templateModel;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_component_template?flat_settings=true');
@@ -47,7 +48,7 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
         return $templates;
     }
 
-    public function send(ElasticsearchComponentTemplateModel $templateModel)
+    public function send(ElasticsearchComponentTemplateModel $templateModel): CallResponseModel
     {
         $json = $templateModel->getJson();
         $callRequest = new CallRequestModel();
@@ -58,11 +59,11 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function delete(ElasticsearchComponentTemplateModel $templateModel)
+    public function deleteByName(string $name): CallResponseModel
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_component_template/'.$templateModel->getName());
+        $callRequest->setPath('/_component_template/'.$name);
 
         return $this->callManager->call($callRequest);
     }

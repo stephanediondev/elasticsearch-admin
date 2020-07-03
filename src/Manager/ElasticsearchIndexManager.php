@@ -5,12 +5,13 @@ namespace App\Manager;
 use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
+use App\Model\CallResponseModel;
 use App\Model\ElasticsearchIndexModel;
 use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchIndexManager extends AbstractAppManager
 {
-    public function getByName(string $name)
+    public function getByName(string $name): ?ElasticsearchIndexModel
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices/'.$name);
@@ -18,7 +19,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $indexModel = false;
+            $indexModel = null;
         } else {
             $index1 = $callResponse->getContent();
             $index1 = $index1[0];
@@ -51,7 +52,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $indexModel;
     }
 
-    public function getAll(array $query)
+    public function getAll(array $query): array
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices');
@@ -69,19 +70,44 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $indices;
     }
 
-    public function closeIndex($index)
+    public function deleteByName(string $name): CallResponseModel
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index.'/_close');
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/'.$name);
+
         return $this->callManager->call($callRequest);
     }
 
-    public function openIndex($index)
+    public function closeByName(string $name): CallResponseModel
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index.'/_open');
+        $callRequest->setPath('/'.$name.'/_close');
+        return $this->callManager->call($callRequest);
+    }
+
+    public function openByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$name.'/_open');
+        return $this->callManager->call($callRequest);
+    }
+
+    public function freezeByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$name.'/_freeze');
+        return $this->callManager->call($callRequest);
+    }
+
+    public function unfreezeByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$name.'/_unfreeze');
         return $this->callManager->call($callRequest);
     }
 
