@@ -42,7 +42,7 @@ class ClusterController extends AbstractAppController
             'indices' => $clusterStats['indices']['count'] ?? false,
             'shards' => $clusterStats['indices']['shards']['total'] ?? false,
             'documents' => $clusterStats['indices']['docs']['count'] ?? false,
-            'store_size' => $clusterStats['indices']['store']['size_in_bytes'] ?? false,
+            'total_size' => $clusterStats['indices']['store']['size_in_bytes'] ?? false,
         ]);
     }
 

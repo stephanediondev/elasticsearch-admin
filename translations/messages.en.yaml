@@ -386,7 +386,6 @@ stats_data:
 status: "Status"
 stop: "Stop"
 storage_class: "Storage class"
-store_size: "Store size"
 submit: "Submit"
 summary: "Summary"
 SUCCESS: "Success"
