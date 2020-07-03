@@ -127,7 +127,9 @@
 
                 {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': index.status|trans, 'context': index.status}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'health'|trans, 'badge': {'title': index.health|trans, 'context': index.health}}) }}
+                {% if index.health %}
+                    {{ appImport.dashboardKpi({'title': 'health'|trans, 'badge': {'title': index.health|trans, 'context': index.health}}) }}
+                {% endif %}
 
                 {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
                     {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
