@@ -14,7 +14,7 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
     public function getByName(string $name): ?ElasticsearchComponentTemplateModel
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template/'.$name);
+        $callRequest->setPath('/_component_template/'.$name.'?flat_settings=true');
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {

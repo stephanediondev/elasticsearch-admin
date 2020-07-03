@@ -34,7 +34,7 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_template');
+        $callRequest->setPath('/_template?flat_settings=true');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
