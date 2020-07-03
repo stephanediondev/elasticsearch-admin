@@ -25,7 +25,7 @@ class RoleController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        if (false == isset($this->xpack['features']['security']['enabled']) || false == $this->xpack['features']['security']['enabled']) {
+        if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -59,6 +59,10 @@ class RoleController extends AbstractAppController
      */
     public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $role = false;
 
         if ($request->query->get('role')) {
@@ -112,6 +116,10 @@ class RoleController extends AbstractAppController
      */
     public function read(Request $request, string $role): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
         $callResponse = $this->callManager->call($callRequest);
@@ -134,6 +142,10 @@ class RoleController extends AbstractAppController
      */
     public function update(Request $request, string $role, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
         $callResponse = $this->callManager->call($callRequest);
@@ -186,6 +198,10 @@ class RoleController extends AbstractAppController
      */
     public function delete(Request $request, string $role): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/role/'.$role);
         $callResponse = $this->callManager->call($callRequest);

@@ -54,7 +54,9 @@
 
                 {{ appImport.dashboardKpi({'title': 'version_es'|trans, 'badge': {'title': node['version']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'os'|trans, 'badge': {'title': node['os']['pretty_name']}}) }}
+                {% if node['os']['pretty_name'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'os'|trans, 'badge': {'title': node['os']['pretty_name']}}) }}
+                {% endif %}
 
                 {{ appImport.dashboardKpi({'title': 'os_version'|trans, 'badge': {'title': node['os']['version']}}) }}
 

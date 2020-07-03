@@ -26,7 +26,7 @@ class IlmController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        if (false == isset($this->xpack['features']['ilm']['enabled']) || false == $this->xpack['features']['ilm']['enabled']) {
+        if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -59,6 +59,10 @@ class IlmController extends AbstractAppController
      */
     public function status(Request $request): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_ilm/status');
         $callResponse = $this->callManager->call($callRequest);
@@ -74,6 +78,10 @@ class IlmController extends AbstractAppController
      */
     public function start(Request $request): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_ilm/start');
@@ -89,6 +97,10 @@ class IlmController extends AbstractAppController
      */
     public function stop(Request $request): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_ilm/stop');
@@ -104,6 +116,10 @@ class IlmController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $policy = false;
 
         if ($request->query->get('policy')) {
@@ -155,6 +171,10 @@ class IlmController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_ilm/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
@@ -177,6 +197,10 @@ class IlmController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_ilm/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
@@ -223,6 +247,10 @@ class IlmController extends AbstractAppController
      */
     public function apply(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_ilm/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
@@ -319,6 +347,10 @@ class IlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_ilm/policy/'.$name);

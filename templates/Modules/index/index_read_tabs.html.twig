@@ -19,7 +19,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link{% if 'lifecycle' == active %} active{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index.name}) }}">{{ 'lifecycle'|trans }}{% if index.setting('index.lifecycle.name') %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
+        <a class="nav-link{% if 'lifecycle' == active %} active{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index.name}) }}">{{ 'lifecycle'|trans }}{% if false == check_version(root, '6.6') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}{% if index.setting('index.lifecycle.name') %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
     </li>
 
     {% if 'open' == index.status %}

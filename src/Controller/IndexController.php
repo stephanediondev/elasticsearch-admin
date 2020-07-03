@@ -693,6 +693,10 @@ class IndexController extends AbstractAppController
      */
     public function lifecycle(Request $request, string $index): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $index = $this->elasticsearchIndexManager->getByName($index);
 
         if (false == $index) {
@@ -716,6 +720,10 @@ class IndexController extends AbstractAppController
      */
     public function removePolicy(Request $request, string $index): Response
     {
+        if (false == $this->hasFeature('ilm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $index = $this->elasticsearchIndexManager->getByName($index);
 
         if (false == $index) {
@@ -919,6 +927,10 @@ class IndexController extends AbstractAppController
      */
     public function freeze(Request $request, string $index): Response
     {
+        if (false == $this->checkVersion('6.6')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $index = $this->elasticsearchIndexManager->getByName($index);
 
         if (false == $index) {
@@ -941,6 +953,10 @@ class IndexController extends AbstractAppController
      */
     public function unfreeze(Request $request, string $index): Response
     {
+        if (false == $this->checkVersion('6.6')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $index = $this->elasticsearchIndexManager->getByName($index);
 
         if (false == $index) {

@@ -20,6 +20,14 @@ class AppExtension extends AbstractExtension
         ];
     }
 
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('check_version', [$this, 'checkVersion']),
+            new TwigFunction('has_feature', [$this, 'hasFeature']),
+        ];
+    }
+
     public function humanFilesize($size, $precision = 2)
     {
         static $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -61,5 +69,23 @@ class AppExtension extends AbstractExtension
     public function humanDatetime($datetime)
     {
         return date('Y-m-d H:i:s', substr($datetime, 0, -3));
+    }
+
+    public function checkVersion($root, $versionGoal)
+    {
+        if (true == isset($root['version']) && true == isset($root['version']['number']) && 0 <= version_compare($root['version']['number'], $versionGoal)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasFeature($xpack, $feature)
+    {
+        if (true == isset($xpack['features'][$feature]) && true == $xpack['features'][$feature]['available'] && true == $xpack['features'][$feature]['enabled']) {
+            return true;
+        }
+
+        return false;
     }
 }

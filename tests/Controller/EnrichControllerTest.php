@@ -14,11 +14,11 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich');
 
-        if (true == isset($this->xpack['features']['enrich']) && true == $this->xpack['features']['enrich']['enabled']) {
+        if (true == $this->hasFeature('enrich')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -29,11 +29,11 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/stats');
 
-        if (true == isset($this->xpack['features']['enrich']) && true == $this->xpack['features']['enrich']['enabled']) {
+        if (true == $this->hasFeature('enrich')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - Stats');
         } else {
-            $this->assertResponseStatusCodeSame(500);
+            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -44,8 +44,12 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/create');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Enrich policies - Create enrich policy');
+        if (true == $this->hasFeature('enrich')) {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Enrich policies - Create enrich policy');
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
@@ -55,6 +59,10 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/'.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == $this->hasFeature('enrich')) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 }

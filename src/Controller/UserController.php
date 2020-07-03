@@ -24,7 +24,7 @@ class UserController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        if (false == isset($this->xpack['features']['security']['enabled']) || false == $this->xpack['features']['security']['enabled']) {
+        if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -58,6 +58,10 @@ class UserController extends AbstractAppController
      */
     public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $roles = $elasticsearchRoleManager->selectRoles();
 
         $userModel = new ElasticsearchUserModel();
@@ -101,6 +105,10 @@ class UserController extends AbstractAppController
      */
     public function read(Request $request, string $user): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
         $callResponse = $this->callManager->call($callRequest);
@@ -123,6 +131,10 @@ class UserController extends AbstractAppController
      */
     public function update(Request $request, string $user, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
         $callResponse = $this->callManager->call($callRequest);
@@ -196,6 +208,10 @@ class UserController extends AbstractAppController
      */
     public function enable(Request $request, string $user): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
         $callResponse = $this->callManager->call($callRequest);
@@ -236,6 +252,10 @@ class UserController extends AbstractAppController
      */
     public function disable(Request $request, string $user): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
         $callResponse = $this->callManager->call($callRequest);
@@ -276,6 +296,10 @@ class UserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_security/user/'.$user);
         $callResponse = $this->callManager->call($callRequest);

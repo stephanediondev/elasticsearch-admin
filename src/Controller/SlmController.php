@@ -25,7 +25,7 @@ class SlmController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        if (false == isset($this->xpack['features']['slm']['enabled']) || false == $this->xpack['features']['slm']['enabled']) {
+        if (false == $this->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -58,6 +58,10 @@ class SlmController extends AbstractAppController
      */
     public function stats(Request $request): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_slm/stats');
         $callResponse = $this->callManager->call($callRequest);
@@ -73,6 +77,10 @@ class SlmController extends AbstractAppController
      */
     public function status(Request $request): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_slm/status');
         $callResponse = $this->callManager->call($callRequest);
@@ -88,6 +96,10 @@ class SlmController extends AbstractAppController
      */
     public function start(Request $request): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_slm/start');
@@ -103,6 +115,10 @@ class SlmController extends AbstractAppController
      */
     public function stop(Request $request): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_slm/stop');
@@ -118,6 +134,10 @@ class SlmController extends AbstractAppController
      */
     public function create(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $repositories = $elasticsearchRepositoryManager->selectRepositories();
         $indices = $elasticsearchIndexManager->selectIndices();
 
@@ -178,6 +198,10 @@ class SlmController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_slm/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
@@ -200,6 +224,10 @@ class SlmController extends AbstractAppController
      */
     public function readHistory(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_slm/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
@@ -222,6 +250,10 @@ class SlmController extends AbstractAppController
      */
     public function readStats(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_slm/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
@@ -244,6 +276,10 @@ class SlmController extends AbstractAppController
      */
     public function update(Request $request, string $name, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_slm/policy/'.$name);
         $callResponse = $this->callManager->call($callRequest);
@@ -293,6 +329,10 @@ class SlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_slm/policy/'.$name);
@@ -308,6 +348,10 @@ class SlmController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
+        if (false == $this->hasFeature('slm')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_slm/policy/'.$name.'/_execute');
