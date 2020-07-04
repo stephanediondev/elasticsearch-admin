@@ -342,19 +342,36 @@ class IndexController extends AbstractAppController
                                     if ($value instanceof \Datetime) {
                                         $value = $value->format('Y-m-d');
                                     }
+
                                     if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'keyword' == $index->getMappingsFlat()[$headers[$key]]) {
                                         $parts = explode(PHP_EOL, $value);
                                         if (1 < count($parts)) {
                                             $value = $parts;
                                         }
                                     }
+
                                     if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'geo_point' == $index->getMappingsFlat()[$headers[$key]]) {
-                                        if (strstr($value, ',')) {
+                                        if ('' == $value) {
+                                            $value = false;
+                                        } else if (strstr($value, ',')) {
                                             list($lat, $lon) = explode(',', $value);
-                                            $line[$headers[$key]] = ['lat' => $lat, 'lon' => $lon];
+                                            $value = ['lat' => $lat, 'lon' => $lon];
                                         }
-                                    } else {
-                                        $line[$headers[$key]] = $value;
+                                    }
+
+                                    if ($value) {
+                                        if (strstr($headers[$key], '.')) {
+                                            $keys = explode('.', $headers[$key]);
+
+                                            if (false == isset($line[$keys[0]])) {
+                                                $line[$keys[0]] = [];
+                                            }
+
+                                            $line[$keys[0]][$keys[1]] = $value;
+
+                                        } else {
+                                            $line[$headers[$key]] = $value;
+                                        }
                                     }
                                 }
                             }
