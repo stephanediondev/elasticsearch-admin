@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateIlmPolicyType;
 use App\Form\ApplyIlmPolicyType;
+use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use App\Model\ElasticsearchIlmPolicyModel;
@@ -21,6 +22,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class IlmController extends AbstractAppController
 {
+    public function __construct(ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager)
+    {
+        $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;
+    }
+
     /**
      * @Route("/ilm", name="ilm")
      */
@@ -263,17 +269,12 @@ class IlmController extends AbstractAppController
         $policy = $policy[$name];
         $policy['name'] = $name;
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_template');
-        $callResponse = $this->callManager->call($callRequest);
-        $results = $callResponse->getContent();
+        $results = $this->elasticsearchIndexTemplateLegacyManager->getAll();
 
         $indexTemplates = [];
-        foreach ($results as $name => $row) {
-            $indexTemplates[] = $name;
+        foreach ($results as $row) {
+            $indexTemplates[] = $row->getName();
         }
-
-        sort($indexTemplates);
 
         $applyPolicyModel = new ElasticsearchApplyIlmPolicyModel();
         $form = $this->createForm(ApplyIlmPolicyType::class, $applyPolicyModel, ['index_templates' => $indexTemplates]);
@@ -282,51 +283,20 @@ class IlmController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $callRequest = new CallRequestModel();
-                $callRequest->setPath('/_template/'.$applyPolicyModel->getIndexTemplate());
-                $callRequest->setQuery(['flat_settings' => 'true']);
-                $callResponse = $this->callManager->call($callRequest);
+                $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($applyPolicyModel->getIndexTemplate());
 
-                if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+                if (false == $template) {
                     throw new NotFoundHttpException();
                 }
 
-                $template = $callResponse->getContent();
-                $template = $template[$applyPolicyModel->getIndexTemplate()];
-                $template['name'] = $applyPolicyModel->getIndexTemplate();
-                $template['is_system'] = '.' == substr($template['name'], 0, 1);
-
-                if (true == $template['is_system']) {
+                if (true == $template->isSystem()) {
                     throw new AccessDeniedHttpException();
                 }
 
-                $templateModel = new ElasticsearchIndexTemplateLegacyModel();
-                $templateModel->convert($template);
+                $template->setSetting('index.lifecycle.name', $policy['name']);
+                $template->setSetting('index.lifecycle.rollover_alias', $applyPolicyModel->getRolloverAlias());
 
-                $settings = json_decode($templateModel->getSettings(), true);
-                $settings['index.lifecycle.name'] = $policy['name'];
-                $settings['index.lifecycle.rollover_alias'] = $applyPolicyModel->getRolloverAlias();
-
-                $json = [
-                    'index_patterns' => $templateModel->getIndexToArray(),
-                ];
-                if ($templateModel->getVersion()) {
-                    $json['version'] = $templateModel->getVersion();
-                }
-                if ($templateModel->getOrder()) {
-                    $json['order'] = $templateModel->getOrder();
-                }
-                if ($templateModel->getSettings()) {
-                    $json['settings'] = $settings;
-                }
-                if ($templateModel->getMappings()) {
-                    $json['mappings'] = json_decode($templateModel->getMappings(), true);
-                }
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_template/'.$templateModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchIndexTemplateLegacyManager->send($template);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
