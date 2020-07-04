@@ -76,6 +76,8 @@
                 {{ appImport.heading({'level': 4, 'title': 'features'|trans}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
                     {% block thead %}
                         <tr>
                             <th>{{ 'feature'|trans }}</th>
@@ -87,9 +89,15 @@
                     {% block tbody %}
                         {% for key, value in xpack['features'] %}
                             <tr>
-                                <td>{{ key }}</td>
-                                <td>{{ ('boolean.' ~ value['available'])|trans }}</td>
-                                <td>{{ ('boolean.' ~ value['enabled'])|trans }}</td>
+                                <td>
+                                    {{ key }}
+                                </td>
+                                <td>
+                                    {{ appImport.badge({'title': ('boolean.' ~ value['available'])|trans, 'context': value['available']}) }}
+                                </td>
+                                <td>
+                                    {{ appImport.badge({'title': ('boolean.' ~ value['enabled'])|trans, 'context': value['enabled']}) }}
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
