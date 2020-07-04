@@ -56,7 +56,11 @@ class IlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/create?policy='.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == $this->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**

@@ -71,7 +71,11 @@ class SlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/create?policy='.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == $this->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**

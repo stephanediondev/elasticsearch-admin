@@ -56,7 +56,11 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/create?policy='.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == $this->hasFeature('enrich')) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**

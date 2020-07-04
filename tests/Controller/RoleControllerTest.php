@@ -41,7 +41,11 @@ class RoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/roles/create?role='.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (true == $this->hasFeature('security')) {
+            $this->assertResponseStatusCodeSame(404);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     /**
