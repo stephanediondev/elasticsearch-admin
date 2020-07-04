@@ -37,6 +37,13 @@ class RoleControllerTest extends AbstractAppControllerTest
         }
     }
 
+    public function testCreateCopy404()
+    {
+        $this->client->request('GET', '/admin/roles/create?role='.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     /**
      * @Route("/roles/{role}", name="roles_read")
      */

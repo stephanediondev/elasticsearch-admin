@@ -52,6 +52,13 @@ class EnrichControllerTest extends AbstractAppControllerTest
         }
     }
 
+    public function testCreateCopy404()
+    {
+        $this->client->request('GET', '/admin/enrich/create?policy='.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     /**
      * @Route("/enrich/{name}", name="enrich_read")
      */

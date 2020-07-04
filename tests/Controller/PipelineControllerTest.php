@@ -29,6 +29,13 @@ class PipelineControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Pipelines - Create pipeline');
     }
 
+    public function testCreateCopy404()
+    {
+        $this->client->request('GET', '/admin/pipelines/create?pipeline='.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     /**
      * @Route("/pipelines/{name}", name="pipelines_read")
      */

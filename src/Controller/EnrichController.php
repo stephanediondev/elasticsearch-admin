@@ -109,10 +109,14 @@ class EnrichController extends AbstractAppController
 
             $rows = $callResponse->getContent();
 
+            if (0 == count($rows['policies'])) {
+                throw new NotFoundHttpException();
+            }
+
             foreach ($rows['policies'] as $row) {
                 $policy = [];
                 $policy['type'] = key($row['config']);
-                $policy['name'] = $row['config'][$policy['type']]['name'];
+                $policy['name'] = $row['config'][$policy['type']]['name'].'-copy';
                 $policy['indices'] = $row['config'][$policy['type']]['indices'];
                 $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
                 $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];

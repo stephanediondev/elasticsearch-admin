@@ -52,6 +52,13 @@ class IlmControllerTest extends AbstractAppControllerTest
         }
     }
 
+    public function testCreateCopy404()
+    {
+        $this->client->request('GET', '/admin/ilm/create?policy='.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     /**
      * @Route("/ilm/{name}", name="ilm_read")
      */

@@ -67,6 +67,13 @@ class SlmControllerTest extends AbstractAppControllerTest
         }
     }
 
+    public function testCreateCopy404()
+    {
+        $this->client->request('GET', '/admin/slm/create?policy='.uniqid());
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     /**
      * @Route("/slm/{name}", name="slm_read")
      */
