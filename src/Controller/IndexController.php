@@ -362,12 +362,42 @@ class IndexController extends AbstractAppController
                                     if ($value) {
                                         if (strstr($headers[$key], '.')) {
                                             $keys = explode('.', $headers[$key]);
+                                            $keysTotal = count($keys);
 
                                             if (false == isset($line[$keys[0]])) {
                                                 $line[$keys[0]] = [];
                                             }
 
-                                            $line[$keys[0]][$keys[1]] = $value;
+                                            if (2 == $keysTotal) {
+                                                $line[$keys[0]][$keys[1]] = $value;
+
+                                            } else {
+                                                if (false == isset($line[$keys[0]][$keys[1]])) {
+                                                    $line[$keys[0]][$keys[1]] = [];
+                                                }
+
+                                                if (3 == $keysTotal) {
+                                                    $line[$keys[0]][$keys[1]][$keys[2]] = $value;
+
+                                                } else {
+                                                    if (false == isset($line[$keys[0]][$keys[1]][$keys[2]])) {
+                                                        $line[$keys[0]][$keys[1]][$keys[2]] = [];
+                                                    }
+
+                                                    if (4 == $keysTotal) {
+                                                        $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $value;
+
+                                                    } else {
+                                                        if (false == isset($line[$keys[0]][$keys[1]][$keys[2]][$keys[3]])) {
+                                                            $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = [];
+                                                        }
+
+                                                        if (5 == $keysTotal) {
+                                                            $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]] = $value;
+                                                        }
+                                                    }
+                                                }
+                                            }
 
                                         } else {
                                             $line[$headers[$key]] = $value;
