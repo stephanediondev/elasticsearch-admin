@@ -68,7 +68,7 @@ class AppExtension extends AbstractExtension
 
     public function humanDatetime($datetime)
     {
-        return date('Y-m-d H:i:s', substr($datetime, 0, -3));
+        return date('D, d M Y H:i', substr($datetime, 0, -3));
     }
 
     public function checkVersion($root, $versionGoal)
