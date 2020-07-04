@@ -41,7 +41,7 @@ class ScreenshotsController extends AbstractAppController
             'slm-policy-create' => '/admin/slm/create',
             'shards' => '/admin/shards',
             'enrich-create' => '/admin/enrich/create',
-            //'license' => '/admin/license',
+            'license' => '/admin/license',
         ];
 
         $results = [];

@@ -101,3 +101,5 @@ bin/console app:phpunit && bin/phpunit
 [![Create snapshot](assets/images/resized-snapshot-create.png)](assets/images/original-snapshot-create.png)
 
 [![Create enrich policy](assets/images/resized-enrich-create.png)](assets/images/original-enrich-create.png)
+
+[![License](assets/images/resized-license.png)](assets/images/original-license.png)
