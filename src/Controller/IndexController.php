@@ -1187,7 +1187,7 @@ class IndexController extends AbstractAppController
             $size = 100;
             $query = [
                 'q' => $form->get('query')->getData(),
-                'sort' => '_id:desc',
+                'sort' => $request->query->get('s', '_id:desc'),
                 'size' => $size,
                 'from' => ($size * $request->query->get('page', 1)) - $size,
             ];

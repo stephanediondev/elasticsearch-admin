@@ -4,11 +4,26 @@
     {% block thead %}
         <tr>
             <th>
-                _id
+                {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_id', 'title': '_id'})}}
             </th>
             {% for field, properties in index.mappings['properties'] %}
                 <th>
-                    {{ field }}
+                    {% if properties['type'] is defined and properties['type'] in ['keyword', 'date'] %}
+                        {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': field, 'title': field})}}
+                    {% elseif properties['fields'] is defined %}
+                        {% set foundKeyword = false %}
+                        {% for fieldSub, propertiesSub in properties['fields'] %}
+                            {% if false == foundKeyword and propertiesSub['type'] is defined and 'keyword' == propertiesSub['type'] %}
+                                {% set foundKeyword = true %}
+                                {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': field ~ '.' ~ fieldSub, 'title': field})}}
+                            {% endif %}
+                            {% if false == foundKeyword %}
+                                {{ field }}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
                 </th>
             {% endfor %}
         </tr>

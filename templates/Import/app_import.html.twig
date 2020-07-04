@@ -91,7 +91,11 @@
         {% set params = params|merge({'class': 'text-secondary'}) %}
     {% endif %}
 
-    {% set url = params.url ~ '?s=' ~ params.s %}
+    {% if '?' in params.url %}
+        {% set url = params.url ~ '&s=' ~ params.s %}
+    {% else %}
+        {% set url = params.url ~ '?s=' ~ params.s %}
+    {% endif %}
 
     {% if app.request.query.get('s') and app.request.query.get('s') == params.s ~ ':asc' %}
         {% set url = url ~ ':desc' %}
