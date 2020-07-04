@@ -30,26 +30,26 @@ cp .env.dist .env
 - [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
 - [x] Login: user managed by Symfony, not related to Elasticsearch
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings (transient or persistent)
-- [x] Nodes: list, read, usage, plugins, reload secure settings (6.4)
-- [x] Indices: list, reindex, create, read, update (mappings), lifecycle explain / remove policy (6.6), delete, close / open, freeze / unfreeze (6.6), force merge, clear cache, flush, refresh, empty, import (XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
+- [x] Nodes: list, read, usage, plugins, reload secure settings [6.4]
+- [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge, clear cache, flush, refresh, empty, import (XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
 - [x] Index templates (legacy): list, create, read, update, delete, copy
-- [x] Index templates (7.8): list, create, read, update, delete, copy
-- [x] Component templates (7.8): list, create, read, update, delete, copy
-- [x] Index lifecycle management policies (6.6): list, status, start, stop, create, read, update, delete, copy
+- [x] Index templates [7.8]: list, create, read, update, delete, copy
+- [x] Component templates [7.8]: list, create, read, update, delete, copy
+- [x] Index lifecycle management policies [6.6]: list, status, start, stop, create, read, update, delete, copy
 - [x] Shards: list
 - [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
-- [x] Snapshot lifecycle management policies (7.4): list, status, start, stop, create, read, update, delete, execute, history, stats, copy
+- [x] Snapshot lifecycle management policies [7.4]: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
 - [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Users (native realm): list, create, read, update, delete, enable, disable
 - [x] Roles: list, create, read, update, delete, copy
 - [x] Tasks: list
 - [x] Remote clusters: list
-- [x] Enrich policies (7.5): list, stats, create, read, delete, execute, copy
+- [x] Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
 - [x] Pipelines: list, create, read, update, delete, copy
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
 - [x] Deprecations info
-- [x] License: read, status / start trial / revert to basic (6.6), features
+- [x] License: read, status / start trial / revert to basic [6.6], features
 
 ## Todo
 
