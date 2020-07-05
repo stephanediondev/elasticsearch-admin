@@ -59,6 +59,7 @@ cp .env.dist .env
 - [ ] Indices: update (dynamic index settings), shrink, split, import from database
 - [ ] Index templates (legacy): convert to new version
 - [ ] Repositories: create (url, source, hdfs, azure)
+- [ ] Remote clusters: create, update, delete
 - [ ] License: update
 
 ## Unit tests
