@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'nodes'|trans }} - {{ node['name'] }}{% endblock %}
+{% block head_title %}{{ 'nodes'|trans }} - {{ node.name }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'link': {'url': path('nodes')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {% if master_node == node['name'] %}
-        {{ appImport.heading({'level': 2, 'title': node['name'], 'badge': {'title': 'master'|trans, 'context': 'master_node'}}) }}
+    {% if master_node == node.name %}
+        {{ appImport.heading({'level': 2, 'title': node.name, 'badge': {'title': 'master'|trans, 'context': 'master_node'}}) }}
     {% else %}
-        {{ appImport.heading({'level': 2, 'title': node['name']}) }}
+        {{ appImport.heading({'level': 2, 'title': node.name}) }}
     {% endif %}
 {% endblock %}
 
@@ -28,39 +28,39 @@
             <hr>
 
             <div class="row">
-                {% if node['settings']['discovery']['type'] is defined and 'single-node' == node['settings']['discovery']['type'] %}
+                {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
                     {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
                 {% else %}
-                    {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': ('boolean.' ~ node['settings']['node']['master'])|trans, 'context': node['settings']['node']['master']}}) }}
+                    {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['master'])|trans, 'context': node.settings['node']['master']}}) }}
                 {% endif %}
 
-                {% if node['settings']['discovery']['type'] is defined and 'single-node' == node['settings']['discovery']['type'] %}
+                {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
                     {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
                 {% else %}
-                    {% if node['settings']['node']['voting_only'] is defined %}
-                        {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': ('boolean.' ~ node['settings']['node']['voting_only'])|trans, 'context': node['settings']['node']['voting_only']}}) }}
+                    {% if node.settings['node']['voting_only'] is defined %}
+                        {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['voting_only'])|trans, 'context': node.settings['node']['voting_only']}}) }}
                     {% else %}
                         {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
                     {% endif %}
                 {% endif %}
 
-                {% if node['settings']['discovery']['type'] is defined and 'single-node' == node['settings']['discovery']['type'] %}
+                {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
                     {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
                 {% else %}
-                    {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': ('boolean.' ~ node['settings']['node']['data'])|trans, 'context': node['settings']['node']['data']}}) }}
+                    {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['data'])|trans, 'context': node.settings['node']['data']}}) }}
                 {% endif %}
 
-                {{ appImport.dashboardKpi({'title': 'ip'|trans, 'badge': {'title': node['ip']}}) }}
+                {{ appImport.dashboardKpi({'title': 'ip'|trans, 'badge': {'title': node.ip}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'version_es'|trans, 'badge': {'title': node['version']}}) }}
+                {{ appImport.dashboardKpi({'title': 'version_es'|trans, 'badge': {'title': node.version}}) }}
 
-                {% if node['os']['pretty_name'] is defined %}
-                    {{ appImport.dashboardKpi({'title': 'os'|trans, 'badge': {'title': node['os']['pretty_name']}}) }}
+                {% if node.os['pretty_name'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'os'|trans, 'badge': {'title': node.os['pretty_name']}}) }}
                 {% endif %}
 
-                {{ appImport.dashboardKpi({'title': 'os_version'|trans, 'badge': {'title': node['os']['version']}}) }}
+                {{ appImport.dashboardKpi({'title': 'os_version'|trans, 'badge': {'title': node.os['version']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'os_arch'|trans, 'badge': {'title': node['os']['arch']}}) }}
+                {{ appImport.dashboardKpi({'title': 'os_arch'|trans, 'badge': {'title': node.os['arch']}}) }}
             </div>
         {% endblock %}
     {% endembed %}

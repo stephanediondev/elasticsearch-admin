@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\ReloadSecureSettingsType;
+use App\Manager\ElasticsearchNodeManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReloadSecureSettingsModel;
@@ -20,42 +21,20 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class NodeController extends AbstractAppController
 {
+    public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager, ElasticsearchClusterManager $elasticsearchClusterManager)
+    {
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
+    }
+
     /**
      * @Route("/nodes", name="nodes")
      */
-    public function index(Request $request, ElasticsearchClusterManager $elasticsearchClusterManager): Response
+    public function index(Request $request): Response
     {
-        $nodes = [];
+        $nodes = $this->elasticsearchNodeManager->getAll();
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/nodes');
-        $callRequest->setQuery(['bytes' => 'b', 's' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
-        $callResponse = $this->callManager->call($callRequest);
-        $nodes1 = $callResponse->getContent();
-
-        foreach ($nodes1 as $node) {
-            $nodes[$node['name']] = $node;
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes');
-        $callResponse = $this->callManager->call($callRequest);
-        $nodes2 = $callResponse->getContent();
-
-        foreach ($nodes2['nodes'] as $node) {
-            $nodes[$node['name']] = array_merge($node, $nodes[$node['name']]);
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes/stats');
-        $callResponse = $this->callManager->call($callRequest);
-        $nodes3 = $callResponse->getContent();
-
-        foreach ($nodes3['nodes'] as $node) {
-            $nodes[$node['name']]['stats'] = $node;
-        }
-
-        $clusterSettings = $elasticsearchClusterManager->getClusterSettings();
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
         return $this->renderAbstract($request, 'Modules/node/node_index.html.twig', [
             'cluster_settings' => $clusterSettings,
@@ -75,37 +54,9 @@ class NodeController extends AbstractAppController
      */
     public function fetch(Request $request): JsonResponse
     {
-        $json = [];
+        $nodes = $this->elasticsearchNodeManager->getAll();
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/nodes');
-        $callRequest->setQuery(['bytes' => 'b', 's' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
-        $callResponse = $this->callManager->call($callRequest);
-        $nodes1 = $callResponse->getContent();
-
-        foreach ($nodes1 as $node) {
-            $json[$node['name']] = $node;
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes');
-        $callResponse = $this->callManager->call($callRequest);
-        $nodes2 = $callResponse->getContent();
-
-        foreach ($nodes2['nodes'] as $node) {
-            $json[$node['name']] = array_merge($node, $json[$node['name']]);
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes/stats');
-        $callResponse = $this->callManager->call($callRequest);
-        $nodes3 = $callResponse->getContent();
-
-        foreach ($nodes3['nodes'] as $node) {
-            $json[$node['name']]['stats'] = $node;
-        }
-
-        return new JsonResponse($json, JsonResponse::HTTP_OK);
+        return new JsonResponse($nodes, JsonResponse::HTTP_OK);
     }
 
     /**
@@ -113,20 +64,15 @@ class NodeController extends AbstractAppController
      */
     public function read(Request $request, string $node): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes/'.$node);
-        $callResponse = $this->callManager->call($callRequest);
-        $node = $callResponse->getContent();
+        $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (true == isset($node['nodes'][key($node['nodes'])])) {
-            $node = $node['nodes'][key($node['nodes'])];
-
-            return $this->renderAbstract($request, 'Modules/node/node_read.html.twig', [
-                'node' => $node,
-            ]);
-        } else {
+        if (false == $node) {
             throw new NotFoundHttpException();
         }
+
+        return $this->renderAbstract($request, 'Modules/node/node_read.html.twig', [
+            'node' => $node,
+        ]);
     }
 
     /**
@@ -134,20 +80,15 @@ class NodeController extends AbstractAppController
      */
     public function readPlugins(Request $request, string $node): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes/'.$node);
-        $callResponse = $this->callManager->call($callRequest);
-        $node = $callResponse->getContent();
+        $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (true == isset($node['nodes'][key($node['nodes'])])) {
-            $node = $node['nodes'][key($node['nodes'])];
-
-            return $this->renderAbstract($request, 'Modules/node/node_read_plugins.html.twig', [
-                'node' => $node,
-            ]);
-        } else {
+        if (false == $node) {
             throw new NotFoundHttpException();
         }
+
+        return $this->renderAbstract($request, 'Modules/node/node_read_plugins.html.twig', [
+            'node' => $node,
+        ]);
     }
 
     /**
@@ -155,33 +96,28 @@ class NodeController extends AbstractAppController
      */
     public function readUsage(Request $request, string $node): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes/'.$node);
-        $callResponse = $this->callManager->call($callRequest);
-        $node = $callResponse->getContent();
+        $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (true == isset($node['nodes'][key($node['nodes'])])) {
-            $node = $node['nodes'][key($node['nodes'])];
-
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_nodes/'.$node['name'].'/usage');
-            $callResponse = $this->callManager->call($callRequest);
-            $usage = $callResponse->getContent();
-            $usage = $usage['nodes'][key($usage['nodes'])];
-
-            if (true == isset($usage['rest_actions'])) {
-                ksort($usage['rest_actions']);
-            } else {
-                $usage['rest_actions'] = [];
-            }
-
-            return $this->renderAbstract($request, 'Modules/node/node_read_usage.html.twig', [
-                'node' => $node,
-                'usage' => $usage,
-            ]);
-        } else {
+        if (false == $node) {
             throw new NotFoundHttpException();
         }
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_nodes/'.$node->getName().'/usage');
+        $callResponse = $this->callManager->call($callRequest);
+        $usage = $callResponse->getContent();
+        $usage = $usage['nodes'][key($usage['nodes'])];
+
+        if (true == isset($usage['rest_actions'])) {
+            ksort($usage['rest_actions']);
+        } else {
+            $usage['rest_actions'] = [];
+        }
+
+        return $this->renderAbstract($request, 'Modules/node/node_read_usage.html.twig', [
+            'node' => $node,
+            'usage' => $usage,
+        ]);
     }
 
     /**
@@ -193,41 +129,36 @@ class NodeController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes/'.$node);
-        $callResponse = $this->callManager->call($callRequest);
-        $node = $callResponse->getContent();
+        $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (true == isset($node['nodes'][key($node['nodes'])])) {
-            $node = $node['nodes'][key($node['nodes'])];
-
-            $reloadSecureSettingsModel = new ElasticsearchReloadSecureSettingsModel();
-            $form = $this->createForm(ReloadSecureSettingsType::class, $reloadSecureSettingsModel);
-
-            $form->handleRequest($request);
-
-            $parameters = [
-                'node' => $node,
-                'form' => $form->createView(),
-            ];
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $json = $reloadSecureSettingsModel->getJson();
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('POST');
-                    $callRequest->setPath('/_nodes/'.$node['name'].'/reload_secure_settings');
-                    $callRequest->setJson($json);
-                    $callResponse = $this->callManager->call($callRequest);
-                    $parameters['response'] = $callResponse->getContent();
-                } catch (CallException $e) {
-                    $this->addFlash('danger', $e->getMessage());
-                }
-            }
-
-            return $this->renderAbstract($request, 'Modules/node/node_reload_secure_settings.html.twig', $parameters);
-        } else {
+        if (false == $node) {
             throw new NotFoundHttpException();
         }
+
+        $reloadSecureSettingsModel = new ElasticsearchReloadSecureSettingsModel();
+        $form = $this->createForm(ReloadSecureSettingsType::class, $reloadSecureSettingsModel);
+
+        $form->handleRequest($request);
+
+        $parameters = [
+            'node' => $node,
+            'form' => $form->createView(),
+        ];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = $reloadSecureSettingsModel->getJson();
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_nodes/'.$node->getName().'/reload_secure_settings');
+                $callRequest->setJson($json);
+                $callResponse = $this->callManager->call($callRequest);
+                $parameters['response'] = $callResponse->getContent();
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/node/node_reload_secure_settings.html.twig', $parameters);
     }
 }
