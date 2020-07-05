@@ -92,11 +92,14 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
     public function convert(?array $node): self
     {
-        dump($node);
         $this->setName($node['name']);
 
         if (true == isset($node['ip'])) {
             $this->setIp($node['ip']);
+        }
+
+        if (true == isset($node['version'])) {
+            $this->setVersion($node['version']);
         }
 
         if (true == isset($node['os']) && 0 < count($node['os'])) {
