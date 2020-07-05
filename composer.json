@@ -9,6 +9,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "box/spout": "^3.1",
+        "doctrine/dbal": "^2.10",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.1.*",
