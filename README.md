@@ -2,10 +2,10 @@
 
 ## Requirements
 
-- Elasticsearch 6.x or 7.x
-- Web server running PHP 7.2.5 or higher
-- Composer
-- npm
+- Elasticsearch 6.x or 7.x (https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.htm)
+- Web server running PHP 7.2.5 or higher (https://www.php.net/manual/en/install.php)
+- Composer (https://getcomposer.org/download/)
+- npm (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ## Installation
 
