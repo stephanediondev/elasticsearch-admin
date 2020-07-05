@@ -38,17 +38,7 @@ class IlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $policies = [];
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ilm/policy');
-        $callResponse = $this->callManager->call($callRequest);
-        $rows = $callResponse->getContent();
-
-        foreach ($rows as $k => $row) {
-            $row['name'] = $k;
-            $policies[] = $row;
-        }
+        $policies = $this->elasticsearchIlmPolicyManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/ilm/ilm_index.html.twig', [
             'policies' => $this->paginatorManager->paginate([

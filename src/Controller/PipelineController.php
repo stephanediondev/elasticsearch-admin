@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreatePipelineType;
+use App\Manager\ElasticsearchPipelineManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchPipelineModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,15 +18,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PipelineController extends AbstractAppController
 {
+    public function __construct(ElasticsearchPipelineManager $elasticsearchPipelineManager)
+    {
+        $this->elasticsearchPipelineManager = $elasticsearchPipelineManager;
+    }
+
     /**
      * @Route("/pipelines", name="pipelines")
      */
     public function index(Request $request): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ingest/pipeline');
-        $callResponse = $this->callManager->call($callRequest);
-        $pipelines = $callResponse->getContent();
+        $pipelines = $this->elasticsearchPipelineManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/pipeline/pipeline_index.html.twig', [
             'pipelines' => $this->paginatorManager->paginate([
@@ -47,39 +50,29 @@ class PipelineController extends AbstractAppController
         $pipeline = false;
 
         if ($request->query->get('pipeline')) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_ingest/pipeline/'.$request->query->get('pipeline'));
-            $callResponse = $this->callManager->call($callRequest);
+            $pipeline = $this->elasticsearchPipelineManager->getByName($request->query->get('pipeline'));
 
-            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            if (false == $pipeline) {
                 throw new NotFoundHttpException();
             }
 
-            $pipeline = $callResponse->getContent();
-            $pipeline = $pipeline[$request->query->get('pipeline')];
-            $pipeline['name'] = $request->query->get('pipeline').'-copy';
+            $pipeline->setName($pipeline->getName().'-copy');
         }
 
-        $pipelineModel = new ElasticsearchPipelineModel();
-        if ($pipeline) {
-            $pipelineModel->convert($pipeline);
+        if (false == $pipeline) {
+            $pipeline = new ElasticsearchPipelineModel();
         }
-        $form = $this->createForm(CreatePipelineType::class, $pipelineModel);
+        $form = $this->createForm(CreatePipelineType::class, $pipeline);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $pipelineModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_ingest/pipeline/'.$pipelineModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchPipelineManager->send($pipeline);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('pipelines_read', ['name' => $pipelineModel->getName()]);
+                return $this->redirectToRoute('pipelines_read', ['name' => $pipeline->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -95,19 +88,10 @@ class PipelineController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ingest/pipeline/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $pipeline) {
             throw new NotFoundHttpException();
-        }
-
-        $rows = $callResponse->getContent();
-
-        foreach ($rows as $k => $row) {
-            $pipeline = $row;
-            $pipeline['name'] = $k;
         }
 
         return $this->renderAbstract($request, 'Modules/pipeline/pipeline_read.html.twig', [
@@ -120,36 +104,23 @@ class PipelineController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ingest/pipeline/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $pipeline) {
             throw new NotFoundHttpException();
         }
 
-        $pipeline = $callResponse->getContent();
-        $pipeline = $pipeline[$name];
-        $pipeline['name'] = $name;
-
-        $pipelineModel = new ElasticsearchPipelineModel();
-        $pipelineModel->convert($pipeline);
-        $form = $this->createForm(CreatePipelineType::class, $pipelineModel, ['update' => true]);
+        $form = $this->createForm(CreatePipelineType::class, $pipeline, ['update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $pipelineModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_ingest/pipeline/'.$pipelineModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchPipelineManager->send($pipeline);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('pipelines_read', ['name' => $pipelineModel->getName()]);
+                return $this->redirectToRoute('pipelines_read', ['name' => $pipeline->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -166,10 +137,13 @@ class PipelineController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_ingest/pipeline/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $pipeline = $this->elasticsearchPipelineManager->getByName($name);
+
+        if (false == $pipeline) {
+            throw new NotFoundHttpException();
+        }
+
+        $callResponse = $this->elasticsearchPipelineManager->deleteByName($pipeline->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

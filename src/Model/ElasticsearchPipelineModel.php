@@ -52,28 +52,33 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         return $this;
     }
 
-    public function getProcessors(): ?string
+    public function getProcessors(): ?array
     {
         return $this->processors;
     }
 
-    public function setProcessors(?string $processors): self
+    public function setProcessors($processors): self
     {
         $this->processors = $processors;
 
         return $this;
     }
 
-    public function getOnFailure(): ?string
+    public function getOnFailure(): ?array
     {
         return $this->onFailure;
     }
 
-    public function setOnFailure(?string $onFailure): self
+    public function setOnFailure($onFailure): self
     {
         $this->onFailure = $onFailure;
 
         return $this;
+    }
+
+    public function isSystem(): ?bool
+    {
+        return '.' == substr($this->getName(), 0, 1);
     }
 
     public function convert(?array $pipeline): self
@@ -86,10 +91,10 @@ class ElasticsearchPipelineModel extends AbstractAppModel
             $this->setVersion($pipeline['version']);
         }
         if (true == isset($pipeline['processors']) && 0 < count($pipeline['processors'])) {
-            $this->setProcessors(json_encode($pipeline['processors'], JSON_PRETTY_PRINT));
+            $this->setProcessors($pipeline['processors']);
         }
         if (true == isset($pipeline['on_failure']) && 0 < count($pipeline['on_failure'])) {
-            $this->setOnFailure(json_encode($pipeline['on_failure'], JSON_PRETTY_PRINT));
+            $this->setOnFailure($pipeline['on_failure']);
         }
         return $this;
     }
@@ -97,7 +102,7 @@ class ElasticsearchPipelineModel extends AbstractAppModel
     public function getJson(): array
     {
         $json = [
-            'processors' => json_decode($this->getProcessors(), true),
+            'processors' => $this->getProcessors(),
         ];
 
         if ($this->getVersion()) {
@@ -109,7 +114,7 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         }
 
         if ($this->getOnFailure()) {
-            $json['on_failure'] = json_decode($this->getOnFailure(), true);
+            $json['on_failure'] = $this->getOnFailure();
         }
 
         return $json;

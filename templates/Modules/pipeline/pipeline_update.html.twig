@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'pipelines'|trans }} - {{ pipeline['name'] }} - {{ 'update'|trans }}{% endblock %}
+{% block head_title %}{{ 'pipelines'|trans }} - {{ pipeline.name }} - {{ 'update'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'pipelines'|trans, 'link': {'url': path('pipelines')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': pipeline['name']}) }}
+    {{ appImport.heading({'level': 2, 'title': pipeline.name}) }}
 {% endblock %}
 
 {% block tabs %}

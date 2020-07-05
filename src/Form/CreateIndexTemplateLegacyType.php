@@ -171,15 +171,15 @@ class CreateIndexTemplateLegacyType extends AbstractType
                 }
             }
 
-            if ($form->has('settings') && $form->get('settings')->getData()) {
-                $template = $event->getData();
-                $template->setSettings(json_decode($form->get('settings')->getData(), true));
-                $event->setData($template);
-            }
-
             if ($form->has('mappings') && $form->get('mappings')->getData()) {
                 $template = $event->getData();
                 $template->setMappings(json_decode($form->get('mappings')->getData(), true));
+                $event->setData($template);
+            }
+
+            if ($form->has('settings') && $form->get('settings')->getData()) {
+                $template = $event->getData();
+                $template->setSettings(json_decode($form->get('settings')->getData(), true));
                 $event->setData($template);
             }
 

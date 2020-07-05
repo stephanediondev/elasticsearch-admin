@@ -102,26 +102,52 @@ class CreatePipelineType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
 
-                if ($form->has('name')) {
-                    if ($form->get('name')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setMethod('GET');
-                        $callRequest->setPath('/_ingest/pipeline/'.$form->get('name')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+            if ($form->has('processors') && $form->get('processors')->getData()) {
+                $fieldOptions = $form->get('processors')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('processors')->getData(), JSON_PRETTY_PRINT);
+                $form->add('processors', TextareaType::class, $fieldOptions);
+            }
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
-                            $form->get('name')->addError(new FormError(
-                                $this->translator->trans('name_already_used')
-                            ));
-                        }
+            if ($form->has('on_failure') && $form->get('on_failure')->getData()) {
+                $fieldOptions = $form->get('on_failure')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('on_failure')->getData(), JSON_PRETTY_PRINT);
+                $form->add('on_failure', TextareaType::class, $fieldOptions);
+            }
+        });
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
+
+            if (false == $options['update']) {
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('GET');
+                    $callRequest->setPath('/_ingest/pipeline/'.$form->get('name')->getData());
+                    $callResponse = $this->callManager->call($callRequest);
+
+                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
+                        ));
                     }
                 }
-            });
-        }
+            }
+
+            if ($form->has('processors') && $form->get('processors')->getData()) {
+                $template = $event->getData();
+                $template->setProcessors(json_decode($form->get('processors')->getData(), true));
+                $event->setData($template);
+            }
+
+            if ($form->has('on_failure') && $form->get('on_failure')->getData()) {
+                $template = $event->getData();
+                $template->setOnFailure(json_decode($form->get('on_failure')->getData(), true));
+                $event->setData($template);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

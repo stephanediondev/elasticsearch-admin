@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'pipelines'|trans }} - {{ pipeline['name'] }}{% endblock %}
+{% block head_title %}{{ 'pipelines'|trans }} - {{ pipeline.name }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'pipelines'|trans, 'link': {'url': path('pipelines')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': pipeline['name']}) }}
+    {{ appImport.heading({'level': 2, 'title': pipeline.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -27,44 +27,37 @@
                     {{ appImport.buttonModal({
                         'id': 'PipelineDelete',
                         'title': 'delete'|trans,
-                        'body': pipeline['name'],
-                        'href': path('pipelines_delete', {'name': pipeline['name']}),
+                        'body': pipeline.name,
+                        'href': path('pipelines_delete', {'name': pipeline.name}),
                     }) }}
 
-                    <a class="btn btn-primary btn-sm" href="{{ path('pipelines_create', {'pipeline': pipeline['name']}) }}">{{ 'copy'|trans }}</a>
+                    <a class="btn btn-primary btn-sm" href="{{ path('pipelines_create', {'pipeline': pipeline.name}) }}">{{ 'copy'|trans }}</a>
                 {% endblock %}
             {% endembed %}
 
-            {% if pipeline['indices'] is defined %}
-                <p>
-                    <strong>{{ 'indices'|trans }}</strong><br>
-                    {{ pipeline['indices']|join(', ') }}
-                </p>
-            {% endif %}
-
-            {% if pipeline['description'] is defined %}
+            {% if pipeline.description %}
                 <p>
                     <strong>{{ 'description'|trans }}</strong><br>
-                    {{ pipeline['description'] }}
+                    {{ pipeline.description }}
                 </p>
             {% endif %}
 
-            {% if pipeline['version'] is defined %}
+            {% if pipeline.version %}
                 <p>
                     <strong>{{ 'version'|trans }}</strong><br>
-                    {{ pipeline['version'] }}
+                    {{ pipeline.version }}
                 </p>
             {% endif %}
 
-            {% if pipeline['on_failure'] is defined and 0 < pipeline['on_failure']|length %}
+            {% if pipeline.onFailure and 0 < pipeline.onFailure|length %}
                 <p>
                     <strong>{{ 'on_failure'|trans }}</strong><br>
-                    <pre>{{ pipeline['on_failure']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                    <pre>{{ pipeline.onFailure|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                 </p>
             {% endif %}
 
-            {% if pipeline['processors'] is defined and 0 < pipeline['processors']|length %}
-                {{ appImport.heading({'level': 4, 'title': 'processors'|trans, 'badge': {'title': pipeline['processors']|length}}) }}
+            {% if pipeline.processors and 0 < pipeline.processors|length %}
+                {{ appImport.heading({'level': 4, 'title': 'processors'|trans, 'badge': {'title': pipeline.processors|length}}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
                     {% block thead %}
@@ -75,7 +68,7 @@
                     {% endblock %}
 
                     {% block tbody %}
-                        {% for rows in pipeline['processors'] %}
+                        {% for rows in pipeline.processors %}
                             {% for k, row in rows %}
                                 <tr>
                                     <td>

@@ -126,8 +126,15 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
     public function convert(?array $policy): self
     {
         $this->setName($policy['name']);
-        $this->setVersion($policy['version']);
-        $this->setModifiedDate($policy['modified_date']);
+
+        if (true == isset($policy['version'])) {
+            $this->setVersion($policy['version']);
+        }
+
+        if (true == isset($policy['modified_date'])) {
+            $this->setModifiedDate($policy['modified_date']);
+        }
+
         if (true == isset($policy['policy']['phases']) && 0 < count($policy['policy']['phases'])) {
             $this->setPhases($policy['policy']['phases']);
 
@@ -144,6 +151,7 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
                 $this->setDelete($policy['policy']['phases']['delete']);
             }
         }
+
         return $this;
     }
 

@@ -36,19 +36,19 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('ilm_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                                <a href="{{ path('ilm_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'modified_date' == column %}
                             <td>
-                                {{ row['modified_date'] }}
+                                {{ row.modifiedDate }}
                             </td>
                         {% endif %}
 
                         {% if 'version' == column %}
                             <td>
-                                {{ row['version'] }}
+                                {{ row.version }}
                             </td>
                         {% endif %}
                     {% endif %}

@@ -6,55 +6,58 @@ use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
-use App\Model\ElasticsearchIlmPolicyModel;
+use App\Model\ElasticsearchPipelineModel;
 use Symfony\Component\HttpFoundation\Response;
 
-class ElasticsearchIlmPolicyManager extends AbstractAppManager
+class ElasticsearchPipelineManager extends AbstractAppManager
 {
-    public function getByName(string $name): ?ElasticsearchIlmPolicyModel
+    public function getByName(string $name): ?ElasticsearchPipelineModel
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ilm/policy/'.$name);
+        $callRequest->setPath('/_ingest/pipeline/'.$name);
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $policyModel = null;
+            $pipelineModel = null;
         } else {
-            $policy = $callResponse->getContent();
-            $policy = $policy[$name];
-            $policy['name'] = $name;
+            $rows = $callResponse->getContent();
 
-            $policyModel = new ElasticsearchIlmPolicyModel();
-            $policyModel->convert($policy);
+            foreach ($rows as $k => $row) {
+                $pipeline = $row;
+                $pipeline['name'] = $k;
+            }
+
+            $pipelineModel = new ElasticsearchPipelineModel();
+            $pipelineModel->convert($pipeline);
         }
 
-        return $policyModel;
+        return $pipelineModel;
     }
 
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ilm/policy');
+        $callRequest->setPath('/_ingest/pipeline');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        $policies = [];
+        $pipelines = [];
         foreach ($results as $k => $row) {
             $row['name'] = $k;
-            $policyModel = new ElasticsearchIlmPolicyModel();
-            $policyModel->convert($row);
-            $policies[] = $policyModel;
+            $pipelineModel = new ElasticsearchPipelineModel();
+            $pipelineModel->convert($row);
+            $pipelines[] = $pipelineModel;
         }
 
-        return $policies;
+        return $pipelines;
     }
 
-    public function send(ElasticsearchIlmPolicyModel $policyModel): CallResponseModel
+    public function send(ElasticsearchPipelineModel $pipelineModel): CallResponseModel
     {
-        $json = $policyModel->getJson();
+        $json = $pipelineModel->getJson();
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('PUT');
-        $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());
+        $callRequest->setPath('/_ingest/pipeline/'.$pipelineModel->getName());
         $callRequest->setJson($json);
         $callResponse = $this->callManager->call($callRequest);
 
@@ -65,7 +68,7 @@ class ElasticsearchIlmPolicyManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_ilm/policy/'.$name);
+        $callRequest->setPath('/_ingest/pipeline/'.$name);
 
         return $this->callManager->call($callRequest);
     }
