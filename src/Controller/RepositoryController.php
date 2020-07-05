@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -44,6 +45,14 @@ class RepositoryController extends AbstractAppController
      */
     public function create(Request $request, string $type): Response
     {
+        if ('s3' == $type && false == $this->hasPlugin('repository-s3')) {
+            throw new AccessDeniedHttpException();
+        }
+
+        if ('gcs' == $type && false == $this->hasPlugin('repository-gcs')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $repositoryModel = new ElasticsearchRepositoryModel();
         $repositoryModel->setType($type);
         $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $type]);

@@ -33,16 +33,24 @@ class RepositoryControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/repositories/create/s3');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Repositories - Create AWS S3 repository');
+        if (false == $this->hasPlugin('repository-s3')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Repositories - Create AWS S3 repository');
+        }
     }
 
     public function testCreateGcs()
     {
         $this->client->request('GET', '/admin/repositories/create/gcs');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Repositories - Create Google Cloud Storage repository');
+        if (false == $this->hasPlugin('repository-gcs')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Repositories - Create Google Cloud Storage repository');
+        }
     }
 
     /**

@@ -32,6 +32,16 @@ abstract class AbstractAppControllerTest extends WebTestCase
         $callResponse = $this->callManager->call($callRequest);
         $this->xpack = $callResponse->getContent();
 
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/plugins');
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
+
+        $this->plugins = [];
+        foreach ($results as $row) {
+            $this->plugins[] = $row['component'];
+        }
+
         $session = self::$container->get('session');
 
         $firewallName = 'main';
@@ -44,7 +54,7 @@ abstract class AbstractAppControllerTest extends WebTestCase
         $this->client->getCookieJar()->set($cookie);
     }
 
-    protected function checkVersion($versionGoal)
+    protected function checkVersion(string $versionGoal): bool
     {
         if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
             return true;
@@ -53,9 +63,18 @@ abstract class AbstractAppControllerTest extends WebTestCase
         return false;
     }
 
-    protected function hasFeature($feature)
+    protected function hasFeature(string $feature): bool
     {
         if (true == isset($this->xpack['features'][$feature]) && true == $this->xpack['features'][$feature]['available'] && true == $this->xpack['features'][$feature]['enabled']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function hasPlugin(string $plugin): bool
+    {
+        if (true == in_array($plugin, $this->plugins)) {
             return true;
         }
 

@@ -25,6 +25,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('check_version', [$this, 'checkVersion']),
             new TwigFunction('has_feature', [$this, 'hasFeature']),
+            new TwigFunction('has_plugin', [$this, 'hasPlugin']),
         ];
     }
 
@@ -71,7 +72,7 @@ class AppExtension extends AbstractExtension
         return date('D, d M Y H:i', substr($datetime, 0, -3));
     }
 
-    public function checkVersion($root, $versionGoal)
+    public function checkVersion(array $root, string $versionGoal): bool
     {
         if (true == isset($root['version']) && true == isset($root['version']['number']) && 0 <= version_compare($root['version']['number'], $versionGoal)) {
             return true;
@@ -80,9 +81,18 @@ class AppExtension extends AbstractExtension
         return false;
     }
 
-    public function hasFeature($xpack, $feature)
+    public function hasFeature(array $xpack, string $feature): bool
     {
         if (true == isset($xpack['features'][$feature]) && true == $xpack['features'][$feature]['available'] && true == $xpack['features'][$feature]['enabled']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasPlugin(array $plugins, string $plugin): bool
+    {
+        if (true == in_array($plugin, $plugins)) {
             return true;
         }
 

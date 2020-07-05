@@ -27,6 +27,16 @@ abstract class AbstractAppController extends AbstractController
         $callRequest->setPath('/_xpack');
         $callResponse = $this->callManager->call($callRequest);
         $this->xpack = $callResponse->getContent();
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/plugins');
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
+
+        $this->plugins = [];
+        foreach ($results as $row) {
+            $this->plugins[] = $row['component'];
+        }
     }
 
     /**
@@ -57,10 +67,12 @@ abstract class AbstractAppController extends AbstractController
 
         $parameters['xpack'] = $this->xpack;
 
+        $parameters['plugins'] = $this->plugins;
+
         return $this->render($view, $parameters, $response);
     }
 
-    protected function checkVersion($versionGoal)
+    protected function checkVersion(string $versionGoal): bool
     {
         if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
             return true;
@@ -69,9 +81,18 @@ abstract class AbstractAppController extends AbstractController
         return false;
     }
 
-    protected function hasFeature($feature)
+    protected function hasFeature(string $feature): bool
     {
         if (true == isset($this->xpack['features'][$feature]) && true == $this->xpack['features'][$feature]['available'] && true == $this->xpack['features'][$feature]['enabled']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function hasPlugin(string $plugin): bool
+    {
+        if (true == in_array($plugin, $this->plugins)) {
             return true;
         }
 
