@@ -21,8 +21,10 @@ class ElasticsearchIndexModelTest extends WebTestCase
         $index->setPrimarySize(5);
         $index->setTotalSize(6);
         $index->setCreationDate('creation-date');
+        $index->setSettings('');
         $index->setSettings([]);
         $index->setSetting('setting-key', 'setting-value');
+        $index->setMappings('');
         $index->setMappings([]);
         $index->setMappingsFlat(['mapping-field' => 'mapping-type']);
 

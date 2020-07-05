@@ -12,9 +12,12 @@ class ElasticsearchComponentTemplateModelTest extends WebTestCase
         $template = new ElasticsearchComponentTemplateModel();
         $template->setName('name');
         $template->setVersion(1);
+        $template->setSettings('');
         $template->setSettings([]);
         $template->setSetting('setting-key', 'setting-value');
+        $template->setMappings('');
         $template->setMappings([]);
+        $template->setAliases('');
         $template->setAliases([]);
 
         $this->assertEquals($template->getName(), 'name');

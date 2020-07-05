@@ -14,9 +14,12 @@ class ElasticsearchIndexTemplateLegacyModelTest extends WebTestCase
         $template->setIndexPatterns('index-patterns');
         $template->setVersion(1);
         $template->setOrder(2);
+        $template->setSettings('');
         $template->setSettings([]);
         $template->setSetting('setting-key', 'setting-value');
+        $template->setMappings('');
         $template->setMappings([]);
+        $template->setAliases('');
         $template->setAliases([]);
 
         $this->assertEquals($template->getName(), 'name');

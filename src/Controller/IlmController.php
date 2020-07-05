@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateIlmPolicyType;
 use App\Form\ApplyIlmPolicyType;
+use App\Manager\ElasticsearchIlmPolicyManager;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
@@ -22,8 +23,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class IlmController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager)
+    public function __construct(ElasticsearchIlmPolicyManager $elasticsearchIlmPolicyManager, ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager)
     {
+        $this->elasticsearchIlmPolicyManager = $elasticsearchIlmPolicyManager;
         $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;
     }
 
@@ -129,39 +131,29 @@ class IlmController extends AbstractAppController
         $policy = false;
 
         if ($request->query->get('policy')) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_ilm/policy/'.$request->query->get('policy'));
-            $callResponse = $this->callManager->call($callRequest);
+            $policy = $this->elasticsearchIlmPolicyManager->getByName($request->query->get('policy'));
 
-            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            if (false == $policy) {
                 throw new NotFoundHttpException();
             }
 
-            $policy = $callResponse->getContent();
-            $policy = $policy[$request->query->get('policy')];
-            $policy['name'] = $request->query->get('policy').'-copy';
+            $policy->setName($policy->getName().'-copy');
         }
 
-        $policyModel = new ElasticsearchIlmPolicyModel();
-        if ($policy) {
-            $policyModel->convert($policy);
+        if (false == $policy) {
+            $policy = new ElasticsearchIlmPolicyModel();
         }
-        $form = $this->createForm(CreateIlmPolicyType::class, $policyModel);
+        $form = $this->createForm(CreateIlmPolicyType::class, $policy);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $policyModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchIlmPolicyManager->send($policy);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
+                return $this->redirectToRoute('ilm_read', ['name' => $policy->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -181,17 +173,11 @@ class IlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ilm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $policy) {
             throw new NotFoundHttpException();
         }
-
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
 
         return $this->renderAbstract($request, 'Modules/ilm/ilm_read.html.twig', [
             'policy' => $policy,
@@ -207,36 +193,23 @@ class IlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ilm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $policy) {
             throw new NotFoundHttpException();
         }
 
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
-
-        $policyModel = new ElasticsearchIlmPolicyModel();
-        $policyModel->convert($policy);
-        $form = $this->createForm(CreateIlmPolicyType::class, $policyModel, ['update' => true]);
+        $form = $this->createForm(CreateIlmPolicyType::class, $policy, ['update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $policyModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_ilm/policy/'.$policyModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchIlmPolicyManager->send($policy);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('ilm_read', ['name' => $policyModel->getName()]);
+                return $this->redirectToRoute('ilm_read', ['name' => $policy->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -257,17 +230,11 @@ class IlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ilm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $policy) {
             throw new NotFoundHttpException();
         }
-
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
 
         $results = $this->elasticsearchIndexTemplateLegacyManager->getAll();
 
@@ -293,7 +260,7 @@ class IlmController extends AbstractAppController
                     throw new AccessDeniedHttpException();
                 }
 
-                $template->setSetting('index.lifecycle.name', $policy['name']);
+                $template->setSetting('index.lifecycle.name', $policy->getName());
                 $template->setSetting('index.lifecycle.rollover_alias', $applyPolicyModel->getRolloverAlias());
 
                 $callResponse = $this->elasticsearchIndexTemplateLegacyManager->send($template);
@@ -321,10 +288,13 @@ class IlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_ilm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
+
+        if (false == $policy) {
+            throw new NotFoundHttpException();
+        }
+
+        $callResponse = $this->elasticsearchIlmPolicyManager->deleteByName($policy->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

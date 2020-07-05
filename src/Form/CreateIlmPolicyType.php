@@ -101,25 +101,75 @@ class CreateIlmPolicyType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
 
-                if ($form->has('name')) {
-                    if ($form->get('name')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setPath('/_ilm/policy/'.$form->get('name')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+            if ($form->has('hot') && $form->get('hot')->getData()) {
+                $fieldOptions = $form->get('hot')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('hot')->getData(), JSON_PRETTY_PRINT);
+                $form->add('hot', TextareaType::class, $fieldOptions);
+            }
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
-                            $form->get('name')->addError(new FormError(
-                                $this->translator->trans('name_already_used')
-                            ));
-                        }
+            if ($form->has('warm') && $form->get('warm')->getData()) {
+                $fieldOptions = $form->get('warm')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('warm')->getData(), JSON_PRETTY_PRINT);
+                $form->add('warm', TextareaType::class, $fieldOptions);
+            }
+
+            if ($form->has('cold') && $form->get('cold')->getData()) {
+                $fieldOptions = $form->get('cold')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('cold')->getData(), JSON_PRETTY_PRINT);
+                $form->add('cold', TextareaType::class, $fieldOptions);
+            }
+
+            if ($form->has('delete') && $form->get('delete')->getData()) {
+                $fieldOptions = $form->get('delete')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('delete')->getData(), JSON_PRETTY_PRINT);
+                $form->add('delete', TextareaType::class, $fieldOptions);
+            }
+        });
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
+
+            if (false == $options['update']) {
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setPath('/_ilm/policy/'.$form->get('name')->getData());
+                    $callResponse = $this->callManager->call($callRequest);
+
+                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
+                        ));
                     }
                 }
-            });
-        }
+            }
+
+            if ($form->has('hot') && $form->get('hot')->getData()) {
+                $template = $event->getData();
+                $template->setHot(json_decode($form->get('hot')->getData(), true));
+                $event->setData($template);
+            }
+
+            if ($form->has('warm') && $form->get('warm')->getData()) {
+                $template = $event->getData();
+                $template->setWarm(json_decode($form->get('warm')->getData(), true));
+                $event->setData($template);
+            }
+
+            if ($form->has('cold') && $form->get('cold')->getData()) {
+                $template = $event->getData();
+                $template->setCold(json_decode($form->get('cold')->getData(), true));
+                $event->setData($template);
+            }
+
+            if ($form->has('delete') && $form->get('delete')->getData()) {
+                $template = $event->getData();
+                $template->setDelete(json_decode($form->get('delete')->getData(), true));
+                $event->setData($template);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)
