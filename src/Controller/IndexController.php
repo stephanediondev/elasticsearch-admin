@@ -477,10 +477,16 @@ class IndexController extends AbstractAppController
 
         $size = 1000;
         $query = [
-            'sort' => '_id:desc',
+            'sort' => $request->query->get('s', '_id:desc'),
             'size' => $size,
             'from' => ($size * $request->query->get('page', 1)) - $size,
         ];
+        if ($request->query->get('data')) {
+            $data = $request->query->get('data');
+            if (true == isset($data['query']) && '' != $data['query']) {
+                $query['q'] = $data['query'];
+            }
+        }
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index->getName().'/_search?scroll=1m');
         $callRequest->setQuery($query);

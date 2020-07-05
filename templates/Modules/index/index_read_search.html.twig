@@ -41,6 +41,19 @@
                 {{ appImport.heading({'level': 3, 'title': 'documents'|trans, 'badge': {'title': documents.total}}) }}
 
                 {% if 0 < documents.total %}
+                    {% embed 'Embed/buttons_embed.html.twig' %}
+                        {% block content %}
+                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
+                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
+                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
+                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
+                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
+                            {% if true == index.hasMappingType('geo_point') %}
+                                <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'geojson'}|merge(app.request.query.all)) }}">GEOJSON</a>
+                            {% endif %}
+                        {% endblock %}
+                    {% endembed %}
+
                     {{ appImport.paginator(documents) }}
 
                     {% include 'Modules/index/index_read_search_list.html.twig' with {'documents': documents} %}
