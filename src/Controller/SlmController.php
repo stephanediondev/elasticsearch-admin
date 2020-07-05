@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateSlmPolicyType;
 use App\Manager\ElasticsearchIndexManager;
+use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchSlmPolicyModel;
@@ -20,6 +21,13 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class SlmController extends AbstractAppController
 {
+    public function __construct(ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager)
+    {
+        $this->elasticsearchSlmPolicyManager = $elasticsearchSlmPolicyManager;
+        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+    }
+
     /**
      * @Route("/slm", name="slm")
      */
@@ -29,17 +37,7 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $policies = [];
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_slm/policy');
-        $callResponse = $this->callManager->call($callRequest);
-        $rows = $callResponse->getContent();
-
-        foreach ($rows as $k => $row) {
-            $row['name'] = $k;
-            $policies[] = $row;
-        }
+        $policies = $this->elasticsearchSlmPolicyManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/slm/slm_index.html.twig', [
             'policies' => $this->paginatorManager->paginate([
@@ -132,57 +130,47 @@ class SlmController extends AbstractAppController
     /**
      * @Route("/slm/create", name="slm_create")
      */
-    public function create(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    public function create(Request $request): Response
     {
         if (false == $this->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
-        $repositories = $elasticsearchRepositoryManager->selectRepositories();
-        $indices = $elasticsearchIndexManager->selectIndices();
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
 
         $policy = false;
 
         if ($request->query->get('policy')) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_slm/policy/'.$request->query->get('policy'));
-            $callResponse = $this->callManager->call($callRequest);
+            $policy = $this->elasticsearchSlmPolicyManager->getByName($request->query->get('policy'));
 
-            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            if (false == $policy) {
                 throw new NotFoundHttpException();
             }
 
-            $policy = $callResponse->getContent();
-            $policy = $policy[$request->query->get('policy')];
-            $policy['name'] = $request->query->get('policy').'-copy';
+            $policy->setName($policy->getName().'-copy');
         }
 
-        $policyModel = new ElasticsearchSlmPolicyModel();
+        if (false == $policy) {
+            $policy = new ElasticsearchSlmPolicyModel();
+        }
         if ($request->query->get('repository')) {
-            $policyModel->setRepository($request->query->get('repository'));
+            $policy->setRepository($request->query->get('repository'));
         }
         if ($request->query->get('index')) {
-            $policyModel->setIndices([$request->query->get('index')]);
+            $policy->setIndices([$request->query->get('index')]);
         }
-        if ($policy) {
-            $policyModel->convert($policy);
-        }
-        $form = $this->createForm(CreateSlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(CreateSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $policyModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchSlmPolicyManager->send($policy);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
+                return $this->redirectToRoute('slm_read', ['name' => $policy->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -202,17 +190,11 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_slm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $policy) {
             throw new NotFoundHttpException();
         }
-
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
 
         return $this->renderAbstract($request, 'Modules/slm/slm_read.html.twig', [
             'policy' => $policy,
@@ -228,17 +210,11 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_slm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $policy) {
             throw new NotFoundHttpException();
         }
-
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
 
         return $this->renderAbstract($request, 'Modules/slm/slm_read_history.html.twig', [
             'policy' => $policy,
@@ -254,17 +230,11 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_slm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $policy) {
             throw new NotFoundHttpException();
         }
-
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
 
         return $this->renderAbstract($request, 'Modules/slm/slm_read_stats.html.twig', [
             'policy' => $policy,
@@ -274,45 +244,32 @@ class SlmController extends AbstractAppController
     /**
      * @Route("/slm/{name}/update", name="slm_update")
      */
-    public function update(Request $request, string $name, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    public function update(Request $request, string $name): Response
     {
         if (false == $this->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_slm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $policy) {
             throw new NotFoundHttpException();
         }
 
-        $policy = $callResponse->getContent();
-        $policy = $policy[$name];
-        $policy['name'] = $name;
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
 
-        $repositories = $elasticsearchRepositoryManager->selectRepositories();
-        $indices = $elasticsearchIndexManager->selectIndices();
-
-        $policyModel = new ElasticsearchSlmPolicyModel();
-        $policyModel->convert($policy);
-        $form = $this->createForm(CreateSlmPolicyType::class, $policyModel, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
+        $form = $this->createForm(CreateSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $policyModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchSlmPolicyManager->send($policy);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('slm_read', ['name' => $policyModel->getName()]);
+                return $this->redirectToRoute('slm_read', ['name' => $policy->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -333,10 +290,13 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_slm/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
+
+        if (false == $policy) {
+            throw new NotFoundHttpException();
+        }
+
+        $callResponse = $this->elasticsearchSlmPolicyManager->deleteByName($policy->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -350,6 +310,12 @@ class SlmController extends AbstractAppController
     {
         if (false == $this->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
+        }
+
+        $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
+
+        if (false == $policy) {
+            throw new NotFoundHttpException();
         }
 
         $callRequest = new CallRequestModel();

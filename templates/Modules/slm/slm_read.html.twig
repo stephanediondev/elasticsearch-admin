@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'slm_short'|trans }} - {{ policy['name'] }}{% endblock %}
+{% block head_title %}{{ 'slm_short'|trans }} - {{ policy.name }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'slm'|trans, 'link': {'url': path('slm')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': policy['name']}) }}
+    {{ appImport.heading({'level': 2, 'title': policy.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -27,101 +27,101 @@
                     {{ appImport.buttonModal({
                         'id': 'PolicyDelete',
                         'title': 'delete'|trans,
-                        'body': policy['name'],
-                        'href': path('slm_delete', {'name': policy['name']}),
+                        'body': policy.name,
+                        'href': path('slm_delete', {'name': policy.name}),
                     }) }}
 
-                    <a class="btn btn-primary btn-sm" href="{{ path('slm_create', {'policy': policy['name']}) }}">{{ 'copy'|trans }}</a>
+                    <a class="btn btn-primary btn-sm" href="{{ path('slm_create', {'policy': policy.name}) }}">{{ 'copy'|trans }}</a>
 
                     {{ appImport.buttonModal({
                         'id': 'PolicyExecute',
                         'title': 'execute'|trans,
-                        'body': policy['name'],
-                        'href': path('slm_execute', {'name': policy['name']}),
+                        'body': policy.name,
+                        'href': path('slm_execute', {'name': policy.name}),
                     }) }}
                 {% endblock %}
             {% endembed %}
 
             <p>
                 <strong>{{ 'version'|trans }}</strong><br>
-                {{ policy['version'] }}
+                {{ policy.version }}
             </p>
 
-            {% if policy['modified_date_millis'] is defined %}
+            {% if policy.modifiedDate %}
                 <p>
                     <strong>{{ 'modified_date'|trans }}</strong><br>
-                    {{ policy['modified_date_millis']|human_datetime }}
+                    {{ policy.modifiedDate|human_datetime }}
                 </p>
             {% endif %}
 
             <p>
                 <strong>{{ 'snapshot_name'|trans }}</strong><br>
-                {{ policy['policy']['name'] }}
+                {{ policy.snapshotName }}
             </p>
 
             <p>
                 <strong>{{ 'repository'|trans }}</strong><br>
-                <a href="{{ path('repositories_read', {'repository': policy['policy']['repository']}) }}">{{ policy['policy']['repository'] }}</a>
+                <a href="{{ path('repositories_read', {'repository': policy.repository}) }}">{{ policy.repository }}</a>
             </p>
 
-            {% if policy['policy']['config']['indices'] is defined %}
+            {% if policy.indices %}
                 <p>
                     <strong>{{ 'indices'|trans }}</strong><br>
-                    {{ policy['policy']['config']['indices']|join(', ') }}
+                    {{ policy.indices|join(', ') }}
                 </p>
             {% endif %}
 
             <p>
                 <strong>{{ 'schedule'|trans }}</strong><br>
-                {{ policy['policy']['schedule'] }}
+                {{ policy.schedule }}
             </p>
 
             <p>
                 <strong>{{ 'next_execution'|trans }}</strong><br>
-                {{ policy['next_execution_millis']|human_datetime }}
+                {{ policy.nextExecution|human_datetime }}
             </p>
 
-            {% if policy['policy']['retention'] is defined %}
-                {% if policy['policy']['retention']['expire_after'] is defined %}
+            {% if policy.hasRetention %}
+                {% if policy.expireAfter %}
                     <p>
                         <strong>{{ 'expire_after'|trans }}</strong><br>
-                        {{ policy['policy']['retention']['expire_after'] }}
+                        {{ policy.expireAfter }}
                     </p>
                 {% endif %}
 
-                {% if policy['policy']['retention']['min_count'] is defined %}
+                {% if policy.minCount %}
                     <p>
                         <strong>{{ 'min_count'|trans }}</strong><br>
-                        {{ policy['policy']['retention']['min_count'] }}
+                        {{ policy.minCount }}
                     </p>
                 {% endif %}
 
-                {% if policy['policy']['retention']['max_count'] is defined %}
+                {% if policy.maxCount %}
                     <p>
                         <strong>{{ 'max_count'|trans }}</strong><br>
-                        {{ policy['policy']['retention']['max_count'] }}
+                        {{ policy.maxCount }}
                     </p>
                 {% endif %}
             {% endif %}
 
-            {% if policy['policy']['config']['ignore_unavailable'] is defined %}
+            {% if policy.ignoreUnavailable %}
                 <p>
                     <strong>{{ 'ignore_unavailable'|trans }}</strong><br>
-                    {{ ('boolean.' ~ policy['policy']['config']['ignore_unavailable'])|trans }}
+                    {{ ('boolean.' ~ policy.ignoreUnavailable)|trans }}
                 </p>
             {% endif %}
 
-            {% if policy['policy']['config']['partial'] is defined %}
+            {% if policy.partial %}
                 <p>
                     <strong>{{ 'partial'|trans }}</strong><br>
-                    {{ ('boolean.' ~ policy['policy']['config']['partial'])|trans }}
+                    {{ ('boolean.' ~ policy.partial)|trans }}
                 </p>
             {% endif %}
 
-            {% if policy['policy']['config']['include_global_state'] is defined %}
+            {% if policy.includeGlobalState %}
                 <p>
                     <strong>{{ 'include_global_state'|trans }}</strong><br>
-                    {{ ('boolean.' ~ policy['policy']['config']['include_global_state'])|trans }}
+                    {{ ('boolean.' ~ policy.includeGlobalState)|trans }}
                 </p>
             {% endif %}
         {% endblock %}

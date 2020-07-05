@@ -165,25 +165,23 @@ class CreateSlmPolicyType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
 
-                if ($form->has('name')) {
-                    if ($form->get('name')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setPath('/_slm/policy/'.$form->get('name')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+            if (false == $options['update']) {
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setPath('/_slm/policy/'.$form->get('name')->getData());
+                    $callResponse = $this->callManager->call($callRequest);
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
-                            $form->get('name')->addError(new FormError(
-                                $this->translator->trans('name_already_used')
-                            ));
-                        }
+                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
+                        ));
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

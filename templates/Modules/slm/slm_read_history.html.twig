@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'slm_short'|trans }} - {{ policy['name'] }} - {{ 'history'|trans }}{% endblock %}
+{% block head_title %}{{ 'slm_short'|trans }} - {{ policy.name }} - {{ 'history'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'slm'|trans, 'link': {'url': path('slm')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': policy['name']}) }}
+    {{ appImport.heading({'level': 2, 'title': policy.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if policy['last_success'] is defined %}
+    {% if policy.lastSuccess %}
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
@@ -24,18 +24,18 @@
 
                 <p>
                     <strong>{{ 'snapshot'|trans }}</strong><br>
-                    <a href="{{ path('snapshots_read', {'repository': policy['policy']['repository'], 'snapshot': policy['last_success']['snapshot_name']}) }}">{{ policy['last_success']['snapshot_name'] }}</a>
+                    <a href="{{ path('snapshots_read', {'repository': policy.repository, 'snapshot': policy.lastSuccess['snapshot_name']}) }}">{{ policy.lastSuccess['snapshot_name'] }}</a>
                 </p>
 
                 <p>
                     <strong>{{ 'date'|trans }}</strong><br>
-                    {{ policy['last_success']['time']|human_datetime }}
+                    {{ policy.lastSuccess['time']|human_datetime }}
                 </p>
             {% endblock %}
         {% endembed %}
     {% endif %}
 
-    {% if policy['last_failure'] is defined %}
+    {% if policy.lastFailure %}
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
@@ -43,12 +43,12 @@
 
                 <p>
                     <strong>{{ 'snapshot'|trans }}</strong><br>
-                    <a href="{{ path('snapshots_read_failures', {'repository': policy['policy']['repository'], 'snapshot': policy['last_failure']['snapshot_name']}) }}">{{ policy['last_failure']['snapshot_name'] }}</a>
+                    <a href="{{ path('snapshots_read_failures', {'repository': policy.repository, 'snapshot': policy.lastFailure['snapshot_name']}) }}">{{ policy.lastFailure['snapshot_name'] }}</a>
                 </p>
 
                 <p>
                     <strong>{{ 'date'|trans }}</strong><br>
-                    {{ policy['last_failure']['time']|human_datetime }}
+                    {{ policy.lastFailure['time']|human_datetime }}
                 </p>
             {% endblock %}
         {% endembed %}

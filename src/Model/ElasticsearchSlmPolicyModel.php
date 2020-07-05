@@ -28,6 +28,16 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     private $includeGlobalState;
 
+    private $nextExecution;
+
+    private $version;
+
+    private $lastSuccess;
+
+    private $lastFailure;
+
+    private $modifiedDate;
+
     public function __construct()
     {
         $this->snapshotName = '<nightly-snap-{now/d}>';
@@ -194,33 +204,142 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    public function getNextExecution(): ?int
+    {
+        return $this->nextExecution;
+    }
+
+    public function setNextExecution(?int $nextExecution): self
+    {
+        $this->nextExecution = $nextExecution;
+
+        return $this;
+    }
+
+    public function getVersion(): ?int
+    {
+        return $this->version;
+    }
+
+    public function setVersion(?int $version): self
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    public function getLastSuccess(): ?array
+    {
+        return $this->lastSuccess;
+    }
+
+    public function setLastSuccess(?array $lastSuccess): self
+    {
+        $this->lastSuccess = $lastSuccess;
+
+        return $this;
+    }
+
+    public function getLastFailure(): ?array
+    {
+        return $this->lastFailure;
+    }
+
+    public function setLastFailure(?array $lastFailure): self
+    {
+        $this->lastFailure = $lastFailure;
+
+        return $this;
+    }
+
+    public function getModifiedDate(): ?int
+    {
+        return $this->modifiedDate;
+    }
+
+    public function setModifiedDate(?int $modifiedDate): self
+    {
+        $this->modifiedDate = $modifiedDate;
+
+        return $this;
+    }
+
+    public function getStats(): ?array
+    {
+        return $this->stats;
+    }
+
+    public function setStats(?array $stats): self
+    {
+        $this->stats = $stats;
+
+        return $this;
+    }
+
+    public function isSystem(): ?bool
+    {
+        return '.' == substr($this->getName(), 0, 1);
+    }
+
     public function convert(?array $policy): self
     {
         $this->setName($policy['name']);
         $this->setSnapshotName($policy['policy']['name']);
         $this->setSchedule($policy['policy']['schedule']);
         $this->setRepository($policy['policy']['repository']);
+
         if (true == isset($policy['policy']['config']['indices'])) {
             $this->setIndices($policy['policy']['config']['indices']);
         }
+
         if (true == isset($policy['policy']['retention']['expire_after'])) {
             $this->setExpireAfter($policy['policy']['retention']['expire_after']);
         }
+
         if (true == isset($policy['policy']['retention']['min_count'])) {
             $this->setMinCount($policy['policy']['retention']['min_count']);
         }
+
         if (true == isset($policy['policy']['retention']['max_count'])) {
             $this->setMaxCount($policy['policy']['retention']['max_count']);
         }
+
         if (true == isset($policy['policy']['config']['ignore_unavailable'])) {
             $this->setIgnoreUnavailable($this->convertBoolean($policy['policy']['config']['ignore_unavailable']));
         }
+
         if (true == isset($policy['policy']['config']['partial'])) {
             $this->setPartial($this->convertBoolean($policy['policy']['config']['partial']));
         }
+
         if (true == isset($policy['policy']['config']['include_global_state'])) {
             $this->setIncludeGlobalState($this->convertBoolean($policy['policy']['config']['include_global_state']));
         }
+
+        if (true == isset($policy['next_execution_millis'])) {
+            $this->setNextExecution($policy['next_execution_millis']);
+        }
+
+        if (true == isset($policy['version'])) {
+            $this->setVersion($policy['version']);
+        }
+
+        if (true == isset($policy['last_success'])) {
+            $this->setLastSuccess($policy['last_success']);
+        }
+
+        if (true == isset($policy['last_failure'])) {
+            $this->setLastFailure($policy['last_failure']);
+        }
+
+        if (true == isset($policy['modified_date_millis'])) {
+            $this->setModifiedDate($policy['modified_date_millis']);
+        }
+
+        if (true == isset($policy['stats'])) {
+            $this->setStats($policy['stats']);
+        }
+
         return $this;
     }
 

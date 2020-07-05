@@ -54,37 +54,37 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('slm_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                                <a href="{{ path('slm_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'snapshot_name' == column %}
                             <td>
-                                {{ row['policy']['name'] }}
+                                {{ row.snapshotName }}
                             </td>
                         {% endif %}
 
                         {% if 'repository' == column %}
                             <td>
-                                <a href="{{ path('repositories_read', {'repository': row['policy']['repository']}) }}">{{ row['policy']['repository'] }}</a>
+                                <a href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'schedule' == column %}
                             <td>
-                                {{ row['policy']['schedule'] }}
+                                {{ row.schedule }}
                             </td>
                         {% endif %}
 
                         {% if 'next_execution' == column %}
                             <td>
-                                {{ row['next_execution_millis']|human_datetime }}
+                                {{ row.nextExecution|human_datetime }}
                             </td>
                         {% endif %}
 
                         {% if 'version' == column %}
                             <td>
-                                {{ row['version'] }}
+                                {{ row.version }}
                             </td>
                         {% endif %}
                     {% endif %}

@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'slm_short'|trans }} - {{ policy['name'] }} - {{ 'stats'|trans }}{% endblock %}
+{% block head_title %}{{ 'slm_short'|trans }} - {{ policy.name }} - {{ 'stats'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'slm'|trans, 'link': {'url': path('slm')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': policy['name']}) }}
+    {{ appImport.heading({'level': 2, 'title': policy.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -24,13 +24,13 @@
             <hr>
 
             <div class="row">
-                {{ appImport.dashboardKpi({'title': 'snapshots_taken'|trans, 'badge': {'title': policy['stats']['snapshots_taken']}}) }}
+                {{ appImport.dashboardKpi({'title': 'snapshots_taken'|trans, 'badge': {'title': policy.stats['snapshots_taken']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'snapshots_failed'|trans, 'badge': {'title': policy['stats']['snapshots_failed']}}) }}
+                {{ appImport.dashboardKpi({'title': 'snapshots_failed'|trans, 'badge': {'title': policy.stats['snapshots_failed']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'snapshots_deleted'|trans, 'badge': {'title': policy['stats']['snapshots_deleted']}}) }}
+                {{ appImport.dashboardKpi({'title': 'snapshots_deleted'|trans, 'badge': {'title': policy.stats['snapshots_deleted']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'snapshot_deletion_failures'|trans, 'badge': {'title': policy['stats']['snapshot_deletion_failures']}}) }}
+                {{ appImport.dashboardKpi({'title': 'snapshot_deletion_failures'|trans, 'badge': {'title': policy.stats['snapshot_deletion_failures']}}) }}
             </div>
         {% endblock %}
     {% endembed %}
