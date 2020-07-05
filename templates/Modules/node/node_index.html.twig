@@ -87,6 +87,7 @@
 
                     $('#' + k + '-os-cpu-percent').text(json[k]['stats']['os']['cpu']['percent']);
                     $('#' + k + '-process-cpu-percent').text(json[k]['stats']['process']['cpu']['percent']);
+                    $('#' + k + '-os-allocated_processors').text(json[k]['os']['allocated_processors']);
 
                     $('#' + k + '-heap-percent').text(json[k]['heap.percent']);
                     $('#' + k + '-heap-current').text(humanFilesize(json[k]['heap.current']));
