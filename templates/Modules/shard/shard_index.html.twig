@@ -28,6 +28,8 @@
                 {% endembed %}
 
                 <div class="collapse" id="collapseFilter">
+                    {{ appImport.filterText({'label': 'index'|trans}) }}
+
                     {{ appImport.filterCheckboxesBoolean({'title': 'index_system'|trans, 'prefix': 'index_system'}) }}
 
                     {{ appImport.filterCheckboxesBoolean({'title': 'primary'|trans, 'prefix': 'primary'}) }}
