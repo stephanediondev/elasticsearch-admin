@@ -23,17 +23,25 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'usage'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'usage'|trans, 'badge': {'title': usage['rest_actions']|length}}) }}
 
-            <hr>
+            {% embed 'Embed/table_embed.html.twig' %}
+                {% block thead %}
+                    <tr>
+                        <th>{{ 'action'|trans }}</th>
+                        <th>{{ 'total'|trans }}</th>
+                    </tr>
+                {% endblock %}
 
-            <div class="row">
-                {% if usage['rest_actions'] is defined %}
+                {% block tbody %}
                     {% for key, value in usage['rest_actions'] %}
-                        {{ appImport.dashboardKpi({'title': key|trans, 'badge': {'title': value}}) }}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
                     {% endfor %}
-                {% endif %}
-            </div>
+                {% endblock %}
+            {% endembed %}
         {% endblock %}
     {% endembed %}
 {% endblock %}

@@ -169,6 +169,12 @@ class NodeController extends AbstractAppController
             $usage = $callResponse->getContent();
             $usage = $usage['nodes'][key($usage['nodes'])];
 
+            if (true == isset($usage['rest_actions'])) {
+                ksort($usage['rest_actions']);
+            } else {
+                $usage['rest_actions'] = [];
+            }
+
             return $this->renderAbstract($request, 'Modules/node/node_read_usage.html.twig', [
                 'node' => $node,
                 'usage' => $usage,
