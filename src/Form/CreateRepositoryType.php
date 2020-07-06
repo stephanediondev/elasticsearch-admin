@@ -125,7 +125,13 @@ class CreateRepositoryType extends AbstractType
                     ]);
                     break;
                 case 'location':
-                    $builder->add('location', TextType::class, [
+                    $builder->add('location', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['paths'],
+                        'choice_label' => function ($choice, $key, $value) {
+                            return $value;
+                        },
+                        'choice_translation_domain' => false,
                         'label' => 'location',
                         'required' => true,
                         'constraints' => [
@@ -243,6 +249,7 @@ class CreateRepositoryType extends AbstractType
             'data_class' => ElasticsearchRepositoryModel::class,
             'type' => false,
             'update' => false,
+            'paths' => [],
         ]);
     }
 

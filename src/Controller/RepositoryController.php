@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateRepositoryType;
+use App\Manager\ElasticsearchClusterManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +19,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class RepositoryController extends AbstractAppController
 {
+    public function __construct(ElasticsearchClusterManager $elasticsearchClusterManager)
+    {
+        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
+    }
+
     /**
      * @Route("/repositories", name="repositories")
      */
@@ -53,9 +59,12 @@ class RepositoryController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+        $paths = $clusterSettings['path.repo'] ?? [];
+
         $repositoryModel = new ElasticsearchRepositoryModel();
         $repositoryModel->setType($type);
-        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $type]);
+        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $type, 'paths' => $paths]);
 
         $form->handleRequest($request);
 
@@ -130,9 +139,12 @@ class RepositoryController extends AbstractAppController
         $repositoryQuery['id'] = $repository;
         $repository = $repositoryQuery;
 
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+        $paths = $clusterSettings['path.repo'] ?? [];
+
         $repositoryModel = new ElasticsearchRepositoryModel();
         $repositoryModel->convert($repository);
-        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $repository['type'], 'update' => true]);
+        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $repository['type'], 'paths' => $paths, 'update' => true]);
 
         $form->handleRequest($request);
 
