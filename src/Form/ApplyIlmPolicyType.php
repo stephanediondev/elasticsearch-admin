@@ -27,7 +27,7 @@ class ApplyIlmPolicyType extends AbstractType
             switch ($field) {
                 case 'index_template':
                     $builder->add('index_template', ChoiceType::class, [
-                        'label' => 'index_template',
+                        'label' => 'index_template_legacy',
                         'placeholder' => '-',
                         'choices' => $options['index_templates'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
