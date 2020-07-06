@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'database'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'database'|trans}) }}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            <div class="col-12 col-md-5 col-lg-4" id="step-connect">
+                {{ appImport.heading({'level': 3, 'title': 'connect'|trans}) }}
+
+                <form name="data" method="post" action="{{ path('database_connect') }}" id="form-connect">
+                    <div class="form-group">
+                        <label class="required" for="driver">driver</label>
+                        <select id="driver" name="driver" required="required" class="form-control">
+                            <option value="">-</option>
+                            {% for driver in drivers %}
+                                <option value="{{ driver }}">{{ driver }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="host" class="required">host</label>
+                        <input type="text" id="host" name="host" required="required" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dbname" class="required">dbname</label>
+                        <input type="text" id="dbname" name="dbname" required="required" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user" class="required">user</label>
+                        <input type="text" id="user" name="user" required="required" autocomplete="nope" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="required">password</label>
+                        <input type="password" id="password" name="password" required="required" autocomplete="new-password" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-12 col-md-5 col-lg-4 d-none" id="step-table">
+                {{ appImport.heading({'level': 3, 'title': 'table'|trans}) }}
+
+                <div class="mb-3">
+                    <a href="#step-connect" class="btn btn-secondary btn-sm back">{{ 'back'|trans }}</a>
+                </div>
+
+                <form name="data" method="post" action="{{ path('database_table') }}" id="form-table">
+                    <div class="form-group">
+                        <label class="required" for="table">table</label>
+                        <select id="table" name="table" required="required" class="form-control">
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                    </div>
+                </form>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).on('click', '.back', function(event) {
+            event.preventDefault();
+
+            $(this).parent().addClass('d-none');
+
+            var href= $(this).attr('href');
+            $(href).removeClass('d-none');
+        });
+
+        $(document).on('submit', 'form', function(event) {
+            event.preventDefault();
+
+            var form = $(this);
+
+            var body = $('#form-connect').serialize();
+            body = body + '&' + $('#form-table').serialize();
+
+            fetch(form.attr('action'), {
+                'credentials': 'include',
+                'headers': {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                'method': 'post',
+                'body': body
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                if (true == json.error) {
+                    $('nav').after('<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' + json.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+
+                } else {
+                    if ('form-connect' == form.attr('id')) {
+                        $('#table').html('<option value="">-</option>');
+                        for (var key in json.tables) {
+                            var table = json.tables[key];
+                            $('#table').append('<option value="' + table + '">' + table + '</option>');
+                        }
+                        $('#step-connect').addClass('d-none');
+                        $('#step-table').removeClass('d-none');
+                    }
+
+                    if ('form-table' == form.attr('id')) {
+                    }
+                }
+            }).catch(function() {
+            });
+        });
+    </script>
+{% endblock %}
