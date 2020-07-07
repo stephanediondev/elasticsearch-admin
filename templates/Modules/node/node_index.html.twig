@@ -82,8 +82,17 @@
             }).then(function(response) {
                 return response.json();
             }).then(async function(json) {
+                var load_average = ['1m', '5m', '15m'];
                 for(var k in json) {
                     $('#' + k + '-uptime').text(json[k]['uptime']);
+
+                    load_average.forEach(function(key) {
+                        if (typeof json[k]['stats']['os']['cpu']['load_average'][key] != 'undefined') {
+                            var value = json[k]['stats']['os']['cpu']['load_average'][key];
+                            value = Math.round(value * 100) / 100;
+                            $('#' + k + '-load-average-' + key).text(value);
+                        }
+                    });
 
                     $('#' + k + '-os-cpu-percent').text(json[k]['stats']['os']['cpu']['percent']);
                     $('#' + k + '-process-cpu-percent').text(json[k]['stats']['process']['cpu']['percent']);

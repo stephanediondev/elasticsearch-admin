@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': true, 'heap_usage': true} %}
+    {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'load_average': true, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': true, 'heap_usage': true} %}
 
     {% block thead %}
         <tr>
@@ -82,6 +82,12 @@
                     {% if 'uptime' == column %}
                         <th>
                             {{ 'uptime'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'load_average' == column %}
+                        <th>
+                            {{ 'load_average'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -209,6 +215,22 @@
                         {% if 'uptime' == column %}
                             <td>
                                 <span id="{{ row['name'] }}-uptime">{{ row['uptime'] }}</span>
+                            </td>
+                        {% endif %}
+
+                        {% if 'load_average' == column %}
+                            <td>
+                                {% if row['stats']['os']['cpu']['load_average'] is defined %}
+                                    {% if row['stats']['os']['cpu']['load_average']['1m'] is defined %}
+                                        <strong>1 min: <span id="{{ row['name'] }}-load-average-1m">{{ row['stats']['os']['cpu']['load_average']['1m']|round(2) }}</span></strong>
+                                    {% endif %}
+                                    {% if row['stats']['os']['cpu']['load_average']['5m'] is defined %}
+                                        <br><small>5 min: <span id="{{ row['name'] }}-load-average-5m">{{ row['stats']['os']['cpu']['load_average']['5m']|round(2) }}</span></small>
+                                    {% endif %}
+                                    {% if row['stats']['os']['cpu']['load_average']['15m'] is defined %}
+                                        <br><small>15 min: <span id="{{ row['name'] }}-load-average-15m">{{ row['stats']['os']['cpu']['load_average']['15m']|round(2) }}</span></small>
+                                    {% endif %}
+                                {% endif %}
                             </td>
                         {% endif %}
                     {% endif %}
