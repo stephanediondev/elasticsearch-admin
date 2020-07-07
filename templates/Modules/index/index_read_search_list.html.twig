@@ -6,6 +6,9 @@
             <th>
                 {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_id', 'title': '_id'})}}
             </th>
+            <th>
+                {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_score', 'title': '_score'})}}
+            </th>
             {% for field, properties in index.mappings['properties'] %}
                 <th>
                     {% if properties['type'] is defined and properties['type'] in ['keyword', 'date'] %}
@@ -34,6 +37,9 @@
             <tr>
                 <td>
                     {{ row['_id'] }}
+                </td>
+                <td>
+                    {{ row['_score'] }}
                 </td>
                 {% for field, properties in index.mappings['properties'] %}
                     <td>

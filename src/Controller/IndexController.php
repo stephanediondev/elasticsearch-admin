@@ -323,6 +323,8 @@ class IndexController extends AbstractAppController
 
                 $body = '';
 
+                $excludedMeta = ['_index', '_type', '_score'];
+
                 foreach ($reader->getSheetIterator() as $sheet) {
                     $u = 1;
                     foreach ($sheet->getRowIterator() as $rowObject) {
@@ -336,7 +338,11 @@ class IndexController extends AbstractAppController
                             $id = false;
                             $line = [];
                             foreach ($row as $key => $value) {
-                                if ('_id' == $key) {
+                                if (true == in_array($headers[$key], $excludedMeta)) {
+                                    continue;
+                                }
+
+                                if ('_id' == $headers[$key]) {
                                     $id = $value;
                                 } else {
                                     if ($value instanceof \Datetime) {
@@ -484,6 +490,7 @@ class IndexController extends AbstractAppController
         if ($request->query->get('data')) {
             $data = $request->query->get('data');
             if (true == isset($data['query']) && '' != $data['query']) {
+                $query['track_scores'] = 'true';
                 $query['q'] = $data['query'];
             }
         }
@@ -507,6 +514,7 @@ class IndexController extends AbstractAppController
 
                 $line = [];
                 $line[] = '_id';
+                $line[] = '_score';
                 foreach ($index->getMappingsFlat() as $field => $type) {
                     $line[] = $field;
                 }
@@ -519,6 +527,7 @@ class IndexController extends AbstractAppController
 
                     $line = [];
                     $line['_id'] = $row['_id'];
+                    $line['_score'] = $row['_score'];
                     foreach ($index->getMappingsFlat() as $field => $type) {
                         if (true == isset($row['_source'][$field])) {
                             $content = $row['_source'][$field];
@@ -1192,8 +1201,9 @@ class IndexController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             $size = 100;
             $query = [
+                'track_scores' => 'true',
                 'q' => $form->get('query')->getData(),
-                'sort' => $request->query->get('s', '_id:desc'),
+                'sort' => $request->query->get('s', '_score:desc'),
                 'size' => $size,
                 'from' => ($size * $request->query->get('page', 1)) - $size,
             ];
