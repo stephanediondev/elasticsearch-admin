@@ -11,7 +11,7 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            <div class="col-12 col-md-5 col-lg-4" id="step-connect">
+            <div class="col-12 col-md-5 col-lg-4 step" id="step-connect">
                 {{ appImport.heading({'level': 3, 'title': 'connect'|trans}) }}
 
                 <form name="data" method="post" action="{{ path('database_connect') }}" id="form-connect">
@@ -51,7 +51,7 @@
                 </form>
             </div>
 
-            <div class="col-12 col-md-5 col-lg-4 d-none" id="step-table">
+            <div class="col-12 col-md-5 col-lg-4 d-none step" id="step-table">
                 {{ appImport.heading({'level': 3, 'title': 'table'|trans}) }}
 
                 <div class="mb-3">
@@ -70,6 +70,53 @@
                     </div>
                 </form>
             </div>
+
+            <div class="col-12 col-md-8 col-lg-8 d-none step" id="step-columns">
+                {{ appImport.heading({'level': 3, 'title': 'columns'|trans}) }}
+
+                <div class="mb-3">
+                    <a href="#step-table" class="btn btn-secondary btn-sm back">{{ 'back'|trans }}</a>
+                </div>
+
+                <form name="data" method="post" action="{{ path('database_table') }}" id="form-columns">
+                    {% embed 'Embed/table_embed.html.twig' %}
+                        {% import 'Import/app_import.html.twig' as appImport %}
+
+                        {% block thead %}
+                            <tr>
+                                <th>{{ 'field'|trans }}</th>
+                                <th>{{ 'type'|trans }}</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        {% endblock %}
+
+                        {% block tbody %}
+                            <tr>
+                                <td>_id</td>
+                                <td>meta</td>
+                                <td>
+                                    <select id="_id" name="_id" class="form-control select-column" data-field="id">
+                                    </select>
+                                </td>
+                            </tr>
+                            {% for field, type in index.mappingsFlat %}
+                                <tr>
+                                    <td><label for="{{ field }}">{{ field }}</label></td>
+                                    <td>{{ type }}</td>
+                                    <td>
+                                        <select id="{{ field }}" name="{{ field }}" class="form-control select-column" data-field="{{ field }}">
+                                        </select>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                    {% endembed %}
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                    </div>
+                </form>
+            </div>
         {% endblock %}
     {% endembed %}
 {% endblock %}
@@ -78,10 +125,12 @@
     {{ parent() }}
 
     <script type="text/javascript">
+        var index = '{{ index.name }}';
+
         $(document).on('click', '.back', function(event) {
             event.preventDefault();
 
-            $(this).parent().addClass('d-none');
+            $(this).parents('.step').addClass('d-none');
 
             var href= $(this).attr('href');
             $(href).removeClass('d-none');
@@ -115,11 +164,31 @@
                             var table = json.tables[key];
                             $('#table').append('<option value="' + table + '">' + table + '</option>');
                         }
+
                         $('#step-connect').addClass('d-none');
                         $('#step-table').removeClass('d-none');
                     }
 
                     if ('form-table' == form.attr('id')) {
+                        var columns = '<option value="">-</option>';
+                        for (var key in json.columns) {
+                            var column = json.columns[key];
+                            columns += '<option value="' + column + '">' + column + '</option>';
+                        }
+
+                        $(document).find('.select-column').each(function() {
+                            $(this).html(columns);
+                            var field = $(this).data('field');
+                            if (json.columns.includes(field)) {
+                                $(this).val(field);
+                            }
+                        });
+
+                        $('#step-table').addClass('d-none');
+                        $('#step-columns').removeClass('d-none');
+                    }
+
+                    if ('form-columns' == form.attr('id')) {
                     }
                 }
             }).catch(function() {

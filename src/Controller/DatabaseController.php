@@ -3,28 +3,26 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
  */
 class DatabaseController extends AbstractAppController
 {
-    /**
-     * @Route("/database", name="database")
-     */
-    public function index(Request $request): Response
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
     {
-        return $this->renderAbstract($request, 'Modules/database/database_index.html.twig', [
-            'drivers' => \PDO::getAvailableDrivers(),
-        ]);
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
     }
 
-    /**
+        /**
      * @Route("/database/connect", name="database_connect")
      */
     public function connect(Request $request): JsonResponse
@@ -34,7 +32,14 @@ class DatabaseController extends AbstractAppController
         try {
             $conn = $this->getConnection($fields);
 
-            $sql = 'SHOW TABLES';
+            if ('mysql' == $fields['driver']) {
+                $sql = 'SHOW TABLES';
+            }
+
+            if ('pgsql' == $fields['driver']) {
+                $sql = 'SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != \'pg_catalog\' AND schemaname != \'information_schema\' ORDER BY tablename';
+            }
+
             $stmt = $conn->query($sql);
 
             $tables = [];
@@ -67,9 +72,15 @@ class DatabaseController extends AbstractAppController
         try {
             $conn = $this->getConnection($fields);
 
-            $sql = 'SHOW COLUMNS FROM :table';
+            if ('mysql' == $fields['driver']) {
+                $sql = 'SHOW COLUMNS FROM '.$fields['table'];
+            }
+
+            if ('pgsql' == $fields['driver']) {
+                $sql = 'SELECT column_name FROM information_schema.columns WHERE table_name = \''.$fields['table'].'\' ORDER BY column_name';
+            }
+
             $stmt = $conn->prepare($sql);
-            $stmt->bindValue('table', $fields['table']);
             $stmt->execute();
 
             $columns = [];
@@ -90,6 +101,37 @@ class DatabaseController extends AbstractAppController
         }
 
         return new JsonResponse($json, JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @Route("/database/{index}", name="database")
+     */
+    public function index(Request $request, string $index): Response
+    {
+        $index = $this->elasticsearchIndexManager->getByName($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        if (true == $index->isSystem()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $allowedDrivers = [];
+
+        $availableDrivers = \PDO::getAvailableDrivers();
+        if (true == in_array('mysql', $availableDrivers)) {
+            $allowedDrivers[] = 'mysql';
+        }
+        if (true == in_array('pgsql', $availableDrivers)) {
+            $allowedDrivers[] = 'pgsql';
+        }
+
+        return $this->renderAbstract($request, 'Modules/database/database_index.html.twig', [
+            'index' => $index,
+            'drivers' => $allowedDrivers,
+        ]);
     }
 
     private function getConnection($fields)
