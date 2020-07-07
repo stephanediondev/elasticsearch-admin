@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+    es_admin_nginx:
+        command: nginx -c /nginx.conf
+        container_name: es_admin_nginx
+        image: nginx
+        links:
+            - es_admin_php:es_admin_php
+        ports:
+            - 80:80
+        volumes:
+            - ./docker/nginx/nginx.conf:/nginx.conf
+            - .:/var/www
+
+    es_admin_php:
+        build: .
+        container_name: es_admin_php
+        image: es_admin_php
+        links:
+            - es_admin_elasticsearch:es_admin_elasticsearch
+        ports:
+            - 9000:9000
+        volumes:
+            - .:/var/www
+
+    es_admin_elasticsearch:
+        container_name: es_admin_elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+        environment:
+            - cluster.name=elasticsearch
+            - node.name=docker
+            - discovery.type=single-node
+        ports:
+            - 9200:9200
+            - 9300:9300
