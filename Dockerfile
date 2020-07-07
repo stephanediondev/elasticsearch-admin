@@ -1,3 +1,9 @@
+FROM nginx:latest
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY nginx/elasticsearch-admin.conf /etc/nginx/conf.d/
+
 FROM php:7.4-fpm
 
 RUN apt-get update
