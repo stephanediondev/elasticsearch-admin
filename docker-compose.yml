@@ -11,12 +11,10 @@ services:
             - 80:80
         volumes:
             - ./docker/nginx/nginx.conf:/nginx.conf
-            - ./docker/nginx/log:/var/log/nginx
             - .:/var/www
 
     es_admin_php:
-        build:
-            context: ./docker/php
+        build: .
         container_name: es_admin_php
         image: es_admin_php
         links:
@@ -26,7 +24,6 @@ services:
         volumes:
             - .:/var/www
 
-    #docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -e "cluster.name=elasticsearch" -e "discovery.type=single-node" -e "node.name=docker" -e "http.cors.enabled=true" -e "http.cors.allow-origin=*" -e "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization" -e "http.cors.allow-credentials=true" docker.elastic.co/elasticsearch/elasticsearch:7.8.0
     es_admin_elasticsearch:
         container_name: es_admin_elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
