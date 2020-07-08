@@ -49,9 +49,11 @@
                                 {% if 'geo_point' == type %}
                                     {{ value['lat'] }},{{ value['lon'] }}
                                 {% else %}
-                                    {% for fieldSub, valueSub in value %}
-                                        {{ valueSub }}<br>
-                                    {% endfor %}
+                                    <ul class="list-unstyled">
+                                        {% for fieldSub, valueSub in value %}
+                                            <li>{{ valueSub }}</li>
+                                        {% endfor %}
+                                    </ul>
                                 {% endif %}
                             {% else %}
                                 {{ value }}
