@@ -56,7 +56,8 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Users management with roles and permissions, external to Elasticsearch
+- [ ] Docker image
+- [ ] Users management with roles and permissions, not related to Elasticsearch
 - [ ] Indices: update (dynamic index settings), shrink, split, import from database
 - [ ] Index templates (legacy): convert to new version
 - [ ] Repositories: create (url, source, hdfs, azure)
