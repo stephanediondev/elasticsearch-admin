@@ -45,8 +45,6 @@ class ElasticsearchIndexManager extends AbstractAppManager
                 $index['mappings_flat'] = [];
             }
 
-            dump($index['mappings_flat']);
-
             $indexModel = new ElasticsearchIndexModel();
             $indexModel->convert($index);
         }
