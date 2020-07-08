@@ -108,7 +108,7 @@ class AppExtension extends AbstractExtension
 
         $mappingsFlat = $index->getMappingsFlat();
 
-        if (true == in_array($mappingsFlat[$field]['type'], ['keyword', 'date', 'long', 'integer'])) {
+        if (true == isset($mappingsFlat[$field]['type']) && true == in_array($mappingsFlat[$field]['type'], ['keyword', 'date', 'long', 'integer'])) {
             $sort = $field;
 
         } elseif (true == isset($mappingsFlat[$field]['fields'])) {

@@ -39,11 +39,15 @@
                                 {% if 'geo_point' == mapping['type'] %}
                                     <a class="btn btn-info btn-sm ml-1" target="_blank" href="https://www.google.com/maps?q={{ value['lat'] }},{{ value['lon'] }}&z=15">{{ 'map'|trans }}</a>
                                 {% else %}
-                                    <ul class="list-unstyled">
-                                        {% for fieldSub, valueSub in value %}
-                                            <li>{{ valueSub }}</li>
-                                        {% endfor %}
-                                    </ul>
+                                    {% if mapping['type'] in ['nested', 'object'] %}
+                                        <pre>{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                                    {% else %}
+                                        <ul class="list-unstyled">
+                                            {% for fieldSub, valueSub in value %}
+                                                <li>{{ valueSub }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
                                 {% endif %}
                             {% else %}
                                 {{ value }}

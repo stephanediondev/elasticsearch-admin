@@ -356,6 +356,10 @@ class IndexController extends AbstractAppController
                                         }
                                     }
 
+                                    if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && true == in_array($index->getMappingsFlat()[$headers[$key]]['type'], ['nested', 'object'])) {
+                                        $value = json_decode($value, true);
+                                    }
+
                                     if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'geo_point' == $index->getMappingsFlat()[$headers[$key]]['type']) {
                                         if ('' == $value) {
                                             $value = false;
@@ -546,7 +550,9 @@ class IndexController extends AbstractAppController
                             $geoPoint = $content['lat'].','.$content['lon'];
                             $line[$field] = $geoPoint;
                         } else {
-                            if ('geo_point' == $mapping['type'] && '' != $content) {
+                            if (true == in_array($mapping['type'], ['nested', 'object'])) {
+                                $line[$field] = json_encode($content);
+                            } elseif ('geo_point' == $mapping['type'] && '' != $content) {
                                 $line[$field] = $content;
                             } elseif ('geojson' != $writer && true == is_array($content)) {
                                 $line[$field] = implode(PHP_EOL, $content);

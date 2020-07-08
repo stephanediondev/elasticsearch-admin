@@ -119,7 +119,9 @@ class ElasticsearchIndexManager extends AbstractAppManager
                 $property = $prefix.'.'.$property;
             }
 
-            if (true == isset($keys['properties'])) {
+            if (true == isset($keys['type']) && true == in_array($keys['type'], ['nested', 'object'])) {
+                $mappingsFlat[$property] = $keys;
+            } elseif (true == isset($keys['properties'])) {
                 $mappingsFlat = array_merge($mappingsFlat, $this->mappingsFlat($keys['properties'], $property));
             } else {
                 $mappingsFlat[$property] = $keys;

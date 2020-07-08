@@ -223,7 +223,7 @@ class ElasticsearchIndexModel extends AbstractAppModel
     {
         if ($this->getMappingsFlat()) {
             foreach ($this->getMappingsFlat() as $mapping) {
-                if ($type == $mapping['type']) {
+                if (true == isset($mapping['type']) && $type == $mapping['type']) {
                     return true;
                 }
             }
