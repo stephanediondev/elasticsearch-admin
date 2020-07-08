@@ -10,7 +10,7 @@
                 {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_score', 'title': '_score'})}}
             </th>
             {% for field, type in index.mappingsFlat %}
-                <th>
+                <th class="text-nowrap">
                     {% set sort = retrieve_sort(index, field) %}
                     {% if true == sort %}
                         {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': sort, 'title': field})}}
