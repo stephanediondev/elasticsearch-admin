@@ -1,28 +1,54 @@
-FROM ubuntu:latest
+FROM php:fpm-alpine3.12
 
-RUN apt-get update
+LABEL Maintainer="Tim de Pater <code@trafex.nl>" \
+      Description="Lightweight container with Nginx 1.18 & PHP-FPM 7.3 based on Alpine Linux."
 
-RUN apt-get --yes install nginx php-fpm
+# Install packages and remove default server definition
+RUN apk --no-cache add php7 php7-fpm php7-opcache php7-mysqli php7-json php7-openssl php7-curl \
+    php7-zlib php7-xml php7-phar php7-intl php7-dom php7-xmlreader php7-ctype php7-session \
+    php7-tokenizer php7-pdo php7-iconv \
+    php7-mbstring php7-gd nginx supervisor curl && \
+    rm /etc/nginx/conf.d/default.conf
 
-RUN apt-get --yes install apt-utils libicu-dev libzip-dev libonig-dev libcurl4-openssl-dev unzip
+RUN apk add --no-cache libzip-dev && docker-php-ext-configure zip && docker-php-ext-install zip
 
-RUN docker-php-ext-install zip intl curl
+# Configure nginx
+COPY docker/nginx.conf /etc/nginx/nginx.conf
 
-COPY nginx/elasticsearch-admin.conf /etc/nginx/conf.d/
+# Configure PHP-FPM
+COPY docker/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
+COPY docker/php.ini /etc/php7/conf.d/custom.ini
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer --version
+# Configure supervisord
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install --yes nodejs
+# Setup document root
+RUN mkdir -p /var/www/html
 
-EXPOSE 80
+# Make sure files/folders needed by the processes are accessable when they run under the nobody user
+RUN chown -R nobody.nobody /var/www/html && \
+  chown -R nobody.nobody /run && \
+  chown -R nobody.nobody /var/lib/nginx && \
+  chown -R nobody.nobody /var/log/nginx
 
-#USER www-data
+# Switch to use a non-root user from here on
+USER nobody
 
-#COPY . /var/www/html/
+# Add application
+WORKDIR /var/www/html
+COPY --chown=nobody . /var/www/html/
 
-#RUN composer install --no-dev --no-interaction --optimize-autoloader
+# Install composer from the official image
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-#RUN npm install --silent
-#RUN npm run --silent build
+# Run composer install to install the dependencies
+RUN composer install --optimize-autoloader --no-interaction --no-progress
+
+# Expose the port nginx is reachable on
+EXPOSE 8080
+
+# Let supervisord start nginx & php-fpm
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+# Configure a healthcheck to validate that everything is up&running
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping
