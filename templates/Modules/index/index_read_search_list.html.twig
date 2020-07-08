@@ -11,19 +11,9 @@
             </th>
             {% for field, type in index.mappingsFlat %}
                 <th>
-                    {% if type in ['keyword', 'date'] %}
-                        {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': field, 'title': field})}}
-                    {% elseif index.mappings['properties'][field]['fields'] is defined %}
-                        {% set foundKeyword = false %}
-                        {% for fieldSub, propertiesSub in index.mappings['properties'][field]['fields'] %}
-                            {% if false == foundKeyword and propertiesSub['type'] is defined and 'keyword' == propertiesSub['type'] %}
-                                {% set foundKeyword = true %}
-                                {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': field ~ '.' ~ fieldSub, 'title': field})}}
-                            {% endif %}
-                            {% if false == foundKeyword %}
-                                {{ field }}
-                            {% endif %}
-                        {% endfor %}
+                    {% set sort = retrieve_sort(index, field) %}
+                    {% if true == sort %}
+                        {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': sort, 'title': field})}}
                     {% else %}
                         {{ field }}
                     {% endif %}
@@ -41,13 +31,13 @@
                 <td>
                     {{ row['_score'] }}
                 </td>
-                {% for field, type in index.mappingsFlat %}
+                {% for field, mapping in index.mappingsFlat %}
                     <td>
-                        {% set value = retrieve_field(row['_source'], field) %}
+                        {% set value = retrieve_value(row['_source'], field) %}
                         {% if value %}
                             {% if value is iterable %}
-                                {% if 'geo_point' == type %}
-                                    {{ value['lat'] }},{{ value['lon'] }}
+                                {% if 'geo_point' == mapping['type'] %}
+                                    <a class="btn btn-info btn-sm ml-1" target="_blank" href="https://www.google.com/maps?q={{ value['lat'] }},{{ value['lon'] }}&z=15">{{ 'map'|trans }}</a>
                                 {% else %}
                                     <ul class="list-unstyled">
                                         {% for fieldSub, valueSub in value %}

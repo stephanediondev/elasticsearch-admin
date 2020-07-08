@@ -45,6 +45,8 @@ class ElasticsearchIndexManager extends AbstractAppManager
                 $index['mappings_flat'] = [];
             }
 
+            dump($index['mappings_flat']);
+
             $indexModel = new ElasticsearchIndexModel();
             $indexModel->convert($index);
         }
@@ -122,7 +124,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
             if (true == isset($keys['properties'])) {
                 $mappingsFlat = array_merge($mappingsFlat, $this->mappingsFlat($keys['properties'], $property));
             } else {
-                $mappingsFlat[$property] = $keys['type'];
+                $mappingsFlat[$property] = $keys;
             }
         }
         return $mappingsFlat;

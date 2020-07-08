@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Model\ElasticsearchIndexModel;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -26,7 +27,8 @@ class AppExtension extends AbstractExtension
             new TwigFunction('check_version', [$this, 'checkVersion']),
             new TwigFunction('has_feature', [$this, 'hasFeature']),
             new TwigFunction('has_plugin', [$this, 'hasPlugin']),
-            new TwigFunction('retrieve_field', [$this, 'retrieveField']),
+            new TwigFunction('retrieve_sort', [$this, 'retrieveSort']),
+            new TwigFunction('retrieve_value', [$this, 'retrieveValue']),
         ];
     }
 
@@ -100,7 +102,29 @@ class AppExtension extends AbstractExtension
         return false;
     }
 
-    public function retrieveField(array $source, string $field)
+    public function retrieveSort(ElasticsearchIndexModel $index, string $field)
+    {
+        $sort = false;
+
+        $mappingsFlat = $index->getMappingsFlat();
+
+        if (true == in_array($mappingsFlat[$field]['type'], ['keyword', 'date', 'long', 'integer'])) {
+            $sort = $field;
+
+        } elseif (true == isset($mappingsFlat[$field]['fields'])) {
+            $foundKeyword = false;
+            foreach ($mappingsFlat[$field]['fields'] as $fieldSub => $propertiesSub) {
+                if (false == $foundKeyword && true == isset($propertiesSub['type']) && 'keyword' == $propertiesSub['type']) {
+                    $foundKeyword = true;
+                    $sort = $field.'.'.$fieldSub;
+                }
+            }
+        }
+
+        return $sort;
+    }
+
+    public function retrieveValue(array $source, string $field)
     {
         $value = false;
 

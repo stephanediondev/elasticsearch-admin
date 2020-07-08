@@ -99,10 +99,10 @@
                                     </select>
                                 </td>
                             </tr>
-                            {% for field, type in index.mappingsFlat %}
+                            {% for field, mapping in index.mappingsFlat %}
                                 <tr>
                                     <td><label for="{{ field }}">{{ field }}</label></td>
-                                    <td>{{ type }}</td>
+                                    <td>{{ mapping['type'] }}</td>
                                     <td>
                                         <select id="{{ field }}" name="{{ field }}" class="form-control select-column" data-field="{{ field }}">
                                         </select>

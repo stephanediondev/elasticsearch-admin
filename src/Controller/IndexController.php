@@ -349,14 +349,14 @@ class IndexController extends AbstractAppController
                                         $value = $value->format('Y-m-d');
                                     }
 
-                                    if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'keyword' == $index->getMappingsFlat()[$headers[$key]]) {
+                                    if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'keyword' == $index->getMappingsFlat()[$headers[$key]]['type']) {
                                         $parts = explode(PHP_EOL, $value);
                                         if (1 < count($parts)) {
                                             $value = $parts;
                                         }
                                     }
 
-                                    if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'geo_point' == $index->getMappingsFlat()[$headers[$key]]) {
+                                    if (true == array_key_exists($headers[$key], $index->getMappingsFlat()) && 'geo_point' == $index->getMappingsFlat()[$headers[$key]]['type']) {
                                         if ('' == $value) {
                                             $value = false;
                                         } else if (strstr($value, ',')) {
@@ -515,7 +515,7 @@ class IndexController extends AbstractAppController
                 $line = [];
                 $line[] = '_id';
                 $line[] = '_score';
-                foreach ($index->getMappingsFlat() as $field => $type) {
+                foreach ($index->getMappingsFlat() as $field => $mapping) {
                     $line[] = $field;
                 }
                 $lines[] = WriterEntityFactory::createRowFromArray($line);
@@ -528,7 +528,7 @@ class IndexController extends AbstractAppController
                     $line = [];
                     $line['_id'] = $row['_id'];
                     $line['_score'] = $row['_score'];
-                    foreach ($index->getMappingsFlat() as $field => $type) {
+                    foreach ($index->getMappingsFlat() as $field => $mapping) {
                         if (true == isset($row['_source'][$field])) {
                             $content = $row['_source'][$field];
                         } else {
@@ -542,11 +542,11 @@ class IndexController extends AbstractAppController
                             $content = $arr;
                         }
 
-                        if ('geo_point' == $type && true == is_array($content)) {
+                        if ('geo_point' == $mapping['type'] && true == is_array($content)) {
                             $geoPoint = $content['lat'].','.$content['lon'];
                             $line[$field] = $geoPoint;
                         } else {
-                            if ('geo_point' == $type && '' != $content) {
+                            if ('geo_point' == $mapping['type'] && '' != $content) {
                                 $line[$field] = $content;
                             } elseif ('geojson' != $writer && true == is_array($content)) {
                                 $line[$field] = implode(PHP_EOL, $content);

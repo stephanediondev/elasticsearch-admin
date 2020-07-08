@@ -219,9 +219,17 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return '.' == substr($this->getName(), 0, 1);
     }
 
-    public function hasMappingType($type): ?bool
+    public function hasMappingType(string $type): ?bool
     {
-        return $this->getMappingsFlat() && in_array($type, $this->getMappingsFlat());
+        if ($this->getMappingsFlat()) {
+            foreach ($this->getMappingsFlat() as $mapping) {
+                if ($type == $mapping['type']) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public function getExcludeSettings(): ?array

@@ -26,7 +26,7 @@ class ElasticsearchIndexModelTest extends WebTestCase
         $index->setSetting('setting-key', 'setting-value');
         $index->setMappings('');
         $index->setMappings([]);
-        $index->setMappingsFlat(['mapping-field' => 'mapping-type']);
+        $index->setMappingsFlat(['mapping-field' => ['type' => 'mapping-type']]);
 
         $this->assertEquals($index->getName(), 'name');
         $this->assertEquals($index->getStatus(), 'status');
@@ -60,7 +60,7 @@ class ElasticsearchIndexModelTest extends WebTestCase
         $this->assertEquals($index->getMappings(), []);
         $this->assertIsArray($index->getMappings());
 
-        $this->assertEquals($index->getMappingsFlat(), ['mapping-field' => 'mapping-type']);
+        $this->assertEquals($index->getMappingsFlat(), ['mapping-field' => ['type' => 'mapping-type']]);
         $this->assertIsArray($index->getMappingsFlat());
 
         $this->assertEquals($index->isSystem(), false);

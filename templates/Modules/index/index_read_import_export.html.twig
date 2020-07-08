@@ -63,10 +63,10 @@
                             <td>_id</td>
                             <td>{{ 'import_note_id'|trans }}</td>
                         </tr>
-                        {% for field, type in index.mappingsFlat %}
+                        {% for field, mapping in index.mappingsFlat %}
                             <tr>
                                 <td>{{ field }}</td>
-                                <td>{{ type }}{% if 'geo_point' == type %} ({{ 'import_note_geo_point'|trans }}){% endif %}{% if 'keyword' == type %} ({{ 'import_note_keyword'|trans }}){% endif %}</td>
+                                <td>{{ mapping['type'] }}{% if 'geo_point' == mapping['type'] %} ({{ 'import_note_geo_point'|trans }}){% endif %}{% if 'keyword' == mapping['type'] %} ({{ 'import_note_keyword'|trans }}){% endif %}</td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
