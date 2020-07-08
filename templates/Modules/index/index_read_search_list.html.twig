@@ -9,13 +9,13 @@
             <th>
                 {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_score', 'title': '_score'})}}
             </th>
-            {% for field, properties in index.mappings['properties'] %}
+            {% for field, type in index.mappingsFlat %}
                 <th>
-                    {% if properties['type'] is defined and properties['type'] in ['keyword', 'date'] %}
+                    {% if type in ['keyword', 'date'] %}
                         {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': field, 'title': field})}}
-                    {% elseif properties['fields'] is defined %}
+                    {% elseif index.mappings['properties'][field]['fields'] is defined %}
                         {% set foundKeyword = false %}
-                        {% for fieldSub, propertiesSub in properties['fields'] %}
+                        {% for fieldSub, propertiesSub in index.mappings['properties'][field]['fields'] %}
                             {% if false == foundKeyword and propertiesSub['type'] is defined and 'keyword' == propertiesSub['type'] %}
                                 {% set foundKeyword = true %}
                                 {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': field ~ '.' ~ fieldSub, 'title': field})}}
@@ -41,29 +41,20 @@
                 <td>
                     {{ row['_score'] }}
                 </td>
-                {% for field, properties in index.mappings['properties'] %}
+                {% for field, type in index.mappingsFlat %}
                     <td>
-                        {% if row['_source'][field] is defined %}
-                            {% if row['_source'][field] is iterable %}
-                                {% if index.mappings['properties'][field]['properties'] is defined %}
-                                    {% for fieldSub, propertiesSub in index.mappings['properties'][field]['properties'] %}
-                                        {% if row['_source'][field][fieldSub] is defined and row['_source'][field][fieldSub] is not iterable %}
-                                            {{ fieldSub }}: {{ row['_source'][field][fieldSub] }}<br>
-                                        {% elseif 0 < row['_source'][field][fieldSub] is defined and row['_source'][field][fieldSub]|length %}
-                                            {{ fieldSub }}: {{ appImport.badge({'title': 'array'|trans, 'context': 'secondary'}) }}<br>
-                                        {% endif %}
-                                    {% endfor %}
+                        {% set value = retrieve_field(row['_source'], field) %}
+                        {% if value %}
+                            {% if value is iterable %}
+                                {% if 'geo_point' == type %}
+                                    {{ value['lat'] }},{{ value['lon'] }}
                                 {% else %}
-                                    {% for fieldSub, valueSub in row['_source'][field] %}
-                                        {% if row['_source'][field][fieldSub] is defined and row['_source'][field][fieldSub] is not iterable %}
-                                            {{ fieldSub }}: {{ valueSub }}<br>
-                                        {% elseif 0 < row['_source'][field][fieldSub] is defined and row['_source'][field][fieldSub]|length %}
-                                            {{ fieldSub }}: {{ appImport.badge({'title': 'array'|trans, 'context': 'secondary'}) }}<br>
-                                        {% endif %}
+                                    {% for fieldSub, valueSub in value %}
+                                        {{ valueSub }}<br>
                                     {% endfor %}
                                 {% endif %}
                             {% else %}
-                                {{ row['_source'][field] }}
+                                {{ value }}
                             {% endif %}
                         {% endif %}
                     </td>

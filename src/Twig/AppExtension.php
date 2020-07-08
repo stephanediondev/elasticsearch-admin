@@ -26,6 +26,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('check_version', [$this, 'checkVersion']),
             new TwigFunction('has_feature', [$this, 'hasFeature']),
             new TwigFunction('has_plugin', [$this, 'hasPlugin']),
+            new TwigFunction('retrieve_field', [$this, 'retrieveField']),
         ];
     }
 
@@ -97,5 +98,25 @@ class AppExtension extends AbstractExtension
         }
 
         return false;
+    }
+
+    public function retrieveField(array $source, string $field)
+    {
+        $value = false;
+
+        if (true == isset($source[$field])) {
+            return $source[$field];
+        } else {
+            $keys = explode('.', $field);
+
+            $arr = $source;
+            foreach ($keys as $key) {
+                $arr = &$arr[$key];
+            }
+
+            $value = $arr;
+        }
+
+        return $value;
     }
 }
