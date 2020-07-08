@@ -72,40 +72,40 @@ bin/console app:phpunit && bin/phpunit
 
 ## Screenshots
 
-[![Login](assets/images/resized-login.png)](assets/images/original-login.png)
+[![Login](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-login.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-login.png)
 
-[![Cluster](assets/images/resized-cluster.png)](assets/images/original-cluster.png)
+[![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-cluster.png)
 
-[![Cluster settings](assets/images/resized-cluster-settings.png)](assets/images/original-cluster-settings.png)
+[![Cluster settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-cluster-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-cluster-settings.png)
 
-[![Cluster allocation explain](assets/images/resized-cluster-allocation-explain.png)](assets/images/original-cluster-allocation-explain.png)
+[![Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-cluster-allocation-explain.png)
 
-[![Nodes](assets/images/resized-nodes.png)](assets/images/original-nodes.png)
+[![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-nodes.png)
 
-[![Node](assets/images/resized-node.png)](assets/images/original-node.png)
+[![Node](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-node.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-node.png)
 
-[![Indices](assets/images/resized-indices.png)](assets/images/original-indices.png)
+[![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-indices.png)
 
-[![Indices stats](assets/images/resized-indices-stats.png)](assets/images/original-indices-stats.png)
+[![Indices stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-indices-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-indices-stats.png)
 
-[![Index](assets/images/resized-index.png)](assets/images/original-index.png)
+[![Index](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-index.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-index.png)
 
-[![Create index](assets/images/resized-index-create.png)](assets/images/original-index-create.png)
+[![Create index](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-index-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-index-create.png)
 
-[![Index templates](assets/images/resized-index-templates.png)](assets/images/original-index-templates.png)
+[![Index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-index-templates.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-index-templates.png)
 
-[![Create index template](assets/images/resized-index-template-create.png)](assets/images/original-index-template-create.png)
+[![Create index template](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-index-template-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-index-template-create.png)
 
-[![Shards](assets/images/resized-shards.png)](assets/images/original-shards.png)
+[![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-shards.png)
 
-[![Create AWS S3 repository](assets/images/resized-repository-create-s3.png)](assets/images/original-repository-create-s3.png)
+[![Create AWS S3 repository](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-repository-create-s3.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-repository-create-s3.png)
 
-[![Create SLM policy](assets/images/resized-slm-policy-create.png)](assets/images/original-slm-policy-create.png)
+[![Create SLM policy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-slm-policy-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-slm-policy-create.png)
 
-[![Snaphosts](assets/images/resized-snapshots.png)](assets/images/original-snapshots.png)
+[![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-snapshots.png)
 
-[![Create snapshot](assets/images/resized-snapshot-create.png)](assets/images/original-snapshot-create.png)
+[![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-snapshot-create.png)
 
-[![Create enrich policy](assets/images/resized-enrich-create.png)](assets/images/original-enrich-create.png)
+[![Create enrich policy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-enrich-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-enrich-create.png)
 
-[![License](assets/images/resized-license.png)](assets/images/original-license.png)
+[![License](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-license.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-license.png)
