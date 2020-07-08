@@ -3,6 +3,13 @@ FROM php:fpm-alpine3.11
 LABEL Maintainer="Tim de Pater <code@trafex.nl>" \
       Description="Lightweight container with Nginx 1.18 & PHP-FPM 7.3 based on Alpine Linux."
 
+ENV ELASTICSEARCH_URL=$ELASTICSEARCH_URL
+ENV ELASTICSEARCH_USERNAME=$ELASTICSEARCH_USERNAME
+ENV ELASTICSEARCH_PASSWORD=$ELASTICSEARCH_PASSWORD
+
+ENV EMAIL=$EMAIL
+ENV ENCODED_PASSWORD=$ENCODED_PASSWORD
+
 #https://github.com/codecasts/php-alpine
 ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
