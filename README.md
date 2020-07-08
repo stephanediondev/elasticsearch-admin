@@ -2,11 +2,11 @@
 
 ## Requirements
 
-- Elasticsearch 6.x or 7.x (https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.htm)
+- Elasticsearch 6.x or 7.x: https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.htm
 - Web server with rewrite module enabled
-- PHP 7.2.5 or higher (https://symfony.com/doc/current/setup/web_server_configuration.html)
-- Composer (https://getcomposer.org/download/)
-- npm (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- PHP 7.2.5 or higher: https://symfony.com/doc/current/setup/web_server_configuration.html
+- Composer: https://getcomposer.org/download/
+- npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 ## Installation
 
@@ -26,6 +26,16 @@ bin/console security:encode-password
 cp .env.dist .env
 # Edit ELASTICSEARCH_URL, EMAIL and ENCODED_PASSWORD
 # If Elasticsearch security features are enabled, edit ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
+```
+
+## Docker
+
+Repository: https://hub.docker.com/r/stephanediondev/elasticsearch-admin
+
+```
+docker run --publish 80:8080 -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "EMAIL=example@example.com" -e "ENCODED_PASSWORD=\$argon2id\$v=19\$m=65536,t=4,p=1\$Hx5YWkNlKMb6xkAumzAMYg\$wAtGPNTQoHoo+AyQphqu+WYqhL+BJlWgQqv71+MExw8" --detach --name elasticsearch-admin stephanediondev/elasticsearch-admin
+
+#password = example
 ```
 
 ## Features
