@@ -70,7 +70,7 @@
                                     {{ mapping['type'] }}
                                     {% if 'geo_point' == mapping['type'] %} ({{ 'import_note_geo_point'|trans }}){% endif %}
                                     {% if 'keyword' == mapping['type'] %} ({{ 'import_note_keyword'|trans }}){% endif %}
-                                    {% if mapping['type'] in ['nested', 'object'] %} ({{ 'import_note_json'|trans }}){% endif %}
+                                    {% if mapping['type'] in ['nested'] %} ({{ 'import_note_json'|trans }}){% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
