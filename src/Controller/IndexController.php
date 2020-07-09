@@ -528,6 +528,7 @@ class IndexController extends AbstractAppController
             while (0 < count($documents['hits']['hits'])) {
                 foreach ($documents['hits']['hits'] as $row) {
                     $geoPoint = false;
+                    $geoShape = false;
 
                     $line = [];
                     $line['_id'] = $row['_id'];
@@ -548,7 +549,14 @@ class IndexController extends AbstractAppController
 
                         if ('geo_point' == $mapping['type'] && true == is_array($content)) {
                             $geoPoint = $content['lat'].','.$content['lon'];
-                            $line[$field] = $geoPoint;
+                            if ('geojson' != $writer) {
+                                $line[$field] = $geoPoint;
+                            }
+                        } else if ('geo_shape' == $mapping['type'] && true == is_array($content)) {
+                            $geoShape = $content;
+                            if ('geojson' != $writer) {
+                                $line[$field] = json_encode($content);
+                            }
                         } else {
                             if (true == in_array($mapping['type'], ['nested', 'geo_shape'])) {
                                 $line[$field] = json_encode($content);
@@ -574,6 +582,14 @@ class IndexController extends AbstractAppController
                         $feature['properties'] = $line;
 
                         $json['features'][] = $feature;
+
+                    } elseif ('geojson' == $writer && $geoShape) {
+                            $feature = [];
+                            $feature['type'] = 'Feature';
+                            $feature['geometry'] = $geoShape;
+                            $feature['properties'] = $line;
+
+                            $json['features'][] = $feature;
                     } else {
                         $lines[] = WriterEntityFactory::createRowFromArray($line);
                     }
