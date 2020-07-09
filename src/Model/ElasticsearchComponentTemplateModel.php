@@ -134,6 +134,10 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
             $json['template']['aliases'] = $this->getAliases();
         }
 
+        if (0 == count($json['template'])) {
+            $json['template'] = (object)[];
+        }
+
         return $json;
     }
 }

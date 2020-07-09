@@ -54,7 +54,7 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('PUT');
         $callRequest->setPath('/_component_template/'.$templateModel->getName());
-        $callRequest->setBody(json_encode($json, JSON_FORCE_OBJECT));
+        $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
     }
