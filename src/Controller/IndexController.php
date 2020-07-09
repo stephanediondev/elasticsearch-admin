@@ -548,9 +548,9 @@ class IndexController extends AbstractAppController
                         }
 
                         if ('geo_point' == $mapping['type'] && true == is_array($content)) {
-                            $geoPoint = $content['lat'].','.$content['lon'];
+                            $geoPoint = $content;
                             if ('geojson' != $writer) {
-                                $line[$field] = $geoPoint;
+                                $line[$field] = $content['lat'].','.$content['lon'];
                             }
                         } else if ('geo_shape' == $mapping['type'] && true == is_array($content)) {
                             $geoShape = $content;
@@ -571,25 +571,37 @@ class IndexController extends AbstractAppController
                     }
 
                     if ('geojson' == $writer && $geoPoint) {
-                        list($latitude, $longitude) = explode(',', $geoPoint);
-
                         $feature = [];
                         $feature['type'] = 'Feature';
                         $feature['geometry'] = [
                             'type' => 'Point',
-                            'coordinates' => [$longitude, $latitude],
+                            'coordinates' => [floatval($geoPoint['lon']), floatval($geoPoint['lat'])],
                         ];
                         $feature['properties'] = $line;
 
                         $json['features'][] = $feature;
 
                     } elseif ('geojson' == $writer && $geoShape) {
-                            $feature = [];
-                            $feature['type'] = 'Feature';
-                            $feature['geometry'] = $geoShape;
-                            $feature['properties'] = $line;
+                            if (true == isset($geoShape['type'])) {
+                                if ('envelope' != $geoShape['type']) {
+                                    $geoShape['type'] = $this->cleanGeojsonType($geoShape['type']);
 
-                            $json['features'][] = $feature;
+                                    if (true == isset($geoShape['geometries'])) {
+                                        foreach ($geoShape['geometries'] as $key => $geometry) {
+                                            if (true == isset($geometry['type'])) {
+                                                $geoShape['geometries'][$key]['type'] = $this->cleanGeojsonType($geometry['type']);
+                                            }
+                                        }
+                                    }
+
+                                    $feature = [];
+                                    $feature['type'] = 'Feature';
+                                    $feature['geometry'] = $geoShape;
+                                    $feature['properties'] = $line;
+
+                                    $json['features'][] = $feature;
+                                }
+                            }
                     } else {
                         $lines[] = WriterEntityFactory::createRowFromArray($line);
                     }
@@ -604,7 +616,7 @@ class IndexController extends AbstractAppController
             }
 
             if ('geojson' == $writer) {
-                fwrite($outputStream, json_encode($json));
+                fwrite($outputStream, json_encode($json, JSON_PRETTY_PRINT));
             } else {
                 $writer->addRows($lines);
                 $writer->close();
@@ -612,6 +624,20 @@ class IndexController extends AbstractAppController
         }, Response::HTTP_OK, [
             'Content-Disposition' => 'attachment; filename='.$filename,
         ]);
+    }
+
+    private function cleanGeojsonType(string $type): string
+    {
+        $type = strtolower($type);
+        $type = str_replace('point', 'Point', $type);
+        $type = str_replace('multipoint', 'MultiPoint', $type);
+        $type = str_replace('polygon', 'Polygon', $type);
+        $type = str_replace('multipolygon', 'MultiPolygon', $type);
+        $type = str_replace('linestring', 'LineString', $type);
+        $type = str_replace('multilinestring', 'MultiLineString', $type);
+        $type = str_replace('geometrycollection', 'GeometryCollection', $type);
+
+        return $type;
     }
 
     /**
