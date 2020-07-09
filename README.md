@@ -8,6 +8,20 @@
 
 ## Installation
 
+### Docker
+
+Repository: https://hub.docker.com/r/stephanediondev/elasticsearch-admin
+
+```
+docker run --publish 80:8080 -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "EMAIL=example@example.com" -e "ENCODED_PASSWORD=\$argon2id\$v=19\$m=65536,t=4,p=1\$Hx5YWkNlKMb6xkAumzAMYg\$wAtGPNTQoHoo+AyQphqu+WYqhL+BJlWgQqv71+MExw8" --detach --name elasticsearch-admin stephanediondev/elasticsearch-admin
+
+#password = example
+```
+
+### Classic
+
+Download or clone the repository
+
 Configure a vhost with the document root set to "public" folder (ie /var/www/elasticsearch-admin/public)
 
 ```
@@ -24,16 +38,6 @@ bin/console security:encode-password
 cp .env.dist .env
 # Edit ELASTICSEARCH_URL, EMAIL and ENCODED_PASSWORD
 # If Elasticsearch security features are enabled, edit ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
-```
-
-## Docker
-
-Repository: https://hub.docker.com/r/stephanediondev/elasticsearch-admin
-
-```
-docker run --publish 80:8080 -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "EMAIL=example@example.com" -e "ENCODED_PASSWORD=\$argon2id\$v=19\$m=65536,t=4,p=1\$Hx5YWkNlKMb6xkAumzAMYg\$wAtGPNTQoHoo+AyQphqu+WYqhL+BJlWgQqv71+MExw8" --detach --name elasticsearch-admin stephanediondev/elasticsearch-admin
-
-#password = example
 ```
 
 ## Features
@@ -64,7 +68,7 @@ docker run --publish 80:8080 -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "EMAI
 
 ## Todo
 
-- [ ] Docker image
+- [ ] Web installer: form to define parameters
 - [ ] Users management with roles and permissions, not related to Elasticsearch
 - [ ] Indices: update (dynamic index settings), shrink, split, import from database
 - [ ] Index templates (legacy): convert to new version
