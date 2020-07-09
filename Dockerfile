@@ -1,4 +1,4 @@
-FROM php:fpm-alpine3.11
+FROM alpine:edge
 
 LABEL Maintainer="Tim de Pater <code@trafex.nl>" \
       Description="Lightweight container with Nginx 1.18 & PHP-FPM 7.3 based on Alpine Linux."
@@ -10,20 +10,12 @@ ENV ELASTICSEARCH_PASSWORD=$ELASTICSEARCH_PASSWORD
 ENV EMAIL=$EMAIL
 ENV ENCODED_PASSWORD=$ENCODED_PASSWORD
 
-#https://github.com/codecasts/php-alpine
-ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
-
-RUN apk --update add ca-certificates && \
-    echo "https://dl.bintray.com/php-alpine/v3.11/php-7.4" >> /etc/apk/repositories
-
 # Install packages and remove default server definition
-RUN apk --update add php php-fpm php-opcache php-json php-openssl php-curl \
-    php-zlib php-xml php-phar php-intl php-dom php-xmlreader php-ctype php-session \
-    php-tokenizer php-pdo php-pdo_mysql php-pdo_pgsql php-iconv \
-    php-mbstring nginx supervisor nodejs nodejs npm curl && \
+RUN apk --update add php7 php7-fpm php7-opcache php7-json php7-openssl php7-curl \
+    php7-zlib php7-xml php7-simplexml php7-phar php7-intl php7-dom php7-xmlreader php7-ctype php7-session \
+    php7-tokenizer php7-pdo php7-pdo_mysql php7-pdo_pgsql php7-iconv php7-zip \
+    php7-mbstring nginx supervisor nodejs nodejs npm curl && \
     rm /etc/nginx/conf.d/default.conf
-
-RUN apk add libzip-dev && docker-php-ext-configure zip && docker-php-ext-install zip
 
 # Configure nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
@@ -35,7 +27,7 @@ COPY docker/php.ini /etc/php7/conf.d/custom.ini
 # Configure supervisord
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Setup document root
+# Create folders
 RUN mkdir -p /var/www/html
 RUN mkdir -p /.composer
 RUN mkdir -p /.npm
