@@ -1,5 +1,3 @@
-![PHP Composer](https://github.com/stephanediondev/elasticsearch-admin/workflows/PHP%20Composer/badge.svg)
-
 ## Requirements
 
 - Elasticsearch 6.x or 7.x: https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.htm
