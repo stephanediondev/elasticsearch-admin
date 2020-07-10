@@ -487,14 +487,10 @@ class IndexController extends AbstractAppController
         $query = [
             'sort' => $request->query->get('s', '_id:desc'),
             'size' => $size,
-            'from' => ($size * $request->query->get('page', 1)) - $size,
         ];
-        if ($request->query->get('data')) {
-            $data = $request->query->get('data');
-            if (true == isset($data['query']) && '' != $data['query']) {
-                $query['track_scores'] = 'true';
-                $query['q'] = $data['query'];
-            }
+        if ($request->query->get('query') && '' != $request->query->get('query')) {
+            $query['track_scores'] = 'true';
+            $query['q'] = $request->query->get('query');
         }
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index->getName().'/_search?scroll=1m');
@@ -1250,12 +1246,17 @@ class IndexController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $size = 100;
+            if ($request->query->get('page') && '' != $request->query->get('page')) {
+                $page = $request->query->get('page');
+            } else {
+                $page = 1;
+            }
             $query = [
                 'track_scores' => 'true',
                 'q' => $form->get('query')->getData(),
                 'sort' => $request->query->get('s', '_score:desc'),
                 'size' => $size,
-                'from' => ($size * $request->query->get('page', 1)) - $size,
+                'from' => ($size * $page) - $size,
             ];
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/'.$index->getName().'/_search');
@@ -1277,7 +1278,7 @@ class IndexController extends AbstractAppController
                 'route_parameters' => ['index' => $index->getName()],
                 'total' => $total,
                 'rows' => $documents['hits']['hits'],
-                'page' => $request->query->get('page', 1),
+                'page' => $page,
                 'size' => $size,
             ]);
         }
