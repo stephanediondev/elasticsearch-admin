@@ -38,8 +38,6 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
         // it is whatever value is being returned by the getUsername()
         // method in your User class.
 
-        $this->checkIndexUsers();
-
         return $this->getUserByEmail($email);
     }
 
@@ -87,45 +85,34 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
 
     private function getUserByEmail($email)
     {
-        $query = [
-            'q' => 'email:"'.$email.'"',
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elastictsearch-admin-users/_search');
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $results = $callResponse->getContent();
-
-        while (0 < count($results['hits']['hits'])) {
-            foreach ($results['hits']['hits'] as $row) {
-                $row = $row['_source'];
-
-                $user = new User();
-                $user->setEmail($row['email']);
-                $user->setPassword($row['password']);
-                $user->setRoles($row['roles']);
-                return $user;
-            }
-        }
-
-        return null;
-    }
-
-    private function checkIndexUsers()
-    {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('HEAD');
         $callRequest->setPath('/.elastictsearch-admin-users');
         $callResponse = $this->callManager->call($callRequest);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $json = [
+        if (Response::HTTP_OK == $callResponse->getCode()) {
+            $query = [
+                'q' => 'email:"'.$email.'"',
             ];
             $callRequest = new CallRequestModel();
-            $callRequest->setMethod('PUT');
-            $callRequest->setJson($json);
-            $callRequest->setPath('/.elastictsearch-admin-users');
-            $this->callManager->call($callRequest);
+            $callRequest->setPath('/.elastictsearch-admin-users/_search');
+            $callRequest->setQuery($query);
+            $callResponse = $this->callManager->call($callRequest);
+            $results = $callResponse->getContent();
+
+            while (0 < count($results['hits']['hits'])) {
+                foreach ($results['hits']['hits'] as $row) {
+                    $row = $row['_source'];
+
+                    $user = new User();
+                    $user->setEmail($row['email']);
+                    $user->setPassword($row['password']);
+                    $user->setRoles($row['roles']);
+                    return $user;
+                }
+            }
         }
+
+        return null;
     }
 }

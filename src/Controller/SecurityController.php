@@ -82,6 +82,25 @@ class SecurityController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $json = [
+                    'settings' => [
+                        'index' => [
+                            'number_of_shards' => 1,
+                            'auto_expand_replicas' => '0-1',
+                        ],
+                    ],
+                    'mappings' => [
+                        'properties' => [
+                            'email' => [
+                                'type' => 'keyword',
+                            ],
+                            'password' => [
+                                'type' => 'keyword',
+                            ],
+                            'roles' => [
+                                'type' => 'keyword',
+                            ],
+                        ],
+                    ],
                 ];
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
