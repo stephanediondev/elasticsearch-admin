@@ -108,6 +108,9 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
                     $user->setEmail($row['email']);
                     $user->setPassword($row['password']);
                     $user->setRoles($row['roles']);
+                    if (true == isset($row['created_at']) && '' != $row['created_at']) {
+                        $user->setCreatedAt(new \Datetime($row['created_at']));
+                    }
                     return $user;
                 }
             }

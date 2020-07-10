@@ -14,6 +14,8 @@ class User implements UserInterface
 
     private $roles = [];
 
+    private $createdAt;
+
     /**
      * @var string The hashed password
      */
@@ -95,6 +97,18 @@ class User implements UserInterface
     public function setSecretRegister(string $secretRegister): self
     {
         $this->secretRegister = $secretRegister;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

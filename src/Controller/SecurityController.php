@@ -99,6 +99,10 @@ class SecurityController extends AbstractAppController
                             'roles' => [
                                 'type' => 'keyword',
                             ],
+                            'created_at' => [
+                                'type' => 'date',
+                                'format' => 'yyyy-MM-dd HH:mm:ss',
+                            ],
                         ],
                     ],
                 ];
@@ -118,6 +122,7 @@ class SecurityController extends AbstractAppController
                     'roles' => [
                         'ROLE_ADMIN'
                     ],
+                    'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
                 ];
                 $callRequest = new CallRequestModel();
                 $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$user->getEmail());
