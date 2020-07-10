@@ -3,19 +3,19 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('repositories_read', {'repository': repository['id']}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    {% if is_granted('REPOSITORY_UPDATE') %}
+    {% if is_granted('REPOSITORY_UPDATE', 'global') %}
         <li class="nav-item">
             <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('repositories_update', {'repository': repository['id']}) }}">{{ 'update'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('SNAPSHOTS_CREATE') %}
+    {% if is_granted('SNAPSHOTS_CREATE', 'global') %}
         <li class="nav-item">
             <a class="nav-link" href="{{ path('snapshots_create', {'repository': repository['id']}) }}">{{ 'create_snapshot'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('SLM_POLICIES_CREATE') %}
+    {% if is_granted('SLM_POLICIES_CREATE', 'global') %}
         <li class="nav-item">
             <a class="nav-link" href="{{ path('slm_create', {'repository': repository['id']}) }}">{{ 'create_slm_policy'|trans }}</a>
         </li>

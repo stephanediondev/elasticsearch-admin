@@ -113,7 +113,7 @@ class GlobalVoter extends Voter
             'LICENSE',
         ];
 
-        return in_array($attribute, $attributes);
+        return in_array($attribute, $attributes) && 'global' == $subject;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

@@ -41,7 +41,7 @@
                 {{ appImport.heading({'level': 3, 'title': 'documents'|trans, 'badge': {'title': documents.total}}) }}
 
                 {% if 0 < documents.total %}
-                    {% if is_granted('INDEX_EXPORT') %}
+                    {% if is_granted('INDEX_EXPORT', 'global') %}
                         {% embed 'Embed/buttons_embed.html.twig' %}
                             {% block content %}
                                 <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>

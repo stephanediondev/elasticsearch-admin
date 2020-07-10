@@ -24,7 +24,7 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {% if is_granted('REPOSITORY_DELETE') %}
+                    {% if is_granted('REPOSITORY_DELETE', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'RepositoryDelete',
                             'title': 'delete'|trans,
@@ -33,7 +33,7 @@
                         }) }}
                     {% endif %}
 
-                    {% if is_granted('REPOSITORY_CLEANUP') %}
+                    {% if is_granted('REPOSITORY_CLEANUP', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'RepositoryCleanup',
                             'title': 'cleanup'|trans,
@@ -42,7 +42,7 @@
                         }) }}
                     {% endif %}
 
-                    {% if is_granted('REPOSITORY_VERIFY') %}
+                    {% if is_granted('REPOSITORY_VERIFY', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'RepositoryVerify',
                             'title': 'verify'|trans,

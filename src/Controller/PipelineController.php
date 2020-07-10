@@ -28,7 +28,7 @@ class PipelineController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINES');
+        $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
         $pipelines = $this->elasticsearchPipelineManager->getAll();
 
@@ -49,7 +49,7 @@ class PipelineController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINES_CREATE');
+        $this->denyAccessUnlessGranted('PIPELINES_CREATE', 'global');
 
         $pipeline = false;
 
@@ -92,7 +92,7 @@ class PipelineController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINES');
+        $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
@@ -110,7 +110,7 @@ class PipelineController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINE_UPDATE');
+        $this->denyAccessUnlessGranted('PIPELINE_UPDATE', 'global');
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
@@ -145,7 +145,7 @@ class PipelineController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINE_DELETE');
+        $this->denyAccessUnlessGranted('PIPELINE_DELETE', 'global');
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 

@@ -3,13 +3,13 @@
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('ilm') }}">{{ 'list'|trans }}</a>
     </li>
 
-    {% if is_granted('ILM_POLICIES_STATUS') %}
+    {% if is_granted('ILM_POLICIES_STATUS', 'global') %}
         <li class="nav-item">
             <a class="nav-link{% if 'status' == active %} active{% endif %}" href="{{ path('ilm_status') }}">{{ 'status'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('ILM_POLICIES_CREATE') %}
+    {% if is_granted('ILM_POLICIES_CREATE', 'global') %}
         <li class="nav-item">
             <a class="nav-link{% if 'create_ilm_policy' == active %} active{% endif %}" href="{{ path('ilm_create') }}">{{ 'create_ilm_policy'|trans }}</a>
         </li>

@@ -25,7 +25,7 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
-                        {% if is_granted('ROLE_DELETE') %}
+                        {% if is_granted('ROLE_DELETE', 'global') %}
                             {{ appImport.buttonModal({
                                 'id': 'RoleDelete',
                                 'title': 'delete'|trans,
@@ -34,7 +34,7 @@
                             }) }}
                         {% endif %}
 
-                        {% if is_granted('ROLES_CREATE') %}
+                        {% if is_granted('ROLES_CREATE', 'global') %}
                             <a class="btn btn-primary btn-sm" href="{{ path('roles_create', {'role': role['role']}) }}">{{ 'copy'|trans }}</a>
                         {% endif %}
                     {% endblock %}

@@ -32,7 +32,7 @@ class NodeController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('NODES');
+        $this->denyAccessUnlessGranted('NODES', 'global');
 
         $nodes = $this->elasticsearchNodeManager->getAll();
 
@@ -56,7 +56,7 @@ class NodeController extends AbstractAppController
      */
     public function fetch(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('NODES');
+        $this->denyAccessUnlessGranted('NODES', 'global');
 
         $nodes = $this->elasticsearchNodeManager->getAll();
 
@@ -68,7 +68,7 @@ class NodeController extends AbstractAppController
      */
     public function read(Request $request, string $node): Response
     {
-        $this->denyAccessUnlessGranted('NODES');
+        $this->denyAccessUnlessGranted('NODES', 'global');
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
@@ -86,7 +86,7 @@ class NodeController extends AbstractAppController
      */
     public function readPlugins(Request $request, string $node): Response
     {
-        $this->denyAccessUnlessGranted('NODES');
+        $this->denyAccessUnlessGranted('NODES', 'global');
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
@@ -104,7 +104,7 @@ class NodeController extends AbstractAppController
      */
     public function readUsage(Request $request, string $node): Response
     {
-        $this->denyAccessUnlessGranted('NODES');
+        $this->denyAccessUnlessGranted('NODES', 'global');
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
@@ -135,7 +135,7 @@ class NodeController extends AbstractAppController
      */
     public function readReloadSecureSettings(Request $request, string $node): Response
     {
-        $this->denyAccessUnlessGranted('NODES');
+        $this->denyAccessUnlessGranted('NODES', 'global');
 
         if (false == $this->checkVersion('6.4')) {
             throw new AccessDeniedHttpException();

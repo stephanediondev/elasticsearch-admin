@@ -18,7 +18,7 @@ class DeprecationController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('DEPRECATIONS');
+        $this->denyAccessUnlessGranted('DEPRECATIONS', 'global');
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_xpack/migration/deprecations');

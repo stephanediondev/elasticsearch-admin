@@ -18,7 +18,7 @@ class RemoteClusterController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('REMOTE_CLUSTERS');
+        $this->denyAccessUnlessGranted('REMOTE_CLUSTERS', 'global');
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_remote/info');

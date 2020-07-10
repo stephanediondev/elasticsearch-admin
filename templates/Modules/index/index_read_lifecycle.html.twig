@@ -21,7 +21,7 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'lifecycle'|trans}) }}
 
-            {% if is_granted('INDEX_UPDATE') and false == index.isSystem and true == lifecycle['managed'] %}
+            {% if is_granted('INDEX_UPDATE', 'global') and false == index.isSystem and true == lifecycle['managed'] %}
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
@@ -43,7 +43,7 @@
             {% if true == lifecycle['managed'] %}
                 <p>
                     <strong>{{ 'ilm_policy'|trans }}</strong><br>
-                    {% if is_granted('ILM_POLICIES') %}
+                    {% if is_granted('ILM_POLICIES', 'global') %}
                         <a href="{{ path('ilm_read', {'name': lifecycle['policy']}) }}">{{ lifecycle['policy'] }}</a>
                     {% else %}
                         {{ lifecycle['policy'] }}

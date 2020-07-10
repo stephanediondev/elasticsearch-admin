@@ -49,7 +49,7 @@
                 {% endif %}
 
                 {% if rows is defined and 0 < rows|length %}
-                    {% if is_granted('CAT_EXPORT') %}
+                    {% if is_granted('CAT_EXPORT', 'global') %}
                         {% embed 'Embed/buttons_embed.html.twig' %}
                             {% block content %}
                                 <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>

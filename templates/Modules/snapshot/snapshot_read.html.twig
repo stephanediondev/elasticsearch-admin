@@ -24,7 +24,7 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {% if is_granted('SNAPSHOT_DELETE') %}
+                    {% if is_granted('SNAPSHOT_DELETE', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'SnapshotDelete',
                             'title': 'delete'|trans,

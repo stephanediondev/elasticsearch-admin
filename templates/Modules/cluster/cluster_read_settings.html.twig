@@ -60,7 +60,7 @@
                                     <td class="text-nowrap text-right">
                                         {% if value is not iterable %}
                                             {% if 'defaults' != type %}
-                                                {% if is_granted('CLUSTER_SETTING_REMOVE') %}
+                                                {% if is_granted('CLUSTER_SETTING_REMOVE', 'global') %}
                                                     {{ appImport.buttonModal({
                                                         'id': 'SettingRemove' ~ loop.index ~ type,
                                                         'title': 'remove'|trans,
@@ -69,13 +69,13 @@
                                                     }) }}
                                                 {% endif %}
 
-                                                {% if is_granted('CLUSTER_SETTING_EDIT') %}
+                                                {% if is_granted('CLUSTER_SETTING_EDIT', 'global') %}
                                                     <a href="{{ path('cluster_settings_edit', {'type': type, 'setting': key}) }}" class="btn btn-primary btn-sm">
                                                         {{ ('edit_as_' ~ type)|trans }}
                                                     </a>
                                                 {% endif %}
                                             {% elseif key not in cluster_settings_not_dynamic %}
-                                                {% if is_granted('CLUSTER_SETTING_EDIT') %}
+                                                {% if is_granted('CLUSTER_SETTING_EDIT', 'global') %}
                                                     <a href="{{ path('cluster_settings_edit', {'type': 'persistent', 'setting': key}) }}" class="btn btn-primary btn-sm">
                                                         {{ 'edit_as_persistent'|trans }}
                                                     </a>

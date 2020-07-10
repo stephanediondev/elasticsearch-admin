@@ -20,7 +20,7 @@ class ConsoleController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('CONSOLE');
+        $this->denyAccessUnlessGranted('CONSOLE', 'global');
 
         $parameters = [];
 

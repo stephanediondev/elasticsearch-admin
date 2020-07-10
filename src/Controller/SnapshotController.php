@@ -26,7 +26,7 @@ class SnapshotController extends AbstractAppController
      */
     public function index(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS');
+        $this->denyAccessUnlessGranted('SNAPSHOTS', 'global');
 
         $repositories = $elasticsearchRepositoryManager->selectRepositories();
         $snapshots = [];
@@ -62,7 +62,7 @@ class SnapshotController extends AbstractAppController
      */
     public function create(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS_CREATE');
+        $this->denyAccessUnlessGranted('SNAPSHOTS_CREATE', 'global');
 
         $repositories = $elasticsearchRepositoryManager->selectRepositories();
         $indices = $elasticsearchIndexManager->selectIndices();
@@ -105,7 +105,7 @@ class SnapshotController extends AbstractAppController
      */
     public function read(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS');
+        $this->denyAccessUnlessGranted('SNAPSHOTS', 'global');
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
@@ -129,7 +129,7 @@ class SnapshotController extends AbstractAppController
      */
     public function readFailures(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS');
+        $this->denyAccessUnlessGranted('SNAPSHOTS', 'global');
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
@@ -165,7 +165,7 @@ class SnapshotController extends AbstractAppController
      */
     public function delete(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOT_DELETE');
+        $this->denyAccessUnlessGranted('SNAPSHOT_DELETE', 'global');
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
@@ -182,7 +182,7 @@ class SnapshotController extends AbstractAppController
      */
     public function restore(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOT_RESTORE');
+        $this->denyAccessUnlessGranted('SNAPSHOT_RESTORE', 'global');
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);

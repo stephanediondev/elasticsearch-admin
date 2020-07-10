@@ -24,7 +24,7 @@ class EnrichController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES');
+        $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
 
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
@@ -65,7 +65,7 @@ class EnrichController extends AbstractAppController
      */
     public function stats(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES_STATS');
+        $this->denyAccessUnlessGranted('ENRICH_POLICIES_STATS', 'global');
 
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
@@ -98,7 +98,7 @@ class EnrichController extends AbstractAppController
      */
     public function create(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE');
+        $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE', 'global');
 
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
@@ -165,7 +165,7 @@ class EnrichController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES');
+        $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
 
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
@@ -201,7 +201,7 @@ class EnrichController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICY_DELETE');
+        $this->denyAccessUnlessGranted('ENRICH_POLICY_DELETE', 'global');
 
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
@@ -222,7 +222,7 @@ class EnrichController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICY_EXECUTE');
+        $this->denyAccessUnlessGranted('ENRICH_POLICY_EXECUTE', 'global');
 
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();

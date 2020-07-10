@@ -34,7 +34,7 @@ class IlmController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES');
+        $this->denyAccessUnlessGranted('ILM_POLICIES', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -59,7 +59,7 @@ class IlmController extends AbstractAppController
      */
     public function status(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -80,7 +80,7 @@ class IlmController extends AbstractAppController
      */
     public function start(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -101,7 +101,7 @@ class IlmController extends AbstractAppController
      */
     public function stop(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -122,7 +122,7 @@ class IlmController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES_CREATE');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_CREATE', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -169,7 +169,7 @@ class IlmController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES');
+        $this->denyAccessUnlessGranted('ILM_POLICIES', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -191,7 +191,7 @@ class IlmController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICY_UPDATE');
+        $this->denyAccessUnlessGranted('ILM_POLICY_UPDATE', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -230,7 +230,7 @@ class IlmController extends AbstractAppController
      */
     public function apply(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_UPDATE');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_UPDATE', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -290,7 +290,7 @@ class IlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICY_DELETE');
+        $this->denyAccessUnlessGranted('ILM_POLICY_DELETE', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();

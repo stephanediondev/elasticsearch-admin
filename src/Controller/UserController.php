@@ -24,7 +24,7 @@ class UserController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('USERS');
+        $this->denyAccessUnlessGranted('USERS', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -60,7 +60,7 @@ class UserController extends AbstractAppController
      */
     public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
-        $this->denyAccessUnlessGranted('USERS_CREATE');
+        $this->denyAccessUnlessGranted('USERS_CREATE', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -109,7 +109,7 @@ class UserController extends AbstractAppController
      */
     public function read(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USERS');
+        $this->denyAccessUnlessGranted('USERS', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -137,7 +137,7 @@ class UserController extends AbstractAppController
      */
     public function update(Request $request, string $user, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
-        $this->denyAccessUnlessGranted('USER_UPDATE');
+        $this->denyAccessUnlessGranted('USER_UPDATE', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -216,7 +216,7 @@ class UserController extends AbstractAppController
      */
     public function enable(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USER_ENABLE_DISABLE');
+        $this->denyAccessUnlessGranted('USER_ENABLE_DISABLE', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -262,7 +262,7 @@ class UserController extends AbstractAppController
      */
     public function disable(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USER_ENABLE_DISABLE');
+        $this->denyAccessUnlessGranted('USER_ENABLE_DISABLE', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -308,7 +308,7 @@ class UserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USER_DELETE');
+        $this->denyAccessUnlessGranted('USER_DELETE', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();

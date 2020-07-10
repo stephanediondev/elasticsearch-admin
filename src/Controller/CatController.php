@@ -25,7 +25,7 @@ class CatController extends AbstractAppController
      */
     public function index(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): Response
     {
-        $this->denyAccessUnlessGranted('CAT');
+        $this->denyAccessUnlessGranted('CAT', 'global');
 
         $parameters = [];
 
@@ -78,7 +78,7 @@ class CatController extends AbstractAppController
      */
     public function export(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): StreamedResponse
     {
-        $this->denyAccessUnlessGranted('CAT_EXPORT');
+        $this->denyAccessUnlessGranted('CAT_EXPORT', 'global');
 
         set_time_limit(0);
 

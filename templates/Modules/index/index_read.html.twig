@@ -25,7 +25,7 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
-                        {% if is_granted('INDEX_DELETE') %}
+                        {% if is_granted('INDEX_DELETE', 'global') %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexDelete',
                                 'title': 'delete'|trans,
@@ -35,7 +35,7 @@
                         {% endif %}
 
                         {% if 'close' == index.status %}
-                            {% if is_granted('INDEX_CLOSE_OPEN') %}
+                            {% if is_granted('INDEX_CLOSE_OPEN', 'global') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexOpen',
                                     'title': 'open'|trans,
@@ -46,7 +46,7 @@
                         {% endif %}
 
                         {% if 'open' == index.status %}
-                            {% if is_granted('INDEX_CLOSE_OPEN') and cluster_settings['cluster.indices.close.enable'] is defined and 'true' == cluster_settings['cluster.indices.close.enable'] %}
+                            {% if is_granted('INDEX_CLOSE_OPEN', 'global') and cluster_settings['cluster.indices.close.enable'] is defined and 'true' == cluster_settings['cluster.indices.close.enable'] %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexClose',
                                     'title': 'close'|trans,
@@ -55,7 +55,7 @@
                                 }) }}
                             {% endif %}
 
-                            {% if is_granted('INDEX_FORCE_MERGE') %}
+                            {% if is_granted('INDEX_FORCE_MERGE', 'global') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexForceMerge',
                                     'title': 'force_merge'|trans,
@@ -64,7 +64,7 @@
                                 }) }}
                             {% endif %}
 
-                            {% if is_granted('INDEX_CACHE_CLEAR') %}
+                            {% if is_granted('INDEX_CACHE_CLEAR', 'global') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexCacheClear',
                                     'title': 'cache_clear'|trans,
@@ -73,7 +73,7 @@
                                 }) }}
                             {% endif %}
 
-                            {% if is_granted('INDEX_FLUSH') %}
+                            {% if is_granted('INDEX_FLUSH', 'global') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexFlush',
                                     'title': 'flush'|trans,
@@ -82,7 +82,7 @@
                                 }) }}
                             {% endif %}
 
-                            {% if is_granted('INDEX_REFRESH') %}
+                            {% if is_granted('INDEX_REFRESH', 'global') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexRefresh',
                                     'title': 'refresh'|trans,
@@ -92,7 +92,7 @@
                             {% endif %}
                         {% endif %}
 
-                        {% if is_granted('INDEX_FREEZE_UNFREEZE') and true == check_version(root, '6.6') %}
+                        {% if is_granted('INDEX_FREEZE_UNFREEZE', 'global') and true == check_version(root, '6.6') %}
                             {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexUnfreeze',
@@ -110,7 +110,7 @@
                             {% endif %}
                         {% endif %}
 
-                        {% if is_granted('INDEX_EMPTY') and 0 < index.documents %}
+                        {% if is_granted('INDEX_EMPTY', 'global') and 0 < index.documents %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexEmpty',
                                 'title': 'empty'|trans,

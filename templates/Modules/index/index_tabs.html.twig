@@ -3,19 +3,19 @@
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('indices') }}">{{ 'list'|trans }}</a>
     </li>
 
-    {% if is_granted('INDICES_STATS') %}
+    {% if is_granted('INDICES_STATS', 'global') %}
         <li class="nav-item">
             <a class="nav-link{% if 'stats' == active %} active{% endif %}" href="{{ path('indices_stats') }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('INDICES_CREATE') %}
+    {% if is_granted('INDICES_CREATE', 'global') %}
         <li class="nav-item">
             <a class="nav-link{% if 'create_index' == active %} active{% endif %}" href="{{ path('indices_create') }}">{{ 'create_index'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('INDICES_REINDEX') %}
+    {% if is_granted('INDICES_REINDEX', 'global') %}
         <li class="nav-item">
             <a class="nav-link{% if 'reindex' == active %} active{% endif %}" href="{{ path('indices_reindex') }}">{{ 'reindex'|trans }}</a>
         </li>

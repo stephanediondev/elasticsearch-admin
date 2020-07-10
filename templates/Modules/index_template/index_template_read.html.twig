@@ -25,7 +25,7 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
-                        {% if is_granted('INDEX_TEMPLATE_DELETE') %}
+                        {% if is_granted('INDEX_TEMPLATE_DELETE', 'global') %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexTemplateDelete',
                                 'title': 'delete'|trans,
@@ -34,7 +34,7 @@
                             }) }}
                         {% endif %}
 
-                        {% if is_granted('INDEX_TEMPLATES_CREATE') %}
+                        {% if is_granted('INDEX_TEMPLATES_CREATE', 'global') %}
                             <a class="btn btn-primary btn-sm" href="{{ path('index_templates_create', {'template': template.name}) }}">{{ 'copy'|trans }}</a>
                         {% endif %}
                     {% endblock %}

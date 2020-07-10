@@ -18,7 +18,7 @@ class ShardController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SHARDS');
+        $this->denyAccessUnlessGranted('SHARDS', 'global');
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/shards');

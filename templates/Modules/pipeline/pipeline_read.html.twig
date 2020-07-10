@@ -24,7 +24,7 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {% if is_granted('PIPELINE_DELETE') %}
+                    {% if is_granted('PIPELINE_DELETE', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'PipelineDelete',
                             'title': 'delete'|trans,
@@ -33,7 +33,7 @@
                         }) }}
                     {% endif %}
 
-                    {% if is_granted('PIPELINES_CREATE') %}
+                    {% if is_granted('PIPELINES_CREATE', 'global') %}
                         <a class="btn btn-primary btn-sm" href="{{ path('pipelines_create', {'pipeline': pipeline.name}) }}">{{ 'copy'|trans }}</a>
                     {% endif %}
                 {% endblock %}

@@ -24,7 +24,7 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {% if is_granted('ENRICH_POLICY_DELETE') %}
+                    {% if is_granted('ENRICH_POLICY_DELETE', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'PolicyDelete',
                             'title': 'delete'|trans,
@@ -33,7 +33,7 @@
                         }) }}
                     {% endif %}
 
-                    {% if is_granted('ENRICH_POLICY_EXECUTE') %}
+                    {% if is_granted('ENRICH_POLICY_EXECUTE', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'PolicyExecute',
                             'title': 'execute'|trans,
@@ -42,7 +42,7 @@
                         }) }}
                     {% endif %}
 
-                    {% if is_granted('ENRICH_POLICIES_CREATE') %}
+                    {% if is_granted('ENRICH_POLICIES_CREATE', 'global') %}
                         <a class="btn btn-primary btn-sm" href="{{ path('enrich_create', {'policy': policy['name']}) }}">{{ 'copy'|trans }}</a>
                     {% endif %}
                 {% endblock %}
