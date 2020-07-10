@@ -35,16 +35,18 @@
                         {% endif %}
 
                         {% if 'close' == index.status %}
-                            {{ appImport.buttonModal({
-                                'id': 'IndexOpen',
-                                'title': 'open'|trans,
-                                'body': index.name,
-                                'href': path('indices_open', {'index': index.name}),
-                            }) }}
+                            {% if is_granted('INDEX_CLOSE_OPEN') %}
+                                {{ appImport.buttonModal({
+                                    'id': 'IndexOpen',
+                                    'title': 'open'|trans,
+                                    'body': index.name,
+                                    'href': path('indices_open', {'index': index.name}),
+                                }) }}
+                            {% endif %}
                         {% endif %}
 
                         {% if 'open' == index.status %}
-                            {% if cluster_settings['cluster.indices.close.enable'] is defined and 'true' == cluster_settings['cluster.indices.close.enable'] %}
+                            {% if is_granted('INDEX_CLOSE_OPEN') and cluster_settings['cluster.indices.close.enable'] is defined and 'true' == cluster_settings['cluster.indices.close.enable'] %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexClose',
                                     'title': 'close'|trans,
@@ -53,36 +55,44 @@
                                 }) }}
                             {% endif %}
 
-                            {{ appImport.buttonModal({
-                                'id': 'IndexForceMerge',
-                                'title': 'force_merge'|trans,
-                                'body': index.name,
-                                'href': path('indices_force_merge', {'index': index.name}),
-                            }) }}
+                            {% if is_granted('INDEX_FORCE_MERGE') %}
+                                {{ appImport.buttonModal({
+                                    'id': 'IndexForceMerge',
+                                    'title': 'force_merge'|trans,
+                                    'body': index.name,
+                                    'href': path('indices_force_merge', {'index': index.name}),
+                                }) }}
+                            {% endif %}
 
-                            {{ appImport.buttonModal({
-                                'id': 'IndexCacheClear',
-                                'title': 'cache_clear'|trans,
-                                'body': index.name,
-                                'href': path('indices_cache_clear', {'index': index.name}),
-                            }) }}
+                            {% if is_granted('INDEX_CACHE_CLEAR') %}
+                                {{ appImport.buttonModal({
+                                    'id': 'IndexCacheClear',
+                                    'title': 'cache_clear'|trans,
+                                    'body': index.name,
+                                    'href': path('indices_cache_clear', {'index': index.name}),
+                                }) }}
+                            {% endif %}
 
-                            {{ appImport.buttonModal({
-                                'id': 'IndexFlush',
-                                'title': 'flush'|trans,
-                                'body': index.name,
-                                'href': path('indices_flush', {'index': index.name}),
-                            }) }}
+                            {% if is_granted('INDEX_FLUSH') %}
+                                {{ appImport.buttonModal({
+                                    'id': 'IndexFlush',
+                                    'title': 'flush'|trans,
+                                    'body': index.name,
+                                    'href': path('indices_flush', {'index': index.name}),
+                                }) }}
+                            {% endif %}
 
-                            {{ appImport.buttonModal({
-                                'id': 'IndexRefresh',
-                                'title': 'refresh'|trans,
-                                'body': index.name,
-                                'href': path('indices_refresh', {'index': index.name}),
-                            }) }}
+                            {% if is_granted('INDEX_REFRESH') %}
+                                {{ appImport.buttonModal({
+                                    'id': 'IndexRefresh',
+                                    'title': 'refresh'|trans,
+                                    'body': index.name,
+                                    'href': path('indices_refresh', {'index': index.name}),
+                                }) }}
+                            {% endif %}
                         {% endif %}
 
-                        {% if true == check_version(root, '6.6') %}
+                        {% if is_granted('INDEX_FREEZE_UNFREEZE') and true == check_version(root, '6.6') %}
                             {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndexUnfreeze',
@@ -100,7 +110,7 @@
                             {% endif %}
                         {% endif %}
 
-                        {% if 0 < index.documents %}
+                        {% if is_granted('INDEX_EMPTY') and 0 < index.documents %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexEmpty',
                                 'title': 'empty'|trans,

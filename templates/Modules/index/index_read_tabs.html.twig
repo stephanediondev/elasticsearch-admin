@@ -28,13 +28,17 @@
         </li>
 
         {% if false == index.isSystem %}
-            <li class="nav-item">
-                <a class="nav-link{% if 'search' == active %} active{% endif %}" href="{{ path('indices_read_search', {'index': index.name}) }}">{{ 'search'|trans }}</a>
-            </li>
+            {% if is_granted('INDEX_SEARCH') %}
+                <li class="nav-item">
+                    <a class="nav-link{% if 'search' == active %} active{% endif %}" href="{{ path('indices_read_search', {'index': index.name}) }}">{{ 'search'|trans }}</a>
+                </li>
+            {% endif %}
 
-            <li class="nav-item">
-                <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index.name}) }}">{{ 'import_export'|trans }}</a>
-            </li>
+            {% if is_granted('INDEX_IMPORT') %}
+                <li class="nav-item">
+                    <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index.name}) }}">{{ 'import_export'|trans }}</a>
+                </li>
+            {% endif %}
 
             <li class="nav-item">
                 <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index.name}) }}">{{ 'aliases'|trans }}</a>
@@ -44,9 +48,11 @@
                 <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index.name}) }}">{{ 'create_alias'|trans }}</a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('indices_reindex', {'index': index.name}) }}">{{ 'reindex'|trans }}</a>
-            </li>
+            {% if is_granted('INDICES_REINDEX') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('indices_reindex', {'index': index.name}) }}">{{ 'reindex'|trans }}</a>
+                </li>
+            {% endif %}
         {% endif %}
     {% endif %}
 </ul>

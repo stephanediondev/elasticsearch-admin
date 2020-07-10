@@ -314,7 +314,7 @@ class IndexController extends AbstractAppController
      */
     public function readImportExport(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_IMPORT');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -475,7 +475,7 @@ class IndexController extends AbstractAppController
      */
     public function readExport(Request $request, string $index): StreamedResponse
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_EXPORT');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -686,7 +686,7 @@ class IndexController extends AbstractAppController
      */
     public function settingAdd(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_UPDATE');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -733,7 +733,7 @@ class IndexController extends AbstractAppController
      */
     public function settingUpdate(Request $request, string $index, string $setting): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_UPDATE');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -782,7 +782,7 @@ class IndexController extends AbstractAppController
      */
     public function settingRemove(Request $request, string $index, string $setting): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_UPDATE');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -864,7 +864,7 @@ class IndexController extends AbstractAppController
      */
     public function removePolicy(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_UPDATE');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -1039,7 +1039,7 @@ class IndexController extends AbstractAppController
      */
     public function close(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_CLOSE_OPEN');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -1063,7 +1063,7 @@ class IndexController extends AbstractAppController
      */
     public function open(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_CLOSE_OPEN');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -1087,7 +1087,7 @@ class IndexController extends AbstractAppController
      */
     public function freeze(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_FREEZE_UNFREEZE');
 
         if (false == $this->checkVersion('6.6')) {
             throw new AccessDeniedHttpException();
@@ -1115,7 +1115,7 @@ class IndexController extends AbstractAppController
      */
     public function unfreeze(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_FREEZE_UNFREEZE');
 
         if (false == $this->checkVersion('6.6')) {
             throw new AccessDeniedHttpException();
@@ -1143,7 +1143,7 @@ class IndexController extends AbstractAppController
      */
     public function forceMerge(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_FORCE_MERGE');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -1170,7 +1170,7 @@ class IndexController extends AbstractAppController
      */
     public function cacheClear(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_CACHE_CLEAR');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -1197,7 +1197,7 @@ class IndexController extends AbstractAppController
      */
     public function flush(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_FLUSH');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -1224,7 +1224,7 @@ class IndexController extends AbstractAppController
      */
     public function refresh(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_REFRESH');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -1251,7 +1251,7 @@ class IndexController extends AbstractAppController
      */
     public function empty(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_EMPTY');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -1291,7 +1291,7 @@ class IndexController extends AbstractAppController
      */
     public function search(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_SEARCH');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 

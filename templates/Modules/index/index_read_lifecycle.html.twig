@@ -21,7 +21,7 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'lifecycle'|trans}) }}
 
-            {% if false == index.isSystem and true == lifecycle['managed'] %}
+            {% if is_granted('INDEX_UPDATE') and false == index.isSystem and true == lifecycle['managed'] %}
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
