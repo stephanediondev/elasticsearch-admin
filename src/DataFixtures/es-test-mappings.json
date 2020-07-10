@@ -1,0 +1,77 @@
+{
+    "properties": {
+        "test-text": {
+            "type": "text",
+            "fields": {
+                "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                }
+            }
+        },
+        "test-keyword": {
+            "type": "keyword"
+        },
+        "test-boolean": {
+            "type": "boolean"
+        },
+        "test-object": {
+            "type": "object",
+            "properties": {
+                "test-text": {
+                    "type": "text",
+                    "fields": {
+                        "keyword": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "test-object": {
+                    "type": "object",
+                    "properties": {
+                        "test-text": {
+                            "type": "text",
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "test-nested": {
+            "type": "nested",
+            "properties": {
+                "first": {
+                    "type": "text",
+                    "fields": {
+                        "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                        }
+                    }
+                },
+                "last": {
+                    "type": "text",
+                    "fields": {
+                        "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                        }
+                    }
+                }
+            }
+        },
+        "test-date": {
+            "type": "date"
+        },
+        "test-geo_point": {
+            "type": "geo_point"
+        },
+        "test-geo_shape": {
+            "type": "geo_shape"
+        }
+    }
+}
