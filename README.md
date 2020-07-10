@@ -13,9 +13,10 @@
 Repository: https://hub.docker.com/r/stephanediondev/elasticsearch-admin
 
 ```
-docker run --publish 80:8080 -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "EMAIL=example@example.com" -e "ENCODED_PASSWORD=\$argon2id\$v=19\$m=65536,t=4,p=1\$Hx5YWkNlKMb6xkAumzAMYg\$wAtGPNTQoHoo+AyQphqu+WYqhL+BJlWgQqv71+MExw8" --detach --name elasticsearch-admin stephanediondev/elasticsearch-admin
+docker run --publish 80:8080 -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" --detach --name elasticsearch-admin stephanediondev/elasticsearch-admin
 
-#password = example
+# Edit ELASTICSEARCH_URL and SECRET_REGISTER (random string to secure registration)
+# If Elasticsearch security features are enabled, add -e "ELASTICSEARCH_USERNAME=xxxxx" -e "ELASTICSEARCH_PASSWORD=xxxxx"
 ```
 
 ### Classic
@@ -32,11 +33,9 @@ composer install
 npm install
 npm run build
 
-bin/console security:encode-password
-# Encode a password
-
 cp .env.dist .env
-# Edit ELASTICSEARCH_URL, EMAIL and ENCODED_PASSWORD
+
+# Edit ELASTICSEARCH_URL and SECRET_REGISTER (random string to secure registration)
 # If Elasticsearch security features are enabled, edit ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
 ```
 
