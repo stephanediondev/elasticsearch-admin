@@ -64,3 +64,13 @@
         {% endembed %}
     {% endif %}
 {% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).on('submit', 'form', function(event) {
+            $('#page').val(1);
+        });
+    </script>
+{% endblock %}

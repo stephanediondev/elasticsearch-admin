@@ -3,6 +3,7 @@
 
     {% block thead %}
         <tr>
+            <th>&nbsp;</th>
             <th>
                 {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_id', 'title': '_id'})}}
             </th>
@@ -25,6 +26,30 @@
     {% block tbody %}
         {% for row in documents.rows %}
             <tr>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal{{ row['_id'] }}">
+                        {{ 'source'|trans }}
+                    </button>
+
+                    <div class="modal fade" id="modal{{ row['_id'] }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ row['_id'] }}" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLabel{{ row['_id'] }}">#{{ row['_id'] }} ({{ 'source'|trans }})</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <pre>{{ row['_source']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
                 <td>
                     {{ row['_id'] }}
                 </td>
@@ -75,7 +100,32 @@
                                     {% endif %}
                                 {% endif %}
                             {% else %}
-                                {{ value }}
+                                {% if 500 < value|length %}
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal{{ row['_id'] }}{{ field }}">
+                                        {{ 'long_text'|trans }}
+                                    </button>
+
+                                    <div class="modal fade" id="modal{{ row['_id'] }}{{ field }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ row['_id'] }}{{ field }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <pre>{{ value }}</pre>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     </td>
