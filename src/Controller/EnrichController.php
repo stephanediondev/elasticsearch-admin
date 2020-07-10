@@ -201,7 +201,7 @@ class EnrichController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES');
+        $this->denyAccessUnlessGranted('ENRICH_POLICY_DELETE');
 
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
@@ -222,7 +222,7 @@ class EnrichController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES');
+        $this->denyAccessUnlessGranted('ENRICH_POLICY_EXECUTE');
 
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();

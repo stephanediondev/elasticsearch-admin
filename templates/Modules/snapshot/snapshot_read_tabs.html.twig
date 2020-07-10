@@ -3,9 +3,11 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('snapshots_read', {'repository': repository, 'snapshot': snapshot['snapshot']}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'restore' == active %} active{% endif %}" href="{{ path('snapshots_read_restore', {'repository': repository, 'snapshot': snapshot['snapshot']}) }}">{{ 'restore'|trans }}</a>
-    </li>
+    {% if is_granted('SNAPSHOT_RESTORE') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'restore' == active %} active{% endif %}" href="{{ path('snapshots_read_restore', {'repository': repository, 'snapshot': snapshot['snapshot']}) }}">{{ 'restore'|trans }}</a>
+        </li>
+    {% endif %}
 
     {% if 0 < snapshot['failures']|length %}
         <li class="nav-item">

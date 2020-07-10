@@ -148,7 +148,7 @@ class RoleController extends AbstractAppController
      */
     public function update(Request $request, string $role, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
     {
-        $this->denyAccessUnlessGranted('ROLES');
+        $this->denyAccessUnlessGranted('ROLE_UPDATE');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -206,7 +206,7 @@ class RoleController extends AbstractAppController
      */
     public function delete(Request $request, string $role): Response
     {
-        $this->denyAccessUnlessGranted('ROLES');
+        $this->denyAccessUnlessGranted('ROLE_DELETE');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();

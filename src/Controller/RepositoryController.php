@@ -29,6 +29,8 @@ class RepositoryController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('REPOSITORIES');
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/repositories');
         $callResponse = $this->callManager->call($callRequest);
@@ -51,6 +53,8 @@ class RepositoryController extends AbstractAppController
      */
     public function create(Request $request, string $type): Response
     {
+        $this->denyAccessUnlessGranted('REPOSITORIES_CREATE');
+
         if ('s3' == $type && false == $this->hasPlugin('repository-s3')) {
             throw new AccessDeniedHttpException();
         }
@@ -101,6 +105,8 @@ class RepositoryController extends AbstractAppController
      */
     public function read(Request $request, string $repository): Response
     {
+        $this->denyAccessUnlessGranted('REPOSITORIES');
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository);
         $callResponse = $this->callManager->call($callRequest);
@@ -125,6 +131,8 @@ class RepositoryController extends AbstractAppController
      */
     public function update(Request $request, string $repository): Response
     {
+        $this->denyAccessUnlessGranted('REPOSITORY_UPDATE');
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository);
         $callResponse = $this->callManager->call($callRequest);
@@ -181,6 +189,8 @@ class RepositoryController extends AbstractAppController
      */
     public function delete(Request $request, string $repository): Response
     {
+        $this->denyAccessUnlessGranted('REPOSITORY_DELETE');
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
         $callRequest->setPath('/_snapshot/'.$repository);
@@ -196,6 +206,8 @@ class RepositoryController extends AbstractAppController
      */
     public function cleanup(Request $request, string $repository): Response
     {
+        $this->denyAccessUnlessGranted('REPOSITORY_CLEANUP');
+
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
@@ -215,6 +227,8 @@ class RepositoryController extends AbstractAppController
      */
     public function verify(Request $request, string $repository): Response
     {
+        $this->denyAccessUnlessGranted('REPOSITORY_VERIFY');
+
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');

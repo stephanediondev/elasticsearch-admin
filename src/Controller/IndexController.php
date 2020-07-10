@@ -268,7 +268,7 @@ class IndexController extends AbstractAppController
      */
     public function update(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_UPDATE');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -1015,7 +1015,7 @@ class IndexController extends AbstractAppController
      */
     public function delete(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_DELETE');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 

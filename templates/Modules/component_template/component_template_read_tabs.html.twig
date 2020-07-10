@@ -3,7 +3,7 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('component_templates_read', {'name': template.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    {% if false == template.isSystem %}
+    {% if is_granted('COMPONENT_TEMPLATE_UPDATE') and false == template.isSystem %}
         <li class="nav-item">
             <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('component_templates_update', {'name': template.name}) }}">{{ 'update'|trans }}</a>
         </li>

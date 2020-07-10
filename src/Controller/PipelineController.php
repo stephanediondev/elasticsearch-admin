@@ -110,7 +110,7 @@ class PipelineController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINES');
+        $this->denyAccessUnlessGranted('PIPELINE_UPDATE');
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
@@ -145,7 +145,7 @@ class PipelineController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINES');
+        $this->denyAccessUnlessGranted('PIPELINE_DELETE');
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 

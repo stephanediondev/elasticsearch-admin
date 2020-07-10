@@ -3,7 +3,9 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('pipelines_read', {'name': pipeline.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('pipelines_update', {'name': pipeline.name}) }}">{{ 'update'|trans }}</a>
-    </li>
+    {% if is_granted('PIPELINE_UPDATE') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('pipelines_update', {'name': pipeline.name}) }}">{{ 'update'|trans }}</a>
+        </li>
+    {% endif %}
 </ul>

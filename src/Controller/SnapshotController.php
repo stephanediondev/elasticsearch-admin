@@ -165,7 +165,7 @@ class SnapshotController extends AbstractAppController
      */
     public function delete(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS');
+        $this->denyAccessUnlessGranted('SNAPSHOT_DELETE');
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
@@ -182,7 +182,7 @@ class SnapshotController extends AbstractAppController
      */
     public function restore(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS');
+        $this->denyAccessUnlessGranted('SNAPSHOT_RESTORE');
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);

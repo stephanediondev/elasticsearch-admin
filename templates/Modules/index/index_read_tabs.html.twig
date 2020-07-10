@@ -4,7 +4,7 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('indices_read', {'index': index.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    {% if false == index.isSystem %}
+    {% if is_granted('INDEX_UPDATE') and false == index.isSystem %}
         <li class="nav-item">
             <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('indices_update', {'index': index.name}) }}">{{ 'update'|trans }}</a>
         </li>

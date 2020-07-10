@@ -25,29 +25,33 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
-                        {{ appImport.buttonModal({
-                            'id': 'UserDelete',
-                            'title': 'delete'|trans,
-                            'body': user['username'],
-                            'href': path('users_delete', {'user': user['username']}),
-                        }) }}
-
-                        {% if false == user['enabled'] %}
+                        {% if is_granted('USER_DELETE') %}
                             {{ appImport.buttonModal({
-                                'id': 'UserEnable',
-                                'title': 'enable'|trans,
+                                'id': 'UserDelete',
+                                'title': 'delete'|trans,
                                 'body': user['username'],
-                                'href': path('users_enable', {'user': user['username']}),
+                                'href': path('users_delete', {'user': user['username']}),
                             }) }}
                         {% endif %}
 
-                        {% if true == user['enabled'] %}
-                            {{ appImport.buttonModal({
-                                'id': 'UserDisable',
-                                'title': 'disable'|trans,
-                                'body': user['username'],
-                                'href': path('users_disable', {'user': user['username']}),
-                            }) }}
+                        {% if is_granted('USER_ENABLE_DISABLE') %}
+                            {% if false == user['enabled'] %}
+                                {{ appImport.buttonModal({
+                                    'id': 'UserEnable',
+                                    'title': 'enable'|trans,
+                                    'body': user['username'],
+                                    'href': path('users_enable', {'user': user['username']}),
+                                }) }}
+                            {% endif %}
+
+                            {% if true == user['enabled'] %}
+                                {{ appImport.buttonModal({
+                                    'id': 'UserDisable',
+                                    'title': 'disable'|trans,
+                                    'body': user['username'],
+                                    'href': path('users_disable', {'user': user['username']}),
+                                }) }}
+                            {% endif %}
                         {% endif %}
                     {% endblock %}
                 {% endembed %}

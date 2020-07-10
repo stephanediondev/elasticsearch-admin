@@ -24,26 +24,32 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {{ appImport.buttonModal({
-                        'id': 'RepositoryDelete',
-                        'title': 'delete'|trans,
-                        'body': repository['id'],
-                        'href': path('repositories_delete', {'repository': repository['id']}),
-                    }) }}
+                    {% if is_granted('REPOSITORY_DELETE') %}
+                        {{ appImport.buttonModal({
+                            'id': 'RepositoryDelete',
+                            'title': 'delete'|trans,
+                            'body': repository['id'],
+                            'href': path('repositories_delete', {'repository': repository['id']}),
+                        }) }}
+                    {% endif %}
 
-                    {{ appImport.buttonModal({
-                        'id': 'RepositoryCleanup',
-                        'title': 'cleanup'|trans,
-                        'body': repository['id'],
-                        'href': path('repositories_cleanup', {'repository': repository['id']}),
-                    }) }}
+                    {% if is_granted('REPOSITORY_CLEANUP') %}
+                        {{ appImport.buttonModal({
+                            'id': 'RepositoryCleanup',
+                            'title': 'cleanup'|trans,
+                            'body': repository['id'],
+                            'href': path('repositories_cleanup', {'repository': repository['id']}),
+                        }) }}
+                    {% endif %}
 
-                    {{ appImport.buttonModal({
-                        'id': 'RepositoryVerify',
-                        'title': 'verify'|trans,
-                        'body': repository['id'],
-                        'href': path('repositories_verify', {'repository': repository['id']}),
-                    }) }}
+                    {% if is_granted('REPOSITORY_VERIFY') %}
+                        {{ appImport.buttonModal({
+                            'id': 'RepositoryVerify',
+                            'title': 'verify'|trans,
+                            'body': repository['id'],
+                            'href': path('repositories_verify', {'repository': repository['id']}),
+                        }) }}
+                    {% endif %}
                 {% endblock %}
             {% endembed %}
 

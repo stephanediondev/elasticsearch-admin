@@ -179,7 +179,7 @@ class IndexTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_UPDATE');
 
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
@@ -229,7 +229,7 @@ class IndexTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_DELETE');
 
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();

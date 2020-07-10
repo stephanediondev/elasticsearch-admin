@@ -24,14 +24,18 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {{ appImport.buttonModal({
-                        'id': 'PipelineDelete',
-                        'title': 'delete'|trans,
-                        'body': pipeline.name,
-                        'href': path('pipelines_delete', {'name': pipeline.name}),
-                    }) }}
+                    {% if is_granted('PIPELINE_DELETE') %}
+                        {{ appImport.buttonModal({
+                            'id': 'PipelineDelete',
+                            'title': 'delete'|trans,
+                            'body': pipeline.name,
+                            'href': path('pipelines_delete', {'name': pipeline.name}),
+                        }) }}
+                    {% endif %}
 
-                    <a class="btn btn-primary btn-sm" href="{{ path('pipelines_create', {'pipeline': pipeline.name}) }}">{{ 'copy'|trans }}</a>
+                    {% if is_granted('PIPELINES_CREATE') %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('pipelines_create', {'pipeline': pipeline.name}) }}">{{ 'copy'|trans }}</a>
+                    {% endif %}
                 {% endblock %}
             {% endembed %}
 

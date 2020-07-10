@@ -24,14 +24,18 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {{ appImport.buttonModal({
-                        'id': 'PolicyDelete',
-                        'title': 'delete'|trans,
-                        'body': policy.name,
-                        'href': path('ilm_delete', {'name': policy.name}),
-                    }) }}
+                    {% if is_granted('ILM_POLICY_DELETE') %}
+                        {{ appImport.buttonModal({
+                            'id': 'PolicyDelete',
+                            'title': 'delete'|trans,
+                            'body': policy.name,
+                            'href': path('ilm_delete', {'name': policy.name}),
+                        }) }}
+                    {% endif %}
 
-                    <a class="btn btn-primary btn-sm" href="{{ path('ilm_create', {'policy': policy.name}) }}">{{ 'copy'|trans }}</a>
+                    {% if is_granted('ILM_POLICIES_CREATE') %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('ilm_create', {'policy': policy.name}) }}">{{ 'copy'|trans }}</a>
+                    {% endif %}
                 {% endblock %}
             {% endembed %}
 

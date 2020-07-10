@@ -137,7 +137,7 @@ class UserController extends AbstractAppController
      */
     public function update(Request $request, string $user, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
-        $this->denyAccessUnlessGranted('USERS');
+        $this->denyAccessUnlessGranted('USER_UPDATE');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -216,7 +216,7 @@ class UserController extends AbstractAppController
      */
     public function enable(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USERS');
+        $this->denyAccessUnlessGranted('USER_ENABLE_DISABLE');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -262,7 +262,7 @@ class UserController extends AbstractAppController
      */
     public function disable(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USERS');
+        $this->denyAccessUnlessGranted('USER_ENABLE_DISABLE');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -308,7 +308,7 @@ class UserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USERS');
+        $this->denyAccessUnlessGranted('USER_DELETE');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();

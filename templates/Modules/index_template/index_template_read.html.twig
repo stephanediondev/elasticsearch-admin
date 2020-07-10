@@ -25,14 +25,18 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
-                        {{ appImport.buttonModal({
-                            'id': 'IndexTemplateDelete',
-                            'title': 'delete'|trans,
-                            'body': template.name,
-                            'href': path('index_templates_delete', {'name': template.name}),
-                        }) }}
+                        {% if is_granted('INDEX_TEMPLATE_DELETE') %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndexTemplateDelete',
+                                'title': 'delete'|trans,
+                                'body': template.name,
+                                'href': path('index_templates_delete', {'name': template.name}),
+                            }) }}
+                        {% endif %}
 
-                        <a class="btn btn-primary btn-sm" href="{{ path('index_templates_create', {'template': template.name}) }}">{{ 'copy'|trans }}</a>
+                        {% if is_granted('INDEX_TEMPLATES_CREATE') %}
+                            <a class="btn btn-primary btn-sm" href="{{ path('index_templates_create', {'template': template.name}) }}">{{ 'copy'|trans }}</a>
+                        {% endif %}
                     {% endblock %}
                 {% endembed %}
             {% endif %}

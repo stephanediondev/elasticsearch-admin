@@ -150,7 +150,7 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_UPDATE');
 
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
@@ -189,7 +189,7 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_DELETE');
 
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 

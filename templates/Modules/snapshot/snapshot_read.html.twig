@@ -24,12 +24,14 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {{ appImport.buttonModal({
-                        'id': 'SnapshotDelete',
-                        'title': 'delete'|trans,
-                        'body': snapshot['snapshot'],
-                        'href': path('snapshots_delete', {'repository': repository, 'snapshot': snapshot['snapshot']}),
-                    }) }}
+                    {% if is_granted('SNAPSHOT_DELETE') %}
+                        {{ appImport.buttonModal({
+                            'id': 'SnapshotDelete',
+                            'title': 'delete'|trans,
+                            'body': snapshot['snapshot'],
+                            'href': path('snapshots_delete', {'repository': repository, 'snapshot': snapshot['snapshot']}),
+                        }) }}
+                    {% endif %}
                 {% endblock %}
             {% endembed %}
 

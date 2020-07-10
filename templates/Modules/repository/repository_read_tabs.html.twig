@@ -3,15 +3,21 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('repositories_read', {'repository': repository['id']}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('repositories_update', {'repository': repository['id']}) }}">{{ 'update'|trans }}</a>
-    </li>
+    {% if is_granted('REPOSITORY_UPDATE') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('repositories_update', {'repository': repository['id']}) }}">{{ 'update'|trans }}</a>
+        </li>
+    {% endif %}
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('snapshots_create', {'repository': repository['id']}) }}">{{ 'create_snapshot'|trans }}</a>
-    </li>
+    {% if is_granted('SNAPSHOTS_CREATE') %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('snapshots_create', {'repository': repository['id']}) }}">{{ 'create_snapshot'|trans }}</a>
+        </li>
+    {% endif %}
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('slm_create', {'repository': repository['id']}) }}">{{ 'create_slm_policy'|trans }}</a>
-    </li>
+    {% if is_granted('SLM_POLICIES_CREATE') %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('slm_create', {'repository': repository['id']}) }}">{{ 'create_slm_policy'|trans }}</a>
+        </li>
+    {% endif %}
 </ul>

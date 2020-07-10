@@ -24,21 +24,27 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {{ appImport.buttonModal({
-                        'id': 'PolicyDelete',
-                        'title': 'delete'|trans,
-                        'body': policy['name'],
-                        'href': path('enrich_delete', {'name': policy['name']}),
-                    }) }}
+                    {% if is_granted('ENRICH_POLICY_DELETE') %}
+                        {{ appImport.buttonModal({
+                            'id': 'PolicyDelete',
+                            'title': 'delete'|trans,
+                            'body': policy['name'],
+                            'href': path('enrich_delete', {'name': policy['name']}),
+                        }) }}
+                    {% endif %}
 
-                    {{ appImport.buttonModal({
-                        'id': 'PolicyExecute',
-                        'title': 'execute'|trans,
-                        'body': policy['name'],
-                        'href': path('enrich_execute', {'name': policy['name']}),
-                    }) }}
+                    {% if is_granted('ENRICH_POLICY_EXECUTE') %}
+                        {{ appImport.buttonModal({
+                            'id': 'PolicyExecute',
+                            'title': 'execute'|trans,
+                            'body': policy['name'],
+                            'href': path('enrich_execute', {'name': policy['name']}),
+                        }) }}
+                    {% endif %}
 
-                    <a class="btn btn-primary btn-sm" href="{{ path('enrich_create', {'policy': policy['name']}) }}">{{ 'copy'|trans }}</a>
+                    {% if is_granted('ENRICH_POLICIES_CREATE') %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('enrich_create', {'policy': policy['name']}) }}">{{ 'copy'|trans }}</a>
+                    {% endif %}
                 {% endblock %}
             {% endembed %}
 
