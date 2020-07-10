@@ -3,7 +3,9 @@
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('users') }}">{{ 'list'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'create_user' == active %} active{% endif %}" href="{{ path('users_create') }}">{{ 'create_user'|trans }}</a>
-    </li>
+    {% if is_granted('USERS_CREATE') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'create_user' == active %} active{% endif %}" href="{{ path('users_create') }}">{{ 'create_user'|trans }}</a>
+        </li>
+    {% endif %}
 </ul>

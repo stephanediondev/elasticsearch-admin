@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Core\Traits\JwtTrait;
 use App\Model\CallRequestModel;
+use App\Security\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -46,12 +47,27 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         $firewallName = 'main';
 
-        $token = new UsernamePasswordToken(self::$container->getParameter('email'), null, $firewallName, ['ROLE_ADMIN']);
-        $session->set('_security_'.$firewallName, serialize($token));
-        $session->save();
+        $query = [
+            'q' => 'email:"example@example.com"',
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/.elastictsearch-admin-users/_search');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
 
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
+        if (1 == count($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $row) {
+                $row = $row['_source'];
+
+                $user = new User();
+                $user->setEmail($row['email']);
+                $user->setPassword($row['password']);
+                $user->setRoles($row['roles']);
+            }
+        }
+
+        $this->client->loginUser($user);
     }
 
     protected function checkVersion(string $versionGoal): bool

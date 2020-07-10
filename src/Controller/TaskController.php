@@ -18,6 +18,8 @@ class TaskController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('TASKS');
+
         $tasks = [];
 
         $callRequest = new CallRequestModel();

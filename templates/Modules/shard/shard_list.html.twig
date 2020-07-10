@@ -88,7 +88,7 @@
 
                         {% if 'state' == column %}
                             <td>
-                                {% if 'UNASSIGNED' == row['state'] %}
+                                {% if 'UNASSIGNED' == row['state'] and is_granted('CLUSTER_ALLOCATION_EXPLAIN') %}
                                     <a href="{{ path('cluster_allocation_explain') }}">{{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}</a>
                                 {% else %}
                                     {{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}

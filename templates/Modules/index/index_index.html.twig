@@ -21,29 +21,37 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
-                        {{ appImport.buttonModal({
-                            'id': 'IndicesForceMergeAll',
-                            'title': 'force_merge'|trans,
-                            'href': path('indices_force_merge_all'),
-                        }) }}
+                        {% if is_granted('INDICES_FORCE_MERGE') %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndicesForceMergeAll',
+                                'title': 'force_merge'|trans,
+                                'href': path('indices_force_merge_all'),
+                            }) }}
+                        {% endif %}
 
-                        {{ appImport.buttonModal({
-                            'id': 'IndicesCacheClearAll',
-                            'title': 'cache_clear'|trans,
-                            'href': path('indices_cache_clear_all'),
-                        }) }}
+                        {% if is_granted('INDICES_CACHE_CLEAR') %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndicesCacheClearAll',
+                                'title': 'cache_clear'|trans,
+                                'href': path('indices_cache_clear_all'),
+                            }) }}
+                        {% endif %}
 
-                        {{ appImport.buttonModal({
-                            'id': 'IndicesFlushAll',
-                            'title': 'flush'|trans,
-                            'href': path('indices_flush_all'),
-                        }) }}
+                        {% if is_granted('INDICES_FLUSH') %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndicesFlushAll',
+                                'title': 'flush'|trans,
+                                'href': path('indices_flush_all'),
+                            }) }}
+                        {% endif %}
 
-                        {{ appImport.buttonModal({
-                            'id': 'IndicesRefreshAll',
-                            'title': 'refresh'|trans,
-                            'href': path('indices_refresh_all'),
-                        }) }}
+                        {% if is_granted('INDICES_REFRESH') %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndicesRefreshAll',
+                                'title': 'refresh'|trans,
+                                'href': path('indices_refresh_all'),
+                            }) }}
+                        {% endif %}
                     {% endblock %}
                 {% endembed %}
 

@@ -18,6 +18,8 @@ class ShardController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('SHARDS');
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/shards');
         $callRequest->setQuery(['bytes' => 'b', 's' => $request->query->get('s', 'index:asc,shard:asc,prirep:asc'), 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node']);

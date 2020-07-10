@@ -27,71 +27,115 @@
                         <a class="nav-link" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': cluster_health['status']|trans, 'context': cluster_health['status']}) }}</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
-                    </li>
+                    {% if is_granted('NODES') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                        </li>
+                    {% endif %}
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
-                    </li>
+                    {% if is_granted('INDICES') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
+                        </li>
+                    {% endif %}
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
-                    </li>
+                    {% if is_granted('SHARDS') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
+                        </li>
+                    {% endif %}
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="configurationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ 'configuration'|trans }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="configurationDropdown">
-                            <a class="dropdown-item" href="{{ path('index_templates_legacy') }}">{{ 'index_templates_legacy'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('index_templates') }}">
-                                {{ 'index_templates'|trans }}
-                                {% if false == check_version(root, '7.8') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                    {% if is_granted('CONFIGURATION') %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="configurationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ 'configuration'|trans }}
                             </a>
-                            <a class="dropdown-item" href="{{ path('component_templates') }}">
-                                {{ 'component_templates'|trans }}
-                                {% if false == check_version(root, '7.8') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                            </a>
-                            <a class="dropdown-item" href="{{ path('ilm') }}">
-                                {{ 'ilm'|trans }}
-                                {% if false == has_feature(xpack, 'ilm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                            </a>
-                            <a class="dropdown-item" href="{{ path('slm') }}">
-                                {{ 'slm'|trans }}
-                                {% if false == has_feature(xpack, 'slm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                            </a>
-                            <a class="dropdown-item" href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('enrich') }}">
-                                {{ 'enrich'|trans }}
-                                {% if false == has_feature(xpack, 'enrich') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                            </a>
-                            <a class="dropdown-item" href="{{ path('users') }}">
-                                {{ 'users'|trans }}
-                                {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                            </a>
-                            <a class="dropdown-item" href="{{ path('roles') }}">
-                                {{ 'roles'|trans }}
-                                {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                            </a>
-                        </div>
-                    </li>
+                            <div class="dropdown-menu" aria-labelledby="configurationDropdown">
+                                {% if is_granted('INDEX_TEMPLATES_LEGACY') %}
+                                    <a class="dropdown-item" href="{{ path('index_templates_legacy') }}">{{ 'index_templates_legacy'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('INDEX_TEMPLATES') %}
+                                    <a class="dropdown-item" href="{{ path('index_templates') }}">
+                                        {{ 'index_templates'|trans }}
+                                        {% if false == check_version(root, '7.8') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted('COMPONENT_TEMPLATES') %}
+                                    <a class="dropdown-item" href="{{ path('component_templates') }}">
+                                        {{ 'component_templates'|trans }}
+                                        {% if false == check_version(root, '7.8') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted('ILM_POLICIES') %}
+                                    <a class="dropdown-item" href="{{ path('ilm') }}">
+                                        {{ 'ilm'|trans }}
+                                        {% if false == has_feature(xpack, 'ilm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted('SLM_POLICIES') %}
+                                    <a class="dropdown-item" href="{{ path('slm') }}">
+                                        {{ 'slm'|trans }}
+                                        {% if false == has_feature(xpack, 'slm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted('REPOSITORIES') %}
+                                    <a class="dropdown-item" href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('ENRICH_POLICIES') %}
+                                    <a class="dropdown-item" href="{{ path('enrich') }}">
+                                        {{ 'enrich'|trans }}
+                                        {% if false == has_feature(xpack, 'enrich') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted('USERS') %}
+                                    <a class="dropdown-item" href="{{ path('users') }}">
+                                        {{ 'users'|trans }}
+                                        {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                    </a>
+                                {% endif %}
+                                {% if is_granted('ROLES') %}
+                                    <a class="dropdown-item" href="{{ path('roles') }}">
+                                        {{ 'roles'|trans }}
+                                        {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endif %}
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ 'tools'|trans }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="toolsDropdown">
-                            <a class="dropdown-item" href="{{ path('snapshots') }}">{{ 'snapshots'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('pipelines') }}">{{ 'pipelines'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('tasks') }}">{{ 'tasks'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('remote_clusters') }}">{{ 'remote_clusters'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('cat') }}">{{ 'cat'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('console') }}">{{ 'console'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('license') }}">{{ 'license'|trans }}</a>
-                        </div>
-                    </li>
+                    {% if is_granted('TOOLS') %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ 'tools'|trans }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="toolsDropdown">
+                                {% if is_granted('SNAPSHOTS') %}
+                                    <a class="dropdown-item" href="{{ path('snapshots') }}">{{ 'snapshots'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('PIPELINES') %}
+                                    <a class="dropdown-item" href="{{ path('pipelines') }}">{{ 'pipelines'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('TASKS') %}
+                                    <a class="dropdown-item" href="{{ path('tasks') }}">{{ 'tasks'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('REMOTE_CLUSTERS') %}
+                                    <a class="dropdown-item" href="{{ path('remote_clusters') }}">{{ 'remote_clusters'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('CAT') %}
+                                    <a class="dropdown-item" href="{{ path('cat') }}">{{ 'cat'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('CONSOLE') %}
+                                    <a class="dropdown-item" href="{{ path('console') }}">{{ 'console'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('DEPRECATIONS') %}
+                                    <a class="dropdown-item" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
+                                {% endif %}
+                                {% if is_granted('LICENSE') %}
+                                    <a class="dropdown-item" href="{{ path('license') }}">{{ 'license'|trans }}</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endif %}
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>

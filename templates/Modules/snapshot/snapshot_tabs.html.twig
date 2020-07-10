@@ -3,7 +3,9 @@
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('snapshots') }}">{{ 'list'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'create_snapshot' == active %} active{% endif %}" href="{{ path('snapshots_create') }}">{{ 'create_snapshot'|trans }}</a>
-    </li>
+    {% if is_granted('SNAPSHOTS_CREATE') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'create_snapshot' == active %} active{% endif %}" href="{{ path('snapshots_create') }}">{{ 'create_snapshot'|trans }}</a>
+        </li>
+    {% endif %}
 </ul>

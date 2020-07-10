@@ -3,7 +3,9 @@
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('component_templates') }}">{{ 'list'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'create_component_template' == active %} active{% endif %}" href="{{ path('component_templates_create') }}">{{ 'create_component_template'|trans }}</a>
-    </li>
+    {% if is_granted('COMPONENT_TEMPLATES_CREATE') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'create_component_template' == active %} active{% endif %}" href="{{ path('component_templates_create') }}">{{ 'create_component_template'|trans }}</a>
+        </li>
+    {% endif %}
 </ul>

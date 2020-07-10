@@ -3,13 +3,17 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('cluster') }}">{{ 'summary'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}</a>
-    </li>
-
-    {% if 0 < cluster_health['unassigned_shards'] or 'allocation_explain' == active %}
+    {% if is_granted('CLUSTER_SETTINGS') %}
         <li class="nav-item">
-            <a class="nav-link{% if 'allocation_explain' == active %} active{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
+            <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}</a>
         </li>
+    {% endif %}
+
+    {% if is_granted('CLUSTER_ALLOCATION_EXPLAIN') %}
+        {% if 0 < cluster_health['unassigned_shards'] or 'allocation_explain' == active %}
+            <li class="nav-item">
+                <a class="nav-link{% if 'allocation_explain' == active %} active{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
+            </li>
+        {% endif %}
     {% endif %}
 </ul>

@@ -100,7 +100,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
             $callResponse = $this->callManager->call($callRequest);
             $results = $callResponse->getContent();
 
-            while (0 < count($results['hits']['hits'])) {
+            if (1 == count($results['hits']['hits'])) {
                 foreach ($results['hits']['hits'] as $row) {
                     $row = $row['_source'];
 

@@ -28,6 +28,8 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES');
+
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -51,6 +53,8 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_CREATE');
+
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -100,6 +104,8 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES');
+
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -120,6 +126,8 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES');
+
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -140,6 +148,8 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES');
+
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -160,6 +170,8 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES');
+
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -201,6 +213,8 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES');
+
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }

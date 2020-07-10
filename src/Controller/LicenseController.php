@@ -19,6 +19,8 @@ class LicenseController extends AbstractAppController
      */
     public function read(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('LICENSE');
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_xpack/license');
         $callResponse = $this->callManager->call($callRequest);
@@ -60,6 +62,8 @@ class LicenseController extends AbstractAppController
      */
     public function startTrial(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('LICENSE');
+
         if (false == $this->checkVersion('6.6')) {
             throw new AccessDeniedHttpException();
         }
@@ -80,6 +84,8 @@ class LicenseController extends AbstractAppController
      */
     public function startBasic(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('LICENSE');
+
         if (false == $this->checkVersion('6.6')) {
             throw new AccessDeniedHttpException();
         }

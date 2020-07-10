@@ -24,6 +24,8 @@ class IndexStatsController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('INDICES_STATS');
+
         $query = [
             'bytes' => 'b',
             's' => $request->query->get('s', 'index:asc'),

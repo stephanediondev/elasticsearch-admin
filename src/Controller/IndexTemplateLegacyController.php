@@ -28,6 +28,8 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY');
+
         $templates = $this->elasticsearchIndexTemplateLegacyManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/index_template_legacy/index_template_legacy_index.html.twig', [
@@ -47,6 +49,8 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_CREATE');
+
         $template = false;
 
         if ($request->query->get('template')) {
@@ -92,6 +96,8 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY');
+
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
         if (false == $template) {
@@ -108,6 +114,8 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY');
+
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
         if (false == $template) {
@@ -124,6 +132,8 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY');
+
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
         if (false == $template) {
@@ -140,6 +150,8 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY');
+
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
         if (false == $template) {
@@ -177,6 +189,8 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY');
+
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
         if (false == $template) {

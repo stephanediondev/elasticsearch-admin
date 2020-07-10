@@ -60,24 +60,30 @@
                                     <td class="text-nowrap text-right">
                                         {% if value is not iterable %}
                                             {% if 'defaults' != type %}
-                                                {{ appImport.buttonModal({
-                                                    'id': 'SettingRemove' ~ loop.index ~ type,
-                                                    'title': 'remove'|trans,
-                                                    'body': key,
-                                                    'href': path('cluster_settings_remove', {'type': type, 'setting': key}),
-                                                }) }}
+                                                {% if is_granted('CLUSTER_SETTING_REMOVE') %}
+                                                    {{ appImport.buttonModal({
+                                                        'id': 'SettingRemove' ~ loop.index ~ type,
+                                                        'title': 'remove'|trans,
+                                                        'body': key,
+                                                        'href': path('cluster_settings_remove', {'type': type, 'setting': key}),
+                                                    }) }}
+                                                {% endif %}
 
-                                                <a href="{{ path('cluster_settings_edit', {'type': type, 'setting': key}) }}" class="btn btn-primary btn-sm">
-                                                    {{ ('edit_as_' ~ type)|trans }}
-                                                </a>
+                                                {% if is_granted('CLUSTER_SETTING_EDIT') %}
+                                                    <a href="{{ path('cluster_settings_edit', {'type': type, 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                                        {{ ('edit_as_' ~ type)|trans }}
+                                                    </a>
+                                                {% endif %}
                                             {% elseif key not in cluster_settings_not_dynamic %}
-                                                <a href="{{ path('cluster_settings_edit', {'type': 'persistent', 'setting': key}) }}" class="btn btn-primary btn-sm">
-                                                    {{ 'edit_as_persistent'|trans }}
-                                                </a>
+                                                {% if is_granted('CLUSTER_SETTING_EDIT') %}
+                                                    <a href="{{ path('cluster_settings_edit', {'type': 'persistent', 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                                        {{ 'edit_as_persistent'|trans }}
+                                                    </a>
 
-                                                <a href="{{ path('cluster_settings_edit', {'type': 'transient', 'setting': key}) }}" class="btn btn-primary btn-sm">
-                                                    {{ 'edit_as_transient'|trans }}
-                                                </a>
+                                                    <a href="{{ path('cluster_settings_edit', {'type': 'transient', 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                                        {{ 'edit_as_transient'|trans }}
+                                                    </a>
+                                                {% endif %}
                                             {% endif %}
                                         {% endif %}
                                     </td>

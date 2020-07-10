@@ -28,6 +28,8 @@ class PipelineController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('PIPELINES');
+
         $pipelines = $this->elasticsearchPipelineManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/pipeline/pipeline_index.html.twig', [
@@ -47,6 +49,8 @@ class PipelineController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('PIPELINES_CREATE');
+
         $pipeline = false;
 
         if ($request->query->get('pipeline')) {
@@ -88,6 +92,8 @@ class PipelineController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('PIPELINES');
+
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
         if (false == $pipeline) {
@@ -104,6 +110,8 @@ class PipelineController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('PIPELINES');
+
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
         if (false == $pipeline) {
@@ -137,6 +145,8 @@ class PipelineController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        $this->denyAccessUnlessGranted('PIPELINES');
+
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
         if (false == $pipeline) {

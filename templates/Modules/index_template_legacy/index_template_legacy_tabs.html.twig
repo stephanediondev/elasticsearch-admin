@@ -3,7 +3,9 @@
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('index_templates_legacy') }}">{{ 'list'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'create_index_template' == active %} active{% endif %}" href="{{ path('index_templates_legacy_create') }}">{{ 'create_index_template'|trans }}</a>
-    </li>
+    {% if is_granted('INDEX_TEMPLATES_LEGACY_CREATE') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'create_index_template' == active %} active{% endif %}" href="{{ path('index_templates_legacy_create') }}">{{ 'create_index_template'|trans }}</a>
+        </li>
+    {% endif %}
 </ul>

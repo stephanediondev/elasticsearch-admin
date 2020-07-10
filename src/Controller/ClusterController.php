@@ -51,6 +51,8 @@ class ClusterController extends AbstractAppController
      */
     public function allocationExplain(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('CLUSTER_ALLOCATION_EXPLAIN');
+
         $allocationExplain = false;
 
         try {
@@ -72,6 +74,8 @@ class ClusterController extends AbstractAppController
      */
     public function settings(Request $request, ElasticsearchClusterManager $elasticsearchClusterManager): Response
     {
+        $this->denyAccessUnlessGranted('CLUSTER_SETTINGS');
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cluster/settings');
         $callRequest->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
@@ -89,6 +93,8 @@ class ClusterController extends AbstractAppController
      */
     public function edit(Request $request, string $type, string $setting, ElasticsearchClusterManager $elasticsearchClusterManager): Response
     {
+        $this->denyAccessUnlessGranted('CLUSTER_SETTING_EDIT');
+
         $clusterSettings = $elasticsearchClusterManager->getClusterSettings();
 
         if (true == array_key_exists($setting, $clusterSettings)) {
@@ -132,6 +138,8 @@ class ClusterController extends AbstractAppController
      */
     public function remove(Request $request, string $type, string $setting): Response
     {
+        $this->denyAccessUnlessGranted('CLUSTER_SETTING_REMOVE');
+
         $json = [
             $type => [
                 $setting => null,
