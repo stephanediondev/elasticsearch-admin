@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class SecurityController extends AbstractAppController
 {
@@ -64,6 +65,15 @@ class SecurityController extends AbstractAppController
      */
     public function register(Request $request): Response
     {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('HEAD');
+        $callRequest->setPath('/.elastictsearch-admin-users');
+        $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_OK == $callResponse->getCode()) {
+            throw new AccessDeniedHttpException();
+        }
+
         $user = new User();
         $form = $this->createForm(RegisterUserType::class, $user);
 
