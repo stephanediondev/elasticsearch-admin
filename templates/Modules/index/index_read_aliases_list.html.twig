@@ -37,12 +37,14 @@
 
                         {% if '_buttons' == column %}
                             <td>
-                                {{ appImport.buttonModal({
-                                    'id': 'AliasDelete' ~ count,
-                                    'title': 'delete'|trans,
-                                    'body': row,
-                                    'href': path('indices_aliases_delete', {'index': index.name, 'alias': row}),
-                                }) }}
+                                {% if is_granted('INDEX_ALIAS_DELETE') %}
+                                    {{ appImport.buttonModal({
+                                        'id': 'AliasDelete' ~ count,
+                                        'title': 'delete'|trans,
+                                        'body': row,
+                                        'href': path('indices_aliases_delete', {'index': index.name, 'alias': row}),
+                                    }) }}
+                                {% endif %}
                             </td>
                         {% endif %}
                     {% endif %}

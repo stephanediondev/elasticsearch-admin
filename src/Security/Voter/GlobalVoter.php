@@ -42,6 +42,11 @@ class GlobalVoter extends Voter
             'INDEX_SEARCH',
             'INDEX_IMPORT',
             'INDEX_EXPORT',
+            'INDEX_SHARDS',
+            'INDEX_LIFECYCLE',
+            'INDEX_ALIASES',
+            'INDEX_ALIAS_CREATE',
+            'INDEX_ALIAS_DELETE',
             'SHARDS',
 
             'CONFIGURATION',

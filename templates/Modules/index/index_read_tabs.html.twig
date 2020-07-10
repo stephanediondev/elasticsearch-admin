@@ -18,14 +18,18 @@
         <a class="nav-link{% if 'mappings' == active %} active{% endif %}" href="{{ path('indices_read_mappings', {'index': index.name}) }}">{{ 'mappings'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'lifecycle' == active %} active{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index.name}) }}">{{ 'lifecycle'|trans }}{% if false == check_version(root, '6.6') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}{% if index.setting('index.lifecycle.name') %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
-    </li>
+    {% if is_granted('INDEX_LIFECYCLE') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'lifecycle' == active %} active{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index.name}) }}">{{ 'lifecycle'|trans }}{% if false == check_version(root, '6.6') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}{% if index.setting('index.lifecycle.name') %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
+        </li>
+    {% endif %}
 
     {% if 'open' == index.status %}
-        <li class="nav-item">
-            <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': index.name}) }}">{{ 'shards'|trans }}</a>
-        </li>
+        {% if is_granted('INDEX_SHARDS') %}
+            <li class="nav-item">
+                <a class="nav-link{% if 'shards' == active %} active{% endif %}" href="{{ path('indices_read_shards', {'index': index.name}) }}">{{ 'shards'|trans }}</a>
+            </li>
+        {% endif %}
 
         {% if false == index.isSystem %}
             {% if is_granted('INDEX_SEARCH') %}
@@ -40,13 +44,17 @@
                 </li>
             {% endif %}
 
-            <li class="nav-item">
-                <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index.name}) }}">{{ 'aliases'|trans }}</a>
-            </li>
+            {% if is_granted('INDEX_ALIASES') %}
+                <li class="nav-item">
+                    <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index.name}) }}">{{ 'aliases'|trans }}</a>
+                </li>
+            {% endif %}
 
-            <li class="nav-item">
-                <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index.name}) }}">{{ 'create_alias'|trans }}</a>
-            </li>
+            {% if is_granted('INDEX_ALIAS_CREATE') %}
+                <li class="nav-item">
+                    <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index.name}) }}">{{ 'create_alias'|trans }}</a>
+                </li>
+            {% endif %}
 
             {% if is_granted('INDICES_REINDEX') %}
                 <li class="nav-item">

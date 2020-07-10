@@ -43,7 +43,11 @@
             {% if true == lifecycle['managed'] %}
                 <p>
                     <strong>{{ 'ilm_policy'|trans }}</strong><br>
-                    <a href="{{ path('ilm_read', {'name': lifecycle['policy']}) }}">{{ lifecycle['policy'] }}</a>
+                    {% if is_granted('ILM_POLICIES') %}
+                        <a href="{{ path('ilm_read', {'name': lifecycle['policy']}) }}">{{ lifecycle['policy'] }}</a>
+                    {% else %}
+                        {{ lifecycle['policy'] }}
+                    {% endif %}
                 </p>
 
                 <pre>{{ lifecycle|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>

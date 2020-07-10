@@ -835,7 +835,7 @@ class IndexController extends AbstractAppController
      */
     public function lifecycle(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_LIFECYCLE');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
@@ -895,7 +895,7 @@ class IndexController extends AbstractAppController
      */
     public function shards(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_SHARDS');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -927,7 +927,7 @@ class IndexController extends AbstractAppController
      */
     public function aliases(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_ALIASES');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -959,7 +959,7 @@ class IndexController extends AbstractAppController
      */
     public function createAlias(Request $request, string $index): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_ALIAS_CREATE');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -998,7 +998,7 @@ class IndexController extends AbstractAppController
      */
     public function deleteAlias(Request $request, string $index, string $alias): Response
     {
-        $this->denyAccessUnlessGranted('INDICES');
+        $this->denyAccessUnlessGranted('INDEX_ALIAS_DELETE');
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
