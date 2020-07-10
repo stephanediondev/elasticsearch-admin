@@ -87,7 +87,9 @@ class SecurityController extends AbstractAppController
                 $callRequest->setMethod('PUT');
                 $callRequest->setJson($json);
                 $callRequest->setPath('/.elastictsearch-admin-users');
-                $this->callManager->call($callRequest);
+                $callResponse = $this->callManager->call($callRequest);
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
 
