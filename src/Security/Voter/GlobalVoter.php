@@ -107,6 +107,7 @@ class GlobalVoter extends Voter
             'TASKS',
             'REMOTE_CLUSTERS',
             'CAT',
+            'CAT_EXPORT',
             'CONSOLE',
             'DEPRECATIONS',
             'LICENSE',

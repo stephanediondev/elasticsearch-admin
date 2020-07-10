@@ -49,15 +49,17 @@
                 {% endif %}
 
                 {% if rows is defined and 0 < rows|length %}
-                    {% embed 'Embed/buttons_embed.html.twig' %}
-                        {% block content %}
-                            <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
-                            <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
-                            <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
-                            <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
-                            <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
-                        {% endblock %}
-                    {% endembed %}
+                    {% if is_granted('CAT_EXPORT') %}
+                        {% embed 'Embed/buttons_embed.html.twig' %}
+                            {% block content %}
+                                <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
+                                <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
+                                <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
+                                <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
+                                <a class="btn btn-primary btn-sm" href="{{ path('cat_export', {'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
+                            {% endblock %}
+                        {% endembed %}
+                    {% endif %}
 
                     {% embed 'Embed/table_embed.html.twig' %}
                         {% block thead %}

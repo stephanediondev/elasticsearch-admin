@@ -78,7 +78,7 @@ class CatController extends AbstractAppController
      */
     public function export(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): StreamedResponse
     {
-        $this->denyAccessUnlessGranted('CAT');
+        $this->denyAccessUnlessGranted('CAT_EXPORT');
 
         set_time_limit(0);
 
