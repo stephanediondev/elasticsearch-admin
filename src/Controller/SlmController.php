@@ -160,6 +160,8 @@ class SlmController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
+            $this->denyAccessUnlessGranted('SLM_POLICY_COPY', $policy);
+
             $policy->setName($policy->getName().'-copy');
         }
 
@@ -264,8 +266,6 @@ class SlmController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICY_UPDATE', 'global');
-
         if (false == $this->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
@@ -275,6 +275,8 @@ class SlmController extends AbstractAppController
         if (false == $policy) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('SLM_POLICY_UPDATE', $policy);
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
         $indices = $this->elasticsearchIndexManager->selectIndices();
@@ -306,8 +308,6 @@ class SlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICY_DELETE', 'global');
-
         if (false == $this->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
@@ -317,6 +317,8 @@ class SlmController extends AbstractAppController
         if (false == $policy) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('SLM_POLICY_DELETE', $policy);
 
         $callResponse = $this->elasticsearchSlmPolicyManager->deleteByName($policy->getName());
 
@@ -330,8 +332,6 @@ class SlmController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICY_EXECUTE', 'global');
-
         if (false == $this->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
@@ -341,6 +341,8 @@ class SlmController extends AbstractAppController
         if (false == $policy) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('SLM_POLICY_EXECUTE', $policy);
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');

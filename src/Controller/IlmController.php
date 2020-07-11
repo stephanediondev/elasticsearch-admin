@@ -137,6 +137,8 @@ class IlmController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
+            $this->denyAccessUnlessGranted('ILM_POLICY_COPY', $policy);
+
             $policy->setName($policy->getName().'-copy');
         }
 
@@ -191,8 +193,6 @@ class IlmController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICY_UPDATE', 'global');
-
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
@@ -202,6 +202,8 @@ class IlmController extends AbstractAppController
         if (false == $policy) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('ILM_POLICY_UPDATE', $policy);
 
         $form = $this->createForm(CreateIlmPolicyType::class, $policy, ['update' => true]);
 
@@ -230,8 +232,6 @@ class IlmController extends AbstractAppController
      */
     public function apply(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICY_APPLY', 'global');
-
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
@@ -241,6 +241,8 @@ class IlmController extends AbstractAppController
         if (false == $policy) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('ILM_POLICY_APPLY', $policy);
 
         $results = $this->elasticsearchIndexTemplateLegacyManager->getAll();
 
@@ -290,8 +292,6 @@ class IlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICY_DELETE', 'global');
-
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
@@ -301,6 +301,8 @@ class IlmController extends AbstractAppController
         if (false == $policy) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('ILM_POLICY_DELETE', $policy);
 
         $callResponse = $this->elasticsearchIlmPolicyManager->deleteByName($policy->getName());
 

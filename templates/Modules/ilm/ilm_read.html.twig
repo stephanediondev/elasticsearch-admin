@@ -24,7 +24,7 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {% if is_granted('ILM_POLICY_DELETE', 'global') %}
+                    {% if is_granted('ILM_POLICY_DELETE', policy) %}
                         {{ appImport.buttonModal({
                             'id': 'PolicyDelete',
                             'title': 'delete'|trans,
@@ -33,7 +33,7 @@
                         }) }}
                     {% endif %}
 
-                    {% if is_granted('ILM_POLICIES_CREATE', 'global') %}
+                    {% if is_granted('ILM_POLICY_COPY', policy) %}
                         <a class="btn btn-primary btn-sm" href="{{ path('ilm_create', {'policy': policy.name}) }}">{{ 'copy'|trans }}</a>
                     {% endif %}
                 {% endblock %}
