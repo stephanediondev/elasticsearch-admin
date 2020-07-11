@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if is_granted('INDEX_EXPORT', 'global') %}
+    {% if is_granted('INDEX_EXPORT', index) %}
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}

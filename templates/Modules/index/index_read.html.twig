@@ -21,106 +21,102 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
-            {% if false == index.isSystem %}
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        {% if is_granted('INDEX_DELETE', 'global') %}
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if is_granted('INDEX_DELETE', index) %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexDelete',
+                            'title': 'delete'|trans,
+                            'body': index.name,
+                            'href': path('indices_delete', {'index': index.name}),
+                        }) }}
+                    {% endif %}
+
+                    {% if is_granted('INDEX_OPEN', index) %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexOpen',
+                            'title': 'open'|trans,
+                            'body': index.name,
+                            'href': path('indices_open', {'index': index.name}),
+                        }) }}
+                    {% endif %}
+
+                    {% if is_granted('INDEX_CLOSE', index) and cluster_settings['cluster.indices.close.enable'] is defined and 'true' == cluster_settings['cluster.indices.close.enable'] %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexClose',
+                            'title': 'close'|trans,
+                            'body': index.name,
+                            'href': path('indices_close', {'index': index.name}),
+                        }) }}
+                    {% endif %}
+
+                    {% if is_granted('INDEX_FORCE_MERGE', index) %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexForceMerge',
+                            'title': 'force_merge'|trans,
+                            'body': index.name,
+                            'href': path('indices_force_merge', {'index': index.name}),
+                        }) }}
+                    {% endif %}
+
+                    {% if is_granted('INDEX_CACHE_CLEAR', index) %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexCacheClear',
+                            'title': 'cache_clear'|trans,
+                            'body': index.name,
+                            'href': path('indices_cache_clear', {'index': index.name}),
+                        }) }}
+                    {% endif %}
+
+                    {% if is_granted('INDEX_FLUSH', index) %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexFlush',
+                            'title': 'flush'|trans,
+                            'body': index.name,
+                            'href': path('indices_flush', {'index': index.name}),
+                        }) }}
+                    {% endif %}
+
+                    {% if is_granted('INDEX_REFRESH', index) %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexRefresh',
+                            'title': 'refresh'|trans,
+                            'body': index.name,
+                            'href': path('indices_refresh', {'index': index.name}),
+                        }) }}
+                    {% endif %}
+
+                    {% if true == check_version(root, '6.6') %}
+                        {% if is_granted('INDEX_UNFREEZE', index) %}
                             {{ appImport.buttonModal({
-                                'id': 'IndexDelete',
-                                'title': 'delete'|trans,
+                                'id': 'IndexUnfreeze',
+                                'title': 'unfreeze'|trans,
                                 'body': index.name,
-                                'href': path('indices_delete', {'index': index.name}),
+                                'href': path('indices_unfreeze', {'index': index.name}),
                             }) }}
                         {% endif %}
 
-                        {% if 'close' == index.status %}
-                            {% if is_granted('INDEX_CLOSE_OPEN', 'global') %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndexOpen',
-                                    'title': 'open'|trans,
-                                    'body': index.name,
-                                    'href': path('indices_open', {'index': index.name}),
-                                }) }}
-                            {% endif %}
-                        {% endif %}
-
-                        {% if 'open' == index.status %}
-                            {% if is_granted('INDEX_CLOSE_OPEN', 'global') and cluster_settings['cluster.indices.close.enable'] is defined and 'true' == cluster_settings['cluster.indices.close.enable'] %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndexClose',
-                                    'title': 'close'|trans,
-                                    'body': index.name,
-                                    'href': path('indices_close', {'index': index.name}),
-                                }) }}
-                            {% endif %}
-
-                            {% if is_granted('INDEX_FORCE_MERGE', 'global') %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndexForceMerge',
-                                    'title': 'force_merge'|trans,
-                                    'body': index.name,
-                                    'href': path('indices_force_merge', {'index': index.name}),
-                                }) }}
-                            {% endif %}
-
-                            {% if is_granted('INDEX_CACHE_CLEAR', 'global') %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndexCacheClear',
-                                    'title': 'cache_clear'|trans,
-                                    'body': index.name,
-                                    'href': path('indices_cache_clear', {'index': index.name}),
-                                }) }}
-                            {% endif %}
-
-                            {% if is_granted('INDEX_FLUSH', 'global') %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndexFlush',
-                                    'title': 'flush'|trans,
-                                    'body': index.name,
-                                    'href': path('indices_flush', {'index': index.name}),
-                                }) }}
-                            {% endif %}
-
-                            {% if is_granted('INDEX_REFRESH', 'global') %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndexRefresh',
-                                    'title': 'refresh'|trans,
-                                    'body': index.name,
-                                    'href': path('indices_refresh', {'index': index.name}),
-                                }) }}
-                            {% endif %}
-                        {% endif %}
-
-                        {% if is_granted('INDEX_FREEZE_UNFREEZE', 'global') and true == check_version(root, '6.6') %}
-                            {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndexUnfreeze',
-                                    'title': 'unfreeze'|trans,
-                                    'body': index.name,
-                                    'href': path('indices_unfreeze', {'index': index.name}),
-                                }) }}
-                            {% else %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndexFreeze',
-                                    'title': 'freeze'|trans,
-                                    'body': index.name,
-                                    'href': path('indices_freeze', {'index': index.name}),
-                                }) }}
-                            {% endif %}
-                        {% endif %}
-
-                        {% if is_granted('INDEX_EMPTY', 'global') and 0 < index.documents %}
+                        {% if is_granted('INDEX_FREEZE', index) %}
                             {{ appImport.buttonModal({
-                                'id': 'IndexEmpty',
-                                'title': 'empty'|trans,
+                                'id': 'IndexFreeze',
+                                'title': 'freeze'|trans,
                                 'body': index.name,
-                                'href': path('indices_empty', {'index': index.name}),
+                                'href': path('indices_freeze', {'index': index.name}),
                             }) }}
                         {% endif %}
-                    {% endblock %}
-                {% endembed %}
-            {% endif %}
+                    {% endif %}
+
+                    {% if is_granted('INDEX_EMPTY', index) and 0 < index.documents %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexEmpty',
+                            'title': 'empty'|trans,
+                            'body': index.name,
+                            'href': path('indices_empty', {'index': index.name}),
+                        }) }}
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
 
             <hr>
 

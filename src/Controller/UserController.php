@@ -216,7 +216,7 @@ class UserController extends AbstractAppController
      */
     public function enable(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USER_ENABLE_DISABLE', 'global');
+        $this->denyAccessUnlessGranted('USER_ENABLE', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -262,7 +262,7 @@ class UserController extends AbstractAppController
      */
     public function disable(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('USER_ENABLE_DISABLE', 'global');
+        $this->denyAccessUnlessGranted('USER_DISABLE', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();

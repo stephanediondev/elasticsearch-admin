@@ -21,7 +21,7 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
 
-            {% if is_granted('INDEX_UPDATE', 'global') and false == index.isSystem %}
+            {% if is_granted('INDEX_UPDATE', index) %}
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% block content %}
                         <a class="btn btn-primary btn-sm" href="{{ path('indices_setting_add', {'index': index.name}) }}">{{ 'add'|trans }}</a>
@@ -36,7 +36,7 @@
                     <tr>
                         <th>{{ 'setting'|trans }}</th>
                         <th>{{ 'value'|trans }}</th>
-                        {% if is_granted('INDEX_UPDATE', 'global') and false == index.isSystem %}
+                        {% if is_granted('INDEX_UPDATE', index) %}
                             <th>&nbsp;</th>
                         {% endif %}
                     </tr>
@@ -54,7 +54,7 @@
                                 {% endif %}
                             </td>
 
-                            {% if is_granted('INDEX_UPDATE', 'global') and false == index.isSystem %}
+                            {% if is_granted('INDEX_UPDATE', index) %}
                                 <td class="text-nowrap text-right">
                                     {% if value is not iterable and key not in exclude_settings %}
                                         {{ appImport.buttonModal({

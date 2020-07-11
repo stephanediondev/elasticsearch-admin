@@ -37,7 +37,7 @@
 
                         {% if '_buttons' == column %}
                             <td>
-                                {% if is_granted('INDEX_ALIAS_DELETE', 'global') %}
+                                {% if is_granted('INDEX_ALIAS_DELETE', index) %}
                                     {{ appImport.buttonModal({
                                         'id': 'AliasDelete' ~ count,
                                         'title': 'delete'|trans,
