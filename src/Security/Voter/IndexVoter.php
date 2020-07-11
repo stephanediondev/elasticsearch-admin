@@ -61,6 +61,11 @@ class IndexVoter extends Voter
         }
 
         $excludeWhenClosed = [
+            'INDEX_FORCE_MERGE',
+            'INDEX_CACHE_CLEAR',
+            'INDEX_FLUSH',
+            'INDEX_REFRESH',
+            'INDEX_EMPTY',
             'INDEX_SHARDS',
             'INDEX_SEARCH',
             'INDEX_IMPORT',
