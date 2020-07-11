@@ -67,7 +67,6 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Web installer: form to define parameters
 - [ ] Users management with roles and permissions, not related to Elasticsearch
 - [ ] Indices: update (dynamic index settings), shrink, split, import from database
 - [ ] Index templates (legacy): convert to new version
