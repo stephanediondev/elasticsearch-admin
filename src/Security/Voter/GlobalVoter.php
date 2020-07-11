@@ -78,6 +78,10 @@ class GlobalVoter extends Voter
             'CAT',
             'CAT_EXPORT',
             'CONSOLE',
+            'CONSOLE_POST',
+            'CONSOLE_PUT',
+            'CONSOLE_PATCH',
+            'CONSOLE_DELETE',
             'DEPRECATIONS',
             'LICENSE',
         ];

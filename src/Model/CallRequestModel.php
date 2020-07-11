@@ -94,17 +94,4 @@ class CallRequestModel extends AbstractAppModel
 
         return $this;
     }
-
-    public static function getMethods(): ?array
-    {
-        return [
-            'GET' => 'GET',
-            'POST' => 'POST',
-            'PUT' => 'PUT',
-            'PATCH' => 'PATCH',
-            'DELETE' => 'DELETE',
-            'HEAD' => 'HEAD',
-            'OPTIONS' => 'OPTIONS',
-        ];
-    }
 }

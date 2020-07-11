@@ -26,9 +26,9 @@ class ConsoleType extends AbstractType
             switch ($field) {
                 case 'method':
                     $builder->add('method', ChoiceType::class, [
-                        'choices' => CallRequestModel::getMethods(),
+                        'choices' => $options['methods'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $key;
+                            return $value;
                         },
                         'choice_translation_domain' => false,
                         'label' => 'method',
@@ -64,6 +64,7 @@ class ConsoleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CallRequestModel::class,
+            'methods' => [],
         ]);
     }
 

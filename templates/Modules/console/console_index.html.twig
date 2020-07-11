@@ -30,7 +30,16 @@
                     {% endblock %}
                 {% endembed %}
 
-                <pre id="response">{{ response|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                {% if response_code is defined %}
+                    <p>
+                        <strong>{{ 'response_code'|trans }}</strong><br>
+                        {{ response_code }}
+                    </p>
+                {% endif %}
+
+                {% if response %}
+                    <pre id="response">{{ response|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                {% endif %}
             {% endblock %}
         {% endembed %}
     {% endif %}

@@ -24,8 +24,20 @@ class ConsoleController extends AbstractAppController
 
         $parameters = [];
 
+        $testMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
+
+        $methods = [];
+        $methods[] = 'GET';
+        foreach ($testMethods as $testMethod) {
+            if (true == $this->isGranted('CONSOLE_'.$testMethod, 'global')) {
+                $methods[] = $testMethod;
+            }
+        }
+        $methods[] = 'HEAD';
+        $methods[] = 'OPTIONS';
+
         $callRequest = new CallRequestModel();
-        $form = $this->createForm(ConsoleType::class, $callRequest);
+        $form = $this->createForm(ConsoleType::class, $callRequest, ['methods' => $methods]);
 
         $form->handleRequest($request);
 
@@ -33,6 +45,7 @@ class ConsoleController extends AbstractAppController
             try {
                 $callResponse = $this->callManager->call($callRequest);
                 $parameters['response'] = $callResponse->getContent();
+                $parameters['response_code'] = $callResponse->getCode();
                 $parameters['method'] = $callRequest->getMethod();
                 $parameters['path'] = $callRequest->getPath();
             } catch (CallException $e) {
