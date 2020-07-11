@@ -67,7 +67,11 @@
 
             <p>
                 <strong>{{ 'repository'|trans }}</strong><br>
-                <a href="{{ path('repositories_read', {'repository': policy.repository}) }}">{{ policy.repository }}</a>
+                {% if is_granted('REPOSITORIES', 'global') %}
+                    <a href="{{ path('repositories_read', {'repository': policy.repository}) }}">{{ policy.repository }}</a>
+                {% else %}
+                    {{ policy.repository }}
+                {% endif %}
             </p>
 
             {% if policy.indices %}

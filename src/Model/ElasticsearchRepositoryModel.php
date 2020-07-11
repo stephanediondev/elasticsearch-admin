@@ -42,6 +42,10 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
 
     private $storageClass;
 
+    private $awsAccount;
+
+    private $settings;
+
     public function __construct()
     {
         $this->compress = true;
@@ -152,6 +156,18 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this;
     }
 
+    public function getSettings(): ?array
+    {
+        return $this->settings;
+    }
+
+    public function setSettings($settings): self
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
+
     public static function allowedTypes(): ?array
     {
         return [
@@ -163,10 +179,12 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
 
     public function convert(?array $repository): self
     {
-        $this->setName($repository['id']);
+        $this->setName($repository['name']);
         $this->setType($repository['type']);
 
         if (true == isset($repository['settings']) && 0 < count($repository['settings'])) {
+            $this->setSettings($repository['settings']);
+
             if (true == isset($repository['settings']['compress'])) {
                 $this->setCompress($this->convertBoolean($repository['settings']['compress']));
             }
@@ -312,6 +330,18 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
     public function setStorageClass(?string $storageClass): self
     {
         $this->storageClass = $storageClass;
+
+        return $this;
+    }
+
+    public function getAwsAccount(): ?string
+    {
+        return $this->awsAccount;
+    }
+
+    public function setAwsAccount(?string $awsAccount): self
+    {
+        $this->awsAccount = $awsAccount;
 
         return $this;
     }

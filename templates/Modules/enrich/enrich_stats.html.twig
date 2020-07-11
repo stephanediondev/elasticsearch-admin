@@ -75,7 +75,12 @@
                             <tr>
                                 <td>
                                     {% if nodes[row['node_id']] is defined %}
-                                        <a href="{{ path('nodes_read', {'node': nodes[row['node_id']]}) }}">{{ nodes[row['node_id']] }}</a>{% if master_node == nodes[row['node_id']] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                        {% if is_granted('NODES', 'global') %}
+                                            <a href="{{ path('nodes_read', {'node': nodes[row['node_id']]}) }}">{{ nodes[row['node_id']] }}</a>
+                                        {% else %}
+                                            {{ nodes[row['node_id']] }}
+                                        {% endif %}
+                                        {% if master_node == nodes[row['node_id']] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
                                     {% else %}
                                         {{ row['node_id'] }}
                                     {% endif %}

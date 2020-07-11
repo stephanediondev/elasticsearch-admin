@@ -56,7 +56,6 @@ class ElasticsearchSlmPolicyManager extends AbstractAppManager
         $callRequest->setMethod('PUT');
         $callRequest->setPath('/_slm/policy/'.$policyModel->getName());
         $callRequest->setJson($json);
-        $callResponse = $this->callManager->call($callRequest);
 
         return $this->callManager->call($callRequest);
     }

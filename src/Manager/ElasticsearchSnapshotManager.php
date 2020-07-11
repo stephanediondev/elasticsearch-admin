@@ -60,9 +60,8 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         $json = $snapshotModel->getJson();
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('PUT');
-        $callRequest->setPath('/_slm/policy/'.$snapshotModel->getName());
+        $callRequest->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
         $callRequest->setJson($json);
-        $callResponse = $this->callManager->call($callRequest);
 
         return $this->callManager->call($callRequest);
     }

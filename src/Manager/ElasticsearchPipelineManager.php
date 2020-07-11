@@ -59,7 +59,6 @@ class ElasticsearchPipelineManager extends AbstractAppManager
         $callRequest->setMethod('PUT');
         $callRequest->setPath('/_ingest/pipeline/'.$pipelineModel->getName());
         $callRequest->setJson($json);
-        $callResponse = $this->callManager->call($callRequest);
 
         return $this->callManager->call($callRequest);
     }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateRepositoryType;
+use App\Manager\ElasticsearchRepositoryManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
@@ -19,8 +20,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class RepositoryController extends AbstractAppController
 {
-    public function __construct(ElasticsearchClusterManager $elasticsearchClusterManager)
+    public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchClusterManager $elasticsearchClusterManager)
     {
+        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
         $this->elasticsearchClusterManager = $elasticsearchClusterManager;
     }
 
@@ -31,10 +33,7 @@ class RepositoryController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('REPOSITORIES', 'global');
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/repositories');
-        $callResponse = $this->callManager->call($callRequest);
-        $repositories = $callResponse->getContent();
+        $repositories = $this->elasticsearchRepositoryManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/repository/repository_index.html.twig', [
             'repositories' => $this->paginatorManager->paginate([
@@ -66,29 +65,19 @@ class RepositoryController extends AbstractAppController
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
         $paths = $clusterSettings['path.repo'] ?? [];
 
-        $repositoryModel = new ElasticsearchRepositoryModel();
-        $repositoryModel->setType($type);
-        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $type, 'paths' => $paths]);
+        $repository = new ElasticsearchRepositoryModel();
+        $repository->setType($type);
+        $form = $this->createForm(CreateRepositoryType::class, $repository, ['type' => $type, 'paths' => $paths]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $repositoryModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_snapshot/'.$repositoryModel->getName());
-                if ($repositoryModel->getVerify()) {
-                    $callRequest->setQuery(['verify' => 'true']);
-                } else {
-                    $callRequest->setQuery(['verify' => 'false']);
-                }
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchRepositoryManager->send($repository);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
+                return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -107,19 +96,11 @@ class RepositoryController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('REPOSITORIES', 'global');
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_snapshot/'.$repository);
-        $callResponse = $this->callManager->call($callRequest);
+        $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $repository) {
             throw new NotFoundHttpException();
         }
-
-        $repositoryQuery = $callResponse->getContent();
-        $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
-
-        $repositoryQuery['id'] = $repository;
-        $repository = $repositoryQuery;
 
         return $this->renderAbstract($request, 'Modules/repository/repository_read.html.twig', [
             'repository' => $repository,
@@ -131,48 +112,28 @@ class RepositoryController extends AbstractAppController
      */
     public function update(Request $request, string $repository): Response
     {
-        $this->denyAccessUnlessGranted('REPOSITORY_UPDATE', 'global');
+        $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_snapshot/'.$repository);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $repository) {
             throw new NotFoundHttpException();
         }
 
-        $repositoryQuery = $callResponse->getContent();
-        $repositoryQuery = $repositoryQuery[key($repositoryQuery)];
-
-        $repositoryQuery['id'] = $repository;
-        $repository = $repositoryQuery;
+        $this->denyAccessUnlessGranted('REPOSITORY_UPDATE', $repository);
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
         $paths = $clusterSettings['path.repo'] ?? [];
 
-        $repositoryModel = new ElasticsearchRepositoryModel();
-        $repositoryModel->convert($repository);
-        $form = $this->createForm(CreateRepositoryType::class, $repositoryModel, ['type' => $repository['type'], 'paths' => $paths, 'update' => true]);
+        $form = $this->createForm(CreateRepositoryType::class, $repository, ['type' => $repository->getType(), 'paths' => $paths, 'update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $repositoryModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_snapshot/'.$repositoryModel->getName());
-                if ($repositoryModel->getVerify()) {
-                    $callRequest->setQuery(['verify' => 'true']);
-                } else {
-                    $callRequest->setQuery(['verify' => 'false']);
-                }
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchRepositoryManager->send($repository);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('repositories_read', ['repository' => $repositoryModel->getName()]);
+                return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -189,11 +150,17 @@ class RepositoryController extends AbstractAppController
      */
     public function delete(Request $request, string $repository): Response
     {
-        $this->denyAccessUnlessGranted('REPOSITORY_DELETE', 'global');
+        $repository = $this->elasticsearchRepositoryManager->getByName($repository);
+
+        if (false == $repository) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('REPOSITORY_DELETE', $repository);
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_snapshot/'.$repository);
+        $callRequest->setPath('/_snapshot/'.$repository->getName());
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
@@ -206,12 +173,18 @@ class RepositoryController extends AbstractAppController
      */
     public function cleanup(Request $request, string $repository): Response
     {
-        $this->denyAccessUnlessGranted('REPOSITORY_CLEANUP', 'global');
+        $repository = $this->elasticsearchRepositoryManager->getByName($repository);
+
+        if (false == $repository) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('REPOSITORY_CLEANUP', $repository);
 
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
-            $callRequest->setPath('/_snapshot/'.$repository.'/_cleanup');
+            $callRequest->setPath('/_snapshot/'.$repository->getName().'/_cleanup');
             $callResponse = $this->callManager->call($callRequest);
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
@@ -219,7 +192,7 @@ class RepositoryController extends AbstractAppController
             $this->addFlash('danger', $e->getMessage());
         }
 
-        return $this->redirectToRoute('repositories_read', ['repository' => $repository]);
+        return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
     }
 
     /**
@@ -227,12 +200,18 @@ class RepositoryController extends AbstractAppController
      */
     public function verify(Request $request, string $repository): Response
     {
-        $this->denyAccessUnlessGranted('REPOSITORY_VERIFY', 'global');
+        $repository = $this->elasticsearchRepositoryManager->getByName($repository);
+
+        if (false == $repository) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('REPOSITORY_VERIFY', $repository);
 
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
-            $callRequest->setPath('/_snapshot/'.$repository.'/_verify');
+            $callRequest->setPath('/_snapshot/'.$repository->getName().'/_verify');
             $callResponse = $this->callManager->call($callRequest);
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
@@ -240,6 +219,6 @@ class RepositoryController extends AbstractAppController
             $this->addFlash('danger', $e->getMessage());
         }
 
-        return $this->redirectToRoute('repositories_read', ['repository' => $repository]);
+        return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
     }
 }

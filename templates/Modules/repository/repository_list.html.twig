@@ -9,13 +9,13 @@
                 {% if true == display %}
                     {% if 'id' == column %}
                         <th>
-                            id
+                            {{ 'name'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'type' == column %}
                         <th>
-                            type
+                            {{ 'type'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -30,13 +30,13 @@
                     {% if true == display %}
                         {% if 'id' == column %}
                             <td>
-                                <a href="{{ path('repositories_read', {'repository': row['id']}) }}">{{ row['id'] }}</a>
+                                <a href="{{ path('repositories_read', {'repository': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'type' == column %}
                             <td>
-                                {{ row['type'] }}
+                                {{ ('repository_' ~ row.type)|trans }}
                             </td>
                         {% endif %}
                     {% endif %}

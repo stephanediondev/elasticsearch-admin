@@ -66,7 +66,11 @@
                     {% if true == display %}
                         {% if 'index' == column %}
                             <td>
-                                <a href="{{ path('indices_read', {'index': row['index']}) }}">{{ row['index'] }}</a>
+                                {% if is_granted('INDICES', 'global') %}
+                                    <a href="{{ path('indices_read', {'index': row['index']}) }}">{{ row['index'] }}</a>
+                                {% else %}
+                                    {{ row['index'] }}
+                                {% endif %}
                             </td>
                         {% endif %}
 
@@ -119,11 +123,12 @@
                         {% if 'node' == column %}
                             <td>
                                 {% if row['node'] %}
-                                    {% if 'RELOCATING' != row['state'] %}
-                                        <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>{% if master_node == row['node'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                    {% if is_granted('NODES', 'global') and 'RELOCATING' != row['state'] %}
+                                        <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
                                     {% else %}
                                         {{ row['node'] }}
                                     {% endif %}
+                                    {% if master_node == row['node'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
                                 {% endif %}
                             </td>
                         {% endif %}

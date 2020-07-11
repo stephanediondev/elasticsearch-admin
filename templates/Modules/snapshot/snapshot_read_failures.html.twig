@@ -49,7 +49,11 @@
                         {% for failure in snapshot.failures %}
                             <tr>
                                 <td>
-                                    <a href="{{ path('indices_read', {'index': failure['index']}) }}">{{ failure['index'] }}</a>
+                                    {% if is_granted('INDICES', 'global') %}
+                                        <a href="{{ path('indices_read', {'index': failure['index']}) }}">{{ failure['index'] }}</a>
+                                    {% else %}
+                                        {{ failure['index'] }}
+                                    {% endif %}
                                 </td>
                                 <td>
                                     {{ failure['shard_id'] }}
@@ -59,7 +63,12 @@
                                 </td>
                                 <td>
                                     {% if nodes[failure['node_id']] is defined %}
-                                        <a href="{{ path('nodes_read', {'node': nodes[failure['node_id']]}) }}">{{ nodes[failure['node_id']] }}</a>{% if master_node == nodes[failure['node_id']] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                        {% if is_granted('NODES', 'global') %}
+                                            <a href="{{ path('nodes_read', {'node': nodes[failure['node_id']]}) }}">{{ nodes[failure['node_id']] }}</a>
+                                        {% else %}
+                                            {{ nodes[failure['node_id']] }}
+                                        {% endif %}
+                                        {% if master_node == nodes[failure['node_id']] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
                                     {% else %}
                                         {{ failure['node_id'] }}
                                     {% endif %}

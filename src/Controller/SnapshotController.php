@@ -75,12 +75,7 @@ class SnapshotController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $snapshot->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchSnapshotManager->send($snapshot);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 

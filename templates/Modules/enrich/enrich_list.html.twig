@@ -58,12 +58,6 @@
                             </td>
                         {% endif %}
 
-                        {% if 'repository' == column %}
-                            <td>
-                                <a href="{{ path('repositories_read', {'repository': row['policy']['repository']}) }}">{{ row['policy']['repository'] }}</a>
-                            </td>
-                        {% endif %}
-
                         {% if 'match_field' == column %}
                             <td>
                                 {{ row['match_field'] }}

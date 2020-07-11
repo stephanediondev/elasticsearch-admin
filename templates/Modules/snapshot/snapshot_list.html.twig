@@ -72,7 +72,11 @@
                     {% if true == display %}
                         {% if 'repository' == column %}
                             <td>
-                                <a href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
+                                {% if is_granted('REPOSITORIES', 'global') %}
+                                    <a href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
+                                {% else %}
+                                    {{ row.repository }}
+                                {% endif %}
                             </td>
                         {% endif %}
 

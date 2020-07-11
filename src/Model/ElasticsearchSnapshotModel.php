@@ -30,6 +30,8 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 
     private $duration;
 
+    private $metadata;
+
     public function __construct()
     {
         $this->includeGlobalState = true;
@@ -179,6 +181,18 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         return $this;
     }
 
+    public function getMetadata(): ?array
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata(?array $metadata): self
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
     public function convert(?array $snapshot): self
     {
         $this->setName($snapshot['snapshot']);
@@ -206,6 +220,14 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 
         if (true == isset($snapshot['failures'])) {
             $this->setFailures($snapshot['failures']);
+        }
+
+        if (true == isset($snapshot['indices'])) {
+            $this->setIndices($snapshot['indices']);
+        }
+
+        if (true == isset($snapshot['metadata'])) {
+            $this->setMetadata($snapshot['metadata']);
         }
 
         return $this;
