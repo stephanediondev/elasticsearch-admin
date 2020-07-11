@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateSnapshotType;
 use App\Form\RestoreSnapshotType;
+use App\Manager\ElasticsearchSnapshotManager;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
@@ -21,29 +22,23 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SnapshotController extends AbstractAppController
 {
+    public function __construct(ElasticsearchSnapshotManager $elasticsearchSnapshotManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager)
+    {
+        $this->elasticsearchSnapshotManager = $elasticsearchSnapshotManager;
+        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+    }
+
     /**
      * @Route("/snapshots", name="snapshots")
      */
-    public function index(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): Response
+    public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SNAPSHOTS', 'global');
 
-        $repositories = $elasticsearchRepositoryManager->selectRepositories();
-        $snapshots = [];
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
 
-        foreach ($repositories as $repository) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_snapshot/'.$repository.'/_all');
-            $callResponse = $this->callManager->call($callRequest);
-            $rows = $callResponse->getContent();
-
-            if (true == isset($rows['snapshots'])) {
-                foreach ($rows['snapshots'] as $row) {
-                    $row['repository'] = $repository;
-                    $snapshots[] = $row;
-                }
-            }
-        }
+        $snapshots = $this->elasticsearchSnapshotManager->getAll($repositories);
 
         return $this->renderAbstract($request, 'Modules/snapshot/snapshot_index.html.twig', [
             'snapshots' => $this->paginatorManager->paginate([
@@ -60,36 +55,36 @@ class SnapshotController extends AbstractAppController
     /**
      * @Route("/snapshots/create", name="snapshots_create")
      */
-    public function create(Request $request, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SNAPSHOTS_CREATE', 'global');
 
-        $repositories = $elasticsearchRepositoryManager->selectRepositories();
-        $indices = $elasticsearchIndexManager->selectIndices();
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
 
-        $snapshotModel = new ElasticsearchSnapshotModel();
+        $snapshot = new ElasticsearchSnapshotModel();
         if ($request->query->get('repository')) {
-            $snapshotModel->setRepository($request->query->get('repository'));
+            $snapshot->setRepository($request->query->get('repository'));
         }
         if ($request->query->get('index')) {
-            $snapshotModel->setIndices([$request->query->get('index')]);
+            $snapshot->setIndices([$request->query->get('index')]);
         }
-        $form = $this->createForm(CreateSnapshotType::class, $snapshotModel, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(CreateSnapshotType::class, $snapshot, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $snapshotModel->getJson();
+                $json = $snapshot->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_snapshot/'.$snapshotModel->getRepository().'/'.$snapshotModel->getName());
+                $callRequest->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName());
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('snapshots_read', ['repository' => $snapshotModel->getRepository(), 'snapshot' => $snapshotModel->getName()]);
+                return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshot->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -107,19 +102,13 @@ class SnapshotController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SNAPSHOTS', 'global');
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $callResponse = $this->callManager->call($callRequest);
+        $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $snapshot) {
             throw new NotFoundHttpException();
         }
 
-        $snapshot = $callResponse->getContent();
-        $snapshot = $snapshot['snapshots'][0];
-
         return $this->renderAbstract($request, 'Modules/snapshot/snapshot_read.html.twig', [
-            'repository' => $repository,
             'snapshot' => $snapshot,
         ]);
     }
@@ -129,18 +118,13 @@ class SnapshotController extends AbstractAppController
      */
     public function readFailures(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS', 'global');
+        $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $snapshot) {
             throw new NotFoundHttpException();
         }
 
-        $snapshot = $callResponse->getContent();
-        $snapshot = $snapshot['snapshots'][0];
+        $this->denyAccessUnlessGranted('SNAPSHOT_FAILURES', $snapshot);
 
         $nodes = [];
 
@@ -165,11 +149,17 @@ class SnapshotController extends AbstractAppController
      */
     public function delete(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOT_DELETE', 'global');
+        $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
+
+        if (false == $snapshot) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('SNAPSHOT_DELETE', $snapshot);
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
+        $callRequest->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName());
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
@@ -182,22 +172,17 @@ class SnapshotController extends AbstractAppController
      */
     public function restore(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOT_RESTORE', 'global');
+        $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $snapshot) {
             throw new NotFoundHttpException();
         }
 
-        $snapshot = $callResponse->getContent();
-        $snapshot = $snapshot['snapshots'][0];
+        $this->denyAccessUnlessGranted('SNAPSHOT_RESTORE', $snapshot);
 
         $snapshotRestoreModel = new ElasticsearchSnapshotRestoreModel();
-        $snapshotRestoreModel->setIndices($snapshot['indices']);
-        $form = $this->createForm(RestoreSnapshotType::class, $snapshotRestoreModel, ['indices' => $snapshot['indices']]);
+        $snapshotRestoreModel->setIndices($snapshot->getIndices());
+        $form = $this->createForm(RestoreSnapshotType::class, $snapshotRestoreModel, ['indices' => $snapshot->getIndices()]);
 
         $form->handleRequest($request);
 
@@ -206,13 +191,13 @@ class SnapshotController extends AbstractAppController
                 $json = $snapshotRestoreModel->getJson();
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
-                $callRequest->setPath('/_snapshot/'.$repository.'/'.$snapshot['snapshot'].'/_restore');
+                $callRequest->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName().'/_restore');
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('snapshots_read', ['repository' => $repository, 'snapshot' => $snapshot['snapshot']]);
+                return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshot->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }

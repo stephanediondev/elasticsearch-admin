@@ -71,8 +71,6 @@ class GlobalVoter extends Voter
             'TOOLS',
             'SNAPSHOTS',
             'SNAPSHOTS_CREATE',
-            'SNAPSHOT_DELETE',
-            'SNAPSHOT_RESTORE',
             'PIPELINES',
             'PIPELINES_CREATE',
             'TASKS',

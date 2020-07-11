@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'snapshots'|trans }} - {{ snapshot['snapshot'] }} - {{ 'restore'|trans }}{% endblock %}
+{% block head_title %}{{ 'snapshots'|trans }} - {{ snapshot.name }} - {{ 'restore'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans, 'link': {'url': path('snapshots')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': snapshot['snapshot']}) }}
+    {{ appImport.heading({'level': 2, 'title': snapshot.name}) }}
 {% endblock %}
 
 {% block tabs %}

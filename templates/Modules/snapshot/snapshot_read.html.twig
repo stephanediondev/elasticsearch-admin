@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'snapshots'|trans }} - {{ snapshot['snapshot'] }}{% endblock %}
+{% block head_title %}{{ 'snapshots'|trans }} - {{ snapshot.name }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans, 'link': {'url': path('snapshots')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': snapshot['snapshot']}) }}
+    {{ appImport.heading({'level': 2, 'title': snapshot.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -24,12 +24,12 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {% if is_granted('SNAPSHOT_DELETE', 'global') %}
+                    {% if is_granted('SNAPSHOT_DELETE', snapshot) %}
                         {{ appImport.buttonModal({
                             'id': 'SnapshotDelete',
                             'title': 'delete'|trans,
-                            'body': snapshot['snapshot'],
-                            'href': path('snapshots_delete', {'repository': repository, 'snapshot': snapshot['snapshot']}),
+                            'body': snapshot.name,
+                            'href': path('snapshots_delete', {'repository': snapshot.repository, 'snapshot': snapshot.name}),
                         }) }}
                     {% endif %}
                 {% endblock %}
@@ -44,37 +44,37 @@
 
             <p>
                 <strong>{{ 'repository'|trans }}</strong><br>
-                <a href="{{ path('repositories_read', {'repository': repository}) }}">{{ repository }}</a>
+                <a href="{{ path('repositories_read', {'repository': snapshot.repository}) }}">{{ snapshot.repository }}</a>
             </p>
 
             <p>
                 <strong>{{ 'version'|trans }}</strong><br>
-                {{ snapshot['version'] }}
+                {{ snapshot.version }}
             </p>
 
             <p>
                 <strong>{{ 'indices'|trans }}</strong><br>
-                {{ snapshot['indices']|join(', ') }}
+                {{ snapshot.indices|join(', ') }}
             </p>
 
             <p>
                 <strong>{{ 'state'|trans }}</strong><br>
-                {{ appImport.badge({'title': snapshot['state']|trans, 'context': snapshot['state']}) }}
+                {{ appImport.badge({'title': snapshot.state|trans, 'context': snapshot.state}) }}
             </p>
 
             <p>
                 <strong>{{ 'start_time'|trans }}</strong><br>
-                {{ snapshot['start_time'] }}
+                {{ snapshot.startTime }}
             </p>
 
             <p>
                 <strong>{{ 'end_time'|trans }}</strong><br>
-                {{ snapshot['end_time'] }}
+                {{ snapshot.endTime }}
             </p>
 
             <p>
                 <strong>{{ 'duration_in_millis'|trans }}</strong><br>
-                {{ snapshot['duration_in_millis'] }}
+                {{ snapshot.duration }}
             </p>
         {% endblock %}
     {% endembed %}

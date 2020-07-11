@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('snapshots_read', {'repository': repository, 'snapshot': snapshot['snapshot']}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('snapshots_read', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    {% if is_granted('SNAPSHOT_RESTORE', 'global') %}
+    {% if is_granted('SNAPSHOT_RESTORE', snapshot) %}
         <li class="nav-item">
-            <a class="nav-link{% if 'restore' == active %} active{% endif %}" href="{{ path('snapshots_read_restore', {'repository': repository, 'snapshot': snapshot['snapshot']}) }}">{{ 'restore'|trans }}</a>
+            <a class="nav-link{% if 'restore' == active %} active{% endif %}" href="{{ path('snapshots_read_restore', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'restore'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if 0 < snapshot['failures']|length %}
+    {% if is_granted('SNAPSHOT_FAILURES', snapshot) and 0 < snapshot.failures|length %}
         <li class="nav-item">
-            <a class="nav-link{% if 'failures' == active %} active{% endif %}" href="{{ path('snapshots_read_failures', {'repository': repository, 'snapshot': snapshot['snapshot']}) }}">{{ 'failures'|trans }}</a>
+            <a class="nav-link{% if 'failures' == active %} active{% endif %}" href="{{ path('snapshots_read_failures', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'failures'|trans }}</a>
         </li>
     {% endif %}
 </ul>

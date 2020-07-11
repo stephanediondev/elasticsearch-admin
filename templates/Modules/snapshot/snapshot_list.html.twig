@@ -67,18 +67,18 @@
 
     {% block tbody %}
         {% for row in snapshots.rows %}
-            <tr class="state-{{ row['state'] }}" data-search="{{ row['snapshot'] }}">
+            <tr class="state-{{ row.state }}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'repository' == column %}
                             <td>
-                                <a href="{{ path('repositories_read', {'repository': row['repository']}) }}">{{ row['repository'] }}</a>
+                                <a href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'snapshot' == column %}
                             <td>
-                                <a href="{{ path('snapshots_read', {'repository': row['repository'], 'snapshot': row['snapshot']}) }}">{{ row['snapshot'] }}</a>
+                                <a href="{{ path('snapshots_read', {'repository': row.repository, 'snapshot': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
@@ -90,42 +90,37 @@
 
                         {% if 'state' == column %}
                             <td>
-                                {{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}
+                                {{ appImport.badge({'title': row.state|trans, 'context': row.state}) }}
                             </td>
                         {% endif %}
 
                         {% if 'start_time' == column %}
                             <td>
-                                {{ row['start_time'] }}
+                                {{ row.startTime }}
                             </td>
                         {% endif %}
 
                         {% if 'end_time' == column %}
                             <td>
-                                {{ row['end_time'] }}
+                                {{ row.endTime }}
                             </td>
                         {% endif %}
 
                         {% if 'duration_in_millis' == column %}
                             <td>
-                                {{ row['duration_in_millis'] }}
+                                {{ row.duration }}
                             </td>
                         {% endif %}
 
                         {% if 'failures' == column %}
-                            {% set failuresTotal = row['failures']|length %}
                             <td>
-                                {% if 0 < failuresTotal %}
-                                    <a href="{{ path('snapshots_read_failures', {'repository': row['repository'], 'snapshot': row['snapshot']}) }}">{{ failuresTotal }}</a>
-                                {% else %}
-                                    {{ failuresTotal }}
-                                {% endif %}
+                                {{ row.failures|length }}
                             </td>
                         {% endif %}
 
                         {% if 'version' == column %}
                             <td>
-                                {{ row['version'] }}
+                                {{ row.version }}
                             </td>
                         {% endif %}
                     {% endif %}
