@@ -60,6 +60,8 @@ class PipelineController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
+            $this->denyAccessUnlessGranted('PIPELINE_COPY', $pipeline);
+
             $pipeline->setName($pipeline->getName().'-copy');
         }
 
@@ -110,13 +112,13 @@ class PipelineController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINE_UPDATE', 'global');
-
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
         if (false == $pipeline) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('PIPELINE_UPDATE', $pipeline);
 
         $form = $this->createForm(CreatePipelineType::class, $pipeline, ['update' => true]);
 
@@ -145,13 +147,13 @@ class PipelineController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINE_DELETE', 'global');
-
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
         if (false == $pipeline) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('PIPELINE_DELETE', $pipeline);
 
         $callResponse = $this->elasticsearchPipelineManager->deleteByName($pipeline->getName());
 

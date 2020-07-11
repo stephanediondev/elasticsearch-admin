@@ -4,15 +4,21 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('nodes_read', {'node': node.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'usage' == active %} active{% endif %}" href="{{ path('nodes_read_usage', {'node': node.name}) }}">{{ 'usage'|trans }}</a>
-    </li>
+    {% if is_granted('NODE_USAGE', node) %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'usage' == active %} active{% endif %}" href="{{ path('nodes_read_usage', {'node': node.name}) }}">{{ 'usage'|trans }}</a>
+        </li>
+    {% endif %}
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'plugins' == active %} active{% endif %}" href="{{ path('nodes_read_plugins', {'node': node.name}) }}">{{ 'plugins'|trans }}</a>
-    </li>
+    {% if is_granted('NODE_PLUGINS', node) %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'plugins' == active %} active{% endif %}" href="{{ path('nodes_read_plugins', {'node': node.name}) }}">{{ 'plugins'|trans }}</a>
+        </li>
+    {% endif %}
 
-    <li class="nav-item">
-        <a class="nav-link{% if 'reload_secure_settings' == active %} active{% endif %}" href="{{ path('nodes_reload_secure_settings', {'node': node.name}) }}">{{ 'reload_secure_settings'|trans }}{% if false == check_version(root, '6.4') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
-    </li>
+    {% if is_granted('NODE_RELOAD_SECURE_SETTINGS', node) %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'reload_secure_settings' == active %} active{% endif %}" href="{{ path('nodes_reload_secure_settings', {'node': node.name}) }}">{{ 'reload_secure_settings'|trans }}{% if false == check_version(root, '6.4') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+        </li>
+    {% endif %}
 </ul>

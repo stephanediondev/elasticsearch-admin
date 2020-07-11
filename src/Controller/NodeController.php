@@ -86,13 +86,13 @@ class NodeController extends AbstractAppController
      */
     public function readPlugins(Request $request, string $node): Response
     {
-        $this->denyAccessUnlessGranted('NODES', 'global');
-
         $node = $this->elasticsearchNodeManager->getByName($node);
 
         if (false == $node) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('NODE_PLUGINS', $node);
 
         return $this->renderAbstract($request, 'Modules/node/node_read_plugins.html.twig', [
             'node' => $node,
@@ -104,13 +104,13 @@ class NodeController extends AbstractAppController
      */
     public function readUsage(Request $request, string $node): Response
     {
-        $this->denyAccessUnlessGranted('NODES', 'global');
-
         $node = $this->elasticsearchNodeManager->getByName($node);
 
         if (false == $node) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('NODE_USAGE', $node);
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$node->getName().'/usage');
@@ -135,8 +135,6 @@ class NodeController extends AbstractAppController
      */
     public function readReloadSecureSettings(Request $request, string $node): Response
     {
-        $this->denyAccessUnlessGranted('NODES', 'global');
-
         if (false == $this->checkVersion('6.4')) {
             throw new AccessDeniedHttpException();
         }
@@ -146,6 +144,8 @@ class NodeController extends AbstractAppController
         if (false == $node) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('NODE_RELOAD_SECURE_SETTINGS', $node);
 
         $reloadSecureSettingsModel = new ElasticsearchReloadSecureSettingsModel();
         $form = $this->createForm(ReloadSecureSettingsType::class, $reloadSecureSettingsModel);

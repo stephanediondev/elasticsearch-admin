@@ -68,9 +68,7 @@ class ComponentTemplateController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
-            if (true == $template->isSystem()) {
-                throw new AccessDeniedHttpException();
-            }
+            $this->denyAccessUnlessGranted('COMPONENT_TEMPLATE_COPY', $template);
 
             $template->setName($template->getName().'-copy');
         }
@@ -170,8 +168,6 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATE_UPDATE', 'global');
-
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -182,9 +178,7 @@ class ComponentTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template->isSystem()) {
-            throw new AccessDeniedHttpException();
-        }
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATE_UPDATE', $template);
 
         $form = $this->createForm(CreateComponentTemplateType::class, $template, ['update' => true]);
 
@@ -213,8 +207,6 @@ class ComponentTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATE_DELETE', 'global');
-
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -225,9 +217,7 @@ class ComponentTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template->isSystem()) {
-            throw new AccessDeniedHttpException();
-        }
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATE_DELETE', $template);
 
         $callResponse = $this->elasticsearchComponentTemplateManager->deleteByName($template->getName());
 
