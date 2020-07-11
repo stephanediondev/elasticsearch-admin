@@ -66,11 +66,11 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function deleteByName(string $name): CallResponseModel
+    public function deleteByNameAndRepository(string $name, string $repository): CallResponseModel
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_slm/policy/'.$name);
+        $callRequest->setPath('/_snapshot/'.$repository.'/'.$name);
 
         return $this->callManager->call($callRequest);
     }

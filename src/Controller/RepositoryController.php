@@ -158,10 +158,7 @@ class RepositoryController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('REPOSITORY_DELETE', $repository);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_snapshot/'.$repository->getName());
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchRepositoryManager->deleteByName($repository->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

@@ -67,6 +67,15 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    public function deleteByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_snapshot/'.$name);
+
+        return $this->callManager->call($callRequest);
+    }
+
     public function selectRepositories()
     {
         $repositories = [];

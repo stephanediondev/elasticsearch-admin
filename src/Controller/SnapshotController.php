@@ -152,10 +152,7 @@ class SnapshotController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('SNAPSHOT_DELETE', $snapshot);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName());
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchSnapshotManager->deleteByNameAndRepository($snapshot->getName(), $snapshot->getRepository());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
