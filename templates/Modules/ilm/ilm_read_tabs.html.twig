@@ -9,7 +9,7 @@
         </li>
     {% endif %}
 
-    {% if is_granted('INDEX_TEMPLATE_LEGACY_UPDATE', 'global') %}
+    {% if is_granted('ILM_POLICY_APPLY', 'global') %}
         <li class="nav-item">
             <a class="nav-link{% if 'apply' == active %} active{% endif %}" href="{{ path('ilm_apply', {'name': policy.name}) }}">{{ 'apply'|trans }}</a>
         </li>

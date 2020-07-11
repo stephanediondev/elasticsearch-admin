@@ -60,9 +60,7 @@ class IndexTemplateLegacyController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
-            if (true == $template->isSystem()) {
-                throw new AccessDeniedHttpException();
-            }
+            $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_COPY', $template);
 
             $template->setName($template->getName().'-copy');
         }
@@ -150,17 +148,13 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_UPDATE', 'global');
-
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
         if (false == $template) {
             throw new NotFoundHttpException();
         }
 
-        if (true == $template->isSystem()) {
-            throw new AccessDeniedHttpException();
-        }
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_UPDATE', $template);
 
         $form = $this->createForm(CreateIndexTemplateLegacyType::class, $template, ['update' => true]);
 
@@ -189,17 +183,13 @@ class IndexTemplateLegacyController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_DELETE', 'global');
-
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
         if (false == $template) {
             throw new NotFoundHttpException();
         }
 
-        if (true == $template->isSystem()) {
-            throw new AccessDeniedHttpException();
-        }
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_DELETE', $template);
 
         $callResponse = $this->elasticsearchIndexTemplateLegacyManager->deleteByName($template->getName());
 

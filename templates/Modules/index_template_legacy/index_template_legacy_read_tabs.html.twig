@@ -3,7 +3,7 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('index_templates_legacy_read', {'name': template.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    {% if is_granted('INDEX_TEMPLATE_LEGACY_UPDATE', 'global') and false == template.isSystem %}
+    {% if is_granted('INDEX_TEMPLATE_LEGACY_UPDATE', template) %}
         <li class="nav-item">
             <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('index_templates_legacy_update', {'name': template.name}) }}">{{ 'update'|trans }}</a>
         </li>

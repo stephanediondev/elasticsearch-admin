@@ -230,7 +230,7 @@ class IlmController extends AbstractAppController
      */
     public function apply(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_UPDATE', 'global');
+        $this->denyAccessUnlessGranted('ILM_POLICY_APPLY', 'global');
 
         if (false == $this->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();

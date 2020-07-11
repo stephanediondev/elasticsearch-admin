@@ -21,25 +21,23 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
-            {% if false == template.isSystem %}
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        {% if is_granted('INDEX_TEMPLATE_LEGACY_DELETE', 'global') %}
-                            {{ appImport.buttonModal({
-                                'id': 'IndexTemplateDelete',
-                                'title': 'delete'|trans,
-                                'body': template.name,
-                                'href': path('index_templates_legacy_delete', {'name': template.name}),
-                            }) }}
-                        {% endif %}
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if is_granted('INDEX_TEMPLATE_LEGACY_DELETE', template) %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndexTemplateDelete',
+                            'title': 'delete'|trans,
+                            'body': template.name,
+                            'href': path('index_templates_legacy_delete', {'name': template.name}),
+                        }) }}
+                    {% endif %}
 
-                        {% if is_granted('INDEX_TEMPLATES_LEGACY_CREATE', 'global') %}
-                            <a class="btn btn-primary btn-sm" href="{{ path('index_templates_legacy_create', {'template': template.name}) }}">{{ 'copy'|trans }}</a>
-                        {% endif %}
-                    {% endblock %}
-                {% endembed %}
-            {% endif %}
+                    {% if is_granted('INDEX_TEMPLATE_LEGACY_COPY', template) %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('index_templates_legacy_create', {'template': template.name}) }}">{{ 'copy'|trans }}</a>
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
 
             {% if template.setting('index.lifecycle.name') %}
                 <p>

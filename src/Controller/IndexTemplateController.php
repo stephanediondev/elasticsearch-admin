@@ -70,9 +70,7 @@ class IndexTemplateController extends AbstractAppController
                 throw new NotFoundHttpException();
             }
 
-            if (true == $template->isSystem()) {
-                throw new AccessDeniedHttpException();
-            }
+            $this->denyAccessUnlessGranted('INDEX_TEMPLATE_COPY', $template);
 
             $template->setName($template->getName().'-copy');
         }
@@ -179,8 +177,6 @@ class IndexTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_UPDATE', 'global');
-
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -191,9 +187,7 @@ class IndexTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template->isSystem()) {
-            throw new AccessDeniedHttpException();
-        }
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_UPDATE', $template);
 
         $results = $this->elasticsearchComponentTemplateManager->getAll();
 
@@ -229,8 +223,6 @@ class IndexTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_DELETE', 'global');
-
         if (false == $this->checkVersion('7.8')) {
             throw new AccessDeniedHttpException();
         }
@@ -241,9 +233,7 @@ class IndexTemplateController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        if (true == $template->isSystem()) {
-            throw new AccessDeniedHttpException();
-        }
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATE_DELETE', $template);
 
         $callResponse = $this->elasticsearchIndexTemplateManager->deleteByName($template->getName());
 

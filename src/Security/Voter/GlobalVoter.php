@@ -52,12 +52,8 @@ class GlobalVoter extends Voter
             'CONFIGURATION',
             'INDEX_TEMPLATES_LEGACY',
             'INDEX_TEMPLATES_LEGACY_CREATE',
-            'INDEX_TEMPLATE_LEGACY_UPDATE',
-            'INDEX_TEMPLATE_LEGACY_DELETE',
             'INDEX_TEMPLATES',
             'INDEX_TEMPLATES_CREATE',
-            'INDEX_TEMPLATE_UPDATE',
-            'INDEX_TEMPLATE_DELETE',
             'COMPONENT_TEMPLATES',
             'COMPONENT_TEMPLATES_CREATE',
             'COMPONENT_TEMPLATE_UPDATE',
@@ -67,6 +63,7 @@ class GlobalVoter extends Voter
             'ILM_POLICIES_CREATE',
             'ILM_POLICY_UPDATE',
             'ILM_POLICY_DELETE',
+            'ILM_POLICY_APPLY',
             'SLM_POLICIES',
             'SLM_POLICIES_STATS',
             'SLM_POLICIES_STATUS',
@@ -124,6 +121,6 @@ class GlobalVoter extends Voter
             return false;
         }
 
-        return $this->security->isGranted('ROLE_ADMIN');
+        return $this->security->isGranted('ROLE_ADMIN', $user);
     }
 }
