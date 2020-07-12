@@ -123,25 +123,63 @@ class CreateRoleType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
 
-                if ($form->has('name')) {
-                    if ($form->get('name')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setPath('/_security/role/'.$form->get('name')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+            if ($form->has('indices') && $form->get('indices')->getData()) {
+                $fieldOptions = $form->get('indices')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('indices')->getData(), JSON_PRETTY_PRINT);
+                $form->add('indices', TextareaType::class, $fieldOptions);
+            }
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
-                            $form->get('name')->addError(new FormError(
-                                $this->translator->trans('name_already_used')
-                            ));
-                        }
+            if ($form->has('applications') && $form->get('applications')->getData()) {
+                $fieldOptions = $form->get('applications')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('applications')->getData(), JSON_PRETTY_PRINT);
+                $form->add('applications', TextareaType::class, $fieldOptions);
+            }
+
+            if ($form->has('metadata') && $form->get('metadata')->getData()) {
+                $fieldOptions = $form->get('metadata')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('metadata')->getData(), JSON_PRETTY_PRINT);
+                $form->add('metadata', TextareaType::class, $fieldOptions);
+            }
+        });
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
+
+            if (false == $options['update']) {
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setPath('/_security/role/'.$form->get('name')->getData());
+                    $callResponse = $this->callManager->call($callRequest);
+
+                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
+                        ));
                     }
                 }
-            });
-        }
+            }
+
+            if ($form->has('indices') && $form->get('indices')->getData()) {
+                $role = $event->getData();
+                $role->setIndices(json_decode($form->get('indices')->getData(), true));
+                $event->setData($role);
+            }
+
+            if ($form->has('applications') && $form->get('applications')->getData()) {
+                $role = $event->getData();
+                $role->setApplications(json_decode($form->get('applications')->getData(), true));
+                $event->setData($role);
+            }
+
+            if ($form->has('metadata') && $form->get('metadata')->getData()) {
+                $role = $event->getData();
+                $role->setMetadata(json_decode($form->get('metadata')->getData(), true));
+                $event->setData($role);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

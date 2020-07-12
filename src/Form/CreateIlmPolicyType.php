@@ -147,27 +147,27 @@ class CreateIlmPolicyType extends AbstractType
             }
 
             if ($form->has('hot') && $form->get('hot')->getData()) {
-                $template = $event->getData();
-                $template->setHot(json_decode($form->get('hot')->getData(), true));
-                $event->setData($template);
+                $policy = $event->getData();
+                $policy->setHot(json_decode($form->get('hot')->getData(), true));
+                $event->setData($policy);
             }
 
             if ($form->has('warm') && $form->get('warm')->getData()) {
-                $template = $event->getData();
-                $template->setWarm(json_decode($form->get('warm')->getData(), true));
-                $event->setData($template);
+                $policy = $event->getData();
+                $policy->setWarm(json_decode($form->get('warm')->getData(), true));
+                $event->setData($policy);
             }
 
             if ($form->has('cold') && $form->get('cold')->getData()) {
-                $template = $event->getData();
-                $template->setCold(json_decode($form->get('cold')->getData(), true));
-                $event->setData($template);
+                $policy = $event->getData();
+                $policy->setCold(json_decode($form->get('cold')->getData(), true));
+                $event->setData($policy);
             }
 
             if ($form->has('delete') && $form->get('delete')->getData()) {
-                $template = $event->getData();
-                $template->setDelete(json_decode($form->get('delete')->getData(), true));
-                $event->setData($template);
+                $policy = $event->getData();
+                $policy->setDelete(json_decode($form->get('delete')->getData(), true));
+                $event->setData($policy);
             }
         });
     }

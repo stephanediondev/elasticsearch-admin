@@ -25,7 +25,7 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
-                        {% if is_granted('USER_DELETE', 'global') %}
+                        {% if is_granted('ELASTICSEARCH_USER_DELETE', 'global') %}
                             {{ appImport.buttonModal({
                                 'id': 'UserDelete',
                                 'title': 'delete'|trans,
@@ -34,7 +34,7 @@
                             }) }}
                         {% endif %}
 
-                        {% if is_granted('USER_ENABLE', 'global') and false == user['enabled'] %}
+                        {% if is_granted('ELASTICSEARCH_USER_ENABLE', 'global') and false == user['enabled'] %}
                             {{ appImport.buttonModal({
                                 'id': 'UserEnable',
                                 'title': 'enable'|trans,
@@ -43,7 +43,7 @@
                             }) }}
                         {% endif %}
 
-                        {% if is_granted('USER_DISABLE', 'global') and true == user['enabled'] %}
+                        {% if is_granted('ELASTICSEARCH_USER_DISABLE', 'global') and true == user['enabled'] %}
                             {{ appImport.buttonModal({
                                 'id': 'UserDisable',
                                 'title': 'disable'|trans,

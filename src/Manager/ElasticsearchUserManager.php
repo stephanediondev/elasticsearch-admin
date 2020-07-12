@@ -5,6 +5,9 @@ namespace App\Manager;
 use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
+use App\Model\CallResponseModel;
+use App\Model\ElasticsearchUserModel;
+use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchUserManager extends AbstractAppManager
 {

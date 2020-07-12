@@ -3,7 +3,7 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('elasticsearch_users_read', {'user': user['user']}) }}">{{ 'summary'|trans }}</a>
     </li>
 
-    {% if is_granted('USER_UPDATE', 'global') %}
+    {% if is_granted('ELASTICSEARCH_USER_UPDATE', 'global') %}
         {% if user['metadata']['_reserved'] is not defined or false == user['metadata']['_reserved'] %}
             <li class="nav-item">
                 <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('elasticsearch_users_update', {'user': user['user']}) }}">{{ 'update'|trans }}</a>

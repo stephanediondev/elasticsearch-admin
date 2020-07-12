@@ -30,12 +30,12 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this;
     }
 
-    public function getApplications(): ?string
+    public function getApplications(): ?array
     {
         return $this->applications;
     }
 
-    public function setApplications(?string $applications): self
+    public function setApplications($applications): self
     {
         $this->applications = $applications;
 
@@ -47,19 +47,19 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->cluster;
     }
 
-    public function setCluster(?array $cluster): self
+    public function setCluster($cluster): self
     {
         $this->cluster = $cluster;
 
         return $this;
     }
 
-    public function getIndices(): ?string
+    public function getIndices(): ?array
     {
         return $this->indices;
     }
 
-    public function setIndices(?string $indices): self
+    public function setIndices($indices): self
     {
         $this->indices = $indices;
 
@@ -71,23 +71,28 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->runAs;
     }
 
-    public function setRunAs(?array $runAs): self
+    public function setRunAs($runAs): self
     {
         $this->runAs = $runAs;
 
         return $this;
     }
 
-    public function getMetadata(): ?string
+    public function getMetadata(): ?array
     {
         return $this->metadata;
     }
 
-    public function setMetadata(?string $metadata): self
+    public function setMetadata($metadata): self
     {
         $this->metadata = $metadata;
 
         return $this;
+    }
+
+    public function isReserved(): ?bool
+    {
+        return true == isset($this->getMetadata()['_reserved']) && true == $this->getMetadata()['_reserved'];
     }
 
     public function convert(?array $role): self
@@ -96,13 +101,13 @@ class ElasticsearchRoleModel extends AbstractAppModel
         $this->setCluster($role['cluster']);
         $this->setRunAs($role['run_as']);
         if (true == isset($role['indices']) && 0 < count($role['indices'])) {
-            $this->setIndices(json_encode($role['indices'], JSON_PRETTY_PRINT));
+            $this->setIndices($role['indices']);
         }
         if (true == isset($role['applications']) && 0 < count($role['applications'])) {
-            $this->setApplications(json_encode($role['applications'], JSON_PRETTY_PRINT));
+            $this->setApplications($role['applications']);
         }
         if (true == isset($role['metadata']) && 0 < count($role['metadata'])) {
-            $this->setMetadata(json_encode($role['metadata'], JSON_PRETTY_PRINT));
+            $this->setMetadata($role['metadata']);
         }
         return $this;
     }
@@ -115,15 +120,15 @@ class ElasticsearchRoleModel extends AbstractAppModel
         ];
 
         if ($this->getApplications()) {
-            $json['applications'] = json_decode($this->getApplications(), true);
+            $json['applications'] = $this->getApplications();
         }
 
         if ($this->getIndices()) {
-            $json['indices'] = json_decode($this->getIndices(), true);
+            $json['indices'] = $this->getIndices();
         }
 
         if ($this->getMetadata()) {
-            $json['metadata'] = json_decode($this->getMetadata(), true);
+            $json['metadata'] = $this->getMetadata();
         }
 
         return $json;

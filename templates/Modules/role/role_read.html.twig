@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'elasticsearch_roles'|trans }} - {{ role['role'] }}{% endblock %}
+{% block head_title %}{{ 'elasticsearch_roles'|trans }} - {{ role.name }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'elasticsearch_roles'|trans, 'link': {'url': path('elasticsearch_roles')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': role['role']}) }}
+    {{ appImport.heading({'level': 2, 'title': role.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -21,36 +21,34 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
-            {% if role['metadata']['_reserved'] is not defined or false == role['metadata']['_reserved'] %}
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        {% if is_granted('ROLE_DELETE', 'global') %}
-                            {{ appImport.buttonModal({
-                                'id': 'RoleDelete',
-                                'title': 'delete'|trans,
-                                'body': role['role'],
-                                'href': path('elasticsearch_roles_delete', {'role': role['role']}),
-                            }) }}
-                        {% endif %}
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if is_granted('ELASTICSEARCH_ROLE_DELETE', role) %}
+                        {{ appImport.buttonModal({
+                            'id': 'RoleDelete',
+                            'title': 'delete'|trans,
+                            'body': role.name,
+                            'href': path('elasticsearch_roles_delete', {'role': role.name}),
+                        }) }}
+                    {% endif %}
 
-                        {% if is_granted('ROLES_CREATE', 'global') %}
-                            <a class="btn btn-primary btn-sm" href="{{ path('elasticsearch_roles_create', {'role': role['role']}) }}">{{ 'copy'|trans }}</a>
-                        {% endif %}
-                    {% endblock %}
-                {% endembed %}
-            {% endif %}
+                    {% if is_granted('ELASTICSEARCH_ROLE_COPY', role) %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('elasticsearch_roles_create', {'role': role.name}) }}">{{ 'copy'|trans }}</a>
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
 
             <p>
                 <strong>{{ 'reserved'|trans }}</strong><br>
-                {% if role['metadata']['_reserved'] is defined and true == role['metadata']['_reserved'] %}
+                {% if role.isReserved %}
                     {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                 {% else %}
                     {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
                 {% endif %}
             </p>
 
-            {% if role['cluster'] is defined and 0 < role['cluster']|length %}
+            {% if role.cluster and 0 < role.cluster|length %}
                 {{ appImport.heading({'level': 4, 'title': 'cluster'|trans}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
@@ -61,7 +59,7 @@
                     {% endblock %}
 
                     {% block tbody %}
-                        {% for record in role['cluster'] %}
+                        {% for record in role.cluster %}
                             <tr>
                                 <td>{{ record }}</td>
                             </tr>
@@ -70,7 +68,7 @@
                 {% endembed %}
             {% endif %}
 
-            {% if role['run_as'] is defined and 0 < role['run_as']|length %}
+            {% if role.runAs and 0 < role.runAs|length %}
                 {{ appImport.heading({'level': 4, 'title': 'run_as'|trans}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
@@ -81,7 +79,7 @@
                     {% endblock %}
 
                     {% block tbody %}
-                        {% for record in role['run_as'] %}
+                        {% for record in role.runAs %}
                             <tr>
                                 <td>{{ record }}</td>
                             </tr>
@@ -90,7 +88,7 @@
                 {% endembed %}
             {% endif %}
 
-            {% if role['indices'] is defined and 0 < role['indices']|length %}
+            {% if role.indices and 0 < role.indices|length %}
                 {{ appImport.heading({'level': 4, 'title': 'indices'|trans}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
@@ -102,7 +100,7 @@
                     {% endblock %}
 
                     {% block tbody %}
-                        {% for record in role['indices'] %}
+                        {% for record in role.indices %}
                             <tr>
                                 <td>{{ record['names']|join('<br>')|raw }}</td>
                                 <td>{{ record['privileges']|join('<br>')|raw }}</td>
@@ -112,7 +110,7 @@
                 {% endembed %}
             {% endif %}
 
-            {% if role['applications'] is defined and 0 < role['applications']|length %}
+            {% if role.applications and 0 < role.applications|length %}
                 {{ appImport.heading({'level': 4, 'title': 'applications'|trans}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
@@ -125,7 +123,7 @@
                     {% endblock %}
 
                     {% block tbody %}
-                        {% for record in role['applications'] %}
+                        {% for record in role.applications %}
                             <tr>
                                 <td>{{ record['application'] }}</td>
                                 <td>{{ record['privileges']|join('<br>')|raw }}</td>

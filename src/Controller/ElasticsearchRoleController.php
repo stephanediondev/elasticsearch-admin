@@ -20,12 +20,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ElasticsearchRoleController extends AbstractAppController
 {
+    public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager)
+    {
+        $this->elasticsearchRoleManager = $elasticsearchRoleManager;
+        $this->elasticsearchUserManager = $elasticsearchUserManager;
+    }
+
     /**
      * @Route("/elasticsearch-roles", name="elasticsearch_roles")
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLES', 'global');
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -59,9 +65,9 @@ class ElasticsearchRoleController extends AbstractAppController
     /**
      * @Route("/elasticsearch-roles/create", name="elasticsearch_roles_create")
      */
-    public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
+    public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLES_CREATE', 'global');
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES_CREATE', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
@@ -70,41 +76,31 @@ class ElasticsearchRoleController extends AbstractAppController
         $role = false;
 
         if ($request->query->get('role')) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_security/role/'.$request->query->get('role'));
-            $callResponse = $this->callManager->call($callRequest);
+            $role = $this->elasticsearchRoleManager->getByName($request->query->get('role'));
 
-            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            if (false == $role) {
                 throw new NotFoundHttpException();
             }
 
-            $role = $callResponse->getContent();
-            $roleNice = $role[key($role)];
-            $roleNice['name'] = key($role).'-copy';
-            $roleNice['role'] = key($role);
-            $role = $roleNice;
+            $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLE_COPY', $role);
+
+            $role->setName($role->getName().'-copy');
         }
 
-        $roleModel = new ElasticsearchRoleModel();
-        if ($role) {
-            $roleModel->convert($role);
+        if (false == $role) {
+            $role = new ElasticsearchRoleModel();
         }
-        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $elasticsearchRoleManager->getPrivileges(), 'users' => $elasticsearchUserManager->selectUsers()]);
+        $form = $this->createForm(CreateRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers()]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $roleModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('POST');
-                $callRequest->setPath('/_security/role/'.$roleModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchRoleManager->send($role);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('elasticsearch_roles_read', ['role' => $roleModel->getName()]);
+                return $this->redirectToRoute('elasticsearch_roles_read', ['role' => $role->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -120,83 +116,58 @@ class ElasticsearchRoleController extends AbstractAppController
      */
     public function read(Request $request, string $role): Response
     {
-        $this->denyAccessUnlessGranted('ROLES', 'global');
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES', 'global');
 
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role/'.$role);
-        $callResponse = $this->callManager->call($callRequest);
+        $role = $this->elasticsearchRoleManager->getByName($role);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $role) {
             throw new NotFoundHttpException();
         }
 
-        $role = $callResponse->getContent();
-        $roleNice = $role[key($role)];
-        $roleNice['role'] = key($role);
-
         return $this->renderAbstract($request, 'Modules/role/role_read.html.twig', [
-            'role' => $roleNice,
+            'role' => $role,
         ]);
     }
 
     /**
      * @Route("/elasticsearch-roles/{role}/update", name="elasticsearch_roles_update")
      */
-    public function update(Request $request, string $role, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
+    public function update(Request $request, string $role): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_UPDATE', 'global');
-
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role/'.$role);
-        $callResponse = $this->callManager->call($callRequest);
+        $role = $this->elasticsearchRoleManager->getByName($role);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $role) {
             throw new NotFoundHttpException();
         }
 
-        $role = $callResponse->getContent();
-        $roleNice = $role[key($role)];
-        $roleNice['name'] = key($role);
-        $roleNice['role'] = key($role);
-        $role = $roleNice;
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLE_UPDATE', $role);
 
-        if (true == isset($role['metadata']) && true == isset($role['metadata']['_reserved']) && true == $role['metadata']['_reserved']) {
-            throw new AccessDeniedHttpException();
-        }
-
-        $roleModel = new ElasticsearchRoleModel();
-        $roleModel->convert($role);
-        $form = $this->createForm(CreateRoleType::class, $roleModel, ['privileges' => $elasticsearchRoleManager->getPrivileges(), 'users' => $elasticsearchUserManager->selectUsers(), 'update' => true]);
+        $form = $this->createForm(CreateRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers(), 'update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $roleModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_security/role/'.$roleModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchRoleManager->send($role);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('elasticsearch_roles_read', ['role' => $roleModel->getName()]);
+                return $this->redirectToRoute('elasticsearch_roles_read', ['role' => $role->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
         }
 
         return $this->renderAbstract($request, 'Modules/role/role_update.html.twig', [
-            'role' => $roleNice,
+            'role' => $role,
             'form' => $form->createView(),
         ]);
     }
@@ -206,33 +177,19 @@ class ElasticsearchRoleController extends AbstractAppController
      */
     public function delete(Request $request, string $role): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_DELETE', 'global');
-
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role/'.$role);
-        $callResponse = $this->callManager->call($callRequest);
+        $role = $this->elasticsearchRoleManager->getByName($role);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $role) {
             throw new NotFoundHttpException();
         }
 
-        $role = $callResponse->getContent();
-        $roleNice = $role[key($role)];
-        $roleNice['role'] = key($role);
-        $role = $roleNice;
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLE_DELETE', $role);
 
-        if (true == isset($role['metadata']) && true == isset($role['metadata']['_reserved']) && true == $role['metadata']['_reserved']) {
-            throw new AccessDeniedHttpException();
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_security/role/'.$role['role']);
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchRoleManager->deleteByName($role->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

@@ -137,15 +137,15 @@ class CreatePipelineType extends AbstractType
             }
 
             if ($form->has('processors') && $form->get('processors')->getData()) {
-                $template = $event->getData();
-                $template->setProcessors(json_decode($form->get('processors')->getData(), true));
-                $event->setData($template);
+                $pipeline = $event->getData();
+                $pipeline->setProcessors(json_decode($form->get('processors')->getData(), true));
+                $event->setData($pipeline);
             }
 
             if ($form->has('on_failure') && $form->get('on_failure')->getData()) {
-                $template = $event->getData();
-                $template->setOnFailure(json_decode($form->get('on_failure')->getData(), true));
-                $event->setData($template);
+                $pipeline = $event->getData();
+                $pipeline->setOnFailure(json_decode($form->get('on_failure')->getData(), true));
+                $event->setData($pipeline);
             }
         });
     }

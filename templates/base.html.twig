@@ -87,13 +87,13 @@
                                         {% if false == has_feature(xpack, 'enrich') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
-                                {% if is_granted('USERS', 'global') %}
+                                {% if is_granted('ELASTICSEARCH_USERS', 'global') %}
                                     <a class="dropdown-item" href="{{ path('elasticsearch_users') }}">
                                         {{ 'elasticsearch_users'|trans }}
                                         {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
-                                {% if is_granted('ROLES', 'global') %}
+                                {% if is_granted('ELASTICSEARCH_ROLES', 'global') %}
                                     <a class="dropdown-item" href="{{ path('elasticsearch_roles') }}">
                                         {{ 'elasticsearch_roles'|trans }}
                                         {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
