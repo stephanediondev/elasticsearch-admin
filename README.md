@@ -120,3 +120,14 @@ bin/console app:phpunit && bin/phpunit
 [![Create enrich policy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-enrich-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-enrich-create.png)
 
 [![License](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-license.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-license.png)
+
+
+## Other tools
+
+- http://mobz.github.io/elasticsearch-head/
+- http://www.elastichq.org/
+- https://elasticvue.com/
+- https://github.com/lmenezes/cerebro
+- https://github.com/moshe/elasticsearch-comrade
+- https://opensource.appbase.io/dejavu/
+- https://www.elastic-kaizen.com/
