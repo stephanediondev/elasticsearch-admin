@@ -88,13 +88,11 @@ class RegisterUserType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if ($form->has('secretRegister')) {
-                if ($form->get('secretRegister')->getData()) {
-                    if ($this->secretRegister !== $form->get('secretRegister')->getData()) {
-                        $form->get('secretRegister')->addError(new FormError(
-                            $this->translator->trans('secret_register_wrong')
-                        ));
-                    }
+            if ($form->has('secretRegister') && $form->get('secretRegister')->getData()) {
+                if ($this->secretRegister !== $form->get('secretRegister')->getData()) {
+                    $form->get('secretRegister')->addError(new FormError(
+                        $this->translator->trans('secret_register_wrong')
+                    ));
                 }
             }
         });

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
+use App\Manager\ElasticsearchSnapshotManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchSnapshotModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +20,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateSnapshotType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchSnapshotManager $elasticsearchSnapshotManager, TranslatorInterface $translator)
     {
-        $this->callManager = $callManager;
+        $this->elasticsearchSnapshotManager = $elasticsearchSnapshotManager;
         $this->translator = $translator;
     }
 
@@ -117,11 +117,9 @@ class CreateSnapshotType extends AbstractType
 
                 if ($form->has('repository') && $form->has('name')) {
                     if ($form->get('repository')->getData() && $form->get('name')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setPath('/_snapshot/'.$form->get('repository')->getData().'/'.$form->get('name')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+                        $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($form->get('name')->getData(), $form->get('repository')->getData());
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
+                        if ($snapshot) {
                             $form->get('name')->addError(new FormError(
                                 $this->translator->trans('name_already_used')
                             ));

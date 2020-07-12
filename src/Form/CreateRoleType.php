@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
+use App\Manager\ElasticsearchRoleManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRoleModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +21,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateRoleType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, TranslatorInterface $translator)
     {
-        $this->callManager = $callManager;
+        $this->elasticsearchRoleManager = $elasticsearchRoleManager;
         $this->translator = $translator;
     }
 
@@ -150,11 +150,9 @@ class CreateRoleType extends AbstractType
 
             if (false == $options['update']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setPath('/_security/role/'.$form->get('name')->getData());
-                    $callResponse = $this->callManager->call($callRequest);
+                    $role = $this->elasticsearchRoleManager->getByName($form->get('name')->getData());
 
-                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                    if ($role) {
                         $form->get('name')->addError(new FormError(
                             $this->translator->trans('name_already_used')
                         ));

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
+use App\Manager\ElasticsearchPipelineManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchPipelineModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,9 +22,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreatePipelineType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchPipelineManager $elasticsearchPipelineManager, TranslatorInterface $translator)
     {
-        $this->callManager = $callManager;
+        $this->elasticsearchPipelineManager = $elasticsearchPipelineManager;
         $this->translator = $translator;
     }
 
@@ -123,12 +123,9 @@ class CreatePipelineType extends AbstractType
 
             if (false == $options['update']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('GET');
-                    $callRequest->setPath('/_ingest/pipeline/'.$form->get('name')->getData());
-                    $callResponse = $this->callManager->call($callRequest);
+                    $pipeline = $this->elasticsearchPipelineManager->getByName($form->get('name')->getData());
 
-                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                    if ($pipeline) {
                         $form->get('name')->addError(new FormError(
                             $this->translator->trans('name_already_used')
                         ));

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
+use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +20,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateRepositoryType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager, TranslatorInterface $translator)
     {
-        $this->callManager = $callManager;
+        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
         $this->translator = $translator;
     }
 
@@ -226,17 +226,13 @@ class CreateRepositoryType extends AbstractType
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
                 $form = $event->getForm();
 
-                if ($form->has('name')) {
-                    if ($form->get('name')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setPath('/_snapshot/'.$form->get('name')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $repository = $this->elasticsearchRepositoryManager->getByName($form->get('name')->getData());
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
-                            $form->get('name')->addError(new FormError(
-                                $this->translator->trans('name_already_used')
-                            ));
-                        }
+                    if ($repository) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
+                        ));
                     }
                 }
             });

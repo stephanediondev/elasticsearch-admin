@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
+use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchComponentTemplateModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,9 +22,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateComponentTemplateType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager, TranslatorInterface $translator)
     {
-        $this->callManager = $callManager;
+        $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;
         $this->translator = $translator;
     }
 
@@ -133,12 +133,9 @@ class CreateComponentTemplateType extends AbstractType
 
             if (false == $options['update']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('HEAD');
-                    $callRequest->setPath('/_template/'.$form->get('name')->getData());
-                    $callResponse = $this->callManager->call($callRequest);
+                    $template = $this->elasticsearchComponentTemplateManager->getByName($form->get('name')->getData());
 
-                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                    if ($template) {
                         $form->get('name')->addError(new FormError(
                             $this->translator->trans('name_already_used')
                         ));

@@ -142,17 +142,15 @@ class CreateUserType extends AbstractType
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
                 $form = $event->getForm();
 
-                if ($form->has('username')) {
-                    if ($form->get('username')->getData()) {
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setPath('/_security/user/'.$form->get('username')->getData());
-                        $callResponse = $this->callManager->call($callRequest);
+                if ($form->has('username') && $form->get('username')->getData()) {
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setPath('/_security/user/'.$form->get('username')->getData());
+                    $callResponse = $this->callManager->call($callRequest);
 
-                        if (Response::HTTP_OK == $callResponse->getCode()) {
-                            $form->get('username')->addError(new FormError(
-                                $this->translator->trans('username_already_used')
-                            ));
-                        }
+                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                        $form->get('username')->addError(new FormError(
+                            $this->translator->trans('username_already_used')
+                        ));
                     }
                 }
             });

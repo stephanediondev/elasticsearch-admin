@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
+use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchSlmPolicyModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,9 +21,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateSlmPolicyType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, TranslatorInterface $translator)
     {
-        $this->callManager = $callManager;
+        $this->elasticsearchSlmPolicyManager = $elasticsearchSlmPolicyManager;
         $this->translator = $translator;
     }
 
@@ -170,11 +170,9 @@ class CreateSlmPolicyType extends AbstractType
 
             if (false == $options['update']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setPath('/_slm/policy/'.$form->get('name')->getData());
-                    $callResponse = $this->callManager->call($callRequest);
+                    $policy = $this->elasticsearchSlmPolicyManager->getByName($form->get('name')->getData());
 
-                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                    if ($policy) {
                         $form->get('name')->addError(new FormError(
                             $this->translator->trans('name_already_used')
                         ));

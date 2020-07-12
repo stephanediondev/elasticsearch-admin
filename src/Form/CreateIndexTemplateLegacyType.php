@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
+use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,9 +23,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateIndexTemplateLegacyType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager, TranslatorInterface $translator)
     {
-        $this->callManager = $callManager;
+        $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;
         $this->translator = $translator;
     }
 
@@ -158,12 +158,9 @@ class CreateIndexTemplateLegacyType extends AbstractType
 
             if (false == $options['update']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('HEAD');
-                    $callRequest->setPath('/_template/'.$form->get('name')->getData());
-                    $callResponse = $this->callManager->call($callRequest);
+                    $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($form->get('name')->getData());
 
-                    if (Response::HTTP_OK == $callResponse->getCode()) {
+                    if ($template) {
                         $form->get('name')->addError(new FormError(
                             $this->translator->trans('name_already_used')
                         ));
