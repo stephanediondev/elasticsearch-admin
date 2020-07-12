@@ -119,11 +119,14 @@
         function enable(id) {
             $(id).parent().show();
             $(id).attr('required', 'required');
+            $('label[for="' + id.substring(1) + '"] .badge').remove();
+            $('label[for="' + id.substring(1) + '"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
         }
 
         function disable(id) {
             $(id).parent().hide();
             $(id).removeAttr('required');
+            $('label[for="' + id.substring(1) + '"] .badge').remove();
         }
 
         toggle();
