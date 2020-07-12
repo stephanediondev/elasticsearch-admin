@@ -48,6 +48,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-highlights-7
 
 https://www.elastic.co/guide/en/elasticsearch/reference/6.6/release-notes-6.6.0.html
 
+- Add a _freeze / _unfreeze API #35592 (issue: #34352)
 - Add support for get license basic/trial status API #33176 (issue: #29827)
 
 ### 6.5.0
