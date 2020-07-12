@@ -9,6 +9,7 @@ use App\Form\RestoreSnapshotType;
 use App\Manager\ElasticsearchSnapshotManager;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
+use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchSnapshotModel;
 use App\Model\ElasticsearchSnapshotRestoreModel;
@@ -22,11 +23,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SnapshotController extends AbstractAppController
 {
-    public function __construct(ElasticsearchSnapshotManager $elasticsearchSnapshotManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager)
+    public function __construct(ElasticsearchSnapshotManager $elasticsearchSnapshotManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchSnapshotManager = $elasticsearchSnapshotManager;
         $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
     /**
@@ -121,16 +123,7 @@ class SnapshotController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('SNAPSHOT_FAILURES', $snapshot);
 
-        $nodes = [];
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes');
-        $callResponse = $this->callManager->call($callRequest);
-        $rows = $callResponse->getContent();
-
-        foreach ($rows['nodes'] as $k => $row) {
-            $nodes[$k] = $row['name'];
-        }
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         return $this->renderAbstract($request, 'Modules/snapshot/snapshot_read_failures.html.twig', [
             'repository' => $repository,

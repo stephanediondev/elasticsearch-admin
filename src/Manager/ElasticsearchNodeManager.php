@@ -64,4 +64,20 @@ class ElasticsearchNodeManager extends AbstractAppManager
 
         return $nodes;
     }
+
+    public function selectNodes()
+    {
+        $nodes = [];
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_nodes');
+        $callResponse = $this->callManager->call($callRequest);
+        $rows = $callResponse->getContent();
+
+        foreach ($rows['nodes'] as $k => $row) {
+            $nodes[$k] = $row['name'];
+        }
+
+        return $nodes;
+    }
 }

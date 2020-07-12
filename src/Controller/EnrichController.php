@@ -7,6 +7,7 @@ use App\Exception\CallException;
 use App\Form\CreateEnrichPolicyType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchEnrichPolicyManager;
+use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchEnrichPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,10 +21,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class EnrichController extends AbstractAppController
 {
-    public function __construct(ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager, ElasticsearchIndexManager $elasticsearchIndexManager)
+    public function __construct(ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchEnrichPolicyManager = $elasticsearchEnrichPolicyManager;
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
     /**
@@ -62,21 +64,9 @@ class EnrichController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_enrich/_stats');
-        $callResponse = $this->callManager->call($callRequest);
-        $stats = $callResponse->getContent();
+        $stats = $this->elasticsearchEnrichPolicyManager->getStats();
 
-        $nodes = [];
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes');
-        $callResponse = $this->callManager->call($callRequest);
-        $rows = $callResponse->getContent();
-
-        foreach ($rows['nodes'] as $k => $row) {
-            $nodes[$k] = $row['name'];
-        }
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         return $this->renderAbstract($request, 'Modules/enrich/enrich_stats.html.twig', [
             'stats' => $stats,
