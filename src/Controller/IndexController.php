@@ -450,10 +450,9 @@ class IndexController extends AbstractAppController
                 $callResponse = $this->callManager->call($callRequest);
                 $parameters['response'] = $callResponse->getContent();
 
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('POST');
-                $callRequest->setPath('/'.$index->getName().'/_refresh');
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchIndexManager->refreshByName($index->getName());
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -1125,10 +1124,7 @@ class IndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_FORCE_MERGE', $index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index->getName().'/_forcemerge');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->forceMergeByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -1148,10 +1144,7 @@ class IndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_CACHE_CLEAR', $index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index->getName().'/_cache/clear');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->cacheClearByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -1171,10 +1164,7 @@ class IndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_FLUSH', $index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index->getName().'/_flush');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->flushByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -1194,10 +1184,7 @@ class IndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_REFRESH', $index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index->getName().'/_refresh');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->refreshByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -1217,23 +1204,11 @@ class IndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_EMPTY', $index);
 
-        $json = [
-            'query' => [
-                'match_all' => (object)[],
-            ],
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index->getName().'/_delete_by_query');
-        $callRequest->setJson($json);
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->emptyByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/'.$index->getName().'/_refresh');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIndexManager->refreshByName($index->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

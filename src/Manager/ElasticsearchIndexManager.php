@@ -111,6 +111,52 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    public function forceMergeByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$name.'/_forcemerge');
+        return $this->callManager->call($callRequest);
+    }
+
+    public function cacheClearByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$name.'/_cache/clear');
+        return $this->callManager->call($callRequest);
+    }
+
+    public function flushByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$name.'/_flush');
+        return $this->callManager->call($callRequest);
+    }
+
+    public function refreshByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$name.'/_refresh');
+        return $this->callManager->call($callRequest);
+    }
+
+    public function emptyByName(string $name): CallResponseModel
+    {
+        $json = [
+            'query' => [
+                'match_all' => (object)[],
+            ],
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/'.$name.'/_delete_by_query');
+        $callRequest->setJson($json);
+        return $this->callManager->call($callRequest);
+    }
+
     private function mappingsFlat(array $properties, string $prefix = '')
     {
         $mappingsFlat = [];
