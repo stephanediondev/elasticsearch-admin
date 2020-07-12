@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Exception\CallException;
 use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
@@ -13,17 +14,21 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
 {
     public function getByName(string $name): ?ElasticsearchIndexTemplateModel
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_index_template/'.$name.'?flat_settings=true');
-        $callResponse = $this->callManager->call($callRequest);
+        try {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_index_template/'.$name.'?flat_settings=true');
+            $callResponse = $this->callManager->call($callRequest);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+                $templateModel = null;
+            } else {
+                $template = $callResponse->getContent();
+
+                $templateModel = new ElasticsearchIndexTemplateModel();
+                $templateModel->convert($template['index_templates'][0]);
+            }
+        } catch (CallException $e) {
             $templateModel = null;
-        } else {
-            $template = $callResponse->getContent();
-
-            $templateModel = new ElasticsearchIndexTemplateModel();
-            $templateModel->convert($template['index_templates'][0]);
         }
 
         return $templateModel;

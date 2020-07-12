@@ -87,8 +87,10 @@ class SecurityController extends AbstractAppController
                             'number_of_shards' => 1,
                             'auto_expand_replicas' => '0-1',
                         ],
-                    ],
-                    'mappings' => [
+                    ]
+                ];
+                if (true == $this->checkVersion('7.0')) {
+                    $json['mappings'] = [
                         'properties' => [
                             'email' => [
                                 'type' => 'keyword',
@@ -104,8 +106,8 @@ class SecurityController extends AbstractAppController
                                 'format' => 'yyyy-MM-dd HH:mm:ss',
                             ],
                         ],
-                    ],
-                ];
+                    ];
+                }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setJson($json);
@@ -125,7 +127,11 @@ class SecurityController extends AbstractAppController
                     'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
                 ];
                 $callRequest = new CallRequestModel();
-                $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$user->getEmail());
+                if (true == $this->checkVersion('7.0')) {
+                    $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$user->getEmail());
+                } else {
+                    $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$user->getEmail());
+                }
                 $callRequest->setMethod('POST');
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);

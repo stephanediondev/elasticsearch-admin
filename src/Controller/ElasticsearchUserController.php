@@ -249,6 +249,10 @@ class ElasticsearchUserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
+        if (false == $this->hasFeature('security')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $user = $this->elasticsearchUserManager->getByName($user);
 
         if (false == $user) {
