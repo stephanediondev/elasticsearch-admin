@@ -1,15 +1,15 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'username': true, 'full_name': true, 'email': true, 'roles': true, 'enabled': true, 'reserved': true} %}
+    {% set columns = {'name': true, 'full_name': true, 'email': true, 'roles': true, 'enabled': true, 'reserved': true} %}
 
     {% block thead %}
         <tr>
             {% for column, display in columns %}
                 {% if true == display %}
-                    {% if 'username' == column %}
+                    {% if 'name' == column %}
                         <th>
-                            {{ 'username'|trans }}
+                            {{ 'name'|trans }}
                         </th>
                     {% endif %}
 
@@ -49,31 +49,31 @@
 
     {% block tbody %}
         {% for row in users.rows %}
-            <tr class="enabled-{% if row['enabled'] is defined and true == row['enabled'] %}true{% else %}false{% endif %} reserved-{% if row['metadata']['_reserved'] is defined and true == row['metadata']['_reserved'] %}true{% else %}false{% endif %}" data-search="{{ row['username'] }}">
+            <tr class="enabled-{% if row.enabled %}true{% else %}false{% endif %} reserved-{% if row.isReserved %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
-                        {% if 'username' == column %}
+                        {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('elasticsearch_users_read', {'user': row['username']}) }}">{{ row['username'] }}</a>
+                                <a href="{{ path('elasticsearch_users_read', {'user': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'full_name' == column %}
                             <td>
-                                {{ row['full_name'] }}
+                                {{ row.fullName }}
                             </td>
                         {% endif %}
 
                         {% if 'email' == column %}
                             <td>
-                                {{ row['email'] }}
+                                {{ row.email }}
                             </td>
                         {% endif %}
 
                         {% if 'roles' == column %}
                             <td>
-                                {% if row['roles'] is defined and 0 < row['roles']|length %}
-                                    {% for record in row['roles'] %}
+                                {% if row.roles and 0 < row.roles|length %}
+                                    {% for record in row.roles %}
                                         <a href="{{ path('elasticsearch_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
                                     {% endfor %}
                                 {% endif %}
@@ -82,13 +82,13 @@
 
                         {% if 'enabled' == column %}
                             <td>
-                                {{ appImport.badge({'title': ('boolean.' ~ row['enabled'])|trans, 'context': row['enabled']}) }}
+                                {{ appImport.badge({'title': ('boolean.' ~ row.enabled)|trans, 'context': row.enabled}) }}
                             </td>
                         {% endif %}
 
                         {% if 'reserved' == column %}
                             <td>
-                                {% if row['metadata']['_reserved'] is defined and true == row['metadata']['_reserved'] %}
+                                {% if row.isReserved %}
                                     {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                 {% else %}
                                     {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}

@@ -1,15 +1,15 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'role': true, 'reserved': true, 'indices': false, 'applications': false, 'cluster': false} %}
+    {% set columns = {'name': true, 'reserved': true, 'indices': false, 'applications': false, 'cluster': false} %}
 
     {% block thead %}
         <tr>
             {% for column, display in columns %}
                 {% if true == display %}
-                    {% if 'role' == column %}
+                    {% if 'name' == column %}
                         <th>
-                            {{ 'role'|trans }}
+                            {{ 'name'|trans }}
                         </th>
                     {% endif %}
 
@@ -43,18 +43,18 @@
 
     {% block tbody %}
         {% for row in roles.rows %}
-            <tr class="reserved-{% if row['metadata']['_reserved'] is defined and true == row['metadata']['_reserved'] %}true{% else %}false{% endif %}" data-search="{{ row['role'] }}">
+            <tr class="reserved-{% if row.isReserved %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
-                        {% if 'role' == column %}
+                        {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('elasticsearch_roles_read', {'role': row['role']}) }}">{{ row['role'] }}</a>
+                                <a href="{{ path('elasticsearch_roles_read', {'role': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'reserved' == column %}
                             <td>
-                                {% if row['metadata']['_reserved'] is defined and true == row['metadata']['_reserved'] %}
+                                {% if row.isReserved %}
                                     {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                 {% else %}
                                     {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
@@ -64,8 +64,8 @@
 
                         {% if 'indices' == column %}
                             <td>
-                                {% if row['indices'] is defined and 0 < row['indices']|length %}
-                                    {% for record in row['indices'] %}
+                                {% if row.indices and 0 < row.indices|length %}
+                                    {% for record in row.indices %}
                                         <small>#{{ loop.index }}: {{ record['names']|join(', ') }} ({{ record['privileges']|join(', ') }})</small><br>
                                     {% endfor %}
                                 {% endif %}
@@ -74,8 +74,8 @@
 
                         {% if 'applications' == column %}
                             <td>
-                                {% if row['applications'] is defined and 0 < row['applications']|length %}
-                                    {% for record in row['applications'] %}
+                                {% if row.applications and 0 < row.applications|length %}
+                                    {% for record in row.applications %}
                                         <small>#{{ loop.index }}: {{ record['application'] }} ({{ record['privileges']|join(', ') }})</small><br>
                                     {% endfor %}
                                 {% endif %}
@@ -84,8 +84,8 @@
 
                         {% if 'cluster' == column %}
                             <td>
-                                {% if row['cluster'] is defined and 0 < row['cluster']|length %}
-                                    <small>{{ row['cluster']|join(', ') }}</small>
+                                {% if row.cluster and 0 < row.cluster|length %}
+                                    <small>{{ row.cluster|join(', ') }}</small>
                                 {% endif %}
                             </td>
                         {% endif %}

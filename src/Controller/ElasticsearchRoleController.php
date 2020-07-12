@@ -37,18 +37,7 @@ class ElasticsearchRoleController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $roles = [];
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role');
-        $callResponse = $this->callManager->call($callRequest);
-        $roles1 = $callResponse->getContent();
-
-        foreach ($roles1 as $k => $role) {
-            $role['role'] = $k;
-            $roles[$k] = $role;
-        }
-        ksort($roles);
+        $roles = $this->elasticsearchRoleManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/role/role_index.html.twig', [
             'roles' => $this->paginatorManager->paginate([

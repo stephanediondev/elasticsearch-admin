@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
+use App\Manager\ElasticsearchUserManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchUserModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,9 +25,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateUserType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchUserManager $elasticsearchUserManager, TranslatorInterface $translator)
     {
-        $this->callManager = $callManager;
+        $this->elasticsearchUserManager = $elasticsearchUserManager;
         $this->translator = $translator;
     }
 
@@ -36,7 +36,7 @@ class CreateUserType extends AbstractType
         $fields = [];
 
         if (false == $options['update']) {
-            $fields[] = 'username';
+            $fields[] = 'name';
         } else {
             $fields[] = 'change_password';
         }
@@ -48,9 +48,9 @@ class CreateUserType extends AbstractType
 
         foreach ($fields as $field) {
             switch ($field) {
-                case 'username':
-                    $builder->add('username', TextType::class, [
-                        'label' => 'username',
+                case 'name':
+                    $builder->add('name', TextType::class, [
+                        'label' => 'name',
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),
@@ -138,23 +138,37 @@ class CreateUserType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
 
-                if ($form->has('username') && $form->get('username')->getData()) {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setPath('/_security/user/'.$form->get('username')->getData());
-                    $callResponse = $this->callManager->call($callRequest);
+            if ($form->has('metadata') && $form->get('metadata')->getData()) {
+                $fieldOptions = $form->get('metadata')->getConfig()->getOptions();
+                $fieldOptions['data'] = json_encode($form->get('metadata')->getData(), JSON_PRETTY_PRINT);
+                $form->add('metadata', TextareaType::class, $fieldOptions);
+            }
+        });
 
-                    if (Response::HTTP_OK == $callResponse->getCode()) {
-                        $form->get('username')->addError(new FormError(
-                            $this->translator->trans('username_already_used')
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
+
+            if (false == $options['update']) {
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $user = $this->elasticsearchUserManager->getByName($form->get('name')->getData());
+
+                    if ($user) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
                         ));
                     }
                 }
-            });
-        }
+            }
+
+            if ($form->has('metadata') && $form->get('metadata')->getData()) {
+                $user = $event->getData();
+                $user->setMetadata(json_decode($form->get('metadata')->getData(), true));
+                $event->setData($user);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

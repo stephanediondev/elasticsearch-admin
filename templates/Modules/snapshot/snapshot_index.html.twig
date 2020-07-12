@@ -28,7 +28,7 @@
                 {% endembed %}
 
                 <div class="collapse" id="collapseFilter">
-                    {{ appImport.filterText({'label': 'snapshot'|trans}) }}
+                    {{ appImport.filterText({'label': 'name'|trans}) }}
 
                     {{ appImport.filterCheckboxes({'title': 'state'|trans, 'prefix': 'state', 'choices': ['FAILED', 'INCOMPATIBLE', 'IN_PROGRESS', 'PARTIAL', 'SUCCESS']}) }}
                 </div>

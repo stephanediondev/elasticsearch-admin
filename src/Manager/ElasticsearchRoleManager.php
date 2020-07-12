@@ -34,19 +34,19 @@ class ElasticsearchRoleManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ingest/pipeline');
+        $callRequest->setPath('/_security/role');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        $pipelines = [];
         foreach ($results as $k => $row) {
             $row['name'] = $k;
             $roleModel = new ElasticsearchRoleModel();
             $roleModel->convert($row);
-            $pipelines[] = $roleModel;
+            $roles[$k] = $roleModel;
         }
+        ksort($roles);
 
-        return $pipelines;
+        return $roles;
     }
 
     public function send(ElasticsearchRoleModel $roleModel): CallResponseModel

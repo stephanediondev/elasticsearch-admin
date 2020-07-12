@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateUserType;
+use App\Manager\ElasticsearchUserManager;
 use App\Manager\ElasticsearchRoleManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchUserModel;
@@ -19,6 +20,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ElasticsearchUserController extends AbstractAppController
 {
+    public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager)
+    {
+        $this->elasticsearchRoleManager = $elasticsearchRoleManager;
+        $this->elasticsearchUserManager = $elasticsearchUserManager;
+    }
+
     /**
      * @Route("/elasticsearch-users", name="elasticsearch_users")
      */
@@ -30,18 +37,7 @@ class ElasticsearchUserController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $users = [];
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user');
-        $callResponse = $this->callManager->call($callRequest);
-        $users1 = $callResponse->getContent();
-
-        foreach ($users1 as $k => $user) {
-            $user['user'] = $k;
-            $users[$k] = $user;
-        }
-        ksort($users);
+        $users = $this->elasticsearchUserManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/user/user_index.html.twig', [
             'users' => $this->paginatorManager->paginate([
@@ -58,7 +54,7 @@ class ElasticsearchUserController extends AbstractAppController
     /**
      * @Route("/elasticsearch-users/create", name="elasticsearch_users_create")
      */
-    public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager): Response
+    public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS_CREATE', 'global');
 
@@ -66,34 +62,34 @@ class ElasticsearchUserController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $roles = $elasticsearchRoleManager->selectRoles();
+        $roles = $this->elasticsearchRoleManager->selectRoles();
 
-        $userModel = new ElasticsearchUserModel();
-        $form = $this->createForm(CreateUserType::class, $userModel, ['roles' => $roles]);
+        $user = new ElasticsearchUserModel();
+        $form = $this->createForm(CreateUserType::class, $user, ['roles' => $roles]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $json = [
-                    'enabled' => $userModel->getEnabled(),
-                    'email' => $userModel->getEmail(),
-                    'full_name' => $userModel->getFullName(),
-                    'password' => $userModel->getPassword(),
-                    'roles' => $userModel->getRoles(),
+                    'enabled' => $user->getEnabled(),
+                    'email' => $user->getEmail(),
+                    'full_name' => $user->getFullName(),
+                    'password' => $user->getPassword(),
+                    'roles' => $user->getRoles(),
                 ];
-                if ($userModel->getMetadata()) {
-                    $json['metadata'] = json_decode($userModel->getMetadata(), true);
+                if ($user->getMetadata()) {
+                    $json['metadata'] = $user->getMetadata();
                 }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
-                $callRequest->setPath('/_security/user/'.$userModel->getUsername());
+                $callRequest->setPath('/_security/user/'.$user->getName());
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('elasticsearch_users_read', ['user' => $userModel->getUsername()]);
+                return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -115,98 +111,79 @@ class ElasticsearchUserController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user/'.$user);
-        $callResponse = $this->callManager->call($callRequest);
+        $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $user) {
             throw new NotFoundHttpException();
         }
 
-        $user = $callResponse->getContent();
-        $userNice = $user[key($user)];
-        $userNice['user'] = key($user);
-
         return $this->renderAbstract($request, 'Modules/user/user_read.html.twig', [
-            'user' => $userNice,
+            'user' => $user,
         ]);
     }
 
     /**
      * @Route("/elasticsearch-users/{user}/update", name="elasticsearch_users_update")
      */
-    public function update(Request $request, string $user, ElasticsearchRoleManager $elasticsearchRoleManager): Response
+    public function update(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('ELASTICSEARCH_USER_UPDATE', 'global');
-
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user/'.$user);
-        $callResponse = $this->callManager->call($callRequest);
+        $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $user) {
             throw new NotFoundHttpException();
         }
 
-        $user = $callResponse->getContent();
-        $userNice = $user[key($user)];
-        $userNice['user'] = key($user);
-        $user = $userNice;
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_USER_UPDATE', $user);
 
-        if (true == isset($user['metadata']) && true == isset($user['metadata']['_reserved']) && true == $user['metadata']['_reserved']) {
-            throw new AccessDeniedHttpException();
-        }
+        $roles = $this->elasticsearchRoleManager->selectRoles();
 
-        $roles = $elasticsearchRoleManager->selectRoles();
-
-        $userModel = new ElasticsearchUserModel();
-        $userModel->convert($user);
-        $form = $this->createForm(CreateUserType::class, $userModel, ['roles' => $roles, 'update' => true]);
+        $form = $this->createForm(CreateUserType::class, $user, ['roles' => $roles, 'update' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $json = [
-                    'email' => $userModel->getEmail(),
-                    'full_name' => $userModel->getFullName(),
-                    'roles' => $userModel->getRoles(),
+                    'email' => $user->getEmail(),
+                    'full_name' => $user->getFullName(),
+                    'roles' => $user->getRoles(),
                 ];
-                if ($userModel->getMetadata()) {
-                    $json['metadata'] = json_decode($userModel->getMetadata(), true);
+                if ($user->getMetadata()) {
+                    $json['metadata'] = $user->getMetadata();
                 }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_security/user/'.$userModel->getUsername());
+                $callRequest->setPath('/_security/user/'.$user->getName());
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                if ($userModel->getChangePassword() && $userModel->getPassword()) {
+                if ($user->getChangePassword() && $user->getPassword()) {
                     $json = [
-                        'password' => $userModel->getPassword(),
+                        'password' => $user->getPassword(),
                     ];
                     $callRequest = new CallRequestModel();
                     $callRequest->setMethod('POST');
-                    $callRequest->setPath('/_security/user/'.$userModel->getUsername().'/_password');
+                    $callRequest->setPath('/_security/user/'.$user->getName().'/_password');
                     $callRequest->setJson($json);
                     $callResponse = $this->callManager->call($callRequest);
 
                     $this->addFlash('info', json_encode($callResponse->getContent()));
                 }
 
-                return $this->redirectToRoute('elasticsearch_users_read', ['user' => $userModel->getUsername()]);
+                return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
         }
 
         return $this->renderAbstract($request, 'Modules/user/user_update.html.twig', [
-            'user' => $userNice,
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
@@ -216,45 +193,27 @@ class ElasticsearchUserController extends AbstractAppController
      */
     public function enable(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('ELASTICSEARCH_USER_ENABLE', 'global');
-
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user/'.$user);
-        $callResponse = $this->callManager->call($callRequest);
+        $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $user) {
             throw new NotFoundHttpException();
         }
 
-        $user = $callResponse->getContent();
-        $userNice = $user[key($user)];
-        $userNice['user'] = key($user);
-        $user = $userNice;
-
-        if (true == isset($user['enabled']) && true == $user['enabled']) {
-            throw new AccessDeniedHttpException();
-        }
-
-        if (true == isset($user['metadata']) && true == isset($user['metadata']['_reserved']) && true == $user['metadata']['_reserved']) {
-            throw new AccessDeniedHttpException();
-        }
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_USER_ENABLE', $user);
 
         try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('PUT');
-            $callRequest->setPath('/_security/user/'.$user['username'].'/_enable');
-            $callResponse = $this->callManager->call($callRequest);
+            $callResponse = $this->elasticsearchUserManager->enableByName($user->getName());
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
 
-        return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user['username']]);
+        return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user->getName()]);
     }
 
     /**
@@ -262,45 +221,27 @@ class ElasticsearchUserController extends AbstractAppController
      */
     public function disable(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('ELASTICSEARCH_USER_DISABLE', 'global');
-
         if (false == $this->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user/'.$user);
-        $callResponse = $this->callManager->call($callRequest);
+        $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $user) {
             throw new NotFoundHttpException();
         }
 
-        $user = $callResponse->getContent();
-        $userNice = $user[key($user)];
-        $userNice['user'] = key($user);
-        $user = $userNice;
-
-        if (true == isset($user['enabled']) && false == $user['enabled']) {
-            throw new AccessDeniedHttpException();
-        }
-
-        if (true == isset($user['metadata']) && true == isset($user['metadata']['_reserved']) && true == $user['metadata']['_reserved']) {
-            throw new AccessDeniedHttpException();
-        }
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_USER_DISABLE', $user);
 
         try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('PUT');
-            $callRequest->setPath('/_security/user/'.$user['username'].'/_disable');
-            $callResponse = $this->callManager->call($callRequest);
+            $callResponse = $this->elasticsearchUserManager->disableByName($user->getName());
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
 
-        return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user['username']]);
+        return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user->getName()]);
     }
 
     /**
@@ -308,33 +249,15 @@ class ElasticsearchUserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
-        $this->denyAccessUnlessGranted('ELASTICSEARCH_USER_DELETE', 'global');
+        $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (false == $this->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user/'.$user);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false == $user) {
             throw new NotFoundHttpException();
         }
 
-        $user = $callResponse->getContent();
-        $userNice = $user[key($user)];
-        $userNice['user'] = key($user);
-        $user = $userNice;
+        $this->denyAccessUnlessGranted('ELASTICSEARCH_USER_DELETE', $user);
 
-        if (true == isset($user['metadata']) && true == isset($user['metadata']['_reserved']) && true == $user['metadata']['_reserved']) {
-            throw new AccessDeniedHttpException();
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_security/user/'.$user['username']);
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchUserManager->deleteByName($user->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

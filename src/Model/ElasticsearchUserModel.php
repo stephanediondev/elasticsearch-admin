@@ -6,7 +6,7 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchUserModel extends AbstractAppModel
 {
-    private $username;
+    private $name;
 
     private $enabled;
 
@@ -29,14 +29,14 @@ class ElasticsearchUserModel extends AbstractAppModel
         $this->roles = [];
     }
 
-    public function getUsername(): ?string
+    public function getName(): ?string
     {
-        return $this->username;
+        return $this->name;
     }
 
-    public function setUsername(?string $username): self
+    public function setName(?string $name): self
     {
-        $this->username = $username;
+        $this->name = $name;
 
         return $this;
     }
@@ -113,26 +113,32 @@ class ElasticsearchUserModel extends AbstractAppModel
         return $this;
     }
 
-    public function getMetadata(): ?string
+    public function getMetadata(): ?array
     {
         return $this->metadata;
     }
 
-    public function setMetadata(?string $metadata): self
+    public function setMetadata($metadata): self
     {
         $this->metadata = $metadata;
 
         return $this;
     }
 
+    public function isReserved(): ?bool
+    {
+        return true == isset($this->getMetadata()['_reserved']) && true == $this->getMetadata()['_reserved'];
+    }
+
     public function convert(?array $user): self
     {
-        $this->setUsername($user['username']);
+        $this->setName($user['username']);
         $this->setFullName($user['full_name']);
         $this->setEmail($user['email']);
         $this->setRoles($user['roles']);
+        $this->setEnabled($user['enabled']);
         if (true == isset($user['metadata']) && 0 < count($user['metadata'])) {
-            $this->setMetadata(json_encode($user['metadata'], JSON_PRETTY_PRINT));
+            $this->setMetadata($user['metadata']);
         }
         return $this;
     }

@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'repository': true, 'snapshot': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration_in_millis': true, 'failures': true, 'version': true} %}
+    {% set columns = {'repository': true, 'name': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration_in_millis': true, 'failures': true, 'version': true} %}
 
     {% block thead %}
         <tr>
@@ -13,9 +13,9 @@
                         </th>
                     {% endif %}
 
-                    {% if 'snapshot' == column %}
+                    {% if 'name' == column %}
                         <th>
-                            {{ 'snapshot'|trans }}
+                            {{ 'name'|trans }}
                         </th>
                     {% endif %}
 
@@ -80,7 +80,7 @@
                             </td>
                         {% endif %}
 
-                        {% if 'snapshot' == column %}
+                        {% if 'name' == column %}
                             <td>
                                 <a href="{{ path('snapshots_read', {'repository': row.repository, 'snapshot': row.name}) }}">{{ row.name }}</a>
                             </td>

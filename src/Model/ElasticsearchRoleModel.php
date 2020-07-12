@@ -47,7 +47,7 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->cluster;
     }
 
-    public function setCluster($cluster): self
+    public function setCluster(array $cluster): self
     {
         $this->cluster = $cluster;
 
@@ -59,7 +59,7 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->indices;
     }
 
-    public function setIndices($indices): self
+    public function setIndices(array $indices): self
     {
         $this->indices = $indices;
 

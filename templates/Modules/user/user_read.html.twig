@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'elasticsearch_users'|trans }} - {{ user['username'] }}{% endblock %}
+{% block head_title %}{{ 'elasticsearch_users'|trans }} - {{ user.name }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'elasticsearch_users'|trans, 'link': {'url': path('elasticsearch_users')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': user['username']}) }}
+    {{ appImport.heading({'level': 2, 'title': user.name}) }}
 {% endblock %}
 
 {% block tabs %}
@@ -21,60 +21,58 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
 
-            {% if user['metadata']['_reserved'] is not defined or false == user['metadata']['_reserved'] %}
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        {% if is_granted('ELASTICSEARCH_USER_DELETE', 'global') %}
-                            {{ appImport.buttonModal({
-                                'id': 'UserDelete',
-                                'title': 'delete'|trans,
-                                'body': user['username'],
-                                'href': path('elasticsearch_users_delete', {'user': user['username']}),
-                            }) }}
-                        {% endif %}
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if is_granted('ELASTICSEARCH_USER_DELETE', user) %}
+                        {{ appImport.buttonModal({
+                            'id': 'UserDelete',
+                            'title': 'delete'|trans,
+                            'body': user.name,
+                            'href': path('elasticsearch_users_delete', {'user': user.name}),
+                        }) }}
+                    {% endif %}
 
-                        {% if is_granted('ELASTICSEARCH_USER_ENABLE', 'global') and false == user['enabled'] %}
-                            {{ appImport.buttonModal({
-                                'id': 'UserEnable',
-                                'title': 'enable'|trans,
-                                'body': user['username'],
-                                'href': path('elasticsearch_users_enable', {'user': user['username']}),
-                            }) }}
-                        {% endif %}
+                    {% if is_granted('ELASTICSEARCH_USER_ENABLE', user) %}
+                        {{ appImport.buttonModal({
+                            'id': 'UserEnable',
+                            'title': 'enable'|trans,
+                            'body': user.name,
+                            'href': path('elasticsearch_users_enable', {'user': user.name}),
+                        }) }}
+                    {% endif %}
 
-                        {% if is_granted('ELASTICSEARCH_USER_DISABLE', 'global') and true == user['enabled'] %}
-                            {{ appImport.buttonModal({
-                                'id': 'UserDisable',
-                                'title': 'disable'|trans,
-                                'body': user['username'],
-                                'href': path('elasticsearch_users_disable', {'user': user['username']}),
-                            }) }}
-                        {% endif %}
-                    {% endblock %}
-                {% endembed %}
-            {% endif %}
+                    {% if is_granted('ELASTICSEARCH_USER_DISABLE', user) %}
+                        {{ appImport.buttonModal({
+                            'id': 'UserDisable',
+                            'title': 'disable'|trans,
+                            'body': user.name,
+                            'href': path('elasticsearch_users_disable', {'user': user.name}),
+                        }) }}
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
 
             <div class="row">
                 <div class="col-12 col-md-5 col-lg-4">
-                    {% if user['full_name'] %}
+                    {% if user.fullName %}
                         <p>
                             <strong>{{ 'full_name'|trans }}</strong><br>
-                            {{ user['full_name'] }}
+                            {{ user.fullName }}
                         </p>
                     {% endif %}
 
-                    {% if user['email'] %}
+                    {% if user.email %}
                         <p>
                             <strong>{{ 'email'|trans }}</strong><br>
-                            {{ user['email'] }}
+                            {{ user.email }}
                         </p>
                     {% endif %}
 
-                    {% if user['roles'] is defined and 0 < user['roles']|length %}
+                    {% if user.roles and 0 < user.roles|length %}
                         <p>
                             <strong>{{ 'elasticsearch_roles'|trans }}</strong><br>
-                            {% for record in user['roles'] %}
+                            {% for record in user.roles %}
                                 <a href="{{ path('elasticsearch_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
                             {% endfor %}
                         </p>
@@ -82,12 +80,12 @@
 
                     <p>
                         <strong>{{ 'enabled'|trans }}</strong><br>
-                        {{ appImport.badge({'title': ('boolean.' ~ user['enabled'])|trans, 'context': user['enabled']}) }}
+                        {{ appImport.badge({'title': ('boolean.' ~ user.enabled)|trans, 'context': user.enabled}) }}
                     </p>
 
                     <p>
                         <strong>{{ 'reserved'|trans }}</strong><br>
-                        {% if user['metadata']['_reserved'] is defined and true == user['metadata']['_reserved'] %}
+                        {% if user.isReserved %}
                             {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                         {% else %}
                             {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
@@ -95,11 +93,11 @@
                     </p>
                 </div>
 
-                {% if user['metadata'] is defined and 0 < user['metadata']|length %}
+                {% if user.metadata and 0 < user.metadata|length %}
                     <div class="col-12 col-md-5 col-lg-4">
                         <p>
                             <strong>{{ 'metadata'|trans }}</strong><br>
-                            <pre>{{ user['metadata']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                            <pre>{{ user.metadata|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                         </p>
                     </div>
                 {% endif %}

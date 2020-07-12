@@ -55,10 +55,6 @@ class GlobalVoter extends Voter
             'ENRICH_POLICY_EXECUTE',
             'ELASTICSEARCH_USERS',
             'ELASTICSEARCH_USERS_CREATE',
-            'ELASTICSEARCH_USER_UPDATE',
-            'ELASTICSEARCH_USER_DELETE',
-            'ELASTICSEARCH_USER_ENABLE',
-            'ELASTICSEARCH_USER_DISABLE',
             'ELASTICSEARCH_ROLES',
             'ELASTICSEARCH_ROLES_CREATE',
 
