@@ -76,6 +76,24 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    public function verifyByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_snapshot/'.$name.'/_verify');
+
+        return $this->callManager->call($callRequest);
+    }
+
+    public function cleanupByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_snapshot/'.$name.'/_cleanup');
+
+        return $this->callManager->call($callRequest);
+    }
+
     public function selectRepositories()
     {
         $repositories = [];

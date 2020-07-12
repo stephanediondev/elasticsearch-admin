@@ -65,10 +65,7 @@ class IlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_ilm/status');
-        $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
+        $status = $this->elasticsearchIlmPolicyManager->getStatus();
 
         return $this->renderAbstract($request, 'Modules/ilm/ilm_status.html.twig', [
             'status' => $status,
@@ -86,10 +83,7 @@ class IlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_ilm/start');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIlmPolicyManager->start();
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -107,10 +101,7 @@ class IlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_ilm/stop');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchIlmPolicyManager->stop();
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

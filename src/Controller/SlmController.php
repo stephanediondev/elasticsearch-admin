@@ -64,10 +64,7 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_slm/stats');
-        $callResponse = $this->callManager->call($callRequest);
-        $stats = $callResponse->getContent();
+        $stats = $this->elasticsearchSlmPolicyManager->getStats();
 
         return $this->renderAbstract($request, 'Modules/slm/slm_stats.html.twig', [
             'stats' => $stats,
@@ -85,10 +82,7 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_slm/status');
-        $callResponse = $this->callManager->call($callRequest);
-        $status = $callResponse->getContent();
+        $status = $this->elasticsearchSlmPolicyManager->getStatus();
 
         return $this->renderAbstract($request, 'Modules/slm/slm_status.html.twig', [
             'status' => $status,
@@ -106,10 +100,7 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_slm/start');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchSlmPolicyManager->start();
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -127,10 +118,7 @@ class SlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_slm/stop');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchSlmPolicyManager->stop();
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -344,10 +332,7 @@ class SlmController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('SLM_POLICY_EXECUTE', $policy);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_slm/policy/'.$name.'/_execute');
-        $callResponse = $this->callManager->call($callRequest);
+        $callResponse = $this->elasticsearchSlmPolicyManager->executeByName($policy->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

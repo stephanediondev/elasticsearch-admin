@@ -69,6 +69,33 @@ class ElasticsearchIlmPolicyManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    public function getStatus(): array
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_ilm/status');
+        $callResponse = $this->callManager->call($callRequest);
+
+        return $callResponse->getContent();
+    }
+
+    public function start(): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_ilm/start');
+
+        return $this->callManager->call($callRequest);
+    }
+
+    public function stop(): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_ilm/stop');
+
+        return $this->callManager->call($callRequest);
+    }
+
     private function sortByName($a, $b)
     {
         return $b['name'] < $a['name'];

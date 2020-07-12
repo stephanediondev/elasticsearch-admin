@@ -179,10 +179,7 @@ class RepositoryController extends AbstractAppController
         $this->denyAccessUnlessGranted('REPOSITORY_CLEANUP', $repository);
 
         try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('POST');
-            $callRequest->setPath('/_snapshot/'.$repository->getName().'/_cleanup');
-            $callResponse = $this->callManager->call($callRequest);
+            $callResponse = $this->elasticsearchRepositoryManager->cleanupByName($repository->getName());
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
         } catch (CallException $e) {
@@ -206,10 +203,7 @@ class RepositoryController extends AbstractAppController
         $this->denyAccessUnlessGranted('REPOSITORY_VERIFY', $repository);
 
         try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('POST');
-            $callRequest->setPath('/_snapshot/'.$repository->getName().'/_verify');
-            $callResponse = $this->callManager->call($callRequest);
+            $callResponse = $this->elasticsearchRepositoryManager->verifyByName($repository->getName());
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
         } catch (CallException $e) {

@@ -69,6 +69,51 @@ class ElasticsearchSlmPolicyManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    public function executeByName(string $name): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_slm/policy/'.$name.'/_execute');
+
+        return $this->callManager->call($callRequest);
+    }
+
+    public function getStats(): array
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/stats');
+        $callResponse = $this->callManager->call($callRequest);
+
+        return $callResponse->getContent();
+    }
+
+    public function getStatus(): array
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_slm/status');
+        $callResponse = $this->callManager->call($callRequest);
+
+        return $callResponse->getContent();
+    }
+
+    public function start(): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_slm/start');
+
+        return $this->callManager->call($callRequest);
+    }
+
+    public function stop(): CallResponseModel
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_slm/stop');
+
+        return $this->callManager->call($callRequest);
+    }
+
     private function sortByName($a, $b)
     {
         return $b['name'] < $a['name'];
