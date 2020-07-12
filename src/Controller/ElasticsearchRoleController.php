@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @Route("/admin")
  */
-class RoleController extends AbstractAppController
+class ElasticsearchRoleController extends AbstractAppController
 {
     /**
      * @Route("/roles", name="roles")
