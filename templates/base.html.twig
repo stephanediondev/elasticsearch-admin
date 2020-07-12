@@ -88,14 +88,14 @@
                                     </a>
                                 {% endif %}
                                 {% if is_granted('USERS', 'global') %}
-                                    <a class="dropdown-item" href="{{ path('users') }}">
-                                        {{ 'users'|trans }}
+                                    <a class="dropdown-item" href="{{ path('elasticsearch_users') }}">
+                                        {{ 'elasticsearch_users'|trans }}
                                         {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
                                 {% if is_granted('ROLES', 'global') %}
-                                    <a class="dropdown-item" href="{{ path('roles') }}">
-                                        {{ 'roles'|trans }}
+                                    <a class="dropdown-item" href="{{ path('elasticsearch_roles') }}">
+                                        {{ 'elasticsearch_roles'|trans }}
                                         {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}

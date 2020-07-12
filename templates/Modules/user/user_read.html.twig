@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'users'|trans }} - {{ user['username'] }}{% endblock %}
+{% block head_title %}{{ 'elasticsearch_users'|trans }} - {{ user['username'] }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'users'|trans, 'link': {'url': path('users')}}) }}
+    {{ appImport.heading({'level': 1, 'title': 'elasticsearch_users'|trans, 'link': {'url': path('elasticsearch_users')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
@@ -30,7 +30,7 @@
                                 'id': 'UserDelete',
                                 'title': 'delete'|trans,
                                 'body': user['username'],
-                                'href': path('users_delete', {'user': user['username']}),
+                                'href': path('elasticsearch_users_delete', {'user': user['username']}),
                             }) }}
                         {% endif %}
 
@@ -39,7 +39,7 @@
                                 'id': 'UserEnable',
                                 'title': 'enable'|trans,
                                 'body': user['username'],
-                                'href': path('users_enable', {'user': user['username']}),
+                                'href': path('elasticsearch_users_enable', {'user': user['username']}),
                             }) }}
                         {% endif %}
 
@@ -48,7 +48,7 @@
                                 'id': 'UserDisable',
                                 'title': 'disable'|trans,
                                 'body': user['username'],
-                                'href': path('users_disable', {'user': user['username']}),
+                                'href': path('elasticsearch_users_disable', {'user': user['username']}),
                             }) }}
                         {% endif %}
                     {% endblock %}
@@ -73,9 +73,9 @@
 
                     {% if user['roles'] is defined and 0 < user['roles']|length %}
                         <p>
-                            <strong>{{ 'roles'|trans }}</strong><br>
+                            <strong>{{ 'elasticsearch_roles'|trans }}</strong><br>
                             {% for record in user['roles'] %}
-                                <a href="{{ path('roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                                <a href="{{ path('elasticsearch_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
                             {% endfor %}
                         </p>
                     {% endif %}

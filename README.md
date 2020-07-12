@@ -41,8 +41,8 @@ cp .env.dist .env
 
 ## Features
 
-- [x] Connection to Elasticsearch: server-side (no CORS config), local (private) or remote server, http or https, with credentials or not
-- [x] Login: user managed by Symfony, not related to Elasticsearch
+- [x] Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, credentials or not
+- [x] App users: register, login, logout
 - [x] Cluster: basic metrics, allocation explain, list settings, update settings (transient or persistent)
 - [x] Nodes: list, read, usage, plugins, reload secure settings [6.4]
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge, clear cache, flush, refresh, empty, import (ODS, XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
@@ -54,8 +54,8 @@ cp .env.dist .env
 - [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
 - [x] Snapshot lifecycle management policies [7.4]: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
 - [x] Snapshots: list, create, read, delete, failures, restore
-- [x] Users (native realm): list, create, read, update, delete, enable, disable
-- [x] Roles: list, create, read, update, delete, copy
+- [x] Elasticsearch users (native realm): list, create, read, update, delete, enable, disable
+- [x] Elasticsearch roles: list, create, read, update, delete, copy
 - [x] Tasks: list
 - [x] Remote clusters: list
 - [x] Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
@@ -67,8 +67,9 @@ cp .env.dist .env
 
 ## Todo
 
-- [ ] Users management with roles and permissions, not related to Elasticsearch
-- [ ] Indices: update (dynamic index settings), shrink, split, clone, import from database
+- [ ] App users: list, create, read, update, delete
+- [ ] App roles (with permissions): list, create, read, update, delete
+- [ ] Indices: shrink, split, clone, import from database
 - [ ] Index templates (legacy): convert to new version
 - [ ] Repositories: create (url, source, hdfs, azure)
 - [ ] Remote clusters: create, update, delete

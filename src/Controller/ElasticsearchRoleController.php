@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ElasticsearchRoleController extends AbstractAppController
 {
     /**
-     * @Route("/roles", name="roles")
+     * @Route("/elasticsearch-roles", name="elasticsearch_roles")
      */
     public function index(Request $request): Response
     {
@@ -57,7 +57,7 @@ class ElasticsearchRoleController extends AbstractAppController
     }
 
     /**
-     * @Route("/roles/create", name="roles_create")
+     * @Route("/elasticsearch-roles/create", name="elasticsearch_roles_create")
      */
     public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
     {
@@ -104,7 +104,7 @@ class ElasticsearchRoleController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('roles_read', ['role' => $roleModel->getName()]);
+                return $this->redirectToRoute('elasticsearch_roles_read', ['role' => $roleModel->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -116,7 +116,7 @@ class ElasticsearchRoleController extends AbstractAppController
     }
 
     /**
-     * @Route("/roles/{role}", name="roles_read")
+     * @Route("/elasticsearch-roles/{role}", name="elasticsearch_roles_read")
      */
     public function read(Request $request, string $role): Response
     {
@@ -144,7 +144,7 @@ class ElasticsearchRoleController extends AbstractAppController
     }
 
     /**
-     * @Route("/roles/{role}/update", name="roles_update")
+     * @Route("/elasticsearch-roles/{role}/update", name="elasticsearch_roles_update")
      */
     public function update(Request $request, string $role, ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager): Response
     {
@@ -189,7 +189,7 @@ class ElasticsearchRoleController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('roles_read', ['role' => $roleModel->getName()]);
+                return $this->redirectToRoute('elasticsearch_roles_read', ['role' => $roleModel->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -202,7 +202,7 @@ class ElasticsearchRoleController extends AbstractAppController
     }
 
     /**
-     * @Route("/roles/{role}/delete", name="roles_delete")
+     * @Route("/elasticsearch-roles/{role}/delete", name="elasticsearch_roles_delete")
      */
     public function delete(Request $request, string $role): Response
     {
@@ -236,6 +236,6 @@ class ElasticsearchRoleController extends AbstractAppController
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('roles');
+        return $this->redirectToRoute('elasticsearch_roles');
     }
 }

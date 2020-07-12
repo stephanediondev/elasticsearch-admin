@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ElasticsearchUserController extends AbstractAppController
 {
     /**
-     * @Route("/users", name="users")
+     * @Route("/elasticsearch-users", name="elasticsearch_users")
      */
     public function index(Request $request): Response
     {
@@ -56,7 +56,7 @@ class ElasticsearchUserController extends AbstractAppController
     }
 
     /**
-     * @Route("/users/create", name="users_create")
+     * @Route("/elasticsearch-users/create", name="elasticsearch_users_create")
      */
     public function create(Request $request, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
@@ -93,7 +93,7 @@ class ElasticsearchUserController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('users_read', ['user' => $userModel->getUsername()]);
+                return $this->redirectToRoute('elasticsearch_users_read', ['user' => $userModel->getUsername()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -105,7 +105,7 @@ class ElasticsearchUserController extends AbstractAppController
     }
 
     /**
-     * @Route("/users/{user}", name="users_read")
+     * @Route("/elasticsearch-users/{user}", name="elasticsearch_users_read")
      */
     public function read(Request $request, string $user): Response
     {
@@ -133,7 +133,7 @@ class ElasticsearchUserController extends AbstractAppController
     }
 
     /**
-     * @Route("/users/{user}/update", name="users_update")
+     * @Route("/elasticsearch-users/{user}/update", name="elasticsearch_users_update")
      */
     public function update(Request $request, string $user, ElasticsearchRoleManager $elasticsearchRoleManager): Response
     {
@@ -199,7 +199,7 @@ class ElasticsearchUserController extends AbstractAppController
                     $this->addFlash('info', json_encode($callResponse->getContent()));
                 }
 
-                return $this->redirectToRoute('users_read', ['user' => $userModel->getUsername()]);
+                return $this->redirectToRoute('elasticsearch_users_read', ['user' => $userModel->getUsername()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -212,7 +212,7 @@ class ElasticsearchUserController extends AbstractAppController
     }
 
     /**
-     * @Route("/users/{user}/enable", name="users_enable")
+     * @Route("/elasticsearch-users/{user}/enable", name="elasticsearch_users_enable")
      */
     public function enable(Request $request, string $user): Response
     {
@@ -254,11 +254,11 @@ class ElasticsearchUserController extends AbstractAppController
             $this->addFlash('danger', $e->getMessage());
         }
 
-        return $this->redirectToRoute('users_read', ['user' => $user['username']]);
+        return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user['username']]);
     }
 
     /**
-     * @Route("/users/{user}/disable", name="users_disable")
+     * @Route("/elasticsearch-users/{user}/disable", name="elasticsearch_users_disable")
      */
     public function disable(Request $request, string $user): Response
     {
@@ -300,11 +300,11 @@ class ElasticsearchUserController extends AbstractAppController
             $this->addFlash('danger', $e->getMessage());
         }
 
-        return $this->redirectToRoute('users_read', ['user' => $user['username']]);
+        return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user['username']]);
     }
 
     /**
-     * @Route("/users/{user}/delete", name="users_delete")
+     * @Route("/elasticsearch-users/{user}/delete", name="elasticsearch_users_delete")
      */
     public function delete(Request $request, string $user): Response
     {
@@ -338,6 +338,6 @@ class ElasticsearchUserController extends AbstractAppController
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('users');
+        return $this->redirectToRoute('elasticsearch_users');
     }
 }

@@ -27,7 +27,7 @@
 
                     {% if 'roles' == column %}
                         <th>
-                            {{ 'roles'|trans }}
+                            {{ 'elasticsearch_roles'|trans }}
                         </th>
                     {% endif %}
 
@@ -54,7 +54,7 @@
                     {% if true == display %}
                         {% if 'username' == column %}
                             <td>
-                                <a href="{{ path('users_read', {'user': row['username']}) }}">{{ row['username'] }}</a>
+                                <a href="{{ path('elasticsearch_users_read', {'user': row['username']}) }}">{{ row['username'] }}</a>
                             </td>
                         {% endif %}
 
@@ -74,7 +74,7 @@
                             <td>
                                 {% if row['roles'] is defined and 0 < row['roles']|length %}
                                     {% for record in row['roles'] %}
-                                        <a href="{{ path('roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                                        <a href="{{ path('elasticsearch_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </td>

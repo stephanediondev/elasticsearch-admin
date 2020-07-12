@@ -5,44 +5,44 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class UserControllerTest extends AbstractAppControllerTest
+class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 {
     /**
-     * @Route("/users", name="users")
+     * @Route("/elasticsearch-users", name="elasticsearch_users")
      */
     public function testIndex()
     {
-        $this->client->request('GET', '/admin/users');
+        $this->client->request('GET', '/admin/elasticsearch-users');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users');
+            $this->assertPageTitleSame('Elasticsearch users');
         } else {
             $this->assertResponseStatusCodeSame(403);
         }
     }
 
     /**
-     * @Route("/users/create", name="users_create")
+     * @Route("/elasticsearch-users/create", name="elasticsearch_users_create")
      */
     public function testCreate()
     {
-        $this->client->request('GET', '/admin/users/create');
+        $this->client->request('GET', '/admin/elasticsearch-users/create');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users - Create user');
+            $this->assertPageTitleSame('Elasticsearch users - Create user');
         } else {
             $this->assertResponseStatusCodeSame(403);
         }
     }
 
     /**
-     * @Route("/users/{user}", name="users_read")
+     * @Route("/elasticsearch-users/{user}", name="elasticsearch_users_read")
      */
     public function testRead404()
     {
-        $this->client->request('GET', '/admin/users/'.uniqid());
+        $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid());
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
@@ -53,22 +53,22 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/users/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Elasticsearch users - elasticsearch-admin-test');
         } else {
             $this->assertResponseStatusCodeSame(403);
         }
     }
 
     /**
-     * @Route("/users/{user}/update", name="users_update")
+     * @Route("/elasticsearch-users/{user}/update", name="elasticsearch_users_update")
      */
     public function testUpdate404()
     {
-        $this->client->request('GET', '/admin/users/'.uniqid().'/update');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/update');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
@@ -79,7 +79,7 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testUpdate403()
     {
-        $this->client->request('GET', '/admin/users/elastic/update');
+        $this->client->request('GET', '/admin/elasticsearch-users/elastic/update');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
@@ -90,22 +90,22 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/users/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/update');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Elasticsearch users - elasticsearch-admin-test - Update');
         } else {
             $this->assertResponseStatusCodeSame(403);
         }
     }
 
     /**
-     * @Route("/users/{user}/disable", name="users_disable")
+     * @Route("/elasticsearch-users/{user}/disable", name="elasticsearch_users_disable")
      */
     public function testDisable404()
     {
-        $this->client->request('GET', '/admin/users/'.uniqid().'/disable');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/disable');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
@@ -116,7 +116,7 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testDisable403()
     {
-        $this->client->request('GET', '/admin/users/elastic/disable');
+        $this->client->request('GET', '/admin/elasticsearch-users/elastic/disable');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
@@ -127,7 +127,7 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testDisable()
     {
-        $this->client->request('GET', '/admin/users/elasticsearch-admin-test/disable');
+        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/disable');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(302);
@@ -137,11 +137,11 @@ class UserControllerTest extends AbstractAppControllerTest
     }
 
     /**
-     * @Route("/users/{user}/enable", name="users_enable")
+     * @Route("/elasticsearch-users/{user}/enable", name="elasticsearch_users_enable")
      */
     public function testEnable404()
     {
-        $this->client->request('GET', '/admin/users/'.uniqid().'/enable');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/enable');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
@@ -152,7 +152,7 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testEnable403()
     {
-        $this->client->request('GET', '/admin/users/elastic/enable');
+        $this->client->request('GET', '/admin/elasticsearch-users/elastic/enable');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
@@ -163,7 +163,7 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testEnable()
     {
-        $this->client->request('GET', '/admin/users/elasticsearch-admin-test/enable');
+        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/enable');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(302);
@@ -173,11 +173,11 @@ class UserControllerTest extends AbstractAppControllerTest
     }
 
     /**
-     * @Route("/users/{user}/delete", name="users_delete")
+     * @Route("/elasticsearch-users/{user}/delete", name="elasticsearch_users_delete")
      */
     public function testDelete404()
     {
-        $this->client->request('GET', '/admin/users/'.uniqid().'/delete');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/delete');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
@@ -188,7 +188,7 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testDelete403()
     {
-        $this->client->request('GET', '/admin/users/elastic/delete');
+        $this->client->request('GET', '/admin/elasticsearch-users/elastic/delete');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
@@ -199,7 +199,7 @@ class UserControllerTest extends AbstractAppControllerTest
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/users/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/delete');
 
         if (true == $this->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(302);

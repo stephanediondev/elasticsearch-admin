@@ -48,7 +48,7 @@
                     {% if true == display %}
                         {% if 'role' == column %}
                             <td>
-                                <a href="{{ path('roles_read', {'role': row['role']}) }}">{{ row['role'] }}</a>
+                                <a href="{{ path('elasticsearch_roles_read', {'role': row['role']}) }}">{{ row['role'] }}</a>
                             </td>
                         {% endif %}
 

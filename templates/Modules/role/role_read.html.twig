@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'roles'|trans }} - {{ role['role'] }}{% endblock %}
+{% block head_title %}{{ 'elasticsearch_roles'|trans }} - {{ role['role'] }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'roles'|trans, 'link': {'url': path('roles')}}) }}
+    {{ appImport.heading({'level': 1, 'title': 'elasticsearch_roles'|trans, 'link': {'url': path('elasticsearch_roles')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
@@ -30,12 +30,12 @@
                                 'id': 'RoleDelete',
                                 'title': 'delete'|trans,
                                 'body': role['role'],
-                                'href': path('roles_delete', {'role': role['role']}),
+                                'href': path('elasticsearch_roles_delete', {'role': role['role']}),
                             }) }}
                         {% endif %}
 
                         {% if is_granted('ROLES_CREATE', 'global') %}
-                            <a class="btn btn-primary btn-sm" href="{{ path('roles_create', {'role': role['role']}) }}">{{ 'copy'|trans }}</a>
+                            <a class="btn btn-primary btn-sm" href="{{ path('elasticsearch_roles_create', {'role': role['role']}) }}">{{ 'copy'|trans }}</a>
                         {% endif %}
                     {% endblock %}
                 {% endembed %}
