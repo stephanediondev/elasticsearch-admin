@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Manager\CallManager;
+use App\Manager\ElasticsearchEnrichPolicyManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchEnrichPolicyModel;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,8 +20,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateEnrichPolicyType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager, CallManager $callManager, TranslatorInterface $translator)
     {
+        $this->elasticsearchEnrichPolicyManager = $elasticsearchEnrichPolicyManager;
         $this->callManager = $callManager;
         $this->translator = $translator;
     }
@@ -102,6 +104,22 @@ class CreateEnrichPolicyType extends AbstractType
             $data = $event->getData();
             $this->enrichFields($form, $data['indices'], []);
         });
+
+        if (false == $options['update']) {
+            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+                $form = $event->getForm();
+
+                if ($form->has('name') && $form->get('name')->getData()) {
+                    $policy = $this->elasticsearchEnrichPolicyManager->getByName($form->get('name')->getData());
+
+                    if ($policy) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('name_already_used')
+                        ));
+                    }
+                }
+            });
+        }
     }
 
     private function enrichFields($form, $indices, $selected)

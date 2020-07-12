@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateEnrichPolicyType;
 use App\Manager\ElasticsearchIndexManager;
+use App\Manager\ElasticsearchEnrichPolicyManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchEnrichPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +20,12 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class EnrichController extends AbstractAppController
 {
+    public function __construct(ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager, ElasticsearchIndexManager $elasticsearchIndexManager)
+    {
+        $this->elasticsearchEnrichPolicyManager = $elasticsearchEnrichPolicyManager;
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+    }
+
     /**
      * @Route("/enrich", name="enrich")
      */
@@ -30,23 +37,7 @@ class EnrichController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $policies = [];
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_enrich/policy');
-        $callResponse = $this->callManager->call($callRequest);
-        $rows = $callResponse->getContent();
-
-        foreach ($rows['policies'] as $row) {
-            $policy = [];
-            $policy['type'] = key($row['config']);
-            $policy['name'] = $row['config'][$policy['type']]['name'];
-            $policy['indices'] = $row['config'][$policy['type']]['indices'];
-            $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
-            $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
-            $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
-            $policies[] = $policy;
-        }
+        $policies = $this->elasticsearchEnrichPolicyManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/enrich/enrich_index.html.twig', [
             'policies' => $this->paginatorManager->paginate([
@@ -96,7 +87,7 @@ class EnrichController extends AbstractAppController
     /**
      * @Route("/enrich/create", name="enrich_create")
      */
-    public function create(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager): Response
+    public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE', 'global');
 
@@ -104,52 +95,36 @@ class EnrichController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $indices = $elasticsearchIndexManager->selectIndices();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
 
         $policy = false;
 
         if ($request->query->get('policy')) {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_enrich/policy/'.$request->query->get('policy'));
-            $callResponse = $this->callManager->call($callRequest);
+            $policy = $this->elasticsearchEnrichPolicyManager->getByName($request->query->get('policy'));
 
-            $rows = $callResponse->getContent();
-
-            if (0 == count($rows['policies'])) {
+            if (false == $policy) {
                 throw new NotFoundHttpException();
             }
 
-            foreach ($rows['policies'] as $row) {
-                $policy = [];
-                $policy['type'] = key($row['config']);
-                $policy['name'] = $row['config'][$policy['type']]['name'].'-copy';
-                $policy['indices'] = $row['config'][$policy['type']]['indices'];
-                $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
-                $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
-                $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
-            }
+            $this->denyAccessUnlessGranted('ENRICH_POLICY_COPY', $policy);
+
+            $policy->setName($policy->getName().'-copy');
         }
 
-        $policyModel = new ElasticsearchEnrichPolicyModel();
-        if ($policy) {
-            $policyModel->convert($policy);
+        if (false == $policy) {
+            $policy = new ElasticsearchEnrichPolicyModel();
         }
-        $form = $this->createForm(CreateEnrichPolicyType::class, $policyModel, ['indices' => $indices]);
+        $form = $this->createForm(CreateEnrichPolicyType::class, $policy, ['indices' => $indices]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $policyModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_enrich/policy/'.$policyModel->getName());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->elasticsearchEnrichPolicyManager->send($policy);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('enrich_read', ['name' => $policyModel->getName()]);
+                return $this->redirectToRoute('enrich_read', ['name' => $policy->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -171,24 +146,10 @@ class EnrichController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_enrich/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
 
-        $rows = $callResponse->getContent();
-
-        if (false == isset($rows['policies']) || 0 == count($rows['policies'])) {
+        if (false == $policy) {
             throw new NotFoundHttpException();
-        }
-
-        foreach ($rows['policies'] as $row) {
-            $policy = [];
-            $policy['type'] = key($row['config']);
-            $policy['name'] = $row['config'][$policy['type']]['name'];
-            $policy['indices'] = $row['config'][$policy['type']]['indices'];
-            $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
-            $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
-            $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
         }
 
         return $this->renderAbstract($request, 'Modules/enrich/enrich_read.html.twig', [
@@ -201,16 +162,19 @@ class EnrichController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICY_DELETE', 'global');
-
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_enrich/policy/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
+
+        if (false == $policy) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('ENRICH_POLICY_DELETE', $policy);
+
+        $callResponse = $this->elasticsearchEnrichPolicyManager->deleteByName($policy->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -222,16 +186,19 @@ class EnrichController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICY_EXECUTE', 'global');
-
         if (false == $this->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_enrich/policy/'.$name.'/_execute');
-        $callResponse = $this->callManager->call($callRequest);
+        $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
+
+        if (false == $policy) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('ENRICH_POLICY_EXECUTE', $policy);
+
+        $callResponse = $this->elasticsearchEnrichPolicyManager->executeByName($policy->getName());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

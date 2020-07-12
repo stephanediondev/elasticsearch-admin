@@ -98,8 +98,21 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         ];
     }
 
-    public function convert(?array $policy): self
+    public function isSystem(): ?bool
     {
+        return '.' == substr($this->getName(), 0, 1);
+    }
+
+    public function convert(?array $row): self
+    {
+        $policy = [];
+        $policy['type'] = key($row['config']);
+        $policy['name'] = $row['config'][$policy['type']]['name'];
+        $policy['indices'] = $row['config'][$policy['type']]['indices'];
+        $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
+        $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
+        $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
+
         $this->setType($policy['type']);
         $this->setName($policy['name']);
         if (true == isset($policy['indices'])) {

@@ -48,31 +48,31 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('enrich_read', {'name': row['name']}) }}">{{ row['name'] }}</a>
+                                <a href="{{ path('enrich_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
                         {% if 'indices' == column %}
                             <td>
-                                {{ row['indices']|join(', ') }}
+                                {{ row.indices|join(', ') }}
                             </td>
                         {% endif %}
 
                         {% if 'match_field' == column %}
                             <td>
-                                {{ row['match_field'] }}
+                                {{ row.matchField }}
                             </td>
                         {% endif %}
 
                         {% if 'enrich_fields' == column %}
                             <td>
-                                {{ row['enrich_fields']|join(', ') }}
+                                {{ row.enrichFields|join(', ') }}
                             </td>
                         {% endif %}
 
                         {% if 'query' == column %}
                             <td>
-                                {{ row['query'] }}
+                                {{ row.query }}
                             </td>
                         {% endif %}
                     {% endif %}
