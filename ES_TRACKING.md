@@ -39,15 +39,11 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-notes-7.0.0.
 
 - Default to one shard #30539
 
-https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-highlights-7.0.0.html
-
-- Default to one shard
-- Index lifecycle management is production-ready
-
 ### 6.6.0
 
 https://www.elastic.co/guide/en/elasticsearch/reference/6.6/release-notes-6.6.0.html
 
+- Adds Index lifecycle feature #35193
 - Add a _freeze / _unfreeze API #35592 (issue: #34352)
 - Add support for get license basic/trial status API #33176 (issue: #29827)
 
