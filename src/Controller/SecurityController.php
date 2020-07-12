@@ -127,7 +127,7 @@ class SecurityController extends AbstractAppController
                     'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
                 ];
                 $callRequest = new CallRequestModel();
-                if (true == $this->checkVersion('7.0')) {
+                if (true == $this->checkVersion('6.2')) {
                     $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$user->getEmail());
                 } else {
                     $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$user->getEmail());
