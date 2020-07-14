@@ -39,7 +39,11 @@
                 <p>
                     <strong>{{ 'app_roles'|trans }}</strong><br>
                     {% for record in user.roles %}
-                        <a href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                        {% if record not in ['ROLE_ADMIN', 'ROLE_USER'] %}
+                            <a href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                        {% else %}
+                            {{ record }}{% if false == loop.last %}, {% endif %}
+                        {% endif %}
                     {% endfor %}
                 </p>
             {% endif %}

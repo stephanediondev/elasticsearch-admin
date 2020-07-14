@@ -7,6 +7,7 @@ use App\Model\AppUserModel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -42,6 +43,9 @@ class CreateAppUserType extends AbstractType
 
         $fields[] = 'email';
         $fields[] = 'passwordPlain';
+        if ('register' != $options['context']) {
+            $fields[] = 'roles';
+        }
 
         if ('update' == $options['context']) {
             $passwordRequired = false;
@@ -89,6 +93,21 @@ class CreateAppUserType extends AbstractType
                                 'autocomplete' => 'new-password',
                                 'minlength' => 6,
                             ],
+                        ],
+                    ]);
+                    break;
+                case 'roles':
+                    $builder->add('roles', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['roles'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['roles'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'roles',
+                        'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
                         ],
                     ]);
                     break;

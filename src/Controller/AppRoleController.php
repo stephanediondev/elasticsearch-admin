@@ -6,8 +6,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateAppRoleType;
 use App\Manager\AppRoleManager;
-use App\Manager\AppUserManager;
-use App\Model\CallRequestModel;
 use App\Model\AppRoleModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +18,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AppRoleController extends AbstractAppController
 {
-    public function __construct(AppRoleManager $elasticsearchRoleManager, AppUserManager $elasticsearchUserManager)
+    public function __construct(AppRoleManager $elasticsearchRoleManager)
     {
         $this->elasticsearchRoleManager = $elasticsearchRoleManager;
-        $this->elasticsearchUserManager = $elasticsearchUserManager;
     }
 
     /**
@@ -35,7 +32,7 @@ class AppRoleController extends AbstractAppController
 
         $roles = $this->elasticsearchRoleManager->getAll();
 
-        return $this->renderAbstract($request, 'Modules/role/role_index.html.twig', [
+        return $this->renderAbstract($request, 'Modules/app_role/app_role_index.html.twig', [
             'roles' => $this->paginatorManager->paginate([
                 'route' => 'roles',
                 'route_parameters' => [],
@@ -71,7 +68,7 @@ class AppRoleController extends AbstractAppController
         if (false == $role) {
             $role = new AppRoleModel();
         }
-        $form = $this->createForm(CreateAppRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers()]);
+        $form = $this->createForm(CreateAppRoleType::class, $role);
 
         $form->handleRequest($request);
 
@@ -81,13 +78,13 @@ class AppRoleController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('app_roles_read', ['role' => $role->getName()]);
+                return $this->redirectToRoute('app_roles');
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
         }
 
-        return $this->renderAbstract($request, 'Modules/role/role_create.html.twig', [
+        return $this->renderAbstract($request, 'Modules/app_role/app_role_create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -105,7 +102,7 @@ class AppRoleController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        return $this->renderAbstract($request, 'Modules/role/role_read.html.twig', [
+        return $this->renderAbstract($request, 'Modules/app_role/app_role_read.html.twig', [
             'role' => $role,
         ]);
     }
@@ -123,7 +120,7 @@ class AppRoleController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('APP_ROLE_UPDATE', $role);
 
-        $form = $this->createForm(CreateAppRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers(), 'context' => 'update']);
+        $form = $this->createForm(CreateAppRoleType::class, $role, ['context' => 'update']);
 
         $form->handleRequest($request);
 
@@ -139,7 +136,7 @@ class AppRoleController extends AbstractAppController
             }
         }
 
-        return $this->renderAbstract($request, 'Modules/role/role_update.html.twig', [
+        return $this->renderAbstract($request, 'Modules/app_role/app_role_update.html.twig', [
             'role' => $role,
             'form' => $form->createView(),
         ]);

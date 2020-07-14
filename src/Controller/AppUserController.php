@@ -67,23 +67,7 @@ class AppUserController extends AbstractAppController
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
 
             try {
-                $json = [
-                    'email' => $user->getEmail(),
-                    'password' => $user->getPassword(),
-                    'roles' => [
-                        'ROLE_ADMIN'
-                    ],
-                    'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
-                ];
-                $callRequest = new CallRequestModel();
-                if (true == $this->callManager->checkVersion('6.2')) {
-                    $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$user->getEmail());
-                } else {
-                    $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$user->getEmail());
-                }
-                $callRequest->setMethod('POST');
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->appUserManager->send($user);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -137,34 +121,9 @@ class AppUserController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = [
-                    'email' => $user->getEmail(),
-                    'full_name' => $user->getFullName(),
-                    'roles' => $user->getRoles(),
-                ];
-                if ($user->getMetadata()) {
-                    $json['metadata'] = $user->getMetadata();
-                }
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_security/user/'.$user->getEmail());
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->appUserManager->send($user);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
-
-                if ($user->getChangePassword() && $user->getPassword()) {
-                    $json = [
-                        'password' => $user->getPassword(),
-                    ];
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('POST');
-                    $callRequest->setPath('/_security/user/'.$user->getEmail().'/_password');
-                    $callRequest->setJson($json);
-                    $callResponse = $this->callManager->call($callRequest);
-
-                    $this->addFlash('info', json_encode($callResponse->getContent()));
-                }
 
                 return $this->redirectToRoute('app_users');
             } catch (CallException $e) {

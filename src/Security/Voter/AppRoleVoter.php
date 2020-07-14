@@ -20,7 +20,6 @@ class AppRoleVoter extends Voter
         $attributes = [
             'APP_ROLE_UPDATE',
             'APP_ROLE_DELETE',
-            'APP_ROLE_COPY',
         ];
 
         return in_array($attribute, $attributes) && $subject instanceof AppRoleModel;
@@ -28,16 +27,9 @@ class AppRoleVoter extends Voter
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        //TODO
-        return false;
-
         $user = $token->getUser();
 
         if (!$user instanceof UserInterface) {
-            return false;
-        }
-
-        if ($subject->isReserved()) {
             return false;
         }
 

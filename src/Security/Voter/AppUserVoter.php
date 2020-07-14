@@ -20,8 +20,6 @@ class AppUserVoter extends Voter
         $attributes = [
             'APP_USER_UPDATE',
             'APP_USER_DELETE',
-            'APP_USER_ENABLE',
-            'APP_USER_DISABLE',
         ];
 
         return in_array($attribute, $attributes) && $subject instanceof AppUserModel;
@@ -29,9 +27,6 @@ class AppUserVoter extends Voter
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        //TODO
-        return false;
-
         $user = $token->getUser();
 
         if (!$user instanceof UserInterface) {

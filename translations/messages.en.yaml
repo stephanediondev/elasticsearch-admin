@@ -85,6 +85,7 @@ create_repository_gcs: "Create Google Cloud Storage repository"
 create_role: "Create role"
 create_snapshot: "Create snapshot"
 create_user: "Create user"
+created_at: "Created at"
 creation_date: "Creation date"
 DANGLING_INDEX_IMPORTED: "Dangling index imported"
 data: "Data"
@@ -149,6 +150,8 @@ help_form:
         match_field: "Field in the source indices used to match incoming documents."
         enrich_fields: "Fields to add to matching incoming documents."
         query: "Query type used to filter documents in the enrich index for matching."
+    app_role:
+        name: "The name of the role. Only uppercase letters and underscore."
     role:
         name: "The name of the role."
         applications: "A list of application privilege entries."

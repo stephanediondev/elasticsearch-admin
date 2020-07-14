@@ -24,7 +24,7 @@ class AppUserManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        if (1 == count($results['hits']['hits'])) {
+        if ($results && 1 == count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
                 $row = $row['_source'];
 
@@ -43,7 +43,9 @@ class AppUserManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        if (0 < count($results['hits']['hits'])) {
+        $users = [];
+
+        if ($results && 0 < count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
                 $row = $row['_source'];
 
@@ -51,8 +53,8 @@ class AppUserManager extends AbstractAppManager
                 $userModel->convert($row);
                 $users[$row['email']] = $userModel;
             }
+            ksort($users);
         }
-        ksort($users);
 
         return $users;
     }
@@ -62,7 +64,11 @@ class AppUserManager extends AbstractAppManager
         $json = $userModel->getJson();
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('PUT');
-        $callRequest->setPath('/_security/user/'.$userModel->getName());
+        if (true == $this->callManager->checkVersion('6.2')) {
+            $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$userModel->getEmail());
+        } else {
+            $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$userModel->getEmail());
+        }
         $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);

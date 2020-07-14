@@ -13,19 +13,24 @@ class AppRoleManager extends AbstractAppManager
 {
     public function getByName(string $name): ?AppRoleModel
     {
+        $roleModel = null;
+
+        $query = [
+            'q' => 'name:"'.$name.'"',
+        ];
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role/'.$name);
+        $callRequest->setPath('/.elastictsearch-admin-roles/_search');
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $roleModel = null;
-        } else {
-            $role = $callResponse->getContent();
-            $roleNice = $role[key($role)];
-            $roleNice['name'] = key($role);
+        if ($results && 1 == count($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $row) {
+                $row = $row['_source'];
 
-            $roleModel = new AppRoleModel();
-            $roleModel->convert($roleNice);
+                $roleModel = new AppRoleModel();
+                $roleModel->convert($row);
+            }
         }
 
         return $roleModel;
@@ -34,27 +39,39 @@ class AppRoleManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role');
+        $callRequest->setPath('/.elastictsearch-admin-roles/_search');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        foreach ($results as $k => $row) {
-            $row['name'] = $k;
-            $roleModel = new AppRoleModel();
-            $roleModel->convert($row);
-            $roles[$k] = $roleModel;
+        $roles = [];
+
+        if ($results && 0 < count($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $row) {
+                $row = $row['_source'];
+
+                $roleModel = new AppRoleModel();
+                $roleModel->convert($row);
+                $roles[$row['name']] = $roleModel;
+            }
+            ksort($roles);
         }
-        ksort($roles);
 
         return $roles;
     }
 
     public function send(AppRoleModel $roleModel): CallResponseModel
     {
-        $json = $roleModel->getJson();
+        $json = [
+            'name' => $roleModel->getName(),
+            'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
+        ];
         $callRequest = new CallRequestModel();
-        $callRequest->setMethod('PUT');
-        $callRequest->setPath('/_security/role/'.$roleModel->getName());
+        if (true == $this->callManager->checkVersion('6.2')) {
+            $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$roleModel->getName());
+        } else {
+            $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$roleModel->getName());
+        }
+        $callRequest->setMethod('POST');
         $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
@@ -63,36 +80,34 @@ class AppRoleManager extends AbstractAppManager
     public function deleteByName(string $name): CallResponseModel
     {
         $callRequest = new CallRequestModel();
+        if (true == $this->callManager->checkVersion('6.2')) {
+            $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$name);
+        } else {
+            $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$name);
+        }
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_security/role/'.$name);
 
         return $this->callManager->call($callRequest);
     }
 
     public function selectRoles()
     {
-        $roles = [];
-
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role');
+        $callRequest->setPath('/.elastictsearch-admin-roles/_search');
         $callResponse = $this->callManager->call($callRequest);
-        $rows = $callResponse->getContent();
+        $results = $callResponse->getContent();
 
-        foreach ($rows as $k => $row) {
-            $roles[] = $k;
+        $roles = [];
+        $roles[] = 'ROLE_ADMIN';
+
+        if ($results && 0 < count($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $row) {
+                $row = $row['_source'];
+                $roles[] = $row['name'];
+            }
+            sort($roles);
         }
 
-        sort($roles);
-
         return $roles;
-    }
-
-    public function getPrivileges()
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/privilege/_builtin');
-        $callResponse = $this->callManager->call($callRequest);
-
-        return $callResponse->getContent();
     }
 }

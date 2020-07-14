@@ -102,6 +102,9 @@
                                 {% if is_granted('APP_USERS', 'global') %}
                                     <a class="dropdown-item" href="{{ path('app_users') }}">{{ 'app_users'|trans }}</a>
                                 {% endif %}
+                                {% if is_granted('APP_ROLES', 'global') %}
+                                    <a class="dropdown-item" href="{{ path('app_roles') }}">{{ 'app_roles'|trans }}</a>
+                                {% endif %}
                             </div>
                         </li>
                     {% endif %}

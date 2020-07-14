@@ -21,6 +21,11 @@ class AppUserModel implements UserInterface
      */
     private $password;
 
+    public function __construct()
+    {
+        $this->createdAt = new \Datetime();
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -52,7 +57,7 @@ class AppUserModel implements UserInterface
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return array_values(array_unique($roles));
     }
 
     public function setRoles(array $roles): self
@@ -133,8 +138,23 @@ class AppUserModel implements UserInterface
     public function convert(?array $user): self
     {
         $this->setEmail($user['email']);
+        $this->setPassword($user['password']);
         $this->setRoles($user['roles']);
-        $this->setCreatedAt(new \Datetime($user['created_at']));
+        if (true == isset($user['created_at'])) {
+            $this->setCreatedAt(new \Datetime($user['created_at']));
+        }
         return $this;
+    }
+
+    public function getJson(): array
+    {
+        $json = [
+            'email' => $this->getEmail(),
+            'password' => $this->getPassword(),
+            'roles' => $this->getRoles(),
+            'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s'),
+        ];
+
+        return $json;
     }
 }
