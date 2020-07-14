@@ -128,9 +128,9 @@ class SecurityController extends AbstractAppController
                 ];
                 $callRequest = new CallRequestModel();
                 if (true == $this->callManager->checkVersion('6.2')) {
-                    $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$user->getEmail());
+                    $callRequest->setPath('/.elastictsearch-admin-users/_doc');
                 } else {
-                    $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$user->getEmail());
+                    $callRequest->setPath('/.elastictsearch-admin-users/doc');
                 }
                 $callRequest->setMethod('POST');
                 $callRequest->setJson($json);
