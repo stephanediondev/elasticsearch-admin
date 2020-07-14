@@ -5,7 +5,7 @@ namespace App\Security;
 use App\Exception\CallException;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
-use App\Security\User;
+use App\Security\AppUser;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
+class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
     public function __construct(CallManager $callManager)
     {
@@ -31,7 +31,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      *
      * @throws UsernameNotFoundException if the user is not found
      */
-    public function loadUserByUsername(string $email): ?User
+    public function loadUserByUsername(string $email): ?AppUser
     {
         // Load a User object from your data source or throw UsernameNotFoundException.
         // The $username argument may not actually be a username:
@@ -56,7 +56,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof User) {
+        if (!$user instanceof AppUser) {
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
         }
 
@@ -70,7 +70,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
      */
     public function supportsClass($class)
     {
-        return User::class === $class;
+        return AppUser::class === $class;
     }
 
     /**
@@ -104,7 +104,7 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
                 foreach ($results['hits']['hits'] as $row) {
                     $row = $row['_source'];
 
-                    $user = new User();
+                    $user = new AppUser();
                     $user->setEmail($row['email']);
                     $user->setPassword($row['password']);
                     $user->setRoles($row['roles']);

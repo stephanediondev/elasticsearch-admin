@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
-use App\Security\User;
+use App\Security\AppUser;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,9 +32,11 @@ class CreateAppUserType extends AbstractType
     {
         $fields = [];
 
-        $fields[] = 'secretRegister';
-        $fields[] = 'email';
-        $fields[] = 'passwordPlain';
+        if ('register' == $options['context']) {
+            $fields[] = 'secretRegister';
+            $fields[] = 'email';
+            $fields[] = 'passwordPlain';
+        }
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -88,11 +90,13 @@ class CreateAppUserType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if ($form->has('secretRegister') && $form->get('secretRegister')->getData()) {
-                if ($this->secretRegister !== $form->get('secretRegister')->getData()) {
-                    $form->get('secretRegister')->addError(new FormError(
-                        $this->translator->trans('secret_register_wrong')
-                    ));
+            if ('register' == $options['context']) {
+                if ($form->has('secretRegister') && $form->get('secretRegister')->getData()) {
+                    if ($this->secretRegister !== $form->get('secretRegister')->getData()) {
+                        $form->get('secretRegister')->addError(new FormError(
+                            $this->translator->trans('secret_register_wrong')
+                        ));
+                    }
                 }
             }
         });
@@ -101,7 +105,9 @@ class CreateAppUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => AppUser::class,
+            'roles' => [],
+            'context' => 'create',
         ]);
     }
 

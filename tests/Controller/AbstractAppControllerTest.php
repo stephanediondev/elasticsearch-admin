@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Core\Traits\JwtTrait;
 use App\Model\CallRequestModel;
-use App\Security\User;
+use App\Security\AppUser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -60,7 +60,7 @@ abstract class AbstractAppControllerTest extends WebTestCase
             foreach ($results['hits']['hits'] as $row) {
                 $row = $row['_source'];
 
-                $user = new User();
+                $user = new AppUser();
                 $user->setEmail($row['email']);
                 $user->setPassword($row['password']);
                 $user->setRoles($row['roles']);

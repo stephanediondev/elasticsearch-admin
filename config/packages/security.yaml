@@ -3,7 +3,7 @@ security:
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
-            id: App\Security\UserProvider
+            id: App\Security\AppUserProvider
 
     firewalls:
         dev:
@@ -33,5 +33,5 @@ security:
         - { path: '^/admin', roles: ROLE_ADMIN }
 
     encoders:
-        App\Security\User:
+        App\Security\AppUser:
             algorithm: auto

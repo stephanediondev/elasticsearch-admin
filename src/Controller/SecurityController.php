@@ -7,7 +7,7 @@ use App\Exception\CallException;
 use App\Form\CreateAppUserType;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
-use App\Security\User;
+use App\Security\AppUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -74,8 +74,8 @@ class SecurityController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $user = new User();
-        $form = $this->createForm(CreateAppUserType::class, $user);
+        $user = new AppUser();
+        $form = $this->createForm(CreateAppUserType::class, $user, ['context' => 'register']);
 
         $form->handleRequest($request);
 
