@@ -30,7 +30,7 @@ class CreateIndexType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
             $fields[] = 'settings';
         }
@@ -93,7 +93,7 @@ class CreateIndexType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if (false == $options['update']) {
+            if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
                     $index = $this->elasticsearchIndexManager->getByName($form->get('name')->getData());
 
@@ -123,7 +123,7 @@ class CreateIndexType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchIndexModel::class,
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

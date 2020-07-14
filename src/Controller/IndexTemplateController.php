@@ -196,7 +196,7 @@ class IndexTemplateController extends AbstractAppController
             $componentTemplates[] = $row->getName();
         }
 
-        $form = $this->createForm(CreateIndexTemplateType::class, $template, ['component_templates' => $componentTemplates, 'update' => true]);
+        $form = $this->createForm(CreateIndexTemplateType::class, $template, ['component_templates' => $componentTemplates, 'context' => 'update']);
 
         $form->handleRequest($request);
 

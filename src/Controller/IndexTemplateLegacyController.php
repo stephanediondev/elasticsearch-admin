@@ -156,7 +156,7 @@ class IndexTemplateLegacyController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_UPDATE', $template);
 
-        $form = $this->createForm(CreateIndexTemplateLegacyType::class, $template, ['update' => true]);
+        $form = $this->createForm(CreateIndexTemplateLegacyType::class, $template, ['context' => 'update']);
 
         $form->handleRequest($request);
 

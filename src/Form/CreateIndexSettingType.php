@@ -54,7 +54,7 @@ class CreateIndexSettingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchIndexSettingModel::class,
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

@@ -276,7 +276,7 @@ class IndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_UPDATE', $index);
 
-        $form = $this->createForm(CreateIndexType::class, $index, ['update' => true]);
+        $form = $this->createForm(CreateIndexType::class, $index, ['context' => 'update']);
 
         $form->handleRequest($request);
 
@@ -686,7 +686,7 @@ class IndexController extends AbstractAppController
         $this->denyAccessUnlessGranted('INDEX_UPDATE', $index);
 
         $indexSettingModel = new ElasticsearchIndexSettingModel();
-        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel, ['update' => true]);
+        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel, ['context' => 'update']);
 
         $form->handleRequest($request);
 
@@ -735,7 +735,7 @@ class IndexController extends AbstractAppController
         $indexSettingModel = new ElasticsearchIndexSettingModel();
         $indexSettingModel->setName($setting);
         $indexSettingModel->setValue($index->getSetting($setting));
-        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel, ['update' => true]);
+        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel, ['context' => 'update']);
 
         $form->handleRequest($request);
 

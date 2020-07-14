@@ -32,7 +32,7 @@ class CreatePipelineType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
         }
         $fields[] = 'description';
@@ -121,7 +121,7 @@ class CreatePipelineType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if (false == $options['update']) {
+            if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
                     $pipeline = $this->elasticsearchPipelineManager->getByName($form->get('name')->getData());
 
@@ -151,7 +151,7 @@ class CreatePipelineType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchPipelineModel::class,
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

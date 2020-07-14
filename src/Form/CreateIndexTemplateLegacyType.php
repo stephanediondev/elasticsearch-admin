@@ -33,7 +33,7 @@ class CreateIndexTemplateLegacyType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
         }
         $fields[] = 'index_patterns';
@@ -156,7 +156,7 @@ class CreateIndexTemplateLegacyType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if (false == $options['update']) {
+            if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
                     $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($form->get('name')->getData());
 
@@ -192,7 +192,7 @@ class CreateIndexTemplateLegacyType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchIndexTemplateLegacyModel::class,
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

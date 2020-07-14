@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateRoleType extends AbstractType
+class CreateElasticsearchRoleType extends AbstractType
 {
     public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, TranslatorInterface $translator)
     {
@@ -31,7 +31,7 @@ class CreateRoleType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
         }
         $fields[] = 'cluster';
@@ -148,7 +148,7 @@ class CreateRoleType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if (false == $options['update']) {
+            if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
                     $role = $this->elasticsearchRoleManager->getByName($form->get('name')->getData());
 
@@ -186,7 +186,7 @@ class CreateRoleType extends AbstractType
             'data_class' => ElasticsearchRoleModel::class,
             'privileges' => [],
             'users' => [],
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

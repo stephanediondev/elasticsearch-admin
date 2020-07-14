@@ -32,7 +32,7 @@ class CreateComponentTemplateType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
         }
         $fields[] = 'version';
@@ -131,7 +131,7 @@ class CreateComponentTemplateType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if (false == $options['update']) {
+            if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
                     $template = $this->elasticsearchComponentTemplateManager->getByName($form->get('name')->getData());
 
@@ -167,7 +167,7 @@ class CreateComponentTemplateType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchComponentTemplateModel::class,
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

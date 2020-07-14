@@ -123,7 +123,7 @@ class RepositoryController extends AbstractAppController
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
         $paths = $clusterSettings['path.repo'] ?? [];
 
-        $form = $this->createForm(CreateRepositoryType::class, $repository, ['type' => $repository->getType(), 'paths' => $paths, 'update' => true]);
+        $form = $this->createForm(CreateRepositoryType::class, $repository, ['type' => $repository->getType(), 'paths' => $paths, 'context' => 'update']);
 
         $form->handleRequest($request);
 

@@ -111,7 +111,7 @@ class CreateSnapshotType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
                 $form = $event->getForm();
 
@@ -136,7 +136,7 @@ class CreateSnapshotType extends AbstractType
             'data_class' => ElasticsearchSnapshotModel::class,
             'repositories' => [],
             'indices' => [],
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

@@ -180,7 +180,7 @@ class ComponentTemplateController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATE_UPDATE', $template);
 
-        $form = $this->createForm(CreateComponentTemplateType::class, $template, ['update' => true]);
+        $form = $this->createForm(CreateComponentTemplateType::class, $template, ['context' => 'update']);
 
         $form->handleRequest($request);
 

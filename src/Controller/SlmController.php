@@ -269,7 +269,7 @@ class SlmController extends AbstractAppController
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
         $indices = $this->elasticsearchIndexManager->selectIndices();
 
-        $form = $this->createForm(CreateSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices, 'update' => true]);
+        $form = $this->createForm(CreateSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices, 'context' => 'update']);
 
         $form->handleRequest($request);
 

@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateUserType extends AbstractType
+class CreateElasticsearchUserType extends AbstractType
 {
     public function __construct(ElasticsearchUserManager $elasticsearchUserManager, TranslatorInterface $translator)
     {
@@ -35,7 +35,7 @@ class CreateUserType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
         } else {
             $fields[] = 'change_password';
@@ -67,7 +67,7 @@ class CreateUserType extends AbstractType
                     ]);
                     break;
                 case 'password':
-                    if (false == $options['update']) {
+                    if ('create' == $options['context']) {
                         $builder->add('password', PasswordType::class, [
                             'label' => 'password',
                             'required' => true,
@@ -151,7 +151,7 @@ class CreateUserType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if (false == $options['update']) {
+            if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
                     $user = $this->elasticsearchUserManager->getByName($form->get('name')->getData());
 
@@ -176,7 +176,7 @@ class CreateUserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ElasticsearchUserModel::class,
             'roles' => [],
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

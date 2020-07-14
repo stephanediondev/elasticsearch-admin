@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateRoleType;
+use App\Form\CreateElasticsearchRoleType;
 use App\Manager\ElasticsearchRoleManager;
 use App\Manager\ElasticsearchUserManager;
 use App\Model\CallRequestModel;
@@ -79,7 +79,7 @@ class ElasticsearchRoleController extends AbstractAppController
         if (false == $role) {
             $role = new ElasticsearchRoleModel();
         }
-        $form = $this->createForm(CreateRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers()]);
+        $form = $this->createForm(CreateElasticsearchRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers()]);
 
         $form->handleRequest($request);
 
@@ -139,7 +139,7 @@ class ElasticsearchRoleController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLE_UPDATE', $role);
 
-        $form = $this->createForm(CreateRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers(), 'update' => true]);
+        $form = $this->createForm(CreateElasticsearchRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers(), 'context' => 'update']);
 
         $form->handleRequest($request);
 

@@ -196,7 +196,7 @@ class IlmController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('ILM_POLICY_UPDATE', $policy);
 
-        $form = $this->createForm(CreateIlmPolicyType::class, $policy, ['update' => true]);
+        $form = $this->createForm(CreateIlmPolicyType::class, $policy, ['context' => 'update']);
 
         $form->handleRequest($request);
 

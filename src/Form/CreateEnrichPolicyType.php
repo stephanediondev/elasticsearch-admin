@@ -31,7 +31,7 @@ class CreateEnrichPolicyType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
         }
         $fields[] = 'type';
@@ -105,7 +105,7 @@ class CreateEnrichPolicyType extends AbstractType
             $this->enrichFields($form, $data['indices'], []);
         });
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
                 $form = $event->getForm();
 
@@ -195,7 +195,7 @@ class CreateEnrichPolicyType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ElasticsearchEnrichPolicyModel::class,
             'indices' => [],
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

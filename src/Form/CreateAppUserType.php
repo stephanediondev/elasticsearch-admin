@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class RegisterUserType extends AbstractType
+class CreateAppUserType extends AbstractType
 {
     public function __construct(CallManager $callManager, TranslatorInterface $translator, string $secretRegister)
     {

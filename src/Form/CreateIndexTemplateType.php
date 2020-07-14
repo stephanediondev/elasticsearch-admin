@@ -33,7 +33,7 @@ class CreateIndexTemplateType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
         }
         $fields[] = 'index_patterns';
@@ -171,7 +171,7 @@ class CreateIndexTemplateType extends AbstractType
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
-            if (false == $options['update']) {
+            if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
                     $template = $this->elasticsearchIndexTemplateManager->getByName($form->get('name')->getData());
 
@@ -208,7 +208,7 @@ class CreateIndexTemplateType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ElasticsearchIndexTemplateModel::class,
             'component_templates' => [],
-            'update' => false,
+            'context' => 'create',
         ]);
     }
 

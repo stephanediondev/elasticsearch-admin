@@ -30,7 +30,7 @@ class CreateRepositoryType extends AbstractType
     {
         $fields = [];
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $fields[] = 'name';
         }
         $fields[] = 'chunk_size';
@@ -222,7 +222,7 @@ class CreateRepositoryType extends AbstractType
             }
         }
 
-        if (false == $options['update']) {
+        if ('create' == $options['context']) {
             $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
                 $form = $event->getForm();
 
@@ -244,7 +244,7 @@ class CreateRepositoryType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ElasticsearchRepositoryModel::class,
             'type' => false,
-            'update' => false,
+            'context' => 'create',
             'paths' => [],
         ]);
     }

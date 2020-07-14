@@ -120,7 +120,7 @@ class PipelineController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('PIPELINE_UPDATE', $pipeline);
 
-        $form = $this->createForm(CreatePipelineType::class, $pipeline, ['update' => true]);
+        $form = $this->createForm(CreatePipelineType::class, $pipeline, ['context' => 'update']);
 
         $form->handleRequest($request);
 
