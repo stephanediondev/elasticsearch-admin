@@ -52,7 +52,7 @@ class IndexController extends AbstractAppController
             'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
-        if (true == $this->checkVersion('7.7')) {
+        if (true == $this->callManager->checkVersion('7.7')) {
             $query['expand_wildcards'] = 'all';
         }
 
@@ -826,7 +826,7 @@ class IndexController extends AbstractAppController
      */
     public function lifecycle(Request $request, string $index): Response
     {
-        if (false == $this->hasFeature('ilm')) {
+        if (false == $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -855,7 +855,7 @@ class IndexController extends AbstractAppController
      */
     public function removePolicy(Request $request, string $index): Response
     {
-        if (false == $this->hasFeature('ilm')) {
+        if (false == $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1068,7 +1068,7 @@ class IndexController extends AbstractAppController
      */
     public function freeze(Request $request, string $index): Response
     {
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1092,7 +1092,7 @@ class IndexController extends AbstractAppController
      */
     public function unfreeze(Request $request, string $index): Response
     {
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             throw new AccessDeniedHttpException();
         }
 

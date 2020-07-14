@@ -14,7 +14,7 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich');
 
-        if (true == $this->hasFeature('enrich')) {
+        if (true == $this->callManager->hasFeature('enrich')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies');
         } else {
@@ -29,7 +29,7 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/stats');
 
-        if (true == $this->hasFeature('enrich')) {
+        if (true == $this->callManager->hasFeature('enrich')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - Stats');
         } else {
@@ -44,7 +44,7 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/create');
 
-        if (true == $this->hasFeature('enrich')) {
+        if (true == $this->callManager->hasFeature('enrich')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - Create enrich policy');
         } else {
@@ -56,7 +56,7 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/create?policy='.uniqid());
 
-        if (true == $this->hasFeature('enrich')) {
+        if (true == $this->callManager->hasFeature('enrich')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -70,7 +70,7 @@ class EnrichControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/enrich/'.uniqid());
 
-        if (true == $this->hasFeature('enrich')) {
+        if (true == $this->callManager->hasFeature('enrich')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);

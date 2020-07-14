@@ -57,25 +57,25 @@
                                 {% if is_granted('INDEX_TEMPLATES', 'global') %}
                                     <a class="dropdown-item" href="{{ path('index_templates') }}">
                                         {{ 'index_templates'|trans }}
-                                        {% if false == check_version(root, '7.8') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        {% if false == check_version('7.8') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
                                 {% if is_granted('COMPONENT_TEMPLATES', 'global') %}
                                     <a class="dropdown-item" href="{{ path('component_templates') }}">
                                         {{ 'component_templates'|trans }}
-                                        {% if false == check_version(root, '7.8') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        {% if false == check_version('7.8') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
                                 {% if is_granted('ILM_POLICIES', 'global') %}
                                     <a class="dropdown-item" href="{{ path('ilm') }}">
                                         {{ 'ilm'|trans }}
-                                        {% if false == has_feature(xpack, 'ilm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        {% if false == has_feature('ilm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
                                 {% if is_granted('SLM_POLICIES', 'global') %}
                                     <a class="dropdown-item" href="{{ path('slm') }}">
                                         {{ 'slm'|trans }}
-                                        {% if false == has_feature(xpack, 'slm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        {% if false == has_feature('slm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
                                 {% if is_granted('REPOSITORIES', 'global') %}
@@ -84,20 +84,23 @@
                                 {% if is_granted('ENRICH_POLICIES', 'global') %}
                                     <a class="dropdown-item" href="{{ path('enrich') }}">
                                         {{ 'enrich'|trans }}
-                                        {% if false == has_feature(xpack, 'enrich') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        {% if false == has_feature('enrich') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
                                 {% if is_granted('ELASTICSEARCH_USERS', 'global') %}
                                     <a class="dropdown-item" href="{{ path('elasticsearch_users') }}">
                                         {{ 'elasticsearch_users'|trans }}
-                                        {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        {% if false == has_feature('security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
                                 {% endif %}
                                 {% if is_granted('ELASTICSEARCH_ROLES', 'global') %}
                                     <a class="dropdown-item" href="{{ path('elasticsearch_roles') }}">
                                         {{ 'elasticsearch_roles'|trans }}
-                                        {% if false == has_feature(xpack, 'security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        {% if false == has_feature('security') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
                                     </a>
+                                {% endif %}
+                                {% if is_granted('APP_USERS', 'global') %}
+                                    <a class="dropdown-item" href="{{ path('app_users') }}">{{ 'app_users'|trans }}</a>
                                 {% endif %}
                             </div>
                         </li>

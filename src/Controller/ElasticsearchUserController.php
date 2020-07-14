@@ -33,7 +33,7 @@ class ElasticsearchUserController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS', 'global');
 
-        if (false == $this->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -58,7 +58,7 @@ class ElasticsearchUserController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS_CREATE', 'global');
 
-        if (false == $this->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -107,7 +107,7 @@ class ElasticsearchUserController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS', 'global');
 
-        if (false == $this->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -127,7 +127,7 @@ class ElasticsearchUserController extends AbstractAppController
      */
     public function update(Request $request, string $user): Response
     {
-        if (false == $this->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -193,7 +193,7 @@ class ElasticsearchUserController extends AbstractAppController
      */
     public function enable(Request $request, string $user): Response
     {
-        if (false == $this->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -221,7 +221,7 @@ class ElasticsearchUserController extends AbstractAppController
      */
     public function disable(Request $request, string $user): Response
     {
-        if (false == $this->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -249,7 +249,7 @@ class ElasticsearchUserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
-        if (false == $this->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             throw new AccessDeniedHttpException();
         }
 

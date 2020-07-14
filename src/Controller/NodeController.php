@@ -135,7 +135,7 @@ class NodeController extends AbstractAppController
      */
     public function readReloadSecureSettings(Request $request, string $node): Response
     {
-        if (false == $this->checkVersion('6.4')) {
+        if (false == $this->callManager->checkVersion('6.4')) {
             throw new AccessDeniedHttpException();
         }
 

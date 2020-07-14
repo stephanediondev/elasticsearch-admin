@@ -14,7 +14,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -29,7 +29,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/create');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -41,7 +41,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/create?template='.uniqid());
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -52,7 +52,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/create?template=elasticsearch-admin-test');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -67,7 +67,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid());
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -78,7 +78,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -93,7 +93,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/update');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -104,7 +104,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/.elasticsearch-admin-test/update');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -115,7 +115,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/update');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -130,7 +130,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/settings');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -141,7 +141,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/settings');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -156,7 +156,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/mappings');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -167,7 +167,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/mappings');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -182,7 +182,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/delete');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -193,7 +193,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/.elasticsearch-admin-test/delete');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -204,7 +204,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/delete');
 
-        if (false == $this->checkVersion('7.8')) {
+        if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(302);

@@ -33,7 +33,7 @@ class RepositoryControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/repositories/create/s3');
 
-        if (false == $this->hasPlugin('repository-s3')) {
+        if (false == $this->callManager->hasPlugin('repository-s3')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -45,7 +45,7 @@ class RepositoryControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/repositories/create/gcs');
 
-        if (false == $this->hasPlugin('repository-gcs')) {
+        if (false == $this->callManager->hasPlugin('repository-gcs')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);

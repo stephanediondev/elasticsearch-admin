@@ -2,9 +2,8 @@
 
 namespace App\Form;
 
-use App\Manager\CallManager;
-use App\Model\CallRequestModel;
-use App\Security\AppUser;
+use App\Manager\AppUserManager;
+use App\Model\AppUserModel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,9 +20,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CreateAppUserType extends AbstractType
 {
-    public function __construct(CallManager $callManager, TranslatorInterface $translator, string $secretRegister)
+    public function __construct(AppUserManager $appUserManager, TranslatorInterface $translator, string $secretRegister)
     {
-        $this->callManager = $callManager;
+        $this->appUserManager = $appUserManager;
         $this->translator = $translator;
         $this->secretRegister = $secretRegister;
     }
@@ -32,10 +31,21 @@ class CreateAppUserType extends AbstractType
     {
         $fields = [];
 
+        $passwordRequired = true;
+        $passwordConstraints = [
+            new NotBlank(),
+        ];
+
         if ('register' == $options['context']) {
             $fields[] = 'secretRegister';
-            $fields[] = 'email';
-            $fields[] = 'passwordPlain';
+        }
+
+        $fields[] = 'email';
+        $fields[] = 'passwordPlain';
+
+        if ('update' == $options['context']) {
+            $passwordRequired = false;
+            $passwordConstraints = [];
         }
 
         foreach ($fields as $field) {
@@ -64,10 +74,8 @@ class CreateAppUserType extends AbstractType
                 case 'passwordPlain':
                     $builder->add('passwordPlain', RepeatedType::class, [
                         'type' => PasswordType::class,
-                        'required' => true,
-                        'constraints' => [
-                            new NotBlank(),
-                        ],
+                        'required' => $passwordRequired,
+                        'constraints' => $passwordConstraints,
                         'first_options'  => [
                             'label' => 'password',
                             'attr' => [
@@ -99,13 +107,25 @@ class CreateAppUserType extends AbstractType
                     }
                 }
             }
+
+            if ('create' == $options['context']) {
+                if ($form->has('email') && $form->get('email')->getData()) {
+                    $user = $this->appUserManager->getByEmail($form->get('email')->getData());
+
+                    if ($user) {
+                        $form->get('email')->addError(new FormError(
+                            $this->translator->trans('email_already_used')
+                        ));
+                    }
+                }
+            }
         });
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => AppUser::class,
+            'data_class' => AppUserModel::class,
             'roles' => [],
             'context' => 'create',
         ]);

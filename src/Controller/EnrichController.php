@@ -35,7 +35,7 @@ class EnrichController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
 
-        if (false == $this->hasFeature('enrich')) {
+        if (false == $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -60,7 +60,7 @@ class EnrichController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_STATS', 'global');
 
-        if (false == $this->hasFeature('enrich')) {
+        if (false == $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -81,7 +81,7 @@ class EnrichController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE', 'global');
 
-        if (false == $this->hasFeature('enrich')) {
+        if (false == $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -132,7 +132,7 @@ class EnrichController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
 
-        if (false == $this->hasFeature('enrich')) {
+        if (false == $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -152,7 +152,7 @@ class EnrichController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->hasFeature('enrich')) {
+        if (false == $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -176,7 +176,7 @@ class EnrichController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
-        if (false == $this->hasFeature('enrich')) {
+        if (false == $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 

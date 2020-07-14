@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Manager\CallManager;
 use App\Model\ElasticsearchIndexModel;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -9,6 +10,11 @@ use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
+    public function __construct(CallManager $callManager)
+    {
+        $this->callManager = $callManager;
+    }
+
     public function getFilters(): array
     {
         return [
@@ -75,31 +81,19 @@ class AppExtension extends AbstractExtension
         return date('D, d M Y H:i', substr($datetime, 0, -3));
     }
 
-    public function checkVersion(array $root, string $versionGoal): bool
+    public function checkVersion(string $versionGoal): bool
     {
-        if (true == isset($root['version']) && true == isset($root['version']['number']) && 0 <= version_compare($root['version']['number'], $versionGoal)) {
-            return true;
-        }
-
-        return false;
+        return $this->callManager->checkVersion($versionGoal);
     }
 
-    public function hasFeature(array $xpack, string $feature): bool
+    public function hasFeature(string $feature): bool
     {
-        if (true == isset($xpack['features'][$feature]) && true == $xpack['features'][$feature]['available'] && true == $xpack['features'][$feature]['enabled']) {
-            return true;
-        }
-
-        return false;
+        return $this->callManager->hasFeature($feature);
     }
 
-    public function hasPlugin(array $plugins, string $plugin): bool
+    public function hasPlugin(string $plugin): bool
     {
-        if (true == in_array($plugin, $plugins)) {
-            return true;
-        }
-
-        return false;
+        return $this->callManager->hasPlugin($plugin);
     }
 
     public function retrieveSort(ElasticsearchIndexModel $index, string $field)

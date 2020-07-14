@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Security;
+namespace App\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AppUser implements UserInterface
+class AppUserModel implements UserInterface
 {
     private $email;
 
@@ -128,5 +128,13 @@ class AppUser implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function convert(?array $user): self
+    {
+        $this->setEmail($user['email']);
+        $this->setRoles($user['roles']);
+        $this->setCreatedAt(new \Datetime($user['created_at']));
+        return $this;
     }
 }

@@ -27,7 +27,7 @@ class LicenseController extends AbstractAppController
         $license = $callResponse->getContent();
         $license = $license['license'];
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             $trialStatus = false;
             $basicStatus = false;
         } else {
@@ -64,7 +64,7 @@ class LicenseController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('LICENSE', 'global');
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -86,7 +86,7 @@ class LicenseController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('LICENSE', 'global');
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             throw new AccessDeniedHttpException();
         }
 

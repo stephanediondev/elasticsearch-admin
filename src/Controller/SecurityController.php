@@ -7,7 +7,7 @@ use App\Exception\CallException;
 use App\Form\CreateAppUserType;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
-use App\Security\AppUser;
+use App\Model\AppUserModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -74,7 +74,7 @@ class SecurityController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $user = new AppUser();
+        $user = new AppUserModel();
         $form = $this->createForm(CreateAppUserType::class, $user, ['context' => 'register']);
 
         $form->handleRequest($request);
@@ -89,7 +89,7 @@ class SecurityController extends AbstractAppController
                         ],
                     ]
                 ];
-                if (true == $this->checkVersion('7.0')) {
+                if (true == $this->callManager->checkVersion('7.0')) {
                     $json['mappings'] = [
                         'properties' => [
                             'email' => [
@@ -127,7 +127,7 @@ class SecurityController extends AbstractAppController
                     'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
                 ];
                 $callRequest = new CallRequestModel();
-                if (true == $this->checkVersion('6.2')) {
+                if (true == $this->callManager->checkVersion('6.2')) {
                     $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$user->getEmail());
                 } else {
                     $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$user->getEmail());

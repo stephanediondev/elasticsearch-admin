@@ -35,7 +35,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -60,7 +60,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATS', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -78,7 +78,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -96,7 +96,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -114,7 +114,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -132,7 +132,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_CREATE', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -190,7 +190,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -212,7 +212,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -234,7 +234,7 @@ class SlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -254,7 +254,7 @@ class SlmController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -296,7 +296,7 @@ class SlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -320,7 +320,7 @@ class SlmController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
-        if (false == $this->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 

@@ -1,0 +1,63 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'email': true, 'roles': true, 'created_at': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'email' == column %}
+                        <th>
+                            {{ 'email'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'roles' == column %}
+                        <th>
+                            {{ 'app_roles'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'created_at' == column %}
+                        <th>
+                            {{ 'created_at'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in users.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'email' == column %}
+                            <td>
+                                <a href="{{ path('app_users_read', {'user': row.email}) }}">{{ row.email }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'roles' == column %}
+                            <td>
+                                {% if row.roles and 0 < row.roles|length %}
+                                    {% for record in row.roles %}
+                                        <a href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'created_at' == column %}
+                            <td>
+                                {{ row.createdAt|date('Y-m-d H:i:s') }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

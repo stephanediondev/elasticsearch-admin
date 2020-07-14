@@ -17,16 +17,6 @@ class PhpunitCommand extends Command
     {
         $this->callManager = $callManager;
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/');
-        $callResponse = $this->callManager->call($callRequest);
-        $this->root = $callResponse->getContent();
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_xpack');
-        $callResponse = $this->callManager->call($callRequest);
-        $this->xpack = $callResponse->getContent();
-
         parent::__construct();
     }
 
@@ -37,9 +27,11 @@ class PhpunitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $output->writeln('<info>ES version: '.$this->callManager->root['version']['number'].'</info>');
+
         $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             // role
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('GET');
@@ -139,7 +131,7 @@ class PhpunitCommand extends Command
 
             $output->writeln('<info>Index template legacy created: '.$name.'</info>');
 
-            if (true == $this->checkVersion('7.8')) {
+            if (true == $this->callManager->checkVersion('7.8')) {
                 // index template
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('HEAD');

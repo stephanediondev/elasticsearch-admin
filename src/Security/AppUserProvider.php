@@ -5,7 +5,7 @@ namespace App\Security;
 use App\Exception\CallException;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
-use App\Security\AppUser;
+use App\Model\AppUserModel;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -31,7 +31,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
      *
      * @throws UsernameNotFoundException if the user is not found
      */
-    public function loadUserByUsername(string $email): ?AppUser
+    public function loadUserByUsername(string $email): ?AppUserModel
     {
         // Load a User object from your data source or throw UsernameNotFoundException.
         // The $username argument may not actually be a username:
@@ -56,7 +56,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
      */
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof AppUser) {
+        if (!$user instanceof AppUserModel) {
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
         }
 
@@ -70,7 +70,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
      */
     public function supportsClass($class)
     {
-        return AppUser::class === $class;
+        return AppUserModel::class === $class;
     }
 
     /**
@@ -104,7 +104,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
                 foreach ($results['hits']['hits'] as $row) {
                     $row = $row['_source'];
 
-                    $user = new AppUser();
+                    $user = new AppUserModel();
                     $user->setEmail($row['email']);
                     $user->setPassword($row['password']);
                     $user->setRoles($row['roles']);

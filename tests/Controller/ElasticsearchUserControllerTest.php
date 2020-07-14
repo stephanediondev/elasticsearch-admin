@@ -14,7 +14,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Elasticsearch users');
         } else {
@@ -29,7 +29,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/create');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Elasticsearch users - Create user');
         } else {
@@ -44,7 +44,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid());
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -55,7 +55,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Elasticsearch users - elasticsearch-admin-test');
         } else {
@@ -70,7 +70,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/update');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -81,7 +81,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elastic/update');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -92,7 +92,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/update');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Elasticsearch users - elasticsearch-admin-test - Update');
         } else {
@@ -107,7 +107,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/disable');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -118,7 +118,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elastic/disable');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -129,7 +129,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/disable');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(302);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -143,7 +143,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/enable');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -154,7 +154,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elastic/enable');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -165,7 +165,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/enable');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(302);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -179,7 +179,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/delete');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -190,7 +190,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elastic/delete');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -201,7 +201,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/delete');
 
-        if (true == $this->hasFeature('security')) {
+        if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(302);
         } else {
             $this->assertResponseStatusCodeSame(403);

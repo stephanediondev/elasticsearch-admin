@@ -32,7 +32,7 @@ class IndexStatsController extends AbstractAppController
             'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
-        if (true == $this->checkVersion('7.7')) {
+        if (true == $this->callManager->checkVersion('7.7')) {
             $query['expand_wildcards'] = 'all';
         }
 

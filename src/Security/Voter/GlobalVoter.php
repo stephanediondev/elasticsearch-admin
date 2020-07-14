@@ -55,6 +55,10 @@ class GlobalVoter extends Voter
             'ELASTICSEARCH_USERS_CREATE',
             'ELASTICSEARCH_ROLES',
             'ELASTICSEARCH_ROLES_CREATE',
+            //'APP_USERS',
+            //'APP_USERS_CREATE',
+            //'APP_ROLES',
+            //'APP_ROLES_CREATE',
 
             'TOOLS',
             'SNAPSHOTS',

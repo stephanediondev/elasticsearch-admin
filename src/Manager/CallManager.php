@@ -16,6 +16,26 @@ class CallManager
         $this->elasticsearchUsername = $elasticsearchUsername;
         $this->elasticsearchPassword = $elasticsearchPassword;
         $this->sslVerifyPeer = $sslVerifyPeer;
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/');
+        $callResponse = $this->call($callRequest);
+        $this->root = $callResponse->getContent();
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_xpack');
+        $callResponse = $this->call($callRequest);
+        $this->xpack = $callResponse->getContent();
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/plugins');
+        $callResponse = $this->call($callRequest);
+        $results = $callResponse->getContent();
+
+        $this->plugins = [];
+        foreach ($results as $row) {
+            $this->plugins[] = $row['component'];
+        }
     }
 
     public function call(CallRequestModel $callRequest)
@@ -75,5 +95,32 @@ class CallManager
         }
 
         return $callResponse;
+    }
+
+    public function checkVersion(string $versionGoal): bool
+    {
+        if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasFeature(string $feature): bool
+    {
+        if (true == isset($this->xpack['features'][$feature]) && true == $this->xpack['features'][$feature]['available'] && true == $this->xpack['features'][$feature]['enabled']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasPlugin(string $plugin): bool
+    {
+        if (true == in_array($plugin, $this->plugins)) {
+            return true;
+        }
+
+        return false;
     }
 }

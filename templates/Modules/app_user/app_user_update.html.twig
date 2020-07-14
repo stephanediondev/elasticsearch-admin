@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'app_users'|trans }} - {{ user.email }} - {{ 'update'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'app_users'|trans, 'link': {'url': path('app_users')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': user.email}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/app_user/app_user_read_tabs.html.twig' with {'active': 'update'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'update'|trans}) }}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function changePassword() {
+            if ($('#data_change_password').is(':checked')) {
+                $('#data_password').removeAttr('disabled');
+                $('#data_password').attr('required', 'required');
+
+                $('label[for="data_password"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+            } else {
+                $('#data_password').attr('disabled', 'disabled');
+                $('#data_password').removeAttr('required');
+
+                $('label[for="data_password"] .badge').remove();
+            }
+        }
+
+        changePassword();
+
+        $(document).on('click', '#data_change_password', function(event) {
+            changePassword();
+        });
+    </script>
+{% endblock %}

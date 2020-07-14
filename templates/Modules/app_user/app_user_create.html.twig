@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'app_users'|trans }} - {{ 'create_user'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'app_users'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/user/user_tabs.html.twig' with {'active': 'create_user'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'create_user'|trans}) }}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

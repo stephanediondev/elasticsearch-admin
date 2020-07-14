@@ -126,7 +126,7 @@ class IndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/lifecycle');
 
-        if (true == $this->hasFeature('ilm')) {
+        if (true == $this->callManager->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(404);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -137,7 +137,7 @@ class IndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/lifecycle');
 
-        if (true == $this->hasFeature('ilm')) {
+        if (true == $this->callManager->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Lifecycle');
         } else {
@@ -352,7 +352,7 @@ class IndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/freeze');
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -363,7 +363,7 @@ class IndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/freeze');
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -374,7 +374,7 @@ class IndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/freeze');
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(302);
@@ -388,7 +388,7 @@ class IndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/unfreeze');
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -399,7 +399,7 @@ class IndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/unfreeze');
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -410,7 +410,7 @@ class IndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/unfreeze');
 
-        if (false == $this->checkVersion('6.6')) {
+        if (false == $this->callManager->checkVersion('6.6')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(302);

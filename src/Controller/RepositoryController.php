@@ -54,11 +54,11 @@ class RepositoryController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('REPOSITORIES_CREATE', 'global');
 
-        if ('s3' == $type && false == $this->hasPlugin('repository-s3')) {
+        if ('s3' == $type && false == $this->callManager->hasPlugin('repository-s3')) {
             throw new AccessDeniedHttpException();
         }
 
-        if ('gcs' == $type && false == $this->hasPlugin('repository-gcs')) {
+        if ('gcs' == $type && false == $this->callManager->hasPlugin('repository-gcs')) {
             throw new AccessDeniedHttpException();
         }
 

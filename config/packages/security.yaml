@@ -33,5 +33,5 @@ security:
         - { path: '^/admin', roles: ROLE_ADMIN }
 
     encoders:
-        App\Security\AppUser:
+        App\Model\AppUserModel:
             algorithm: auto
