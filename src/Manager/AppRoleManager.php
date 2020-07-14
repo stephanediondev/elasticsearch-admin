@@ -11,6 +11,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppRoleManager extends AbstractAppManager
 {
+    public function getById(string $id): ?AppRoleModel
+    {
+        $roleModel = null;
+
+        $callRequest = new CallRequestModel();
+        if (true == $this->callManager->checkVersion('6.2')) {
+            $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$id);
+        } else {
+            $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$id);
+        }
+        $callResponse = $this->callManager->call($callRequest);
+        $row = $callResponse->getContent();
+
+        if ($row) {
+            $role = ['id' => $row['_id']];
+            $role = array_merge($role, $row['_source']);
+
+            $roleModel = new AppRoleModel();
+            $roleModel->convert($role);
+        }
+
+        return $roleModel;
+    }
+
     public function getByName(string $name): ?AppRoleModel
     {
         $roleModel = null;
@@ -26,10 +50,11 @@ class AppRoleManager extends AbstractAppManager
 
         if ($results && 1 == count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
-                $row = $row['_source'];
+                $role = ['id' => $row['_id']];
+                $role = array_merge($role, $row['_source']);
 
                 $roleModel = new AppRoleModel();
-                $roleModel->convert($row);
+                $roleModel->convert($role);
             }
         }
 
@@ -47,11 +72,12 @@ class AppRoleManager extends AbstractAppManager
 
         if ($results && 0 < count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
-                $row = $row['_source'];
+                $role = ['id' => $row['_id']];
+                $role = array_merge($role, $row['_source']);
 
                 $roleModel = new AppRoleModel();
-                $roleModel->convert($row);
-                $roles[$row['name']] = $roleModel;
+                $roleModel->convert($role);
+                $roles[$role['name']] = $roleModel;
             }
             ksort($roles);
         }
@@ -66,10 +92,20 @@ class AppRoleManager extends AbstractAppManager
             'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
         ];
         $callRequest = new CallRequestModel();
-        if (true == $this->callManager->checkVersion('6.2')) {
-            $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$roleModel->getName());
+        if ($roleModel->getId()) {
+            $callRequest->setMethod('PUT');
+            if (true == $this->callManager->checkVersion('6.2')) {
+                $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$roleModel->getId());
+            } else {
+                $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$roleModel->getId());
+            }
         } else {
-            $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$roleModel->getName());
+            $callRequest->setMethod('POST');
+            if (true == $this->callManager->checkVersion('6.2')) {
+                $callRequest->setPath('/.elastictsearch-admin-roles/_doc');
+            } else {
+                $callRequest->setPath('/.elastictsearch-admin-roles/doc/');
+            }
         }
         $callRequest->setMethod('POST');
         $callRequest->setJson($json);
@@ -77,13 +113,13 @@ class AppRoleManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function deleteByName(string $name): CallResponseModel
+    public function deleteById(string $id): CallResponseModel
     {
         $callRequest = new CallRequestModel();
         if (true == $this->callManager->checkVersion('6.2')) {
-            $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$name);
+            $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$id);
         } else {
-            $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$name);
+            $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$id);
         }
         $callRequest->setMethod('DELETE');
 

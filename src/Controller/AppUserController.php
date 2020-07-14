@@ -89,7 +89,7 @@ class AppUserController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('APP_USERS', 'global');
 
-        $user = $this->appUserManager->getByEmail($user);
+        $user = $this->appUserManager->getById($user);
 
         if (false == $user) {
             throw new NotFoundHttpException();
@@ -105,7 +105,7 @@ class AppUserController extends AbstractAppController
      */
     public function update(Request $request, string $user): Response
     {
-        $user = $this->appUserManager->getByEmail($user);
+        $user = $this->appUserManager->getById($user);
 
         if (false == $user) {
             throw new NotFoundHttpException();
@@ -142,7 +142,7 @@ class AppUserController extends AbstractAppController
      */
     public function delete(Request $request, string $user): Response
     {
-        $user = $this->appUserManager->getByEmail($user);
+        $user = $this->appUserManager->getById($user);
 
         if (false == $user) {
             throw new NotFoundHttpException();
@@ -150,7 +150,7 @@ class AppUserController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('APP_USER_DELETE', $user);
 
-        $callResponse = $this->appUserManager->deleteByEmail($user->getEmail());
+        $callResponse = $this->appUserManager->deleteById($user->getId());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

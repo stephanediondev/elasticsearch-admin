@@ -6,6 +6,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppUserModel implements UserInterface
 {
+    private $id;
+
     private $email;
 
     private $passwordPlain;
@@ -24,6 +26,18 @@ class AppUserModel implements UserInterface
     public function __construct()
     {
         $this->createdAt = new \Datetime();
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -137,6 +151,7 @@ class AppUserModel implements UserInterface
 
     public function convert(?array $user): self
     {
+        $this->setId($user['id']);
         $this->setEmail($user['email']);
         $this->setPassword($user['password']);
         $this->setRoles($user['roles']);

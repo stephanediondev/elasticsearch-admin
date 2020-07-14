@@ -29,7 +29,7 @@
                             'id': 'UserDelete',
                             'title': 'delete'|trans,
                             'body': user.email,
-                            'href': path('app_users_delete', {'user': user.email}),
+                            'href': path('app_users_delete', {'user': user.id}),
                         }) }}
                     {% endif %}
                 {% endblock %}

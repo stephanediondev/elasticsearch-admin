@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateAppUserType;
 use App\Manager\CallManager;
+use App\Manager\AppUserManager;
 use App\Model\CallRequestModel;
 use App\Model\AppUserModel;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,8 +19,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class SecurityController extends AbstractAppController
 {
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(AppUserManager $appUserManager, UserPasswordEncoderInterface $passwordEncoder)
     {
+        $this->appUserManager = $appUserManager;
         $this->passwordEncoder = $passwordEncoder;
     }
 
@@ -117,24 +119,9 @@ class SecurityController extends AbstractAppController
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
                 $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
+                $user->setRoles(['ROLE_ADMIN']);
 
-                $json = [
-                    'email' => $user->getEmail(),
-                    'password' => $user->getPassword(),
-                    'roles' => [
-                        'ROLE_ADMIN'
-                    ],
-                    'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
-                ];
-                $callRequest = new CallRequestModel();
-                if (true == $this->callManager->checkVersion('6.2')) {
-                    $callRequest->setPath('/.elastictsearch-admin-users/_doc');
-                } else {
-                    $callRequest->setPath('/.elastictsearch-admin-users/doc');
-                }
-                $callRequest->setMethod('POST');
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
+                $callResponse = $this->appUserManager->send($user);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 

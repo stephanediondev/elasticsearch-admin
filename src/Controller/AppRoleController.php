@@ -54,7 +54,7 @@ class AppRoleController extends AbstractAppController
         $role = false;
 
         if ($request->query->get('role')) {
-            $role = $this->elasticsearchRoleManager->getByName($request->query->get('role'));
+            $role = $this->elasticsearchRoleManager->getById($request->query->get('role'));
 
             if (false == $role) {
                 throw new NotFoundHttpException();
@@ -96,7 +96,7 @@ class AppRoleController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('APP_ROLES', 'global');
 
-        $role = $this->elasticsearchRoleManager->getByName($role);
+        $role = $this->elasticsearchRoleManager->getById($role);
 
         if (false == $role) {
             throw new NotFoundHttpException();
@@ -112,7 +112,7 @@ class AppRoleController extends AbstractAppController
      */
     public function update(Request $request, string $role): Response
     {
-        $role = $this->elasticsearchRoleManager->getByName($role);
+        $role = $this->elasticsearchRoleManager->getById($role);
 
         if (false == $role) {
             throw new NotFoundHttpException();
@@ -147,7 +147,7 @@ class AppRoleController extends AbstractAppController
      */
     public function delete(Request $request, string $role): Response
     {
-        $role = $this->elasticsearchRoleManager->getByName($role);
+        $role = $this->elasticsearchRoleManager->getById($role);
 
         if (false == $role) {
             throw new NotFoundHttpException();
@@ -155,7 +155,7 @@ class AppRoleController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('APP_ROLE_DELETE', $role);
 
-        $callResponse = $this->elasticsearchRoleManager->deleteByName($role->getName());
+        $callResponse = $this->elasticsearchRoleManager->deleteById($role->getId());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 

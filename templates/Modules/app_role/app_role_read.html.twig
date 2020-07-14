@@ -29,7 +29,7 @@
                             'id': 'RoleDelete',
                             'title': 'delete'|trans,
                             'body': role.name,
-                            'href': path('app_roles_delete', {'role': role.name}),
+                            'href': path('app_roles_delete', {'role': role.id}),
                         }) }}
                     {% endif %}
                 {% endblock %}

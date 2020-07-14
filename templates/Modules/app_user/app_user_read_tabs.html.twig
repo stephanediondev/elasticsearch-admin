@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('app_users_read', {'user': user.email}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('app_users_read', {'user': user.id}) }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('APP_USER_UPDATE', user) %}
         <li class="nav-item">
-            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('app_users_update', {'user': user.email}) }}">{{ 'update'|trans }}</a>
+            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('app_users_update', {'user': user.id}) }}">{{ 'update'|trans }}</a>
         </li>
     {% endif %}
 </ul>

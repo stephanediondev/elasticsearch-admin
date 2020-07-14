@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('app_roles_read', {'role': role.name}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('app_roles_read', {'role': role.id}) }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('APP_ROLE_UPDATE', role) %}
         <li class="nav-item">
-            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('app_roles_update', {'role': role.name}) }}">{{ 'update'|trans }}</a>
+            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('app_roles_update', {'role': role.id}) }}">{{ 'update'|trans }}</a>
         </li>
     {% endif %}
 </ul>
