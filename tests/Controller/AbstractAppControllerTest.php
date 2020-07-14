@@ -23,10 +23,6 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         $this->callManager = self::$container->get('App\Manager\CallManager');
 
-        $this->root = $this->callManager->root;
-        $this->xpack = $this->callManager->xpack;
-        $this->plugins = $this->callManager->plugins;
-
         $session = self::$container->get('session');
 
         $firewallName = 'main';

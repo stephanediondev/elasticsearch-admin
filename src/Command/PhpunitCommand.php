@@ -27,7 +27,9 @@ class PhpunitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('<info>ES version: '.$this->callManager->root['version']['number'].'</info>');
+        $output->writeln('<info>PHP version: '.phpversion().'</info>');
+
+        $output->writeln('<info>Elasticsearch version: '.$this->callManager->getRoot()['version']['number'].'</info>');
 
         $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
 
@@ -183,23 +185,5 @@ class PhpunitCommand extends Command
         }
 
         return Command::SUCCESS;
-    }
-
-    private function checkVersion(string $versionGoal): bool
-    {
-        if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function hasFeature(string $feature): bool
-    {
-        if (true == isset($this->xpack['features'][$feature]) && true == $this->xpack['features'][$feature]['available'] && true == $this->xpack['features'][$feature]['enabled']) {
-            return true;
-        }
-
-        return false;
     }
 }

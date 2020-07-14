@@ -9,6 +9,12 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallManager
 {
+    public $root = false;
+
+    public $xpack = false;
+
+    public $plugins = false;
+
     public function __construct(HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
     {
         $this->client = $client;
@@ -16,26 +22,6 @@ class CallManager
         $this->elasticsearchUsername = $elasticsearchUsername;
         $this->elasticsearchPassword = $elasticsearchPassword;
         $this->sslVerifyPeer = $sslVerifyPeer;
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/');
-        $callResponse = $this->call($callRequest);
-        $this->root = $callResponse->getContent();
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_xpack');
-        $callResponse = $this->call($callRequest);
-        $this->xpack = $callResponse->getContent();
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/plugins');
-        $callResponse = $this->call($callRequest);
-        $results = $callResponse->getContent();
-
-        $this->plugins = [];
-        foreach ($results as $row) {
-            $this->plugins[] = $row['component'];
-        }
     }
 
     public function call(CallRequestModel $callRequest)
@@ -97,8 +83,68 @@ class CallManager
         return $callResponse;
     }
 
+    public function getRoot(): array
+    {
+        if (false == $this->root) {
+            $this->setRoot();
+        }
+
+        return $this->root;
+    }
+
+    public function setRoot()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/');
+        $callResponse = $this->call($callRequest);
+        $this->root = $callResponse->getContent();
+    }
+
+    public function getXpack(): array
+    {
+        if (false == $this->xpack) {
+            $this->setXpack();
+        }
+
+        return $this->xpack;
+    }
+
+    public function setXpack()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_xpack');
+        $callResponse = $this->call($callRequest);
+        $this->xpack = $callResponse->getContent();
+    }
+
+    public function getPlugins(): array
+    {
+        if (false == $this->plugins) {
+            $this->setPlugins();
+        }
+
+        return $this->plugins;
+    }
+
+    public function setPlugins()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/plugins');
+        $callResponse = $this->call($callRequest);
+        $results = $callResponse->getContent();
+
+        $this->plugins = [];
+        foreach ($results as $row) {
+            $this->plugins[] = $row['component'];
+        }
+    }
+
     public function checkVersion(string $versionGoal): bool
     {
+        if (false == $this->root) {
+            $this->setRoot();
+        }
+
         if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
             return true;
         }
@@ -108,6 +154,10 @@ class CallManager
 
     public function hasFeature(string $feature): bool
     {
+        if (false == $this->xpack) {
+            $this->setXpack();
+        }
+
         if (true == isset($this->xpack['features'][$feature]) && true == $this->xpack['features'][$feature]['available'] && true == $this->xpack['features'][$feature]['enabled']) {
             return true;
         }
@@ -117,6 +167,10 @@ class CallManager
 
     public function hasPlugin(string $plugin): bool
     {
+        if (false == $this->plugins) {
+            $this->setPlugins();
+        }
+
         if (true == in_array($plugin, $this->plugins)) {
             return true;
         }

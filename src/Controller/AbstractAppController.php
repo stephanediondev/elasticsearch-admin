@@ -43,11 +43,11 @@ abstract class AbstractAppController extends AbstractController
 
         $parameters['master_node'] = $master[0]['node'] ?? false;
 
-        $parameters['root'] = $this->callManager->root;
+        $parameters['root'] = $this->callManager->getRoot();
 
-        $parameters['xpack'] = $this->callManager->xpack;
+        $parameters['xpack'] = $this->callManager->getXpack();
 
-        $parameters['plugins'] = $this->callManager->plugins;
+        $parameters['plugins'] = $this->callManager->getPlugins();
 
         return $this->render($view, $parameters, $response);
     }
