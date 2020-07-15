@@ -2,13 +2,13 @@
 
 namespace App\Security\Voter;
 
-use App\Model\ElasticsearchSlmPolicyModel;
+use App\Model\ElasticsearchPipelineModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class SlmPolicyVoter extends Voter
+class ElasticsearchPipelineVoter extends Voter
 {
     public function __construct(Security $security)
     {
@@ -18,13 +18,12 @@ class SlmPolicyVoter extends Voter
     protected function supports($attribute, $subject)
     {
         $attributes = [
-            'SLM_POLICY_UPDATE',
-            'SLM_POLICY_DELETE',
-            'SLM_POLICY_COPY',
-            'SLM_POLICY_EXECUTE',
+            'PIPELINE_UPDATE',
+            'PIPELINE_DELETE',
+            'PIPELINE_COPY',
         ];
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchSlmPolicyModel;
+        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchPipelineModel;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

@@ -2,13 +2,13 @@
 
 namespace App\Security\Voter;
 
-use App\Model\ElasticsearchEnrichPolicyModel;
+use App\Model\ElasticsearchSnapshotModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class EnrichPolicyVoter extends Voter
+class ElasticsearchSnapshotVoter extends Voter
 {
     public function __construct(Security $security)
     {
@@ -18,12 +18,12 @@ class EnrichPolicyVoter extends Voter
     protected function supports($attribute, $subject)
     {
         $attributes = [
-            'ENRICH_POLICY_DELETE',
-            'ENRICH_POLICY_COPY',
-            'ENRICH_POLICY_EXECUTE',
+            'SNAPSHOT_DELETE',
+            'SNAPSHOT_RESTORE',
+            'SNAPSHOT_FAILURES',
         ];
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchEnrichPolicyModel;
+        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchSnapshotModel;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -31,10 +31,6 @@ class EnrichPolicyVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof UserInterface) {
-            return false;
-        }
-
-        if ($subject->isSystem()) {
             return false;
         }
 

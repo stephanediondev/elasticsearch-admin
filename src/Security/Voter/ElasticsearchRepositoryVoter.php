@@ -2,13 +2,13 @@
 
 namespace App\Security\Voter;
 
-use App\Model\ElasticsearchIlmPolicyModel;
+use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class IlmPolicyVoter extends Voter
+class ElasticsearchRepositoryVoter extends Voter
 {
     public function __construct(Security $security)
     {
@@ -18,13 +18,13 @@ class IlmPolicyVoter extends Voter
     protected function supports($attribute, $subject)
     {
         $attributes = [
-            'ILM_POLICY_UPDATE',
-            'ILM_POLICY_DELETE',
-            'ILM_POLICY_COPY',
-            'ILM_POLICY_APPLY',
+            'REPOSITORY_UPDATE',
+            'REPOSITORY_DELETE',
+            'REPOSITORY_CLEANUP',
+            'REPOSITORY_VERIFY',
         ];
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchIlmPolicyModel;
+        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchRepositoryModel;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -32,10 +32,6 @@ class IlmPolicyVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof UserInterface) {
-            return false;
-        }
-
-        if ($subject->isSystem()) {
             return false;
         }
 

@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ComponentTemplateVoter extends Voter
+class ElasticsearchComponentTemplateVoter extends Voter
 {
     public function __construct(Security $security)
     {

@@ -2,13 +2,13 @@
 
 namespace App\Security\Voter;
 
-use App\Model\ElasticsearchSnapshotModel;
+use App\Model\ElasticsearchIlmPolicyModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class SnapshotVoter extends Voter
+class ElasticsearchIlmPolicyVoter extends Voter
 {
     public function __construct(Security $security)
     {
@@ -18,12 +18,13 @@ class SnapshotVoter extends Voter
     protected function supports($attribute, $subject)
     {
         $attributes = [
-            'SNAPSHOT_DELETE',
-            'SNAPSHOT_RESTORE',
-            'SNAPSHOT_FAILURES',
+            'ILM_POLICY_UPDATE',
+            'ILM_POLICY_DELETE',
+            'ILM_POLICY_COPY',
+            'ILM_POLICY_APPLY',
         ];
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchSnapshotModel;
+        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchIlmPolicyModel;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -31,6 +32,10 @@ class SnapshotVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof UserInterface) {
+            return false;
+        }
+
+        if ($subject->isSystem()) {
             return false;
         }
 

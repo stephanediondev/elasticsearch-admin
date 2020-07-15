@@ -2,13 +2,13 @@
 
 namespace App\Security\Voter;
 
-use App\Model\ElasticsearchNodeModel;
+use App\Model\ElasticsearchIndexTemplateModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class NodeVoter extends Voter
+class ElasticsearchIndexTemplateVoter extends Voter
 {
     public function __construct(Security $security)
     {
@@ -18,12 +18,12 @@ class NodeVoter extends Voter
     protected function supports($attribute, $subject)
     {
         $attributes = [
-            'NODE_PLUGINS',
-            'NODE_USAGE',
-            'NODE_RELOAD_SECURE_SETTINGS',
+            'INDEX_TEMPLATE_UPDATE',
+            'INDEX_TEMPLATE_DELETE',
+            'INDEX_TEMPLATE_COPY',
         ];
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchNodeModel;
+        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchIndexTemplateModel;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -31,6 +31,10 @@ class NodeVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof UserInterface) {
+            return false;
+        }
+
+        if ($subject->isSystem()) {
             return false;
         }
 

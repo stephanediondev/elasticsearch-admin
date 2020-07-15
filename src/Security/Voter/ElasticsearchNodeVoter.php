@@ -2,13 +2,13 @@
 
 namespace App\Security\Voter;
 
-use App\Model\ElasticsearchRepositoryModel;
+use App\Model\ElasticsearchNodeModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class RepositoryVoter extends Voter
+class ElasticsearchNodeVoter extends Voter
 {
     public function __construct(Security $security)
     {
@@ -18,13 +18,12 @@ class RepositoryVoter extends Voter
     protected function supports($attribute, $subject)
     {
         $attributes = [
-            'REPOSITORY_UPDATE',
-            'REPOSITORY_DELETE',
-            'REPOSITORY_CLEANUP',
-            'REPOSITORY_VERIFY',
+            'NODE_PLUGINS',
+            'NODE_USAGE',
+            'NODE_RELOAD_SECURE_SETTINGS',
         ];
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchRepositoryModel;
+        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchNodeModel;
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
