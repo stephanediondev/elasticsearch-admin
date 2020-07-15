@@ -6,7 +6,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateRepositoryType;
 use App\Manager\ElasticsearchRepositoryManager;
-use App\Manager\ElasticsearchClusterManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,10 +19,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class RepositoryController extends AbstractAppController
 {
-    public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchClusterManager $elasticsearchClusterManager)
+    public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
     {
         $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
-        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
     }
 
     /**

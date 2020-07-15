@@ -9,6 +9,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallManager
 {
+    public $catMaster = false;
+
     public $root = false;
 
     public $xpack = false;
@@ -81,6 +83,32 @@ class CallManager
         }
 
         return $callResponse;
+    }
+
+    public function getCatMaster(): array
+    {
+        if (false == $this->catMaster) {
+            $this->setCatMaster();
+        }
+
+        return $this->catMaster;
+    }
+
+    public function setCatMaster()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/master');
+        $callResponse = $this->call($callRequest);
+        $this->catMaster = $callResponse->getContent();
+    }
+
+    public function getMasterNode(): ?string
+    {
+        if (false == $this->catMaster) {
+            $this->setCatMaster();
+        }
+
+        return $this->catMaster[0]['node'] ?? null;
     }
 
     public function getRoot(): array

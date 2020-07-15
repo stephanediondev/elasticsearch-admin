@@ -8,6 +8,30 @@ use App\Model\CallRequestModel;
 
 class ElasticsearchClusterManager extends AbstractAppManager
 {
+    public function getClusterHealth()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/health');
+        $callResponse = $this->callManager->call($callRequest);
+        return $callResponse->getContent();
+    }
+
+    public function getClusterStats(): array
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/stats');
+        $callResponse = $this->callManager->call($callRequest);
+        return $callResponse->getContent();
+    }
+
+    public function getClusterState(): array
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/state');
+        $callResponse = $this->callManager->call($callRequest);
+        return $callResponse->getContent();
+    }
+
     public function getClusterSettings()
     {
         $callRequest = new CallRequestModel();

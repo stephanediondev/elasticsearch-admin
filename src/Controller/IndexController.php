@@ -10,7 +10,6 @@ use App\Form\CreateIndexSettingType;
 use App\Form\ImportIndexType;
 use App\Form\ReindexType;
 use App\Form\SearchIndexType;
-use App\Manager\ElasticsearchClusterManager;
 use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexModel;
@@ -33,10 +32,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class IndexController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchClusterManager $elasticsearchClusterManager)
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
     {
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
-        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
     }
 
     /**

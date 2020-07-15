@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\EditClusterSettingType;
-use App\Manager\ElasticsearchClusterManager;
 use App\Model\ElasticsearchClusterSettingModel;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,15 +21,9 @@ class ClusterController extends AbstractAppController
      */
     public function read(Request $request): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/stats');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterStats = $callResponse->getContent();
+        $clusterStats = $this->elasticsearchClusterManager->getClusterStats();
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/state');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterState = $callResponse->getContent();
+        $clusterState = $this->elasticsearchClusterManager->getClusterState();;
 
         $nodes = [];
         foreach ($clusterState['nodes'] as $k => $node) {
@@ -72,7 +65,7 @@ class ClusterController extends AbstractAppController
     /**
      * @Route("/cluster/settings", name="cluster_settings")
      */
-    public function settings(Request $request, ElasticsearchClusterManager $elasticsearchClusterManager): Response
+    public function settings(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTINGS', 'global');
 
@@ -84,18 +77,18 @@ class ClusterController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/cluster/cluster_read_settings.html.twig', [
             'cluster_settings' => $clusterSettings,
-            'cluster_settings_not_dynamic' => $elasticsearchClusterManager->getClusterSettingsNotDynamic(),
+            'cluster_settings_not_dynamic' => $this->elasticsearchClusterManager->getClusterSettingsNotDynamic(),
         ]);
     }
 
     /**
      * @Route("/cluster/settings/{type}/{setting}/edit", name="cluster_settings_edit")
      */
-    public function edit(Request $request, string $type, string $setting, ElasticsearchClusterManager $elasticsearchClusterManager): Response
+    public function edit(Request $request, string $type, string $setting): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_EDIT', 'global');
 
-        $clusterSettings = $elasticsearchClusterManager->getClusterSettings();
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
         if (true == array_key_exists($setting, $clusterSettings)) {
             $clusterSettingModel = new ElasticsearchClusterSettingModel();

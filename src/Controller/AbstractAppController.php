@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Manager\CallManager;
+use App\Manager\ElasticsearchClusterManager;
 use App\Manager\PaginatorManager;
 use App\Model\CallRequestModel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,14 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
+    public function setClusterManager(ElasticsearchClusterManager $elasticsearchClusterManager)
+    {
+        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
+    }
+
+    /**
+     * @required
+     */
     public function setPaginatorManager(PaginatorManager $paginatorManager)
     {
         $this->paginatorManager = $paginatorManager;
@@ -29,19 +38,9 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/health');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterHealth = $callResponse->getContent();
+        $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
 
-        $parameters['cluster_health'] = $clusterHealth;
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/master');
-        $callResponse = $this->callManager->call($callRequest);
-        $master = $callResponse->getContent();
-
-        $parameters['master_node'] = $master[0]['node'] ?? false;
+        $parameters['master_node'] = $this->callManager->getMasterNode();
 
         $parameters['root'] = $this->callManager->getRoot();
 

@@ -6,7 +6,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\ReloadSecureSettingsType;
 use App\Manager\ElasticsearchNodeManager;
-use App\Manager\ElasticsearchClusterManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReloadSecureSettingsModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,10 +20,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class NodeController extends AbstractAppController
 {
-    public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager, ElasticsearchClusterManager $elasticsearchClusterManager)
+    public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
-        $this->elasticsearchClusterManager = $elasticsearchClusterManager;
     }
 
     /**
