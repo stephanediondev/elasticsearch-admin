@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class TaskController extends AbstractAppController
+class ElasticsearchTaskController extends AbstractAppController
 {
     /**
      * @Route("/tasks", name="tasks")

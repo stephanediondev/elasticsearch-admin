@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * @Route("/admin")
  */
-class LicenseController extends AbstractAppController
+class ElasticsearchLicenseController extends AbstractAppController
 {
     /**
      * @Route("/license", name="license")

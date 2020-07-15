@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * @Route("/admin")
  */
-class IlmController extends AbstractAppController
+class ElasticsearchIlmController extends AbstractAppController
 {
     public function __construct(ElasticsearchIlmPolicyManager $elasticsearchIlmPolicyManager, ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager)
     {

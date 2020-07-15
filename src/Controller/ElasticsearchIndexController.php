@@ -30,7 +30,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * @Route("/admin")
  */
-class IndexController extends AbstractAppController
+class ElasticsearchIndexController extends AbstractAppController
 {
     public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
     {

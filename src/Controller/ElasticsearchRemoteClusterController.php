@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class RemoteClusterController extends AbstractAppController
+class ElasticsearchRemoteClusterController extends AbstractAppController
 {
     /**
      * @Route("/remote-clusters", name="remote_clusters")

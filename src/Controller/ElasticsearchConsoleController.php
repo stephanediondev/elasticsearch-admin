@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class ConsoleController extends AbstractAppController
+class ElasticsearchConsoleController extends AbstractAppController
 {
     /**
      * @Route("/console", name="console")

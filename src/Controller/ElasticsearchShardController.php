@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class ShardController extends AbstractAppController
+class ElasticsearchShardController extends AbstractAppController
 {
     /**
      * @Route("/shards", name="shards")

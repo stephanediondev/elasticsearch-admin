@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * @Route("/admin")
  */
-class NodeController extends AbstractAppController
+class ElasticsearchNodeController extends AbstractAppController
 {
     public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
     {

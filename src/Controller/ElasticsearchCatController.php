@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 /**
  * @Route("/admin")
  */
-class CatController extends AbstractAppController
+class ElasticsearchCatController extends AbstractAppController
 {
     /**
      * @Route("/cat", name="cat")

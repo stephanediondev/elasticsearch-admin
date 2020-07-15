@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class DeprecationController extends AbstractAppController
+class ElasticsearchDeprecationController extends AbstractAppController
 {
     /**
      * @Route("/deprecations", name="deprecations")

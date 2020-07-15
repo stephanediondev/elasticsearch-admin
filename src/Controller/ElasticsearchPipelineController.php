@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @Route("/admin")
  */
-class PipelineController extends AbstractAppController
+class ElasticsearchPipelineController extends AbstractAppController
 {
     public function __construct(ElasticsearchPipelineManager $elasticsearchPipelineManager)
     {
