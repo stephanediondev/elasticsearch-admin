@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateIndexTemplateLegacyType;
+use App\Form\ElasticsearchIndexTemplateLegacyType;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,7 +68,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         if (false == $template) {
             $template = new ElasticsearchIndexTemplateLegacyModel();
         }
-        $form = $this->createForm(CreateIndexTemplateLegacyType::class, $template);
+        $form = $this->createForm(ElasticsearchIndexTemplateLegacyType::class, $template);
 
         $form->handleRequest($request);
 
@@ -156,7 +156,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_TEMPLATE_LEGACY_UPDATE', $template);
 
-        $form = $this->createForm(CreateIndexTemplateLegacyType::class, $template, ['context' => 'update']);
+        $form = $this->createForm(ElasticsearchIndexTemplateLegacyType::class, $template, ['context' => 'update']);
 
         $form->handleRequest($request);
 

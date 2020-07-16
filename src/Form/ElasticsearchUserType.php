@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateElasticsearchUserType extends AbstractType
+class ElasticsearchUserType extends AbstractType
 {
     public function __construct(ElasticsearchUserManager $elasticsearchUserManager, TranslatorInterface $translator)
     {

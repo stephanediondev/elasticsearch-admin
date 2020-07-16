@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateSlmPolicyType;
+use App\Form\ElasticsearchSlmPolicyType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Manager\ElasticsearchRepositoryManager;
@@ -162,7 +162,7 @@ class ElasticsearchSlmController extends AbstractAppController
         if ($request->query->get('index')) {
             $policy->setIndices([$request->query->get('index')]);
         }
-        $form = $this->createForm(CreateSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(ElasticsearchSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 
@@ -269,7 +269,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
         $indices = $this->elasticsearchIndexManager->selectIndices();
 
-        $form = $this->createForm(CreateSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices, 'context' => 'update']);
+        $form = $this->createForm(ElasticsearchSlmPolicyType::class, $policy, ['repositories' => $repositories, 'indices' => $indices, 'context' => 'update']);
 
         $form->handleRequest($request);
 

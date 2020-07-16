@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Manager\ElasticsearchIndexTemplateManager;
+use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\CallRequestModel;
-use App\Model\ElasticsearchIndexTemplateModel;
+use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,11 +21,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateIndexTemplateType extends AbstractType
+class ElasticsearchIndexTemplateLegacyType extends AbstractType
 {
-    public function __construct(ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager, TranslatorInterface $translator)
+    public function __construct(ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager, TranslatorInterface $translator)
     {
-        $this->elasticsearchIndexTemplateManager = $elasticsearchIndexTemplateManager;
+        $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;
         $this->translator = $translator;
     }
 
@@ -38,8 +38,7 @@ class CreateIndexTemplateType extends AbstractType
         }
         $fields[] = 'index_patterns';
         $fields[] = 'version';
-        $fields[] = 'priority';
-        $fields[] = 'composed_of';
+        $fields[] = 'order';
         $fields[] = 'settings';
         $fields[] = 'mappings';
         $fields[] = 'aliases';
@@ -82,28 +81,14 @@ class CreateIndexTemplateType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'priority':
-                    $builder->add('priority', IntegerType::class, [
-                        'label' => 'priority',
-                        'required' => false,
-                        'help' => 'help_form.index_template.priority',
-                        'help_html' => true,
-                    ]);
-                    break;
-                case 'composed_of':
-                    $builder->add('composed_of', ChoiceType::class, [
-                        'multiple' => true,
-                        'choices' => $options['component_templates'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['component_templates'][$key];
-                        },
-                        'choice_translation_domain' => false,
-                        'label' => 'composed_of',
+                case 'order':
+                    $builder->add('order', IntegerType::class, [
+                        'label' => 'order',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
-                        'help' => 'help_form.index_template.composed_of',
+                        'help' => 'help_form.index_template.order',
                         'help_html' => true,
                     ]);
                     break;
@@ -173,7 +158,7 @@ class CreateIndexTemplateType extends AbstractType
 
             if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
-                    $template = $this->elasticsearchIndexTemplateManager->getByName($form->get('name')->getData());
+                    $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($form->get('name')->getData());
 
                     if ($template) {
                         $form->get('name')->addError(new FormError(
@@ -206,8 +191,7 @@ class CreateIndexTemplateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ElasticsearchIndexTemplateModel::class,
-            'component_templates' => [],
+            'data_class' => ElasticsearchIndexTemplateLegacyModel::class,
             'context' => 'create',
         ]);
     }

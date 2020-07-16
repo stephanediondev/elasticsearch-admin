@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateIndexType extends AbstractType
+class ElasticsearchIndexType extends AbstractType
 {
     public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, TranslatorInterface $translator)
     {

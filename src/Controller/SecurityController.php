@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateAppUserType;
+use App\Form\AppUserType;
 use App\Manager\CallManager;
 use App\Manager\AppUserManager;
 use App\Model\CallRequestModel;
@@ -77,7 +77,7 @@ class SecurityController extends AbstractAppController
         }
 
         $user = new AppUserModel();
-        $form = $this->createForm(CreateAppUserType::class, $user, ['context' => 'register']);
+        $form = $this->createForm(AppUserType::class, $user, ['context' => 'register']);
 
         $form->handleRequest($request);
 

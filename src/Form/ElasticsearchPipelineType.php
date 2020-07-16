@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreatePipelineType extends AbstractType
+class ElasticsearchPipelineType extends AbstractType
 {
     public function __construct(ElasticsearchPipelineManager $elasticsearchPipelineManager, TranslatorInterface $translator)
     {

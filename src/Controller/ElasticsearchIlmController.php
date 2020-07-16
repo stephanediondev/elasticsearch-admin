@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateIlmPolicyType;
+use App\Form\ElasticsearchIlmPolicyType;
 use App\Form\ApplyIlmPolicyType;
 use App\Manager\ElasticsearchIlmPolicyManager;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
@@ -136,7 +136,7 @@ class ElasticsearchIlmController extends AbstractAppController
         if (false == $policy) {
             $policy = new ElasticsearchIlmPolicyModel();
         }
-        $form = $this->createForm(CreateIlmPolicyType::class, $policy);
+        $form = $this->createForm(ElasticsearchIlmPolicyType::class, $policy);
 
         $form->handleRequest($request);
 
@@ -196,7 +196,7 @@ class ElasticsearchIlmController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('ILM_POLICY_UPDATE', $policy);
 
-        $form = $this->createForm(CreateIlmPolicyType::class, $policy, ['context' => 'update']);
+        $form = $this->createForm(ElasticsearchIlmPolicyType::class, $policy, ['context' => 'update']);
 
         $form->handleRequest($request);
 

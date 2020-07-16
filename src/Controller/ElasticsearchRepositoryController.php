@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateRepositoryType;
+use App\Form\ElasticsearchRepositoryType;
 use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
@@ -65,7 +65,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
 
         $repository = new ElasticsearchRepositoryModel();
         $repository->setType($type);
-        $form = $this->createForm(CreateRepositoryType::class, $repository, ['type' => $type, 'paths' => $paths]);
+        $form = $this->createForm(ElasticsearchRepositoryType::class, $repository, ['type' => $type, 'paths' => $paths]);
 
         $form->handleRequest($request);
 
@@ -121,7 +121,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
         $paths = $clusterSettings['path.repo'] ?? [];
 
-        $form = $this->createForm(CreateRepositoryType::class, $repository, ['type' => $repository->getType(), 'paths' => $paths, 'context' => 'update']);
+        $form = $this->createForm(ElasticsearchRepositoryType::class, $repository, ['type' => $repository->getType(), 'paths' => $paths, 'context' => 'update']);
 
         $form->handleRequest($request);
 

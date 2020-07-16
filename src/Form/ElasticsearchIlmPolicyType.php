@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateIlmPolicyType extends AbstractType
+class ElasticsearchIlmPolicyType extends AbstractType
 {
     public function __construct(ElasticsearchIlmPolicyManager $elasticsearchIlmPolicyManager, TranslatorInterface $translator)
     {

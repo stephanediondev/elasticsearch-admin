@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateIndexTemplateType;
+use App\Form\ElasticsearchIndexTemplateType;
 use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Manager\ElasticsearchIndexTemplateManager;
 use App\Model\ElasticsearchIndexTemplateModel;
@@ -85,7 +85,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         if (false == $template) {
             $template = new ElasticsearchIndexTemplateModel();
         }
-        $form = $this->createForm(CreateIndexTemplateType::class, $template, ['component_templates' => $componentTemplates]);
+        $form = $this->createForm(ElasticsearchIndexTemplateType::class, $template, ['component_templates' => $componentTemplates]);
 
         $form->handleRequest($request);
 
@@ -196,7 +196,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
             $componentTemplates[] = $row->getName();
         }
 
-        $form = $this->createForm(CreateIndexTemplateType::class, $template, ['component_templates' => $componentTemplates, 'context' => 'update']);
+        $form = $this->createForm(ElasticsearchIndexTemplateType::class, $template, ['component_templates' => $componentTemplates, 'context' => 'update']);
 
         $form->handleRequest($request);
 

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateAppUserType;
+use App\Form\AppUserType;
 use App\Manager\AppUserManager;
 use App\Manager\AppRoleManager;
 use App\Model\CallRequestModel;
@@ -59,7 +59,7 @@ class AppUserController extends AbstractAppController
         $roles = $this->appRoleManager->selectRoles();
 
         $user = new AppUserModel();
-        $form = $this->createForm(CreateAppUserType::class, $user, ['roles' => $roles]);
+        $form = $this->createForm(AppUserType::class, $user, ['roles' => $roles]);
 
         $form->handleRequest($request);
 
@@ -115,7 +115,7 @@ class AppUserController extends AbstractAppController
 
         $roles = $this->appRoleManager->selectRoles();
 
-        $form = $this->createForm(CreateAppUserType::class, $user, ['roles' => $roles, 'context' => 'update']);
+        $form = $this->createForm(AppUserType::class, $user, ['roles' => $roles, 'context' => 'update']);
 
         $form->handleRequest($request);
 

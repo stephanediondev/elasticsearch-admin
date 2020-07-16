@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateRepositoryType extends AbstractType
+class ElasticsearchRepositoryType extends AbstractType
 {
     public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager, TranslatorInterface $translator)
     {

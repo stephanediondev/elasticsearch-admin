@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateComponentTemplateType;
+use App\Form\ElasticsearchComponentTemplateType;
 use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Model\ElasticsearchComponentTemplateModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -76,7 +76,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         if (false == $template) {
             $template = new ElasticsearchComponentTemplateModel();
         }
-        $form = $this->createForm(CreateComponentTemplateType::class, $template);
+        $form = $this->createForm(ElasticsearchComponentTemplateType::class, $template);
 
         $form->handleRequest($request);
 
@@ -180,7 +180,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATE_UPDATE', $template);
 
-        $form = $this->createForm(CreateComponentTemplateType::class, $template, ['context' => 'update']);
+        $form = $this->createForm(ElasticsearchComponentTemplateType::class, $template, ['context' => 'update']);
 
         $form->handleRequest($request);
 

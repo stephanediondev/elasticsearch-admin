@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateSnapshotType;
+use App\Form\ElasticsearchSnapshotType;
 use App\Form\RestoreSnapshotType;
 use App\Manager\ElasticsearchSnapshotManager;
 use App\Manager\ElasticsearchIndexManager;
@@ -71,7 +71,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         if ($request->query->get('index')) {
             $snapshot->setIndices([$request->query->get('index')]);
         }
-        $form = $this->createForm(CreateSnapshotType::class, $snapshot, ['repositories' => $repositories, 'indices' => $indices]);
+        $form = $this->createForm(ElasticsearchSnapshotType::class, $snapshot, ['repositories' => $repositories, 'indices' => $indices]);
 
         $form->handleRequest($request);
 

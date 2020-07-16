@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateElasticsearchRoleType extends AbstractType
+class ElasticsearchRoleType extends AbstractType
 {
     public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, TranslatorInterface $translator)
     {

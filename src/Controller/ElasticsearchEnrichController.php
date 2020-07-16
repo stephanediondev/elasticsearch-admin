@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateEnrichPolicyType;
+use App\Form\ElasticsearchEnrichPolicyType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchEnrichPolicyManager;
 use App\Manager\ElasticsearchNodeManager;
@@ -104,7 +104,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         if (false == $policy) {
             $policy = new ElasticsearchEnrichPolicyModel();
         }
-        $form = $this->createForm(CreateEnrichPolicyType::class, $policy, ['indices' => $indices]);
+        $form = $this->createForm(ElasticsearchEnrichPolicyType::class, $policy, ['indices' => $indices]);
 
         $form->handleRequest($request);
 

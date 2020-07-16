@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateAppRoleType;
+use App\Form\AppRoleType;
 use App\Manager\AppRoleManager;
 use App\Model\AppRoleModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,7 +68,7 @@ class AppRoleController extends AbstractAppController
         if (false == $role) {
             $role = new AppRoleModel();
         }
-        $form = $this->createForm(CreateAppRoleType::class, $role);
+        $form = $this->createForm(AppRoleType::class, $role);
 
         $form->handleRequest($request);
 
@@ -120,7 +120,7 @@ class AppRoleController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('APP_ROLE_UPDATE', $role);
 
-        $form = $this->createForm(CreateAppRoleType::class, $role, ['context' => 'update']);
+        $form = $this->createForm(AppRoleType::class, $role, ['context' => 'update']);
 
         $form->handleRequest($request);
 

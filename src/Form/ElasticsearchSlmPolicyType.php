@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateSlmPolicyType extends AbstractType
+class ElasticsearchSlmPolicyType extends AbstractType
 {
     public function __construct(ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, TranslatorInterface $translator)
     {

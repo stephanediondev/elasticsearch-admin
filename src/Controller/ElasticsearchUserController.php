@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateElasticsearchUserType;
+use App\Form\ElasticsearchUserType;
 use App\Manager\ElasticsearchUserManager;
 use App\Manager\ElasticsearchRoleManager;
 use App\Model\CallRequestModel;
@@ -65,7 +65,7 @@ class ElasticsearchUserController extends AbstractAppController
         $roles = $this->elasticsearchRoleManager->selectRoles();
 
         $user = new ElasticsearchUserModel();
-        $form = $this->createForm(CreateElasticsearchUserType::class, $user, ['roles' => $roles]);
+        $form = $this->createForm(ElasticsearchUserType::class, $user, ['roles' => $roles]);
 
         $form->handleRequest($request);
 
@@ -141,7 +141,7 @@ class ElasticsearchUserController extends AbstractAppController
 
         $roles = $this->elasticsearchRoleManager->selectRoles();
 
-        $form = $this->createForm(CreateElasticsearchUserType::class, $user, ['roles' => $roles, 'context' => 'update']);
+        $form = $this->createForm(ElasticsearchUserType::class, $user, ['roles' => $roles, 'context' => 'update']);
 
         $form->handleRequest($request);
 

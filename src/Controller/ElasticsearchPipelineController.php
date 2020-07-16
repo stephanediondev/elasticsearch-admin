@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreatePipelineType;
+use App\Form\ElasticsearchPipelineType;
 use App\Manager\ElasticsearchPipelineManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchPipelineModel;
@@ -68,7 +68,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         if (false == $pipeline) {
             $pipeline = new ElasticsearchPipelineModel();
         }
-        $form = $this->createForm(CreatePipelineType::class, $pipeline);
+        $form = $this->createForm(ElasticsearchPipelineType::class, $pipeline);
 
         $form->handleRequest($request);
 
@@ -120,7 +120,7 @@ class ElasticsearchPipelineController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('PIPELINE_UPDATE', $pipeline);
 
-        $form = $this->createForm(CreatePipelineType::class, $pipeline, ['context' => 'update']);
+        $form = $this->createForm(ElasticsearchPipelineType::class, $pipeline, ['context' => 'update']);
 
         $form->handleRequest($request);
 

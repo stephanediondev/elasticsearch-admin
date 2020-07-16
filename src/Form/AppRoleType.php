@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateAppRoleType extends AbstractType
+class AppRoleType extends AbstractType
 {
     public function __construct(AppRoleManager $appRoleManager, TranslatorInterface $translator)
     {

@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CreateEnrichPolicyType extends AbstractType
+class ElasticsearchEnrichPolicyType extends AbstractType
 {
     public function __construct(ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager, CallManager $callManager, TranslatorInterface $translator)
     {
