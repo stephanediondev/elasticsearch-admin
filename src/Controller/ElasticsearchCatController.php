@@ -7,6 +7,7 @@ use App\Exception\CallException;
 use App\Form\ElasticsearchCatType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
+use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchCatModel;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
@@ -20,21 +21,29 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class ElasticsearchCatController extends AbstractAppController
 {
+    public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
+    {
+        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+    }
+
     /**
      * @Route("/cat", name="cat")
      */
-    public function index(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): Response
+    public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CAT', 'global');
 
         $parameters = [];
 
-        $repositories = $elasticsearchRepositoryManager->selectRepositories();
-        $indices = $elasticsearchIndexManager->selectIndices();
-        $aliases = $elasticsearchIndexManager->selectAliases();
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
+        $aliases = $this->elasticsearchIndexManager->selectAliases();
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         $catModel = new ElasticsearchCatModel();
-        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
+        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases, 'nodes' => $nodes]);
 
         $form->handleRequest($request);
 
@@ -76,7 +85,7 @@ class ElasticsearchCatController extends AbstractAppController
     /**
      * @Route("/cat/export", name="cat_export")
      */
-    public function export(Request $request, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager): StreamedResponse
+    public function export(Request $request): StreamedResponse
     {
         $this->denyAccessUnlessGranted('CAT_EXPORT', 'global');
 
@@ -103,12 +112,13 @@ class ElasticsearchCatController extends AbstractAppController
                 throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
         }
 
-        $repositories = $elasticsearchRepositoryManager->selectRepositories();
-        $indices = $elasticsearchIndexManager->selectIndices();
-        $aliases = $elasticsearchIndexManager->selectAliases();
+        $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
+        $indices = $this->elasticsearchIndexManager->selectIndices();
+        $aliases = $this->elasticsearchIndexManager->selectAliases();
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         $catModel = new ElasticsearchCatModel();
-        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
+        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases, 'nodes' => $nodes]);
 
         $form->handleRequest($request);
 

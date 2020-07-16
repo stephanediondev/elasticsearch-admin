@@ -15,33 +15,44 @@ class ElasticsearchCatType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $commands = [
-            'allocation',
-            'shards',
-            'shards/{index}',
-            'master',
-            'nodes',
-            'tasks',
-            'indices',
-            'indices/{index}',
-            'segments',
-            'segments/{index}',
-            'count',
-            'count/{index}',
-            'recovery',
-            'recovery/{index}',
-            'health',
-            'pending_tasks',
             'aliases',
             'aliases/{alias}',
-            'thread_pool',
-            //'thread_pool/{thread_pools}',
-            'plugins',
+            'allocation',
+            'allocation/{node}',
+            'ml/anomaly_detectors',
+            //'ml/anomaly_detectors/{job_id}',
+            'count',
+            'count/{index}',
+            'ml/data_frame/analytics',
+            //'ml/data_frame/analytics/{data_frame_analytics_id}',
+            'ml/datafeeds',
+            //'ml/datafeeds/{feed_id}',
             'fielddata',
-            //'fielddata/{fields}',
+            //'fielddata/{field}',
+            'health',
+            'indices',
+            'indices/{index}',
+            'master',
             'nodeattrs',
+            'nodes',
+            'pending_tasks',
+            'plugins',
+            'recovery',
+            'recovery/{index}',
             'repositories',
+            'shards',
+            'shards/{index}',
+            'segments',
+            'segments/{index}',
             'snapshots/{repository}',
+            'tasks',
             'templates',
+            //'templates/{template_name}',
+            'thread_pool',
+            //'thread_pool/{thread_pool}
+            'ml/trained_models',
+            'transforms',
+            //'transforms/{transform_id},'
         ];
         sort($commands);
 
@@ -51,6 +62,7 @@ class ElasticsearchCatType extends AbstractType
         $fields[] = 'index';
         $fields[] = 'repository';
         $fields[] = 'alias';
+        $fields[] = 'node';
         $fields[] = 'headers';
         $fields[] = 'sort';
 
@@ -107,6 +119,18 @@ class ElasticsearchCatType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'alias',
                         'required' => false,
+                    ]);
+                    break;
+                case 'node':
+                    $builder->add('node', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['nodes'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['nodes'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'node',
+                        'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
@@ -135,6 +159,7 @@ class ElasticsearchCatType extends AbstractType
             'repositories' => [],
             'indices' => [],
             'aliases' => [],
+            'nodes' => [],
         ]);
     }
 

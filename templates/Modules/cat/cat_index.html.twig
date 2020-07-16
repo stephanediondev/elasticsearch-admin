@@ -114,6 +114,12 @@
             } else {
                 disable('#data_alias');
             }
+
+            if (command.indexOf('{node}') != -1) {
+                enable('#data_node');
+            } else {
+                disable('#data_node');
+            }
         }
 
         function enable(id) {

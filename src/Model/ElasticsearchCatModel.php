@@ -14,6 +14,8 @@ class ElasticsearchCatModel extends AbstractAppModel
 
     private $alias;
 
+    private $node;
+
     private $headers;
 
     private $sort;
@@ -66,6 +68,18 @@ class ElasticsearchCatModel extends AbstractAppModel
         return $this;
     }
 
+    public function getNode(): ?string
+    {
+        return $this->node;
+    }
+
+    public function setNode(?string $node): self
+    {
+        $this->node = $node;
+
+        return $this;
+    }
+
     public function getHeaders(): ?string
     {
         return $this->headers;
@@ -106,6 +120,10 @@ class ElasticsearchCatModel extends AbstractAppModel
             $command = str_replace('{alias}', $this->alias, $command);
         }
 
+        if (strstr($this->command, '{node}')) {
+            $command = str_replace('{node}', $this->node, $command);
+        }
+
         return $command;
     }
 
@@ -113,7 +131,7 @@ class ElasticsearchCatModel extends AbstractAppModel
     {
         $command = $this->command;
 
-        if (strstr($this->command, '/')) {
+        if (strstr($this->command, '{') && strstr($this->command, '/')) {
             $command = substr($command, 0, strpos($command, '/'));
         }
 
