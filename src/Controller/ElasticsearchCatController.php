@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\FilterCatType;
+use App\Form\ElasticsearchCatType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
@@ -34,7 +34,7 @@ class ElasticsearchCatController extends AbstractAppController
         $aliases = $elasticsearchIndexManager->selectAliases();
 
         $catModel = new ElasticsearchCatModel();
-        $form = $this->createForm(FilterCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
+        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
 
         $form->handleRequest($request);
 
@@ -108,7 +108,7 @@ class ElasticsearchCatController extends AbstractAppController
         $aliases = $elasticsearchIndexManager->selectAliases();
 
         $catModel = new ElasticsearchCatModel();
-        $form = $this->createForm(FilterCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
+        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases]);
 
         $form->handleRequest($request);
 

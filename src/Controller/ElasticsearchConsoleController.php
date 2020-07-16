@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ConsoleType;
+use App\Form\ElasticsearchConsoleType;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +37,7 @@ class ElasticsearchConsoleController extends AbstractAppController
         $methods[] = 'OPTIONS';
 
         $callRequest = new CallRequestModel();
-        $form = $this->createForm(ConsoleType::class, $callRequest, ['methods' => $methods]);
+        $form = $this->createForm(ElasticsearchConsoleType::class, $callRequest, ['methods' => $methods]);
 
         $form->handleRequest($request);
 
