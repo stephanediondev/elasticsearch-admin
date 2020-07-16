@@ -146,4 +146,29 @@ class AppRoleManager extends AbstractAppManager
 
         return $roles;
     }
+
+    public function getSettings(): array
+    {
+        return [
+            'index' => [
+                'number_of_shards' => 1,
+                'auto_expand_replicas' => '0-1',
+            ],
+        ];
+    }
+
+    public function getMappings(): array
+    {
+        return [
+            'properties' => [
+                'name' => [
+                    'type' => 'keyword',
+                ],
+                'created_at' => [
+                    'type' => 'date',
+                    'format' => 'yyyy-MM-dd HH:mm:ss',
+                ],
+            ],
+        ];
+    }
 }

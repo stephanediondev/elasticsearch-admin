@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class SlmControllerTest extends AbstractAppControllerTest
+class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/slm", name="slm")

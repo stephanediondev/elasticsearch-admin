@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class RemoteClusterControllerTest extends AbstractAppControllerTest
+class ElasticsearchRemoteClusterControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/remote-clusters", name="remote_clusters")

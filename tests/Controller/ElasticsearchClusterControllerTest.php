@@ -7,7 +7,7 @@ use App\Model\CallRequestModel;
 /**
  * @Route("/admin")
  */
-class ClusterControllerTest extends AbstractAppControllerTest
+class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/cluster", name="cluster")

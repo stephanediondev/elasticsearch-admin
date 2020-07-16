@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class ShardControllerTest extends AbstractAppControllerTest
+class ElasticsearchShardControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/shards", name="shards")

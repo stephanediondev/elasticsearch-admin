@@ -7,7 +7,7 @@ use App\Model\CallRequestModel;
 /**
  * @Route("/admin")
  */
-class NodeControllerTest extends AbstractAppControllerTest
+class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/nodes", name="nodes")

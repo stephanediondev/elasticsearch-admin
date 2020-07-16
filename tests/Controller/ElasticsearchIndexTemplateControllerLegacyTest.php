@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class IndexTemplateControllerLegacyTest extends AbstractAppControllerTest
+class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/index-templates-legacy", name="index_templates_legacy")

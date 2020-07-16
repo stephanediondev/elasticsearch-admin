@@ -5,41 +5,41 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class IndexTemplateControllerTest extends AbstractAppControllerTest
+class ElasticsearchComponentTemplateControllerTest extends AbstractAppControllerTest
 {
     /**
-     * @Route("/index-templates", name="index_templates")
+     * @Route("/component-templates", name="component_templates")
      */
-    public function testIndex()
+    public function testComponent()
     {
-        $this->client->request('GET', '/admin/index-templates');
+        $this->client->request('GET', '/admin/component-templates');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Index templates');
+            $this->assertPageTitleSame('Component templates');
         }
     }
 
     /**
-     * @Route("/index-templates/create", name="index_templates_create")
+     * @Route("/component-templates/create", name="component_templates_create")
      */
     public function testCreate()
     {
-        $this->client->request('GET', '/admin/index-templates/create');
+        $this->client->request('GET', '/admin/component-templates/create');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Index templates - Create index template');
+            $this->assertPageTitleSame('Component templates - Create component template');
         }
     }
 
     public function testCreateCopy404()
     {
-        $this->client->request('GET', '/admin/index-templates/create?template='.uniqid());
+        $this->client->request('GET', '/admin/component-templates/create?template='.uniqid());
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
@@ -50,22 +50,22 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testCreateCopy()
     {
-        $this->client->request('GET', '/admin/index-templates/create?template=elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/component-templates/create?template=elasticsearch-admin-test');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Index templates - Create index template');
+            $this->assertPageTitleSame('Component templates - Create component template');
         }
     }
 
     /**
-     * @Route("/index-templates/{name}", name="index_templates_read")
+     * @Route("/component-templates/{name}", name="component_templates_read")
      */
     public function testRead404()
     {
-        $this->client->request('GET', '/admin/index-templates/'.uniqid());
+        $this->client->request('GET', '/admin/component-templates/'.uniqid());
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
@@ -76,22 +76,22 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Index templates - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test');
         }
     }
 
     /**
-     * @Route("/index-templates/{name}/update", name="index_templates_update")
+     * @Route("/component-templates/{name}/update", name="component_templates_update")
      */
     public function testUpdate404()
     {
-        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/update');
+        $this->client->request('GET', '/admin/component-templates/'.uniqid().'/update');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
@@ -102,7 +102,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testUpdate403()
     {
-        $this->client->request('GET', '/admin/index-templates/.elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/component-templates/.elasticsearch-admin-test/update');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
@@ -113,22 +113,22 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/update');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Index templates - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Update');
         }
     }
 
     /**
-     * @Route("/index-templates/{name}/settings", name="index_templates_read_settings")
+     * @Route("/component-templates/{name}/settings", name="component_templates_read_settings")
      */
     public function testSettings404()
     {
-        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/settings');
+        $this->client->request('GET', '/admin/component-templates/'.uniqid().'/settings');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
@@ -139,22 +139,22 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testSettings()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/settings');
+        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/settings');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Index templates - elasticsearch-admin-test - Settings');
+            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Settings');
         }
     }
 
     /**
-     * @Route("/index-templates/{name}/mappings", name="index_templates_read_mappings")
+     * @Route("/component-templates/{name}/mappings", name="component_templates_read_mappings")
      */
     public function testMappings404()
     {
-        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/mappings');
+        $this->client->request('GET', '/admin/component-templates/'.uniqid().'/mappings');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
@@ -165,22 +165,22 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testMappings()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/mappings');
+        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/mappings');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Index templates - elasticsearch-admin-test - Mappings');
+            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Mappings');
         }
     }
 
     /**
-     * @Route("/index-templates/{name}/delete", name="index_templates_delete")
+     * @Route("/component-templates/{name}/delete", name="component_templates_delete")
      */
     public function testDelete404()
     {
-        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/delete');
+        $this->client->request('GET', '/admin/component-templates/'.uniqid().'/delete');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
@@ -191,7 +191,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testDelete403()
     {
-        $this->client->request('GET', '/admin/index-templates/.elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/component-templates/.elasticsearch-admin-test/delete');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);
@@ -202,7 +202,7 @@ class IndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/delete');
 
         if (false == $this->callManager->checkVersion('7.8')) {
             $this->assertResponseStatusCodeSame(403);

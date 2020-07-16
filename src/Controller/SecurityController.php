@@ -84,31 +84,10 @@ class SecurityController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $json = [
-                    'settings' => [
-                        'index' => [
-                            'number_of_shards' => 1,
-                            'auto_expand_replicas' => '0-1',
-                        ],
-                    ]
+                    'settings' => $this->appUserManager->getSettings(),
                 ];
                 if (true == $this->callManager->checkVersion('7.0')) {
-                    $json['mappings'] = [
-                        'properties' => [
-                            'email' => [
-                                'type' => 'keyword',
-                            ],
-                            'password' => [
-                                'type' => 'keyword',
-                            ],
-                            'roles' => [
-                                'type' => 'keyword',
-                            ],
-                            'created_at' => [
-                                'type' => 'date',
-                                'format' => 'yyyy-MM-dd HH:mm:ss',
-                            ],
-                        ],
-                    ];
+                    $json['mappings'] = $this->appUserManager->getMappings();
                 }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');

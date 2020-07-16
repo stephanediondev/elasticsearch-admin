@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class IndexControllerTest extends AbstractAppControllerTest
+class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/indices", name="indices")

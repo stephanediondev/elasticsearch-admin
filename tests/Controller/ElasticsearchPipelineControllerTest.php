@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class PipelineControllerTest extends AbstractAppControllerTest
+class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/pipelines", name="pipelines")

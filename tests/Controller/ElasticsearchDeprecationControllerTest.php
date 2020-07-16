@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class DeprecationControllerTest extends AbstractAppControllerTest
+class ElasticsearchDeprecationControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/deprecations", name="deprecations")

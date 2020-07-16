@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class LicenseControllerTest extends AbstractAppControllerTest
+class ElasticsearchLicenseControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/license", name="license")
