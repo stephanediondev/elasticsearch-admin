@@ -67,6 +67,7 @@ cp .env.dist .env
 
 ## Todo
 
+- [ ] Shards: read, segments, cluster reroute (move, allocate replica, cancel)
 - [ ] App users: list, create, read, update, delete
 - [ ] App roles (with permissions): list, create, read, update, delete
 - [ ] Indices: shrink, split, clone, import from database
