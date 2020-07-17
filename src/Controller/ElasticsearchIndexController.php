@@ -11,6 +11,7 @@ use App\Form\ImportIndexType;
 use App\Form\ReindexType;
 use App\Form\SearchIndexType;
 use App\Manager\ElasticsearchIndexManager;
+use App\Manager\ElasticsearchShardManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexModel;
 use App\Model\ElasticsearchIndexAliasModel;
@@ -32,9 +33,10 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ElasticsearchIndexController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchShardManager $elasticsearchShardManager)
     {
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+        $this->elasticsearchShardManager = $elasticsearchShardManager;
     }
 
     /**
@@ -888,11 +890,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_SHARDS', $index);
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/shards/'.$index->getName());
-        $callRequest->setQuery(['bytes' => 'b', 's' => $request->query->get('s', 'shard:asc,prirep:asc'), 'h' => 'shard,prirep,state,unassigned.reason,docs,store,node']);
-        $callResponse = $this->callManager->call($callRequest);
-        $shards = $callResponse->getContent();
+        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'), $index->getName());
 
         return $this->renderAbstract($request, 'Modules/index/index_read_shards.html.twig', [
             'index' => $index,

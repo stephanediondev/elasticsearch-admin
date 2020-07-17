@@ -16,7 +16,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
         if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Elasticsearch users');
+            $this->assertPageTitleSame('Users (Elasticsearch)');
         } else {
             $this->assertResponseStatusCodeSame(403);
         }
@@ -31,7 +31,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
         if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Elasticsearch users - Create user');
+            $this->assertPageTitleSame('Users (Elasticsearch) - Create user');
         } else {
             $this->assertResponseStatusCodeSame(403);
         }
@@ -57,7 +57,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
         if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Elasticsearch users - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Users (Elasticsearch) - elasticsearch-admin-test');
         } else {
             $this->assertResponseStatusCodeSame(403);
         }
@@ -94,7 +94,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
         if (true == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Elasticsearch users - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Users (Elasticsearch) - elasticsearch-admin-test - Update');
         } else {
             $this->assertResponseStatusCodeSame(403);
         }

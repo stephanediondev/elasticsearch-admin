@@ -68,7 +68,7 @@
             <p>
                 <strong>{{ 'repository'|trans }}</strong><br>
                 {% if is_granted('REPOSITORIES', 'global') %}
-                    <a href="{{ path('repositories_read', {'repository': policy.repository}) }}">{{ policy.repository }}</a>
+                    <a class="text-secondary" href="{{ path('repositories_read', {'repository': policy.repository}) }}">{{ policy.repository }}</a>
                 {% else %}
                     {{ policy.repository }}
                 {% endif %}

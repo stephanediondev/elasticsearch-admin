@@ -73,7 +73,7 @@
                         <p>
                             <strong>{{ 'elasticsearch_roles'|trans }}</strong><br>
                             {% for record in user.roles %}
-                                <a href="{{ path('elasticsearch_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                                <a class="text-secondary" href="{{ path('elasticsearch_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
                             {% endfor %}
                         </p>
                     {% endif %}

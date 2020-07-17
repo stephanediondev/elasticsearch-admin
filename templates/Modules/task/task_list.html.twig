@@ -67,7 +67,7 @@
                         {% if 'node' == column %}
                             <td>
                                 {% if is_granted('NODES', 'global') %}
-                                    <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
+                                    <a class="text-secondary" href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
                                 {% else %}
                                     {{ row['node'] }}
                                 {% endif %}

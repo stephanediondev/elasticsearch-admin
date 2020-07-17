@@ -39,7 +39,7 @@
                 <p>
                     <strong>{{ 'slm_policy'|trans }}</strong><br>
                     {% if is_granted('SLM_POLICIES', 'global') %}
-                        <a href="{{ path('slm_read', {'name': snapshot.metadata['policy']}) }}">{{ snapshot.metadata['policy'] }}</a>
+                        <a class="text-secondary" href="{{ path('slm_read', {'name': snapshot.metadata['policy']}) }}">{{ snapshot.metadata['policy'] }}</a>
                     {% else %}
                         {{ snapshot.metadata['policy'] }}
                     {% endif %}
@@ -49,7 +49,7 @@
             <p>
                 <strong>{{ 'repository'|trans }}</strong><br>
                 {% if is_granted('REPOSITORIES', 'global') %}
-                    <a href="{{ path('repositories_read', {'repository': snapshot.repository}) }}">{{ snapshot.repository }}</a>
+                    <a class="text-secondary" href="{{ path('repositories_read', {'repository': snapshot.repository}) }}">{{ snapshot.repository }}</a>
                 {% else %}
                     {{ snapshot.repository }}
                 {% endif %}

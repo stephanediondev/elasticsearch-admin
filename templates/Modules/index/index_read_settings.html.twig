@@ -64,7 +64,7 @@
                                             'href': path('indices_setting_remove', {'index': index.name, 'setting': key}),
                                         }) }}
 
-                                        <a href="{{ path('indices_setting_update', {'index': index.name, 'setting': key}) }}" class="btn btn-primary btn-sm">
+                                        <a class="btn btn-primary btn-sm" href="{{ path('indices_setting_update', {'index': index.name, 'setting': key}) }}">
                                             {{ ('update')|trans }}
                                         </a>
                                     {% endif %}

@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'repository': true, 'name': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration_in_millis': true, 'failures': true, 'version': true} %}
+    {% set columns = {'name': true, 'repository': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration_in_millis': true, 'failures': true, 'version': true} %}
 
     {% block thead %}
         <tr>
@@ -73,7 +73,7 @@
                         {% if 'repository' == column %}
                             <td>
                                 {% if is_granted('REPOSITORIES', 'global') %}
-                                    <a href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
+                                    <a class="text-secondary" href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
                                 {% else %}
                                     {{ row.repository }}
                                 {% endif %}
@@ -88,7 +88,7 @@
 
                         {% if 'indices' == column %}
                             <td>
-                                {{ row['indices']|join(', ') }}
+                                {{ row.indices|join(', ') }}
                             </td>
                         {% endif %}
 

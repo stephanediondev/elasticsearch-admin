@@ -25,7 +25,7 @@
                 <p>
                     <strong>{{ 'snapshot'|trans }}</strong><br>
                     {% if is_granted('SNAPSHOTS', 'global') %}
-                        <a href="{{ path('snapshots_read', {'repository': policy.repository, 'snapshot': policy.lastSuccess['snapshot_name']}) }}">{{ policy.lastSuccess['snapshot_name'] }}</a>
+                        <a class="text-secondary" href="{{ path('snapshots_read', {'repository': policy.repository, 'snapshot': policy.lastSuccess['snapshot_name']}) }}">{{ policy.lastSuccess['snapshot_name'] }}</a>
                     {% else %}
                         {{ policy.lastSuccess['snapshot_name'] }}
                     {% endif %}
@@ -48,7 +48,7 @@
                 <p>
                     <strong>{{ 'snapshot'|trans }}</strong><br>
                     {% if is_granted('SNAPSHOTS', 'global') %}
-                        <a href="{{ path('snapshots_read', {'repository': policy.repository, 'snapshot': policy.lastFailure['snapshot_name']}) }}">{{ policy.lastFailure['snapshot_name'] }}</a>
+                        <a class="text-secondary" href="{{ path('snapshots_read', {'repository': policy.repository, 'snapshot': policy.lastFailure['snapshot_name']}) }}">{{ policy.lastFailure['snapshot_name'] }}</a>
                     {% else %}
                         {{ policy.lastFailure['snapshot_name'] }}
                     {% endif %}

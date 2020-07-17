@@ -55,18 +55,18 @@
 
     {% block tbody %}
         {% for row in shards.rows %}
-            <tr class="state-{{ row['state'] }} primary-{% if 'p' == row['prirep'] %}true{% else %}false{% endif %}">
+            <tr class="state-{{ row.state }} primary-{% if row.isPrimary %}true{% else %}false{% endif %}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'shard' == column %}
                             <td>
-                                {{ row['shard'] }}
+                                {{ row.number }}
                             </td>
                         {% endif %}
 
                         {% if 'primary' == column %}
                             <td>
-                                {% if 'p' == row['prirep'] %}
+                                {% if row.isPrimary %}
                                     {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                 {% else %}
                                     {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
@@ -76,43 +76,43 @@
 
                         {% if 'state' == column %}
                             <td>
-                                {% if 'UNASSIGNED' == row['state'] %}
-                                    <a href="{{ path('cluster_allocation_explain') }}">{{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}</a>
+                                {% if 'UNASSIGNED' == row.state %}
+                                    <a href="{{ path('cluster_allocation_explain') }}">{{ appImport.badge({'title': row.state|trans, 'context': row.state}) }}</a>
                                 {% else %}
-                                    {{ appImport.badge({'title': row['state']|trans, 'context': row['state']}) }}
+                                    {{ appImport.badge({'title': row.state|trans, 'context': row.state}) }}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'unassigned_reason' == column %}
                             <td>
-                                {% if row['unassigned.reason'] %}
-                                    {{ appImport.badge({'title': row['unassigned.reason']|trans, 'context': 'danger'}) }}
+                                {% if row.unassignedReason %}
+                                    {{ appImport.badge({'title': row.unassignedReason|trans, 'context': 'danger'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'documents' == column %}
                             <td>
-                                {{ row['docs'] }}
+                                {{ row.documents }}
                             </td>
                         {% endif %}
 
                         {% if 'size' == column %}
                             <td>
-                                {{ row['store']|human_filesize }}
+                                {{ row.size|human_filesize }}
                             </td>
                         {% endif %}
 
                         {% if 'node' == column %}
                             <td>
-                                {% if row['node'] %}
-                                    {% if is_granted('NODES', 'global') and 'RELOCATING' != row['state'] %}
-                                        <a href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
+                                {% if row.node %}
+                                    {% if is_granted('NODES', 'global') and 'RELOCATING' != row.state %}
+                                        <a class="text-secondary" href="{{ path('nodes_read', {'node': row.node}) }}">{{ row.node }}</a>
                                     {% else %}
-                                        {{ row['node'] }}
+                                        {{ row.node }}
                                     {% endif %}
-                                    {% if master_node == row['node'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                    {% if master_node == row.node %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
                                 {% endif %}
                             </td>
                         {% endif %}
