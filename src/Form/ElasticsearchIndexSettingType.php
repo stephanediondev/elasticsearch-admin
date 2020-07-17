@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class CreateIndexSettingType extends AbstractType
+class ElasticsearchIndexSettingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

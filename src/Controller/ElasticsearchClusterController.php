@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\EditClusterSettingType;
+use App\Form\ElasticsearchClusterSettingType;
 use App\Model\ElasticsearchClusterSettingModel;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -95,7 +95,7 @@ class ElasticsearchClusterController extends AbstractAppController
             $clusterSettingModel->setType($type);
             $clusterSettingModel->setSetting($setting);
             $clusterSettingModel->setValue($clusterSettings[$setting]);
-            $form = $this->createForm(EditClusterSettingType::class, $clusterSettingModel);
+            $form = $this->createForm(ElasticsearchClusterSettingType::class, $clusterSettingModel);
 
             $form->handleRequest($request);
 

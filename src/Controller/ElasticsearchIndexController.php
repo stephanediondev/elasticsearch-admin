@@ -6,7 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\CreateAliasType;
 use App\Form\ElasticsearchIndexType;
-use App\Form\CreateIndexSettingType;
+use App\Form\ElasticsearchIndexSettingType;
 use App\Form\ImportIndexType;
 use App\Form\ReindexType;
 use App\Form\ElasticsearchIndexQueryType;
@@ -686,7 +686,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $this->denyAccessUnlessGranted('INDEX_UPDATE', $index);
 
         $indexSettingModel = new ElasticsearchIndexSettingModel();
-        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel, ['context' => 'update']);
+        $form = $this->createForm(ElasticsearchIndexSettingType::class, $indexSettingModel);
 
         $form->handleRequest($request);
 
@@ -735,7 +735,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $indexSettingModel = new ElasticsearchIndexSettingModel();
         $indexSettingModel->setName($setting);
         $indexSettingModel->setValue($index->getSetting($setting));
-        $form = $this->createForm(CreateIndexSettingType::class, $indexSettingModel, ['context' => 'update']);
+        $form = $this->createForm(ElasticsearchIndexSettingType::class, $indexSettingModel, ['context' => 'update']);
 
         $form->handleRequest($request);
 
