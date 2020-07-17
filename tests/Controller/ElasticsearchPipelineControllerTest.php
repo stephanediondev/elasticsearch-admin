@@ -14,8 +14,12 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Pipelines');
+        if (false == $this->callManager->checkVersion('6.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Pipelines');
+        }
     }
 
     /**
@@ -25,15 +29,23 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines/create');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Pipelines - Create pipeline');
+        if (false == $this->callManager->checkVersion('6.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Pipelines - Create pipeline');
+        }
     }
 
     public function testCreateCopy404()
     {
         $this->client->request('GET', '/admin/pipelines/create?pipeline='.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->callManager->checkVersion('6.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     /**
@@ -43,7 +55,11 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines/'.uniqid());
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->callManager->checkVersion('6.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     /**
@@ -53,6 +69,10 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines/'.uniqid().'/update');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->callManager->checkVersion('6.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 }

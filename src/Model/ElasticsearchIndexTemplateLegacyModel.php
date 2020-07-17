@@ -134,7 +134,12 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
     public function convert(?array $template): self
     {
         $this->setName($template['name']);
-        $this->setIndexPatterns(implode(', ', $template['index_patterns']));
+        if (true == isset($template['index_patterns'])) {
+            $this->setIndexPatterns(implode(', ', $template['index_patterns']));
+        }
+        if (true == isset($template['template'])) {
+            $this->setIndexPatterns($template['template']);
+        }
         if (true == isset($template['version'])) {
             $this->setVersion($template['version']);
         }

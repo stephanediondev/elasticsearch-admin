@@ -122,9 +122,15 @@ class PhpunitCommand extends Command
                 $this->callManager->call($callRequest);
             }
 
-            $json = [
-                'index_patterns' => $name,
-            ];
+            if (true == $this->callManager->checkVersion('6.0')) {
+                $json = [
+                    'index_patterns' => $name,
+                ];
+            } else {
+                $json = [
+                    'template' => $name,
+                ];
+            }
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
             $callRequest->setJson($json);

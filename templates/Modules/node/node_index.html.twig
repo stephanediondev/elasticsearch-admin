@@ -51,7 +51,7 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        {% if cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and 'true' == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
+        {% if true == check_version('6.0') and cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and 'true' == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
             var disk_threshold_enabled = true;
             var disk_watermark_low = {{ cluster_settings['cluster.routing.allocation.disk.watermark.low']|replace({'%': ''}) }};
             var disk_watermark_high = {{ cluster_settings['cluster.routing.allocation.disk.watermark.high']|replace({'%': ''}) }};

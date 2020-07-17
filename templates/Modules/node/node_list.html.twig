@@ -1,7 +1,11 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'load_average': true, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': true, 'heap_usage': true} %}
+    {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': true, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'load_average': true, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': false, 'heap_usage': true} %}
+
+    {% if true == check_version('6.0') %}
+        {% set columns = columns|merge({'disk_usage': true}) %}
+    {% endif %}
 
     {% block thead %}
         <tr>

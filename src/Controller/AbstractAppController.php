@@ -124,6 +124,10 @@ abstract class AbstractAppController extends AbstractController
                     $disabled = true;
                 }
 
+                if (true == in_array($entry['granted'], ['LICENSE', 'PIPELINES']) && false == $this->callManager->checkVersion('6.0')) {
+                    $disabled = true;
+                }
+
                 $menu[] = [
                     'path' => $entry['path'],
                     'name' => $this->translator->trans($entry['path']),

@@ -139,10 +139,14 @@ class CallManager
 
     public function setXpack()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_xpack');
-        $callResponse = $this->call($callRequest);
-        $this->xpack = $callResponse->getContent();
+        try {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_xpack');
+            $callResponse = $this->call($callRequest);
+            $this->xpack = $callResponse->getContent();
+        } catch (CallException $e) {
+            $this->xpack = [];
+        }
     }
 
     public function getPlugins(): array

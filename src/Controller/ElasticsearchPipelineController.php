@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -29,6 +30,10 @@ class ElasticsearchPipelineController extends AbstractAppController
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('PIPELINES', 'global');
+
+        if (false == $this->callManager->checkVersion('6.0')) {
+            throw new AccessDeniedHttpException();
+        }
 
         $pipelines = $this->elasticsearchPipelineManager->getAll();
 
@@ -50,6 +55,10 @@ class ElasticsearchPipelineController extends AbstractAppController
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('PIPELINES_CREATE', 'global');
+
+        if (false == $this->callManager->checkVersion('6.0')) {
+            throw new AccessDeniedHttpException();
+        }
 
         $pipeline = false;
 
@@ -96,6 +105,10 @@ class ElasticsearchPipelineController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
+        if (false == $this->callManager->checkVersion('6.0')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
         if (false == $pipeline) {
@@ -112,6 +125,10 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
+        if (false == $this->callManager->checkVersion('6.0')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
         if (false == $pipeline) {
@@ -147,6 +164,10 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
+        if (false == $this->callManager->checkVersion('6.0')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
         if (false == $pipeline) {
