@@ -9,7 +9,7 @@ use App\Form\ElasticsearchIndexType;
 use App\Form\CreateIndexSettingType;
 use App\Form\ImportIndexType;
 use App\Form\ReindexType;
-use App\Form\SearchIndexType;
+use App\Form\ElasticsearchIndexQueryType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
 use App\Model\CallRequestModel;
@@ -1224,7 +1224,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_SEARCH', $index);
 
-        $form = $this->createForm(SearchIndexType::class);
+        $form = $this->createForm(ElasticsearchIndexQueryType::class);
 
         $form->handleRequest($request);
 
