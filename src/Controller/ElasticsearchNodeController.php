@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ReloadSecureSettingsType;
+use App\Form\ElasticsearchNodeReloadSecureSettingsType;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReloadSecureSettingsModel;
@@ -146,7 +146,7 @@ class ElasticsearchNodeController extends AbstractAppController
         $this->denyAccessUnlessGranted('NODE_RELOAD_SECURE_SETTINGS', $node);
 
         $reloadSecureSettingsModel = new ElasticsearchReloadSecureSettingsModel();
-        $form = $this->createForm(ReloadSecureSettingsType::class, $reloadSecureSettingsModel);
+        $form = $this->createForm(ElasticsearchNodeReloadSecureSettingsType::class, $reloadSecureSettingsModel);
 
         $form->handleRequest($request);
 

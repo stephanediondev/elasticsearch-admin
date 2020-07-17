@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\ElasticsearchSnapshotType;
-use App\Form\RestoreSnapshotType;
+use App\Form\ElasticsearchSnapshotRestoreType;
 use App\Manager\ElasticsearchSnapshotManager;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
@@ -167,7 +167,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
 
         $snapshotRestoreModel = new ElasticsearchSnapshotRestoreModel();
         $snapshotRestoreModel->setIndices($snapshot->getIndices());
-        $form = $this->createForm(RestoreSnapshotType::class, $snapshotRestoreModel, ['indices' => $snapshot->getIndices()]);
+        $form = $this->createForm(ElasticsearchSnapshotRestoreType::class, $snapshotRestoreModel, ['indices' => $snapshot->getIndices()]);
 
         $form->handleRequest($request);
 
