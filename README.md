@@ -57,7 +57,7 @@ cp .env.dist .env
 - [x] Elasticsearch users (native realm): list, create, read, update, delete, enable, disable
 - [x] Elasticsearch roles: list, create, read, update, delete, copy
 - [x] Tasks: list
-- [x] Remote clusters: list
+- [x] Remote clusters [5.4]: list
 - [x] Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
 - [x] Pipelines: list, create, read, update, delete, copy
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
