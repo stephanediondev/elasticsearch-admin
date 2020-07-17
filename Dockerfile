@@ -52,8 +52,8 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 # Run composer install to install the dependencies
 RUN composer install --optimize-autoloader --no-interaction --no-progress
 
-RUN npm install --silent
-RUN npm run --silent build
+RUN npm install
+RUN npm run build
 
 COPY --chown=nobody .env.dist .env
 
