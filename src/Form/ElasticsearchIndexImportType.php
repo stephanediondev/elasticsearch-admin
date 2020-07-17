@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ImportIndexType extends AbstractType
+class ElasticsearchIndexImportType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

@@ -7,7 +7,7 @@ use App\Exception\CallException;
 use App\Form\CreateAliasType;
 use App\Form\ElasticsearchIndexType;
 use App\Form\ElasticsearchIndexSettingType;
-use App\Form\ImportIndexType;
+use App\Form\ElasticsearchIndexImportType;
 use App\Form\ReindexType;
 use App\Form\ElasticsearchIndexQueryType;
 use App\Manager\ElasticsearchIndexManager;
@@ -318,7 +318,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_IMPORT', $index);
 
-        $form = $this->createForm(ImportIndexType::class);
+        $form = $this->createForm(ElasticsearchIndexImportType::class);
 
         $form->handleRequest($request);
 
