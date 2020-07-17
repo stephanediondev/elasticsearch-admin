@@ -178,7 +178,11 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
     public function selectIndices()
     {
-        $rows = $this->getAll(['s' => 'index', 'h' => 'index']);
+        $query = ['h' => 'index'];
+        if (true == $this->callManager->checkVersion('5.1.1')) {
+            $query['s'] = 'index';
+        }
+        $rows = $this->getAll($query);
 
         $indices = [];
         foreach ($rows as $row) {
@@ -192,14 +196,20 @@ class ElasticsearchIndexManager extends AbstractAppManager
     {
         $aliases = [];
 
+        $query = ['h' => 'alias'];
+        if (true == $this->callManager->checkVersion('5.1.1')) {
+            $query['s'] = 'alias';
+        }
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/aliases');
-        $callRequest->setQuery(['s' => 'alias', 'h' => 'alias']);
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
-        foreach ($rows as $row) {
-            $aliases[] = $row['alias'];
+        if (Response::HTTP_OK == $callResponse->getCode()) {
+            foreach ($rows as $row) {
+                $aliases[] = $row['alias'];
+            }
         }
 
         $aliases = array_unique($aliases);

@@ -28,9 +28,12 @@ class IndexStatsController extends AbstractAppController
 
         $query = [
             'bytes' => 'b',
-            's' => $request->query->get('s', 'index:asc'),
             'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
+
+        if (true == $this->callManager->checkVersion('5.1.1')) {
+            $query['s'] = $request->query->get('s', 'index:asc');
+        }
 
         if (true == $this->callManager->checkVersion('7.7')) {
             $query['expand_wildcards'] = 'all';

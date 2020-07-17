@@ -35,13 +35,17 @@ class ElasticsearchShardManager extends AbstractAppManager
     {
         $shards = [];
 
+        $query = ['bytes' => 'b', 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node'];
+        if (true == $this->callManager->checkVersion('5.1.1')) {
+            $query['s'] = $sort;
+        }
         $callRequest = new CallRequestModel();
         if ($index) {
             $callRequest->setPath('/_cat/shards/'.$index);
         } else {
             $callRequest->setPath('/_cat/shards');
         }
-        $callRequest->setQuery(['bytes' => 'b', 's' => $sort, 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node']);
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 

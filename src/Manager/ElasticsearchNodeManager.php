@@ -34,9 +34,13 @@ class ElasticsearchNodeManager extends AbstractAppManager
     {
         $nodes = [];
 
+        $query = ['bytes' => 'b', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current'];
+        if (true == $this->callManager->checkVersion('5.1.1')) {
+            $query['s'] = 'name';
+        }
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/nodes');
-        $callRequest->setQuery(['bytes' => 'b', 's' => 'name', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current']);
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $nodes1 = $callResponse->getContent();
 

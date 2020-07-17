@@ -98,9 +98,13 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
     {
         $repositories = [];
 
+        $query = ['h' => 'id'];
+        if (true == $this->callManager->checkVersion('5.1.1')) {
+            $query['s'] = 'id';
+        }
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/repositories');
-        $callRequest->setQuery(['s' => 'id', 'h' => 'id']);
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 

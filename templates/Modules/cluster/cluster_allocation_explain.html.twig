@@ -34,16 +34,25 @@
                 <hr>
 
                 <div class="row">
-                    {% if allocation_explain['index'] is defined %}
-                        {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['index']}}) }}
-                    {% endif %}
+                    {% if allocation_explain['shard'] is defined and allocation_explain['shard'] is iterable %}
+                        {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['shard']['index']}}) }}
 
-                    {% if allocation_explain['shard'] is defined %}
-                        {{ appImport.dashboardKpi({'title': 'shard'|trans, 'badge': {'title': allocation_explain['shard']}}) }}
-                    {% endif %}
+                        {{ appImport.dashboardKpi({'title': 'shard'|trans, 'badge': {'title': allocation_explain['shard']['id']}}) }}
 
-                    {% if allocation_explain['primary'] is defined %}
-                        {{ appImport.dashboardKpi({'title': 'primary'|trans, 'badge': {'title': ('boolean.' ~ allocation_explain['primary'])|trans, 'context': allocation_explain['primary']}}) }}
+                        {{ appImport.dashboardKpi({'title': 'primary'|trans, 'badge': {'title': ('boolean.' ~ allocation_explain['shard']['primary'])|trans, 'context': allocation_explain['shard']['primary']}}) }}
+                    {% else %}
+                        {% if allocation_explain['index'] is defined %}
+                            {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['index']}}) }}
+                        {% endif %}
+
+                        {% if allocation_explain['shard'] is defined %}
+                            {{ appImport.dashboardKpi({'title': 'shard'|trans, 'badge': {'title': allocation_explain['shard']}}) }}
+                        {% endif %}
+
+                        {% if allocation_explain['primary'] is defined %}
+                            {{ appImport.dashboardKpi({'title': 'primary'|trans, 'badge': {'title': ('boolean.' ~ allocation_explain['primary'])|trans, 'context': allocation_explain['primary']}}) }}
+                        {% endif %}
+
                     {% endif %}
 
                     {% if allocation_explain['unassigned_info']['reason'] is defined %}
@@ -61,7 +70,17 @@
                     </p>
                 {% endif %}
 
+                {% set node_allocation_decisions = false %}
+
+                {% if allocation_explain['nodes'] is defined and 0 < allocation_explain['nodes']|length %}
+                    {% set node_allocation_decisions = allocation_explain['nodes'] %}
+                {% endif %}
+
                 {% if allocation_explain['node_allocation_decisions'] is defined and 0 < allocation_explain['node_allocation_decisions']|length %}
+                    {% set node_allocation_decisions = allocation_explain['node_allocation_decisions'] %}
+                {% endif %}
+
+                {% if node_allocation_decisions is defined and 0 < node_allocation_decisions|length %}
                     {{ appImport.heading({'level': 4, 'title': 'node_allocation_decisions'|trans}) }}
 
                     {% embed 'Embed/table_embed.html.twig' %}
@@ -76,7 +95,7 @@
                         {% endblock %}
 
                         {% block tbody %}
-                            {% for row in allocation_explain['node_allocation_decisions'] %}
+                            {% for row in node_allocation_decisions %}
                                 <tr>
                                     <td>
                                         {% if is_granted('NODES', 'global') %}
@@ -87,11 +106,27 @@
                                         {% if master_node == row['node_name'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
                                     </td>
                                     <td>
-                                        {{ row['node_decision'] }}
+                                        {% if row['final_decision'] is defined %}
+                                            {{ row['final_decision'] }}
+                                        {% endif %}
+
+                                        {% if row['node_decision'] is defined %}
+                                            {{ row['node_decision'] }}
+                                        {% endif %}
                                     </td>
                                     <td>
+                                        {% set deciders = false %}
+
+                                        {% if row['decisions'] is defined and 0 < row['decisions']|length %}
+                                            {% set deciders = row['decisions'] %}
+                                        {% endif %}
+
                                         {% if row['deciders'] is defined and 0 < row['deciders']|length %}
-                                            {% for decider in row['deciders'] %}
+                                            {% set deciders = row['deciders'] %}
+                                        {% endif %}
+
+                                        {% if deciders %}
+                                            {% for decider in deciders %}
                                                 {{ decider['decider'] }}:<br> {{ decider['explanation'] }}<br>
                                             {% endfor %}
                                         {% endif %}

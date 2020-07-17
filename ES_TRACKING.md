@@ -64,3 +64,15 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.4/release-notes-6.4.0.
 https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.0.html
 
 - Allow _doc as a type. #27816 (issues: #27750, #27751)
+
+### 5.4.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/5.4/release-notes-5.4.0.html
+
+- Add cross-cluster search remote cluster info API #23969 (issue: #23925)
+
+### 5.1.1
+
+https://www.elastic.co/guide/en/elasticsearch/reference/5.1/release-notes-5.1.1.html
+
+- Adding built-in sorting capability to _cat apis. #20658 (issue: #16975)

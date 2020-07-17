@@ -128,6 +128,10 @@ abstract class AbstractAppController extends AbstractController
                     $disabled = true;
                 }
 
+                if (true == in_array($entry['granted'], ['REMOTE_CLUSTERS']) && false == $this->callManager->checkVersion('5.4.0')) {
+                    $disabled = true;
+                }
+
                 $menu[] = [
                     'path' => $entry['path'],
                     'name' => $this->translator->trans($entry['path']),
