@@ -5,7 +5,7 @@ namespace App\Tests\Manager;
 use App\Model\ElasticsearchSlmPolicyModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ElasticsearchSlmManagerTest extends WebTestCase
+class ElasticsearchSlmPolicyManagerTest extends WebTestCase
 {
     public function testGetByName404()
     {
