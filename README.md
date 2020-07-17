@@ -1,6 +1,6 @@
 ## Requirements
 
-- Elasticsearch 6.x or 7.x: https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.htm
+- Elasticsearch 5.x (partial support, EOL), 6.x or 7.x: https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.htm
 - Web server with rewrite module enabled
 - PHP 7.2.5 or higher: https://symfony.com/doc/current/setup/web_server_configuration.html
 - Composer: https://getcomposer.org/download/
