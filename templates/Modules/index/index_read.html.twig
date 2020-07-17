@@ -139,10 +139,12 @@
                     {{ appImport.dashboardKpi({'title': 'health'|trans, 'badge': {'title': index.health|trans, 'context': index.health}}) }}
                 {% endif %}
 
-                {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
-                    {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
-                {% else %}
-                    {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
+                {% if true == check_version('6.6') %}
+                    {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
+                        {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
+                    {% endif %}
                 {% endif %}
 
                 {% if index.setting('index.version.created') %}

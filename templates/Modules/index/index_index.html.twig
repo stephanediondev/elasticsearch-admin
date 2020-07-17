@@ -73,7 +73,9 @@
 
                     {{ appImport.filterCheckboxes({'title': 'health'|trans, 'prefix': 'health', 'choices': ['red', 'yellow', 'green']}) }}
 
-                    {{ appImport.filterCheckboxesBoolean({'title': 'frozen'|trans, 'prefix': 'frozen'}) }}
+                    {% if true == check_version('6.6') %}
+                        {{ appImport.filterCheckboxesBoolean({'title': 'frozen'|trans, 'prefix': 'frozen'}) }}
+                    {% endif %}
                 </div>
 
                 {{ appImport.paginator(indices) }}
