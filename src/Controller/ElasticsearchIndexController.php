@@ -1210,6 +1210,10 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function empty(Request $request, string $index): Response
     {
+        if (false == $this->callManager->checkVersion('5.0')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $index = $this->elasticsearchIndexManager->getByName($index);
 
         if (false == $index) {

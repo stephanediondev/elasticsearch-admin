@@ -91,6 +91,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/5.1/release-notes-5.1.1.
 https://www.elastic.co/guide/en/elasticsearch/reference/5.0/release-notes-5.0.0.html
 
 - Add API to explain why a shard is or isn’t assigned #17305 (issue: #14593)
+- Remove Delete-By-Query plugin #18516 (issue: #18469)
 
 ### 2.3.0
 

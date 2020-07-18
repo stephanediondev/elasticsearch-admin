@@ -58,9 +58,13 @@
                     {{ appImport.dashboardKpi({'title': 'os'|trans, 'badge': {'title': node.os['pretty_name']}}) }}
                 {% endif %}
 
-                {{ appImport.dashboardKpi({'title': 'os_version'|trans, 'badge': {'title': node.os['version']}}) }}
+                {% if node.os['version'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'os_version'|trans, 'badge': {'title': node.os['version']}}) }}
+                {% endif %}
 
-                {{ appImport.dashboardKpi({'title': 'os_arch'|trans, 'badge': {'title': node.os['arch']}}) }}
+                {% if node.os['arch'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'os_arch'|trans, 'badge': {'title': node.os['arch']}}) }}
+                {% endif %}
             </div>
         {% endblock %}
     {% endembed %}

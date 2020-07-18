@@ -195,7 +195,9 @@
                         {% if 'heap_usage' == column %}
                             <td>
                                 <strong><span id="{{ row['name'] }}-heap-percent">{{ row['heap.percent'] }}</span>%</strong>
-                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-heap-current">{{ row['heap.current']|human_filesize }}</span></small>
+                                {% if row['heap.current'] is defined %}
+                                    <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-heap-current">{{ row['heap.current']|human_filesize }}</span></small>
+                                {% endif %}
                                 <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-heap-max">{{ row['heap.max']|human_filesize }}</span></small>
                             </td>
                         {% endif %}
@@ -203,7 +205,9 @@
                         {% if 'memory_usage' == column %}
                             <td>
                                 <strong><span id="{{ row['name'] }}-ram-percent">{{ row['ram.percent'] }}</span>%</strong>
-                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-ram-current">{{ row['ram.current']|human_filesize }}</span></small>
+                                {% if row['ram.current'] is defined %}
+                                    <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-ram-current">{{ row['ram.current']|human_filesize }}</span></small>
+                                {% endif %}
                                 <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-ram-max">{{ row['ram.max']|human_filesize }}</span></small>
                             </td>
                         {% endif %}

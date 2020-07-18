@@ -135,7 +135,9 @@ class ElasticsearchShardModel extends AbstractAppModel
         $this->setIndex($shard['index']);
         $this->setPrimaryOrReplica($shard['prirep']);
         $this->setState($shard['state']);
-        $this->setUnassignedReason($shard['unassigned.reason']);
+        if (true == isset($shard['unassigned.reason'])) {
+            $this->setUnassignedReason($shard['unassigned.reason']);
+        }
         $this->setDocuments($shard['docs']);
         $this->setSize($shard['store']);
         $this->setNode($shard['node']);

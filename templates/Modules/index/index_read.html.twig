@@ -109,13 +109,15 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if is_granted('INDEX_EMPTY', index) and 0 < index.documents %}
-                        {{ appImport.buttonModal({
-                            'id': 'IndexEmpty',
-                            'title': 'empty'|trans,
-                            'body': index.name,
-                            'href': path('indices_empty', {'index': index.name}),
-                        }) }}
+                    {% if true == check_version('5.0') %}
+                        {% if is_granted('INDEX_EMPTY', index) and 0 < index.documents %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndexEmpty',
+                                'title': 'empty'|trans,
+                                'body': index.name,
+                                'href': path('indices_empty', {'index': index.name}),
+                            }) }}
+                        {% endif %}
                     {% endif %}
                 {% endblock %}
             {% endembed %}

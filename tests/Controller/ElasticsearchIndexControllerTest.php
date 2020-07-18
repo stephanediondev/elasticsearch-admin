@@ -280,21 +280,33 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/empty');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->callManager->checkVersion('5.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testEmpty403()
     {
         $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/empty');
 
-        $this->assertResponseStatusCodeSame(403);
+        if (false == $this->callManager->checkVersion('5.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
     }
 
     public function testEmpty()
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/empty');
 
-        $this->assertResponseStatusCodeSame(302);
+        if (false == $this->callManager->checkVersion('5.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
     }
 
     /**
