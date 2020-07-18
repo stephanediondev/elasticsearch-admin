@@ -56,7 +56,7 @@ cp .env.dist .env
 - [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Elasticsearch users (native realm): list, create, read, update, delete, enable, disable
 - [x] Elasticsearch roles: list, create, read, update, delete, copy
-- [x] Tasks: list
+- [x] Tasks [2.3]: list
 - [x] Remote clusters [5.4]: list
 - [x] Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
 - [x] Pipelines: list, create, read, update, delete, copy
