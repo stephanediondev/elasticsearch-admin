@@ -33,17 +33,23 @@ class PhpunitCommand extends Command
 
         $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
 
+        if (true == $this->callManager->checkVersion('6.6')) {
+            $this->endpoint = '/security';
+        } else  {
+            $this->endpoint = '/_xpack/security';
+        }
+
         if (true == $this->callManager->hasFeature('security')) {
             // role
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('GET');
-            $callRequest->setPath('/_security/role/'.$names[0]);
+            $callRequest->setPath($this->endpoint.'/role/'.$names[0]);
             $callResponse = $this->callManager->call($callRequest);
 
             if (Response::HTTP_OK == $callResponse->getCode()) {
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('DELETE');
-                $callRequest->setPath('/_security/role/'.$names[0]);
+                $callRequest->setPath($this->endpoint.'/role/'.$names[0]);
                 $this->callManager->call($callRequest);
             }
 
@@ -54,7 +60,7 @@ class PhpunitCommand extends Command
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
             $callRequest->setJson($json);
-            $callRequest->setPath('/_security/role/'.$names[0]);
+            $callRequest->setPath($this->endpoint.'/role/'.$names[0]);
             $this->callManager->call($callRequest);
 
             $output->writeln('<info>Role created: '.$names[0].'</info>');
@@ -62,13 +68,13 @@ class PhpunitCommand extends Command
             // user
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('GET');
-            $callRequest->setPath('/_security/user/'.$names[0]);
+            $callRequest->setPath($this->endpoint.'/user/'.$names[0]);
             $callResponse = $this->callManager->call($callRequest);
 
             if (Response::HTTP_OK == $callResponse->getCode()) {
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('DELETE');
-                $callRequest->setPath('/_security/user/'.$names[0]);
+                $callRequest->setPath($this->endpoint.'/user/'.$names[0]);
                 $this->callManager->call($callRequest);
             }
 
@@ -79,7 +85,7 @@ class PhpunitCommand extends Command
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
             $callRequest->setJson($json);
-            $callRequest->setPath('/_security/user/'.$names[0]);
+            $callRequest->setPath($this->endpoint.'/user/'.$names[0]);
             $this->callManager->call($callRequest);
 
             $output->writeln('<info>User created: '.$names[0].'</info>');
