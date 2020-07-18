@@ -8,6 +8,12 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.8/release-notes-7.8.0.
 - Add prefer_v2_templates flag and index setting #55411 (issue: #53101)
 - Use V2 index templates during index creation #54669 (issue: #53101)
 
+### 7.7.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/7.7/release-notes-7.7.0.html
+
+- Allow _cat indices & aliases to use indices options #53248 (issue: #52304)
+
 ### 7.5.0
 
 https://www.elastic.co/guide/en/elasticsearch/reference/7.5/release-highlights-7.5.0.html
