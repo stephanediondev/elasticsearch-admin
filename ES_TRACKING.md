@@ -67,6 +67,13 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.0.
 
 - Allow _doc as a type. #27816 (issues: #27750, #27751)
 
+
+### 6.0.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0.html
+
+- Allows multiple patterns to be specified for index templates #21009 (issue: #20690)
+
 ### 5.4.0
 
 https://www.elastic.co/guide/en/elasticsearch/reference/5.4/release-notes-5.4.0.html

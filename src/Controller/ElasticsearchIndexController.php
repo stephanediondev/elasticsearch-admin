@@ -340,7 +340,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
                 $body = '';
 
-                $excludedMeta = ['_index', '_type', '_score'];
+                $excludedMeta = ['_index', '_score'];
 
                 foreach ($reader->getSheetIterator() as $sheet) {
                     $u = 1;
@@ -353,6 +353,7 @@ class ElasticsearchIndexController extends AbstractAppController
                             }
                         } else {
                             $id = false;
+                            $type = false;
                             $line = [];
                             foreach ($row as $key => $value) {
                                 if (true == in_array($headers[$key], $excludedMeta)) {
@@ -361,6 +362,8 @@ class ElasticsearchIndexController extends AbstractAppController
 
                                 if ('_id' == $headers[$key]) {
                                     $id = $value;
+                                } else if ('_type' == $headers[$key]) {
+                                    $type = $value;
                                 } else {
                                     if ($value instanceof \Datetime) {
                                         $value = $value->format('Y-m-d');
@@ -432,7 +435,11 @@ class ElasticsearchIndexController extends AbstractAppController
                             }
 
                             if ($id) {
-                                $body .= json_encode(['index' => ['_id' => $id]])."\r\n";
+                                if ($type) {
+                                    $body .= json_encode(['index' => ['_id' => $id, '_type' => $type]])."\r\n";
+                                } else {
+                                    $body .= json_encode(['index' => ['_id' => $id]])."\r\n";
+                                }
                             } else {
                                 $body .= json_encode(['index' => (object)[]])."\r\n";
                             }

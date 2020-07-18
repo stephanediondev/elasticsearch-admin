@@ -34,7 +34,7 @@ class PhpunitCommand extends Command
         $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
 
         if (true == $this->callManager->checkVersion('6.6')) {
-            $this->endpoint = '/security';
+            $this->endpoint = '/_security';
         } else  {
             $this->endpoint = '/_xpack/security';
         }

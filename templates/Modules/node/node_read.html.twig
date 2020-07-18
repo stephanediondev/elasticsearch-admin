@@ -30,7 +30,7 @@
             <div class="row">
                 {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
                     {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
-                {% else %}
+                {% elseif node.settings['node']['master'] is defined %}
                     {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['master'])|trans, 'context': node.settings['node']['master']}}) }}
                 {% endif %}
 
@@ -46,7 +46,7 @@
 
                 {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
                     {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
-                {% else %}
+                {% elseif node.settings['node']['data'] is defined %}
                     {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['data'])|trans, 'context': node.settings['node']['data']}}) }}
                 {% endif %}
 

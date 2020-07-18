@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Manager\CallManager;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
@@ -23,8 +24,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchIndexTemplateLegacyType extends AbstractType
 {
-    public function __construct(ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager, TranslatorInterface $translator)
+    public function __construct(CallManager $callManager, ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager, TranslatorInterface $translator)
     {
+        $this->callManager = $callManager;
         $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;
         $this->translator = $translator;
     }
@@ -36,7 +38,11 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
         if ('create' == $options['context']) {
             $fields[] = 'name';
         }
-        $fields[] = 'index_patterns';
+        if (true == $this->callManager->checkVersion('6.0')) {
+            $fields[] = 'index_patterns';
+        } else {
+            $fields[] = 'template';
+        }
         $fields[] = 'version';
         $fields[] = 'order';
         $fields[] = 'settings';
@@ -64,6 +70,17 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                             new NotBlank(),
                         ],
                         'help' => 'help_form.index_template.index_patterns',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'template':
+                    $builder->add('template', TextType::class, [
+                        'label' => 'template',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                        'help' => 'help_form.index_template.template',
                         'help_html' => true,
                     ]);
                     break;

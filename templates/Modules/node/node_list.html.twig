@@ -104,7 +104,7 @@
             {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
                 <tr class="master_eligible-true voting_only-false data-true" data-search="{{ row['name'] }}">
             {% else %}
-                <tr class="master_eligible-{{ row['settings']['node']['master'] }} voting_only-{% if row['settings']['node']['voting_only'] is defined %}{{ row['settings']['node']['voting_only'] }}{% else %}false{% endif %} data-{{ row['settings']['node']['data'] }}" data-search="{{ row['name'] }}">
+                <tr class="{% if row['settings']['node']['master'] is defined %}master_eligible-{{ row['settings']['node']['master'] }}{% endif %} voting_only-{% if row['settings']['node']['voting_only'] is defined %}{{ row['settings']['node']['voting_only'] }}{% else %}false{% endif %} {% if row['settings']['node']['data'] is defined %}data-{{ row['settings']['node']['data'] }}{% endif %}" data-search="{{ row['name'] }}">
             {% endif %}
                 {% for column, display in columns %}
                     {% if true == display %}
@@ -132,7 +132,7 @@
                             <td>
                                 {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
                                     {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                                {% else %}
+                                {% elseif row['settings']['node']['master'] is defined %}
                                     {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['master'])|trans, 'context': row['settings']['node']['master']}) }}
                                 {% endif %}
                             </td>
@@ -156,7 +156,7 @@
                             <td>
                                 {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
                                     {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                                {% else %}
+                                {% elseif row['settings']['node']['data'] is defined %}
                                     {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['data'])|trans, 'context': row['settings']['node']['data']}) }}
                                 {% endif %}
                             </td>

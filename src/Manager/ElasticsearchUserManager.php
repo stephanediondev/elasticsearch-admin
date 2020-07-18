@@ -17,7 +17,7 @@ class ElasticsearchUserManager extends AbstractAppManager
     public function setEndpoint()
     {
         if (true == $this->callManager->checkVersion('6.6')) {
-            $this->endpoint = '/security';
+            $this->endpoint = '/_security';
         } else  {
             $this->endpoint = '/_xpack/security';
         }

@@ -10,6 +10,8 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
 
     private $indexPatterns;
 
+    private $template;
+
     private $version;
 
     private $order;
@@ -40,6 +42,18 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
     public function setIndexPatterns(?string $indexPatterns): self
     {
         $this->indexPatterns = $indexPatterns;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?string $template): self
+    {
+        $this->template = $template;
 
         return $this;
     }
@@ -138,7 +152,7 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
             $this->setIndexPatterns(implode(', ', $template['index_patterns']));
         }
         if (true == isset($template['template'])) {
-            $this->setIndexPatterns($template['template']);
+            $this->setTemplate($template['template']);
         }
         if (true == isset($template['version'])) {
             $this->setVersion($template['version']);
@@ -160,9 +174,15 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
 
     public function getJson(): array
     {
-        $json = [
-            'index_patterns' => $this->getIndexToArray(),
-        ];
+        $json = [];
+
+        if ($this->getIndexPatterns()) {
+            $json['index_patterns'] = $this->getIndexToArray();
+        }
+
+        if ($this->getTemplate()) {
+            $json['template'] = $this->getTemplate();
+        }
 
         if ($this->getVersion()) {
             $json['version'] = $this->getVersion();
