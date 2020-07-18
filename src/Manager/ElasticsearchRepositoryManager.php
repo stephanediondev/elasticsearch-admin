@@ -36,13 +36,13 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/repositories');
+        $callRequest->setPath('/_snapshot/_all');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
         $repositories = [];
         foreach ($results as $k => $row) {
-            $row['name'] = $row['id'];
+            $row['name'] = $k;
             $repositoryModel = new ElasticsearchRepositoryModel();
             $repositoryModel->convert($row);
             $repositories[] = $repositoryModel;
@@ -98,19 +98,15 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
     {
         $repositories = [];
 
-        $query = ['h' => 'id'];
-        if (true == $this->callManager->checkVersion('5.1.1')) {
-            $query['s'] = 'id';
-        }
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/repositories');
-        $callRequest->setQuery($query);
+        $callRequest->setPath('/_snapshot/_all');
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
-        foreach ($rows as $row) {
-            $repositories[] = $row['id'];
+        foreach ($rows as $k => $row) {
+            $repositories[] = $k;
         }
+        sort($repositories);
 
         return $repositories;
     }

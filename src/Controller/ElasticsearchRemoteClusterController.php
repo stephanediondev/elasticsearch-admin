@@ -21,7 +21,7 @@ class ElasticsearchRemoteClusterController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('REMOTE_CLUSTERS', 'global');
 
-        if (false == $this->callManager->checkVersion('5.4.0')) {
+        if (false == $this->callManager->checkVersion('5.4')) {
             throw new AccessDeniedHttpException();
         }
 

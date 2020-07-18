@@ -45,12 +45,10 @@ class ElasticsearchCatType extends AbstractType
             'plugins',
             'recovery',
             'recovery/{index}',
-            'repositories',
             'shards',
             'shards/{index}',
             'segments',
             'segments/{index}',
-            'snapshots/{repository}',
             'tasks',
             'templates',
             //'templates/{template_name}',
@@ -60,6 +58,10 @@ class ElasticsearchCatType extends AbstractType
             'transforms',
             //'transforms/{transform_id},'
         ];
+        if (true == $this->callManager->checkVersion('2.1')) {
+            $commands[] = 'repositories';
+            $commands[] = 'snapshots/{repository}';
+        }
         sort($commands);
 
         $fields = [];

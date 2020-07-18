@@ -91,3 +91,16 @@ https://www.elastic.co/guide/en/elasticsearch/reference/5.1/release-notes-5.1.1.
 https://www.elastic.co/guide/en/elasticsearch/reference/5.0/release-notes-5.0.0.html
 
 - Add API to explain why a shard is or isn’t assigned #17305 (issue: #14593)
+
+### 2.3.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/2.3/release-notes-2.3.0.html
+
+- Backport of task management api to 2x #16959
+
+### 2.1.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/2.1/release-notes-2.1.0.html
+
+- Add cat API for repositories and snapshots #14247 (issue: #13919)
+- Add Force Merge API, deprecate Optimize API #13778

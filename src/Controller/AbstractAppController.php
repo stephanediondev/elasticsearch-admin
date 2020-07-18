@@ -106,10 +106,6 @@ abstract class AbstractAppController extends AbstractController
             if (true == $this->isGranted($entry['granted'], 'global')) {
                 $disabled = false;
 
-                if (true == in_array($entry['granted'], ['INDEX_TEMPLATES', 'COMPONENT_TEMPLATES']) && false == $this->callManager->checkVersion('7.8')) {
-                    $disabled = true;
-                }
-
                 if ('ILM_POLICIES' == $entry['granted'] && false == $this->callManager->hasFeature('ilm')) {
                     $disabled = true;
                 }
@@ -126,11 +122,19 @@ abstract class AbstractAppController extends AbstractController
                     $disabled = true;
                 }
 
+                if (true == in_array($entry['granted'], ['INDEX_TEMPLATES', 'COMPONENT_TEMPLATES']) && false == $this->callManager->checkVersion('7.8')) {
+                    $disabled = true;
+                }
+
                 if (true == in_array($entry['granted'], ['PIPELINES']) && false == $this->callManager->checkVersion('6.0')) {
                     $disabled = true;
                 }
 
-                if (true == in_array($entry['granted'], ['REMOTE_CLUSTERS']) && false == $this->callManager->checkVersion('5.4.0')) {
+                if (true == in_array($entry['granted'], ['REMOTE_CLUSTERS']) && false == $this->callManager->checkVersion('5.4')) {
+                    $disabled = true;
+                }
+
+                if (true == in_array($entry['granted'], ['TASKS']) && false == $this->callManager->checkVersion('2.3')) {
                     $disabled = true;
                 }
 

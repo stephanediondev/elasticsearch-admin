@@ -51,13 +51,15 @@
                         }) }}
                     {% endif %}
 
-                    {% if is_granted('INDEX_FORCE_MERGE', index) %}
-                        {{ appImport.buttonModal({
-                            'id': 'IndexForceMerge',
-                            'title': 'force_merge'|trans,
-                            'body': index.name,
-                            'href': path('indices_force_merge', {'index': index.name}),
-                        }) }}
+                    {% if true == check_version('2.1') %}
+                        {% if is_granted('INDEX_FORCE_MERGE', index) %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndexForceMerge',
+                                'title': 'force_merge'|trans,
+                                'body': index.name,
+                                'href': path('indices_force_merge', {'index': index.name}),
+                            }) }}
+                        {% endif %}
                     {% endif %}
 
                     {% if is_granted('INDEX_CACHE_CLEAR', index) %}

@@ -105,6 +105,10 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDICES_FORCE_MERGE', 'global');
 
+        if (false == $this->callManager->checkVersion('2.1')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_forcemerge');
@@ -1122,6 +1126,10 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function forceMerge(Request $request, string $index): Response
     {
+        if (false == $this->callManager->checkVersion('2.1')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $index = $this->elasticsearchIndexManager->getByName($index);
 
         if (false == $index) {
