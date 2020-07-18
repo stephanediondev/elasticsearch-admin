@@ -9,49 +9,49 @@
                 {% if true == display %}
                     {% if 'index' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('shards'), 's': 'index', 'title': 'index'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'index', 'title': 'index'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'shard' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('shards'), 's': 'shard', 'title': 'shard'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'shard', 'title': 'shard'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'primary' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('shards'), 's': 'prirep', 'title': 'primary'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'prirep', 'title': 'primary'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'state' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('shards'), 's': 'state', 'title': 'state'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'state', 'title': 'state'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'unassigned_reason' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('shards'), 's': 'unassigned.reason', 'title': 'unassigned_reason'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'unassigned.reason', 'title': 'unassigned_reason'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'documents' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('shards'), 's': 'docs', 'title': 'documents'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'docs', 'title': 'documents'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'size' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('shards'), 's': 'store', 'title': 'size'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'store', 'title': 'size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'node' == column %}
                         <th>
-                            {{ appImport.sort({'url': path('shards'), 's': 'node', 'title': 'node'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'node', 'title': 'node'|trans})}}
                         </th>
                     {% endif %}
                 {% endif %}

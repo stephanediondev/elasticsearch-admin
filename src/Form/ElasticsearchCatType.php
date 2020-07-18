@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Manager\CallManager;
 use App\Model\ElasticsearchCatModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,6 +13,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ElasticsearchCatType extends AbstractType
 {
+    public function __construct(CallManager $callManager)
+    {
+        $this->callManager = $callManager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $commands = [
@@ -64,7 +70,9 @@ class ElasticsearchCatType extends AbstractType
         $fields[] = 'alias';
         $fields[] = 'node';
         $fields[] = 'headers';
-        $fields[] = 'sort';
+        if (true == $this->callManager->checkVersion('5.1.1')) {
+            $fields[] = 'sort';
+        }
 
         $builder->setMethod('GET');
 

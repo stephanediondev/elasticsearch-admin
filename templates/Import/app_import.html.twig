@@ -87,22 +87,26 @@
 {% endmacro %}
 
 {% macro sort(params) %}
-    {% if params.class is not defined %}
-        {% set params = params|merge({'class': 'text-secondary'}) %}
-    {% endif %}
+    {% if true == params.cat_sort %}
+        {% if params.class is not defined %}
+            {% set params = params|merge({'class': 'text-secondary'}) %}
+        {% endif %}
 
-    {% if '?' in params.url %}
-        {% set url = params.url ~ '&s=' ~ params.s %}
-    {% else %}
-        {% set url = params.url ~ '?s=' ~ params.s %}
-    {% endif %}
+        {% if '?' in params.url %}
+            {% set url = params.url ~ '&s=' ~ params.s %}
+        {% else %}
+            {% set url = params.url ~ '?s=' ~ params.s %}
+        {% endif %}
 
-    {% if app.request.query.get('s') and app.request.query.get('s') == params.s ~ ':asc' %}
-        {% set url = url ~ ':desc' %}
+        {% if app.request.query.get('s') and app.request.query.get('s') == params.s ~ ':asc' %}
+            {% set url = url ~ ':desc' %}
+        {% else %}
+            {% set url = url ~ ':asc' %}
+        {% endif %}
+        <a class="{{ params.class }}" href="{{ url }}">{{ params.title }}</a>
     {% else %}
-        {% set url = url ~ ':asc' %}
+        {{ params.title }}
     {% endif %}
-    <a class="{{ params.class }}" href="{{ url }}">{{ params.title }}</a>
 {% endmacro %}
 
 {% macro dashboardKpi(params) %}

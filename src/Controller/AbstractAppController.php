@@ -57,6 +57,8 @@ abstract class AbstractAppController extends AbstractController
 
         $parameters['plugins'] = $this->callManager->getPlugins();
 
+        $parameters['cat_sort'] = $this->callManager->checkVersion('5.1.1');
+
         $menus = [];
 
         if (true == $this->isGranted('CONFIGURATION', 'global')) {

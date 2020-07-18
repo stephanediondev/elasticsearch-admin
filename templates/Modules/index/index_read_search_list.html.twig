@@ -5,16 +5,16 @@
         <tr>
             <th>&nbsp;</th>
             <th>
-                {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_id', 'title': '_id'})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_id', 'title': '_id'})}}
             </th>
             <th>
-                {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_score', 'title': '_score'})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_score', 'title': '_score'})}}
             </th>
             {% for field, type in index.mappingsFlat %}
                 <th class="text-nowrap">
                     {% set sort = retrieve_sort(index, field) %}
                     {% if true == sort %}
-                        {{ appImport.sort({'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': sort, 'title': field})}}
+                        {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': sort, 'title': field})}}
                     {% else %}
                         {{ field }}
                     {% endif %}
