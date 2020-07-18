@@ -32,7 +32,9 @@
 
                     {{ appImport.filterCheckboxesBoolean({'title': 'master_eligible'|trans, 'prefix': 'master_eligible'}) }}
 
-                    {{ appImport.filterCheckboxesBoolean({'title': 'voting_only'|trans, 'prefix': 'voting_only'}) }}
+                    {% if true == check_version('7.3') %}
+                        {{ appImport.filterCheckboxesBoolean({'title': 'voting_only'|trans, 'prefix': 'voting_only'}) }}
+                    {% endif %}
 
                     {{ appImport.filterCheckboxesBoolean({'title': 'data'|trans, 'prefix': 'data'}) }}
                 </div>
