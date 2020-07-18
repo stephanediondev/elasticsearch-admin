@@ -14,11 +14,7 @@ class ElasticsearchLicenseControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/license');
 
-        if (false == $this->callManager->checkVersion('6.0')) {
-            $this->assertResponseStatusCodeSame(403);
-        } else {
-            $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('License');
-        }
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('License');
     }
 }

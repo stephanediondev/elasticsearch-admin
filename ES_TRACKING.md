@@ -46,6 +46,8 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.6/release-notes-6.6.0.
 - Adds Index lifecycle feature #35193
 - Add a _freeze / _unfreeze API #35592 (issue: #34352)
 - Add support for get license basic/trial status API #33176 (issue: #29827)
+- Undeprecate /_license endpoints #35974 (issue: #35959)
+- Option to use endpoints starting with _security #36379 (issue: #36293)
 
 ### 6.5.0
 

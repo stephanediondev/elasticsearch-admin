@@ -21,10 +21,6 @@ class ElasticsearchLicenseController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('LICENSE', 'global');
 
-        if (false == $this->callManager->checkVersion('6.0')) {
-            throw new AccessDeniedHttpException();
-        }
-
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_xpack/license');
         $callResponse = $this->callManager->call($callRequest);

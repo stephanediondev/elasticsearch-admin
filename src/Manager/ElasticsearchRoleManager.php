@@ -11,10 +11,27 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchRoleManager extends AbstractAppManager
 {
+    /**
+     * @required
+     */
+    public function setEndpoint()
+    {
+        if (true == $this->callManager->checkVersion('6.6')) {
+            $this->endpoint = '/security';
+        } else  {
+            $this->endpoint = '/_xpack/security';
+        }
+    }
+
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
     public function getByName(string $name): ?ElasticsearchRoleModel
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role/'.$name);
+        $callRequest->setPath($this->getEndpoint().'/role/'.$name);
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
@@ -34,7 +51,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role');
+        $callRequest->setPath($this->getEndpoint().'/role');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
@@ -54,7 +71,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
         $json = $roleModel->getJson();
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('PUT');
-        $callRequest->setPath('/_security/role/'.$roleModel->getName());
+        $callRequest->setPath($this->getEndpoint().'/role/'.$roleModel->getName());
         $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
@@ -64,7 +81,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_security/role/'.$name);
+        $callRequest->setPath($this->getEndpoint().'/role/'.$name);
 
         return $this->callManager->call($callRequest);
     }
@@ -74,7 +91,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
         $roles = [];
 
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/role');
+        $callRequest->setPath($this->getEndpoint().'/role');
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
@@ -90,7 +107,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
     public function getPrivileges()
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/privilege/_builtin');
+        $callRequest->setPath($this->getEndpoint().'/privilege/_builtin');
         $callResponse = $this->callManager->call($callRequest);
 
         return $callResponse->getContent();

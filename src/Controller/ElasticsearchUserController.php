@@ -83,7 +83,7 @@ class ElasticsearchUserController extends AbstractAppController
                 }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
-                $callRequest->setPath('/_security/user/'.$user->getName());
+                $callRequest->setPath($this->elasticsearchUserManager->getEndpoint().'/user/'.$user->getName());
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
@@ -157,7 +157,7 @@ class ElasticsearchUserController extends AbstractAppController
                 }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
-                $callRequest->setPath('/_security/user/'.$user->getName());
+                $callRequest->setPath($this->elasticsearchUserManager->getEndpoint().'/user/'.$user->getName());
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
@@ -169,7 +169,7 @@ class ElasticsearchUserController extends AbstractAppController
                     ];
                     $callRequest = new CallRequestModel();
                     $callRequest->setMethod('POST');
-                    $callRequest->setPath('/_security/user/'.$user->getName().'/_password');
+                    $callRequest->setPath($this->elasticsearchUserManager->getEndpoint().'/user/'.$user->getName().'/_password');
                     $callRequest->setJson($json);
                     $callResponse = $this->callManager->call($callRequest);
 

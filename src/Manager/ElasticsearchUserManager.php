@@ -11,10 +11,27 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchUserManager extends AbstractAppManager
 {
+    /**
+     * @required
+     */
+    public function setEndpoint()
+    {
+        if (true == $this->callManager->checkVersion('6.6')) {
+            $this->endpoint = '/security';
+        } else  {
+            $this->endpoint = '/_xpack/security';
+        }
+    }
+
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
     public function getByName(string $name): ?ElasticsearchUserModel
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user/'.$name);
+        $callRequest->setPath($this->getEndpoint().'/user/'.$name);
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
@@ -34,7 +51,7 @@ class ElasticsearchUserManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user');
+        $callRequest->setPath($this->getEndpoint().'/user');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
@@ -54,7 +71,7 @@ class ElasticsearchUserManager extends AbstractAppManager
         $json = $userModel->getJson();
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('PUT');
-        $callRequest->setPath('/_security/user/'.$userModel->getName());
+        $callRequest->setPath($this->getEndpoint().'/user/'.$userModel->getName());
         $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
@@ -64,7 +81,7 @@ class ElasticsearchUserManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/_security/user/'.$name);
+        $callRequest->setPath($this->getEndpoint().'/user/'.$name);
 
         return $this->callManager->call($callRequest);
     }
@@ -73,7 +90,7 @@ class ElasticsearchUserManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('PUT');
-        $callRequest->setPath('/_security/user/'.$name.'/_enable');
+        $callRequest->setPath($this->getEndpoint().'/user/'.$name.'/_enable');
 
         return $this->callManager->call($callRequest);
     }
@@ -82,7 +99,7 @@ class ElasticsearchUserManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('PUT');
-        $callRequest->setPath('/_security/user/'.$name.'/_disable');
+        $callRequest->setPath($this->getEndpoint().'/user/'.$name.'/_disable');
 
         return $this->callManager->call($callRequest);
     }
@@ -92,7 +109,7 @@ class ElasticsearchUserManager extends AbstractAppManager
         $users = [];
 
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_security/user');
+        $callRequest->setPath($this->getEndpoint().'/user');
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
