@@ -37,8 +37,12 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
 
         $this->client->request('GET', '/admin/cluster/allocation/explain');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Allocation explain');
+        if (false == $this->callManager->checkVersion('5.0')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Allocation explain');
+        }
     }
 
     /**

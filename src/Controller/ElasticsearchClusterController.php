@@ -10,6 +10,7 @@ use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -45,6 +46,10 @@ class ElasticsearchClusterController extends AbstractAppController
     public function allocationExplain(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_ALLOCATION_EXPLAIN', 'global');
+
+        if (false == $this->callManager->checkVersion('5.0')) {
+            throw new AccessDeniedHttpException();
+        }
 
         $allocationExplain = false;
 

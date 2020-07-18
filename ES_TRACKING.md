@@ -85,3 +85,9 @@ https://www.elastic.co/guide/en/elasticsearch/reference/5.4/release-notes-5.4.0.
 https://www.elastic.co/guide/en/elasticsearch/reference/5.1/release-notes-5.1.1.html
 
 - Adding built-in sorting capability to _cat apis. #20658 (issue: #16975)
+
+### 5.0.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/5.0/release-notes-5.0.0.html
+
+- Add API to explain why a shard is or isn’t assigned #17305 (issue: #14593)
