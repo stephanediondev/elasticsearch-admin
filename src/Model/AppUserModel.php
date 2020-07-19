@@ -10,6 +10,10 @@ class AppUserModel implements UserInterface
 
     private $email;
 
+    private $changePassword;
+
+    private $password;
+
     private $passwordPlain;
 
     private $secretRegister;
@@ -18,13 +22,9 @@ class AppUserModel implements UserInterface
 
     private $createdAt;
 
-    /**
-     * @var string The hashed password
-     */
-    private $password;
-
     public function __construct()
     {
+        $this->changePassword = false;
         $this->createdAt = new \Datetime();
     }
 
@@ -77,6 +77,18 @@ class AppUserModel implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getChangePassword(): ?bool
+    {
+        return $this->changePassword;
+    }
+
+    public function setChangePassword(?bool $changePassword): self
+    {
+        $this->changePassword = $changePassword;
 
         return $this;
     }

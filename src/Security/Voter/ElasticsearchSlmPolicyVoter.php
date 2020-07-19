@@ -3,26 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchSlmPolicyModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchSlmPolicyVoter extends Voter
+class ElasticsearchSlmPolicyVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'SLM_POLICY_UPDATE',
-            'SLM_POLICY_DELETE',
-            'SLM_POLICY_COPY',
-            'SLM_POLICY_EXECUTE',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('slm_policy');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchSlmPolicyModel;
     }

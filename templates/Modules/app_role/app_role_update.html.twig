@@ -21,15 +21,6 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'update'|trans}) }}
 
-            {% embed 'Embed/buttons_embed.html.twig' %}
-                {% import 'Import/app_import.html.twig' as appImport %}
-                {% block content %}
-                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/app/reference/current/security-api-put-role.html#security-api-put-role">
-                        {{ 'help'|trans }}
-                    </a>
-                {% endblock %}
-            {% endembed %}
-
             {{ appImport.form({'form': form}) }}
         {% endblock %}
     {% endembed %}

@@ -58,6 +58,12 @@ class AppRoleType extends AbstractType
 
             if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
+                    if ('USER' == $form->get('name')->getData()) {
+                        $form->get('name')->addError(new FormError(
+                            $this->translator->trans('not_allowed')
+                        ));
+                    }
+
                     $role = $this->appRoleManager->getByName('ROLE_'.$form->get('name')->getData());
 
                     if ($role) {

@@ -3,24 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\AppRoleModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AppRoleVoter extends Voter
+class AppRoleVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'APP_ROLE_UPDATE',
-            'APP_ROLE_DELETE',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('app_role');
 
         return in_array($attribute, $attributes) && $subject instanceof AppRoleModel;
     }

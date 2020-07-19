@@ -32,15 +32,25 @@
     <script type="text/javascript">
         function changePassword() {
             if ($('#data_change_password').is(':checked')) {
-                $('#data_password').removeAttr('disabled');
-                $('#data_password').attr('required', 'required');
+                $('#data_passwordPlain_first').removeAttr('disabled');
+                $('#data_passwordPlain_first').attr('required', 'required');
 
-                $('label[for="data_password"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+                $('label[for="data_passwordPlain_first"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+
+                $('#data_passwordPlain_second').removeAttr('disabled');
+                $('#data_passwordPlain_second').attr('required', 'required');
+
+                $('label[for="data_passwordPlain_second"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
             } else {
-                $('#data_password').attr('disabled', 'disabled');
-                $('#data_password').removeAttr('required');
+                $('#data_passwordPlain_first').attr('disabled', 'disabled');
+                $('#data_passwordPlain_first').removeAttr('required');
 
-                $('label[for="data_password"] .badge').remove();
+                $('label[for="data_passwordPlain_first"] .badge').remove();
+
+                $('#data_passwordPlain_second').attr('disabled', 'disabled');
+                $('#data_passwordPlain_second').removeAttr('required');
+
+                $('label[for="data_passwordPlain_second"] .badge').remove();
             }
         }
 

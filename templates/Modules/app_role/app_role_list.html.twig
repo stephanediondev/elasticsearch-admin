@@ -30,7 +30,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('app_roles_read', {'role': row.id}) }}">{{ row.name }}</a>
+                                <a href="{{ path('app_roles_read', {'role': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 

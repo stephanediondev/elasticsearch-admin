@@ -3,25 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchPipelineModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchPipelineVoter extends Voter
+class ElasticsearchPipelineVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'PIPELINE_UPDATE',
-            'PIPELINE_DELETE',
-            'PIPELINE_COPY',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('pipeline');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchPipelineModel;
     }

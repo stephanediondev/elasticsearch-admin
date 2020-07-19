@@ -11,30 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppRoleManager extends AbstractAppManager
 {
-    public function getById(string $id): ?AppRoleModel
-    {
-        $roleModel = null;
-
-        $callRequest = new CallRequestModel();
-        if (true == $this->callManager->checkVersion('6.2')) {
-            $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$id);
-        } else {
-            $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$id);
-        }
-        $callResponse = $this->callManager->call($callRequest);
-        $row = $callResponse->getContent();
-
-        if ($row) {
-            $role = ['id' => $row['_id']];
-            $role = array_merge($role, $row['_source']);
-
-            $roleModel = new AppRoleModel();
-            $roleModel->convert($role);
-        }
-
-        return $roleModel;
-    }
-
     public function getByName(string $name): ?AppRoleModel
     {
         $roleModel = null;
@@ -171,4 +147,176 @@ class AppRoleManager extends AbstractAppManager
             ],
         ];
     }
+
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    public function getAttributesByModule($module)
+    {
+        return isset($this->attributes[$module]) ? array_keys($this->attributes[$module]) : [];
+    }
+
+    private $attributes = [
+        'global' => [
+            'CLUSTER_SETTINGS',
+            'CLUSTER_SETTING_EDIT',
+            'CLUSTER_SETTING_REMOVE',
+            'CLUSTER_ALLOCATION_EXPLAIN',
+            'NODES',
+            'INDICES',
+            'INDICES_STATS',
+            'INDICES_CREATE',
+            'INDICES_REINDEX',
+            'INDICES_FORCE_MERGE',
+            'INDICES_CACHE_CLEAR',
+            'INDICES_FLUSH',
+            'INDICES_REFRESH',
+            'SHARDS',
+
+            'CONFIGURATION',
+            'INDEX_TEMPLATES_LEGACY',
+            'INDEX_TEMPLATES_LEGACY_CREATE',
+            'INDEX_TEMPLATES',
+            'INDEX_TEMPLATES_CREATE',
+            'COMPONENT_TEMPLATES',
+            'COMPONENT_TEMPLATES_CREATE',
+            'ILM_POLICIES',
+            'ILM_POLICIES_STATUS',
+            'ILM_POLICIES_CREATE',
+            'SLM_POLICIES',
+            'SLM_POLICIES_STATS',
+            'SLM_POLICIES_STATUS',
+            'SLM_POLICIES_CREATE',
+            'REPOSITORIES',
+            'REPOSITORIES_CREATE',
+            'ENRICH_POLICIES',
+            'ENRICH_POLICIES_STATS',
+            'ENRICH_POLICIES_CREATE',
+            'ELASTICSEARCH_USERS',
+            'ELASTICSEARCH_USERS_CREATE',
+            'ELASTICSEARCH_ROLES',
+            'ELASTICSEARCH_ROLES_CREATE',
+            'APP_USERS',
+            'APP_USERS_CREATE',
+            'APP_ROLES',
+            'APP_ROLES_CREATE',
+
+            'TOOLS',
+            'SNAPSHOTS',
+            'SNAPSHOTS_CREATE',
+            'PIPELINES',
+            'PIPELINES_CREATE',
+            'TASKS',
+            'REMOTE_CLUSTERS',
+            'CAT',
+            'CAT_EXPORT',
+            'CONSOLE',
+            'CONSOLE_POST',
+            'CONSOLE_PUT',
+            'CONSOLE_PATCH',
+            'CONSOLE_DELETE',
+            'DEPRECATIONS',
+            'LICENSE',
+        ],
+        'app_user' => [
+            'APP_USER_UPDATE',
+            'APP_USER_DELETE',
+        ],
+        'app_role' => [
+            'APP_ROLE_UPDATE',
+            'APP_ROLE_DELETE',
+        ],
+        'component_template' => [
+            'COMPONENT_TEMPLATE_UPDATE',
+            'COMPONENT_TEMPLATE_DELETE',
+            'COMPONENT_TEMPLATE_COPY',
+        ],
+        'enrich_policy' => [
+            'ENRICH_POLICY_DELETE',
+            'ENRICH_POLICY_COPY',
+            'ENRICH_POLICY_EXECUTE',
+        ],
+        'ilm_policy' => [
+            'ILM_POLICY_UPDATE',
+            'ILM_POLICY_DELETE',
+            'ILM_POLICY_COPY',
+            'ILM_POLICY_APPLY',
+        ],
+        'index_template_legacy' => [
+            'INDEX_TEMPLATE_LEGACY_UPDATE',
+            'INDEX_TEMPLATE_LEGACY_DELETE',
+            'INDEX_TEMPLATE_LEGACY_COPY',
+        ],
+        'index_template' => [
+            'INDEX_TEMPLATE_UPDATE',
+            'INDEX_TEMPLATE_DELETE',
+            'INDEX_TEMPLATE_COPY',
+        ],
+        'index' => [
+            'INDEX_UPDATE',
+            'INDEX_DELETE',
+            'INDEX_CLOSE',
+            'INDEX_OPEN',
+            'INDEX_FREEZE',
+            'INDEX_UNFREEZE',
+            'INDEX_FORCE_MERGE',
+            'INDEX_CACHE_CLEAR',
+            'INDEX_FLUSH',
+            'INDEX_REFRESH',
+            'INDEX_EMPTY',
+            'INDEX_SEARCH',
+            'INDEX_IMPORT',
+            'INDEX_EXPORT',
+            'INDEX_SHARDS',
+            'INDEX_LIFECYCLE',
+            'INDEX_ALIASES',
+            'INDEX_ALIAS_CREATE',
+            'INDEX_ALIAS_DELETE',
+        ],
+        'node' => [
+            'NODE_PLUGINS',
+            'NODE_USAGE',
+            'NODE_RELOAD_SECURE_SETTINGS',
+        ],
+        'pipeline' => [
+            'PIPELINE_UPDATE',
+            'PIPELINE_DELETE',
+            'PIPELINE_COPY',
+        ],
+        'repository' => [
+            'REPOSITORY_UPDATE',
+            'REPOSITORY_DELETE',
+            'REPOSITORY_CLEANUP',
+            'REPOSITORY_VERIFY',
+        ],
+        'shard' => [
+            'SHARD_MOVE',
+            'SHARD_ALLOCATE_REPLICA',
+            'SHARD_CANCEL',
+        ],
+        'slm_policy' => [
+            'SLM_POLICY_UPDATE',
+            'SLM_POLICY_DELETE',
+            'SLM_POLICY_COPY',
+            'SLM_POLICY_EXECUTE',
+        ],
+        'snapshot' => [
+            'SNAPSHOT_DELETE',
+            'SNAPSHOT_RESTORE',
+            'SNAPSHOT_FAILURES',
+        ],
+        'elasticsearch_user' => [
+            'ELASTICSEARCH_USER_UPDATE',
+            'ELASTICSEARCH_USER_DELETE',
+            'ELASTICSEARCH_USER_ENABLE',
+            'ELASTICSEARCH_USER_DISABLE',
+        ],
+        'elasticsearch_role' => [
+            'ELASTICSEARCH_ROLE_UPDATE',
+            'ELASTICSEARCH_ROLE_DELETE',
+            'ELASTICSEARCH_ROLE_COPY',
+        ],
+    ];
 }

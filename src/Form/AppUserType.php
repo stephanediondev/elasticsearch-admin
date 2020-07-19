@@ -7,6 +7,7 @@ use App\Model\AppUserModel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -16,7 +17,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AppUserType extends AbstractType
@@ -42,14 +42,18 @@ class AppUserType extends AbstractType
         }
 
         $fields[] = 'email';
-        $fields[] = 'passwordPlain';
-        if ('register' != $options['context']) {
-            $fields[] = 'roles';
-        }
 
         if ('update' == $options['context']) {
+            $fields[] = 'change_password';
+
             $passwordRequired = false;
             $passwordConstraints = [];
+        }
+
+        $fields[] = 'passwordPlain';
+
+        if ('register' != $options['context']) {
+            $fields[] = 'roles';
         }
 
         foreach ($fields as $field) {
@@ -75,6 +79,12 @@ class AppUserType extends AbstractType
                         ],
                     ]);
                     break;
+                case 'change_password':
+                    $builder->add('change_password', CheckboxType::class, [
+                        'label' => 'change_password',
+                        'required' => false,
+                    ]);
+                    break;
                 case 'passwordPlain':
                     $builder->add('passwordPlain', RepeatedType::class, [
                         'type' => PasswordType::class,
@@ -84,14 +94,12 @@ class AppUserType extends AbstractType
                             'label' => 'password',
                             'attr' => [
                                 'autocomplete' => 'new-password',
-                                'minlength' => 6,
                             ],
                         ],
                         'second_options' => [
                             'label' => 'password_confirm',
                             'attr' => [
                                 'autocomplete' => 'new-password',
-                                'minlength' => 6,
                             ],
                         ],
                     ]);

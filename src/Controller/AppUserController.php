@@ -68,10 +68,13 @@ class AppUserController extends AbstractAppController
 
             try {
                 $callResponse = $this->appUserManager->send($user);
+                $content = $callResponse->getContent();
 
-                $this->addFlash('info', json_encode($callResponse->getContent()));
+                $this->addFlash('info', json_encode($content));
 
-                return $this->redirectToRoute('app_users');
+                sleep(2);
+
+                return $this->redirectToRoute('app_users_read', ['user' => $content['_id']]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -121,11 +124,17 @@ class AppUserController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                if ($user->getChangePassword() && $user->getPassword()) {
+                    $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
+                }
+
                 $callResponse = $this->appUserManager->send($user);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('app_users');
+                sleep(2);
+
+                return $this->redirectToRoute('app_users_read', ['user' => $user->getId()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -153,6 +162,8 @@ class AppUserController extends AbstractAppController
         $callResponse = $this->appUserManager->deleteById($user->getId());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
+
+        sleep(2);
 
         return $this->redirectToRoute('app_users');
     }

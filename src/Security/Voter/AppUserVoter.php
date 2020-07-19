@@ -3,24 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\AppUserModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class AppUserVoter extends Voter
+class AppUserVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'APP_USER_UPDATE',
-            'APP_USER_DELETE',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('app_user');
 
         return in_array($attribute, $attributes) && $subject instanceof AppUserModel;
     }

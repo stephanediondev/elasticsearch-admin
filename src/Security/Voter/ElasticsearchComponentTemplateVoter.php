@@ -3,25 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchComponentTemplateModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchComponentTemplateVoter extends Voter
+class ElasticsearchComponentTemplateVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'COMPONENT_TEMPLATE_UPDATE',
-            'COMPONENT_TEMPLATE_DELETE',
-            'COMPONENT_TEMPLATE_COPY',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('component_template');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchComponentTemplateModel;
     }

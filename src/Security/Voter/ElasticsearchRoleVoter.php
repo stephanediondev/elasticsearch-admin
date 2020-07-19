@@ -3,25 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchRoleModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchRoleVoter extends Voter
+class ElasticsearchRoleVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'ELASTICSEARCH_ROLE_UPDATE',
-            'ELASTICSEARCH_ROLE_DELETE',
-            'ELASTICSEARCH_ROLE_COPY',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('elasticsearch_role');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchRoleModel;
     }

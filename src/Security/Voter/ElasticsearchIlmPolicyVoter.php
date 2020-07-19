@@ -3,26 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchIlmPolicyModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchIlmPolicyVoter extends Voter
+class ElasticsearchIlmPolicyVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'ILM_POLICY_UPDATE',
-            'ILM_POLICY_DELETE',
-            'ILM_POLICY_COPY',
-            'ILM_POLICY_APPLY',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('ilm_policy');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchIlmPolicyModel;
     }

@@ -3,41 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchIndexModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchIndexVoter extends Voter
+class ElasticsearchIndexVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'INDEX_UPDATE',
-            'INDEX_DELETE',
-            'INDEX_CLOSE',
-            'INDEX_OPEN',
-            'INDEX_FREEZE',
-            'INDEX_UNFREEZE',
-            'INDEX_FORCE_MERGE',
-            'INDEX_CACHE_CLEAR',
-            'INDEX_FLUSH',
-            'INDEX_REFRESH',
-            'INDEX_EMPTY',
-            'INDEX_SEARCH',
-            'INDEX_IMPORT',
-            'INDEX_EXPORT',
-            'INDEX_SHARDS',
-            'INDEX_LIFECYCLE',
-            'INDEX_ALIASES',
-            'INDEX_ALIAS_CREATE',
-            'INDEX_ALIAS_DELETE',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('index');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchIndexModel;
     }

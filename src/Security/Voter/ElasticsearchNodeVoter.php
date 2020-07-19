@@ -3,25 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchNodeModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchNodeVoter extends Voter
+class ElasticsearchNodeVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'NODE_PLUGINS',
-            'NODE_USAGE',
-            'NODE_RELOAD_SECURE_SETTINGS',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('node');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchNodeModel;
     }

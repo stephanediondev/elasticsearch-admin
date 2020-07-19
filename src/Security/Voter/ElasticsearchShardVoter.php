@@ -3,25 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchNodeModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchShardVoter extends Voter
+class ElasticsearchShardVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'SHARD_MOVE',
-            'SHARD_ALLOCATE_REPLICA',
-            'SHARD_CANCEL',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('shard');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchNodeModel;
     }

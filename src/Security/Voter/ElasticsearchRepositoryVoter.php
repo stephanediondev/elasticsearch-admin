@@ -3,26 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchRepositoryModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchRepositoryVoter extends Voter
+class ElasticsearchRepositoryVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'REPOSITORY_UPDATE',
-            'REPOSITORY_DELETE',
-            'REPOSITORY_CLEANUP',
-            'REPOSITORY_VERIFY',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('repository');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchRepositoryModel;
     }

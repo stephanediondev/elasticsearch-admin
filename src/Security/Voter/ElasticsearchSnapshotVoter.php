@@ -3,25 +3,15 @@
 namespace App\Security\Voter;
 
 use App\Model\ElasticsearchSnapshotModel;
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ElasticsearchSnapshotVoter extends Voter
+class ElasticsearchSnapshotVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'SNAPSHOT_DELETE',
-            'SNAPSHOT_RESTORE',
-            'SNAPSHOT_FAILURES',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('snapshot');
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchSnapshotModel;
     }

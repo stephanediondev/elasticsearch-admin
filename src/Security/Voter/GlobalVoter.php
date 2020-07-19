@@ -2,81 +2,15 @@
 
 namespace App\Security\Voter;
 
-use Symfony\Component\Security\Core\Security;
+use App\Security\Voter\AbstractAppVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class GlobalVoter extends Voter
+class GlobalVoter extends AbstractAppVoter
 {
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     protected function supports($attribute, $subject)
     {
-        $attributes = [
-            'CLUSTER_SETTINGS',
-            'CLUSTER_SETTING_EDIT',
-            'CLUSTER_SETTING_REMOVE',
-            'CLUSTER_ALLOCATION_EXPLAIN',
-            'NODES',
-            'INDICES',
-            'INDICES_STATS',
-            'INDICES_CREATE',
-            'INDICES_REINDEX',
-            'INDICES_FORCE_MERGE',
-            'INDICES_CACHE_CLEAR',
-            'INDICES_FLUSH',
-            'INDICES_REFRESH',
-            'SHARDS',
-
-            'CONFIGURATION',
-            'INDEX_TEMPLATES_LEGACY',
-            'INDEX_TEMPLATES_LEGACY_CREATE',
-            'INDEX_TEMPLATES',
-            'INDEX_TEMPLATES_CREATE',
-            'COMPONENT_TEMPLATES',
-            'COMPONENT_TEMPLATES_CREATE',
-            'ILM_POLICIES',
-            'ILM_POLICIES_STATUS',
-            'ILM_POLICIES_CREATE',
-            'SLM_POLICIES',
-            'SLM_POLICIES_STATS',
-            'SLM_POLICIES_STATUS',
-            'SLM_POLICIES_CREATE',
-            'REPOSITORIES',
-            'REPOSITORIES_CREATE',
-            'ENRICH_POLICIES',
-            'ENRICH_POLICIES_STATS',
-            'ENRICH_POLICIES_CREATE',
-            'ELASTICSEARCH_USERS',
-            'ELASTICSEARCH_USERS_CREATE',
-            'ELASTICSEARCH_ROLES',
-            'ELASTICSEARCH_ROLES_CREATE',
-            //'APP_USERS',
-            //'APP_USERS_CREATE',
-            //'APP_ROLES',
-            //'APP_ROLES_CREATE',
-
-            'TOOLS',
-            'SNAPSHOTS',
-            'SNAPSHOTS_CREATE',
-            'PIPELINES',
-            'PIPELINES_CREATE',
-            'TASKS',
-            'REMOTE_CLUSTERS',
-            'CAT',
-            'CAT_EXPORT',
-            'CONSOLE',
-            'CONSOLE_POST',
-            'CONSOLE_PUT',
-            'CONSOLE_PATCH',
-            'CONSOLE_DELETE',
-            'DEPRECATIONS',
-            'LICENSE',
-        ];
+        $attributes = $this->appRoleManager->getAttributesByModule('global');
 
         return in_array($attribute, $attributes) && 'global' == $subject;
     }
