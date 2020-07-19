@@ -81,7 +81,7 @@ class AppRoleController extends AbstractAppController
 
                 sleep(2);
 
-                return $this->redirectToRoute('app_roles_read', ['role' => $role->getName()]);
+                return $this->redirectToRoute('app_roles_update', ['role' => $role->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
