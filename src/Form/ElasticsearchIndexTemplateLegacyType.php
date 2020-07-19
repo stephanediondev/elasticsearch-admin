@@ -38,7 +38,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
         if ('create' == $options['context']) {
             $fields[] = 'name';
         }
-        if (true == $this->callManager->checkVersion('6.0')) {
+        if (true == $this->callManager->hasFeature('multiple_patterns')) {
             $fields[] = 'index_patterns';
         } else {
             $fields[] = 'template';

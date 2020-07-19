@@ -17,6 +17,28 @@ class CallManager
 
     public $plugins = false;
 
+    private $featuresWithVersion = [
+        'composable_template' => '7.8',
+        'cat_expand_wildcards' => '7.7',
+        'voting_only' => '7.3',
+        '_security_endpoint' => '6.6',
+        'freeze_unfreeze' => '6.6',
+        'license_status' => '6.6',
+        'reload_secure_settings' => '6.4',
+        '_doc_as_type' => '6.2',
+        'multiple_patterns' => '6.0',
+        'disk_usage' => '6.0',
+        'pipelines' => '6.0',
+        'remote_clusters' => '5.4',
+        'cat_sort' => '5.1.1',
+        'allocation_explain' => '5.0',
+        'delete_by_query' => '5.0',
+        'cpu_usage' => '5.0',
+        'tasks' => '2.3',
+        'cat_repositories_snapshots' => '2.1',
+        'force_merge' => '2.1',
+    ];
+
     public function __construct(HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
     {
         $this->client = $client;
@@ -186,6 +208,10 @@ class CallManager
 
     public function hasFeature(string $feature): bool
     {
+        if (true == array_key_exists($feature, $this->featuresWithVersion)) {
+            return $this->checkVersion($this->featuresWithVersion[$feature]);
+        }
+
         if (false == $this->xpack) {
             $this->setXpack();
         }

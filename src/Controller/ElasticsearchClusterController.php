@@ -48,7 +48,7 @@ class ElasticsearchClusterController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('CLUSTER_ALLOCATION_EXPLAIN', 'global');
 
-        if (false == $this->callManager->checkVersion('5.0')) {
+        if (false == $this->callManager->hasFeature('allocation_explain')) {
             throw new AccessDeniedHttpException();
         }
 

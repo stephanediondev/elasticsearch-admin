@@ -98,7 +98,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/reload-secure-settings');
 
-        if (false == $this->callManager->checkVersion('6.4')) {
+        if (false == $this->callManager->hasFeature('reload_secure_settings')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);

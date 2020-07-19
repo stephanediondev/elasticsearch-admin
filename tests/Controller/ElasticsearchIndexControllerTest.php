@@ -280,7 +280,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/empty');
 
-        if (false == $this->callManager->checkVersion('5.0')) {
+        if (false == $this->callManager->hasFeature('delete_by_query')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -291,7 +291,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/empty');
 
-        if (false == $this->callManager->checkVersion('5.0')) {
+        if (false == $this->callManager->hasFeature('delete_by_query')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -302,7 +302,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/empty');
 
-        if (false == $this->callManager->checkVersion('5.0')) {
+        if (false == $this->callManager->hasFeature('delete_by_query')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(302);
@@ -364,7 +364,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/freeze');
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -375,7 +375,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/freeze');
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -386,7 +386,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/freeze');
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(302);
@@ -400,7 +400,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/unfreeze');
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -411,7 +411,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/unfreeze');
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -422,7 +422,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/unfreeze');
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(302);

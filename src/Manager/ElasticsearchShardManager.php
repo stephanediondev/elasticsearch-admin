@@ -36,7 +36,7 @@ class ElasticsearchShardManager extends AbstractAppManager
         $shards = [];
 
         $query = ['bytes' => 'b', 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node'];
-        if (true == $this->callManager->checkVersion('5.1.1')) {
+        if (true == $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = $sort;
         }
         $callRequest = new CallRequestModel();

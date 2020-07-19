@@ -33,7 +33,7 @@ class PhpunitCommand extends Command
 
         $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
 
-        if (true == $this->callManager->checkVersion('6.6')) {
+        if (true == $this->callManager->hasFeature('_security_endpoint')) {
             $this->endpoint = '/_security';
         } else  {
             $this->endpoint = '/_xpack/security';
@@ -128,7 +128,7 @@ class PhpunitCommand extends Command
                 $this->callManager->call($callRequest);
             }
 
-            if (true == $this->callManager->checkVersion('6.0')) {
+            if (true == $this->callManager->hasFeature('multiple_patterns')) {
                 $json = [
                     'index_patterns' => $name,
                 ];
@@ -145,7 +145,7 @@ class PhpunitCommand extends Command
 
             $output->writeln('<info>Index template legacy created: '.$name.'</info>');
 
-            if (true == $this->callManager->checkVersion('7.8')) {
+            if (true == $this->callManager->hasFeature('composable_template')) {
                 // index template
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('HEAD');

@@ -133,7 +133,7 @@ class ElasticsearchNodeController extends AbstractAppController
      */
     public function readReloadSecureSettings(Request $request, string $node): Response
     {
-        if (false == $this->callManager->checkVersion('6.4')) {
+        if (false == $this->callManager->hasFeature('reload_secure_settings')) {
             throw new AccessDeniedHttpException();
         }
 

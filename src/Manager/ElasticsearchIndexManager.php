@@ -179,7 +179,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
     public function selectIndices()
     {
         $query = ['h' => 'index'];
-        if (true == $this->callManager->checkVersion('5.1.1')) {
+        if (true == $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = 'index';
         }
         $rows = $this->getAll($query);
@@ -197,7 +197,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         $aliases = [];
 
         $query = ['h' => 'alias'];
-        if (true == $this->callManager->checkVersion('5.1.1')) {
+        if (true == $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = 'alias';
         }
         $callRequest = new CallRequestModel();

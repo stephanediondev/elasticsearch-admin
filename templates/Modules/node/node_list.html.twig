@@ -3,15 +3,15 @@
 
     {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': false, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'load_average': true, 'cpu_usage': false, 'memory_usage': true, 'disk_usage': false, 'heap_usage': true} %}
 
-    {% if true == check_version('7.3') %}
+    {% if true == hasFeature('voting_only') %}
         {% set columns = columns|merge({'voting_only': true}) %}
     {% endif %}
 
-    {% if true == check_version('6.0') %}
+    {% if true == hasFeature('disk_usage') %}
         {% set columns = columns|merge({'disk_usage': true}) %}
     {% endif %}
 
-    {% if true == check_version('5.0') %}
+    {% if true == hasFeature('cpu_usage') %}
         {% set columns = columns|merge({'cpu_usage': true}) %}
     {% endif %}
 

@@ -32,7 +32,7 @@
 
                     {{ appImport.filterCheckboxesBoolean({'title': 'master_eligible'|trans, 'prefix': 'master_eligible'}) }}
 
-                    {% if true == check_version('7.3') %}
+                    {% if true == hasFeature('voting_only') %}
                         {{ appImport.filterCheckboxesBoolean({'title': 'voting_only'|trans, 'prefix': 'voting_only'}) }}
                     {% endif %}
 
@@ -53,7 +53,7 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        {% if true == check_version('6.0') and cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and 'true' == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
+        {% if true == checkVersion('6.0') and cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and 'true' == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
             var disk_threshold_enabled = true;
             var disk_watermark_low = {{ cluster_settings['cluster.routing.allocation.disk.watermark.low']|replace({'%': ''}) }};
             var disk_watermark_high = {{ cluster_settings['cluster.routing.allocation.disk.watermark.high']|replace({'%': ''}) }};

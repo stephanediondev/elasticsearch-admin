@@ -37,7 +37,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
 
         $this->client->request('GET', '/admin/cluster/allocation/explain');
 
-        if (false == $this->callManager->checkVersion('5.0')) {
+        if (false == $this->callManager->hasFeature('allocation_explain')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);

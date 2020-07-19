@@ -58,7 +58,7 @@ class ElasticsearchCatType extends AbstractType
             'transforms',
             //'transforms/{transform_id},'
         ];
-        if (true == $this->callManager->checkVersion('2.1')) {
+        if (true == $this->callManager->hasFeature('cat_repositories_snapshots')) {
             $commands[] = 'repositories';
             $commands[] = 'snapshots/{repository}';
         }
@@ -72,7 +72,7 @@ class ElasticsearchCatType extends AbstractType
         $fields[] = 'alias';
         $fields[] = 'node';
         $fields[] = 'headers';
-        if (true == $this->callManager->checkVersion('5.1.1')) {
+        if (true == $this->callManager->hasFeature('cat_sort')) {
             $fields[] = 'sort';
         }
 

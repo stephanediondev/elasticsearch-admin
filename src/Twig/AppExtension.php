@@ -30,9 +30,9 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('check_version', [$this, 'checkVersion']),
-            new TwigFunction('has_feature', [$this, 'hasFeature']),
-            new TwigFunction('has_plugin', [$this, 'hasPlugin']),
+            new TwigFunction('checkVersion', [$this, 'checkVersion']),
+            new TwigFunction('hasFeature', [$this, 'hasFeature']),
+            new TwigFunction('hasPlugin', [$this, 'hasPlugin']),
             new TwigFunction('retrieve_sort', [$this, 'retrieveSort']),
             new TwigFunction('retrieve_value', [$this, 'retrieveValue']),
         ];

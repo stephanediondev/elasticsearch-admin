@@ -57,7 +57,7 @@ abstract class AbstractAppController extends AbstractController
 
         $parameters['plugins'] = $this->callManager->getPlugins();
 
-        $parameters['cat_sort'] = $this->callManager->checkVersion('5.1.1');
+        $parameters['cat_sort'] = $this->callManager->hasFeature('cat_sort');
 
         $menus = [];
 
@@ -122,19 +122,19 @@ abstract class AbstractAppController extends AbstractController
                     $disabled = true;
                 }
 
-                if (true == in_array($entry['granted'], ['INDEX_TEMPLATES', 'COMPONENT_TEMPLATES']) && false == $this->callManager->checkVersion('7.8')) {
+                if (true == in_array($entry['granted'], ['INDEX_TEMPLATES', 'COMPONENT_TEMPLATES']) && false == $this->callManager->hasFeature('composable_template')) {
                     $disabled = true;
                 }
 
-                if (true == in_array($entry['granted'], ['PIPELINES']) && false == $this->callManager->checkVersion('6.0')) {
+                if (true == in_array($entry['granted'], ['PIPELINES']) && false == $this->callManager->hasFeature('pipelines')) {
                     $disabled = true;
                 }
 
-                if (true == in_array($entry['granted'], ['REMOTE_CLUSTERS']) && false == $this->callManager->checkVersion('5.4')) {
+                if (true == in_array($entry['granted'], ['REMOTE_CLUSTERS']) && false == $this->callManager->hasFeature('remote_clusters')) {
                     $disabled = true;
                 }
 
-                if (true == in_array($entry['granted'], ['TASKS']) && false == $this->callManager->checkVersion('2.3')) {
+                if (true == in_array($entry['granted'], ['TASKS']) && false == $this->callManager->hasFeature('tasks')) {
                     $disabled = true;
                 }
 

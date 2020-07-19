@@ -27,7 +27,7 @@ class ElasticsearchLicenseController extends AbstractAppController
         $license = $callResponse->getContent();
         $license = $license['license'];
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('license_status')) {
             $trialStatus = false;
             $basicStatus = false;
         } else {
@@ -58,7 +58,7 @@ class ElasticsearchLicenseController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('LICENSE_START_TRIAL', 'global');
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('license_status')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -80,7 +80,7 @@ class ElasticsearchLicenseController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('LICENSE_START_BASIC', 'global');
 
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('license_status')) {
             throw new AccessDeniedHttpException();
         }
 

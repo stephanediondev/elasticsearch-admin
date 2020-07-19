@@ -34,7 +34,7 @@
                     {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['master'])|trans, 'context': node.settings['node']['master']}}) }}
                 {% endif %}
 
-                {% if true == check_version('7.3') %}
+                {% if true == hasFeature('voting_only') %}
                     {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
                         {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
                     {% else %}

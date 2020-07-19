@@ -30,7 +30,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
-        if (false == $this->callManager->checkVersion('7.8')) {
+        if (false == $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -55,7 +55,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_CREATE', 'global');
 
-        if (false == $this->callManager->checkVersion('7.8')) {
+        if (false == $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -104,7 +104,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
-        if (false == $this->callManager->checkVersion('7.8')) {
+        if (false == $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -126,7 +126,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
-        if (false == $this->callManager->checkVersion('7.8')) {
+        if (false == $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -148,7 +148,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
-        if (false == $this->callManager->checkVersion('7.8')) {
+        if (false == $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -168,7 +168,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        if (false == $this->callManager->checkVersion('7.8')) {
+        if (false == $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -207,7 +207,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->callManager->checkVersion('7.8')) {
+        if (false == $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 

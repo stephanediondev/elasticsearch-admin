@@ -14,7 +14,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines');
 
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -29,7 +29,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines/create');
 
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -41,7 +41,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines/create?pipeline='.uniqid());
 
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -55,7 +55,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines/'.uniqid());
 
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -69,7 +69,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines/'.uniqid().'/update');
 
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);

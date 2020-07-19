@@ -10,11 +10,11 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link{% if 'create_repository_s3' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 's3'}) }}">{{ 'create_repository_s3'|trans }}{% if false == has_plugin('repository-s3') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link{% if 'create_repository_s3' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 's3'}) }}">{{ 'create_repository_s3'|trans }}{% if false == hasPlugin('repository-s3') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link{% if 'create_repository_gcs' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'gcs'}) }}">{{ 'create_repository_gcs'|trans }}{% if false == has_plugin('repository-gcs') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link{% if 'create_repository_gcs' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'gcs'}) }}">{{ 'create_repository_gcs'|trans }}{% if false == hasPlugin('repository-gcs') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
         </li>
     {% endif %}
 </ul>

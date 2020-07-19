@@ -3,7 +3,7 @@
 
     {% set columns = {'name': true, 'shards': true, 'replicas': true, 'documents': true, 'documents_deleted': false, 'primary_size': true, 'total_size': true, 'status': true, 'health': true, 'frozen': false, 'creation_date': true} %}
 
-    {% if true == check_version('6.6') %}
+    {% if true == hasFeature('freeze_unfreeze') %}
         {% set columns = columns|merge({'frozen': true}) %}
     {% endif %}
 

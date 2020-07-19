@@ -51,11 +51,11 @@ class ElasticsearchIndexController extends AbstractAppController
             'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
-        if (true == $this->callManager->checkVersion('5.1.1')) {
+        if (true == $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = $request->query->get('s', 'index:asc');
         }
 
-        if (true == $this->callManager->checkVersion('7.7')) {
+        if (true == $this->callManager->hasFeature('cat_expand_wildcards')) {
             $query['expand_wildcards'] = 'all';
         }
 
@@ -105,7 +105,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDICES_FORCE_MERGE', 'global');
 
-        if (false == $this->callManager->checkVersion('2.1')) {
+        if (false == $this->callManager->hasFeature('force_merge')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1078,7 +1078,7 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function freeze(Request $request, string $index): Response
     {
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1102,7 +1102,7 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function unfreeze(Request $request, string $index): Response
     {
-        if (false == $this->callManager->checkVersion('6.6')) {
+        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1126,7 +1126,7 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function forceMerge(Request $request, string $index): Response
     {
-        if (false == $this->callManager->checkVersion('2.1')) {
+        if (false == $this->callManager->hasFeature('force_merge')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1210,7 +1210,7 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function empty(Request $request, string $index): Response
     {
-        if (false == $this->callManager->checkVersion('5.0')) {
+        if (false == $this->callManager->hasFeature('delete_by_query')) {
             throw new AccessDeniedHttpException();
         }
 

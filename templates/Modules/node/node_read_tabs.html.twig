@@ -18,7 +18,7 @@
 
     {% if is_granted('NODE_RELOAD_SECURE_SETTINGS', node) %}
         <li class="nav-item">
-            <a class="nav-link{% if 'reload_secure_settings' == active %} active{% endif %}" href="{{ path('nodes_reload_secure_settings', {'node': node.name}) }}">{{ 'reload_secure_settings'|trans }}{% if false == check_version('6.4') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link{% if 'reload_secure_settings' == active %} active{% endif %}" href="{{ path('nodes_reload_secure_settings', {'node': node.name}) }}">{{ 'reload_secure_settings'|trans }}{% if false == hasFeature('reload_secure_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
         </li>
     {% endif %}
 </ul>

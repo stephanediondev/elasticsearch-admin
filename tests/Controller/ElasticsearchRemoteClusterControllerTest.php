@@ -14,7 +14,7 @@ class ElasticsearchRemoteClusterControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/remote-clusters');
 
-        if (false == $this->callManager->checkVersion('5.4')) {
+        if (false == $this->callManager->hasFeature('remote_clusters')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);

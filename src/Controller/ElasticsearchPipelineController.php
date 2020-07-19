@@ -31,7 +31,7 @@ class ElasticsearchPipelineController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -56,7 +56,7 @@ class ElasticsearchPipelineController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('PIPELINES_CREATE', 'global');
 
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -105,7 +105,7 @@ class ElasticsearchPipelineController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -125,7 +125,7 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -164,7 +164,7 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->callManager->checkVersion('6.0')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 

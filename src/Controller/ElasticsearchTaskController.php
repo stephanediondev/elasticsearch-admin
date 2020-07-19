@@ -21,7 +21,7 @@ class ElasticsearchTaskController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('TASKS', 'global');
 
-        if (false == $this->callManager->checkVersion('2.3')) {
+        if (false == $this->callManager->hasFeature('tasks')) {
             throw new AccessDeniedHttpException();
         }
 

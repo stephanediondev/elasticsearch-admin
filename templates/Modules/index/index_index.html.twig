@@ -21,7 +21,7 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
-                        {% if true == check_version('2.1') %}
+                        {% if true == hasFeature('force_merge') %}
                             {% if is_granted('INDICES_FORCE_MERGE', 'global') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndicesForceMergeAll',
@@ -75,7 +75,7 @@
 
                     {{ appImport.filterCheckboxes({'title': 'health'|trans, 'prefix': 'health', 'choices': ['red', 'yellow', 'green']}) }}
 
-                    {% if true == check_version('6.6') %}
+                    {% if true == hasFeature('freeze_unfreeze') %}
                         {{ appImport.filterCheckboxesBoolean({'title': 'frozen'|trans, 'prefix': 'frozen'}) }}
                     {% endif %}
                 </div>

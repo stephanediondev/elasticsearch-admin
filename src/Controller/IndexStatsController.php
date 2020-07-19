@@ -31,11 +31,11 @@ class IndexStatsController extends AbstractAppController
             'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
-        if (true == $this->callManager->checkVersion('5.1.1')) {
+        if (true == $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = $request->query->get('s', 'index:asc');
         }
 
-        if (true == $this->callManager->checkVersion('7.7')) {
+        if (true == $this->callManager->hasFeature('cat_expand_wildcards')) {
             $query['expand_wildcards'] = 'all';
         }
 

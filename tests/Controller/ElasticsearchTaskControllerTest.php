@@ -14,7 +14,7 @@ class ElasticsearchTaskControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/tasks');
 
-        if (false == $this->callManager->checkVersion('2.3')) {
+        if (false == $this->callManager->hasFeature('tasks')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
