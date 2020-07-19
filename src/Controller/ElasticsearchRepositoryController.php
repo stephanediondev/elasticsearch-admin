@@ -61,7 +61,11 @@ class ElasticsearchRepositoryController extends AbstractAppController
         }
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
-        $paths = $clusterSettings['path.repo'] ?? [];
+        if (true == isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
+            $paths = $clusterSettings['path.repo'];
+        } else {
+            $paths = [];
+        }
 
         $repository = new ElasticsearchRepositoryModel();
         $repository->setType($type);
