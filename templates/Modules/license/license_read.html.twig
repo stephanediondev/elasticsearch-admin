@@ -20,7 +20,7 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    {% if true == trial_status %}
+                    {% if true == trial_status and is_granted('LICENSE_START_TRIAL', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'StartTrial',
                             'title': 'start_trial'|trans,
@@ -28,7 +28,7 @@
                         }) }}
                     {% endif %}
 
-                    {% if true == basic_status %}
+                    {% if true == basic_status and is_granted('LICENSE_START_BASIC', 'global') %}
                         {{ appImport.buttonModal({
                             'id': 'StartBasic',
                             'title': 'start_basic'|trans,

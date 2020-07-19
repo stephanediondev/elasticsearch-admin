@@ -315,6 +315,8 @@ class AppRoleManager extends AbstractAppManager
             'CONSOLE_DELETE',
             'DEPRECATIONS',
             'LICENSE',
+            'LICENSE_START_TRIAL',
+            'LICENSE_START_BASIC',
         ],
         'app_user' => [
             'APP_USER_UPDATE',
