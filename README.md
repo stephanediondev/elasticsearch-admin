@@ -1,16 +1,6 @@
-## Requirements
+## Running with Docker
 
-- Elasticsearch 2.x, 5.x, 6.x or 7.x: https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.htm
-- Web server with rewrite module enabled
-- PHP 7.2.5 or higher: https://symfony.com/doc/current/setup/web_server_configuration.html
-- Composer: https://getcomposer.org/download/
-- npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
-
-## Installation
-
-### Docker
-
-Repository: https://hub.docker.com/r/stephanediondev/elasticsearch-admin
+- Repository: https://hub.docker.com/r/stephanediondev/elasticsearch-admin
 
 ```
 docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" -p 80:8080 -d --name elasticsearch-admin stephanediondev/elasticsearch-admin
@@ -19,11 +9,16 @@ docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx"
 # If Elasticsearch security features are enabled, add -e "ELASTICSEARCH_USERNAME=xxxxx" -e "ELASTICSEARCH_PASSWORD=xxxxx"
 ```
 
-### Classic
+## Source installation
+
+- Web server with rewrite module enabled
+- PHP 7.2.5 or higher: https://symfony.com/doc/current/setup/web_server_configuration.html
+- Composer: https://getcomposer.org/download/
+- npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 Download or clone the repository
 
-Configure a vhost with the document root set to "public" folder (ie /var/www/elasticsearch-admin/public)
+Configure a vhost with the document root set to the "public" folder (ie /var/www/elasticsearch-admin/public)
 
 ```
 cd /var/www/elasticsearch-admin/
@@ -41,6 +36,7 @@ cp .env.dist .env
 
 ## Features
 
+- [x] Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x
 - [x] Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, credentials or not
 - [x] App users: register, login, logout, list, create, read, update, delete
 - [x] App roles: list, create, read, update (permissions), delete
@@ -64,7 +60,7 @@ cp .env.dist .env
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
 - [x] Deprecations info
-- [x] License: read, status / start trial / revert to basic [6.6], features
+- [x] License [5.0]: read, status / start trial / revert to basic [6.6], features
 
 ## Todo
 
