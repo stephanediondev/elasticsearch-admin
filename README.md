@@ -1,3 +1,11 @@
+- [Running with Docker](#running-with-docker)
+- [Source installation](#source-installation)
+- [Features](#features)
+- [Todo](#todo)
+- [Screenshots](#screenshots)
+- [Other tools](#other-tools)
+- [Unit tests](#unit-tests)
+
 ## Running with Docker
 
 - Repository: https://hub.docker.com/r/stephanediondev/elasticsearch-admin
@@ -71,12 +79,6 @@ cp .env.dist .env
 - [ ] Remote clusters: create, update, delete
 - [ ] License: update
 
-## Unit tests
-
-```
-bin/console app:phpunit && bin/phpunit
-```
-
 ## Screenshots
 
 [![Login](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-login.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-login.png)
@@ -129,3 +131,9 @@ bin/console app:phpunit && bin/phpunit
 - https://github.com/moshe/elasticsearch-comrade
 - https://opensource.appbase.io/dejavu/
 - https://www.elastic-kaizen.com/
+
+## Unit tests
+
+```
+bin/console app:phpunit && bin/phpunit
+```
