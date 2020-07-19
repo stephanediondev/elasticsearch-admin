@@ -64,7 +64,7 @@ cp .env.dist .env
 - [x] Tasks [2.3]: list
 - [x] Remote clusters [5.4]: list
 - [x] Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
-- [x] Pipelines: list, create, read, update, delete, copy
+- [x] Pipelines [5.0]: list, create, read, update, delete, copy
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
 - [x] Deprecations info
