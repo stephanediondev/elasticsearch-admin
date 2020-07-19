@@ -107,7 +107,6 @@ class AppRoleController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/app_role/app_role_read.html.twig', [
             'role' => $role,
-            'modules' => $this->appRoleManager->getAttributes(),
             'permissions_saved' => $this->appRoleManager->getPermissionsByRole($role->getName()),
         ]);
     }

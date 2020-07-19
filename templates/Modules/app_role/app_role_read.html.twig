@@ -41,17 +41,15 @@
             </p>
 
             <table class="table table-hover table-sm">
-                {% for module, permissions in modules %}
+                {% for module, permissions in permissions_saved %}
                     <tr>
                         <th colspan="2">{{ module }}</th>
                     </tr>
 
                     {% for permission in permissions %}
-                        {% if permissions_saved[module] is defined and permission in permissions_saved[module] %}
-                            <tr>
-                                <td>{{ permission }}</td>
-                            </tr>
-                        {% endif %}
+                        <tr>
+                            <td>{{ permission }}</td>
+                        </tr>
                     {% endfor %}
                 {% endfor %}
             </table>
