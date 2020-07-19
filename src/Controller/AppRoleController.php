@@ -133,9 +133,9 @@ class AppRoleController extends AbstractAppController
     }
 
     /**
-     * @Route("/app-roles/{role}/permission/{permission}", name="app_roles_permission")
+     * @Route("/app-roles/{role}/module/{module}/permission/{permission}", name="app_roles_permission")
      */
-    public function permission(Request $request, string $role, string $permission): JsonResponse
+    public function permission(Request $request, string $role, string $module, string $permission): JsonResponse
     {
         $role = $this->appRoleManager->getByName($role);
 
@@ -154,7 +154,7 @@ class AppRoleController extends AbstractAppController
         $value = $content['value'] ?? false;
 
         if (in_array($value, ['yes', 'no'])) {
-            $callResponse = $this->appRoleManager->setPermission($role, $permission, $value);
+            $callResponse = $this->appRoleManager->setPermission($role, $module, $permission, $value);
 
             return new JsonResponse($callResponse->getContent(), JsonResponse::HTTP_OK);
         } else {

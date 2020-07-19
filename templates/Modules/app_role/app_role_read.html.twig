@@ -47,7 +47,7 @@
                     </tr>
 
                     {% for permission in permissions %}
-                        {% if permission in permissions_saved %}
+                        {% if permissions_saved[module] is defined and permission in permissions_saved[module] %}
                             <tr>
                                 <td>{{ permission }}</td>
                             </tr>

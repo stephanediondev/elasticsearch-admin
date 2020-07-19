@@ -33,9 +33,9 @@
                             <td>
                                 <div class="custom-control custom-switch custom-switch-email">
                                     <input type="checkbox" class="custom-control-input custom-control-input-permission"
-                                    data-url="{{ path('app_roles_permission', {'role': role.name, 'permission': permission}) }}"
-                                    id="{{ permission }}"{% if permission in permissions_saved %} checked="checked"{% endif %}>
-                                    <label class="custom-control-label" for="{{ permission }}"></label>
+                                    data-url="{{ path('app_roles_permission', {'role': role.name, 'module': module, 'permission': permission}) }}"
+                                    id="{{ module }}-{{ permission }}"{% if permissions_saved[module] is defined and permission in permissions_saved[module] %} checked="checked"{% endif %}>
+                                    <label class="custom-control-label" for="{{ module }}-{{ permission }}"></label>
                                 </div>
                             </td>
                         </tr>

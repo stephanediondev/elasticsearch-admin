@@ -106,6 +106,7 @@ class AppRoleManager extends AbstractAppManager
         $permissions = [];
         $query = [
             'q' => 'role:"'.$role.'"',
+            'size' => 1000,
         ];
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/.elastictsearch-admin-permissions/_search');
@@ -115,19 +116,21 @@ class AppRoleManager extends AbstractAppManager
 
         if ($results && 0 < count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
-                $permissions[] = $row['_source']['permission'];
+                $row = $row['_source'];
+                $permissions[$row['module']][] = $row['permission'];
             }
         }
 
         return $permissions;
     }
 
-    public function setPermission(AppRoleModel $roleModel, string $permission, string $value): CallResponseModel
+    public function setPermission(AppRoleModel $roleModel, string $module, string $permission, string $value): CallResponseModel
     {
-        $id = $roleModel->getName().'-'.$permission;
+        $id = $roleModel->getName().'-'.$module.'-'.$permission;
 
         $json = [
             'role' => $roleModel->getName(),
+            'module' => $module,
             'permission' => $permission,
             'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
         ];
