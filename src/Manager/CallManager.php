@@ -35,6 +35,8 @@ class CallManager
         'allocation_explain' => '5.0',
         'delete_by_query' => '5.0',
         'load_average' => '5.0',
+        'license' => '5.0',
+        'xpack' => '5.0',
         'tasks' => '2.3',
         'cat_repositories_snapshots' => '2.1',
         'force_merge' => '2.1',
@@ -162,12 +164,16 @@ class CallManager
 
     public function setXpack()
     {
-        try {
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_xpack');
-            $callResponse = $this->call($callRequest);
-            $this->xpack = $callResponse->getContent();
-        } catch (CallException $e) {
+        if (true == $this->hasFeature('xpack')) {
+            try {
+                $callRequest = new CallRequestModel();
+                $callRequest->setPath('/_xpack');
+                $callResponse = $this->call($callRequest);
+                $this->xpack = $callResponse->getContent();
+            } catch (CallException $e) {
+                $this->xpack = [];
+            }
+        } else {
             $this->xpack = [];
         }
     }
