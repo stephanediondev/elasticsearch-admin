@@ -21,6 +21,7 @@ class CallManager
         'composable_template' => '7.8',
         'cat_expand_wildcards' => '7.7',
         'voting_only' => '7.3',
+        'builtin_privileges' => '7.3',
         '_security_endpoint' => '6.6',
         'freeze_unfreeze' => '6.6',
         'license_status' => '6.6',

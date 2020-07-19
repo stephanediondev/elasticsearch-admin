@@ -28,9 +28,10 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.4/release-highlights-7
 
 ### 7.3.0
 
-https://www.elastic.co/guide/en/elasticsearch/reference/7.3/release-highlights-7.3.0.html
+https://www.elastic.co/guide/en/elasticsearch/reference/7.3/release-notes-7.3.0.html
 
-- Voting-only master nodes
+- Add voting-only master node #43410 (issue: #14340)
+- Support builtin privileges in get privileges API #42134 (issue: #29771)
 
 ### 7.1.0
 
