@@ -39,6 +39,22 @@
                 <strong>{{ 'created_at'|trans }}</strong><br>
                 {{ role.createdAt|date('Y-m-d H:i:s') }}
             </p>
+
+            <table class="table table-hover table-sm">
+                {% for module, permissions in modules %}
+                    <tr>
+                        <th colspan="2">{{ module }}</th>
+                    </tr>
+
+                    {% for permission in permissions %}
+                        {% if permission in permissions_saved %}
+                            <tr>
+                                <td>{{ permission }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </table>
         {% endblock %}
     {% endembed %}
 {% endblock %}

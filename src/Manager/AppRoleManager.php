@@ -83,7 +83,6 @@ class AppRoleManager extends AbstractAppManager
                 $callRequest->setPath('/.elastictsearch-admin-roles/doc/');
             }
         }
-        $callRequest->setMethod('POST');
         $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
@@ -98,6 +97,52 @@ class AppRoleManager extends AbstractAppManager
             $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$id);
         }
         $callRequest->setMethod('DELETE');
+
+        return $this->callManager->call($callRequest);
+    }
+
+    public function getPermissionsByRole(string $role): array
+    {
+        $permissions = [];
+        $query = [
+            'q' => 'role:"'.$role.'"',
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/.elastictsearch-admin-permissions/_search');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
+
+        if ($results && 0 < count($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $row) {
+                $permissions[] = $row['_source']['permission'];
+            }
+        }
+
+        return $permissions;
+    }
+
+    public function setPermission(AppRoleModel $roleModel, string $permission, string $value): CallResponseModel
+    {
+        $id = $roleModel->getName().'-'.$permission;
+
+        $json = [
+            'role' => $roleModel->getName(),
+            'permission' => $permission,
+            'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
+        ];
+        $callRequest = new CallRequestModel();
+        if ('yes' == $value) {
+            $callRequest->setMethod('PUT');
+        } else {
+            $callRequest->setMethod('DELETE');
+        }
+        if (true == $this->callManager->checkVersion('6.2')) {
+            $callRequest->setPath('/.elastictsearch-admin-permissions/_doc/'.$id);
+        } else {
+            $callRequest->setPath('/.elastictsearch-admin-permissions/doc/'.$id);
+        }
+        $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
     }
@@ -150,6 +195,11 @@ class AppRoleManager extends AbstractAppManager
 
     public function getAttributes()
     {
+        ksort($this->attributes);
+        foreach ($this->attributes as $module => $permissions) {
+            sort($permissions);
+            $this->attributes[$module] = $permissions;
+        }
         return $this->attributes;
     }
 

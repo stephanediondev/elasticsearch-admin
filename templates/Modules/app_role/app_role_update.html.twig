@@ -21,7 +21,49 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'update'|trans}) }}
 
-            {{ appImport.form({'form': form}) }}
+            <table class="table table-hover table-sm">
+                {% for module, permissions in modules %}
+                    <tr>
+                        <th colspan="2">{{ module }}</th>
+                    </tr>
+
+                    {% for permission in permissions %}
+                        <tr>
+                            <td>{{ permission }}</td>
+                            <td>
+                                <div class="custom-control custom-switch custom-switch-email">
+                                    <input type="checkbox" class="custom-control-input custom-control-input-permission"
+                                    data-url="{{ path('app_roles_permission', {'role': role.name, 'permission': permission}) }}"
+                                    id="{{ permission }}"{% if permission in permissions_saved %} checked="checked"{% endif %}>
+                                    <label class="custom-control-label" for="{{ permission }}"></label>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </table>
         {% endblock %}
     {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).on('change', '.custom-control-input-permission', function() {
+            var body = {'value': $(this).is(':checked') ? 'yes' : 'no'};
+            var url = $(this).data('url');
+            fetch(url, {
+                credentials: 'include',
+                method: 'POST',
+                body: JSON.stringify(body),
+                mode: 'cors',
+            })
+            .then(function(Response) {
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        });
+    </script>
 {% endblock %}

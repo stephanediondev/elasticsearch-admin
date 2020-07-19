@@ -10,6 +10,7 @@ use App\Model\AppRoleModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -18,9 +19,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AppRoleController extends AbstractAppController
 {
-    public function __construct(AppRoleManager $elasticsearchRoleManager)
+    public function __construct(AppRoleManager $appRoleManager)
     {
-        $this->elasticsearchRoleManager = $elasticsearchRoleManager;
+        $this->appRoleManager = $appRoleManager;
     }
 
     /**
@@ -30,7 +31,7 @@ class AppRoleController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('APP_ROLES', 'global');
 
-        $roles = $this->elasticsearchRoleManager->getAll();
+        $roles = $this->appRoleManager->getAll();
 
         return $this->renderAbstract($request, 'Modules/app_role/app_role_index.html.twig', [
             'roles' => $this->paginatorManager->paginate([
@@ -54,7 +55,7 @@ class AppRoleController extends AbstractAppController
         $role = false;
 
         if ($request->query->get('role')) {
-            $role = $this->elasticsearchRoleManager->getByName($request->query->get('role'));
+            $role = $this->appRoleManager->getByName($request->query->get('role'));
 
             if (false == $role) {
                 throw new NotFoundHttpException();
@@ -74,7 +75,7 @@ class AppRoleController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $callResponse = $this->elasticsearchRoleManager->send($role);
+                $callResponse = $this->appRoleManager->send($role);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
@@ -98,7 +99,7 @@ class AppRoleController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('APP_ROLES', 'global');
 
-        $role = $this->elasticsearchRoleManager->getByName($role);
+        $role = $this->appRoleManager->getByName($role);
 
         if (false == $role) {
             throw new NotFoundHttpException();
@@ -106,6 +107,8 @@ class AppRoleController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/app_role/app_role_read.html.twig', [
             'role' => $role,
+            'modules' => $this->appRoleManager->getAttributes(),
+            'permissions_saved' => $this->appRoleManager->getPermissionsByRole($role->getName()),
         ]);
     }
 
@@ -114,7 +117,7 @@ class AppRoleController extends AbstractAppController
      */
     public function update(Request $request, string $role): Response
     {
-        $role = $this->elasticsearchRoleManager->getByName($role);
+        $role = $this->appRoleManager->getByName($role);
 
         if (false == $role) {
             throw new NotFoundHttpException();
@@ -122,28 +125,41 @@ class AppRoleController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('APP_ROLE_UPDATE', $role);
 
-        $form = $this->createForm(AppRoleType::class, $role, ['context' => 'update']);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $callResponse = $this->elasticsearchRoleManager->send($role);
-
-                $this->addFlash('info', json_encode($callResponse->getContent()));
-
-                sleep(2);
-
-                return $this->redirectToRoute('app_roles_read', ['role' => $role->getName()]);
-            } catch (CallException $e) {
-                $this->addFlash('danger', $e->getMessage());
-            }
-        }
-
         return $this->renderAbstract($request, 'Modules/app_role/app_role_update.html.twig', [
             'role' => $role,
-            'form' => $form->createView(),
+            'modules' => $this->appRoleManager->getAttributes(),
+            'permissions_saved' => $this->appRoleManager->getPermissionsByRole($role->getName()),
         ]);
+    }
+
+    /**
+     * @Route("/app-roles/{role}/permission/{permission}", name="app_roles_permission")
+     */
+    public function permission(Request $request, string $role, string $permission): JsonResponse
+    {
+        $role = $this->appRoleManager->getByName($role);
+
+        if (false == $role) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('APP_ROLE_UPDATE', $role);
+
+        $json = [];
+        $responseStatus = JsonResponse::HTTP_OK;
+
+        $content = $request->getContent();
+        $content = json_decode($content, true);
+
+        $value = $content['value'] ?? false;
+
+        if (in_array($value, ['yes', 'no'])) {
+            $callResponse = $this->appRoleManager->setPermission($role, $permission, $value);
+
+            return new JsonResponse($callResponse->getContent(), JsonResponse::HTTP_OK);
+        } else {
+            throw new AccessDeniedHttpException();
+        }
     }
 
     /**
@@ -151,7 +167,7 @@ class AppRoleController extends AbstractAppController
      */
     public function delete(Request $request, string $role): Response
     {
-        $role = $this->elasticsearchRoleManager->getByName($role);
+        $role = $this->appRoleManager->getByName($role);
 
         if (false == $role) {
             throw new NotFoundHttpException();
@@ -159,7 +175,7 @@ class AppRoleController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('APP_ROLE_DELETE', $role);
 
-        $callResponse = $this->elasticsearchRoleManager->deleteById($role->getId());
+        $callResponse = $this->appRoleManager->deleteById($role->getId());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
