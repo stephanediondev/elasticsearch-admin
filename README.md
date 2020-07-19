@@ -85,6 +85,8 @@ bin/console app:phpunit && bin/phpunit
 
 [![Login](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-login.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-login.png)
 
+[![App role update](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-app-role-update.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-app-role-update.png)
+
 [![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-cluster.png)
 
 [![Cluster settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/resized-cluster-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/assets/images/original-cluster-settings.png)
