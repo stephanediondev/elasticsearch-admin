@@ -98,8 +98,35 @@ class AppUserController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
+        $roles = $user->getRoles();
+
+        if (true == in_array('ROLE_ADMIN', $roles)) {
+            $permissionsSaved = $this->appRoleManager->getAttributes();
+
+        } else {
+            $permissionsSaved = [];
+            foreach ($roles as $role) {
+                if (false == in_array($role, ['ROLE_ADMIN', 'ROLE_USER'])) {
+                    $permissionsByRole = $this->appRoleManager->getPermissionsByRole($role);
+                    foreach ($permissionsByRole as $module => $permissions) {
+                        if (false == isset($permissionsSaved[$module])) {
+                            $permissionsSaved[$module] = [];
+                        }
+                        $permissionsSaved[$module] = array_merge($permissionsSaved[$module], $permissions);
+                    }
+                }
+            }
+
+            ksort($permissionsSaved);
+            foreach ($permissionsSaved as $module => $permissions) {
+                sort($permissions);
+                $permissionsSaved[$module] = $permissions;
+            }
+        }
+
         return $this->renderAbstract($request, 'Modules/app_user/app_user_read.html.twig', [
             'user' => $user,
+            'permissions_saved' => $permissionsSaved,
         ]);
     }
 

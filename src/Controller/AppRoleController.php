@@ -105,9 +105,17 @@ class AppRoleController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
+        $permissionsSaved = $this->appRoleManager->getPermissionsByRole($role->getName());
+
+        ksort($permissionsSaved);
+        foreach ($permissionsSaved as $module => $permissions) {
+            sort($permissions);
+            $permissionsSaved[$module] = $permissions;
+        }
+
         return $this->renderAbstract($request, 'Modules/app_role/app_role_read.html.twig', [
             'role' => $role,
-            'permissions_saved' => $this->appRoleManager->getPermissionsByRole($role->getName()),
+            'permissions_saved' => $permissionsSaved,
         ]);
     }
 
