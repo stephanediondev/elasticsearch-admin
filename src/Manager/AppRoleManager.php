@@ -22,7 +22,13 @@ class AppRoleManager extends AbstractAppManager
 
             foreach ($user->getRoles() as $role) {
                 if (false == in_array($role, ['ROLE_ADMIN', 'ROLE_USER'])) {
-                    $this->permissions = array_merge($this->permissions, $this->getPermissionsByRole($role));
+                    $permissionsByRole = $this->getPermissionsByRole($role);
+                    foreach ($permissionsByRole as $module => $permissions) {
+                        if (false == isset($this->permissions[$module])) {
+                            $this->permissions[$module] = [];
+                        }
+                        $this->permissions[$module] = array_merge($this->permissions[$module], $permissions);
+                    }
                 }
             }
         }

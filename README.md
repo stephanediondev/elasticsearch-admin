@@ -42,7 +42,8 @@ cp .env.dist .env
 ## Features
 
 - [x] Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, credentials or not
-- [x] App users: register, login, logout
+- [x] App users: register, login, logout, list, create, read, update, delete
+- [x] App roles: list, create, read, update (permissions), delete
 - [x] Cluster: basic metrics, allocation explain [5.0], list settings, update settings (transient or persistent)
 - [x] Nodes: list, read, usage, plugins, reload secure settings [6.4]
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], import (ODS, XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
@@ -68,8 +69,6 @@ cp .env.dist .env
 ## Todo
 
 - [ ] Shards: read, segments, cluster reroute (move, allocate replica, cancel)
-- [ ] App users: list, create, read, update, delete
-- [ ] App roles (with permissions): list, create, read, update, delete
 - [ ] Indices: shrink, split, clone, import from database
 - [ ] Index templates (legacy): convert to new version
 - [ ] Repositories: create (url, source, hdfs, azure)

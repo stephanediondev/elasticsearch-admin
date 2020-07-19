@@ -8,13 +8,17 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 abstract class AbstractAppVoter extends Voter
 {
+    private $permissions = [];
+
     public function __construct(Security $security, AppRoleManager $appRoleManager)
     {
         $this->security = $security;
         $this->appRoleManager = $appRoleManager;
 
         $user = $this->security->getuser();
-        $this->permissions = $this->appRoleManager->setUserPermissions($user);
+        if ($user) {
+            $this->permissions = $this->appRoleManager->setUserPermissions($user);
+        }
     }
 
     public function isGranted(string $attribute)
