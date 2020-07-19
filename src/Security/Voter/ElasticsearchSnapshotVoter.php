@@ -9,9 +9,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchSnapshotVoter extends AbstractAppVoter
 {
+    protected $module = 'snapshot';
+
     protected function supports($attribute, $subject)
     {
-        $attributes = $this->appRoleManager->getAttributesByModule('snapshot');
+        $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchSnapshotModel;
     }

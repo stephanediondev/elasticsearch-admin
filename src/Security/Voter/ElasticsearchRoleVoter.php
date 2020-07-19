@@ -9,9 +9,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchRoleVoter extends AbstractAppVoter
 {
+    protected $module = 'elasticsearch_role';
+
     protected function supports($attribute, $subject)
     {
-        $attributes = $this->appRoleManager->getAttributesByModule('elasticsearch_role');
+        $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchRoleModel;
     }

@@ -9,9 +9,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchIndexTemplateLegacyVoter extends AbstractAppVoter
 {
+    protected $module = 'index_template_legacy';
+
     protected function supports($attribute, $subject)
     {
-        $attributes = $this->appRoleManager->getAttributesByModule('index_template_legacy');
+        $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchIndexTemplateLegacyModel;
     }

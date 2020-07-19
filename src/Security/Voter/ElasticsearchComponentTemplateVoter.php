@@ -9,9 +9,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchComponentTemplateVoter extends AbstractAppVoter
 {
+    protected $module = 'component_template';
+
     protected function supports($attribute, $subject)
     {
-        $attributes = $this->appRoleManager->getAttributesByModule('component_template');
+        $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchComponentTemplateModel;
     }

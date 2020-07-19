@@ -8,9 +8,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class GlobalVoter extends AbstractAppVoter
 {
+    protected $module = 'global';
+
     protected function supports($attribute, $subject)
     {
-        $attributes = $this->appRoleManager->getAttributesByModule('global');
+        $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && 'global' == $subject;
     }

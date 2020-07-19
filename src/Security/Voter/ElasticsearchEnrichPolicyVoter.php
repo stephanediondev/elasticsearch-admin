@@ -9,9 +9,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchEnrichPolicyVoter extends AbstractAppVoter
 {
+    protected $module = 'enrich_policy';
+
     protected function supports($attribute, $subject)
     {
-        $attributes = $this->appRoleManager->getAttributesByModule('enrich_policy');
+        $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && $subject instanceof ElasticsearchEnrichPolicyModel;
     }

@@ -11,6 +11,25 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppRoleManager extends AbstractAppManager
 {
+    private $permissionsDefined = false;
+
+    private $permissions = [];
+
+    public function setUserPermissions($user)
+    {
+        if (false == $this->permissionsDefined) {
+            $this->permissionsDefined = true;
+
+            foreach ($user->getRoles() as $role) {
+                if (false == in_array($role, ['ROLE_ADMIN', 'ROLE_USER'])) {
+                    $this->permissions = array_merge($this->permissions, $this->getPermissionsByRole($role));
+                }
+            }
+        }
+
+        return $this->permissions;
+    }
+
     public function getByName(string $name): ?AppRoleModel
     {
         $roleModel = null;
