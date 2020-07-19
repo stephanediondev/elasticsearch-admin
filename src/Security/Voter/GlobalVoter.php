@@ -25,6 +25,6 @@ class GlobalVoter extends AbstractAppVoter
             return false;
         }
 
-        return $this->isGranted($attribute, $user);
+        return $this->isGranted($attribute);
     }
 }
