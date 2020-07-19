@@ -126,6 +126,24 @@ class AppRoleManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    public function deletePermissionsByRoleName(string $name): CallResponseModel
+    {
+        $json = [
+            'query' => [
+                'match' => [
+                    'role' => $name,
+                ],
+            ],
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/.elastictsearch-admin-permissions/_delete_by_query');
+        $callRequest->setJson($json);
+
+        return $this->callManager->call($callRequest);
+
+    }
+
     public function getPermissionsByRole(string $role): array
     {
         $permissions = [];

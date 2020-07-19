@@ -179,6 +179,10 @@ class AppRoleController extends AbstractAppController
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
+        $callResponse = $this->appRoleManager->deletePermissionsByRoleName($role->getName());
+
+        $this->addFlash('info', json_encode($callResponse->getContent()));
+
         sleep(2);
 
         return $this->redirectToRoute('app_roles');
