@@ -17,7 +17,7 @@ abstract class AbstractAppVoter extends Voter
 
         $user = $this->security->getuser();
         if ($user) {
-            $this->permissions = $this->appRoleManager->setUserPermissions($user);
+            $this->permissions = $this->appRoleManager->getPermissionsByUser($user);
         }
     }
 

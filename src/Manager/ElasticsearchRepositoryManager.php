@@ -94,7 +94,7 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function selectRepositories()
+    public function selectRepositories(): array
     {
         $repositories = [];
 

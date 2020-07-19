@@ -104,7 +104,7 @@ class ElasticsearchUserManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function selectUsers()
+    public function selectUsers(): array
     {
         $users = [];
 

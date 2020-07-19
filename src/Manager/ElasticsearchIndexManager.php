@@ -176,7 +176,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $mappingsFlat;
     }
 
-    public function selectIndices()
+    public function selectIndices(): array
     {
         $query = ['h' => 'index'];
         if (true == $this->callManager->hasFeature('cat_sort')) {
@@ -192,7 +192,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $indices;
     }
 
-    public function selectAliases()
+    public function selectAliases(): array
     {
         $aliases = [];
 

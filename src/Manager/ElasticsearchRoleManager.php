@@ -86,7 +86,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function selectRoles()
+    public function selectRoles(): array
     {
         $roles = [];
 

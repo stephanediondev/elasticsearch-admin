@@ -69,7 +69,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodes;
     }
 
-    public function selectNodes()
+    public function selectNodes(): array
     {
         $nodes = [];
 
