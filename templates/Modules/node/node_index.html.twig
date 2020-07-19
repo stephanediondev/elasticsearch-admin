@@ -53,11 +53,15 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        {% if true == checkVersion('6.0') and cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and 'true' == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
+        {% if true == hasFeature('cat_nodes_disk') and cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and 'true' == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
             var disk_threshold_enabled = true;
             var disk_watermark_low = {{ cluster_settings['cluster.routing.allocation.disk.watermark.low']|replace({'%': ''}) }};
             var disk_watermark_high = {{ cluster_settings['cluster.routing.allocation.disk.watermark.high']|replace({'%': ''}) }};
-            var disk_watermark_flood_stage = {{ cluster_settings['cluster.routing.allocation.disk.watermark.flood_stage']|replace({'%': ''}) }};
+            {% if cluster_settings['cluster.routing.allocation.disk.watermark.flood_stage'] is defined %}
+                var disk_watermark_flood_stage = {{ cluster_settings['cluster.routing.allocation.disk.watermark.flood_stage']|replace({'%': ''}) }};
+            {% else %}
+                var disk_watermark_flood_stage = 100;
+            {% endif %}
         {% else %}
             var disk_threshold_enabled = false;
         {% endif %}
@@ -88,17 +92,23 @@
                 for(var k in json) {
                     $('#' + k + '-uptime').text(json[k]['uptime']);
 
-                    load_average.forEach(function(key) {
-                        if (typeof json[k]['stats']['os']['cpu']['load_average'][key] != 'undefined') {
-                            var value = json[k]['stats']['os']['cpu']['load_average'][key];
-                            value = Math.round(value * 100) / 100;
-                            $('#' + k + '-load-average-' + key).text(value);
-                        }
-                    });
+                    {% if true == hasFeature('load_average') %}
+                        load_average.forEach(function(key) {
+                            if (typeof json[k]['stats']['os']['cpu']['load_average'][key] != 'undefined') {
+                                var value = json[k]['stats']['os']['cpu']['load_average'][key];
+                                value = Math.round(value * 100) / 100;
+                                $('#' + k + '-load-average-' + key).text(value);
+                            }
+                        });
+                    {% endif %}
 
-                    $('#' + k + '-os-cpu-percent').text(json[k]['stats']['os']['cpu']['percent']);
+                    if (typeof json[k]['stats']['os']['cpu'] != 'undefined' && json[k]['stats']['os']['cpu']['percent'] != 'undefined') {
+                        $('#' + k + '-os-cpu-percent').text(json[k]['stats']['os']['cpu']['percent']);
+                    }
                     $('#' + k + '-process-cpu-percent').text(json[k]['stats']['process']['cpu']['percent']);
-                    $('#' + k + '-os-allocated_processors').text(json[k]['os']['allocated_processors']);
+                    if (typeof json[k]['os']['allocated_processors'] != 'undefined') {
+                        $('#' + k + '-os-allocated_processors').text(json[k]['os']['allocated_processors']);
+                    }
 
                     $('#' + k + '-heap-percent').text(json[k]['heap.percent']);
                     $('#' + k + '-heap-current').text(humanFilesize(json[k]['heap.current']));
@@ -108,9 +118,11 @@
                     $('#' + k + '-ram-current').text(humanFilesize(json[k]['ram.current']));
                     $('#' + k + '-ram-max').text(humanFilesize(json[k]['ram.max']));
 
-                    $('#' + k + '-disk-used_percent').text(json[k]['disk.used_percent']);
-                    $('#' + k + '-disk-used').text(humanFilesize(json[k]['disk.used']));
-                    $('#' + k + '-disk-total').text(humanFilesize(json[k]['disk.total']));
+                    {% if true == hasFeature('cat_nodes_disk') %}
+                        $('#' + k + '-disk-used_percent').text(json[k]['disk.used_percent']);
+                        $('#' + k + '-disk-used').text(humanFilesize(json[k]['disk.used']));
+                        $('#' + k + '-disk-total').text(humanFilesize(json[k]['disk.total']));
+                    {% endif %}
 
                     if (true == disk_threshold_enabled) {
                         $('#' + k + '-disk-watermark_low').addClass('d-none');

@@ -1,18 +1,18 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': false, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'load_average': true, 'cpu_usage': false, 'memory_usage': true, 'disk_usage': false, 'heap_usage': true} %}
+    {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': false, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'load_average': false, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': false, 'heap_usage': true} %}
 
     {% if true == hasFeature('voting_only') %}
         {% set columns = columns|merge({'voting_only': true}) %}
     {% endif %}
 
-    {% if true == hasFeature('disk_usage') %}
-        {% set columns = columns|merge({'disk_usage': true}) %}
+    {% if true == hasFeature('load_average') %}
+        {% set columns = columns|merge({'load_average': true}) %}
     {% endif %}
 
-    {% if true == hasFeature('cpu_usage') %}
-        {% set columns = columns|merge({'cpu_usage': true}) %}
+    {% if true == hasFeature('cat_nodes_disk') %}
+        {% set columns = columns|merge({'disk_usage': true}) %}
     {% endif %}
 
     {% block thead %}
@@ -196,9 +196,15 @@
 
                         {% if 'cpu_usage' == column %}
                             <td>
-                                <strong><span id="{{ row['name'] }}-os-cpu-percent">{{ row['stats']['os']['cpu']['percent'] }}</span>%</strong>
-                                <br><small>{{ 'process'|trans }}: <span id="{{ row['name'] }}-process-cpu-percent">{{ row['stats']['process']['cpu']['percent'] }}</span>%</small>
-                                <br><small>{{ 'processors'|trans }}: <span id="{{ row['name'] }}-os-allocated_processors">{{ row['os']['allocated_processors'] }}</span></small>
+                                {% if row['stats']['os']['cpu']['percent'] is defined %}
+                                    <strong><span id="{{ row['name'] }}-os-cpu-percent">{{ row['stats']['os']['cpu']['percent'] }}</span>%</strong>
+                                    <br><small>{{ 'process'|trans }}: <span id="{{ row['name'] }}-process-cpu-percent">{{ row['stats']['process']['cpu']['percent'] }}</span>%</small>
+                                {% else %}
+                                    <strong>{{ 'process'|trans }}: <span id="{{ row['name'] }}-process-cpu-percent">{{ row['stats']['process']['cpu']['percent'] }}</span>%</strong>
+                                {% endif %}
+                                {% if row['os']['allocated_processors'] is defined %}
+                                    <br><small>{{ 'processors'|trans }}: <span id="{{ row['name'] }}-os-allocated_processors">{{ row['os']['allocated_processors'] }}</span></small>
+                                {% endif %}
                             </td>
                         {% endif %}
 

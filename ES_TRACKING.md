@@ -79,6 +79,12 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0.
 
 - Allows multiple patterns to be specified for index templates #21009 (issue: #20690)
 
+### 5.6.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.0.html
+
+- Expand /_cat/nodes to return information about hard drive #21775 (issue: #21679)
+
 ### 5.4.0
 
 https://www.elastic.co/guide/en/elasticsearch/reference/5.4/release-notes-5.4.0.html
@@ -97,6 +103,9 @@ https://www.elastic.co/guide/en/elasticsearch/reference/5.0/release-notes-5.0.0.
 
 - Add API to explain why a shard is or isn’t assigned #17305 (issue: #14593)
 - Remove Delete-By-Query plugin #18516 (issue: #18469)
+- Add system CPU percent to OS stats #14741
+- Modify load average format #15932 (issue: #15907)
+- Reintroduce five-minute and fifteen-minute load averages on Linux #15907 (issues: #12049, #14741)
 
 ### 2.3.0
 
@@ -110,3 +119,4 @@ https://www.elastic.co/guide/en/elasticsearch/reference/2.1/release-notes-2.1.0.
 
 - Add cat API for repositories and snapshots #14247 (issue: #13919)
 - Add Force Merge API, deprecate Optimize API #13778
+- Add os.allocated_processors stats #14409 (issue: #13917)
