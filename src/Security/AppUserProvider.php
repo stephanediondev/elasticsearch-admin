@@ -85,34 +85,27 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
 
     private function getUserByEmail($email)
     {
+        $query = [
+            'q' => 'email:"'.$email.'"',
+        ];
         $callRequest = new CallRequestModel();
-        $callRequest->setMethod('HEAD');
-        $callRequest->setPath('/.elastictsearch-admin-users');
+        $callRequest->setPath('/.elastictsearch-admin-users/_search');
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
 
-        if (Response::HTTP_OK == $callResponse->getCode()) {
-            $query = [
-                'q' => 'email:"'.$email.'"',
-            ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setPath('/.elastictsearch-admin-users/_search');
-            $callRequest->setQuery($query);
-            $callResponse = $this->callManager->call($callRequest);
-            $results = $callResponse->getContent();
+        if (1 == count($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $row) {
+                $row = $row['_source'];
 
-            if (1 == count($results['hits']['hits'])) {
-                foreach ($results['hits']['hits'] as $row) {
-                    $row = $row['_source'];
-
-                    $user = new AppUserModel();
-                    $user->setEmail($row['email']);
-                    $user->setPassword($row['password']);
-                    $user->setRoles($row['roles']);
-                    if (true == isset($row['created_at']) && '' != $row['created_at']) {
-                        $user->setCreatedAt(new \Datetime($row['created_at']));
-                    }
-                    return $user;
+                $user = new AppUserModel();
+                $user->setEmail($row['email']);
+                $user->setPassword($row['password']);
+                $user->setRoles($row['roles']);
+                if (true == isset($row['created_at']) && '' != $row['created_at']) {
+                    $user->setCreatedAt(new \Datetime($row['created_at']));
                 }
+                return $user;
             }
         }
 
