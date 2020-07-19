@@ -155,7 +155,7 @@ class AppRoleManager extends AbstractAppManager
 
     public function getAttributesByModule($module)
     {
-        return isset($this->attributes[$module]) ? array_keys($this->attributes[$module]) : [];
+        return $this->attributes[$module] ?? [];
     }
 
     private $attributes = [

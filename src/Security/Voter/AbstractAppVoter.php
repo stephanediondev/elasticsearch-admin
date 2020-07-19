@@ -12,26 +12,10 @@ abstract class AbstractAppVoter extends Voter
     {
         $this->security = $security;
         $this->appRoleManager = $appRoleManager;
-        //$this->savedAll = $this->rolePermissionManager->getSavedVoter();
     }
 
-    protected function savedAll($module, $permission)
+    public function isGranted(string $attribute, $user)
     {
-        return true == isset($this->savedAll[$module]) && true == isset($this->savedAll[$module][$permission]) ? $this->savedAll[$module][$permission] : [];
-    }
-
-    protected function getAttributes($module)
-    {
-        return isset($this->savedAll[$module]) ? array_keys($this->savedAll[$module]) : [];
-    }
-
-    protected function isGranted($roles)
-    {
-        foreach ($roles as $role) {
-            if ($this->security->isGranted($role)) {
-                return true;
-            }
-        }
-        return false;
+        return $this->security->isGranted('ROLE_ADMIN');
     }
 }

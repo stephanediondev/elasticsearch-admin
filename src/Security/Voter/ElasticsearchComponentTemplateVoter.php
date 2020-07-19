@@ -28,6 +28,6 @@ class ElasticsearchComponentTemplateVoter extends AbstractAppVoter
             return false;
         }
 
-        return $this->security->isGranted('ROLE_ADMIN', $user);
+        return $this->isGranted($attribute, $user);
     }
 }
