@@ -24,6 +24,7 @@ class ScreenshotsController extends AbstractAppController
 
         $screenshots = [
             //'login' => '/',
+            'app-role-update' => '/admin/app-roles/ROLE_TEST/update',
             'cluster' => '/admin/cluster',
             'cluster-settings' => '/admin/cluster/settings',
             'cluster-allocation-explain' => '/admin/cluster/allocation/explain',
