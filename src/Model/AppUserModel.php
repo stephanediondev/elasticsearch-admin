@@ -161,6 +161,15 @@ class AppUserModel implements UserInterface
         // $this->plainPassword = null;
     }
 
+    public function currentUserAdmin($userConnected): bool
+    {
+        if ($this->getId() == $userConnected->getId() && true == in_array('ROLE_ADMIN', $this->roles)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function convert(?array $user): self
     {
         $this->setId($user['id']);

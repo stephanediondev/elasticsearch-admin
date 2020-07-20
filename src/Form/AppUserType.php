@@ -52,7 +52,7 @@ class AppUserType extends AbstractType
 
         $fields[] = 'passwordPlain';
 
-        if ('register' != $options['context']) {
+        if ('register' != $options['context'] && false == $options['current_user_admin']) {
             $fields[] = 'roles';
         }
 
@@ -155,6 +155,7 @@ class AppUserType extends AbstractType
             'data_class' => AppUserModel::class,
             'roles' => [],
             'context' => 'create',
+            'current_user_admin' => false,
         ]);
     }
 
