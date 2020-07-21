@@ -14,11 +14,11 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles');
 
-        if (true == $this->callManager->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles (Elasticsearch)');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -29,11 +29,11 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/create');
 
-        if (true == $this->callManager->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles (Elasticsearch) - Create role');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -41,10 +41,22 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/create?role='.uniqid());
 
-        if (true == $this->callManager->hasFeature('security')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testCreateCopy()
+    {
+        $this->client->request('GET', '/admin/elasticsearch-roles/create?role=elasticsearch-admin-test');
+
+        if (false == $this->callManager->hasFeature('security')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Roles (Elasticsearch) - Create role');
         }
     }
 
@@ -55,10 +67,10 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid());
 
-        if (true == $this->callManager->hasFeature('security')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
         }
     }
 
@@ -66,11 +78,11 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/elasticsearch-admin-test');
 
-        if (true == $this->callManager->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles (Elasticsearch) - elasticsearch-admin-test');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -81,10 +93,10 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid().'/update');
 
-        if (true == $this->callManager->hasFeature('security')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
         }
     }
 
@@ -92,7 +104,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/superuser/update');
 
-        if (true == $this->callManager->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -103,11 +115,11 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/elasticsearch-admin-test/update');
 
-        if (true == $this->callManager->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles (Elasticsearch) - elasticsearch-admin-test - Update');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -118,10 +130,10 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid().'/delete');
 
-        if (true == $this->callManager->hasFeature('security')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
         }
     }
 
@@ -129,7 +141,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/superuser/delete');
 
-        if (true == $this->callManager->hasFeature('security')) {
+        if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -140,10 +152,10 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/elasticsearch-admin-test/delete');
 
-        if (true == $this->callManager->hasFeature('security')) {
-            $this->assertResponseStatusCodeSame(302);
-        } else {
+        if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
         }
     }
 }

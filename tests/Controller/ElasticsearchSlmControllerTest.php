@@ -14,11 +14,11 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm');
 
-        if (true == $this->callManager->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -29,11 +29,11 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/stats');
 
-        if (true == $this->callManager->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Stats');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -44,11 +44,11 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/status');
 
-        if (true == $this->callManager->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Status');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -59,11 +59,11 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/create');
 
-        if (true == $this->callManager->hasFeature('slm')) {
+        if (false == $this->callManager->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Create SLM policy');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -71,10 +71,22 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/create?policy='.uniqid());
 
-        if (true == $this->callManager->hasFeature('slm')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testCreateCopy()
+    {
+        $this->client->request('GET', '/admin/slm/create?policy=elasticsearch-admin-test');
+
+        if (false == $this->callManager->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('SLM policies - Create SLM policy');
         }
     }
 
@@ -85,10 +97,22 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/'.uniqid());
 
-        if (true == $this->callManager->hasFeature('slm')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testRead()
+    {
+        $this->client->request('GET', '/admin/slm/elasticsearch-admin-test');
+
+        if (false == $this->callManager->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('SLM policies - elasticsearch-admin-test');
         }
     }
 
@@ -99,10 +123,10 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/history');
 
-        if (true == $this->callManager->hasFeature('slm')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
         }
     }
 
@@ -113,10 +137,10 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/stats');
 
-        if (true == $this->callManager->hasFeature('slm')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
         }
     }
 
@@ -127,10 +151,47 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/update');
 
-        if (true == $this->callManager->hasFeature('slm')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testUpdate()
+    {
+        $this->client->request('GET', '/admin/slm/elasticsearch-admin-test/update');
+
+        if (false == $this->callManager->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('SLM policies - elasticsearch-admin-test - Update');
+        }
+    }
+
+    /**
+     * @Route("/slm/{name}/delete", name="slm_delete")
+     */
+    public function testDelete404()
+    {
+        $this->client->request('GET', '/admin/slm/'.uniqid().'/delete');
+
+        if (false == $this->callManager->hasFeature('composable_template')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testDelete()
+    {
+        $this->client->request('GET', '/admin/slm/elasticsearch-admin-test/delete');
+
+        if (false == $this->callManager->hasFeature('slm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
         }
     }
 }

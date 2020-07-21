@@ -14,11 +14,11 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm');
 
-        if (true == $this->callManager->hasFeature('ilm')) {
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -29,11 +29,11 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/status');
 
-        if (true == $this->callManager->hasFeature('ilm')) {
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - Status');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -44,11 +44,11 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/create');
 
-        if (true == $this->callManager->hasFeature('ilm')) {
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - Create ILM policy');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 
@@ -56,10 +56,22 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/create?policy='.uniqid());
 
-        if (true == $this->callManager->hasFeature('ilm')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testCreateCopy()
+    {
+        $this->client->request('GET', '/admin/ilm/create?policy=elasticsearch-admin-test');
+
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('ILM policies - Create ILM policy');
         }
     }
 
@@ -70,10 +82,73 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/'.uniqid());
 
-        if (true == $this->callManager->hasFeature('ilm')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testRead()
+    {
+        $this->client->request('GET', '/admin/ilm/elasticsearch-admin-test');
+
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('ILM policies - elasticsearch-admin-test');
+        }
+    }
+
+    /**
+     * @Route("/ilm/{name}/update", name="ilm_update")
+     */
+    public function testUpdate404()
+    {
+        $this->client->request('GET', '/admin/ilm/'.uniqid().'/update');
+
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testUpdate()
+    {
+        $this->client->request('GET', '/admin/ilm/elasticsearch-admin-test/update');
+
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('ILM policies - elasticsearch-admin-test - Update');
+        }
+    }
+
+    /**
+     * @Route("/ilm/{name}/delete", name="ilm_delete")
+     */
+    public function testDelete404()
+    {
+        $this->client->request('GET', '/admin/ilm/'.uniqid().'/delete');
+
+        if (false == $this->callManager->hasFeature('composable_template')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testDelete()
+    {
+        $this->client->request('GET', '/admin/ilm/elasticsearch-admin-test/delete');
+
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
         }
     }
 }

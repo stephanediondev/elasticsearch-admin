@@ -126,10 +126,10 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/lifecycle');
 
-        if (true == $this->callManager->hasFeature('ilm')) {
-            $this->assertResponseStatusCodeSame(404);
-        } else {
+        if (false == $this->callManager->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
         }
     }
 
@@ -137,11 +137,11 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/lifecycle');
 
-        if (true == $this->callManager->hasFeature('ilm')) {
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Lifecycle');
-        } else {
-            $this->assertResponseStatusCodeSame(403);
         }
     }
 

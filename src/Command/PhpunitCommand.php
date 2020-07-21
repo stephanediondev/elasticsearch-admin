@@ -31,168 +31,108 @@ class PhpunitCommand extends Command
 
         $output->writeln('<info>Elasticsearch version: '.$this->callManager->getRoot()['version']['number'].'</info>');
 
-        $names = ['elasticsearch-admin-test', '.elasticsearch-admin-test'];
-
         if (true == $this->callManager->hasFeature('_security_endpoint')) {
             $this->endpoint = '/_security';
         } else  {
             $this->endpoint = '/_xpack/security';
         }
 
-        if (true == $this->callManager->hasFeature('security')) {
-            // role
+        $cases = [
+            'role' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => $this->endpoint.'/role',
+                'feature' => 'security',
+                'json' => ['cluster' => [], 'run_as' => []],
+            ],
+            'user' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => $this->endpoint.'/user',
+                'feature' => 'security',
+                'json' => ['password' => 'elasticsearch-admin-test', 'roles' => ['elasticsearch-admin-test']],
+            ],
+            'index' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '',
+            ],
+            'index_system' => [
+                'name' => '.elasticsearch-admin-test',
+                'path' => '',
+            ],
+            'index_template_legacy' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '_template',
+                'json' => true == $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => 'elasticsearch-admin-test'] : ['template' => 'elasticsearch-admin-test'],
+            ],
+            'index_template' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '_index_template',
+                'feature' => 'composable_template',
+                'json' => ['index_patterns' => 'elasticsearch-admin-test'],
+            ],
+            'index_template_system' => [
+                'name' => '.elasticsearch-admin-test',
+                'path' => '_index_template',
+                'feature' => 'composable_template',
+                'json' => ['index_patterns' => '.elasticsearch-admin-test'],
+            ],
+            'component_template' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '_component_template',
+                'feature' => 'composable_template',
+                'json' => ['template' => (object)[]],
+            ],
+            'component_template_system' => [
+                'name' => '.elasticsearch-admin-test',
+                'path' => '_component_template',
+                'feature' => 'composable_template',
+                'json' => ['template' => (object)[]],
+            ],
+            'pipeline' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '_ingest/pipeline',
+                'feature' => 'pipelines',
+                'json' => ['processors' => []],
+            ],
+            'ilm_policy' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '_ilm/policy',
+                'feature' => 'ilm',
+                'json' => ['policy' => ['phases' => ['delete' => ['min_age' => '90d', 'actions' => ['delete' => ['delete_searchable_snapshot' => true]]]]]],
+            ],
+            'slm_policy' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '_slm/policy',
+                'feature' => 'slm',
+                'json' => ['name' => '<nightly-snap-{now/d}>', 'schedule' => '0 30 1 * * ?', 'repository' => 'fs'],
+            ],
+            'snapshot' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '_snapshot/fs',
+                'json' => ['indices' => ['elasticsearch-admin-test']],
+            ],
+        ];
+
+        foreach ($cases as $case => $parameters) {
+            if (true == isset($parameters['feature']) && false == $this->callManager->hasFeature($parameters['feature'])) {
+                continue;
+            }
+
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('GET');
-            $callRequest->setPath($this->endpoint.'/role/'.$names[0]);
+            $callRequest->setPath($parameters['path'].'/'.$parameters['name']);
             $callResponse = $this->callManager->call($callRequest);
 
             if (Response::HTTP_OK == $callResponse->getCode()) {
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('DELETE');
-                $callRequest->setPath($this->endpoint.'/role/'.$names[0]);
-                $this->callManager->call($callRequest);
-            }
-
-            $json = [
-                'cluster' => [],
-                'run_as' => [],
-            ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('POST');
-            $callRequest->setJson($json);
-            $callRequest->setPath($this->endpoint.'/role/'.$names[0]);
-            $this->callManager->call($callRequest);
-
-            $output->writeln('<info>Role created: '.$names[0].'</info>');
-
-            // user
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('GET');
-            $callRequest->setPath($this->endpoint.'/user/'.$names[0]);
-            $callResponse = $this->callManager->call($callRequest);
-
-            if (Response::HTTP_OK == $callResponse->getCode()) {
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('DELETE');
-                $callRequest->setPath($this->endpoint.'/user/'.$names[0]);
-                $this->callManager->call($callRequest);
-            }
-
-            $json = [
-                'password' => $names[0],
-                'roles' => [$names[0]],
-            ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('POST');
-            $callRequest->setJson($json);
-            $callRequest->setPath($this->endpoint.'/user/'.$names[0]);
-            $this->callManager->call($callRequest);
-
-            $output->writeln('<info>User created: '.$names[0].'</info>');
-        }
-
-        foreach ($names as $name) {
-            // index
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('HEAD');
-            $callRequest->setPath('/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-
-            if (Response::HTTP_OK == $callResponse->getCode()) {
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('DELETE');
-                $callRequest->setPath('/'.$name);
-                $this->callManager->call($callRequest);
-            }
-
-            $json = [
-            ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('PUT');
-            $callRequest->setJson($json);
-            $callRequest->setPath('/'.$name);
-            $this->callManager->call($callRequest);
-
-            $output->writeln('<info>Index created: '.$name.'</info>');
-
-            // index template legacy
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('HEAD');
-            $callRequest->setPath('/_template/'.$name);
-            $callResponse = $this->callManager->call($callRequest);
-
-            if (Response::HTTP_OK == $callResponse->getCode()) {
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('DELETE');
-                $callRequest->setPath('/_template/'.$name);
-                $this->callManager->call($callRequest);
-            }
-
-            if (true == $this->callManager->hasFeature('multiple_patterns')) {
-                $json = [
-                    'index_patterns' => $name,
-                ];
             } else {
-                $json = [
-                    'template' => $name,
-                ];
-            }
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('PUT');
-            $callRequest->setJson($json);
-            $callRequest->setPath('/_template/'.$name);
-            $this->callManager->call($callRequest);
-
-            $output->writeln('<info>Index template legacy created: '.$name.'</info>');
-
-            if (true == $this->callManager->hasFeature('composable_template')) {
-                // index template
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('HEAD');
-                $callRequest->setPath('/_index_template/'.$name);
-                $callResponse = $this->callManager->call($callRequest);
-
-                if (Response::HTTP_OK == $callResponse->getCode()) {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('DELETE');
-                    $callRequest->setPath('/_index_template/'.$name);
-                    $this->callManager->call($callRequest);
-                }
-
-                $json = [
-                    'index_patterns' => $name,
-                ];
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
-                $callRequest->setJson($json);
-                $callRequest->setPath('/_index_template/'.$name);
-                $this->callManager->call($callRequest);
-
-                $output->writeln('<info>Index template created: '.$name.'</info>');
-
-                // component template
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('HEAD');
-                $callRequest->setPath('/_component_template/'.$name);
-                $callResponse = $this->callManager->call($callRequest);
-
-                if (Response::HTTP_OK == $callResponse->getCode()) {
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('DELETE');
-                    $callRequest->setPath('/_component_template/'.$name);
-                    $this->callManager->call($callRequest);
+                if (true == isset($parameters['json'])) {
+                    $callRequest->setJson($parameters['json']);
                 }
-
-                $json = [
-                    'template' => (object)[],
-                ];
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setJson($json);
-                $callRequest->setPath('/_component_template/'.$name);
+                $callRequest->setPath($parameters['path'].'/'.$parameters['name']);
                 $this->callManager->call($callRequest);
 
-                $output->writeln('<info>Component template created: '.$name.'</info>');
+                $output->writeln('<info>'.$case.' created: '.$parameters['name'].'</info>');
             }
         }
 

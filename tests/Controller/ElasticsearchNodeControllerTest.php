@@ -43,66 +43,79 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/master');
-        $callResponse = $this->callManager->call($callRequest);
-        $master = $callResponse->getContent();
+        $masterNode = $this->callManager->getMasterNode();
 
-        $this->client->request('GET', '/admin/nodes/'.$master[0]['node']);
+        $this->client->request('GET', '/admin/nodes/'.$masterNode);
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Nodes - '.$master[0]['node']);
+        $this->assertPageTitleSame('Nodes - '.$masterNode);
     }
 
     /**
      * @Route("/nodes/{node}/plugins", name="nodes_read_plugins")
      */
+    public function testReadPlugins404()
+    {
+        $this->client->request('GET', '/admin/nodes/'.uniqid().'/plugins');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     public function testReadPlugins()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/master');
-        $callResponse = $this->callManager->call($callRequest);
-        $master = $callResponse->getContent();
+        $masterNode = $this->callManager->getMasterNode();
 
-        $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/plugins');
+        $this->client->request('GET', '/admin/nodes/'.$masterNode.'/plugins');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Plugins');
+        $this->assertPageTitleSame('Nodes - '.$masterNode.' - Plugins');
     }
 
     /**
      * @Route("/nodes/{node}/usage", name="nodes_read_usage")
      */
+    public function testReadUsage404()
+    {
+        $this->client->request('GET', '/admin/nodes/'.uniqid().'/usage');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     public function testReadUsage()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/master');
-        $callResponse = $this->callManager->call($callRequest);
-        $master = $callResponse->getContent();
+        $masterNode = $this->callManager->getMasterNode();
 
-        $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/usage');
+        $this->client->request('GET', '/admin/nodes/'.$masterNode.'/usage');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Usage');
+        $this->assertPageTitleSame('Nodes - '.$masterNode.' - Usage');
     }
 
     /**
      * @Route("/nodes/{node}/reload-secure-settings", name="nodes_reload_secure_settings")
      */
+    public function testReadReloadSecureSettings404()
+    {
+        $this->client->request('GET', '/admin/nodes/'.uniqid().'/reload-secure-settings');
+
+        if (false == $this->callManager->hasFeature('reload_secure_settings')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
     public function testReadReloadSecureSettings()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/master');
-        $callResponse = $this->callManager->call($callRequest);
-        $master = $callResponse->getContent();
+        $masterNode = $this->callManager->getMasterNode();
 
-        $this->client->request('GET', '/admin/nodes/'.$master[0]['node'].'/reload-secure-settings');
+        $this->client->request('GET', '/admin/nodes/'.$masterNode.'/reload-secure-settings');
 
         if (false == $this->callManager->hasFeature('reload_secure_settings')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Nodes - '.$master[0]['node'].' - Reload secure settings');
+            $this->assertPageTitleSame('Nodes - '.$masterNode.' - Reload secure settings');
         }
     }
 }
