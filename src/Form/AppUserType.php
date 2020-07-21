@@ -146,6 +146,18 @@ class AppUserType extends AbstractType
                     }
                 }
             }
+
+            if ('update' == $options['context']) {
+                if ($form->has('email') && $form->get('email')->getData() && $options['old_email'] != $form->get('email')->getData()) {
+                    $user = $this->appUserManager->getByEmail($form->get('email')->getData());
+
+                    if ($user) {
+                        $form->get('email')->addError(new FormError(
+                            $this->translator->trans('email_already_used')
+                        ));
+                    }
+                }
+            }
         });
     }
 
@@ -155,6 +167,7 @@ class AppUserType extends AbstractType
             'data_class' => AppUserModel::class,
             'roles' => [],
             'context' => 'create',
+            'old_email' => false,
             'current_user_admin' => false,
         ]);
     }

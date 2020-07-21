@@ -77,12 +77,17 @@ class AppUserManager extends AbstractAppManager
 
                 $userModel = new AppUserModel();
                 $userModel->convert($user);
-                $users[$user['email']] = $userModel;
+                $users[] = $userModel;
             }
-            ksort($users);
+            usort($users, [$this, 'sortByEmail']);
         }
 
         return $users;
+    }
+
+    private function sortByEmail($a, $b)
+    {
+        return $b->getEmail() < $a->getEmail();
     }
 
     public function send(AppUserModel $userModel): CallResponseModel

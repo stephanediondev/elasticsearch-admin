@@ -145,7 +145,7 @@ class AppUserController extends AbstractAppController
 
         $roles = $this->appRoleManager->selectRoles();
 
-        $form = $this->createForm(AppUserType::class, $user, ['roles' => $roles, 'current_user_admin' => $user->currentUserAdmin($this->getuser()), 'context' => 'update']);
+        $form = $this->createForm(AppUserType::class, $user, ['roles' => $roles, 'old_email' => $user->getEmail(), 'current_user_admin' => $user->currentUserAdmin($this->getuser()), 'context' => 'update']);
 
         $form->handleRequest($request);
 
