@@ -37,26 +37,33 @@ class PhpunitCommand extends Command
             $this->endpoint = '/_xpack/security';
         }
 
+        $jsonIndex = [
+            'settings' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1'],
+            'mappings' => json_decode(file_get_contents(__DIR__.'/../DataFixtures/es-test-mappings.json'), true),
+        ];
+
         $cases = [
-            'role' => [
+            'elasticsearch_role' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => $this->endpoint.'/role',
                 'feature' => 'security',
                 'json' => ['cluster' => [], 'run_as' => []],
             ],
-            'user' => [
+            'elasticsearch_user' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => $this->endpoint.'/user',
                 'feature' => 'security',
-                'json' => ['password' => 'elasticsearch-admin-test', 'roles' => ['elasticsearch-admin-test']],
+                'json' => ['password' => uniqid(), 'roles' => ['elasticsearch-admin-test']],
             ],
             'index' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => '',
+                'json' => $jsonIndex,
             ],
             'index_system' => [
                 'name' => '.elasticsearch-admin-test',
                 'path' => '',
+                'json' => $jsonIndex,
             ],
             'index_template_legacy' => [
                 'name' => 'elasticsearch-admin-test',
@@ -93,6 +100,12 @@ class PhpunitCommand extends Command
                 'feature' => 'pipelines',
                 'json' => ['processors' => []],
             ],
+            'enrich' => [
+                'name' => 'elasticsearch-admin-test',
+                'path' => '_enrich/policy',
+                'feature' => 'enrich',
+                'json' => ['match' => ['indices' => 'elasticsearch-admin-test', 'match_field' => 'test-text', 'enrich_fields' => 'test-boolean']],
+            ],
             'ilm_policy' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => '_ilm/policy',
@@ -123,17 +136,26 @@ class PhpunitCommand extends Command
             $callResponse = $this->callManager->call($callRequest);
 
             if (Response::HTTP_OK == $callResponse->getCode()) {
-            } else {
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                if (true == isset($parameters['json'])) {
-                    $callRequest->setJson($parameters['json']);
+                if ('enrich' == $case) {
+                    $content = $callResponse->getContent();
+                    $policies = $content['policies'];
+                    if (0 < count($policies)) {
+                        continue;
+                    }
+                } else {
+                    continue;
                 }
-                $callRequest->setPath($parameters['path'].'/'.$parameters['name']);
-                $this->callManager->call($callRequest);
-
-                $output->writeln('<info>'.$case.' created: '.$parameters['name'].'</info>');
             }
+
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('PUT');
+            if (true == isset($parameters['json'])) {
+                $callRequest->setJson($parameters['json']);
+            }
+            $callRequest->setPath($parameters['path'].'/'.$parameters['name']);
+            $this->callManager->call($callRequest);
+
+            $output->writeln('<info>'.$case.' created: '.$parameters['name'].'</info>');
         }
 
         return Command::SUCCESS;

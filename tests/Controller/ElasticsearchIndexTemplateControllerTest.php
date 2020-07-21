@@ -48,6 +48,17 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
+    public function testCreateCopy403()
+    {
+        $this->client->request('GET', '/admin/index-templates/create?template=.elasticsearch-admin-test');
+
+        if (false == $this->callManager->hasFeature('composable_template')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
+    }
+
     public function testCreateCopy()
     {
         $this->client->request('GET', '/admin/index-templates/create?template=elasticsearch-admin-test');

@@ -63,6 +63,18 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         }
     }
 
+    public function testCreateCopy()
+    {
+        $this->client->request('GET', '/admin/enrich/create?policy=elasticsearch-admin-test');
+
+        if (false == $this->callManager->hasFeature('enrich')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Enrich policies - Create enrich policy');
+        }
+    }
+
     /**
      * @Route("/enrich/{name}", name="enrich_read")
      */
@@ -77,7 +89,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /*public function testRead()
+    public function testRead()
     {
         $this->client->request('GET', '/admin/enrich/elasticsearch-admin-test');
 
@@ -87,5 +99,30 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - elasticsearch-admin-test');
         }
-    }*/
+    }
+
+    /**
+     * @Route("/enrich/{name}/delete", name="enrichs_delete")
+     */
+    public function testDelete404()
+    {
+        $this->client->request('GET', '/admin/enrich/'.uniqid().'/delete');
+
+        if (false == $this->callManager->hasFeature('enrich')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
+
+    public function testDelete()
+    {
+        $this->client->request('GET', '/admin/enrich/elasticsearch-admin-test/delete');
+
+        if (false == $this->callManager->hasFeature('enrich')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
+    }
 }

@@ -48,6 +48,17 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
+    public function testCreateCopy403()
+    {
+        $this->client->request('GET', '/admin/elasticsearch-roles/create?role=superuser');
+
+        if (false == $this->callManager->hasFeature('security')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(403);
+        }
+    }
+
     public function testCreateCopy()
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/create?role=elasticsearch-admin-test');

@@ -36,6 +36,13 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testCreateCopy403()
+    {
+        $this->client->request('GET', '/admin/index-templates-legacy/create?template=.elasticsearch-admin-test');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
     public function testCreateCopy()
     {
         $this->client->request('GET', '/admin/index-templates-legacy/create?template=elasticsearch-admin-test');
