@@ -89,6 +89,7 @@ abstract class AbstractAppController extends AbstractController
                 ['granted' => 'CONSOLE', 'path' => 'console'],
                 ['granted' => 'DEPRECATIONS', 'path' => 'deprecations'],
                 ['granted' => 'LICENSE', 'path' => 'license'],
+                ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
             ];
 
             $menus['tools'] = $this->populateMenu($entries);

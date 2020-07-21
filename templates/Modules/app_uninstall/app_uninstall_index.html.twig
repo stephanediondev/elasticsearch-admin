@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'app_uninstall'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'app_uninstall'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ path('app_uninstall') }}">{{ 'summary'|trans }}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            <p class="lead">{{ 'app_uninstall_note'|trans|raw }}</p>
+
+            {{ appImport.buttonModal({
+                'id': 'AppUninstall',
+                'title': 'app_uninstall'|trans,
+                'body': 'app_uninstall_note'|trans,
+                'href': path('app_uninstall_confirm'),
+                'size': 'lg',
+            }) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

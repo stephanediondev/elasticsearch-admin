@@ -67,6 +67,10 @@ class SecurityController extends AbstractAppController
      */
     public function register(Request $request): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('cluster');
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('HEAD');
         $callRequest->setPath('/.elastictsearch-admin-users');

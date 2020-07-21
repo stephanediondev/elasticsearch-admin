@@ -174,7 +174,11 @@
         {% set params = params|merge({'button': 'primary'}) %}
     {% endif %}
 
-    <button type="button" class="btn btn-{{ params.button }} btn-sm" data-toggle="modal" data-target="#modal{{ params.id }}">
+    {% if params.size is not defined %}
+        {% set params = params|merge({'size': 'sm'}) %}
+    {% endif %}
+
+    <button type="button" class="btn btn-{{ params.button }} btn-{{ params.size }}" data-toggle="modal" data-target="#modal{{ params.id }}">
         {{ params.title }}
     </button>
     <div class="modal fade" id="modal{{ params.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ params.id }}" aria-hidden="true">
@@ -188,7 +192,7 @@
                 </div>
                 <div class="modal-body text-left">
                     <p>
-                        {{ params.body }}
+                        {{ params.body|raw }}
                     </p>
                     {% if params.help is defined %}
                         <p{% if params.help_type is defined %} class="text-{{ params.help_type }}"{% endif %}>
