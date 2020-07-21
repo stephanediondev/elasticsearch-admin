@@ -76,4 +76,16 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(404);
         }
     }
+
+    /*public function testRead()
+    {
+        $this->client->request('GET', '/admin/enrich/elasticsearch-admin-test');
+
+        if (false == $this->callManager->hasFeature('enrich')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Enrich policies - elasticsearch-admin-test');
+        }
+    }*/
 }
