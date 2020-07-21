@@ -99,7 +99,7 @@ class PhpunitCommand extends Command
                 'feature' => 'ilm',
                 'json' => ['policy' => ['phases' => ['delete' => ['min_age' => '90d', 'actions' => ['delete' => ['delete_searchable_snapshot' => true]]]]]],
             ],
-            'slm_policy' => [
+            /*'slm_policy' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => '_slm/policy',
                 'feature' => 'slm',
@@ -109,7 +109,7 @@ class PhpunitCommand extends Command
                 'name' => 'elasticsearch-admin-test',
                 'path' => '_snapshot/fs',
                 'json' => ['indices' => ['elasticsearch-admin-test']],
-            ],
+            ],*/
         ];
 
         foreach ($cases as $case => $parameters) {

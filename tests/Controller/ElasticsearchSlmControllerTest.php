@@ -78,7 +78,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateCopy()
+    /*public function testCreateCopy()
     {
         $this->client->request('GET', '/admin/slm/create?policy=elasticsearch-admin-test');
 
@@ -88,7 +88,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Create SLM policy');
         }
-    }
+    }*/
 
     /**
      * @Route("/slm/{name}", name="slm_read")
@@ -104,7 +104,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testRead()
+    /*public function testRead()
     {
         $this->client->request('GET', '/admin/slm/elasticsearch-admin-test');
 
@@ -114,7 +114,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - elasticsearch-admin-test');
         }
-    }
+    }*/
 
     /**
      * @Route("/slm/{name}/history", name="slm_read_history")
@@ -158,7 +158,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUpdate()
+    /*public function testUpdate()
     {
         $this->client->request('GET', '/admin/slm/elasticsearch-admin-test/update');
 
@@ -168,7 +168,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - elasticsearch-admin-test - Update');
         }
-    }
+    }*/
 
     /**
      * @Route("/slm/{name}/delete", name="slm_delete")
@@ -184,7 +184,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDelete()
+    /*public function testDelete()
     {
         $this->client->request('GET', '/admin/slm/elasticsearch-admin-test/delete');
 
@@ -193,5 +193,5 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(302);
         }
-    }
+    }*/
 }
