@@ -65,7 +65,7 @@
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 4, 'title': 'features'|trans}) }}
+                {{ appImport.heading({'level': 4, 'title': 'features_xpack'|trans}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
@@ -97,4 +97,40 @@
             {% endblock %}
         {% endembed %}
     {% endif %}
+
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 4, 'title': 'features_by_version'|trans}) }}
+
+            {% embed 'Embed/table_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+
+                {% block thead %}
+                    <tr>
+                        <th>{{ 'feature'|trans }}</th>
+                        <th>{{ 'version'|trans }}</th>
+                        <th>{{ 'enabled'|trans }}</th>
+                    </tr>
+                {% endblock %}
+
+                {% block tbody %}
+                    {% for key, value in features_by_version %}
+                        <tr>
+                            <td>
+                                {{ key }}
+                            </td>
+                            <td>
+                                {{ value }}
+                            </td>
+                            <td>
+                                {% set enabled = hasFeature(key) %}
+                                {{ appImport.badge({'title': ('boolean.' ~ enabled)|trans, 'context': enabled}) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}

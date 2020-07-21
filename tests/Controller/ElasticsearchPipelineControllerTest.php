@@ -119,7 +119,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/pipelines/'.uniqid().'/delete');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);

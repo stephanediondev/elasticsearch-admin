@@ -17,7 +17,7 @@ class CallManager
 
     public $plugins = false;
 
-    private $featuresWithVersion = [
+    private $featuresByVersion = [
         'composable_template' => '7.8',
         'cat_expand_wildcards' => '7.7',
         'voting_only' => '7.3',
@@ -200,6 +200,11 @@ class CallManager
         }
     }
 
+    public function getFeaturesByVersion(): array
+    {
+        return $this->featuresByVersion;
+    }
+
     public function checkVersion(string $versionGoal): bool
     {
         if (false == $this->root) {
@@ -215,8 +220,8 @@ class CallManager
 
     public function hasFeature(string $feature): bool
     {
-        if (true == array_key_exists($feature, $this->featuresWithVersion)) {
-            return $this->checkVersion($this->featuresWithVersion[$feature]);
+        if (true == array_key_exists($feature, $this->featuresByVersion)) {
+            return $this->checkVersion($this->featuresByVersion[$feature]);
         }
 
         if (false == $this->xpack) {

@@ -134,7 +134,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/ilm/'.uniqid().'/delete');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false == $this->callManager->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);

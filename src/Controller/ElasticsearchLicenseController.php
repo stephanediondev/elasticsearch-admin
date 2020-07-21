@@ -52,6 +52,7 @@ class ElasticsearchLicenseController extends AbstractAppController
             'license' => $license,
             'trial_status' => $trialStatus,
             'basic_status' => $basicStatus,
+            'features_by_version' => $this->callManager->getFeaturesByVersion(),
         ]);
     }
 
