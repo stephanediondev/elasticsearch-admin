@@ -117,6 +117,7 @@
 </div>
 {% block scripts %}
 <script type="text/javascript">
+var app_base_url = '{{ path('app_login') }}';
 var trans_required = '{{ 'required'|trans|escape('js') }}';
 </script>
 {{ encore_entry_script_tags('app-js') }}

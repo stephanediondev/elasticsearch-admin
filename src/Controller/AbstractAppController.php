@@ -61,7 +61,7 @@ abstract class AbstractAppController extends AbstractController
 
         $menus = [];
 
-        if (true == $this->isGranted('CONFIGURATION', 'global')) {
+        if (true == $this->isGranted('MENU_CONFIGURATION', 'global')) {
             $entries = [
                 ['granted' => 'INDEX_TEMPLATES_LEGACY', 'path' => 'index_templates_legacy'],
                 ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates'],
@@ -79,7 +79,7 @@ abstract class AbstractAppController extends AbstractController
             $menus['configuration'] = $this->populateMenu($entries);
         }
 
-        if (true == $this->isGranted('TOOLS', 'global')) {
+        if (true == $this->isGranted('MENU_TOOLS', 'global')) {
             $entries = [
                 ['granted' => 'SNAPSHOTS', 'path' => 'snapshots'],
                 ['granted' => 'PIPELINES', 'path' => 'pipelines'],

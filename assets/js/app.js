@@ -63,6 +63,43 @@ function search() {
     $(document).find('h3 span.badge').text(total);
 }
 
+function messageToServiceWorker(content) {
+    if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
+        navigator.serviceWorker.ready.then(function() {
+            return new Promise(function(resolve, reject) {
+                var messageChannel = new MessageChannel();
+                messageChannel.port1.onmessage = function(event) {
+                    if(event.data.error) {
+                        reject(event.data.error);
+                    } else {
+                        resolve(event.data);
+                    }
+                };
+                if(navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage(content, [messageChannel.port2]);
+                }
+            });
+        });
+    }
+}
+
+if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
+    navigator.serviceWorker.register(app_base_url + 'serviceworker.js')
+    .then(function(ServiceWorkerRegistration) {
+        ServiceWorkerRegistration.addEventListener('updatefound', function() {
+            messageToServiceWorker({'command': 'reload'});
+        });
+    });
+
+    navigator.serviceWorker.addEventListener('message', function(MessageEvent) {
+        switch(MessageEvent.data.type) {
+            case 'reload':
+                document.location.reload(true);
+                break;
+        }
+    });
+}
+
 $(document).ready(function () {
     bsCustomFileInput.init('input[type="file"]');
 
