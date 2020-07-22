@@ -29,6 +29,8 @@
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
                 {% if results is defined and 0 < results|length %}
+                    {{ appImport.heading({'level': 3, 'title': 'results'|trans, 'badge': {'title': results['rows']|length}}) }}
+
                     {% embed 'Embed/table_embed.html.twig' %}
                         {% block thead %}
                             <tr>
@@ -53,9 +55,9 @@
                         {% endblock %}
                     {% endembed %}
 
-                    {% if results['cursor'] %}
+                    {% if results['cursor'] is defined %}
                         <a id="cursor" class="btn btn-primary btn-sm" href="{{ results['cursor'] }}">
-                            {{ 'more_results'|trans }}
+                            {{ 'more'|trans }}
                         </a>
                     {% endif %}
                 {% endif %}
@@ -68,6 +70,7 @@
     {{ parent() }}
 
     <script type="text/javascript">
+        var countResults = {{ results['rows']|length }};
         $(document).on('click', '#cursor', function(event) {
             event.preventDefault();
             var body = {'cursor': $(this).attr('href')};
@@ -93,8 +96,10 @@
                     }
                     tr += '</tr>';
                     $('tbody').append(tr);
+                    countResults++;
                 }
 
+                $('h3 .badge').text(countResults);
             }).catch(function(error) {
                 console.log(error);
             });
