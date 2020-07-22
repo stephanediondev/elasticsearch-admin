@@ -67,11 +67,14 @@ cp .env.dist .env
 - [x] Pipelines [5.0]: list, create, read, update, delete, copy
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
+- [x] SQL REST API: query
 - [x] Deprecations info [5.6]
 - [x] License [5.0]: read, status / start trial / revert to basic [6.6], features
 
 ## Todo
 
+- [ ] SQL REST API: export
+- [ ] SQL Translate API
 - [ ] Shards: read, segments, cluster reroute (move, allocate replica, cancel)
 - [ ] Indices: shrink, split, clone, import from database
 - [ ] Index templates (legacy): convert to new version

@@ -86,6 +86,7 @@ abstract class AbstractAppController extends AbstractController
                 ['granted' => 'TASKS', 'path' => 'tasks', 'feature' => 'tasks'],
                 ['granted' => 'REMOTE_CLUSTERS', 'path' => 'remote_clusters', 'feature' => 'remote_clusters'],
                 ['granted' => 'CAT', 'path' => 'cat'],
+                ['granted' => 'SQL', 'path' => 'sql', 'feature' => 'sql'],
                 ['granted' => 'CONSOLE', 'path' => 'console'],
                 ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
                 ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],

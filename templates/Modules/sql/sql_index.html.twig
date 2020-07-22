@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'sql'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'sql'|trans}) }}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <a class="btn btn-secondary btn-sm" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/sql-spec.html">
+                        {{ 'help'|trans }}
+                    </a>
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% if results is defined %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {% if results is defined and 0 < results|length %}
+                    {% embed 'Embed/table_embed.html.twig' %}
+                        {% block thead %}
+                            <tr>
+                                {% for column in results['columns'] %}
+                                    <th>
+                                        {{ column.name }}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        {% endblock %}
+
+                        {% block tbody %}
+                            {% for row in results['rows'] %}
+                                <tr>
+                                    {% for column in row %}
+                                        <td>
+                                            {{ column }}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                    {% endembed %}
+
+                    {% if results['cursor'] %}
+                        <a id="cursor" class="btn btn-primary btn-sm" href="{{ results['cursor'] }}">
+                            {{ 'more_results'|trans }}
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(document).on('click', '#cursor', function(event) {
+            event.preventDefault();
+            var body = {'cursor': $(this).attr('href')};
+            var url = '{{ path('sql_cursor') }}';
+            fetch(url, {
+                credentials: 'include',
+                method: 'POST',
+                body: JSON.stringify(body),
+                mode: 'cors',
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                if (typeof json['cursor'] != 'undefined') {
+                    $('#cursor').attr('href', json['cursor']);
+                } else {
+                    $('#cursor').remove();
+                }
+
+                for (var row in json['rows']) {
+                    var tr = '<tr>';
+                    for (var column in json['rows'][row]) {
+                        tr += '<td>' + json['rows'][row][column] + '</td>';
+                    }
+                    tr += '</tr>';
+                    $('tbody').append(tr);
+                }
+
+            }).catch(function(error) {
+                console.log(error);
+            });
+        });
+    </script>
+{% endblock %}
