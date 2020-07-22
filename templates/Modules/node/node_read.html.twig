@@ -28,28 +28,26 @@
             <hr>
 
             <div class="row">
-                {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
-                    {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
-                {% elseif node.settings['node']['master'] is defined %}
-                    {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['master'])|trans, 'context': node.settings['node']['master']}}) }}
-                {% endif %}
-
-                {% if true == hasFeature('voting_only') %}
-                    {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
-                        {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
+                {% if true == hasFeature('node_roles') and node.roles %}
+                    {% if 'master' in node.roles %}
+                        {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
                     {% else %}
-                        {% if node.settings['node']['voting_only'] is defined %}
-                            {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['voting_only'])|trans, 'context': node.settings['node']['voting_only']}}) }}
+                        {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
+                    {% endif %}
+
+                    {% if true == hasFeature('voting_only') %}
+                        {% if 'voting_only' in node.roles %}
+                            {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
                         {% else %}
                             {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
                         {% endif %}
                     {% endif %}
-                {% endif %}
 
-                {% if node.settings['discovery']['type'] is defined and 'single-node' == node.settings['discovery']['type'] %}
-                    {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
-                {% elseif node.settings['node']['data'] is defined %}
-                    {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': ('boolean.' ~ node.settings['node']['data'])|trans, 'context': node.settings['node']['data']}}) }}
+                    {% if 'data' in node.roles %}
+                        {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
+                    {% endif %}
                 {% endif %}
 
                 {{ appImport.dashboardKpi({'title': 'ip'|trans, 'badge': {'title': node.ip}}) }}

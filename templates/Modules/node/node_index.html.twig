@@ -30,13 +30,15 @@
                 <div class="collapse" id="collapseFilter">
                     {{ appImport.filterText({'label': 'name'|trans}) }}
 
-                    {{ appImport.filterCheckboxesBoolean({'title': 'master_eligible'|trans, 'prefix': 'master_eligible'}) }}
+                    {% if true == hasFeature('node_roles') %}
+                        {{ appImport.filterCheckboxesBoolean({'title': 'master_eligible'|trans, 'prefix': 'master_eligible'}) }}
 
-                    {% if true == hasFeature('voting_only') %}
-                        {{ appImport.filterCheckboxesBoolean({'title': 'voting_only'|trans, 'prefix': 'voting_only'}) }}
+                        {% if true == hasFeature('voting_only') %}
+                            {{ appImport.filterCheckboxesBoolean({'title': 'voting_only'|trans, 'prefix': 'voting_only'}) }}
+                        {% endif %}
+
+                        {{ appImport.filterCheckboxesBoolean({'title': 'data'|trans, 'prefix': 'data'}) }}
                     {% endif %}
-
-                    {{ appImport.filterCheckboxesBoolean({'title': 'data'|trans, 'prefix': 'data'}) }}
                 </div>
 
                 {{ appImport.paginator(nodes) }}

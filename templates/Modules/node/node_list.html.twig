@@ -1,14 +1,18 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master': false, 'master_eligible': true, 'voting_only': false, 'data': true, 'ip': false, 'version': false, 'os': false, 'uptime': true, 'load_average': false, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': false, 'heap_usage': true} %}
-
-    {% if true == hasFeature('voting_only') %}
-        {% set columns = columns|merge({'voting_only': true}) %}
-    {% endif %}
+    {% set columns = {'name': true, 'master_eligible': false, 'voting_only': false, 'data': false, 'uptime': true, 'load_average': false, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': false, 'heap_usage': true} %}
 
     {% if true == hasFeature('load_average') %}
         {% set columns = columns|merge({'load_average': true}) %}
+    {% endif %}
+
+    {% if true == hasFeature('node_roles') %}
+        {% set columns = columns|merge({'master_eligible': true, 'data': true}) %}
+
+        {% if true == hasFeature('voting_only') %}
+            {% set columns = columns|merge({'voting_only': true}) %}
+        {% endif %}
     {% endif %}
 
     {% if true == hasFeature('cat_nodes_disk') %}
@@ -22,12 +26,6 @@
                     {% if 'name' == column %}
                         <th>
                             {{ 'name'|trans }}
-                        </th>
-                    {% endif %}
-
-                    {% if 'master' == column %}
-                        <th>
-                            {{ 'master'|trans }}
                         </th>
                     {% endif %}
 
@@ -46,24 +44,6 @@
                     {% if 'data' == column %}
                         <th>
                             {{ 'data'|trans }}
-                        </th>
-                    {% endif %}
-
-                    {% if 'ip' == column %}
-                        <th>
-                            {{ 'ip'|trans }}
-                        </th>
-                    {% endif %}
-
-                    {% if 'version' == column %}
-                        <th>
-                            {{ 'version'|trans }}
-                        </th>
-                    {% endif %}
-
-                    {% if 'os' == column %}
-                        <th>
-                            {{ 'os'|trans }}
                         </th>
                     {% endif %}
 
@@ -109,10 +89,10 @@
 
     {% block tbody %}
         {% for row in nodes.rows %}
-            {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
-                <tr class="master_eligible-true voting_only-false data-true" data-search="{{ row['name'] }}">
+            {% if true == hasFeature('node_roles') and row['roles'] is defined %}
+                <tr class="master_eligible-{% if 'master' in row['roles'] %}true{% else %}false{% endif %} voting_only-{% if 'voting_only' in row['roles'] %}true{% else %}false{% endif %} data-{% if 'data' in row['roles'] %}true{% else %}false{% endif %}" data-search="{{ row['name'] }}">
             {% else %}
-                <tr class="{% if row['settings']['node']['master'] is defined %}master_eligible-{{ row['settings']['node']['master'] }}{% endif %} voting_only-{% if row['settings']['node']['voting_only'] is defined %}{{ row['settings']['node']['voting_only'] }}{% else %}false{% endif %} {% if row['settings']['node']['data'] is defined %}data-{{ row['settings']['node']['data'] }}{% endif %}" data-search="{{ row['name'] }}">
+                <tr data-search="{{ row['name'] }}">
             {% endif %}
                 {% for column, display in columns %}
                     {% if true == display %}
@@ -132,33 +112,23 @@
                             </td>
                         {% endif %}
 
-                        {% if 'master' == column %}
-                            <td>
-                                {% if '*' == row['master'] %}
-                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                                {% else %}
-                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
-                                {% endif %}
-                            </td>
-                        {% endif %}
-
                         {% if 'master_eligible' == column %}
                             <td>
-                                {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
-                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                                {% elseif row['settings']['node']['master'] is defined %}
-                                    {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['master'])|trans, 'context': row['settings']['node']['master']}) }}
+                                {% if row['roles'] is defined %}
+                                    {% if 'master' in row['roles'] %}
+                                        {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                    {% else %}
+                                        {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'voting_only' == column %}
                             <td>
-                                {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
-                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
-                                {% else %}
-                                    {% if row['settings']['node']['voting_only'] is defined %}
-                                        {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['voting_only'])|trans, 'context': row['settings']['node']['voting_only']}) }}
+                                {% if true == hasFeature('voting_only') and row['roles'] is defined %}
+                                    {% if 'voting_only' in row['roles'] %}
+                                        {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                     {% else %}
                                         {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
                                     {% endif %}
@@ -168,29 +138,13 @@
 
                         {% if 'data' == column %}
                             <td>
-                                {% if row['settings']['discovery']['type'] is defined and 'single-node' == row['settings']['discovery']['type'] %}
-                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                                {% elseif row['settings']['node']['data'] is defined %}
-                                    {{ appImport.badge({'title': ('boolean.' ~ row['settings']['node']['data'])|trans, 'context': row['settings']['node']['data']}) }}
+                                {% if row['roles'] is defined %}
+                                    {% if 'data' in row['roles'] %}
+                                        {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                    {% else %}
+                                        {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                    {% endif %}
                                 {% endif %}
-                            </td>
-                        {% endif %}
-
-                        {% if 'ip' == column %}
-                            <td>
-                                {{ row['ip'] }}
-                            </td>
-                        {% endif %}
-
-                        {% if 'version' == column %}
-                            <td>
-                                {{ row['version'] }}
-                            </td>
-                        {% endif %}
-
-                        {% if 'os' == column %}
-                            <td>
-                                {{ row['os']['pretty_name'] }}
                             </td>
                         {% endif %}
 

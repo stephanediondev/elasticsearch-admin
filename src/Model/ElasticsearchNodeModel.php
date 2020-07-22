@@ -14,6 +14,8 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
     private $os;
 
+    private $roles;
+
     private $settings;
 
     private $plugins;
@@ -66,6 +68,18 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this;
     }
 
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles($roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
     public function getSettings(): ?array
     {
         return $this->settings;
@@ -104,6 +118,10 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
         if (true == isset($node['os']) && 0 < count($node['os'])) {
             $this->setOs($node['os']);
+        }
+
+        if (true == isset($node['roles']) && 0 < count($node['roles'])) {
+            $this->setRoles($node['roles']);
         }
 
         if (true == isset($node['settings']) && 0 < count($node['settings'])) {

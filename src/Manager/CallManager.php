@@ -37,6 +37,7 @@ class CallManager
         'cat_sort' => '5.1.1',
         'cat_templates' => '5.1.1',
         'allocation_explain' => '5.0',
+        'node_roles' => '5.0',
         'pipelines' => '5.0',
         'cluster_settings' => '5.0',
         'delete_by_query' => '5.0',
