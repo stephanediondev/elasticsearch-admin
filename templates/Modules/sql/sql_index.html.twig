@@ -93,7 +93,11 @@
                     for (var row in json['rows']) {
                         var tr = '<tr>';
                         for (var column in json['rows'][row]) {
-                            tr += '<td>' + json['rows'][row][column] + '</td>';
+                            if (null != json['rows'][row][column]) {
+                                tr += '<td>' + json['rows'][row][column] + '</td>';
+                            } else {
+                                tr += '<td></td>';
+                            }
                         }
                         tr += '</tr>';
                         $('tbody').append(tr);
