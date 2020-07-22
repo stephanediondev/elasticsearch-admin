@@ -119,7 +119,7 @@ class PhpunitCommand extends Command
                 'name' => 'elasticsearch-admin-test',
                 'path' => '_ilm/policy',
                 'feature' => 'ilm',
-                'json' => ['policy' => ['phases' => ['delete' => ['min_age' => '90d', 'actions' => ['delete' => ['delete_searchable_snapshot' => true]]]]]],
+                'json' => ['policy' => ['phases' => ['delete' => ['min_age' => '7d', 'actions' => ['delete' => (object)[]]]]]],
             ],
             /*'slm_policy' => [
                 'name' => 'elasticsearch-admin-test',
