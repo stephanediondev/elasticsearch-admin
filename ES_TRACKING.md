@@ -13,7 +13,11 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.8/release-notes-7.8.0.
 https://www.elastic.co/guide/en/elasticsearch/reference/7.7/release-notes-7.7.0.html
 
 - Allow _cat indices & aliases to use indices options #53248 (issue: #52304)
+- Create GET _cat/transforms API Issue #53643 (issue: #51412)
 - Add _cat/ml/data_frame/analytics API #52260 (issue: #51413)
+- Add _cat/ml/trained_models API #51529 (issue: #51414)
+- Add GET _cat/ml/datafeeds #51500 (issue: #51411)
+- Add _cat/ml/anomaly_detectors API #51364
 
 
 ### 7.5.0
@@ -99,6 +103,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/5.4/release-notes-5.4.0.
 https://www.elastic.co/guide/en/elasticsearch/reference/5.1/release-notes-5.1.1.html
 
 - Adding built-in sorting capability to _cat apis. #20658 (issue: #16975)
+- Provides a cat api endpoint for templates. #20545 (issue: #20467)
 
 ### 5.0.0
 
