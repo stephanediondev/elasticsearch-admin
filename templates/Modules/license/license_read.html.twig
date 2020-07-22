@@ -65,7 +65,7 @@
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 4, 'title': 'features_xpack'|trans}) }}
+                {{ appImport.heading({'level': 4, 'title': 'features_xpack'|trans, 'badge': {'title': xpack['features']|length}}) }}
 
                 {% embed 'Embed/table_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
@@ -101,7 +101,7 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 4, 'title': 'features_by_version'|trans}) }}
+            {{ appImport.heading({'level': 4, 'title': 'features_by_version'|trans, 'badge': {'title': features_by_version|length}}) }}
 
             {% embed 'Embed/table_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
