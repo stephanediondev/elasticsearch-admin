@@ -102,6 +102,10 @@ class ElasticsearchNodeController extends AbstractAppController
      */
     public function readUsage(Request $request, string $node): Response
     {
+        if (false == $this->callManager->hasFeature('node_usage')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $node = $this->elasticsearchNodeManager->getByName($node);
 
         if (false == $node) {

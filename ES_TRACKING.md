@@ -86,6 +86,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.0.
 https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0.html
 
 - Allows multiple patterns to be specified for index templates #21009 (issue: #20690)
+- Adds nodes usage API to monitor usages of actions #24169
 
 ### 5.6.0
 

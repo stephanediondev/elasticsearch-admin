@@ -78,7 +78,11 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid().'/usage');
 
-        $this->assertResponseStatusCodeSame(404);
+        if (false == $this->callManager->hasFeature('node_usage')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
     }
 
     public function testReadUsage()
@@ -87,8 +91,12 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->client->request('GET', '/admin/nodes/'.$masterNode.'/usage');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Nodes - '.$masterNode.' - Usage');
+        if (false == $this->callManager->hasFeature('node_usage')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Nodes - '.$masterNode.' - Usage');
+        }
     }
 
     /**
