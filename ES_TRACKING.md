@@ -73,6 +73,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.5/release-notes-6.5.0.
 https://www.elastic.co/guide/en/elasticsearch/reference/6.4/release-notes-6.4.0.html
 
 - Reload secure settings for plugins - backport (#31383) #31481 (issue: #29135)
+- Add cluster get settings API #31706 (issue: #27205)
 
 ### 6.2.0
 

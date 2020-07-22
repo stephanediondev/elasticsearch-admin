@@ -28,6 +28,7 @@ class CallManager
         '_security_endpoint' => '6.6',
         'freeze_unfreeze' => '6.6',
         'license_status' => '6.6',
+        'cluster_settings' => '6.4',
         'reload_secure_settings' => '6.4',
         '_doc_as_type' => '6.2',
         'multiple_patterns' => '6.0',

@@ -75,6 +75,10 @@ class ElasticsearchClusterController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTINGS', 'global');
 
+        if (false == $this->callManager->hasFeature('cluster_settings')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cluster/settings');
         $callRequest->setQuery(['include_defaults' => 'true', 'flat_settings' => 'true']);
@@ -93,6 +97,10 @@ class ElasticsearchClusterController extends AbstractAppController
     public function edit(Request $request, string $type, string $setting): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_EDIT', 'global');
+
+        if (false == $this->callManager->hasFeature('cluster_settings')) {
+            throw new AccessDeniedHttpException();
+        }
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
@@ -138,6 +146,10 @@ class ElasticsearchClusterController extends AbstractAppController
     public function remove(Request $request, string $type, string $setting): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_REMOVE', 'global');
+
+        if (false == $this->callManager->hasFeature('cluster_settings')) {
+            throw new AccessDeniedHttpException();
+        }
 
         $json = [
             $type => [

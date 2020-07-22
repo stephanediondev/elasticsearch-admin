@@ -57,8 +57,12 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
 
         $this->client->request('GET', '/admin/cluster/settings');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Settings');
+        if (false == $this->callManager->hasFeature('cluster_settings')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Settings');
+        }
     }
 
     /**
@@ -68,15 +72,23 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/cluster/settings/persistent/cluster.routing.allocation.disk.watermark.low/edit');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Cluster - cluster.routing.allocation.disk.watermark.low');
+        if (false == $this->callManager->hasFeature('cluster_settings')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Cluster - cluster.routing.allocation.disk.watermark.low');
+        }
     }
 
     public function testEditTransient()
     {
         $this->client->request('GET', '/admin/cluster/settings/transient/cluster.routing.allocation.disk.watermark.low/edit');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Cluster - cluster.routing.allocation.disk.watermark.low');
+        if (false == $this->callManager->hasFeature('cluster_settings')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Cluster - cluster.routing.allocation.disk.watermark.low');
+        }
     }
 }
