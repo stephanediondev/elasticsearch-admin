@@ -69,40 +69,42 @@
 {% block scripts %}
     {{ parent() }}
 
-    <script type="text/javascript">
-        var countResults = {{ results['rows']|length }};
-        $(document).on('click', '#cursor', function(event) {
-            event.preventDefault();
-            var body = {'cursor': $(this).attr('href')};
-            var url = '{{ path('sql_cursor') }}';
-            fetch(url, {
-                credentials: 'include',
-                method: 'POST',
-                body: JSON.stringify(body),
-                mode: 'cors',
-            }).then(function(response) {
-                return response.json();
-            }).then(function(json) {
-                if (typeof json['cursor'] != 'undefined') {
-                    $('#cursor').attr('href', json['cursor']);
-                } else {
-                    $('#cursor').remove();
-                }
-
-                for (var row in json['rows']) {
-                    var tr = '<tr>';
-                    for (var column in json['rows'][row]) {
-                        tr += '<td>' + json['rows'][row][column] + '</td>';
+    {% if results is defined %}
+        <script type="text/javascript">
+            var countResults = {{ results['rows']|length }};
+            $(document).on('click', '#cursor', function(event) {
+                event.preventDefault();
+                var body = {'cursor': $(this).attr('href')};
+                var url = '{{ path('sql_cursor') }}';
+                fetch(url, {
+                    credentials: 'include',
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                    mode: 'cors',
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(json) {
+                    if (typeof json['cursor'] != 'undefined') {
+                        $('#cursor').attr('href', json['cursor']);
+                    } else {
+                        $('#cursor').remove();
                     }
-                    tr += '</tr>';
-                    $('tbody').append(tr);
-                    countResults++;
-                }
 
-                $('h3 .badge').text(countResults);
-            }).catch(function(error) {
-                console.log(error);
+                    for (var row in json['rows']) {
+                        var tr = '<tr>';
+                        for (var column in json['rows'][row]) {
+                            tr += '<td>' + json['rows'][row][column] + '</td>';
+                        }
+                        tr += '</tr>';
+                        $('tbody').append(tr);
+                        countResults++;
+                    }
+
+                    $('h3 .badge').text(countResults);
+                }).catch(function(error) {
+                    console.log(error);
+                });
             });
-        });
-    </script>
+        </script>
+    {% endif %}
 {% endblock %}
