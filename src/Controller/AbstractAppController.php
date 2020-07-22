@@ -64,14 +64,14 @@ abstract class AbstractAppController extends AbstractController
         if (true == $this->isGranted('MENU_CONFIGURATION', 'global')) {
             $entries = [
                 ['granted' => 'INDEX_TEMPLATES_LEGACY', 'path' => 'index_templates_legacy'],
-                ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates'],
-                ['granted' => 'COMPONENT_TEMPLATES', 'path' => 'component_templates'],
-                ['granted' => 'ILM_POLICIES', 'path' => 'ilm'],
-                ['granted' => 'SLM_POLICIES', 'path' => 'slm'],
+                ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates', 'feature' => 'composable_template'],
+                ['granted' => 'COMPONENT_TEMPLATES', 'path' => 'component_templates', 'feature' => 'composable_template'],
+                ['granted' => 'ILM_POLICIES', 'path' => 'ilm', 'feature' => 'ilm'],
+                ['granted' => 'SLM_POLICIES', 'path' => 'slm', 'feature' => 'slm'],
                 ['granted' => 'REPOSITORIES', 'path' => 'repositories'],
-                ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich'],
-                ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users'],
-                ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles'],
+                ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich', 'feature' => 'enrich'],
+                ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users', 'feature' => 'security'],
+                ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
                 ['granted' => 'APP_USERS', 'path' => 'app_users'],
                 ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
             ];
@@ -82,13 +82,13 @@ abstract class AbstractAppController extends AbstractController
         if (true == $this->isGranted('MENU_TOOLS', 'global')) {
             $entries = [
                 ['granted' => 'SNAPSHOTS', 'path' => 'snapshots'],
-                ['granted' => 'PIPELINES', 'path' => 'pipelines'],
-                ['granted' => 'TASKS', 'path' => 'tasks'],
-                ['granted' => 'REMOTE_CLUSTERS', 'path' => 'remote_clusters'],
+                ['granted' => 'PIPELINES', 'path' => 'pipelines', 'feature' => 'pipelines'],
+                ['granted' => 'TASKS', 'path' => 'tasks', 'feature' => 'tasks'],
+                ['granted' => 'REMOTE_CLUSTERS', 'path' => 'remote_clusters', 'feature' => 'remote_clusters'],
                 ['granted' => 'CAT', 'path' => 'cat'],
                 ['granted' => 'CONSOLE', 'path' => 'console'],
-                ['granted' => 'DEPRECATIONS', 'path' => 'deprecations'],
-                ['granted' => 'LICENSE', 'path' => 'license'],
+                ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
+                ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
                 ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
             ];
 
@@ -107,39 +107,7 @@ abstract class AbstractAppController extends AbstractController
             if (true == $this->isGranted($entry['granted'], 'global')) {
                 $disabled = false;
 
-                if ('ILM_POLICIES' == $entry['granted'] && false == $this->callManager->hasFeature('ilm')) {
-                    $disabled = true;
-                }
-
-                if ('SLM_POLICIES' == $entry['granted'] && false == $this->callManager->hasFeature('slm')) {
-                    $disabled = true;
-                }
-
-                if ('ENRICH_POLICIES' == $entry['granted'] && false == $this->callManager->hasFeature('enrich')) {
-                    $disabled = true;
-                }
-
-                if (true == in_array($entry['granted'], ['ELASTICSEARCH_USERS', 'ELASTICSEARCH_ROLES']) && false == $this->callManager->hasFeature('security')) {
-                    $disabled = true;
-                }
-
-                if (true == in_array($entry['granted'], ['INDEX_TEMPLATES', 'COMPONENT_TEMPLATES']) && false == $this->callManager->hasFeature('composable_template')) {
-                    $disabled = true;
-                }
-
-                if (true == in_array($entry['granted'], ['PIPELINES']) && false == $this->callManager->hasFeature('pipelines')) {
-                    $disabled = true;
-                }
-
-                if (true == in_array($entry['granted'], ['REMOTE_CLUSTERS']) && false == $this->callManager->hasFeature('remote_clusters')) {
-                    $disabled = true;
-                }
-
-                if (true == in_array($entry['granted'], ['TASKS']) && false == $this->callManager->hasFeature('tasks')) {
-                    $disabled = true;
-                }
-
-                if (true == in_array($entry['granted'], ['LICENSE']) && false == $this->callManager->hasFeature('license')) {
+                if (true == isset($entry['feature']) && false == $this->callManager->hasFeature($entry['feature'])) {
                     $disabled = true;
                 }
 

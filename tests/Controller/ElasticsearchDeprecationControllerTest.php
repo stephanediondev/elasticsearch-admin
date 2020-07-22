@@ -14,7 +14,11 @@ class ElasticsearchDeprecationControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/deprecations');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Deprecations');
+        if (false == $this->callManager->hasFeature('deprecations')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Deprecations');
+        }
     }
 }

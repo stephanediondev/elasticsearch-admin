@@ -29,6 +29,7 @@ class CallManager
         '_doc_as_type' => '6.2',
         'multiple_patterns' => '6.0',
         'cat_nodes_disk' => '5.6',
+        'deprecations' => '5.6',
         'remote_clusters' => '5.4',
         'cat_sort' => '5.1.1',
         'allocation_explain' => '5.0',

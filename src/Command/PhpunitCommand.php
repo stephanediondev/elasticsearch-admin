@@ -74,6 +74,11 @@ class PhpunitCommand extends Command
                 'path' => '_template',
                 'json' => true == $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => 'elasticsearch-admin-test'] : ['template' => 'elasticsearch-admin-test'],
             ],
+            'index_template_legacy_system' => [
+                'name' => '.elasticsearch-admin-test',
+                'path' => '_template',
+                'json' => true == $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => '.elasticsearch-admin-test'] : ['template' => '.elasticsearch-admin-test'],
+            ],
             'index_template' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => '_index_template',

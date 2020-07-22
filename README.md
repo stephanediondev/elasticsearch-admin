@@ -67,7 +67,7 @@ cp .env.dist .env
 - [x] Pipelines [5.0]: list, create, read, update, delete, copy
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
-- [x] Deprecations info
+- [x] Deprecations info [5.6]
 - [x] License [5.0]: read, status / start trial / revert to basic [6.6], features
 
 ## Todo
