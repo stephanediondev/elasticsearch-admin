@@ -20,6 +20,7 @@ class CallManager
     private $featuresByVersion = [
         'composable_template' => '7.8',
         'cat_expand_wildcards' => '7.7',
+        'cat_data_frame_analytics' => '7.7',
         'voting_only' => '7.3',
         'builtin_privileges' => '7.3',
         '_security_endpoint' => '6.6',

@@ -29,8 +29,6 @@ class ElasticsearchCatType extends AbstractType
             //'ml/anomaly_detectors/{job_id}',
             'count',
             'count/{index}',
-            'ml/data_frame/analytics',
-            //'ml/data_frame/analytics/{data_frame_analytics_id}',
             'ml/datafeeds',
             //'ml/datafeeds/{feed_id}',
             'fielddata',
@@ -58,6 +56,10 @@ class ElasticsearchCatType extends AbstractType
             'transforms',
             //'transforms/{transform_id},'
         ];
+        if (true == $this->callManager->hasFeature('cat_data_frame_analytics')) {
+            $commands[] = 'ml/data_frame/analytics';
+            //$commands[] = 'ml/data_frame/analytics/{data_frame_analytics_id}';
+        }
         if (true == $this->callManager->hasFeature('cat_repositories_snapshots')) {
             $commands[] = 'repositories';
             $commands[] = 'snapshots/{repository}';

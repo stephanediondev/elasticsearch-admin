@@ -13,6 +13,8 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.8/release-notes-7.8.0.
 https://www.elastic.co/guide/en/elasticsearch/reference/7.7/release-notes-7.7.0.html
 
 - Allow _cat indices & aliases to use indices options #53248 (issue: #52304)
+- Add _cat/ml/data_frame/analytics API #52260 (issue: #51413)
+
 
 ### 7.5.0
 
