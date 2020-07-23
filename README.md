@@ -44,7 +44,7 @@ cp .env.dist .env
 
 ## Features
 
-- [x] Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x
+- [x] Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x, 8.x (snapshot)
 - [x] Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, credentials or not
 - [x] App users: register, login, logout, list, create, read, update, delete
 - [x] App roles: list, create, read, update (permissions), delete

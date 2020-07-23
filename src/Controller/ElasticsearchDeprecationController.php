@@ -26,7 +26,11 @@ class ElasticsearchDeprecationController extends AbstractAppController
         }
 
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_xpack/migration/deprecations');
+        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+            $callRequest->setPath('/_xpack/migration/deprecations');
+        } else {
+            $callRequest->setPath('/_migration/deprecations');
+        }
         $callResponse = $this->callManager->call($callRequest);
         $deprecations = $callResponse->getContent();
 

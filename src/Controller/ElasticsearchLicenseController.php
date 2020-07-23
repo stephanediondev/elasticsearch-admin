@@ -25,8 +25,14 @@ class ElasticsearchLicenseController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
+        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+            $this->endpoint = '_xpack/license';
+        } else {
+            $this->endpoint = '_license';
+        }
+
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_xpack/license');
+        $callRequest->setPath('/'.$this->endpoint);
         $callResponse = $this->callManager->call($callRequest);
         $license = $callResponse->getContent();
         $license = $license['license'];
@@ -36,13 +42,13 @@ class ElasticsearchLicenseController extends AbstractAppController
             $basicStatus = false;
         } else {
             $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_xpack/license/trial_status');
+            $callRequest->setPath('/'.$this->endpoint.'/trial_status');
             $callResponse = $this->callManager->call($callRequest);
             $trialStatus = $callResponse->getContent();
             $trialStatus = $trialStatus['eligible_to_start_trial'];
 
             $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_xpack/license/basic_status');
+            $callRequest->setPath('/'.$this->endpoint.'/basic_status');
             $callResponse = $this->callManager->call($callRequest);
             $basicStatus = $callResponse->getContent();
             $basicStatus = $basicStatus['eligible_to_start_basic'];
@@ -67,9 +73,15 @@ class ElasticsearchLicenseController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
+        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+            $this->endpoint = '_xpack/license';
+        } else {
+            $this->endpoint = '_license';
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/_xpack/license/start_trial');
+        $callRequest->setPath('/'.$this->endpoint.'/start_trial');
         $callRequest->setQuery(['acknowledge' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
 
@@ -89,9 +101,15 @@ class ElasticsearchLicenseController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
+        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+            $this->endpoint = '_xpack/license';
+        } else {
+            $this->endpoint = '_license';
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/_xpack/license/start_basic');
+        $callRequest->setPath('/'.$this->endpoint.'/start_basic');
         $callRequest->setQuery(['acknowledge' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
 
