@@ -1,5 +1,13 @@
 ### List of changes and features to apply the version filters
 
+### 8.0.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/master/breaking-changes-8.0.html
+
+- REST API endpoints containing _xpack have been removed.
+- The get snapshot API’s response format has changed.
+- The repositories.fs.compress node-level setting has been removed.
+
 ### 7.8.0
 
 https://www.elastic.co/guide/en/elasticsearch/reference/7.8/release-notes-7.8.0.html
