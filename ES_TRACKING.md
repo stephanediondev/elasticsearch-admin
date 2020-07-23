@@ -117,6 +117,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/5.0/release-notes-5.0.0.
 - Modify load average format #15932 (issue: #15907)
 - Reintroduce five-minute and fifteen-minute load averages on Linux #15907 (issues: #12049, #14741)
 - Add REST _ingest/pipeline to get all pipelines #19603 (issue: #19585)
+- Adds tombstones to cluster state for index deletions #17265 (issues: #16358, #17435)
 
 ### 2.3.0
 

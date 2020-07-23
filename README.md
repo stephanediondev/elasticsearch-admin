@@ -70,7 +70,7 @@ cp .env.dist .env
 - [x] SQL access [6.3]: query, translate to DSL
 - [x] Deprecations info [5.6]
 - [x] License [5.0]: read, status / start trial / revert to basic [6.6], features
-- [x] Index graveyard: list
+- [x] Index graveyard [5.0]: list
 
 ## Todo
 

@@ -14,7 +14,11 @@ class ElasticsearchIndexGraveyardControllerTest extends AbstractAppControllerTes
     {
         $this->client->request('GET', '/admin/index-graveyard');
 
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Index graveyard');
+        if (false == $this->callManager->hasFeature('tombstones')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Index graveyard');
+        }
     }
 }

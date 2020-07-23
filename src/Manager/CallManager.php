@@ -38,6 +38,7 @@ class CallManager
         'remote_clusters' => '5.4',
         'cat_sort' => '5.1.1',
         'cat_templates' => '5.1.1',
+        'tombstones' => '5.0',
         'allocation_explain' => '5.0',
         'node_roles' => '5.0',
         'pipelines' => '5.0',
