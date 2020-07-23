@@ -16,12 +16,18 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$name);
         $callResponse = $this->callManager->call($callRequest);
+        $snapshot = $callResponse->getContent();
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             $snapshotModel = null;
+        } else if (true == isset($snapshot['responses'][0]['error']['type']) && 'snapshot_missing_exception' == $snapshot['responses'][0]['error']['type']) {
+            $snapshotModel = null;
         } else {
-            $snapshot = $callResponse->getContent();
-            $snapshot = $snapshot['snapshots'][0];
+            if (true == isset($snapshot['responses'])) {
+                $snapshot = $snapshot['responses'][0]['snapshots'][0];
+            } else {
+                $snapshot = $snapshot['snapshots'][0];
+            }
             $snapshot['repository'] = $repository;
 
             $snapshotModel = new ElasticsearchSnapshotModel();
@@ -41,7 +47,17 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
             $callResponse = $this->callManager->call($callRequest);
             $results = $callResponse->getContent();
 
-            if (true == isset($results['snapshots'])) {
+            if (true == isset($results['responses'])) {
+                foreach ($results['responses'] as $response) {
+                    foreach ($response['snapshots'] as $row) {
+                        $row['repository'] = $repository;
+
+                        $snapshotModel = new ElasticsearchSnapshotModel();
+                        $snapshotModel->convert($row);
+                        $snapshots[] = $snapshotModel;
+                    }
+                }
+            } else if (true == isset($results['snapshots'])) {
                 foreach ($results['snapshots'] as $row) {
                     $row['repository'] = $repository;
 
