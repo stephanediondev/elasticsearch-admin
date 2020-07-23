@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'index_graveyard'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'index_graveyard'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/task/task_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < tombstones.total %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': tombstones.total}}) }}
+
+                {{ appImport.paginator(tombstones) }}
+
+                {% include 'Modules/index_graveyard/index_graveyard_list.html.twig' with {'tombstones': tombstones} %}
+
+                {{ appImport.paginator(tombstones) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

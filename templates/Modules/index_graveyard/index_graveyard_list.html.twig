@@ -1,0 +1,59 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'uuid': true, 'name': true, 'delete_date': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'uuid' == column %}
+                        <th>
+                            {{ 'uuid'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'name' == column %}
+                        <th>
+                            {{ 'name'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'delete_date' == column %}
+                        <th>
+                            {{ 'delete_date'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in tombstones.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'uuid' == column %}
+                            <td>
+                                {{ row['index']['index_uuid'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'name' == column %}
+                            <td>
+                                {{ row['index']['index_name'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'delete_date' == column %}
+                            <td>
+                                {{ row['delete_date_in_millis']|human_datetime }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

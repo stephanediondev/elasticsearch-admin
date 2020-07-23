@@ -91,6 +91,7 @@ abstract class AbstractAppController extends AbstractController
                 ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
                 ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
                 ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
+                ['granted' => 'INDICES', 'path' => 'index_graveyard'],
             ];
 
             $menus['tools'] = $this->populateMenu($entries);
