@@ -42,7 +42,7 @@ class AppRoleManager extends AbstractAppManager
             'CONSOLE', 'CONSOLE_POST', 'CONSOLE_PUT', 'CONSOLE_PATCH', 'CONSOLE_DELETE',
             'DEPRECATIONS',
             'LICENSE', 'LICENSE_START_TRIAL', 'LICENSE_START_BASIC',
-            'APP_LOGS', 'APP_LOGS_EMPTY','APP_LOGS_EXPORT',
+            //'APP_LOGS', 'APP_LOGS_EMPTY','APP_LOGS_EXPORT',
             'APP_UNINSTALL',
         ],
         'app_user' => [
