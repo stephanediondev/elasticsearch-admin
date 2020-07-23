@@ -10,19 +10,19 @@
                 {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': '_score', 'title': 'score'|trans})}}
             </th>
             <th>
-                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'email', 'title': 'email'|trans})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'email.keyword', 'title': 'email'|trans})}}
             </th>
             <th>
-                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'method', 'title': 'method'|trans})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'method.keyword', 'title': 'method'|trans})}}
             </th>
             <th>
-                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'path', 'title': 'path'|trans})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'path.keyword', 'title': 'path'|trans})}}
             </th>
             <th>
-                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'response_code', 'title': 'response_code'|trans})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'response_code.keyword', 'title': 'response_code'|trans})}}
             </th>
             <th>
-                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'created_at', 'title': 'created_at'|trans})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('app_logs', app.request.query.all), 's': 'created_at.keyword', 'title': 'created_at'|trans})}}
             </th>
         </tr>
     {% endblock %}

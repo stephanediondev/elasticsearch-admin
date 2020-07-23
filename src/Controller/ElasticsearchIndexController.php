@@ -1262,10 +1262,15 @@ class ElasticsearchIndexController extends AbstractAppController
             } else {
                 $page = 1;
             }
+            if ($request->query->get('s') && '' != $request->query->get('s')) {
+                $sort = $request->query->get('s');
+            } else {
+                $sort = '_score:desc';
+            }
             $query = [
                 'track_scores' => 'true',
                 'q' => $form->get('query')->getData(),
-                'sort' => $request->query->get('s', '_score:desc'),
+                'sort' => $sort,
                 'size' => $size,
                 'from' => ($size * $page) - $size,
             ];

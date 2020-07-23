@@ -126,7 +126,7 @@ class CallManager
 
     public function log(CallRequestModel $callRequest, CallResponseModel $callResponse)
     {
-        /*if ($callRequest->getLog()) {
+        if ($callRequest->getLog()) {
             $user = $this->security->getuser();
             if ($user) {
                 $json = [
@@ -148,7 +148,7 @@ class CallManager
 
                 $this->call($callRequestLog);
             }
-        }*/
+        }
     }
 
     public function getCatMaster(): array
