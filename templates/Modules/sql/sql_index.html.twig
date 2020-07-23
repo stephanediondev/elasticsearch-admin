@@ -24,17 +24,35 @@
         {% endblock %}
     {% endembed %}
 
-    {% if results is defined %}
+    {% if query is defined or translation_to_dsl is defined %}
+        <ul class="nav nav-tabs mb-4">
+            {% if query is defined %}
+                <li class="nav-item">
+                    <a class="nav-link active" id="query-tab" data-toggle="tab" href="#query" role="tab" aria-controls="query" aria-selected="true">{{ 'query'|trans }}</a>
+                </li>
+            {% endif %}
+
+            {% if translation_to_dsl is defined %}
+                <li class="nav-item">
+                    <a class="nav-link" id="translation_to_dsl-tab" data-toggle="tab" href="#translation_to_dsl" role="tab" aria-controls="translation_to_dsl" aria-selected="true">{{ 'translation_to_dsl'|trans }}</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+
+    <div class="tab-content" id="myTabContent">
+    {% if query is defined %}
+        <div class="tab-pane fade show active" id="query" role="tabpanel" aria-labelledby="query-tab">
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {% if results is defined and 0 < results|length %}
-                    {{ appImport.heading({'level': 3, 'title': 'results'|trans, 'badge': {'title': results['rows']|length}}) }}
+                {% if query is defined and 0 < query['rows']|length %}
+                    {{ appImport.heading({'level': 3, 'title': 'results'|trans, 'badge': {'title': query['rows']|length}}) }}
 
                     {% embed 'Embed/table_embed.html.twig' %}
                         {% block thead %}
                             <tr>
-                                {% for column in results['columns'] %}
+                                {% for column in query['columns'] %}
                                     <th>
                                         {{ column.name }}
                                     </th>
@@ -43,7 +61,7 @@
                         {% endblock %}
 
                         {% block tbody %}
-                            {% for row in results['rows'] %}
+                            {% for row in query['rows'] %}
                                 <tr>
                                     {% for column in row %}
                                         <td>
@@ -55,23 +73,38 @@
                         {% endblock %}
                     {% endembed %}
 
-                    {% if results['cursor'] is defined %}
-                        <a id="cursor" class="btn btn-primary btn-sm" href="{{ results['cursor'] }}">
+                    {% if query['cursor'] is defined %}
+                        <a id="cursor" class="btn btn-primary btn-sm" href="{{ query['cursor'] }}">
                             {{ 'more'|trans }}
                         </a>
                     {% endif %}
                 {% endif %}
             {% endblock %}
         {% endembed %}
+        </div>
     {% endif %}
+
+    {% if translation_to_dsl is defined %}
+        <div class="tab-pane fade" id="translation_to_dsl" role="tabpanel" aria-labelledby="translation_to_dsl-tab">
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'translation_to_dsl'|trans}) }}
+
+                <pre>{{ translation_to_dsl|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            {% endblock %}
+        {% endembed %}
+        </div>
+    {% endif %}
+    </div>
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 
-    {% if results is defined %}
+    {% if query is defined %}
         <script type="text/javascript">
-            var countResults = {{ results['rows']|length }};
+            var countResults = {{ query['rows']|length }};
             $(document).on('click', '#cursor', function(event) {
                 event.preventDefault();
                 var body = {'cursor': $(this).attr('href')};

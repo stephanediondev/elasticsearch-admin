@@ -18,7 +18,7 @@ class ElasticsearchSqlControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('SQL REST API');
+            $this->assertPageTitleSame('SQL access');
         }
     }
 }

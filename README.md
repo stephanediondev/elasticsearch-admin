@@ -50,7 +50,7 @@ cp .env.dist .env
 - [x] App roles: list, create, read, update (permissions), delete
 - [x] Cluster: basic metrics, allocation explain [5.0], settings [5.0] (list, update)
 - [x] Nodes: list, read, usage [6.0], plugins, reload secure settings [6.4]
-- [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], import (ODS, XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
+- [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search documents, import (ODS, XLSX) / export (CSV, TSV, ODS, XLSX, GEOJSON), aliases (list, create, delete)
 - [x] Index templates (legacy): list, create, read, update, delete, copy
 - [x] Index templates [7.8]: list, create, read, update, delete, copy
 - [x] Component templates [7.8]: list, create, read, update, delete, copy
@@ -67,14 +67,13 @@ cp .env.dist .env
 - [x] Pipelines [5.0]: list, create, read, update, delete, copy
 - [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
 - [x] Console
-- [x] SQL REST API: query
+- [x] SQL access [6.3]: query, translate to DSL
 - [x] Deprecations info [5.6]
 - [x] License [5.0]: read, status / start trial / revert to basic [6.6], features
 
 ## Todo
 
-- [ ] SQL REST API: export
-- [ ] SQL Translate API
+- [ ] SQL access: export
 - [ ] Shards: read, segments, cluster reroute (move, allocate replica, cancel)
 - [ ] Indices: shrink, split, clone, import from database
 - [ ] Index templates (legacy): convert to new version

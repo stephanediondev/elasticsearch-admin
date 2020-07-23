@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @Route("/admin")
@@ -25,6 +26,10 @@ class ElasticsearchSqlController extends AbstractAppController
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SQL', 'global');
+
+        if (false == $this->callManager->hasFeature('sql')) {
+            throw new AccessDeniedHttpException();
+        }
 
         $parameters = [];
 
@@ -42,7 +47,17 @@ class ElasticsearchSqlController extends AbstractAppController
                 $callRequest->setJson($json);
                 $callResponse = $this->callManager->call($callRequest);
 
-                $parameters['results'] = $callResponse->getContent();
+                $parameters['query'] = $callResponse->getContent();
+
+                $json = $sqlModel->getJson();
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_sql/translate');
+                $callRequest->setJson($json);
+                $callResponse = $this->callManager->call($callRequest);
+
+                $parameters['translation_to_dsl'] = $callResponse->getContent();
+
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -59,6 +74,10 @@ class ElasticsearchSqlController extends AbstractAppController
     public function cursor(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('SQL', 'global');
+
+        if (false == $this->callManager->hasFeature('sql')) {
+            throw new AccessDeniedHttpException();
+        }
 
         $parameters = [];
 
