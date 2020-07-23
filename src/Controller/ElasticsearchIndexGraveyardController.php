@@ -19,7 +19,7 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('INDICES', 'global');
+        $this->denyAccessUnlessGranted('INDEX_GRAVEYARD', 'global');
 
         $callRequest = new CallRequestModel();
         $callRequest->setQuery(['filter_path' => '**.tombstones']);

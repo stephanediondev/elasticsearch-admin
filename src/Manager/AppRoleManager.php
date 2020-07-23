@@ -38,6 +38,7 @@ class AppRoleManager extends AbstractAppManager
             'REMOTE_CLUSTERS',
             'CAT', 'CAT_EXPORT',
             'SQL',
+            'INDEX_GRAVEYARD',
             'CONSOLE', 'CONSOLE_POST', 'CONSOLE_PUT', 'CONSOLE_PATCH', 'CONSOLE_DELETE',
             'DEPRECATIONS',
             'LICENSE', 'LICENSE_START_TRIAL', 'LICENSE_START_BASIC',
