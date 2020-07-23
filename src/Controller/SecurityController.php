@@ -36,7 +36,7 @@ class SecurityController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('HEAD');
-        $callRequest->setPath('/.elastictsearch-admin-users');
+        $callRequest->setPath('/.elasticsearch-admin-users');
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
@@ -73,7 +73,7 @@ class SecurityController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('HEAD');
-        $callRequest->setPath('/.elastictsearch-admin-users');
+        $callRequest->setPath('/.elasticsearch-admin-users');
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_OK == $callResponse->getCode()) {
@@ -96,7 +96,7 @@ class SecurityController extends AbstractAppController
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
                 $callRequest->setJson($json);
-                $callRequest->setPath('/.elastictsearch-admin-users');
+                $callRequest->setPath('/.elasticsearch-admin-users');
                 $callResponse = $this->callManager->call($callRequest);
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));

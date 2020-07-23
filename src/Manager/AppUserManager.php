@@ -17,9 +17,9 @@ class AppUserManager extends AbstractAppManager
 
         $callRequest = new CallRequestModel();
         if (true == $this->callManager->hasFeature('_doc_as_type')) {
-            $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$id);
+            $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$id);
         } else {
-            $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$id);
+            $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$id);
         }
         $callResponse = $this->callManager->call($callRequest);
         $row = $callResponse->getContent();
@@ -43,7 +43,7 @@ class AppUserManager extends AbstractAppManager
             'q' => 'email:"'.$email.'"',
         ];
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elastictsearch-admin-users/_search');
+        $callRequest->setPath('/.elasticsearch-admin-users/_search');
         $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
@@ -64,7 +64,7 @@ class AppUserManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elastictsearch-admin-users/_search');
+        $callRequest->setPath('/.elasticsearch-admin-users/_search');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
@@ -97,16 +97,16 @@ class AppUserManager extends AbstractAppManager
         if ($userModel->getId()) {
             $callRequest->setMethod('PUT');
             if (true == $this->callManager->hasFeature('_doc_as_type')) {
-                $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$userModel->getId());
+                $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$userModel->getId());
             } else {
-                $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$userModel->getId());
+                $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$userModel->getId());
             }
         } else {
             $callRequest->setMethod('POST');
             if (true == $this->callManager->hasFeature('_doc_as_type')) {
-                $callRequest->setPath('/.elastictsearch-admin-users/_doc');
+                $callRequest->setPath('/.elasticsearch-admin-users/_doc');
             } else {
-                $callRequest->setPath('/.elastictsearch-admin-users/doc/');
+                $callRequest->setPath('/.elasticsearch-admin-users/doc/');
             }
         }
         $callRequest->setJson($json);
@@ -118,9 +118,9 @@ class AppUserManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         if (true == $this->callManager->hasFeature('_doc_as_type')) {
-            $callRequest->setPath('/.elastictsearch-admin-users/_doc/'.$id);
+            $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$id);
         } else {
-            $callRequest->setPath('/.elastictsearch-admin-users/doc/'.$id);
+            $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$id);
         }
         $callRequest->setMethod('DELETE');
 

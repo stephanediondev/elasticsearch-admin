@@ -5,6 +5,7 @@ namespace App\Manager;
 use App\Exception\CallException;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallManager
@@ -52,8 +53,9 @@ class CallManager
         'force_merge' => '2.1',
     ];
 
-    public function __construct(HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
+    public function __construct(Security $security, HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
     {
+        $this->security = $security;
         $this->client = $client;
         $this->elasticsearchUrl = $elasticsearchUrl;
         $this->elasticsearchUsername = $elasticsearchUsername;
@@ -117,7 +119,36 @@ class CallManager
             }
         }
 
+        $this->log($callRequest, $callResponse);
+
         return $callResponse;
+    }
+
+    public function log(CallRequestModel $callRequest, CallResponseModel $callResponse)
+    {
+        /*if ($callRequest->getLog()) {
+            $user = $this->security->getuser();
+            if ($user) {
+                $json = [
+                    'email' => $user->getEmail(),
+                    'method' => $callRequest->getMethod(),
+                    'path' => $callRequest->getPath(),
+                    'response_code' => $callResponse->getCode(),
+                    'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
+                ];
+                $callRequestLog = new CallRequestModel();
+                $callRequestLog->setLog(false);
+                $callRequestLog->setMethod('POST');
+                if (true == $this->hasFeature('_doc_as_type')) {
+                    $callRequestLog->setPath('/.elasticsearch-admin-logs/_doc');
+                } else {
+                    $callRequestLog->setPath('/.elasticsearch-admin-logs/doc/');
+                }
+                $callRequestLog->setJson($json);
+
+                $this->call($callRequestLog);
+            }
+        }*/
     }
 
     public function getCatMaster(): array
@@ -132,6 +163,7 @@ class CallManager
     public function setCatMaster()
     {
         $callRequest = new CallRequestModel();
+        $callRequest->setLog(false);
         $callRequest->setPath('/_cat/master');
         $callResponse = $this->call($callRequest);
         $this->catMaster = $callResponse->getContent();
@@ -158,6 +190,7 @@ class CallManager
     public function setRoot()
     {
         $callRequest = new CallRequestModel();
+        $callRequest->setLog(false);
         $callRequest->setPath('/');
         $callResponse = $this->call($callRequest);
         $this->root = $callResponse->getContent();
@@ -177,6 +210,7 @@ class CallManager
         if (true == $this->hasFeature('xpack')) {
             try {
                 $callRequest = new CallRequestModel();
+                $callRequest->setLog(false);
                 $callRequest->setPath('/_xpack');
                 $callResponse = $this->call($callRequest);
                 $this->xpack = $callResponse->getContent();
@@ -200,6 +234,7 @@ class CallManager
     public function setPlugins()
     {
         $callRequest = new CallRequestModel();
+        $callRequest->setLog(false);
         $callRequest->setPath('/_cat/plugins');
         $callResponse = $this->call($callRequest);
         $results = $callResponse->getContent();

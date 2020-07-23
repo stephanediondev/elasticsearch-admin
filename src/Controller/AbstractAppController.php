@@ -91,6 +91,7 @@ abstract class AbstractAppController extends AbstractController
                 ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
                 ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
                 ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
+                ['granted' => 'APP_LOGS', 'path' => 'app_logs'],
                 ['granted' => 'INDEX_GRAVEYARD', 'path' => 'index_graveyard', 'feature' => 'tombstones'],
             ];
 

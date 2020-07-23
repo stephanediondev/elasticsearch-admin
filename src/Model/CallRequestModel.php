@@ -12,10 +12,13 @@ class CallRequestModel extends AbstractAppModel
 
     private $options;
 
+    private $log;
+
     public function __construct()
     {
         $this->method = 'GET';
         $this->options = ['query' => [], 'body' => false, 'json' => []];
+        $this->log = true;
     }
 
     public function getMethod(): ?string
@@ -53,6 +56,18 @@ class CallRequestModel extends AbstractAppModel
     public function setOptions(?array $options): self
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    public function getLog(): ?bool
+    {
+        return $this->log;
+    }
+
+    public function setlog(?bool $log): self
+    {
+        $this->log = $log;
 
         return $this;
     }

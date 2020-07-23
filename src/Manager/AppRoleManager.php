@@ -42,6 +42,7 @@ class AppRoleManager extends AbstractAppManager
             'CONSOLE', 'CONSOLE_POST', 'CONSOLE_PUT', 'CONSOLE_PATCH', 'CONSOLE_DELETE',
             'DEPRECATIONS',
             'LICENSE', 'LICENSE_START_TRIAL', 'LICENSE_START_BASIC',
+            //'APP_LOGS', 'APP_LOGS_EMPTY','APP_LOGS_EXPORT',
             'APP_UNINSTALL',
         ],
         'app_user' => [
@@ -114,7 +115,7 @@ class AppRoleManager extends AbstractAppManager
             'q' => 'name:"'.$name.'"',
         ];
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elastictsearch-admin-roles/_search');
+        $callRequest->setPath('/.elasticsearch-admin-roles/_search');
         $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
@@ -135,7 +136,7 @@ class AppRoleManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elastictsearch-admin-roles/_search');
+        $callRequest->setPath('/.elasticsearch-admin-roles/_search');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
@@ -166,16 +167,16 @@ class AppRoleManager extends AbstractAppManager
         if ($roleModel->getId()) {
             $callRequest->setMethod('PUT');
             if (true == $this->callManager->hasFeature('_doc_as_type')) {
-                $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$roleModel->getId());
+                $callRequest->setPath('/.elasticsearch-admin-roles/_doc/'.$roleModel->getId());
             } else {
-                $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$roleModel->getId());
+                $callRequest->setPath('/.elasticsearch-admin-roles/doc/'.$roleModel->getId());
             }
         } else {
             $callRequest->setMethod('POST');
             if (true == $this->callManager->hasFeature('_doc_as_type')) {
-                $callRequest->setPath('/.elastictsearch-admin-roles/_doc');
+                $callRequest->setPath('/.elasticsearch-admin-roles/_doc');
             } else {
-                $callRequest->setPath('/.elastictsearch-admin-roles/doc/');
+                $callRequest->setPath('/.elasticsearch-admin-roles/doc/');
             }
         }
         $callRequest->setJson($json);
@@ -187,9 +188,9 @@ class AppRoleManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         if (true == $this->callManager->hasFeature('_doc_as_type')) {
-            $callRequest->setPath('/.elastictsearch-admin-roles/_doc/'.$id);
+            $callRequest->setPath('/.elasticsearch-admin-roles/_doc/'.$id);
         } else {
-            $callRequest->setPath('/.elastictsearch-admin-roles/doc/'.$id);
+            $callRequest->setPath('/.elasticsearch-admin-roles/doc/'.$id);
         }
         $callRequest->setMethod('DELETE');
 
@@ -207,7 +208,7 @@ class AppRoleManager extends AbstractAppManager
         ];
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        $callRequest->setPath('/.elastictsearch-admin-permissions/_delete_by_query');
+        $callRequest->setPath('/.elasticsearch-admin-permissions/_delete_by_query');
         $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
@@ -243,7 +244,7 @@ class AppRoleManager extends AbstractAppManager
             'size' => 1000,
         ];
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elastictsearch-admin-permissions/_search');
+        $callRequest->setPath('/.elasticsearch-admin-permissions/_search');
         $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
@@ -275,9 +276,9 @@ class AppRoleManager extends AbstractAppManager
             $callRequest->setMethod('DELETE');
         }
         if (true == $this->callManager->hasFeature('_doc_as_type')) {
-            $callRequest->setPath('/.elastictsearch-admin-permissions/_doc/'.$id);
+            $callRequest->setPath('/.elasticsearch-admin-permissions/_doc/'.$id);
         } else {
-            $callRequest->setPath('/.elastictsearch-admin-permissions/doc/'.$id);
+            $callRequest->setPath('/.elasticsearch-admin-permissions/doc/'.$id);
         }
         $callRequest->setJson($json);
 
@@ -287,7 +288,7 @@ class AppRoleManager extends AbstractAppManager
     public function selectRoles(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elastictsearch-admin-roles/_search');
+        $callRequest->setPath('/.elasticsearch-admin-roles/_search');
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 

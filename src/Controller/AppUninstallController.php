@@ -40,9 +40,10 @@ class AppUninstallController extends AbstractAppController
         $this->denyAccessUnlessGranted('APP_UNINSTALL', 'global');
 
         $indices = [
-            '.elastictsearch-admin-users',
-            '.elastictsearch-admin-roles',
-            '.elastictsearch-admin-permissions',
+            '.elasticsearch-admin-users',
+            '.elasticsearch-admin-roles',
+            '.elasticsearch-admin-permissions',
+            '.elasticsearch-admin-logs',
         ];
 
         foreach ($indices as $index) {

@@ -31,7 +31,7 @@ abstract class AbstractAppControllerTest extends WebTestCase
             'q' => 'email:"example@example.com"',
         ];
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elastictsearch-admin-users/_search');
+        $callRequest->setPath('/.elasticsearch-admin-users/_search');
         $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
