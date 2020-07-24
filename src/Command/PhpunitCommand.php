@@ -37,13 +37,11 @@ class PhpunitCommand extends Command
             $this->endpoint = '/_xpack/security';
         }
 
-        if (true == $this->callManager->hasFeature('enrich')) {
-            $jsonIndex = [
-                'settings' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1'],
-                'mappings' => json_decode(file_get_contents(__DIR__.'/../DataFixtures/es-test-mappings.json'), true),
-            ];
-        } else {
-            $jsonIndex = [];
+        $jsonIndex = [
+            'settings' => ['index' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1']],
+        ];
+        if (true == $this->callManager->checkVersion('7.0')) {
+            $jsonIndex['mappings'] = json_decode(file_get_contents(__DIR__.'/../DataFixtures/es-test-mappings.json'), true);
         }
 
         $cases = [
