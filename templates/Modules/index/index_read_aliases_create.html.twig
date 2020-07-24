@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'create_alias'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'aliases'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
@@ -12,14 +12,14 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'create_alias'} %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'aliases'} %}
 {% endblock %}
 
 {% block main_content %}
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'create_alias'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'add'|trans}) }}
 
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}

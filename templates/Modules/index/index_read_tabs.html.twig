@@ -48,12 +48,6 @@
         </li>
     {% endif %}
 
-    {% if is_granted('INDEX_ALIAS_CREATE', index) %}
-        <li class="nav-item">
-            <a class="nav-link{% if 'create_alias' == active %} active{% endif %}" href="{{ path('indices_aliases_create', {'index': index.name}) }}">{{ 'create_alias'|trans }}</a>
-        </li>
-    {% endif %}
-
     {% if is_granted('INDICES_REINDEX', 'global') and false == index.isSystem %}
         <li class="nav-item">
             <a class="nav-link" href="{{ path('indices_reindex', {'index': index.name}) }}">{{ 'reindex'|trans }}</a>

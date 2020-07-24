@@ -21,6 +21,14 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'aliases'|trans, 'badge': {'title': aliases.total}}) }}
 
+            {% if is_granted('INDEX_ALIAS_CREATE', index) %}
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% block content %}
+                        <a class="btn btn-primary btn-sm" href="{{ path('indices_aliases_create', {'index': index.name}) }}">{{ 'add'|trans }}</a>
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+
             {% if 0 < aliases.total %}
                 {{ appImport.paginator(aliases) }}
 

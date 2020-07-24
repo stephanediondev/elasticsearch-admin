@@ -246,7 +246,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/aliases/create');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Create alias');
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Aliases');
     }
 
     /**

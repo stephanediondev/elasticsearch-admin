@@ -1005,12 +1005,12 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('DELETE');
-        $callRequest->setPath('/'.$index.'/_alias/'.$alias);
+        $callRequest->setPath('/'.$index->getName().'/_alias/'.$alias);
         $callResponse = $this->callManager->call($callRequest);
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices_read_aliases', ['index' => $index]);
+        return $this->redirectToRoute('indices_read_aliases', ['index' => $index->getName()]);
     }
 
     /**
