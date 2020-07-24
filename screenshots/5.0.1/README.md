@@ -24,8 +24,6 @@
 
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original-shards.png)
 
-[![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original-snapshots.png)
-
 [![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original-snapshot-create.png)
 
 [![License](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized-license.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original-license.png)

@@ -26,8 +26,6 @@
 
 [![Create Shared file system repository](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized-repository-create-fs.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original-repository-create-fs.png)
 
-[![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original-snapshots.png)
-
 [![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original-snapshot-create.png)
 
 [![License](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized-license.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original-license.png)
