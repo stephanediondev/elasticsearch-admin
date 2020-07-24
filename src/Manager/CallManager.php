@@ -106,6 +106,8 @@ class CallManager
                     throw new CallException($json['error']['caused_by']['reason']);
                 } elseif (true == isset($json['error']['reason'])) {
                     throw new CallException($json['error']['reason']);
+                } elseif (true == is_string($json['error'])) {
+                    throw new CallException($json['error']);
                 }
             }
             throw new CallException('Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')');
