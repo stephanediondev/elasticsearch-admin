@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
+use App\Manager\AppManager;
 use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,8 +17,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class AppUninstallController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
+    public function __construct(AppManager $appManager, ElasticsearchIndexManager $elasticsearchIndexManager)
     {
+        $this->appManager = $appManager;
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
     }
 
@@ -29,6 +31,7 @@ class AppUninstallController extends AbstractAppController
         $this->denyAccessUnlessGranted('APP_UNINSTALL', 'global');
 
         return $this->renderAbstract($request, 'Modules/app_uninstall/app_uninstall_index.html.twig', [
+            'indices' => $this->appManager->getIndices(),
         ]);
     }
 
@@ -39,21 +42,22 @@ class AppUninstallController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('APP_UNINSTALL', 'global');
 
-        $indices = [
-            '.elasticsearch-admin-users',
-            '.elasticsearch-admin-roles',
-            '.elasticsearch-admin-permissions',
-            '.elasticsearch-admin-logs',
-        ];
-
-        foreach ($indices as $index) {
+        foreach ($this->appManager->getIndices() as $index) {
             $callRequest = new CallRequestModel();
-            $callRequest->setMethod('HEAD');
-            $callRequest->setPath($index);
+            $callRequest->setLog(false);
+            $callRequest->setMethod('GET');
+            $callRequest->setPath('/'.$index);
             $callResponse = $this->callManager->call($callRequest);
 
             if (Response::HTTP_OK == $callResponse->getCode()) {
-                $callResponse = $this->elasticsearchIndexManager->deleteByName($index);
+                $getIndex = $callResponse->getContent();
+
+                $callRequest = new CallRequestModel();
+                $callRequest->setLog(false);
+                $callRequest->setMethod('DELETE');
+                $callRequest->setPath('/'.array_key_first($getIndex));
+                $callResponse = $this->callManager->call($callRequest);
+
                 $this->addFlash('info', json_encode($callResponse->getContent()));
             }
         }

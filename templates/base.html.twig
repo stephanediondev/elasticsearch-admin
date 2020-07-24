@@ -77,6 +77,25 @@
                         </li>
                     {% endif %}
 
+                    {% if menus['application'] is defined %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ 'application'|trans }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="applicationDropdown">
+                                {% for entry in menus['application'] %}
+                                    <a class="dropdown-item" href="{{ path(entry['path']) }}">
+                                        {{ entry['name'] }}
+                                        {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                    </a>
+                                {% endfor %}
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="https://github.com/stephanediondev/elasticsearch-admin" target="_blank">{{ 'github'|trans }}</a>
+                                <a class="dropdown-item" href="https://hub.docker.com/r/stephanediondev/elasticsearch-admin" target="_blank">{{ 'docker_hub'|trans }}</a>
+                            </div>
+                        </li>
+                    {% endif %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
                     </li>

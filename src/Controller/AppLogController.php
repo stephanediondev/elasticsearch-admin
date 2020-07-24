@@ -46,7 +46,7 @@ class AppLogController extends AbstractAppController
             if ($request->query->get('s') && '' != $request->query->get('s')) {
                 $sort = $request->query->get('s');
             } else {
-                $sort = 'created_at.keyword:desc';
+                $sort = 'created_at:desc';
             }
             $query = [
                 'track_scores' => 'true',

@@ -18,7 +18,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users (Elasticsearch)');
+            $this->assertPageTitleSame('Users');
         }
     }
 
@@ -33,7 +33,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users (Elasticsearch) - Create user');
+            $this->assertPageTitleSame('Users - Create user');
         }
     }
 
@@ -59,7 +59,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users (Elasticsearch) - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Users - elasticsearch-admin-test');
         }
     }
 
@@ -96,7 +96,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users (Elasticsearch) - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Users - elasticsearch-admin-test - Update');
         }
     }
 

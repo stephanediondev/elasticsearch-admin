@@ -126,35 +126,4 @@ class AppUserManager extends AbstractAppManager
 
         return $this->callManager->call($callRequest);
     }
-
-    public function getSettings(): array
-    {
-        return [
-            'index' => [
-                'number_of_shards' => 1,
-                'auto_expand_replicas' => '0-1',
-            ],
-        ];
-    }
-
-    public function getMappings(): array
-    {
-        return [
-            'properties' => [
-                'email' => [
-                    'type' => 'keyword',
-                ],
-                'password' => [
-                    'type' => 'keyword',
-                ],
-                'roles' => [
-                    'type' => 'keyword',
-                ],
-                'created_at' => [
-                    'type' => 'date',
-                    'format' => 'yyyy-MM-dd HH:mm:ss',
-                ],
-            ],
-        ];
-    }
 }

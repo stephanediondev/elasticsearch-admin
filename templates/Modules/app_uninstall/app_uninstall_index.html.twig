@@ -21,6 +21,12 @@
         {% block content %}
             <p class="lead">{{ 'app_uninstall_note'|trans|raw }}</p>
 
+            <ul class="list-unstyled">
+                {% for index in indices %}
+                    <li>{{ index }}</li>
+                {% endfor %}
+            </ul>
+
             {{ appImport.buttonModal({
                 'id': 'AppUninstall',
                 'title': 'app_uninstall'|trans,

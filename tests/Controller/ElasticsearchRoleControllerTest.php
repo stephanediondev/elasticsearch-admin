@@ -18,7 +18,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Roles (Elasticsearch)');
+            $this->assertPageTitleSame('Roles');
         }
     }
 
@@ -33,7 +33,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Roles (Elasticsearch) - Create role');
+            $this->assertPageTitleSame('Roles - Create role');
         }
     }
 
@@ -67,7 +67,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Roles (Elasticsearch) - Create role');
+            $this->assertPageTitleSame('Roles - Create role');
         }
     }
 
@@ -93,7 +93,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Roles (Elasticsearch) - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Roles - elasticsearch-admin-test');
         }
     }
 
@@ -130,7 +130,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Roles (Elasticsearch) - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Roles - elasticsearch-admin-test - Update');
         }
     }
 

@@ -72,8 +72,6 @@ abstract class AbstractAppController extends AbstractController
                 ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich', 'feature' => 'enrich'],
                 ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users', 'feature' => 'security'],
                 ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
-                ['granted' => 'APP_USERS', 'path' => 'app_users'],
-                ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
             ];
 
             $menus['configuration'] = $this->populateMenu($entries);
@@ -90,12 +88,22 @@ abstract class AbstractAppController extends AbstractController
                 ['granted' => 'CONSOLE', 'path' => 'console'],
                 ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
                 ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
-                ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
-                ['granted' => 'APP_LOGS', 'path' => 'app_logs'],
                 ['granted' => 'INDEX_GRAVEYARD', 'path' => 'index_graveyard', 'feature' => 'tombstones'],
             ];
 
             $menus['tools'] = $this->populateMenu($entries);
+        }
+
+        if (true == $this->isGranted('MENU_APPLICATION', 'global')) {
+            $entries = [
+                ['granted' => 'APP_USERS', 'path' => 'app_users'],
+                ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
+                ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
+                ['granted' => 'APP_LOGS', 'path' => 'app_logs'],
+                ['granted' => 'APP_UPGRADE', 'path' => 'app_upgrade'],
+            ];
+
+            $menus['application'] = $this->populateMenu($entries);
         }
 
         $parameters['menus'] = $menus;

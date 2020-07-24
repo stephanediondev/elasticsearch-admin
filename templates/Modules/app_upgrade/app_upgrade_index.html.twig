@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'app_upgrade'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'app_upgrade'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ path('app_upgrade') }}">{{ 'summary'|trans }}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {% if true == upgrade %}
+                {{ appImport.buttonModal({
+                    'id': 'AppUpgrade',
+                    'title': 'app_upgrade'|trans,
+                    'href': path('app_upgrade_confirm'),
+                    'size': 'lg',
+                }) }}
+            {% else %}
+                <p class="lead">{{ 'app_upgrade_note'|trans|raw }}</p>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

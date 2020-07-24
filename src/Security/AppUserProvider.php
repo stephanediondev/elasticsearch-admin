@@ -89,6 +89,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
             'q' => 'email:"'.$email.'"',
         ];
         $callRequest = new CallRequestModel();
+        $callRequest->setLog(false);
         $callRequest->setPath('/.elasticsearch-admin-users/_search');
         $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);

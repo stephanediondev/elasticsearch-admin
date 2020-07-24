@@ -29,8 +29,6 @@ class AppRoleManager extends AbstractAppManager
             'ENRICH_POLICIES', 'ENRICH_POLICIES_STATS', 'ENRICH_POLICIES_CREATE',
             'ELASTICSEARCH_USERS', 'ELASTICSEARCH_USERS_CREATE',
             'ELASTICSEARCH_ROLES', 'ELASTICSEARCH_ROLES_CREATE',
-            'APP_USERS', 'APP_USERS_CREATE',
-            'APP_ROLES', 'APP_ROLES_CREATE',
             'MENU_TOOLS',
             'SNAPSHOTS', 'SNAPSHOTS_CREATE',
             'PIPELINES', 'PIPELINES_CREATE',
@@ -42,8 +40,11 @@ class AppRoleManager extends AbstractAppManager
             'CONSOLE', 'CONSOLE_POST', 'CONSOLE_PUT', 'CONSOLE_PATCH', 'CONSOLE_DELETE',
             'DEPRECATIONS',
             'LICENSE', 'LICENSE_START_TRIAL', 'LICENSE_START_BASIC',
+            'MENU_APPLICATION',
+            'APP_USERS', 'APP_USERS_CREATE',
+            'APP_ROLES', 'APP_ROLES_CREATE',
+            'APP_UNINSTALL', 'APP_UPGRADE',
             //'APP_LOGS', 'APP_LOGS_EMPTY','APP_LOGS_EXPORT',
-            'APP_UNINSTALL',
         ],
         'app_user' => [
             'APP_USER_UPDATE', 'APP_USER_DELETE',
@@ -304,31 +305,6 @@ class AppRoleManager extends AbstractAppManager
         }
 
         return $roles;
-    }
-
-    public function getSettings(): array
-    {
-        return [
-            'index' => [
-                'number_of_shards' => 1,
-                'auto_expand_replicas' => '0-1',
-            ],
-        ];
-    }
-
-    public function getMappings(): array
-    {
-        return [
-            'properties' => [
-                'name' => [
-                    'type' => 'keyword',
-                ],
-                'created_at' => [
-                    'type' => 'date',
-                    'format' => 'yyyy-MM-dd HH:mm:ss',
-                ],
-            ],
-        ];
     }
 
     public function getAttributes()
