@@ -29,6 +29,8 @@ class ScreenshotsController extends AbstractAppController
         $folder = __DIR__.'/../../screenshots/'.$version;
         if (false == is_dir($folder)) {
             mkdir($folder);
+            mkdir($folder.'/original');
+            mkdir($folder.'/resized');
         }
 
         $entries = [
@@ -37,12 +39,15 @@ class ScreenshotsController extends AbstractAppController
             ['title' => 'Cluster allocation explain', 'filename' => 'cluster-allocation-explain', 'path' => '/admin/cluster/allocation/explain', 'feature' => 'allocation_explain'],
             ['title' => 'Nodes', 'filename' => 'nodes', 'path' => '/admin/nodes'],
             ['title' => 'Node', 'filename' => 'node', 'path' => '/admin/nodes/'.urlencode($masterNode)],
+            ['title' => 'Node usage', 'filename' => 'node-usage', 'path' => '/admin/nodes/'.urlencode($masterNode).'/usage', 'feature' => 'node_usage'],
             ['title' => 'Indices', 'filename' => 'indices', 'path' => '/admin/indices'],
             ['title' => 'Indices stats', 'filename' => 'indices-stats', 'path' => '/admin/indices/stats'],
             ['title' => 'Index', 'filename' => 'index', 'path' => '/admin/indices/elasticsearch-admin-test'],
+            ['title' => 'Index settings', 'filename' => 'index-settings', 'path' => '/admin/indices/elasticsearch-admin-test/settings'],
+            ['title' => 'Index import / export', 'filename' => 'index-import-export', 'path' => '/admin/indices/elasticsearch-admin-test/import-export'],
             ['title' => 'Create index', 'filename' => 'index-create', 'path' => '/admin/indices/create'],
-            ['title' => 'Index templates', 'filename' => 'index-templates-legacy', 'path' => '/admin/index-templates-legacy'],
-            ['title' => 'Create index template', 'filename' => 'index-templates-legacy-create', 'path' => '/admin/index-templates-legacy/create'],
+            ['title' => 'Index templates legacy', 'filename' => 'index-templates-legacy', 'path' => '/admin/index-templates-legacy'],
+            ['title' => 'Create index template legacy', 'filename' => 'index-templates-legacy-create', 'path' => '/admin/index-templates-legacy/create'],
             ['title' => 'Shards', 'filename' => 'shards', 'path' => '/admin/shards'],
             ['title' => 'Create Shared file system repository', 'filename' => 'repository-create-fs', 'path' => '/admin/repositories/create/fs'],
             ['title' => 'Create AWS S3 repository', 'filename' => 'repository-create-s3', 'path' => '/admin/repositories/create/s3'],
@@ -51,6 +56,10 @@ class ScreenshotsController extends AbstractAppController
             ['title' => 'Create snapshot', 'filename' => 'snapshot-create', 'path' => '/admin/snapshots/create'],
             ['title' => 'Create enrich policy', 'filename' => 'enrich-create', 'path' => '/admin/enrich/create', 'feature' => 'enrich'],
             ['title' => 'License', 'filename' => 'license', 'path' => '/admin/license', 'feature' => 'license'],
+            ['title' => 'Console', 'filename' => 'console', 'path' => '/admin/console'],
+            ['title' => 'SQL access', 'filename' => 'sql', 'path' => '/admin/sql', 'feature' => 'sql'],
+            ['title' => 'Users', 'filename' => 'elasticsearch-users', 'path' => '/admin/elasticsearch-users', 'feature' => 'security'],
+            ['title' => 'Roles', 'filename' => 'elasticsearch-roles', 'path' => '/admin/elasticsearch-roles', 'feature' => 'security'],
         ];
 
         $fp = fopen($folder.'/README.md', 'w');
@@ -72,13 +81,13 @@ class ScreenshotsController extends AbstractAppController
             }
 
             if (false == $disabled) {
-                fwrite($fp, '[!['.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/'.$version.'/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/'.$version.'/original-'.$entry['filename'].'.png)');
+                fwrite($fp, '[!['.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
                 fwrite($fp, "\r\n");
                 fwrite($fp, "\r\n");
 
                 $results[] = [
-                    'pageres' => 'pageres '.$base.$entry['path'].' 1280x768 --crop --filename=screenshots/'.$version.'/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
-                    'convert' => 'convert -resize 800x480 screenshots/'.$version.'/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized-'.$entry['filename'].'.png',
+                    'pageres' => 'pageres '.$base.$entry['path'].' 1280x768 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
+                    'convert' => 'convert -resize 800x480 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
                 ];
             }
         }
