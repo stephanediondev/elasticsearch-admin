@@ -38,7 +38,7 @@
 
     {% if is_granted('INDEX_IMPORT', index) %}
         <li class="nav-item">
-            <a class="nav-link{% if 'import_export' == active %} active{% endif %}" href="{{ path('indices_read_import_export', {'index': index.name}) }}">{{ 'import_export'|trans }}</a>
+            <a class="nav-link{% if 'import' == active %} active{% endif %}" href="{{ path('indices_read_import', {'index': index.name}) }}">{{ 'import'|trans }}</a>
         </li>
     {% endif %}
 

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'import_export'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'import'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
@@ -12,36 +12,14 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'import_export'} %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'import'} %}
 {% endblock %}
 
 {% block main_content %}
-    {% if is_granted('INDEX_EXPORT', index) %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'export'|trans}) }}
-
-                    {% embed 'Embed/buttons_embed.html.twig' %}
-                        {% block content %}
-                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': ','}|merge(app.request.query.all)) }}">CSV,</a>
-                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': ';'}|merge(app.request.query.all)) }}">CSV;</a>
-                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'csv', 'delimiter': '\t'}|merge(app.request.query.all)) }}">TSV</a>
-                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'ods'}|merge(app.request.query.all)) }}">ODS</a>
-                            <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'xlsx'}|merge(app.request.query.all)) }}">XLSX</a>
-                            {% if true == index.hasMappingType('geo_point') or true == index.hasMappingType('geo_shape') %}
-                                <a class="btn btn-primary btn-sm" href="{{ path('indices_read_export', {'index': index.name, 'type': 'geojson'}|merge(app.request.query.all)) }}">GEOJSON</a>
-                            {% endif %}
-                        {% endblock %}
-                    {% endembed %}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
-
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'import'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'import_from_file'|trans}) }}
 
             <p>
                 <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseHelp" aria-expanded="false" aria-controls="collapseHelp">
