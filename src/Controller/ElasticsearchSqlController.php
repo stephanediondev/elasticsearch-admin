@@ -78,22 +78,31 @@ class ElasticsearchSqlController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $parameters = [];
-
         $content = $request->getContent();
         $content = json_decode($content, true);
 
         try {
-            $json = ['cursor' => $content['cursor']];
+            $json = [
+                'cursor' => $content['cursor'],
+            ];
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
             $callRequest->setPath('/_sql');
             $callRequest->setJson($json);
             $callResponse = $this->callManager->call($callRequest);
 
-            return new JsonResponse($callResponse->getContent(), JsonResponse::HTTP_OK);
+            $json = [
+                'error' => false,
+                'content' => $callResponse->getContent(),
+            ];
+
         } catch (CallException $e) {
-            $this->addFlash('danger', $e->getMessage());
+            $json = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
+
+        return new JsonResponse($json, JsonResponse::HTTP_OK);
     }
 }
