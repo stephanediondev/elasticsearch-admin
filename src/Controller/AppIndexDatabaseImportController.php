@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * @Route("/admin")
  */
-class DatabaseController extends AbstractAppController
+class AppIndexDatabaseImportController extends AbstractAppController
 {
     public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
     {
@@ -23,69 +23,34 @@ class DatabaseController extends AbstractAppController
     }
 
         /**
-     * @Route("/database/connect", name="database_connect")
+     * @Route("/{index}/database-import/connect", name="index_database_import_connect")
      */
-    public function connect(Request $request): JsonResponse
+    public function connect(Request $request, string $index): JsonResponse
     {
-        $fields = $request->request->all();
+        $index = $this->elasticsearchIndexManager->getByName($index);
 
-        try {
-            $conn = $this->getConnection($fields);
-
-            if ('mysql' == $fields['driver']) {
-                $sql = 'SHOW TABLES';
-            }
-
-            if ('pgsql' == $fields['driver']) {
-                $sql = 'SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != \'pg_catalog\' AND schemaname != \'information_schema\' ORDER BY tablename';
-            }
-
-            $stmt = $conn->query($sql);
-
-            $tables = [];
-            while ($row = $stmt->fetch()) {
-                $tables[] = $row[array_key_first($row)];
-            }
-
-            $json = [
-                'error' => false,
-                'tables' => $tables,
-            ];
-
-        } catch(\Exception $e) {
-            $json = [
-                'error' => true,
-                'message' => $e->getMessage(),
-            ];
+        if (false == $index) {
+            throw new NotFoundHttpException();
         }
 
-        return new JsonResponse($json, JsonResponse::HTTP_OK);
-    }
+        if (true == $index->isSystem()) {
+            throw new AccessDeniedHttpException();
+        }
 
-    /**
-     * @Route("/database/table", name="database_table")
-     */
-    public function table(Request $request): JsonResponse
-    {
         $fields = $request->request->all();
 
         try {
             $conn = $this->getConnection($fields);
 
-            if ('mysql' == $fields['driver']) {
-                $sql = 'SHOW COLUMNS FROM '.$fields['table'];
-            }
-
-            if ('pgsql' == $fields['driver']) {
-                $sql = 'SELECT column_name FROM information_schema.columns WHERE table_name = \''.$fields['table'].'\' ORDER BY column_name';
-            }
-
+            $sql = $fields['query'].' LIMIT 1';
             $stmt = $conn->prepare($sql);
             $stmt->execute();
 
             $columns = [];
             while ($row = $stmt->fetch()) {
-                $columns[] = $row[array_key_first($row)];
+                foreach ($row as $k => $v) {
+                    $columns[] = $k;
+                }
             }
 
             $json = [
@@ -104,7 +69,84 @@ class DatabaseController extends AbstractAppController
     }
 
     /**
-     * @Route("/database/{index}", name="database")
+     * @Route("/{index}/database-import/mappings", name="index_database_import_mappings")
+     */
+    public function mappings(Request $request, string $index): JsonResponse
+    {
+        $index = $this->elasticsearchIndexManager->getByName($index);
+
+        if (false == $index) {
+            throw new NotFoundHttpException();
+        }
+
+        if (true == $index->isSystem()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $fields = $request->request->all();
+
+        try {
+            $conn = $this->getConnection($fields);
+
+            $sql = $fields['query'].' LIMIT 1';
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+
+            $body = '';
+
+            while ($row = $stmt->fetch()) {
+                $id = false;
+                $type = false;
+                $line = [];
+
+                if (true == isset($fields['_id']) && '' != $fields['_id']) {
+                    $id = $row[$fields['_id']];
+                }
+
+                foreach ($index->getMappingsFlat() as $field => $mapping) {
+                    if (true == isset($fields[$field]) && '' != $fields[$field]) {
+                        $line[$field] = $row[$fields[$field]];
+                    }
+                }
+
+                if ($id) {
+                    if ($type) {
+                        $body .= json_encode(['index' => ['_id' => $id, '_type' => $type]])."\r\n";
+                    } else {
+                        $body .= json_encode(['index' => ['_id' => $id]])."\r\n";
+                    }
+                } else {
+                    $body .= json_encode(['index' => (object)[]])."\r\n";
+                }
+
+                $body .= json_encode($line)."\r\n";
+            }
+
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setPath($index->getName().'/_bulk');
+            $callRequest->setBody($body);
+            $callResponse = $this->callManager->call($callRequest);
+            $parameters['response'] = $callResponse->getContent();
+
+            $callResponse = $this->elasticsearchIndexManager->refreshByName($index->getName());
+
+            $json = [
+                'error' => false,
+            ];
+
+        } catch(\Exception $e) {
+            $json = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        return new JsonResponse($json, JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @Route("/{index}/database-import", name="index_database_import")
      */
     public function index(Request $request, string $index): Response
     {
@@ -128,7 +170,7 @@ class DatabaseController extends AbstractAppController
             $allowedDrivers[] = 'pgsql';
         }
 
-        return $this->renderAbstract($request, 'Modules/database/database_index.html.twig', [
+        return $this->renderAbstract($request, 'Modules/app_index_database_import/app_index_database_import_index.html.twig', [
             'index' => $index,
             'drivers' => $allowedDrivers,
         ]);

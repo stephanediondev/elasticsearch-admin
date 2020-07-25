@@ -14,7 +14,7 @@
             <div class="col-12 col-md-5 col-lg-4 step" id="step-connect">
                 {{ appImport.heading({'level': 3, 'title': 'connect'|trans}) }}
 
-                <form name="data" method="post" action="{{ path('database_connect') }}" id="form-connect">
+                <form name="data" method="post" action="{{ path('index_database_import_connect', {'index': index.name}) }}" id="form-connect">
                     <div class="form-group">
                         <label class="required" for="driver">driver</label>
                         <select id="driver" name="driver" required="required" class="form-control">
@@ -31,11 +31,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="dbname" class="required">dbname</label>
-                        <input type="text" id="dbname" name="dbname" required="required" class="form-control">
-                    </div>
-
-                    <div class="form-group">
                         <label for="user" class="required">user</label>
                         <input type="text" id="user" name="user" required="required" autocomplete="nope" class="form-control">
                     </div>
@@ -46,39 +41,29 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="dbname" class="required">dbname</label>
+                        <input type="text" id="dbname" name="dbname" required="required" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="query" class="required">query</label>
+                        <textarea id="query" name="query" required="required" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
                         <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
                     </div>
                 </form>
             </div>
 
-            <div class="col-12 col-md-5 col-lg-4 d-none step" id="step-table">
-                {{ appImport.heading({'level': 3, 'title': 'table'|trans}) }}
+            <div class="col-12 col-md-8 col-lg-8 d-none step" id="step-mappings">
+                {{ appImport.heading({'level': 3, 'title': 'mappings'|trans}) }}
 
                 <div class="mb-3">
                     <a href="#step-connect" class="btn btn-secondary btn-sm back">{{ 'back'|trans }}</a>
                 </div>
 
-                <form name="data" method="post" action="{{ path('database_table') }}" id="form-table">
-                    <div class="form-group">
-                        <label class="required" for="table">table</label>
-                        <select id="table" name="table" required="required" class="form-control">
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="col-12 col-md-8 col-lg-8 d-none step" id="step-columns">
-                {{ appImport.heading({'level': 3, 'title': 'columns'|trans}) }}
-
-                <div class="mb-3">
-                    <a href="#step-table" class="btn btn-secondary btn-sm back">{{ 'back'|trans }}</a>
-                </div>
-
-                <form name="data" method="post" action="{{ path('database_table') }}" id="form-columns">
+                <form name="data" method="post" action="{{ path('index_database_import_mappings', {'index': index.name}) }}" id="form-mappings">
                     {% embed 'Embed/table_embed.html.twig' %}
                         {% import 'Import/app_import.html.twig' as appImport %}
 
@@ -142,7 +127,7 @@
             var form = $(this);
 
             var body = $('#form-connect').serialize();
-            body = body + '&' + $('#form-table').serialize();
+            body = body + '&' + $('#form-mappings').serialize();
 
             fetch(form.attr('action'), {
                 'credentials': 'include',
@@ -159,17 +144,6 @@
 
                 } else {
                     if ('form-connect' == form.attr('id')) {
-                        $('#table').html('<option value="">-</option>');
-                        for (var key in json.tables) {
-                            var table = json.tables[key];
-                            $('#table').append('<option value="' + table + '">' + table + '</option>');
-                        }
-
-                        $('#step-connect').addClass('d-none');
-                        $('#step-table').removeClass('d-none');
-                    }
-
-                    if ('form-table' == form.attr('id')) {
                         var columns = '<option value="">-</option>';
                         for (var key in json.columns) {
                             var column = json.columns[key];
@@ -184,11 +158,11 @@
                             }
                         });
 
-                        $('#step-table').addClass('d-none');
-                        $('#step-columns').removeClass('d-none');
+                        $('#step-connect').addClass('d-none');
+                        $('#step-mappings').removeClass('d-none');
                     }
 
-                    if ('form-columns' == form.attr('id')) {
+                    if ('form-mappings' == form.attr('id')) {
                     }
                 }
             }).catch(function() {
