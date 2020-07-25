@@ -102,7 +102,6 @@ class AppUserController extends AbstractAppController
 
         if (true == in_array('ROLE_ADMIN', $roles)) {
             $permissionsSaved = $this->appRoleManager->getAttributes();
-
         } else {
             $permissionsSaved = [];
             foreach ($roles as $role) {

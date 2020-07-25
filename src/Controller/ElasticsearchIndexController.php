@@ -366,7 +366,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
                                 if ('_id' == $headers[$key]) {
                                     $id = $value;
-                                } else if ('_type' == $headers[$key]) {
+                                } elseif ('_type' == $headers[$key]) {
                                     $type = $value;
                                 } else {
                                     if ($value instanceof \Datetime) {
@@ -379,14 +379,14 @@ class ElasticsearchIndexController extends AbstractAppController
                                             if (1 < count($parts)) {
                                                 $value = $parts;
                                             }
-                                        } else if ('geo_point' == $index->getMappingsFlat()[$headers[$key]]['type']) {
+                                        } elseif ('geo_point' == $index->getMappingsFlat()[$headers[$key]]['type']) {
                                             if ('' == $value) {
                                                 $value = false;
-                                            } else if (strstr($value, ',')) {
+                                            } elseif (strstr($value, ',')) {
                                                 list($lat, $lon) = explode(',', $value);
                                                 $value = ['lat' => $lat, 'lon' => $lon];
                                             }
-                                        } else if (true == $this->isJson($value)) {
+                                        } elseif (true == $this->isJson($value)) {
                                             $value = json_decode($value, true);
                                         }
                                     }
@@ -402,7 +402,6 @@ class ElasticsearchIndexController extends AbstractAppController
 
                                             if (2 == $keysTotal) {
                                                 $line[$keys[0]][$keys[1]] = $value;
-
                                             } else {
                                                 if (false == isset($line[$keys[0]][$keys[1]])) {
                                                     $line[$keys[0]][$keys[1]] = [];
@@ -410,7 +409,6 @@ class ElasticsearchIndexController extends AbstractAppController
 
                                                 if (3 == $keysTotal) {
                                                     $line[$keys[0]][$keys[1]][$keys[2]] = $value;
-
                                                 } else {
                                                     if (false == isset($line[$keys[0]][$keys[1]][$keys[2]])) {
                                                         $line[$keys[0]][$keys[1]][$keys[2]] = [];
@@ -418,7 +416,6 @@ class ElasticsearchIndexController extends AbstractAppController
 
                                                     if (4 == $keysTotal) {
                                                         $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $value;
-
                                                     } else {
                                                         if (false == isset($line[$keys[0]][$keys[1]][$keys[2]][$keys[3]])) {
                                                             $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = [];
@@ -430,7 +427,6 @@ class ElasticsearchIndexController extends AbstractAppController
                                                     }
                                                 }
                                             }
-
                                         } else {
                                             $line[$headers[$key]] = $value;
                                         }
@@ -573,7 +569,7 @@ class ElasticsearchIndexController extends AbstractAppController
                         if ('geojson' == $writer) {
                             if ('geo_point' == $mapping['type'] && true == is_array($content)) {
                                 $geoPoint = $content;
-                            } else if ('geo_shape' == $mapping['type'] && true == is_array($content)) {
+                            } elseif ('geo_shape' == $mapping['type'] && true == is_array($content)) {
                                 $geoShape = $content;
                             } else {
                                 $line[$field] = $content;
@@ -581,9 +577,9 @@ class ElasticsearchIndexController extends AbstractAppController
                         } else {
                             if ('geo_point' == $mapping['type'] && true == is_array($content)) {
                                 $line[$field] = $content['lat'].','.$content['lon'];
-                            } else if ('keyword' == $mapping['type'] && true == is_array($content)) {
+                            } elseif ('keyword' == $mapping['type'] && true == is_array($content)) {
                                 $line[$field] = implode(PHP_EOL, $content);
-                            } else if (true == is_array($content)) {
+                            } elseif (true == is_array($content)) {
                                 $line[$field] = json_encode($content);
                             } else {
                                 $line[$field] = $content;
@@ -601,28 +597,27 @@ class ElasticsearchIndexController extends AbstractAppController
                         $feature['properties'] = $line;
 
                         $json['features'][] = $feature;
-
                     } elseif ('geojson' == $writer && $geoShape) {
-                            if (true == isset($geoShape['type'])) {
-                                if ('envelope' != $geoShape['type']) {
-                                    $geoShape['type'] = $this->cleanGeojsonType($geoShape['type']);
+                        if (true == isset($geoShape['type'])) {
+                            if ('envelope' != $geoShape['type']) {
+                                $geoShape['type'] = $this->cleanGeojsonType($geoShape['type']);
 
-                                    if (true == isset($geoShape['geometries'])) {
-                                        foreach ($geoShape['geometries'] as $key => $geometry) {
-                                            if (true == isset($geometry['type'])) {
-                                                $geoShape['geometries'][$key]['type'] = $this->cleanGeojsonType($geometry['type']);
-                                            }
+                                if (true == isset($geoShape['geometries'])) {
+                                    foreach ($geoShape['geometries'] as $key => $geometry) {
+                                        if (true == isset($geometry['type'])) {
+                                            $geoShape['geometries'][$key]['type'] = $this->cleanGeojsonType($geometry['type']);
                                         }
                                     }
-
-                                    $feature = [];
-                                    $feature['type'] = 'Feature';
-                                    $feature['geometry'] = $geoShape;
-                                    $feature['properties'] = $line;
-
-                                    $json['features'][] = $feature;
                                 }
+
+                                $feature = [];
+                                $feature['type'] = 'Feature';
+                                $feature['geometry'] = $geoShape;
+                                $feature['properties'] = $line;
+
+                                $json['features'][] = $feature;
                             }
+                        }
                     } else {
                         $lines[] = WriterEntityFactory::createRowFromArray($line);
                     }

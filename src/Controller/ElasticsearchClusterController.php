@@ -25,7 +25,7 @@ class ElasticsearchClusterController extends AbstractAppController
     {
         $clusterStats = $this->elasticsearchClusterManager->getClusterStats();
 
-        $clusterState = $this->elasticsearchClusterManager->getClusterState();;
+        $clusterState = $this->elasticsearchClusterManager->getClusterState();
 
         $nodes = [];
         foreach ($clusterState['nodes'] as $k => $node) {

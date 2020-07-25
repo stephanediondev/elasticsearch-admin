@@ -57,7 +57,6 @@ class ElasticsearchSqlController extends AbstractAppController
                 $callResponse = $this->callManager->call($callRequest);
 
                 $parameters['translation_to_dsl'] = $callResponse->getContent();
-
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -93,7 +92,6 @@ class ElasticsearchSqlController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
 
             return new JsonResponse($callResponse->getContent(), JsonResponse::HTTP_OK);
-
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }

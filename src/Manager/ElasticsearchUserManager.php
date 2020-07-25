@@ -18,7 +18,7 @@ class ElasticsearchUserManager extends AbstractAppManager
     {
         if (true == $this->callManager->hasFeature('_security_endpoint')) {
             $this->endpoint = '/_security';
-        } else  {
+        } else {
             $this->endpoint = '/_xpack/security';
         }
     }

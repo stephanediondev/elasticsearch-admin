@@ -213,7 +213,6 @@ class AppRoleManager extends AbstractAppManager
         $callRequest->setJson($json);
 
         return $this->callManager->call($callRequest);
-
     }
 
     public function getPermissionsByUser(AppUserModel $user): array

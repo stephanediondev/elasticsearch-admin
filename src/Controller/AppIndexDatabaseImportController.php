@@ -22,7 +22,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
     }
 
-        /**
+    /**
      * @Route("/{index}/database-import/connect", name="index_database_import_connect")
      */
     public function connect(Request $request, string $index): JsonResponse
@@ -57,8 +57,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
                 'error' => false,
                 'columns' => $columns,
             ];
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $json = [
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -134,8 +133,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
             $json = [
                 'error' => false,
             ];
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $json = [
                 'error' => true,
                 'message' => $e->getMessage(),
