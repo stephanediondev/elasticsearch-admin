@@ -7,7 +7,7 @@ use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 
-class ExceptionController extends AbstractAppController
+class AppExceptionController extends AbstractAppController
 {
     public function read(Request $request, FlattenException $exception, RequestStack $requestStack)
     {

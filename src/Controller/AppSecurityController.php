@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class SecurityController extends AbstractAppController
+class AppSecurityController extends AbstractAppController
 {
     public function __construct(AppManager $appManager, AppUserManager $appUserManager, UserPasswordEncoderInterface $passwordEncoder)
     {

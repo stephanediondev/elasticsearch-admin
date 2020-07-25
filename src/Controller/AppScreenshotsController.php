@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Route("/admin")
  */
-class ScreenshotsController extends AbstractAppController
+class AppScreenshotsController extends AbstractAppController
 {
     /**
      * @Route("/screenshots", name="screenshots")

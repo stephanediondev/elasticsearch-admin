@@ -19,6 +19,17 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     }
 
     /**
+     * @Route("/indices/stats", name="indices_stats")
+     */
+    public function testStats()
+    {
+        $this->client->request('GET', '/admin/indices/stats');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - Stats');
+    }
+
+    /**
      * @Route("/indices/reindex", name="indices_reindex")
      */
     public function testReindex()
