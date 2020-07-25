@@ -1,4 +1,4 @@
-### Docker
+## Docker
 
 ### Commands to run Elasticsearch for each version
 

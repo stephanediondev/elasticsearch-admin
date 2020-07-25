@@ -1,4 +1,4 @@
-### Elasticsearch version tracking (for feature detection)
+## Elasticsearch version tracking (for feature detection)
 
 ### 8.0.0
 
