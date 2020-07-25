@@ -54,6 +54,7 @@ bin/elasticsearch-setup-passwords auto
 ### Build and run elasticsearch-admin with source installation
 
 ````
+cd /var/www/elasticsearch-admin/
 docker stop elasticsearch-admin && docker rm elasticsearch-admin && docker rmi elasticsearch-admin
 docker build --force-rm --tag elasticsearch-admin .
 
