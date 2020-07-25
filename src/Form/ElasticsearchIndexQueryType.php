@@ -27,6 +27,8 @@ class ElasticsearchIndexQueryType extends AbstractType
                     $builder->add('query', TextType::class, [
                         'label' => 'query',
                         'required' => false,
+                        'help' => 'help_form.index_search.query',
+                        'help_html' => true,
                     ]);
                     break;
                 case 's':

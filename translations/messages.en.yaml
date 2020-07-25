@@ -232,6 +232,9 @@ help_form:
             bucket: "The name of the Google Cloud Storage bucket to use for snapshots."
             client: "The name of the Google Cloud Storage client."
             base_path: "The bucket path to the repository data."
+    index_search:
+        query: "Use <a target=\"_blank\" href=\"https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax\">Query string syntax</a>."
+
 help_modal:
     license:
         start_basic: "If you have already activated a trial, you cannot start a new trial until the next major version."
