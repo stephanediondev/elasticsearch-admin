@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Kernel;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\Console\Command\Command;
@@ -29,7 +30,11 @@ class PhpunitCommand extends Command
     {
         $output->writeln('<info>PHP version: '.phpversion().'</info>');
 
+        $output->writeln('<info>Symfony version: '.Kernel::VERSION.'</info>');
+
         $output->writeln('<info>Elasticsearch version: '.$this->callManager->getRoot()['version']['number'].'</info>');
+
+        $output->writeln('');
 
         if (true == $this->callManager->hasFeature('_security_endpoint')) {
             $this->endpoint = '/_security';
@@ -164,6 +169,8 @@ class PhpunitCommand extends Command
 
             $output->writeln('<info>'.$case.' created: '.$parameters['name'].'</info>');
         }
+
+        $output->writeln('');
 
         return Command::SUCCESS;
     }
