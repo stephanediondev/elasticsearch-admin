@@ -24,7 +24,7 @@
 
 [![Index templates legacy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-index-templates-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-index-templates-legacy.png)
 
-[![Create index template legacy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-index-templates-legacy-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-index-templates-legacy-create.png)
+[![Create index template legacy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-index-templates-create-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-index-templates-create-legacy.png)
 
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-shards.png)
 

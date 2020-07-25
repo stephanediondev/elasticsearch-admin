@@ -47,7 +47,7 @@ class ScreenshotsController extends AbstractAppController
             ['title' => 'Index import / export', 'filename' => 'index-import-export', 'path' => '/admin/indices/elasticsearch-admin-test/import-export'],
             ['title' => 'Create index', 'filename' => 'index-create', 'path' => '/admin/indices/create'],
             ['title' => 'Index templates legacy', 'filename' => 'index-templates-legacy', 'path' => '/admin/index-templates-legacy'],
-            ['title' => 'Create index template legacy', 'filename' => 'index-templates-legacy-create', 'path' => '/admin/index-templates-legacy/create'],
+            ['title' => 'Create index template legacy', 'filename' => 'index-templates-create-legacy', 'path' => '/admin/index-templates-legacy/create'],
             ['title' => 'Shards', 'filename' => 'shards', 'path' => '/admin/shards'],
             ['title' => 'Create Shared file system repository', 'filename' => 'repository-create-fs', 'path' => '/admin/repositories/create/fs'],
             ['title' => 'Create AWS S3 repository', 'filename' => 'repository-create-s3', 'path' => '/admin/repositories/create/s3'],
