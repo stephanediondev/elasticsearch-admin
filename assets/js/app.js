@@ -132,7 +132,9 @@ $(document).ready(function () {
         });
     }
 
-    search();
+    if (0 < $('#collapseFilter').length) {
+        search();
+    }
 
     $(document).on('keyup', '#searchInput', function() {
         search();
