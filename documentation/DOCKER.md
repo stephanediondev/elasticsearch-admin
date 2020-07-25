@@ -1,6 +1,6 @@
 ## Docker
 
-### Commands to run Elasticsearch for each version
+### Commands to run Elasticsearch for each version (not for production)
 
 ```
 docker run --name elasticsearch1 -p 100:9200 -p 1100:9300 -e "cluster.name=elasticsearch" -e "node.name=docker" -e "network.host=127.0.0.1" -e "http.host=0.0.0.0" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -e "bootstrap.memory_lock=true" elasticsearch:1.6.0
