@@ -27,6 +27,10 @@ function search() {
             var score = $('.' + value).attr('data-score');
             $('.' + value).attr('data-score', parseInt(score) - 1);
         }
+
+        if('localStorage' in window) {
+            localStorage.setItem($(this).attr('name'), $(this).is(':checked'));
+        }
     });
 
     //#searchInput
@@ -34,6 +38,10 @@ function search() {
     if (0 < $('#searchInput').length) {
         value = $('#searchInput').val();
         value = value.toLowerCase();
+
+        if('localStorage' in window) {
+            localStorage.setItem($('#searchInput').attr('name'), $('#searchInput').val());
+        }
     }
 
     //check
@@ -108,6 +116,23 @@ $(document).ready(function () {
     $('select').select2({
         theme: 'bootstrap4',
     });
+
+    if('localStorage' in window) {
+        if (0 < $('#searchInput').length) {
+            var saved = localStorage.getItem($('#searchInput').attr('name'));
+            $('#searchInput').val(saved);
+        }
+
+        $(document).find('.searchCheckbox').each(function() {
+            var saved = localStorage.getItem($(this).attr('name'));
+            if ('false' == saved) {
+                $(this).removeAttr('checked');
+                $(this).prop('checked', false);
+            }
+        });
+    }
+
+    search();
 
     $(document).on('keyup', '#searchInput', function() {
         search();

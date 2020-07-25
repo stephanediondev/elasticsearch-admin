@@ -3,6 +3,7 @@
         <label for="searchInput"><strong>{{ params.label }}</strong></label>
         <input
             id="searchInput"
+            name="{{ app.request.attributes.get('_route') }}-searchInput"
             class="form-control form-control-sm"
             type="text"
             autocomplete="off"
@@ -17,6 +18,7 @@
             <span class="custom-control custom-switch d-inline mr-2">
                 <input
                     type="checkbox"
+                    name="{{ app.request.attributes.get('_route') }}-{{ params.prefix }}-{{ v }}"
                     class="custom-control-input searchCheckbox"
                     id="{{ params.prefix }}-{{ v }}Switch"
                     checked="checked"
@@ -37,6 +39,7 @@
             <span class="custom-control custom-switch d-inline mr-2">
                 <input
                     type="checkbox"
+                    name="{{ app.request.attributes.get('_route') }}-{{ params.prefix }}-{{ v }}"
                     class="custom-control-input searchCheckbox"
                     id="{{ params.prefix }}-{{ v }}Switch"
                     checked="checked"
