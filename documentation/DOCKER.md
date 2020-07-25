@@ -55,7 +55,7 @@ bin/elasticsearch-setup-passwords auto
 
 ```
 docker pull stephanediondev/elasticsearch-admin
-
+docker stop elasticsearch-admin && docker rm elasticsearch-admin && docker rmi elasticsearch-admin
 docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" -p 80:8080 -d --name elasticsearch-admin stephanediondev/elasticsearch-admin
 
 # Edit ELASTICSEARCH_URL and SECRET_REGISTER (random string to secure registration)
