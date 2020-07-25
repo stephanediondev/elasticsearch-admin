@@ -1,4 +1,4 @@
-### List of changes and features to apply the version filters
+### Elasticsearch version tracking (for feature detection)
 
 ### 8.0.0
 
