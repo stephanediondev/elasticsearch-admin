@@ -169,6 +169,7 @@
                                                             {{ row.node }}
                                                         </p>
                                                         <form action="{{ path('shards_move', {'index': row.index, 'number': row.number}) }}">
+                                                            <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <input type="hidden" name="from_node" value="{{ row.node }}">
                                                             <div class="form-group">
                                                                 <label for="move-to-{{ row.node }}">{{ 'move_to'|trans }}</label>
@@ -209,6 +210,7 @@
                                                             {{ row.node }}
                                                         </p>
                                                         <form action="{{ path('shards_cancel_allocation', {'index': row.index, 'number': row.number}) }}">
+                                                            <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <input type="hidden" name="node" value="{{ row.node }}">
                                                             <div class="form-group">
                                                                 <label for="cancel-{{ row.node }}">{{ 'cancel_allocation'|trans }}</label>
@@ -239,6 +241,7 @@
                                                     </div>
                                                     <div class="modal-body text-left">
                                                         <form action="{{ path('shards_allocate_replica', {'index': row.index, 'number': row.number}) }}">
+                                                            <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <div class="form-group">
                                                                 <label for="allocate-to-{{ row.node }}">{{ 'allocate_replica'|trans }}</label>
                                                                 <select id="allocate-to-{{ row.node }}" class="form-control" name="node" required="required">

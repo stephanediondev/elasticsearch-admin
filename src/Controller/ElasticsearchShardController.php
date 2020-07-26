@@ -106,7 +106,11 @@ class ElasticsearchShardController extends AbstractAppController
 
         sleep(2);
 
-        return $this->redirectToRoute('shards');
+        if ('indices_read_shards' == $request->query->get('redirect')) {
+            return $this->redirectToRoute('indices_read_shards', ['index' => $index->getName()]);
+        } else {
+            return $this->redirectToRoute('shards');
+        }
     }
 
     /**
@@ -150,7 +154,11 @@ class ElasticsearchShardController extends AbstractAppController
 
         sleep(2);
 
-        return $this->redirectToRoute('shards');
+        if ('indices_read_shards' == $request->query->get('redirect')) {
+            return $this->redirectToRoute('indices_read_shards', ['index' => $index->getName()]);
+        } else {
+            return $this->redirectToRoute('shards');
+        }
     }
 
     /**
@@ -195,6 +203,10 @@ class ElasticsearchShardController extends AbstractAppController
 
         sleep(2);
 
-        return $this->redirectToRoute('shards');
+        if ('indices_read_shards' == $request->query->get('redirect')) {
+            return $this->redirectToRoute('indices_read_shards', ['index' => $index->getName()]);
+        } else {
+            return $this->redirectToRoute('shards');
+        }
     }
 }
