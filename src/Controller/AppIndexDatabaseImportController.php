@@ -91,6 +91,8 @@ class AppIndexDatabaseImportController extends AbstractAppController
             $stmt = $conn->prepare($sql);
             $stmt->execute();
 
+            $documents = 0;
+
             $body = '';
 
             while ($row = $stmt->fetch()) {
@@ -119,6 +121,8 @@ class AppIndexDatabaseImportController extends AbstractAppController
                 }
 
                 $body .= json_encode($line)."\r\n";
+
+                $documents++;
             }
 
             $callRequest = new CallRequestModel();
@@ -132,6 +136,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
 
             $json = [
                 'error' => false,
+                'documents' => $documents,
             ];
         } catch (\Exception $e) {
             $json = [

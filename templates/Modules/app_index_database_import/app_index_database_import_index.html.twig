@@ -102,6 +102,16 @@
                     </div>
                 </form>
             </div>
+
+            <div class="col-12 col-md-8 col-lg-8 d-none step" id="step-done">
+                {{ appImport.heading({'level': 3, 'title': 'done'|trans}) }}
+
+                <div class="mb-3">
+                    <a href="#step-mappings" class="btn btn-secondary btn-sm back">{{ 'back'|trans }}</a>
+                </div>
+
+                <p><span id="documents"></span> {{ 'documents'|trans }}</p>
+            </div>
         {% endblock %}
     {% endembed %}
 {% endblock %}
@@ -163,6 +173,10 @@
                     }
 
                     if ('form-mappings' == form.attr('id')) {
+                        $('#documents').text(json.documents);
+
+                        $('#step-mappings').addClass('d-none');
+                        $('#step-done').removeClass('d-none');
                     }
                 }
             }).catch(function() {
