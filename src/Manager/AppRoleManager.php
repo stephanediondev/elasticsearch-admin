@@ -17,7 +17,7 @@ class AppRoleManager extends AbstractAppManager
             'CLUSTER_SETTINGS', 'CLUSTER_SETTING_EDIT', 'CLUSTER_SETTING_REMOVE', 'CLUSTER_ALLOCATION_EXPLAIN',
             'NODES',
             'INDICES', 'INDICES_STATS', 'INDICES_CREATE', 'INDICES_REINDEX', 'INDICES_FORCE_MERGE', 'INDICES_CACHE_CLEAR', 'INDICES_FLUSH', 'INDICES_REFRESH',
-            'SHARDS',
+            'SHARDS', 'SHARD_MOVE', 'SHARD_ALLOCATE_REPLICA', 'SHARD_CANCEL_ALLOCATION',
             'MENU_CONFIGURATION',
             'INDEX_TEMPLATES_LEGACY', 'INDEX_TEMPLATES_LEGACY_CREATE',
             'INDEX_TEMPLATES', 'INDEX_TEMPLATES_CREATE',
@@ -86,9 +86,6 @@ class AppRoleManager extends AbstractAppManager
         ],
         'repository' => [
             'REPOSITORY_UPDATE', 'REPOSITORY_DELETE', 'REPOSITORY_CLEANUP', 'REPOSITORY_VERIFY',
-        ],
-        'shard' => [
-            'SHARD_MOVE', 'SHARD_ALLOCATE_REPLICA', 'SHARD_CANCEL',
         ],
         'slm_policy' => [
             'SLM_POLICY_UPDATE', 'SLM_POLICY_DELETE', 'SLM_POLICY_COPY', 'SLM_POLICY_EXECUTE',

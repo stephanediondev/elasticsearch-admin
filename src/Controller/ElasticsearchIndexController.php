@@ -12,6 +12,7 @@ use App\Form\ReindexType;
 use App\Form\ElasticsearchIndexQueryType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
+use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexModel;
 use App\Model\ElasticsearchIndexAliasModel;
@@ -33,10 +34,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ElasticsearchIndexController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchShardManager $elasticsearchShardManager)
+    public function __construct(ElasticsearchShardManager $elasticsearchShardManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
         $this->elasticsearchShardManager = $elasticsearchShardManager;
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
     /**
@@ -986,6 +988,22 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'), $index->getName());
 
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
+
+        $nodesNotAvailable = [];
+        foreach ($shards as $shard) {
+            if ($shard->getNode()) {
+                $nodesNotAvailable[$shard->getIndex()][$shard->getNumber()][] = $shard->getNode();
+            }
+        }
+
+        $nodesAvailable = [];
+        foreach ($nodesNotAvailable as $indexCheck => $shardsCheck) {
+            foreach ($shardsCheck as $shard => $nodesExclude) {
+                $nodesAvailable[$indexCheck][$shard] = array_diff($nodes, $nodesExclude);
+            }
+        }
+
         return $this->renderAbstract($request, 'Modules/index/index_read_shards.html.twig', [
             'index' => $index,
             'shards' => $this->paginatorManager->paginate([
@@ -996,6 +1014,7 @@ class ElasticsearchIndexController extends AbstractAppController
                 'page' => 1,
                 'size' => count($shards),
             ]),
+            'nodesAvailable' => $nodesAvailable,
         ]);
     }
 

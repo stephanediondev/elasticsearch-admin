@@ -1,7 +1,16 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'index': true, 'shard': true, 'primary': true, 'state': true, 'unassigned_reason': true, 'documents': true, 'size': true, 'node': true} %}
+    {% set columns = {'index': true, 'shard': true, 'primary': true, 'state': true, 'unassigned_reason': true, 'documents': true, 'size': true, 'node': true, '_buttons': true} %}
+
+    {% set modalReference = 0 %}
+
+    {% if 'index_shards' == context %}
+        {% set columns = columns|merge({'index': false}) %}
+        {% set sortUrl = path('indices_read_shards', {'index': index.name}) %}
+    {% else %}
+        {% set sortUrl = path('shards') %}
+    {% endif %}
 
     {% block thead %}
         <tr>
@@ -9,49 +18,55 @@
                 {% if true == display %}
                     {% if 'index' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'index', 'title': 'index'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'index', 'title': 'index'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'shard' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'shard', 'title': 'shard'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'shard', 'title': 'shard'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'primary' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'prirep', 'title': 'primary'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'prirep', 'title': 'primary'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'state' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'state', 'title': 'state'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'state', 'title': 'state'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'unassigned_reason' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'unassigned.reason', 'title': 'unassigned_reason'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'unassigned.reason', 'title': 'unassigned_reason'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'documents' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'docs', 'title': 'documents'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'docs', 'title': 'documents'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'size' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'store', 'title': 'size'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'store', 'title': 'size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'node' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('shards'), 's': 'node', 'title': 'node'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'node', 'title': 'node'|trans})}}
+                        </th>
+                    {% endif %}
+
+                    {% if '_buttons' == column %}
+                        <th>
+                            &nbsp;
                         </th>
                     {% endif %}
                 {% endif %}
@@ -76,7 +91,7 @@
 
                         {% if 'shard' == column %}
                             <td>
-                                <a href="{{ path('shards_read', {'index': row.index, 'number': row.number}) }}">{{ row.number }}</a>
+                                {{ row.number }}
                             </td>
                         {% endif %}
 
@@ -129,6 +144,120 @@
                                         {{ row.node }}
                                     {% endif %}
                                     {% if master_node == row.node %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                        {% if '_buttons' == column %}
+                            <td>
+                                {% if 'RELOCATING' != row.state %}
+                                    {% if is_granted('SHARD_MOVE', 'global') and nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and row.node %}
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                            {{ 'move_to'|trans }}
+                                        </button>
+                                        <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ row.index }}/{{ row.number }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-left">
+                                                        <p>
+                                                            <strong>{{ 'node'|trans }}</strong><br>
+                                                            {{ row.node }}
+                                                        </p>
+                                                        <form action="{{ path('shards_move', {'index': row.index, 'number': row.number}) }}">
+                                                            <input type="hidden" name="from_node" value="{{ row.node }}">
+                                                            <div class="form-group">
+                                                                <label for="move-to-{{ row.node }}">{{ 'move_to'|trans }}</label>
+                                                                <select id="move-to-{{ row.node }}" class="form-control" name="to_node" required="required">
+                                                                    <option value="">-</option>
+                                                                    {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
+                                                                        <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% set modalReference = modalReference + 1 %}
+                                    {% endif %}
+
+                                    {% if is_granted('SHARD_CANCEL_ALLOCATION', 'global') and row.node %}
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                            {{ 'cancel_allocation'|trans }}
+                                        </button>
+                                        <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ row.index }}/{{ row.number }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-left">
+                                                        <p>
+                                                            <strong>{{ 'node'|trans }}</strong><br>
+                                                            {{ row.node }}
+                                                        </p>
+                                                        <form action="{{ path('shards_cancel_allocation', {'index': row.index, 'number': row.number}) }}">
+                                                            <input type="hidden" name="node" value="{{ row.node }}">
+                                                            <div class="form-group">
+                                                                <label for="cancel-{{ row.node }}">{{ 'cancel_allocation'|trans }}</label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% set modalReference = modalReference + 1 %}
+                                    {% endif %}
+
+                                    {% if is_granted('SHARD_ALLOCATE_REPLICA', 'global') and nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and 'UNASSIGNED' == row.state %}
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                            {{ 'allocate_replica'|trans }}
+                                        </button>
+                                        <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ row.index }}/{{ row.number }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-left">
+                                                        <form action="{{ path('shards_allocate_replica', {'index': row.index, 'number': row.number}) }}">
+                                                            <div class="form-group">
+                                                                <label for="allocate-to-{{ row.node }}">{{ 'allocate_replica'|trans }}</label>
+                                                                <select id="allocate-to-{{ row.node }}" class="form-control" name="node" required="required">
+                                                                    <option value="">-</option>
+                                                                    {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
+                                                                        <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% set modalReference = modalReference + 1 %}
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         {% endif %}

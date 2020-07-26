@@ -39,7 +39,7 @@
 
                 {{ appImport.paginator(shards) }}
 
-                {% include 'Modules/shard/shard_list.html.twig' with {'shards': shards} %}
+                {% include 'Modules/shard/shard_list.html.twig' with {'shards': shards, 'context': 'shards'} %}
 
                 {{ appImport.paginator(shards) }}
             {% endblock %}

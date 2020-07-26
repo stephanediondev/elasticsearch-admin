@@ -11,28 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchShardManager extends AbstractAppManager
 {
-    public function getByIndexAndNumber(string $index, int $number): array
-    {
-        $shards = [];
-
-        $query = ['bytes' => 'b', 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node'];
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cat/shards/'.$index);
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $results = $callResponse->getContent();
-
-        foreach ($results as $row) {
-            if ($row['shard'] == $number) {
-                $shardModel = new ElasticsearchShardModel();
-                $shardModel->convert($row);
-                $shards[] = $shardModel;
-            }
-        }
-
-        return $shards;
-    }
-
     public function getAll(string $sort = 'index:asc,shard:asc,prirep:asc', string $index = null): array
     {
         $shards = [];

@@ -1,6 +1,0 @@
-{% import 'Import/app_import.html.twig' as appImport %}
-<ul class="nav nav-tabs mb-4">
-    <li class="nav-item">
-        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('shards_read', {'index': index.name, 'number': number}) }}">{{ 'summary'|trans }}</a>
-    </li>
-</ul>

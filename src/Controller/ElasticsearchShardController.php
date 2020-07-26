@@ -35,50 +35,26 @@ class ElasticsearchShardController extends AbstractAppController
 
         $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'));
 
-        return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
-            'shards' => $this->paginatorManager->paginate([
-                'route' => 'shards',
-                'route_parameters' => [],
-                'total' => count($shards),
-                'rows' => $shards,
-                'page' => 1,
-                'size' => count($shards),
-            ]),
-        ]);
-    }
-
-    /**
-     * @Route("/shards/{index}/{number}", name="shards_read")
-     */
-    public function read(Request $request, string $index, string $number): Response
-    {
-        $this->denyAccessUnlessGranted('SHARDS', 'global');
-
-        $index = $this->elasticsearchIndexManager->getByName($index);
-
-        if (false == $index) {
-            throw new NotFoundHttpException();
-        }
-
-        $shards = $this->elasticsearchShardManager->getByIndexAndNumber($index->getName(), $number);
-
         $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         $nodesNotAvailable = [];
         foreach ($shards as $shard) {
             if ($shard->getNode()) {
-                $nodesNotAvailable[] = $shard->getNode();
+                $nodesNotAvailable[$shard->getIndex()][$shard->getNumber()][] = $shard->getNode();
             }
         }
 
-        $nodesAvailable = array_diff($nodes, $nodesNotAvailable);
+        $nodesAvailable = [];
+        foreach ($nodesNotAvailable as $indexCheck => $shardsCheck) {
+            foreach ($shardsCheck as $shard => $nodesExclude) {
+                $nodesAvailable[$indexCheck][$shard] = array_diff($nodes, $nodesExclude);
+            }
+        }
 
-        return $this->renderAbstract($request, 'Modules/shard/shard_read.html.twig', [
-            'index' => $index,
-            'number' => $number,
+        return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
             'shards' => $this->paginatorManager->paginate([
-                'route' => 'shards_read',
-                'route_parameters' => ['index' => $index->getName(), 'number' => $number],
+                'route' => 'shards',
+                'route_parameters' => [],
                 'total' => count($shards),
                 'rows' => $shards,
                 'page' => 1,
@@ -130,7 +106,7 @@ class ElasticsearchShardController extends AbstractAppController
 
         sleep(2);
 
-        return $this->redirectToRoute('shards_read', ['index' => $index->getName(), 'number' => $number]);
+        return $this->redirectToRoute('shards');
     }
 
     /**
@@ -174,7 +150,7 @@ class ElasticsearchShardController extends AbstractAppController
 
         sleep(2);
 
-        return $this->redirectToRoute('shards_read', ['index' => $index->getName(), 'number' => $number]);
+        return $this->redirectToRoute('shards');
     }
 
     /**
@@ -219,6 +195,6 @@ class ElasticsearchShardController extends AbstractAppController
 
         sleep(2);
 
-        return $this->redirectToRoute('shards_read', ['index' => $index->getName(), 'number' => $number]);
+        return $this->redirectToRoute('shards');
     }
 }
