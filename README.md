@@ -55,7 +55,7 @@ cp .env.dist .env
 - [x] Index templates [7.8]: list, create, read, update, delete, copy
 - [x] Component templates [7.8]: list, create, read, update, delete, copy
 - [x] Index lifecycle management policies [6.6]: list, status, start, stop, create, read, update, delete, copy
-- [x] Shards: list
+- [x] Shards: list, read, cluster reroute (move, allocate replica, cancel allocation)
 - [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
 - [x] Snapshot lifecycle management policies [7.4]: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
 - [x] Snapshots: list, create, read, delete, failures, restore
@@ -75,7 +75,6 @@ cp .env.dist .env
 ## Todo
 
 - [ ] SQL access: export
-- [ ] Shards: read, segments, cluster reroute (move, allocate replica, cancel)
 - [ ] Indices: shrink, split, clone, import from database
 - [ ] Index templates (legacy): convert to new version
 - [ ] Repositories: create (url, source, hdfs, azure)

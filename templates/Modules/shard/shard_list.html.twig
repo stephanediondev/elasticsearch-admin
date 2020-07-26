@@ -76,7 +76,7 @@
 
                         {% if 'shard' == column %}
                             <td>
-                                {{ row.number }}
+                                <a href="{{ path('shards_read', {'index': row.index, 'number': row.number}) }}">{{ row.number }}</a>
                             </td>
                         {% endif %}
 

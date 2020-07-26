@@ -11,27 +11,29 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchShardManager extends AbstractAppManager
 {
-    public function getByIndexAndNumber(string $index, int $number): ?ElasticsearchShardModel
+    public function getByIndexAndNumber(string $index, int $number): array
     {
+        $shards = [];
+
+        $query = ['bytes' => 'b', 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node'];
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_snapshot/'.$repository.'/'.$name);
+        $callRequest->setPath('/_cat/shards/'.$index);
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $snapshotModel = null;
-        } else {
-            $snapshot = $callResponse->getContent();
-            $snapshot = $snapshot['snapshots'][0];
-            $snapshot['repository'] = $repository;
-
-            $snapshotModel = new ElasticsearchShardModel();
-            $snapshotModel->convert($snapshot);
+        foreach ($results as $row) {
+            if ($row['shard'] == $number) {
+                $shardModel = new ElasticsearchShardModel();
+                $shardModel->convert($row);
+                $shards[] = $shardModel;
+            }
         }
 
-        return $snapshotModel;
+        return $shards;
     }
 
-    public function getAll(string $sort, string $index = null): array
+    public function getAll(string $sort = 'index:asc,shard:asc,prirep:asc', string $index = null): array
     {
         $shards = [];
 
@@ -50,9 +52,9 @@ class ElasticsearchShardManager extends AbstractAppManager
         $results = $callResponse->getContent();
 
         foreach ($results as $row) {
-            $snapshotModel = new ElasticsearchShardModel();
-            $snapshotModel->convert($row);
-            $shards[] = $snapshotModel;
+            $shardModel = new ElasticsearchShardModel();
+            $shardModel->convert($row);
+            $shards[] = $shardModel;
         }
 
         return $shards;
