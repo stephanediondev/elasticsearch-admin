@@ -37,4 +37,23 @@ class ElasticsearchShardManager extends AbstractAppManager
 
         return $shards;
     }
+
+    public function getNodesAvailable(array $shards, array $nodes): array
+    {
+        $nodesNotAvailable = [];
+        foreach ($shards as $shard) {
+            if ($shard->getNode()) {
+                $nodesNotAvailable[$shard->getIndex()][$shard->getNumber()][] = $shard->getNode();
+            }
+        }
+
+        $nodesAvailable = [];
+        foreach ($nodesNotAvailable as $index => $shards) {
+            foreach ($shards as $shard => $nodesExclude) {
+                $nodesAvailable[$index][$shard] = array_diff($nodes, $nodesExclude);
+            }
+        }
+
+        return $nodesAvailable;
+    }
 }

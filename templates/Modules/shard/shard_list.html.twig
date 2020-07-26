@@ -158,21 +158,29 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ row.index }}/{{ row.number }}</h5>
+                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'move_to'|trans }}</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body text-left">
                                                         <p>
-                                                            <strong>{{ 'node'|trans }}</strong><br>
+                                                            <strong>{{ 'index'|trans }}</strong><br>
+                                                            {{ row.index }}
+                                                        </p>
+                                                        <p>
+                                                            <strong>{{ 'shard'|trans }}</strong><br>
+                                                            {{ row.number }}
+                                                        </p>
+                                                        <p>
+                                                            <strong>{{ 'from_node'|trans }}</strong><br>
                                                             {{ row.node }}
                                                         </p>
                                                         <form action="{{ path('shards_move', {'index': row.index, 'number': row.number}) }}">
                                                             <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <input type="hidden" name="from_node" value="{{ row.node }}">
                                                             <div class="form-group">
-                                                                <label for="move-to-{{ row.node }}">{{ 'move_to'|trans }}</label>
+                                                                <label for="move-to-{{ row.node }}"><strong>{{ 'to_node'|trans }}</strong></label>
                                                                 <select id="move-to-{{ row.node }}" class="form-control" name="to_node" required="required">
                                                                     <option value="">-</option>
                                                                     {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
@@ -199,12 +207,20 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ row.index }}/{{ row.number }}</h5>
+                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'cancel_allocation'|trans }}</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body text-left">
+                                                        <p>
+                                                            <strong>{{ 'index'|trans }}</strong><br>
+                                                            {{ row.index }}
+                                                        </p>
+                                                        <p>
+                                                            <strong>{{ 'shard'|trans }}</strong><br>
+                                                            {{ row.number }}
+                                                        </p>
                                                         <p>
                                                             <strong>{{ 'node'|trans }}</strong><br>
                                                             {{ row.node }}
@@ -212,9 +228,6 @@
                                                         <form action="{{ path('shards_cancel_allocation', {'index': row.index, 'number': row.number}) }}">
                                                             <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <input type="hidden" name="node" value="{{ row.node }}">
-                                                            <div class="form-group">
-                                                                <label for="cancel-{{ row.node }}">{{ 'cancel_allocation'|trans }}</label>
-                                                            </div>
                                                             <div class="form-group">
                                                                 <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
                                                             </div>
@@ -234,16 +247,24 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ row.index }}/{{ row.number }}</h5>
+                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'allocate_replica'|trans }}</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body text-left">
+                                                        <p>
+                                                            <strong>{{ 'index'|trans }}</strong><br>
+                                                            {{ row.index }}
+                                                        </p>
+                                                        <p>
+                                                            <strong>{{ 'shard'|trans }}</strong><br>
+                                                            {{ row.number }}
+                                                        </p>
                                                         <form action="{{ path('shards_allocate_replica', {'index': row.index, 'number': row.number}) }}">
                                                             <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <div class="form-group">
-                                                                <label for="allocate-to-{{ row.node }}">{{ 'allocate_replica'|trans }}</label>
+                                                                <label for="allocate-to-{{ row.node }}"><strong>{{ 'node'|trans }}</strong></label>
                                                                 <select id="allocate-to-{{ row.node }}" class="form-control" name="node" required="required">
                                                                     <option value="">-</option>
                                                                     {% for nodeAvailable in nodesAvailable[row.index][row.number] %}

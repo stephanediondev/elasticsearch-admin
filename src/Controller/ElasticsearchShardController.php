@@ -37,19 +37,7 @@ class ElasticsearchShardController extends AbstractAppController
 
         $nodes = $this->elasticsearchNodeManager->selectNodes();
 
-        $nodesNotAvailable = [];
-        foreach ($shards as $shard) {
-            if ($shard->getNode()) {
-                $nodesNotAvailable[$shard->getIndex()][$shard->getNumber()][] = $shard->getNode();
-            }
-        }
-
-        $nodesAvailable = [];
-        foreach ($nodesNotAvailable as $indexCheck => $shardsCheck) {
-            foreach ($shardsCheck as $shard => $nodesExclude) {
-                $nodesAvailable[$indexCheck][$shard] = array_diff($nodes, $nodesExclude);
-            }
-        }
+        $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
 
         return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
             'shards' => $this->paginatorManager->paginate([
