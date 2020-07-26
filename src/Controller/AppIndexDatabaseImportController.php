@@ -93,7 +93,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
         try {
             $conn = $this->getConnection($fields);
 
-            $sql = $fields['query'];//.' LIMIT 1'
+            $sql = $fields['query'];
             $stmt = $conn->prepare($sql);
             $stmt->execute();
 
@@ -136,7 +136,6 @@ class AppIndexDatabaseImportController extends AbstractAppController
             $callRequest->setPath($index->getName().'/_bulk');
             $callRequest->setBody($body);
             $callResponse = $this->callManager->call($callRequest);
-            $parameters['response'] = $callResponse->getContent();
 
             $callResponse = $this->elasticsearchIndexManager->refreshByName($index->getName());
 
