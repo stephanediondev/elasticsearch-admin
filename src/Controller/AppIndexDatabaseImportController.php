@@ -87,7 +87,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
         try {
             $conn = $this->getConnection($fields);
 
-            $sql = $fields['query'].' LIMIT 1';
+            $sql = $fields['query'];//.' LIMIT 1'
             $stmt = $conn->prepare($sql);
             $stmt->execute();
 
