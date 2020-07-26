@@ -49,6 +49,8 @@
                 {% if total_size %}
                     {{ appImport.dashboardKpi({'title': 'total_size'|trans, 'badge': {'title': total_size|human_filesize}}) }}
                 {% endif %}
+
+                {{ appImport.dashboardKpi({'title': 'id'|trans, 'badge': {'title': root.cluster_uuid}}) }}
             </div>
         {% endblock %}
     {% endembed %}

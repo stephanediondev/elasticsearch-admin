@@ -6,6 +6,8 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchIndexModel extends AbstractAppModel
 {
+    private $id;
+
     private $name;
 
     private $status;
@@ -33,6 +35,18 @@ class ElasticsearchIndexModel extends AbstractAppModel
     private $mappings;
 
     private $mappingsFlat;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(?string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     public function getName(): ?string
     {
@@ -251,6 +265,10 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     public function convert(?array $index): self
     {
+        if (true == isset($index['uuid'])) {
+            $this->setId($index['uuid']);
+        }
+
         $this->setName($index['index']);
 
         if (true == isset($index['status'])) {

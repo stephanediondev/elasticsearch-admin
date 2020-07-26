@@ -6,6 +6,8 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchNodeModel extends AbstractAppModel
 {
+    private $id;
+
     private $name;
 
     private $ip;
@@ -19,6 +21,18 @@ class ElasticsearchNodeModel extends AbstractAppModel
     private $settings;
 
     private $plugins;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(?string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     public function getName(): ?string
     {
@@ -106,6 +120,10 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
     public function convert(?array $node): self
     {
+        if (true == isset($node['id'])) {
+            $this->setId($node['id']);
+        }
+
         $this->setName($node['name']);
 
         if (true == isset($node['ip'])) {

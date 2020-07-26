@@ -50,7 +50,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $query = [
             'bytes' => 'b',
-            'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
+            'h' => 'uuid,index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
         if (true == $this->callManager->hasFeature('cat_sort')) {
@@ -84,7 +84,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $query = [
             'bytes' => 'b',
-            'h' => 'index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
+            'h' => 'uuid,index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
         if (true == $this->callManager->hasFeature('cat_sort')) {

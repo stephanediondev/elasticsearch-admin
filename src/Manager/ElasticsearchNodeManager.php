@@ -21,7 +21,9 @@ class ElasticsearchNodeManager extends AbstractAppManager
         if (false == isset($node['nodes'][key($node['nodes'])])) {
             $nodeModel = null;
         } else {
-            $node = $node['nodes'][key($node['nodes'])];
+            $id = key($node['nodes']);
+            $node = $node['nodes'][$id];
+            $node['id'] = $id;
 
             $nodeModel = new ElasticsearchNodeModel();
             $nodeModel->convert($node);
