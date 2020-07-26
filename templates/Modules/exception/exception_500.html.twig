@@ -5,14 +5,15 @@
 {% block main_content %}
     <div class="jumbotron mt-3">
         <h1 class="display-4">{{ 'error500.title'|trans }}</h1>
-        {% if message is defined %}
-            <p class="lead">{{ message }}</p>
-            {% if file and line %}
-                <p class="lead">In {{ file }}</p>
-                <p class="lead">Line {{ line }}</p>
-            {% endif %}
-        {% else %}
-            <p class="lead">{{ 'error500.note'|trans }}</p>
-        {% endif %}
+        <p class="lead">{{ message }}</p>
+
+        <ul class="list-unstyled">
+            <li>Route: {{ route }}</li>
+            <li>File: {{ file }}</li>
+            <li>Line: {{ line }}</li>
+            <li>PHP version: {{ php_version }}</li>
+            <li>Symfony version: 5.1.3</li>
+            <li>Elasticsearch version: {{ root['version']['number'] }}</li>
+        </ul>
     </div>
 {% endblock %}

@@ -159,7 +159,9 @@
                     {{ appImport.dashboardKpi({'title': 'version_upgraded'|trans, 'badge': {'title': index.setting('index.version.upgraded')|human_version}}) }}
                 {% endif %}
 
-                {{ appImport.dashboardKpi({'title': 'id'|trans, 'badge': {'title': index.id}}) }}
+                {% if index.id %}
+                    {{ appImport.dashboardKpi({'title': 'id'|trans, 'badge': {'title': index.id}}) }}
+                {% endif %}
             </div>
         {% endblock %}
     {% endembed %}
