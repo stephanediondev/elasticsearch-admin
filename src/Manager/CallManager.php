@@ -102,7 +102,9 @@ class CallManager
             $json = json_decode($response->getContent(false), true);
 
             if (true == isset($json['error'])) {
-                if (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
+                if (true == isset($json['error']['root_cause']) && true == isset($json['error']['root_cause'][0]) && true == isset($json['error']['root_cause'][0]['reason'])) {
+                    throw new CallException($json['error']['root_cause'][0]['reason']);
+                } else if (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
                     throw new CallException($json['error']['caused_by']['reason']);
                 } elseif (true == isset($json['error']['reason'])) {
                     throw new CallException($json['error']['reason']);

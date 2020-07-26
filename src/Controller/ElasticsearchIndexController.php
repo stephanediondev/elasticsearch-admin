@@ -1342,47 +1342,51 @@ class ElasticsearchIndexController extends AbstractAppController
             'form' => $form->createView(),
         ];
 
-        $size = 100;
-        if ($request->query->get('page') && '' != $request->query->get('page')) {
-            $page = $request->query->get('page');
-        } else {
-            $page = 1;
-        }
-        if ($request->query->get('s') && '' != $request->query->get('s')) {
-            $sort = $request->query->get('s');
-        } else {
-            $sort = '_score:desc';
-        }
-        $query = [
-            'track_scores' => 'true',
-            'q' => $form->get('query')->getData(),
-            'sort' => $sort,
-            'size' => $size,
-            'from' => ($size * $page) - $size,
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$index->getName().'/_search');
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $documents = $callResponse->getContent();
-
-        if (true == isset($documents['hits']['total']['value'])) {
-            $total = $documents['hits']['total']['value'];
-            if ('eq' != $documents['hits']['total']['relation']) {
-                $this->addFlash('warning', 'lower_bound_of_the_total');
+        try {
+            $size = 100;
+            if ($request->query->get('page') && '' != $request->query->get('page')) {
+                $page = $request->query->get('page');
+            } else {
+                $page = 1;
             }
-        } else {
-            $total = $documents['hits']['total'];
-        }
+            if ($request->query->get('s') && '' != $request->query->get('s')) {
+                $sort = $request->query->get('s');
+            } else {
+                $sort = '_score:desc';
+            }
+            $query = [
+                'track_scores' => 'true',
+                'q' => $form->get('query')->getData(),
+                'sort' => $sort,
+                'size' => $size,
+                'from' => ($size * $page) - $size,
+            ];
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/'.$index->getName().'/_search');
+            $callRequest->setQuery($query);
+            $callResponse = $this->callManager->call($callRequest);
+            $documents = $callResponse->getContent();
 
-        $parameters['documents'] = $this->paginatorManager->paginate([
-            'route' => 'indices_read_search',
-            'route_parameters' => ['index' => $index->getName()],
-            'total' => $total,
-            'rows' => $documents['hits']['hits'],
-            'page' => $page,
-            'size' => $size,
-        ]);
+            if (true == isset($documents['hits']['total']['value'])) {
+                $total = $documents['hits']['total']['value'];
+                if ('eq' != $documents['hits']['total']['relation']) {
+                    $this->addFlash('warning', 'lower_bound_of_the_total');
+                }
+            } else {
+                $total = $documents['hits']['total'];
+            }
+
+            $parameters['documents'] = $this->paginatorManager->paginate([
+                'route' => 'indices_read_search',
+                'route_parameters' => ['index' => $index->getName()],
+                'total' => $total,
+                'rows' => $documents['hits']['hits'],
+                'page' => $page,
+                'size' => $size,
+            ]);
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
+        }
 
         return $this->renderAbstract($request, 'Modules/index/index_read_search.html.twig', $parameters);
     }
