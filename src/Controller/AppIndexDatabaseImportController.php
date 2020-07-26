@@ -89,7 +89,6 @@ class AppIndexDatabaseImportController extends AbstractAppController
             $k = str_replace('_DOT_', '.', $k);
             $fields[$k] = $v;
         }
-        dump($fields);
 
         try {
             $conn = $this->getConnection($fields);
