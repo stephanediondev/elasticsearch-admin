@@ -50,7 +50,7 @@ cp .env.dist .env
 - [x] App roles: list, create, read, update (permissions), delete
 - [x] Cluster: basic metrics, allocation explain [5.0], settings [5.0] (list, update)
 - [x] Nodes: list, read, usage [6.0], plugins, reload secure settings [6.4]
-- [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search by query, export (CSV, TSV, ODS, XLSX, GEOJSON), import from file (ODS, XLSX), export from database (PDO drivers), aliases (list, create, delete)
+- [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search by query, export (CSV, TSV, ODS, XLSX, GEOJSON), import from file (ODS, XLSX), import from database (PDO drivers), aliases (list, create, delete)
 - [x] Index templates (legacy): list, create, read, update, delete, copy
 - [x] Index templates [7.8]: list, create, read, update, delete, copy
 - [x] Component templates [7.8]: list, create, read, update, delete, copy
