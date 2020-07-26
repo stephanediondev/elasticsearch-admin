@@ -157,26 +157,27 @@
                                         <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'move_to'|trans }}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body text-left">
-                                                        <p>
-                                                            <strong>{{ 'index'|trans }}</strong><br>
-                                                            {{ row.index }}
-                                                        </p>
-                                                        <p>
-                                                            <strong>{{ 'shard'|trans }}</strong><br>
-                                                            {{ row.number }}
-                                                        </p>
-                                                        <p>
-                                                            <strong>{{ 'from_node'|trans }}</strong><br>
-                                                            {{ row.node }}
-                                                        </p>
-                                                        <form action="{{ path('shards_move', {'index': row.index, 'number': row.number}) }}">
+                                                    <form action="{{ path('shards_move', {'index': row.index, 'number': row.number}) }}">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'move_to'|trans }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-left">
+                                                            <p>
+                                                                <strong>{{ 'index'|trans }}</strong><br>
+                                                                {{ row.index }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'shard'|trans }}</strong><br>
+                                                                {{ row.number }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'from_node'|trans }}</strong><br>
+                                                                {{ row.node }}
+                                                            </p>
+
                                                             <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <input type="hidden" name="from_node" value="{{ row.node }}">
                                                             <div class="form-group">
@@ -188,11 +189,12 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -206,33 +208,35 @@
                                         <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'cancel_allocation'|trans }}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body text-left">
-                                                        <p>
-                                                            <strong>{{ 'index'|trans }}</strong><br>
-                                                            {{ row.index }}
-                                                        </p>
-                                                        <p>
-                                                            <strong>{{ 'shard'|trans }}</strong><br>
-                                                            {{ row.number }}
-                                                        </p>
-                                                        <p>
-                                                            <strong>{{ 'node'|trans }}</strong><br>
-                                                            {{ row.node }}
-                                                        </p>
-                                                        <form action="{{ path('shards_cancel_allocation', {'index': row.index, 'number': row.number}) }}">
+                                                    <form action="{{ path('shards_cancel_allocation', {'index': row.index, 'number': row.number}) }}">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'cancel_allocation'|trans }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-left">
+                                                            <p>
+                                                                <strong>{{ 'index'|trans }}</strong><br>
+                                                                {{ row.index }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'shard'|trans }}</strong><br>
+                                                                {{ row.number }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'node'|trans }}</strong><br>
+                                                                {{ row.node }}
+                                                            </p>
+
                                                             <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <input type="hidden" name="node" value="{{ row.node }}">
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -246,22 +250,23 @@
                                         <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'allocate_replica'|trans }}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body text-left">
-                                                        <p>
-                                                            <strong>{{ 'index'|trans }}</strong><br>
-                                                            {{ row.index }}
-                                                        </p>
-                                                        <p>
-                                                            <strong>{{ 'shard'|trans }}</strong><br>
-                                                            {{ row.number }}
-                                                        </p>
-                                                        <form action="{{ path('shards_allocate_replica', {'index': row.index, 'number': row.number}) }}">
+                                                    <form action="{{ path('shards_allocate_replica', {'index': row.index, 'number': row.number}) }}">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'allocate_replica'|trans }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-left">
+                                                            <p>
+                                                                <strong>{{ 'index'|trans }}</strong><br>
+                                                                {{ row.index }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'shard'|trans }}</strong><br>
+                                                                {{ row.number }}
+                                                            </p>
+
                                                             <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <div class="form-group">
                                                                 <label for="allocate-to-{{ row.node }}"><strong>{{ 'node'|trans }}</strong></label>
@@ -272,11 +277,12 @@
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
