@@ -23,7 +23,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
     }
 
     /**
-     * @Route("/{index}/database-import/connect", name="index_database_import_connect")
+     * @Route("/indices/{index}/database-import/connect", name="index_database_import_connect")
      */
     public function connect(Request $request, string $index): JsonResponse
     {
@@ -68,7 +68,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
     }
 
     /**
-     * @Route("/{index}/database-import/mappings", name="index_database_import_mappings")
+     * @Route("/indices/{index}/database-import/mappings", name="index_database_import_mappings")
      */
     public function mappings(Request $request, string $index): JsonResponse
     {
@@ -156,7 +156,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
     }
 
     /**
-     * @Route("/{index}/database-import", name="index_database_import")
+     * @Route("/indices/{index}/database-import", name="index_database_import")
      */
     public function index(Request $request, string $index): Response
     {

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'import'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'import_from_file'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'import'} %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'import_from_file'} %}
 {% endblock %}
 
 {% block main_content %}

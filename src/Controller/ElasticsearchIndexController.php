@@ -400,7 +400,7 @@ class ElasticsearchIndexController extends AbstractAppController
     }
 
     /**
-     * @Route("/indices/{index}/import", name="indices_read_import")
+     * @Route("/indices/{index}/file-import", name="indices_read_import")
      */
     public function readImport(Request $request, string $index): Response
     {

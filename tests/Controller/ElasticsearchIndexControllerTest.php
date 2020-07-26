@@ -200,28 +200,28 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     }
 
     /**
-     * @Route("/indices/{index}/import", name="indices_read_import")
+     * @Route("/indices/{index}/file-import", name="indices_read_import")
      */
     public function testImport404()
     {
-        $this->client->request('GET', '/admin/indices/'.uniqid().'/import');
+        $this->client->request('GET', '/admin/indices/'.uniqid().'/file-import');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
     public function testImport403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/import');
+        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/file-import');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testImport()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/import');
+        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/file-import');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Import');
+        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Import from file');
     }
 
     /**

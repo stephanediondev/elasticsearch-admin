@@ -1,22 +1,31 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'database'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'import_from_database'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'database'|trans}) }}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
 {% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': index.name}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'import_from_database'} %}
+{% endblock %}
+
 
 {% block main_content %}
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             <div class="col-12 col-md-5 col-lg-4 step" id="step-connect">
-                {{ appImport.heading({'level': 3, 'title': 'connect'|trans}) }}
+                {{ appImport.heading({'level': 3, 'title': 'database.connect'|trans}) }}
 
                 <form name="data" method="post" action="{{ path('index_database_import_connect', {'index': index.name}) }}" id="form-connect">
                     <div class="form-group">
-                        <label class="required" for="driver">driver</label>
+                        <label class="required" for="driver">{{ 'database.driver'|trans }}</label>
                         <select id="driver" name="driver" required="required" class="form-control">
                             <option value="">-</option>
                             {% for driver in drivers %}
@@ -26,27 +35,27 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="host" class="required">host</label>
+                        <label for="host" class="required">{{ 'database.host'|trans }}</label>
                         <input type="text" id="host" name="host" required="required" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="user" class="required">user</label>
+                        <label for="user" class="required">{{ 'database.user'|trans }}</label>
                         <input type="text" id="user" name="user" required="required" autocomplete="nope" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="required">password</label>
+                        <label for="password" class="required">{{ 'database.password'|trans }}</label>
                         <input type="password" id="password" name="password" required="required" autocomplete="new-password" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="dbname" class="required">dbname</label>
+                        <label for="dbname" class="required">{{ 'database.dbname'|trans }}</label>
                         <input type="text" id="dbname" name="dbname" required="required" class="form-control">
                     </div>
 
                     <div class="form-group">
-                        <label for="query" class="required">query</label>
+                        <label for="query" class="required">{{ 'database.query'|trans }}</label>
                         <textarea id="query" name="query" required="required" class="form-control"></textarea>
                     </div>
 
@@ -57,7 +66,7 @@
             </div>
 
             <div class="col-12 col-md-8 col-lg-8 d-none step" id="step-mappings">
-                {{ appImport.heading({'level': 3, 'title': 'mappings'|trans}) }}
+                {{ appImport.heading({'level': 3, 'title': 'database.mappings'|trans}) }}
 
                 <div class="mb-3">
                     <a href="#step-connect" class="btn btn-secondary btn-sm back">{{ 'back'|trans }}</a>
@@ -103,14 +112,20 @@
                 </form>
             </div>
 
-            <div class="col-12 col-md-8 col-lg-8 d-none step" id="step-done">
-                {{ appImport.heading({'level': 3, 'title': 'done'|trans}) }}
+            <div class="col-12 col-md-8 col-lg-8 d-none step" id="step-loading">
+                {{ appImport.heading({'level': 3, 'title': 'loading'|trans}) }}
+
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">{{ 'loading'|trans }}...</span>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-8 col-lg-8 d-none step" id="step-completed">
+                {{ appImport.heading({'level': 3, 'title': 'import_completed'|trans, 'badge': {'title': 0}}) }}
 
                 <div class="mb-3">
                     <a href="#step-mappings" class="btn btn-secondary btn-sm back">{{ 'back'|trans }}</a>
                 </div>
-
-                <p><span id="documents"></span> {{ 'documents'|trans }}</p>
             </div>
         {% endblock %}
     {% endembed %}
@@ -139,6 +154,11 @@
             var body = $('#form-connect').serialize();
             body = body + '&' + $('#form-mappings').serialize();
 
+            if ('form-mappings' == form.attr('id')) {
+                $('#step-mappings').addClass('d-none');
+                $('#step-loading').removeClass('d-none');
+            }
+
             fetch(form.attr('action'), {
                 'credentials': 'include',
                 'headers': {
@@ -151,6 +171,11 @@
             }).then(function(json) {
                 if (true == json.error) {
                     $('nav').after('<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' + json.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+
+                    if ('form-mappings' == form.attr('id')) {
+                        $('#step-loading').addClass('d-none');
+                        $('#step-mappings').removeClass('d-none');
+                    }
 
                 } else {
                     if ('form-connect' == form.attr('id')) {
@@ -173,10 +198,11 @@
                     }
 
                     if ('form-mappings' == form.attr('id')) {
-                        $('#documents').text(json.documents);
+                        $('#step-completed').find('h3 .badge').text(json.documents);
 
                         $('#step-mappings').addClass('d-none');
-                        $('#step-done').removeClass('d-none');
+                        $('#step-loading').addClass('d-none');
+                        $('#step-completed').removeClass('d-none');
                     }
                 }
             }).catch(function() {
