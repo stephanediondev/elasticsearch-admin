@@ -89,7 +89,7 @@
                                     <td><label for="{{ field }}">{{ field }}</label></td>
                                     <td>{{ mapping['type'] }}</td>
                                     <td>
-                                        <select id="{{ field }}" name="{{ field }}" class="form-control select-column" data-field="{{ field }}">
+                                        <select id="{{ field }}" name="{{ field|replace({'.': '_DOT_'}) }}" class="form-control select-column" data-field="{{ field }}">
                                         </select>
                                     </td>
                                 </tr>

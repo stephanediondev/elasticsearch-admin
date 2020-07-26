@@ -82,7 +82,14 @@ class AppIndexDatabaseImportController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $fields = $request->request->all();
+        $fieldsRequest = $request->request->all();
+
+        $fields = [];
+        foreach ($fieldsRequest as $k => $v) {
+            $k = str_replace('_DOT_', '.', $k);
+            $fields[$k] = $v;
+        }
+        dump($fields);
 
         try {
             $conn = $this->getConnection($fields);
