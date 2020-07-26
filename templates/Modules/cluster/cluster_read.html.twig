@@ -40,7 +40,11 @@
                     {{ appImport.dashboardKpi({'title': 'shards'|trans, 'badge': {'title': shards}}) }}
                 {% endif %}
 
-                {{ appImport.dashboardKpi({'title': 'unassigned_shards'|trans, 'badge': {'title': cluster_health['unassigned_shards']}}) }}
+                {% if 0 == cluster_health['unassigned_shards'] %}
+                    {{ appImport.dashboardKpi({'title': 'unassigned_shards'|trans, 'badge': {'title': cluster_health['unassigned_shards'], 'context': 'success'}}) }}
+                {% else %}
+                    {{ appImport.dashboardKpi({'title': 'unassigned_shards'|trans, 'badge': {'title': cluster_health['unassigned_shards'], 'context': 'danger'}}) }}
+                {% endif %}
 
                 {% if documents %}
                     {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': documents}}) }}
