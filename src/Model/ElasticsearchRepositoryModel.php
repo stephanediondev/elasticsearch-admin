@@ -9,6 +9,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
     const TYPE_FS = 'fs';
     const TYPE_S3 = 's3';
     const TYPE_GCS = 'gcs';
+    const TYPE_AZURE = 'azure';
 
     private $type;
 
@@ -46,6 +47,10 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
 
     private $settings;
 
+    private $container;
+
+    private $locationMode;
+
     public function __construct()
     {
         $this->compress = true;
@@ -58,6 +63,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         $this->client = 'default';
         $this->cannedAcl = 'private';
         $this->storageClass = 'standard';
+        $this->locationMode = 'primary_only';
     }
 
     public function getType(): ?string
@@ -174,6 +180,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
             self::TYPE_FS => self::TYPE_FS,
             self::TYPE_S3 => self::TYPE_S3,
             self::TYPE_GCS => self::TYPE_GCS,
+            self::TYPE_AZURE => self::TYPE_AZURE,
         ];
     }
 
@@ -206,15 +213,17 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
                 $this->setLocation($repository['settings']['location']);
             }
 
-            // TYPE_S3 or TYPE_GCS
-            if (true == isset($repository['settings']['bucket'])) {
-                $this->setBucket($repository['settings']['bucket']);
-            }
+            // TYPE_S3, TYPE_GCS or TYPE_AZURE
             if (true == isset($repository['settings']['client'])) {
                 $this->setClient($repository['settings']['client']);
             }
             if (true == isset($repository['settings']['base_path'])) {
                 $this->setBasePath($repository['settings']['base_path']);
+            }
+
+            // TYPE_S3 or TYPE_GCS
+            if (true == isset($repository['settings']['bucket'])) {
+                $this->setBucket($repository['settings']['bucket']);
             }
 
             // TYPE_S3
@@ -229,6 +238,14 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
             }
             if (true == isset($repository['settings']['storage_class'])) {
                 $this->setStorageClass($repository['settings']['storage_class']);
+            }
+
+            // TYPE_AZURE
+            if (true == isset($repository['settings']['container'])) {
+                $this->setContainer($repository['settings']['container']);
+            }
+            if (true == isset($repository['settings']['location_mode'])) {
+                $this->setLocationMode($repository['settings']['location_mode']);
             }
         }
         return $this;
@@ -370,6 +387,39 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         ];
     }
 
+    // TYPE_AZURE
+    public function getContainer(): ?string
+    {
+        return $this->container;
+    }
+
+    public function setContainer(?string $container): self
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    public function getLocationMode(): ?string
+    {
+        return $this->locationMode;
+    }
+
+    public function setLocationMode(?string $locationMode): self
+    {
+        $this->locationMode = $locationMode;
+
+        return $this;
+    }
+
+    public static function locationModes(): ?array
+    {
+        return [
+            'primary_only' => 'primary_only',
+            'secondary_only' => 'secondary_only',
+        ];
+    }
+
     public function getJson(): array
     {
         $json = [
@@ -401,6 +451,13 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
             $json['settings']['bucket'] = $this->getBucket();
             $json['settings']['client'] = $this->getClient();
             $json['settings']['base_path'] = $this->getBasePath();
+        }
+
+        if (self::TYPE_AZURE == $this->getType()) {
+            $json['settings']['container'] = $this->getContainer();
+            $json['settings']['client'] = $this->getClient();
+            $json['settings']['base_path'] = $this->getBasePath();
+            $json['settings']['location_mode'] = $this->getLocationMode();
         }
 
         return $json;

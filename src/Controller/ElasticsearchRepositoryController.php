@@ -60,6 +60,10 @@ class ElasticsearchRepositoryController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
+        if ('azure' == $type && false == $this->callManager->hasPlugin('repository-azure')) {
+            throw new AccessDeniedHttpException();
+        }
+
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
         if (true == isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
             $paths = $clusterSettings['path.repo'];

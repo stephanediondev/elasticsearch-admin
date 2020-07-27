@@ -60,7 +60,7 @@ cp .env.dist .env
 - [x] Component templates [7.8]: list, create, read, update, delete, copy
 - [x] Index lifecycle management policies [6.6]: list, status, start, stop, create, read, update, delete, copy
 - [x] Shards: list, cluster reroute (move, allocate replica, cancel allocation)
-- [x] Repositories: list, create (fs, s3, gcs), read, update, delete, cleanup, verify
+- [x] Repositories: list, create (fs, s3, gcs, azure), read, update, delete, cleanup, verify
 - [x] Snapshot lifecycle management policies [7.4]: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
 - [x] Snapshots: list, create, read, delete, failures, restore
 - [x] Elasticsearch users (native realm): list, create, read, update, delete, enable, disable
@@ -81,7 +81,7 @@ cp .env.dist .env
 - [ ] SQL access: export
 - [ ] Indices: shrink, split, clone
 - [ ] Index templates (legacy): convert to new version
-- [ ] Repositories: create (url, source, hdfs, azure)
+- [ ] Repositories: create (url, source, hdfs)
 - [ ] Remote clusters: create, update, delete
 - [ ] License: update
 

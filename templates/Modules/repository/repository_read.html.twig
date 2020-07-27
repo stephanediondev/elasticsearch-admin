@@ -105,7 +105,16 @@
                             <strong>{{ 'bucket'|trans }}</strong><br>
                             {{ repository.bucket }}
                         </p>
+                    {% endif %}
 
+                    {% if 'azure' == repository.type %}
+                        <p>
+                            <strong>{{ 'container'|trans }}</strong><br>
+                            {{ repository.container }}
+                        </p>
+                    {% endif %}
+
+                    {% if 's3' == repository.type or 'gcs' == repository.type or 'azure' == repository.type %}
                         <p>
                             <strong>{{ 'client'|trans }}</strong><br>
                             {{ repository.client }}
@@ -117,40 +126,49 @@
                                 {{ repository.basePath }}
                             </p>
                         {% endif %}
+                    {% endif %}
 
-                        {% if 's3' == repository.type %}
+                    {% if 's3' == repository.type %}
+                        <p>
+                            <strong>{{ 'server_side_encryption'|trans }}</strong><br>
+                            {{ ('boolean.' ~ repository.serverSideEncryption)|trans }}
+                        </p>
+
+                        {% if repository.bufferSize %}
                             <p>
-                                <strong>{{ 'server_side_encryption'|trans }}</strong><br>
-                                {{ ('boolean.' ~ repository.serverSideEncryption)|trans }}
+                                <strong>{{ 'buffer_size'|trans }}</strong><br>
+                                {{ repository.bufferSize }}
                             </p>
+                        {% endif %}
 
-                            {% if repository.bufferSize %}
-                                <p>
-                                    <strong>{{ 'buffer_size'|trans }}</strong><br>
-                                    {{ repository.bufferSize }}
-                                </p>
-                            {% endif %}
+                        {% if repository.cannedAcl %}
+                            <p>
+                                <strong>{{ 'canned_acl'|trans }}</strong><br>
+                                {{ repository.cannedAcl }}
+                            </p>
+                        {% endif %}
 
-                            {% if repository.cannedAcl %}
-                                <p>
-                                    <strong>{{ 'canned_acl'|trans }}</strong><br>
-                                    {{ repository.cannedAcl }}
-                                </p>
-                            {% endif %}
+                        {% if repository.storageClass %}
+                            <p>
+                                <strong>{{ 'storage_class'|trans }}</strong><br>
+                                {{ repository.storageClass }}
+                            </p>
+                        {% endif %}
 
-                            {% if repository.storageClass %}
-                                <p>
-                                    <strong>{{ 'storage_class'|trans }}</strong><br>
-                                    {{ repository.storageClass }}
-                                </p>
-                            {% endif %}
+                        {% if repository.awsAccount %}
+                            <p>
+                                <strong>{{ 'aws_account'|trans }}</strong><br>
+                                {{ repository.awsAccount }}
+                            </p>
+                        {% endif %}
+                    {% endif %}
 
-                            {% if repository.awsAccount %}
-                                <p>
-                                    <strong>{{ 'aws_account'|trans }}</strong><br>
-                                    {{ repository.awsAccount }}
-                                </p>
-                            {% endif %}
+                    {% if 'azure' == repository.type %}
+                        {% if repository.locationMode %}
+                            <p>
+                                <strong>{{ 'location_mode'|trans }}</strong><br>
+                                {{ repository.locationMode }}
+                            </p>
                         {% endif %}
                     {% endif %}
                 </div>

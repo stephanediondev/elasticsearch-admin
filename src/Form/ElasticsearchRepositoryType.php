@@ -60,6 +60,13 @@ class ElasticsearchRepositoryType extends AbstractType
             $fields[] = 'base_path';
         }
 
+        if (ElasticsearchRepositoryModel::TYPE_AZURE == $options['type']) {
+            $fields[] = 'container';
+            $fields[] = 'client';
+            $fields[] = 'base_path';
+            $fields[] = 'location_mode';
+        }
+
         foreach ($fields as $field) {
             switch ($field) {
                 case 'name':
@@ -152,6 +159,17 @@ class ElasticsearchRepositoryType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
+                case 'container':
+                    $builder->add('container', TextType::class, [
+                        'label' => 'container',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                        'help' => 'help_form.repository.'.$options['type'].'.container',
+                        'help_html' => true,
+                    ]);
+                    break;
                 case 'client':
                     $builder->add('client', TextType::class, [
                         'label' => 'client',
@@ -216,6 +234,22 @@ class ElasticsearchRepositoryType extends AbstractType
                             new NotBlank(),
                         ],
                         'help' => 'help_form.repository.s3.storage_class',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'location_mode':
+                    $builder->add('location_mode', ChoiceType::class, [
+                        'choices' => ElasticsearchRepositoryModel::locationModes(),
+                        'choice_label' => function ($choice, $key, $value) {
+                            return $key;
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'location_mode',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                        'help' => 'help_form.repository.azure.location_mode',
                         'help_html' => true,
                     ]);
                     break;
