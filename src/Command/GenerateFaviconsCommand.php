@@ -40,6 +40,7 @@ class GenerateFaviconsCommand extends Command
         'red' => 'dc3545',
         'yellow' => 'ffc107',
         'green' => '28a745',
+        'gray' => '6c757d',
     ];
 
     private function generateFavicon($color, $size)
