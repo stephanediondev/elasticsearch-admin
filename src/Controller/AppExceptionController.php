@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Kernel;
 use App\Controller\AbstractAppController;
+use DeviceDetector\DeviceDetector;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,16 @@ class AppExceptionController extends AbstractAppController
 
         if (true == in_array($exception->getStatusCode(), $codes)) {
             if (500 == $exception->getStatusCode()) {
+                $dd = new DeviceDetector($request->headers->get('User-Agent'));
+                $dd->skipBotDetection();
+                $dd->parse();
+
+                $client = $dd->getClient();
+                $os = $dd->getOs();
+
+                $parameters['client'] = $client ? $client['name'].' '.$client['version'] : false;
+                $parameters['os'] = $os ? $os['name'].' '.$os['version'] : false;
+
                 $parameters['message'] = $exception->getMessage();
                 $parameters['file'] = $exception->getFile();
                 $parameters['line'] = $exception->getLine();
