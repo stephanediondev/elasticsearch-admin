@@ -19,7 +19,9 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': setting}) }}
+            {{ appImport.heading({'level': 3, 'title': ('edit_as_' ~ type)|trans}) }}
+
+            {{ appImport.heading({'level': 4, 'title': setting}) }}
 
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
