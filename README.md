@@ -131,6 +131,7 @@ cp .env.dist .env
 - https://github.com/moshe/elasticsearch-comrade
 - https://opensource.appbase.io/dejavu/
 - https://www.elastic-kaizen.com/
+- https://www.elkman.io/
 
 ## Unit tests
 
