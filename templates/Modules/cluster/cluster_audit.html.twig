@@ -26,28 +26,84 @@
 
                 {% block thead %}
                     <tr>
-                        <th>{{ 'check'|trans }}</th>
-                        <th>{{ 'result'|trans }}</th>
-                        <th>{{ 'comment'|trans }}</th>
-                        <th>&nbsp;</th>
+                        <th>{{ 'audit_check'|trans }}</th>
+                        <th>{{ 'audit_result'|trans }}</th>
+                        <th>{{ 'audit_comment'|trans }}</th>
                     </tr>
                 {% endblock %}
 
                 {% block tbody %}
                     <tr>
+                        <td><a rel="noreferrer" target="_blank" href="https://www.elastic.co/support/eol">End of Life</a></td>
+                        <td>
+                            {% if end_of_life['eol_date'] < 'now'|date('Y-m-d') %}
+                                {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'danger'}) }}
+                            {% else %}
+                                {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'success'}) }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            Version: {{ root['version']['number'] }}<br>
+                            EOL date: {{ end_of_life['eol_date'] }}<br>
+                            Maintained until: {{ end_of_life['maintained_until'] }}
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td>Same ES version for all nodes</td>
                         <td>
                             {% if 1 < nodes_versions|length %}
-                                {{ appImport.badge({'title': 'fail'|trans, 'context': 'danger'}) }}
+                                {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'danger'}) }}
                             {% else %}
-                                {{ appImport.badge({'title': 'pass'|trans, 'context': 'success'}) }}
+                                {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'success'}) }}
                             {% endif %}
                         </td>
                         <td>
                             {% if 1 < nodes_versions|length %}
-                                Mixed versions ({{ nodes_versions|join(', ') }})
+                                Mixed versions: {{ nodes_versions|join(', ') }}
                             {% else %}
-                                One version ({{ nodes_versions|join(', ') }})
+                                One version: {{ nodes_versions|join(', ') }}
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Unassigned shards</td>
+                        <td>
+                            {% if 0 != cluster_health['unassigned_shards'] %}
+                                {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'danger'}) }}
+                            {% else %}
+                                {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'success'}) }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if 0 != cluster_health['unassigned_shards'] %}
+                                {{ cluster_health['unassigned_shards'] }}
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><a rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html#search-adaptive-replica">Adaptive Replica Selection</a></td>
+                        <td>
+                            {% if true == hasFeature('adaptive_replica_selection') and cluster_settings['cluster.routing.use_adaptive_replica_selection'] is defined and 'true' == cluster_settings['cluster.routing.use_adaptive_replica_selection'] %}
+                                {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'success'}) }}
+                            {% else %}
+                                {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'danger'}) }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if true == hasFeature('adaptive_replica_selection') %}
+                                {% if cluster_settings['cluster.routing.use_adaptive_replica_selection'] is defined and 'true' == cluster_settings['cluster.routing.use_adaptive_replica_selection'] %}
+                                {% else %}
+                                    {% if is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
+                                        Set <code>cluster.routing.use_adaptive_replica_selection</code> to <code>true</code> in <a href="{{ path('cluster_settings') }}">cluster settings</a>
+                                    {% else %}
+                                        Set cluster.routing.use_adaptive_replica_selection to true in cluster settings
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                Available for version 6.1 and later
                             {% endif %}
                         </td>
                     </tr>

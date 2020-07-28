@@ -32,6 +32,7 @@ class CallManager
         'license_status' => '6.6',
         'reload_secure_settings' => '6.4',
         '_doc_as_type' => '6.2',
+        'adaptive_replica_selection' => '6.1',
         'node_usage' => '6.0',
         'multiple_patterns' => '6.0',
         'cat_nodes_disk' => '5.6',

@@ -53,6 +53,50 @@ class ElasticsearchClusterManager extends AbstractAppManager
         return $clusterSettings;
     }
 
+    public function getMaintenanceTable()
+    {
+        return [
+            ['es_version' => '1.0.0', 'eol_date' => '2015-08-12', 'maintained_until' => '1.1.0'],
+            ['es_version' => '1.1.0', 'eol_date' => '2015-09-25', 'maintained_until' => '1.2.0'],
+            ['es_version' => '1.2.0', 'eol_date' => '2015-11-22', 'maintained_until' => '1.3.0'],
+            ['es_version' => '1.3.0', 'eol_date' => '2016-01-23', 'maintained_until' => '1.4.0'],
+            ['es_version' => '1.4.0', 'eol_date' => '2016-05-05', 'maintained_until' => '1.5.0'],
+            ['es_version' => '1.5.0', 'eol_date' => '2016-09-23', 'maintained_until' => '1.6.0'],
+            ['es_version' => '1.6.0', 'eol_date' => '2016-12-09', 'maintained_until' => '1.7.0'],
+            ['es_version' => '1.7.0', 'eol_date' => '2017-01-16', 'maintained_until' => '5.0.0'],
+            ['es_version' => '2.0.0', 'eol_date' => '2017-04-28', 'maintained_until' => '2.1.0'],
+            ['es_version' => '2.1.0', 'eol_date' => '2017-05-24', 'maintained_until' => '2.2.0'],
+            ['es_version' => '2.2.0', 'eol_date' => '2017-08-02', 'maintained_until' => '2.3.0'],
+            ['es_version' => '2.3.0', 'eol_date' => '2017-09-30', 'maintained_until' => '2.4.0'],
+            ['es_version' => '2.4.0', 'eol_date' => '2018-02-28', 'maintained_until' => '6.0.0'],
+            ['es_version' => '5.0.0', 'eol_date' => '2018-04-26', 'maintained_until' => '5.1.0'],
+            ['es_version' => '5.1.0', 'eol_date' => '2018-06-08', 'maintained_until' => '5.2.0'],
+            ['es_version' => '5.2.0', 'eol_date' => '2018-07-31', 'maintained_until' => '5.3.0'],
+            ['es_version' => '5.3.0', 'eol_date' => '2018-09-28', 'maintained_until' => '5.4.0'],
+            ['es_version' => '5.4.0', 'eol_date' => '2018-11-04', 'maintained_until' => '5.5.0'],
+            ['es_version' => '5.5.0', 'eol_date' => '2019-01-06', 'maintained_until' => '5.6.0'],
+            ['es_version' => '5.6.0', 'eol_date' => '2019-03-11', 'maintained_until' => '7.0.0'],
+            ['es_version' => '6.0.0', 'eol_date' => '2019-05-14', 'maintained_until' => '6.1.0'],
+            ['es_version' => '6.1.0', 'eol_date' => '2019-06-13', 'maintained_until' => '6.2.0'],
+            ['es_version' => '6.2.0', 'eol_date' => '2019-08-06', 'maintained_until' => '6.3.0'],
+            ['es_version' => '6.3.0', 'eol_date' => '2019-12-13', 'maintained_until' => '6.4.0'],
+            ['es_version' => '6.4.0', 'eol_date' => '2020-02-23', 'maintained_until' => '6.5.0'],
+            ['es_version' => '6.5.0', 'eol_date' => '2020-05-14', 'maintained_until' => '6.6.0'],
+            ['es_version' => '6.6.0', 'eol_date' => '2020-07-29', 'maintained_until' => '6.7.0'],
+            ['es_version' => '6.7.0', 'eol_date' => '2020-09-26', 'maintained_until' => '6.8.0'],
+            ['es_version' => '6.8.0', 'eol_date' => '2020-11-20', 'maintained_until' => '8.0.0'],
+            ['es_version' => '7.0.0', 'eol_date' => '2020-10-10', 'maintained_until' => '7.1.0'],
+            ['es_version' => '7.1.0', 'eol_date' => '2020-11-20', 'maintained_until' => '7.2.0'],
+            ['es_version' => '7.2.0', 'eol_date' => '2020-12-25', 'maintained_until' => '7.3.0'],
+            ['es_version' => '7.3.0', 'eol_date' => '2021-01-31', 'maintained_until' => '7.4.0'],
+            ['es_version' => '7.4.0', 'eol_date' => '2021-04-01', 'maintained_until' => '7.5.0'],
+            ['es_version' => '7.5.0', 'eol_date' => '2021-06-02', 'maintained_until' => '7.6.0'],
+            ['es_version' => '7.6.0', 'eol_date' => '2021-08-11', 'maintained_until' => '7.7.0'],
+            ['es_version' => '7.7.0', 'eol_date' => '2021-11-13', 'maintained_until' => '7.8.0'],
+            ['es_version' => '7.8.0', 'eol_date' => '2021-12-18', 'maintained_until' => '7.9.0'],
+        ];
+    }
+
     public function getClusterSettingsNotDynamic()
     {
         return [

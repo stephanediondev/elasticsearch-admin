@@ -180,6 +180,20 @@ class ElasticsearchClusterController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('CLUSTER_AUDIT', 'global');
 
+        $parameters = [];
+
+        $parameters['cluster_settings'] = $this->elasticsearchClusterManager->getClusterSettings();
+
+        $parameters['root'] = $this->callManager->getRoot();
+
+        $maintenanceTable = $this->elasticsearchClusterManager->getMaintenanceTable();
+
+        foreach ($maintenanceTable as $row) {
+            if ($row['es_version'] <= $parameters['root']['version']['number']) {
+                $parameters['end_of_life'] = $row;
+            }
+        }
+
         $nodes = $this->elasticsearchNodeManager->getAll();
 
         $nodesVersions = [];
@@ -189,8 +203,8 @@ class ElasticsearchClusterController extends AbstractAppController
         $nodesVersions = array_unique($nodesVersions);
         sort($nodesVersions);
 
-        return $this->renderAbstract($request, 'Modules/cluster/cluster_audit.html.twig', [
-            'nodes_versions' => $nodesVersions,
-        ]);
+        $parameters['nodes_versions'] = $nodesVersions;
+
+        return $this->renderAbstract($request, 'Modules/cluster/cluster_audit.html.twig', $parameters);
     }
 }

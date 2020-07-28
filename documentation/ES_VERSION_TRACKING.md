@@ -89,6 +89,12 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.0.
 
 - Allow _doc as a type. #27816 (issues: #27750, #27751)
 
+### 6.1.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/6.1/release-notes-6.1.0.html
+
+- Implement adaptive replica selection #26128 (issue: #24915)
+
 ### 6.0.0
 
 https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0.html
