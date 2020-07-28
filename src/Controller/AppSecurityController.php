@@ -43,7 +43,7 @@ class AppSecurityController extends AbstractAppController
         try {
             $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
         } catch (CallException $e) {
-            throw new ServiceUnavailableHttpException(null, $e->getMessage());
+            throw new ServiceUnavailableHttpException(null, 'Couldn\'t connect to Elasticsearch server');
         }
 
         $callRequest = new CallRequestModel();
