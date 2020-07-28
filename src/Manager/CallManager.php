@@ -93,39 +93,43 @@ class CallManager
 
         $options['verify_peer'] = $this->sslVerifyPeer;
 
-        $response = $this->client->request($callRequest->getMethod(), $this->elasticsearchUrl.$callRequest->getPath(), $options);
+        try {
+            $response = $this->client->request($callRequest->getMethod(), $this->elasticsearchUrl.$callRequest->getPath(), $options);
 
-        $callResponse = new CallResponseModel();
-        $callResponse->setCode($response->getStatusCode());
+            $callResponse = new CallResponseModel();
+            $callResponse->setCode($response->getStatusCode());
 
-        if ($response && in_array($response->getStatusCode(), [400, 401, 405, 500])) {
-            $json = json_decode($response->getContent(false), true);
+            if ($response && in_array($response->getStatusCode(), [400, 401, 405, 500])) {
+                $json = json_decode($response->getContent(false), true);
 
-            if (true == isset($json['error'])) {
-                if (true == isset($json['error']['root_cause']) && true == isset($json['error']['root_cause'][0]) && true == isset($json['error']['root_cause'][0]['reason'])) {
-                    throw new CallException($json['error']['root_cause'][0]['reason']);
-                } else if (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
-                    throw new CallException($json['error']['caused_by']['reason']);
-                } elseif (true == isset($json['error']['reason'])) {
-                    throw new CallException($json['error']['reason']);
-                } elseif (true == is_string($json['error'])) {
-                    throw new CallException($json['error']);
+                if (true == isset($json['error'])) {
+                    if (true == isset($json['error']['root_cause']) && true == isset($json['error']['root_cause'][0]) && true == isset($json['error']['root_cause'][0]['reason'])) {
+                        throw new CallException($json['error']['root_cause'][0]['reason']);
+                    } else if (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
+                        throw new CallException($json['error']['caused_by']['reason']);
+                    } elseif (true == isset($json['error']['reason'])) {
+                        throw new CallException($json['error']['reason']);
+                    } elseif (true == is_string($json['error'])) {
+                        throw new CallException($json['error']);
+                    }
+                }
+                throw new CallException('Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')');
+            }
+
+            if ($response && 'HEAD' != $callRequest->getMethod() && 404 != $response->getStatusCode()) {
+                if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {
+                    $callResponse->setContentRaw($response->getContent());
+                } else {
+                    $callResponse->setContent($response->toArray());
                 }
             }
-            throw new CallException('Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')');
+
+            $this->log($callRequest, $callResponse);
+
+            return $callResponse;
+        } catch (\Exception $e) {
+            throw new CallException($e->getMessage());
         }
-
-        if ($response && 'HEAD' != $callRequest->getMethod() && 404 != $response->getStatusCode()) {
-            if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {
-                $callResponse->setContentRaw($response->getContent());
-            } else {
-                $callResponse->setContent($response->toArray());
-            }
-        }
-
-        $this->log($callRequest, $callResponse);
-
-        return $callResponse;
     }
 
     public function log(CallRequestModel $callRequest, CallResponseModel $callResponse)

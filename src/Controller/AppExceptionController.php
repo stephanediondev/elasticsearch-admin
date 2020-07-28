@@ -23,6 +23,11 @@ class AppExceptionController extends AbstractAppController
         $codes = [401, 403, 404, 405, 500, 503];
 
         if (true == in_array($exception->getStatusCode(), $codes)) {
+            if (503 == $exception->getStatusCode()) {
+                $parameters['no_calls'] = true;
+                $parameters['message'] = $exception->getMessage();
+            }
+
             if (500 == $exception->getStatusCode()) {
                 $dd = new DeviceDetector($request->headers->get('User-Agent'));
                 $dd->skipBotDetection();
@@ -42,6 +47,7 @@ class AppExceptionController extends AbstractAppController
                 $parameters['symfony_version'] = Kernel::VERSION;
 
             }
+
             return $this->renderAbstract($request, 'Modules/exception/exception_'.$exception->getStatusCode().'.html.twig', $parameters);
         }
     }

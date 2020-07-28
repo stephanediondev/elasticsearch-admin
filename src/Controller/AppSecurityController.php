@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class AppSecurityController extends AbstractAppController
 {
@@ -36,6 +37,15 @@ class AppSecurityController extends AbstractAppController
             return $this->redirectToRoute('cluster');
         }
 
+        $parameters = [];
+        $parameters['no_calls'] = true;
+
+        try {
+            $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
+        } catch (CallException $e) {
+            throw new ServiceUnavailableHttpException(null, $e->getMessage());
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('HEAD');
         $callRequest->setPath('/.elasticsearch-admin-users');
@@ -51,9 +61,9 @@ class AppSecurityController extends AbstractAppController
 
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->renderAbstract($request, 'Modules/security/login.html.twig', [
-            'last_username' => $lastUsername,
-        ]);
+        $parameters['last_username'] = $lastUsername;
+
+        return $this->renderAbstract($request, 'Modules/security/login.html.twig', $parameters);
     }
 
     /**

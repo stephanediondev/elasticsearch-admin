@@ -47,17 +47,19 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
-        $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
+        if (false == isset($parameters['no_calls']) || false == $parameters['no_calls']) {
+            $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
 
-        $parameters['master_node'] = $this->callManager->getMasterNode();
+            $parameters['master_node'] = $this->callManager->getMasterNode();
 
-        $parameters['root'] = $this->callManager->getRoot();
+            $parameters['root'] = $this->callManager->getRoot();
 
-        $parameters['xpack'] = $this->callManager->getXpack();
+            $parameters['xpack'] = $this->callManager->getXpack();
 
-        $parameters['plugins'] = $this->callManager->getPlugins();
+            $parameters['plugins'] = $this->callManager->getPlugins();
 
-        $parameters['cat_sort'] = $this->callManager->hasFeature('cat_sort');
+            $parameters['cat_sort'] = $this->callManager->hasFeature('cat_sort');
+        }
 
         $menus = [];
 
