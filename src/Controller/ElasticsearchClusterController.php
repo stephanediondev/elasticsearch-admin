@@ -327,7 +327,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'anonymous_access_disabled':
-                    if (false == isset($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || 0 == count($parameters['cluster_settings']['xpack.security.authc.anonymous.roles'])) {
+                    if (false == isset($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || false == is_array($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || 0 == count($parameters['cluster_settings']['xpack.security.authc.anonymous.roles'])) {
                         $results['audit_pass'][] = $line;
                     } else {
                         $results['audit_fail'][] = $line;
