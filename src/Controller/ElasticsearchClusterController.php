@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\ElasticsearchClusterSettingType;
+use App\Manager\ElasticsearchNodeManager;
 use App\Model\ElasticsearchClusterSettingModel;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +19,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ElasticsearchClusterController extends AbstractAppController
 {
+    public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
+    {
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+    }
+
     /**
      * @Route("/cluster", name="cluster")
      */
@@ -165,5 +171,26 @@ class ElasticsearchClusterController extends AbstractAppController
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('cluster_settings');
+    }
+
+    /**
+     * @Route("/cluster/audit", name="cluster_audit")
+     */
+    public function audit(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('CLUSTER_AUDIT', 'global');
+
+        $nodes = $this->elasticsearchNodeManager->getAll();
+
+        $nodesVersions = [];
+        foreach ($nodes as $node) {
+            $nodesVersions[] = $node['version'];
+        }
+        $nodesVersions = array_unique($nodesVersions);
+        sort($nodesVersions);
+
+        return $this->renderAbstract($request, 'Modules/cluster/cluster_audit.html.twig', [
+            'nodes_versions' => $nodesVersions,
+        ]);
     }
 }

@@ -4,6 +4,12 @@
         <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('cluster') }}">{{ 'summary'|trans }}</a>
     </li>
 
+    {% if is_granted('CLUSTER_AUDIT', 'global') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'audit' == active %} active{% endif %}" href="{{ path('cluster_audit') }}">{{ 'audit'|trans }}</a>
+        </li>
+    {% endif %}
+
     {% if is_granted('CLUSTER_SETTINGS', 'global') %}
         <li class="nav-item">
             <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}{% if false == hasFeature('cluster_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
