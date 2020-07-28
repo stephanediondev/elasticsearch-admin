@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\ElasticsearchClusterSettingType;
+use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\ElasticsearchClusterSettingModel;
 use App\Model\CallRequestModel;
@@ -19,8 +20,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ElasticsearchClusterController extends AbstractAppController
 {
-    public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
+        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
@@ -186,6 +188,8 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $parameters['root'] = $this->callManager->getRoot();
 
+        $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
+
         $maintenanceTable = $this->elasticsearchClusterManager->getMaintenanceTable();
 
         foreach ($maintenanceTable as $row) {
@@ -196,10 +200,22 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $nodes = $this->elasticsearchNodeManager->getAll();
 
+        $cpuPercent = false;
+
         $nodesVersions = [];
         $nodesPlugins = [];
+        $nodesCpuOver90 = [];
         foreach ($nodes as $node) {
             $nodesVersions[] = $node['version'];
+            if (true == isset($node['stats']['os']['cpu']['percent'])) {
+                $cpuPercent = true;
+                if (90 < $node['stats']['os']['cpu']['percent']) {
+                    $nodesCpuOver90[] = [
+                        'node' => $node['name'],
+                        'percent' => $node['stats']['os']['cpu']['percent'],
+                    ];
+                }
+            }
             foreach ($node['plugins'] as $plugin) {
                 $nodesPlugins[] = $plugin['name'];
             }
@@ -209,6 +225,27 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $parameters['nodes_versions'] = $nodesVersions;
 
+        $parameters['nodes_cpu_over_90'] = $nodesCpuOver90;
+
+        $query = [
+            'h' => 'index,rep',
+        ];
+
+        if (true == $this->callManager->hasFeature('cat_expand_wildcards')) {
+            $query['expand_wildcards'] = 'all';
+        }
+
+        $indices = $this->elasticsearchIndexManager->getAll($query);
+
+        $indicesWithReplica = 0;
+        foreach ($indices as $index) {
+            if (0 < $index->getReplicas()) {
+                $indicesWithReplica++;
+            }
+        }
+
+        $results = ['audit_fail' => [], 'audit_notice' => [], 'audit_pass' => []];
+
         $lines = [
             'end_of_life',
             'security_features',
@@ -216,7 +253,82 @@ class ElasticsearchClusterController extends AbstractAppController
             'same_es_version',
             'unassigned_shards',
             'adaptive_replica_selection',
+            'indices_with_replica',
+            'allocation_disk_threshold',
+            'cpu_below_90',
         ];
+
+        foreach ($lines as $line) {
+            switch ($line) {
+                case 'end_of_life':
+                    if ($parameters['end_of_life']['eol_date'] < date('Y-m-d')) {
+                        $results['audit_fail'][] = $line;
+                    } else {
+                        $results['audit_pass'][] = $line;
+                    }
+                    break;
+                case 'security_features':
+                    if (false == $this->callManager->hasFeature('security')) {
+                        $results['audit_fail'][] = $line;
+                    } else {
+                        $results['audit_pass'][] = $line;
+                    }
+                    break;
+                case 'cluster_name':
+                    if ('elasticsearch' == $parameters['cluster_health']['cluster_name']) {
+                        $results['audit_notice'][] = $line;
+                    } else {
+                        $results['audit_pass'][] = $line;
+                    }
+                    break;
+                case 'same_es_version':
+                    if (1 < count($parameters['nodes_versions'])) {
+                        $results['audit_fail'][] = $line;
+                    } else {
+                        $results['audit_pass'][] = $line;
+                    }
+                    break;
+                case 'unassigned_shards':
+                    if (0 != $parameters['cluster_health']['unassigned_shards']) {
+                        $results['audit_fail'][] = $line;
+                    } else {
+                        $results['audit_pass'][] = $line;
+                    }
+                    break;
+                case 'adaptive_replica_selection':
+                    if (true == $this->callManager->hasFeature('adaptive_replica_selection') && true == isset($parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) && 'true' == $parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) {
+                        $results['audit_pass'][] = $line;
+                    } else {
+                        $results['audit_fail'][] = $line;
+                    }
+                    break;
+                case 'indices_with_replica':
+                    if ($indicesWithReplica < count($indices)) {
+                        $results['audit_fail'][] = $line;
+                    } else {
+                        $results['audit_pass'][] = $line;
+                    }
+                    break;
+                case 'allocation_disk_threshold':
+                    if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
+                        $results['audit_pass'][] = $line;
+                    } else {
+                        $results['audit_fail'][] = $line;
+                    }
+                    break;
+                case 'cpu_below_90':
+                    if (true == $cpuPercent) {
+                        if (0 < count($nodesCpuOver90)) {
+                            $results['audit_fail'][] = $line;
+                        } else {
+                            $results['audit_pass'][] = $line;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        $parameters['results'] = $results;
 
         return $this->renderAbstract($request, 'Modules/cluster/cluster_audit.html.twig', $parameters);
     }

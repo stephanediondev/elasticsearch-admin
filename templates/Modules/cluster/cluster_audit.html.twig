@@ -21,10 +21,16 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'audit'|trans}) }}
 
+            <hr>
+
+            <div class="row">
+                {% for result, checkpoints in results %}
+                    {{ appImport.dashboardKpi({'title': result|trans, 'badge': {'title': checkpoints|length, 'context': result}}) }}
+                {% endfor %}
+            </div>
+
             {% embed 'Embed/table_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
-
-                {% set lines = {'end_of_life': true, 'security_features': true, 'cluster_name': true, 'same_es_version': true, 'unassigned_shards': true, 'adaptive_replica_selection': true} %}
 
                 {% block thead %}
                     <tr>
@@ -36,61 +42,37 @@
                 {% endblock %}
 
                 {% block tbody %}
-                    {% for line, display in lines %}
-                        {% if true == display %}
-                            {% if 'end_of_life' == line %}
-                                <tr>
-                                    <td>End of Life</td>
+                    {% for result, checkpoints in results %}
+                        {% for checkpoint in checkpoints %}
+                            <tr>
+                                <td>{{ ('audit_checkpoints.' ~ checkpoint)|trans }}</td>
+                                <td>
+                                    {{ appImport.badge({'title': result|trans, 'context': result}) }}
+                                </td>
+
+                                {% if 'end_of_life' == checkpoint %}
                                     <td>
-                                        {% if end_of_life['eol_date'] < 'now'|date('Y-m-d') %}
-                                            {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'audit_fail'}) }}
-                                        {% else %}
-                                            {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'audit_pass'}) }}
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        Version: {{ root['version']['number'] }}<br>
-                                        EOL date: {{ end_of_life['eol_date'] }}<br>
-                                        Maintained until: {{ end_of_life['maintained_until'] }}<br>
+                                        End of Life {{ end_of_life['eol_date'] }}
                                     </td>
                                     <td>
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/support/eol">{{ 'help'|trans }}</a>
                                     </td>
-                                </tr>
-                            {% endif %}
+                                {% endif %}
 
-                            {% if 'security_features' == line %}
-                                <tr>
-                                    <td>Security features enabled</td>
+                                {% if 'security_features' == checkpoint %}
                                     <td>
-                                        {% if false == hasFeature('security') %}
-                                            {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'audit_fail'}) }}
-                                        {% else %}
-                                            {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'audit_pass'}) }}
-                                        {% endif %}
                                     </td>
-                                    <td></td>
                                     <td>
                                         {% if false == hasFeature('security') %}
                                             <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-security.html">{{ 'help'|trans }}</a>
                                         {% endif %}
                                     </td>
-                                </tr>
-                            {% endif %}
+                                {% endif %}
 
-                            {% if 'cluster_name' == line %}
-                                <tr>
-                                    <td>Cluster name</td>
+                                {% if 'cluster_name' == checkpoint %}
                                     <td>
                                         {% if 'elasticsearch' == cluster_health['cluster_name'] %}
-                                            {{ appImport.badge({'title': 'audit_notice'|trans, 'context': 'audit_notice'}) }}
-                                        {% else %}
-                                            {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'audit_pass'}) }}
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if 'elasticsearch' == cluster_health['cluster_name'] %}
-                                            The default name is <code>elasticsearch</code>, but you should change it to an appropriate name which describes the purpose of the cluster.<br>
+                                            You should change it to an appropriate name which describes the purpose of the cluster.<br>
                                         {% endif %}
                                     </td>
                                     <td>
@@ -98,19 +80,9 @@
                                             <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster.name.html">{{ 'help'|trans }}</a>
                                         {% endif %}
                                     </td>
-                                </tr>
-                            {% endif %}
+                                {% endif %}
 
-                            {% if 'same_es_version' == line %}
-                                <tr>
-                                    <td>Same ES version for all nodes</td>
-                                    <td>
-                                        {% if 1 < nodes_versions|length %}
-                                            {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'audit_fail'}) }}
-                                        {% else %}
-                                            {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'audit_pass'}) }}
-                                        {% endif %}
-                                    </td>
+                                {% if 'same_es_version' == checkpoint %}
                                     <td>
                                         {% if 1 < nodes_versions|length %}
                                             {{ nodes_versions|join(', ') }}
@@ -118,46 +90,26 @@
                                             {{ nodes_versions|join(', ') }}
                                         {% endif %}
                                     </td>
-                                    <td></td>
-                                </tr>
-                            {% endif %}
+                                    <td>
+                                    </td>
+                                {% endif %}
 
-                            {% if 'unassigned_shards' == line %}
-                                <tr>
-                                    <td>Unassigned shards</td>
+                                {% if 'unassigned_shards' == checkpoint %}
                                     <td>
-                                        {% if 0 != cluster_health['unassigned_shards'] %}
-                                            {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'audit_fail'}) }}
-                                        {% else %}
-                                            {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'audit_pass'}) }}
+                                        {% if 0 < cluster_health['unassigned_shards'] and true == hasFeature('allocation_explain') and is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
+                                            <a href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% if is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
-                                            {% if 0 < cluster_health['unassigned_shards'] %}
-                                                <a href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}{% if false == hasFeature('allocation_explain') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
-                                            {% endif %}
-                                        {% endif %}
                                     </td>
-                                    <td></td>
-                                </tr>
-                            {% endif %}
+                                {% endif %}
 
-                            {% if 'adaptive_replica_selection' == line %}
-                                <tr>
-                                    <td>Adaptive Replica Selection</td>
-                                    <td>
-                                        {% if true == hasFeature('adaptive_replica_selection') and cluster_settings['cluster.routing.use_adaptive_replica_selection'] is defined and 'true' == cluster_settings['cluster.routing.use_adaptive_replica_selection'] %}
-                                            {{ appImport.badge({'title': 'audit_pass'|trans, 'context': 'audit_pass'}) }}
-                                        {% else %}
-                                            {{ appImport.badge({'title': 'audit_fail'|trans, 'context': 'audit_fail'}) }}
-                                        {% endif %}
-                                    </td>
+                                {% if 'adaptive_replica_selection' == checkpoint %}
                                     <td>
                                         {% if true == hasFeature('adaptive_replica_selection') %}
                                             {% if cluster_settings['cluster.routing.use_adaptive_replica_selection'] is defined and 'true' == cluster_settings['cluster.routing.use_adaptive_replica_selection'] %}
                                             {% else %}
-                                                {% if is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
+                                                {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
                                                     Set <code>cluster.routing.use_adaptive_replica_selection</code> to <code>true</code> in <a href="{{ path('cluster_settings') }}">cluster settings</a><br>
                                                 {% else %}
                                                     Set <code>cluster.routing.use_adaptive_replica_selection</code> to <code>true</code> in cluster settings<br>
@@ -170,9 +122,45 @@
                                     <td>
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html#search-adaptive-replica">{{ 'help'|trans }}</a>
                                     </td>
-                                </tr>
-                            {% endif %}
-                        {% endif %}
+                                {% endif %}
+
+                                {% if 'indices_with_replica' == checkpoint %}
+                                        <td>
+                                        </td>
+                                        <td>
+                                        </td>
+                                {% endif %}
+
+                                {% if 'allocation_disk_threshold' == checkpoint %}
+                                    <td>
+                                        {% if cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and 'true' == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
+                                        {% else %}
+                                            {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
+                                                Set <code>cluster.routing.allocation.disk.threshold_enabled</code> to <code>true</code> in <a href="{{ path('cluster_settings') }}">cluster settings</a><br>
+                                            {% else %}
+                                                Set <code>cluster.routing.allocation.disk.threshold_enabled</code> to <code>true</code> in cluster settings<br>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html#disk-based-shard-allocation">{{ 'help'|trans }}</a>
+                                    </td>
+                                {% endif %}
+
+                                {% if 'cpu_below_90' == checkpoint %}
+                                    <td>
+                                        {% if 0 < nodes_cpu_over_90|length %}
+                                            {% for row in nodes_cpu_over_90 %}
+                                                {{ row['node'] }} {{ row['percent'] }}%<br>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                    </td>
+                                {% endif %}
+
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
                 {% endblock %}
             {% endembed %}
