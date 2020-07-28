@@ -55,8 +55,8 @@ cp .env.dist .env
 - [x] Cluster: basic metrics, allocation explain [5.0], settings [5.0] (list, update)
 - [x] Nodes: list, read, usage [6.0], plugins, reload secure settings [6.4]
 - [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search by query, export (CSV, TSV, ODS, XLSX, GEOJSON), import from file (ODS, XLSX), import from database (PDO drivers), aliases (list, create, delete)
-- [x] Index templates (legacy): list, create, read, update, delete, copy
-- [x] Index templates [7.8]: list, create, read, update, delete, copy
+- [x] Legacy templates: list, create, read, update, delete, copy
+- [x] Composable templates [7.8]: list, create, read, update, delete, copy
 - [x] Component templates [7.8]: list, create, read, update, delete, copy
 - [x] Index lifecycle management policies [6.6]: list, status, start, stop, create, read, update, delete, copy
 - [x] Shards: list, cluster reroute (move, allocate replica, cancel allocation)
@@ -80,7 +80,6 @@ cp .env.dist .env
 
 - [ ] SQL access: export
 - [ ] Indices: shrink, split, clone
-- [ ] Index templates (legacy): convert to new version
 - [ ] Repositories: create (url, source, hdfs)
 - [ ] Remote clusters: create, update, delete
 - [ ] License: update
@@ -109,7 +108,7 @@ cp .env.dist .env
 
 [![Index import from database](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.0/resized/resized-index-database-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.0/original/original-index-database-import.png)
 
-[![Index templates legacy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.0/resized/resized-index-templates-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.0/original/original-index-templates-legacy.png)
+[![Legacy templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.0/resized/resized-index-templates-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.0/original/original-index-templates-legacy.png)
 
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.0/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.0/original/original-shards.png)
 
