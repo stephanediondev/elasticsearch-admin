@@ -5,7 +5,7 @@
 
     {% if is_granted('INDEX_TEMPLATES_LEGACY_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link{% if 'create_index_template' == active %} active{% endif %}" href="{{ path('index_templates_legacy_create') }}">{{ 'create_index_template'|trans }}</a>
+            <a class="nav-link{% if 'create_index_template_legacy' == active %} active{% endif %}" href="{{ path('index_templates_legacy_create') }}">{{ 'create_index_template_legacy'|trans }}</a>
         </li>
     {% endif %}
 </ul>

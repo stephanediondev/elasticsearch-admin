@@ -15,7 +15,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->client->request('GET', '/admin/index-templates-legacy');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Index templates (legacy)');
+        $this->assertPageTitleSame('Legacy templates');
     }
 
     /**
@@ -26,7 +26,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->client->request('GET', '/admin/index-templates-legacy/create');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Index templates (legacy) - Create index template');
+        $this->assertPageTitleSame('Legacy templates - Create legacy template');
     }
 
     public function testCreateCopy404()
@@ -48,7 +48,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->client->request('GET', '/admin/index-templates-legacy/create?template=elasticsearch-admin-test');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Index templates (legacy) - Create index template');
+        $this->assertPageTitleSame('Legacy templates - Create legacy template');
     }
 
     /**
@@ -66,7 +66,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Index templates (legacy) - elasticsearch-admin-test');
+        $this->assertPageTitleSame('Legacy templates - elasticsearch-admin-test');
     }
 
     /**
@@ -91,7 +91,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test/update');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Index templates (legacy) - elasticsearch-admin-test - Update');
+        $this->assertPageTitleSame('Legacy templates - elasticsearch-admin-test - Update');
     }
 
     /**
@@ -109,7 +109,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test/settings');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Index templates (legacy) - elasticsearch-admin-test - Settings');
+        $this->assertPageTitleSame('Legacy templates - elasticsearch-admin-test - Settings');
     }
 
     /**
@@ -127,7 +127,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test/mappings');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Index templates (legacy) - elasticsearch-admin-test - Mappings');
+        $this->assertPageTitleSame('Legacy templates - elasticsearch-admin-test - Mappings');
     }
 
     /**

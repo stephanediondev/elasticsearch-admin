@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'index_templates_legacy'|trans }} - {{ 'create_index_template'|trans }}{% endblock %}
+{% block head_title %}{{ 'index_templates_legacy'|trans }} - {{ 'create_index_template_legacy'|trans }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'index_templates_legacy'|trans}) }}
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index_template_legacy/index_template_legacy_tabs.html.twig' with {'active': 'create_index_template'} %}
+    {% include 'Modules/index_template_legacy/index_template_legacy_tabs.html.twig' with {'active': 'create_index_template_legacy'} %}
 {% endblock %}
 
 {% block main_content %}
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'create_index_template'|trans}) }}
+            {{ appImport.heading({'level': 3, 'title': 'create_index_template_legacy'|trans}) }}
 
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
