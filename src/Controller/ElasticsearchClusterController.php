@@ -256,6 +256,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'indices_with_replica',
             'allocation_disk_threshold',
             'cpu_below_90',
+            'anonymous_access_disabled',
         ];
 
         foreach ($lines as $line) {
@@ -323,6 +324,13 @@ class ElasticsearchClusterController extends AbstractAppController
                         } else {
                             $results['audit_pass'][] = $line;
                         }
+                    }
+                    break;
+                case 'anonymous_access_disabled':
+                    if (false == isset($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || 0 == count($parameters['cluster_settings']['xpack.security.authc.anonymous.roles'])) {
+                        $results['audit_pass'][] = $line;
+                    } else {
+                        $results['audit_fail'][] = $line;
                     }
                     break;
             }
