@@ -35,6 +35,7 @@ class AppScreenshotsController extends AbstractAppController
 
         $entries = [
             ['title' => 'Cluster', 'filename' => 'cluster', 'path' => '/admin/cluster'],
+            ['title' => 'Cluster audit', 'filename' => 'cluster-audit', 'path' => '/admin/cluster/audit'],
             ['title' => 'Cluster settings', 'filename' => 'cluster-settings', 'path' => '/admin/cluster/settings', 'feature' => 'cluster_settings'],
             ['title' => 'Cluster allocation explain', 'filename' => 'cluster-allocation-explain', 'path' => '/admin/cluster/allocation/explain', 'feature' => 'allocation_explain'],
             ['title' => 'Nodes', 'filename' => 'nodes', 'path' => '/admin/nodes'],

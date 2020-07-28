@@ -91,4 +91,20 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Cluster - cluster.routing.allocation.disk.watermark.low');
         }
     }
+
+    /**
+     * @Route("/cluster/audit", name="cluster_audit")
+     */
+    public function testAudit()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/health');
+        $callResponse = $this->callManager->call($callRequest);
+        $clusterHealth = $callResponse->getContent();
+
+        $this->client->request('GET', '/admin/cluster/audit');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Audit');
+    }
 }
