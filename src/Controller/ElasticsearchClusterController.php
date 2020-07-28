@@ -197,13 +197,26 @@ class ElasticsearchClusterController extends AbstractAppController
         $nodes = $this->elasticsearchNodeManager->getAll();
 
         $nodesVersions = [];
+        $nodesPlugins = [];
         foreach ($nodes as $node) {
             $nodesVersions[] = $node['version'];
+            foreach ($node['plugins'] as $plugin) {
+                $nodesPlugins[] = $plugin['name'];
+            }
         }
         $nodesVersions = array_unique($nodesVersions);
         sort($nodesVersions);
 
         $parameters['nodes_versions'] = $nodesVersions;
+
+        $lines = [
+            'end_of_life',
+            'security_features',
+            'cluster_name',
+            'same_es_version',
+            'unassigned_shards',
+            'adaptive_replica_selection',
+        ];
 
         return $this->renderAbstract($request, 'Modules/cluster/cluster_audit.html.twig', $parameters);
     }

@@ -124,19 +124,19 @@
         {% set params = params|merge({'context': 'info'}) %}
     {% endif %}
 
-    {% if params.context in ['true', '1', 'green', 'open', 'STARTED', 'RUNNING', 'SUCCESS'] %}
+    {% if params.context in ['true', '1', 'green', 'open', 'STARTED', 'RUNNING', 'SUCCESS', 'audit_pass'] %}
         {% set params = params|merge({'context': 'success'}) %}
 
     {% elseif params.context in ['false', '0', 'close'] %}
         {% set params = params|merge({'context': 'secondary'}) %}
 
-    {% elseif params.context in ['red', 'STOPPED', 'UNASSIGNED', 'FAILED', 'INCOMPATIBLE'] %}
+    {% elseif params.context in ['red', 'STOPPED', 'UNASSIGNED', 'FAILED', 'INCOMPATIBLE', 'audit_fail'] %}
         {% set params = params|merge({'context': 'danger'}) %}
 
     {% elseif params.context in ['yellow', 'STOPPING', 'RELOCATING', 'IN_PROGRESS', 'PARTIAL'] %}
         {% set params = params|merge({'context': 'warning'}) %}
 
-    {% elseif params.context in ['INITIALIZING'] %}
+    {% elseif params.context in ['INITIALIZING', 'audit_notice'] %}
         {% set params = params|merge({'context': 'light'}) %}
 
     {% elseif params.context in ['master_node'] %}
