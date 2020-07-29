@@ -226,7 +226,7 @@
                                 {% if 'license_not_expired' == checkpoint %}
                                     <td>
                                         {% if parameters['expiry_date_in_millis'] is defined %}
-                                            Expires on {{ parameters['expiry_date_in_millis']|human_datetime }}
+                                            Expires on {{ parameters['expiry_date_in_millis']|human_datetime }} ({{ parameters['type'] }})
                                             {% if true == hasFeature('license') and is_granted('LICENSE', 'global') %}
                                                 <a href="{{ path('license') }}">{{ 'license'|trans }}</a>
                                             {% endif %}
