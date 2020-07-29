@@ -51,7 +51,7 @@ abstract class AbstractAppController extends AbstractController
     {
         $menus = [];
 
-        if (false == isset($parameters['no_calls']) || false == $parameters['no_calls']) {
+        if (false == isset($parameters['exception_503']) || false == $parameters['exception_503']) {
             try {
                 $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
             } catch (ConnectionException $e) {

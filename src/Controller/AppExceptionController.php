@@ -24,7 +24,7 @@ class AppExceptionController extends AbstractAppController
 
         if (true == in_array($exception->getStatusCode(), $codes)) {
             if (503 == $exception->getStatusCode()) {
-                $parameters['no_calls'] = true;
+                $parameters['exception_503'] = true;
                 $parameters['message'] = $exception->getMessage();
             }
 
