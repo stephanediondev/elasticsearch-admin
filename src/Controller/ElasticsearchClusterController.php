@@ -287,7 +287,6 @@ class ElasticsearchClusterController extends AbstractAppController
             'allocation_disk_threshold',
             'cpu_below_90',
             'heap_size_below_50',
-            'heap_size',
             'anonymous_access_disabled',
             'license_not_expired',
             'file_descriptors',
@@ -444,6 +443,10 @@ class ElasticsearchClusterController extends AbstractAppController
                                 $results['audit_fail'][$line] = $license;
                             } else {
                                 $results['audit_pass'][$line] = $license;
+                            }
+                        } else {
+                            if ('basic' == $license['type']) {
+                                $results['audit_notice'][$line] = $license;
                             }
                         }
                     }

@@ -230,6 +230,10 @@
                                             {% if true == hasFeature('license') and is_granted('LICENSE', 'global') %}
                                                 <a href="{{ path('license') }}">{{ 'license'|trans }}</a>
                                             {% endif %}
+                                        {% else %}
+                                            {% if 'audit_notice' == result %}
+                                                You have a basic license.
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     <td>
