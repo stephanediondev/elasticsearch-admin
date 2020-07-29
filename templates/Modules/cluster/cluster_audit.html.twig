@@ -84,7 +84,22 @@
 
                                 {% if 'same_es_version' == checkpoint %}
                                     <td>
-                                        {{ nodes_versions|join(', ') }}
+                                        {{ parameters|join(', ') }}
+                                    </td>
+                                    <td>
+                                    </td>
+                                {% endif %}
+
+                                {% if 'same_plugins' == checkpoint %}
+                                    <td>
+                                        {% if 'audit_fail' == result %}
+                                            {% for node, plugins in parameters %}
+                                                Missing {{ plugins|join(', ') }} on {{ node }} <br>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if 'audit_pass' == result %}
+                                            {{ parameters|join(', ') }}
+                                        {% endif %}
                                     </td>
                                     <td>
                                     </td>
@@ -178,12 +193,25 @@
                                 {% if 'cpu_below_90' == checkpoint %}
                                     <td>
                                         {% if 'audit_fail' == result %}
-                                            {% for row in nodes_cpu_over_90 %}
+                                            {% for row in parameters %}
                                                 {{ row['node'] }} {{ row['percent'] }}%<br>
                                             {% endfor %}
                                         {% endif %}
                                     </td>
                                     <td>
+                                    </td>
+                                {% endif %}
+
+                                {% if 'heap_size_below_50' == checkpoint %}
+                                    <td>
+                                        {% if 'audit_fail' == result %}
+                                            {% for row in parameters %}
+                                                {{ row['node'] }} {{ row['percent']|round(2) }}%<br>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html">{{ 'help'|trans }}</a>
                                     </td>
                                 {% endif %}
 

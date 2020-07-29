@@ -193,12 +193,23 @@ class ElasticsearchClusterController extends AbstractAppController
         $nodes = $this->elasticsearchNodeManager->getAll();
 
         $cpuPercent = false;
+        $heapSize = false;
 
         $nodesVersions = [];
         $nodesPlugins = [];
+        $nodesPluginsUnique = [];
         $nodesCpuOver90 = [];
+        $nodesHeapSizeOver50 = [];
+
         foreach ($nodes as $node) {
             $nodesVersions[] = $node['version'];
+            $nodesPlugins[$node['name']] = [];
+
+            foreach ($node['plugins'] as $plugin) {
+                $nodesPlugins[$node['name']][] = $plugin['name'];
+                $nodesPluginsUnique[] = $plugin['name'];
+            }
+
             if (true == isset($node['stats']['os']['cpu']['percent'])) {
                 $cpuPercent = true;
                 if (90 < $node['stats']['os']['cpu']['percent']) {
@@ -208,16 +219,24 @@ class ElasticsearchClusterController extends AbstractAppController
                     ];
                 }
             }
-            foreach ($node['plugins'] as $plugin) {
-                $nodesPlugins[] = $plugin['name'];
+
+            if (true == isset($node['ram.max']) && true == isset($node['heap.max'])) {
+                $heapSize = true;
+                $percent = ($node['heap.max'] * 100) / $node['ram.max'];
+                if (50 < $percent) {
+                    $nodesHeapSizeOver50[] = [
+                        'node' => $node['name'],
+                        'percent' => $percent,
+                    ];
+                }
             }
         }
+
         $nodesVersions = array_unique($nodesVersions);
         sort($nodesVersions);
 
-        $parameters['nodes_versions'] = $nodesVersions;
-
-        $parameters['nodes_cpu_over_90'] = $nodesCpuOver90;
+        $nodesPluginsUnique = array_unique($nodesPluginsUnique);
+        sort($nodesPluginsUnique);
 
         $query = [
             'h' => 'index,rep,status',
@@ -247,6 +266,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'security_features',
             'cluster_name',
             'same_es_version',
+            'same_plugins',
             'unassigned_shards',
             'adaptive_replica_selection',
             'indices_with_replica',
@@ -254,6 +274,8 @@ class ElasticsearchClusterController extends AbstractAppController
             'close_index_not_enabled',
             'allocation_disk_threshold',
             'cpu_below_90',
+            'heap_size_below_50',
+            'heap_size',
             'anonymous_access_disabled',
             'license_not_expired',
         ];
@@ -270,10 +292,12 @@ class ElasticsearchClusterController extends AbstractAppController
                         }
                     }
 
-                    if ($endOfLife['eol_date'] < date('Y-m-d')) {
-                        $results['audit_fail'][$line] = $endOfLife;
-                    } else {
-                        $results['audit_pass'][$line] = $endOfLife;
+                    if ($endOfLife) {
+                        if ($endOfLife['eol_date'] < date('Y-m-d')) {
+                            $results['audit_fail'][$line] = $endOfLife;
+                        } else {
+                            $results['audit_pass'][$line] = $endOfLife;
+                        }
                     }
                     break;
                 case 'security_features':
@@ -291,10 +315,26 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'same_es_version':
-                    if (1 < count($parameters['nodes_versions'])) {
-                        $results['audit_fail'][$line] = [];
+                    if (1 < count($nodesVersions)) {
+                        $results['audit_fail'][$line] = $nodesVersions;
                     } else {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$line] = $nodesVersions;
+                    }
+                    break;
+                case 'same_plugins':
+                    $fail = [];
+                    foreach ($nodesPluginsUnique as $plugin) {
+                        foreach ($nodesPlugins as $node => $plugins) {
+                            if (false == in_array($plugin, $plugins)) {
+                                $fail[$node][] = $plugin;
+                            }
+                        }
+                    }
+
+                    if (0 < count($fail)) {
+                        $results['audit_fail'][$line] = $fail;
+                    } else {
+                        $results['audit_pass'][$line] = $nodesPluginsUnique;
                     }
                     break;
                 case 'unassigned_shards':
@@ -346,7 +386,16 @@ class ElasticsearchClusterController extends AbstractAppController
                 case 'cpu_below_90':
                     if (true == $cpuPercent) {
                         if (0 < count($nodesCpuOver90)) {
-                            $results['audit_fail'][$line] = [];
+                            $results['audit_fail'][$line] = $nodesCpuOver90;
+                        } else {
+                            $results['audit_pass'][$line] = [];
+                        }
+                    }
+                    break;
+                case 'heap_size_below_50':
+                    if (true == $heapSize) {
+                        if (0 < count($nodesHeapSizeOver50)) {
+                            $results['audit_fail'][$line] = $nodesHeapSizeOver50;
                         } else {
                             $results['audit_pass'][$line] = [];
                         }
