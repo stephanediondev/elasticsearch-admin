@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\HttpClient\Exception\TransportException;
 
 abstract class AbstractAppController extends AbstractController
 {
@@ -48,7 +50,11 @@ abstract class AbstractAppController extends AbstractController
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
         if (false == isset($parameters['no_calls']) || false == $parameters['no_calls']) {
-            $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
+            try {
+                $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
+            } catch (TransportException $e) {
+                throw new ServiceUnavailableHttpException(null, 'Couldn\'t connect to Elasticsearch server');
+            }
 
             $parameters['master_node'] = $this->callManager->getMasterNode();
 

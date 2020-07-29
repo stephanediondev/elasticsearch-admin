@@ -29,7 +29,7 @@
                     {% endif %}
 
                     {% if 'primary' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'prirep', 'title': 'primary'|trans})}}
                         </th>
                     {% endif %}
@@ -47,13 +47,13 @@
                     {% endif %}
 
                     {% if 'documents' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'docs', 'title': 'documents'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'size' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'store', 'title': 'size'|trans})}}
                         </th>
                     {% endif %}
@@ -96,7 +96,7 @@
                         {% endif %}
 
                         {% if 'primary' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {% if row.isPrimary %}
                                     {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                 {% else %}
@@ -124,13 +124,13 @@
                         {% endif %}
 
                         {% if 'documents' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.documents }}
                             </td>
                         {% endif %}
 
                         {% if 'size' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.size|human_filesize }}
                             </td>
                         {% endif %}

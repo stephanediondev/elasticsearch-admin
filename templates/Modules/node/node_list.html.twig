@@ -30,19 +30,19 @@
                     {% endif %}
 
                     {% if 'master_eligible' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'master_eligible'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'voting_only' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'voting_only'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'data' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'data'|trans }}
                         </th>
                     {% endif %}
@@ -72,7 +72,7 @@
                     {% endif %}
 
                     {% if 'uptime' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'uptime'|trans }}
                         </th>
                     {% endif %}
@@ -113,7 +113,7 @@
                         {% endif %}
 
                         {% if 'master_eligible' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {% if row['roles'] is defined %}
                                     {% if 'master' in row['roles'] %}
                                         {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
@@ -125,7 +125,7 @@
                         {% endif %}
 
                         {% if 'voting_only' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {% if true == hasFeature('voting_only') and row['roles'] is defined %}
                                     {% if 'voting_only' in row['roles'] %}
                                         {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
@@ -137,7 +137,7 @@
                         {% endif %}
 
                         {% if 'data' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {% if row['roles'] is defined %}
                                     {% if 'data' in row['roles'] %}
                                         {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
@@ -195,7 +195,7 @@
                         {% endif %}
 
                         {% if 'uptime' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 <span id="{{ row['name'] }}-uptime">{{ row['uptime'] }}</span>
                             </td>
                         {% endif %}

@@ -37,15 +37,6 @@ class AppSecurityController extends AbstractAppController
             return $this->redirectToRoute('cluster');
         }
 
-        $parameters = [];
-        $parameters['no_calls'] = true;
-
-        try {
-            $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
-        } catch (CallException $e) {
-            throw new ServiceUnavailableHttpException(null, 'Couldn\'t connect to Elasticsearch server');
-        }
-
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('HEAD');
         $callRequest->setPath('/.elasticsearch-admin-users');
@@ -61,9 +52,9 @@ class AppSecurityController extends AbstractAppController
 
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        $parameters['last_username'] = $lastUsername;
-
-        return $this->renderAbstract($request, 'Modules/security/login.html.twig', $parameters);
+        return $this->renderAbstract($request, 'Modules/security/login.html.twig', [
+            'last_username' => $lastUsername,
+        ]);
     }
 
     /**

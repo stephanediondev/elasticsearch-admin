@@ -36,19 +36,19 @@
                     {% endif %}
 
                     {% if 'documents_deleted' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices'), 's': 'docs.deleted', 'title': 'documents_deleted'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'primary_size' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices'), 's': 'pri.store.size', 'title': 'primary_size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'total_size' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices'), 's': 'store.size', 'title': 'total_size'|trans})}}
                         </th>
                     {% endif %}
@@ -66,13 +66,13 @@
                     {% endif %}
 
                     {% if 'frozen' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices'), 's': 'sth', 'title': 'frozen'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'creation_date' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices'), 's': 'creation.date.string', 'title': 'creation_date'|trans})}}
                         </th>
                     {% endif %}
@@ -111,19 +111,19 @@
                         {% endif %}
 
                         {% if 'documents_deleted' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.documentsDeleted }}
                             </td>
                         {% endif %}
 
                         {% if 'primary_size' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.primarySize|human_filesize }}
                             </td>
                         {% endif %}
 
                         {% if 'total_size' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.totalSize|human_filesize }}
                             </td>
                         {% endif %}
@@ -145,13 +145,13 @@
                         {% endif %}
 
                         {% if 'frozen' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ appImport.badge({'title': ('boolean.' ~ row.frozen)|trans, 'context': row.frozen}) }}
                             </td>
                         {% endif %}
 
                         {% if 'creation_date' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.creationDate }}
                             </td>
                         {% endif %}

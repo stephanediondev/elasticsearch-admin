@@ -8,6 +8,7 @@ use App\Model\CallResponseModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\HttpClient\Exception\TransportException;
 
 class CallManager
 {
@@ -104,18 +105,23 @@ class CallManager
             if ($response && in_array($response->getStatusCode(), [400, 401, 405, 500])) {
                 $json = json_decode($response->getContent(false), true);
 
+                $message = 'Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')';
                 if (true == isset($json['error'])) {
                     if (true == isset($json['error']['root_cause']) && true == isset($json['error']['root_cause'][0]) && true == isset($json['error']['root_cause'][0]['reason'])) {
-                        throw new CallException($json['error']['root_cause'][0]['reason']);
+                        $message = $json['error']['root_cause'][0]['reason'];
                     } else if (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
-                        throw new CallException($json['error']['caused_by']['reason']);
+                        $message = $json['error']['caused_by']['reason'];
                     } elseif (true == isset($json['error']['reason'])) {
-                        throw new CallException($json['error']['reason']);
+                        $message = $json['error']['reason'];
                     } elseif (true == is_string($json['error'])) {
-                        throw new CallException($json['error']);
+                        $message = $json['error'];
                     }
                 }
-                throw new CallException('Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')');
+                if (401 == $response->getStatusCode()) {
+                    throw new TransportException();
+                } else {
+                    throw new CallException($message);
+                }
             }
 
             if ($response && 'HEAD' != $callRequest->getMethod() && 404 != $response->getStatusCode()) {
@@ -129,7 +135,7 @@ class CallManager
             $this->log($callRequest, $callResponse);
 
             return $callResponse;
-        } catch (\TransportException $e) {
+        } catch (TransportException $e) {
             throw new ServiceUnavailableHttpException(null, 'Couldn\'t connect to Elasticsearch server');
         } catch (\Exception $e) {
             throw new CallException($e->getMessage());

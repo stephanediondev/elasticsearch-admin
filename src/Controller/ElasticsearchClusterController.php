@@ -220,7 +220,7 @@ class ElasticsearchClusterController extends AbstractAppController
         $parameters['nodes_cpu_over_90'] = $nodesCpuOver90;
 
         $query = [
-            'h' => 'index,rep',
+            'h' => 'index,rep,status',
         ];
 
         if (true == $this->callManager->hasFeature('cat_expand_wildcards')) {
@@ -230,9 +230,13 @@ class ElasticsearchClusterController extends AbstractAppController
         $indices = $this->elasticsearchIndexManager->getAll($query);
 
         $indicesWithReplica = 0;
+        $indicesOpened = 0;
         foreach ($indices as $index) {
             if (0 < $index->getReplicas()) {
                 $indicesWithReplica++;
+            }
+            if ('open' == $index->getStatus()) {
+                $indicesOpened++;
             }
         }
 
@@ -246,6 +250,8 @@ class ElasticsearchClusterController extends AbstractAppController
             'unassigned_shards',
             'adaptive_replica_selection',
             'indices_with_replica',
+            'indices_opened',
+            'close_index_not_enabled',
             'allocation_disk_threshold',
             'cpu_below_90',
             'anonymous_access_disabled',
@@ -306,7 +312,25 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'indices_with_replica':
-                    if ($indicesWithReplica < count($indices)) {
+                    if (1 == count($nodes)) {
+                        $results['audit_notice'][$line] = [];
+                    } else {
+                        if ($indicesWithReplica < count($indices)) {
+                            $results['audit_fail'][$line] = [];
+                        } else {
+                            $results['audit_pass'][$line] = [];
+                        }
+                    }
+                    break;
+                case 'indices_opened':
+                    if ($indicesOpened < count($indices)) {
+                        $results['audit_fail'][$line] = [];
+                    } else {
+                        $results['audit_pass'][$line] = [];
+                    }
+                    break;
+                case 'close_index_not_enabled':
+                    if (true == isset($parameters['cluster_settings']['cluster.indices.close.enable']) && 'true' == $parameters['cluster_settings']['cluster.indices.close.enable']) {
                         $results['audit_fail'][$line] = [];
                     } else {
                         $results['audit_pass'][$line] = [];

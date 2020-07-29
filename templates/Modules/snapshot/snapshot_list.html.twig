@@ -44,19 +44,19 @@
                     {% endif %}
 
                     {% if 'duration_in_millis' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'duration_in_millis'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'failures' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'failures'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'version' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'version'|trans }}
                         </th>
                     {% endif %}
@@ -111,19 +111,19 @@
                         {% endif %}
 
                         {% if 'duration_in_millis' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.duration }}
                             </td>
                         {% endif %}
 
                         {% if 'failures' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.failures|length }}
                             </td>
                         {% endif %}
 
                         {% if 'version' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.version }}
                             </td>
                         {% endif %}
