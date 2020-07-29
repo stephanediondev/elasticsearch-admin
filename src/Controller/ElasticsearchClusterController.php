@@ -194,12 +194,14 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $cpuPercent = false;
         $heapSize = false;
+        $fileDescriptors = false;
 
         $nodesVersions = [];
         $nodesPlugins = [];
         $nodesPluginsUnique = [];
         $nodesCpuOver90 = [];
         $nodesHeapSizeOver50 = [];
+        $nodesFileDescriptorsUnder65535 = [];
 
         foreach ($nodes as $node) {
             $nodesVersions[] = $node['version'];
@@ -227,6 +229,16 @@ class ElasticsearchClusterController extends AbstractAppController
                     $nodesHeapSizeOver50[] = [
                         'node' => $node['name'],
                         'percent' => $percent,
+                    ];
+                }
+            }
+
+            if (true == isset($node['stats']['process']['max_file_descriptors'])) {
+                $fileDescriptors = true;
+                if (65535 > $node['stats']['process']['max_file_descriptors']) {
+                    $nodesFileDescriptorsUnder65535[] = [
+                        'node' => $node['name'],
+                        'value' => $node['stats']['process']['max_file_descriptors'],
                     ];
                 }
             }
@@ -278,6 +290,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'heap_size',
             'anonymous_access_disabled',
             'license_not_expired',
+            'file_descriptors',
         ];
 
         foreach ($lines as $line) {
@@ -434,6 +447,15 @@ class ElasticsearchClusterController extends AbstractAppController
                             }
                         }
                     }
+                case 'file_descriptors':
+                    if (true == $fileDescriptors) {
+                        if (0 < count($nodesFileDescriptorsUnder65535)) {
+                            $results['audit_fail'][$line] = $nodesFileDescriptorsUnder65535;
+                        } else {
+                            $results['audit_pass'][$line] = [];
+                        }
+                    }
+                    break;
             }
         }
 
