@@ -447,6 +447,7 @@ class ElasticsearchClusterController extends AbstractAppController
                             }
                         }
                     }
+                    break;
                 case 'file_descriptors':
                     if (true == $fileDescriptors) {
                         if (0 < count($nodesFileDescriptorsUnder65535)) {
