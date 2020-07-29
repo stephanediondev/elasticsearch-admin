@@ -1131,6 +1131,12 @@ class ElasticsearchIndexController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+
+        if (true == isset($clusterSettings['cluster.indices.close.enable']) && 'false' == $clusterSettings['cluster.indices.close.enable']) {
+            throw new AccessDeniedHttpException();
+        }
+
         $this->denyAccessUnlessGranted('INDEX_CLOSE', $index);
 
         $callResponse = $this->elasticsearchIndexManager->closeByName($index->getName());

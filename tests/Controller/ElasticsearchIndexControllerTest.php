@@ -341,7 +341,13 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/close');
 
-        $this->assertResponseStatusCodeSame(302);
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+
+        if (true == isset($clusterSettings['cluster.indices.close.enable']) && 'false' == $clusterSettings['cluster.indices.close.enable']) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
     }
 
     /**
@@ -365,7 +371,13 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/open');
 
-        $this->assertResponseStatusCodeSame(302);
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+
+        if (true == isset($clusterSettings['cluster.indices.close.enable']) && 'false' == $clusterSettings['cluster.indices.close.enable']) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
     }
 
     /**

@@ -23,6 +23,8 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         $this->callManager = self::$container->get('App\Manager\CallManager');
 
+        $this->elasticsearchClusterManager = self::$container->get('App\Manager\ElasticsearchClusterManager');
+
         $session = self::$container->get('session');
 
         $firewallName = 'main';
