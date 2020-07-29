@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\ConnectionException;
 use App\Manager\CallManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\PaginatorManager;
@@ -11,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
-use Symfony\Component\HttpClient\Exception\TransportException;
 
 abstract class AbstractAppController extends AbstractController
 {
@@ -49,11 +49,13 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
+        $menus = [];
+
         if (false == isset($parameters['no_calls']) || false == $parameters['no_calls']) {
             try {
                 $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
-            } catch (TransportException $e) {
-                throw new ServiceUnavailableHttpException(null, 'Couldn\'t connect to Elasticsearch server');
+            } catch (ConnectionException $e) {
+                throw new ServiceUnavailableHttpException(null, $e->getMessage());
             }
 
             $parameters['master_node'] = $this->callManager->getMasterNode();
@@ -65,53 +67,51 @@ abstract class AbstractAppController extends AbstractController
             $parameters['plugins'] = $this->callManager->getPlugins();
 
             $parameters['cat_sort'] = $this->callManager->hasFeature('cat_sort');
-        }
 
-        $menus = [];
+            if (true == $this->isGranted('MENU_CONFIGURATION', 'global')) {
+                $entries = [
+                    ['granted' => 'INDEX_TEMPLATES_LEGACY', 'path' => 'index_templates_legacy'],
+                    ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates', 'feature' => 'composable_template'],
+                    ['granted' => 'COMPONENT_TEMPLATES', 'path' => 'component_templates', 'feature' => 'composable_template'],
+                    ['granted' => 'ILM_POLICIES', 'path' => 'ilm', 'feature' => 'ilm'],
+                    ['granted' => 'SLM_POLICIES', 'path' => 'slm', 'feature' => 'slm'],
+                    ['granted' => 'REPOSITORIES', 'path' => 'repositories'],
+                    ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich', 'feature' => 'enrich'],
+                    ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users', 'feature' => 'security'],
+                    ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
+                ];
 
-        if (true == $this->isGranted('MENU_CONFIGURATION', 'global')) {
-            $entries = [
-                ['granted' => 'INDEX_TEMPLATES_LEGACY', 'path' => 'index_templates_legacy'],
-                ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates', 'feature' => 'composable_template'],
-                ['granted' => 'COMPONENT_TEMPLATES', 'path' => 'component_templates', 'feature' => 'composable_template'],
-                ['granted' => 'ILM_POLICIES', 'path' => 'ilm', 'feature' => 'ilm'],
-                ['granted' => 'SLM_POLICIES', 'path' => 'slm', 'feature' => 'slm'],
-                ['granted' => 'REPOSITORIES', 'path' => 'repositories'],
-                ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich', 'feature' => 'enrich'],
-                ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users', 'feature' => 'security'],
-                ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
-            ];
+                $menus['configuration'] = $this->populateMenu($entries);
+            }
 
-            $menus['configuration'] = $this->populateMenu($entries);
-        }
+            if (true == $this->isGranted('MENU_TOOLS', 'global')) {
+                $entries = [
+                    ['granted' => 'SNAPSHOTS', 'path' => 'snapshots'],
+                    ['granted' => 'PIPELINES', 'path' => 'pipelines', 'feature' => 'pipelines'],
+                    ['granted' => 'TASKS', 'path' => 'tasks', 'feature' => 'tasks'],
+                    ['granted' => 'REMOTE_CLUSTERS', 'path' => 'remote_clusters', 'feature' => 'remote_clusters'],
+                    ['granted' => 'CAT', 'path' => 'cat'],
+                    ['granted' => 'SQL', 'path' => 'sql', 'feature' => 'sql'],
+                    ['granted' => 'CONSOLE', 'path' => 'console'],
+                    ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
+                    ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
+                    ['granted' => 'INDEX_GRAVEYARD', 'path' => 'index_graveyard', 'feature' => 'tombstones'],
+                ];
 
-        if (true == $this->isGranted('MENU_TOOLS', 'global')) {
-            $entries = [
-                ['granted' => 'SNAPSHOTS', 'path' => 'snapshots'],
-                ['granted' => 'PIPELINES', 'path' => 'pipelines', 'feature' => 'pipelines'],
-                ['granted' => 'TASKS', 'path' => 'tasks', 'feature' => 'tasks'],
-                ['granted' => 'REMOTE_CLUSTERS', 'path' => 'remote_clusters', 'feature' => 'remote_clusters'],
-                ['granted' => 'CAT', 'path' => 'cat'],
-                ['granted' => 'SQL', 'path' => 'sql', 'feature' => 'sql'],
-                ['granted' => 'CONSOLE', 'path' => 'console'],
-                ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
-                ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
-                ['granted' => 'INDEX_GRAVEYARD', 'path' => 'index_graveyard', 'feature' => 'tombstones'],
-            ];
+                $menus['tools'] = $this->populateMenu($entries);
+            }
 
-            $menus['tools'] = $this->populateMenu($entries);
-        }
+            if (true == $this->isGranted('MENU_APPLICATION', 'global')) {
+                $entries = [
+                    ['granted' => 'APP_USERS', 'path' => 'app_users'],
+                    ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
+                    ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
+                    ['granted' => 'APP_LOGS', 'path' => 'app_logs'],
+                    ['granted' => 'APP_UPGRADE', 'path' => 'app_upgrade'],
+                ];
 
-        if (true == $this->isGranted('MENU_APPLICATION', 'global')) {
-            $entries = [
-                ['granted' => 'APP_USERS', 'path' => 'app_users'],
-                ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
-                ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
-                ['granted' => 'APP_LOGS', 'path' => 'app_logs'],
-                ['granted' => 'APP_UPGRADE', 'path' => 'app_upgrade'],
-            ];
-
-            $menus['application'] = $this->populateMenu($entries);
+                $menus['application'] = $this->populateMenu($entries);
+            }
         }
 
         $parameters['menus'] = $menus;

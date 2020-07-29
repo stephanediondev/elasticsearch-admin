@@ -3,11 +3,11 @@
 namespace App\Manager;
 
 use App\Exception\CallException;
+use App\Exception\ConnectionException;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
 class CallManager
@@ -106,6 +106,7 @@ class CallManager
                 $json = json_decode($response->getContent(false), true);
 
                 $message = 'Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')';
+
                 if (true == isset($json['error'])) {
                     if (true == isset($json['error']['root_cause']) && true == isset($json['error']['root_cause'][0]) && true == isset($json['error']['root_cause'][0]['reason'])) {
                         $message = $json['error']['root_cause'][0]['reason'];
@@ -117,8 +118,9 @@ class CallManager
                         $message = $json['error'];
                     }
                 }
+
                 if (401 == $response->getStatusCode()) {
-                    throw new TransportException();
+                    throw new ConnectionException('Couldn\'t connect to Elasticsearch (credentials error)');
                 } else {
                     throw new CallException($message);
                 }
@@ -136,9 +138,7 @@ class CallManager
 
             return $callResponse;
         } catch (TransportException $e) {
-            throw new ServiceUnavailableHttpException(null, 'Couldn\'t connect to Elasticsearch server');
-        } catch (\Exception $e) {
-            throw new CallException($e->getMessage());
+            throw new ConnectionException('Couldn\'t connect to Elasticsearch (server error)');
         }
     }
 
