@@ -190,14 +190,6 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
 
-        $maintenanceTable = $this->elasticsearchClusterManager->getMaintenanceTable();
-
-        foreach ($maintenanceTable as $row) {
-            if ($row['es_version'] <= $parameters['root']['version']['number']) {
-                $parameters['end_of_life'] = $row;
-            }
-        }
-
         $nodes = $this->elasticsearchNodeManager->getAll();
 
         $cpuPercent = false;
@@ -257,82 +249,118 @@ class ElasticsearchClusterController extends AbstractAppController
             'allocation_disk_threshold',
             'cpu_below_90',
             'anonymous_access_disabled',
+            'license_not_expired',
         ];
 
         foreach ($lines as $line) {
             switch ($line) {
                 case 'end_of_life':
-                    if ($parameters['end_of_life']['eol_date'] < date('Y-m-d')) {
-                        $results['audit_fail'][] = $line;
+                    $maintenanceTable = $this->elasticsearchClusterManager->getMaintenanceTable();
+
+                    $endOfLife = false;
+                    foreach ($maintenanceTable as $row) {
+                        if ($row['es_version'] <= $parameters['root']['version']['number']) {
+                            $endOfLife = $row;
+                        }
+                    }
+
+                    if ($endOfLife['eol_date'] < date('Y-m-d')) {
+                        $results['audit_fail'][$line] = $endOfLife;
                     } else {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = $endOfLife;
                     }
                     break;
                 case 'security_features':
                     if (false == $this->callManager->hasFeature('security')) {
-                        $results['audit_fail'][] = $line;
+                        $results['audit_fail'][$line] = [];
                     } else {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = [];
                     }
                     break;
                 case 'cluster_name':
                     if ('elasticsearch' == $parameters['cluster_health']['cluster_name']) {
-                        $results['audit_notice'][] = $line;
+                        $results['audit_notice'][$line] = [];
                     } else {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = [];
                     }
                     break;
                 case 'same_es_version':
                     if (1 < count($parameters['nodes_versions'])) {
-                        $results['audit_fail'][] = $line;
+                        $results['audit_fail'][$line] = [];
                     } else {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = [];
                     }
                     break;
                 case 'unassigned_shards':
                     if (0 != $parameters['cluster_health']['unassigned_shards']) {
-                        $results['audit_fail'][] = $line;
+                        $results['audit_fail'][$line] = [];
                     } else {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = [];
                     }
                     break;
                 case 'adaptive_replica_selection':
                     if (true == $this->callManager->hasFeature('adaptive_replica_selection') && true == isset($parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) && 'true' == $parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = [];
                     } else {
-                        $results['audit_fail'][] = $line;
+                        $results['audit_fail'][$line] = [];
                     }
                     break;
                 case 'indices_with_replica':
                     if ($indicesWithReplica < count($indices)) {
-                        $results['audit_fail'][] = $line;
+                        $results['audit_fail'][$line] = [];
                     } else {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = [];
                     }
                     break;
                 case 'allocation_disk_threshold':
                     if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = [];
                     } else {
-                        $results['audit_fail'][] = $line;
+                        $results['audit_fail'][$line] = [];
                     }
                     break;
                 case 'cpu_below_90':
                     if (true == $cpuPercent) {
                         if (0 < count($nodesCpuOver90)) {
-                            $results['audit_fail'][] = $line;
+                            $results['audit_fail'][$line] = [];
                         } else {
-                            $results['audit_pass'][] = $line;
+                            $results['audit_pass'][$line] = [];
                         }
                     }
                     break;
                 case 'anonymous_access_disabled':
                     if (false == isset($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || false == is_array($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || 0 == count($parameters['cluster_settings']['xpack.security.authc.anonymous.roles'])) {
-                        $results['audit_pass'][] = $line;
+                        $results['audit_pass'][$line] = [];
                     } else {
-                        $results['audit_fail'][] = $line;
+                        $results['audit_fail'][$line] = [];
                     }
                     break;
+                case 'license_not_expired':
+                    if (true == $this->callManager->hasFeature('license')) {
+                        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+                            $this->endpoint = '_xpack/license';
+                        } else {
+                            $this->endpoint = '_license';
+                        }
+
+                        $callRequest = new CallRequestModel();
+                        $callRequest->setPath('/'.$this->endpoint);
+                        $callResponse = $this->callManager->call($callRequest);
+                        $license = $callResponse->getContent();
+                        $license = $license['license'];
+
+                        if (true == isset($license['expiry_date_in_millis'])) {
+                            $now = (new \Datetime());
+                            $expire = new \Datetime(date('Y-m-d H:i:s', substr($license['expiry_date_in_millis'], 0, -3)));
+                            $interval = $now->diff($expire);
+
+                            if (30 > $interval->format('%a')) {
+                                $results['audit_fail'][$line] = $license;
+                            } else {
+                                $results['audit_pass'][$line] = $license;
+                            }
+                        }
+                    }
             }
         }
 

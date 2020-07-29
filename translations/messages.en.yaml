@@ -61,6 +61,7 @@ audit_checkpoints:
     allocation_disk_threshold: "The disk-based shard allocation is enabled"
     cpu_below_90: "All the nodes CPU usage are below 90%"
     anonymous_access_disabled: "The anonymous access is disabled"
+    license_not_expired: "The license expires in more than 30 days"
 available: "Available"
 aws_account: "AWS account"
 back: "Back"

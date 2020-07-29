@@ -7,6 +7,7 @@ use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class CallManager
 {
@@ -128,6 +129,8 @@ class CallManager
             $this->log($callRequest, $callResponse);
 
             return $callResponse;
+        } catch (\TransportException $e) {
+            throw new ServiceUnavailableHttpException(null, 'Couldn\'t connect to Elasticsearch server');
         } catch (\Exception $e) {
             throw new CallException($e->getMessage());
         }

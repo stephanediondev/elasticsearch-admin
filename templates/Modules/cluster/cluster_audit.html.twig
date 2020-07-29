@@ -43,7 +43,7 @@
 
                 {% block tbody %}
                     {% for result, checkpoints in results %}
-                        {% for checkpoint in checkpoints %}
+                        {% for checkpoint, parameters in checkpoints %}
                             <tr>
                                 <td>{{ ('audit_checkpoints.' ~ checkpoint)|trans }}</td>
                                 <td>
@@ -52,7 +52,7 @@
 
                                 {% if 'end_of_life' == checkpoint %}
                                     <td>
-                                        End of Life {{ end_of_life['eol_date'] }}
+                                        End of Life {{ parameters['eol_date'] }}
                                     </td>
                                     <td>
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/support/eol">{{ 'help'|trans }}</a>
@@ -120,10 +120,10 @@
                                 {% endif %}
 
                                 {% if 'indices_with_replica' == checkpoint %}
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
                                 {% endif %}
 
                                 {% if 'allocation_disk_threshold' == checkpoint %}
@@ -158,6 +158,19 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/anonymous-access.html">{{ 'help'|trans }}</a>
+                                    </td>
+                                {% endif %}
+
+                                {% if 'license_not_expired' == checkpoint %}
+                                    <td>
+                                        {% if parameters['expiry_date_in_millis'] is defined %}
+                                            Expires on {{ parameters['expiry_date_in_millis']|human_datetime }}
+                                            {% if true == hasFeature('license') and is_granted('LICENSE', 'global') %}
+                                                <a href="{{ path('license') }}">{{ 'license'|trans }}</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
                                     </td>
                                 {% endif %}
 
