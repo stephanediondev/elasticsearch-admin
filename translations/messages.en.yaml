@@ -187,6 +187,9 @@ health: "Health"
 heap_usage: "Heap usage"
 help: "Help"
 help_form:
+    reindex:
+        source: "The name of the index you are copying from. Also accepts a wildcard * or a comma-separated list of indices to reindex from multiple sources."
+        dest: "The name of the index you are copying to."
     pipeline:
         name: "A unique identifier for this pipeline."
         description: "A description of what this pipeline does."

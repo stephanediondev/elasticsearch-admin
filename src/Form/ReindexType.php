@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Model\ElasticsearchReindexModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -21,18 +22,13 @@ class ReindexType extends AbstractType
         foreach ($fields as $field) {
             switch ($field) {
                 case 'source':
-                    $builder->add('source', ChoiceType::class, [
-                        'placeholder' => '-',
-                        'choices' => $options['indices'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['indices'][$key];
-                        },
-                        'choice_translation_domain' => false,
+                    $builder->add('source', TextType::class, [
                         'label' => 'source',
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'help' => 'help_form.reindex.source',
                     ]);
                     break;
                 case 'destination':
@@ -48,6 +44,7 @@ class ReindexType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                        'help' => 'help_form.reindex.dest',
                     ]);
                     break;
             }
