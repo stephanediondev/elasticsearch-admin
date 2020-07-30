@@ -96,7 +96,11 @@
 
                                 {% if 'same_es_version' == checkpoint %}
                                     <td>
-                                        {{ parameters|join(', ') }}
+                                        {% if 1 == parameters|length %}
+                                            The installed versions is: {{ parameters|join(', ') }}
+                                        {% else %}
+                                            The installed versions are: {{ parameters|join(', ') }}
+                                        {% endif %}
                                     </td>
                                     <td class="d-none d-xl-table-cell">
                                     </td>
@@ -107,12 +111,17 @@
                                 {% if 'same_plugins' == checkpoint %}
                                     <td>
                                         {% if 'audit_fail' == result %}
+                                            Plugins are missing for the following nodes:
                                             {% for node, plugins in parameters %}
-                                                Missing {{ plugins|join(', ') }} on {{ node }} <br>
+                                                {{ node }} ({{ plugins|join(', ') }}){% if false == loop.last %},{% endif %}
                                             {% endfor %}
                                         {% endif %}
                                         {% if 'audit_pass' == result %}
-                                            {{ parameters|join(', ') }}
+                                            {% if 0 < parameters|length %}
+                                                The installed plugins are: {{ parameters|join(', ') }}
+                                            {% else %}
+                                                No plugins are installed.
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     <td class="d-none d-xl-table-cell">
@@ -165,20 +174,14 @@
 
                                 {% if 'adaptive_replica_selection' == checkpoint %}
                                     <td>
-                                        {% if true == hasFeature('adaptive_replica_selection') %}
-                                            {% if 'audit_fail' == result %}
-                                                The setting <code>cluster.routing.use_adaptive_replica_selection</code> should be set to <code>true</code>.
-                                            {% endif %}
-                                        {% else %}
-                                            The feature is available for version 6.1 and later.
+                                        {% if 'audit_fail' == result %}
+                                            The setting <code>cluster.routing.use_adaptive_replica_selection</code> should be set to <code>true</code>.
                                         {% endif %}
                                     </td>
                                     <td class="d-none d-xl-table-cell">
-                                        {% if true == hasFeature('adaptive_replica_selection') %}
-                                            {% if 'audit_fail' == result %}
-                                                {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                    <a href="{{ path('cluster_settings') }}">Cluster settings</a>
-                                                {% endif %}
+                                        {% if 'audit_fail' == result %}
+                                            {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
+                                                <a href="{{ path('cluster_settings') }}">Cluster settings</a>
                                             {% endif %}
                                         {% endif %}
                                     </td>
@@ -226,8 +229,9 @@
                                 {% if 'cpu_below_90' == checkpoint %}
                                     <td>
                                         {% if 'audit_fail' == result %}
+                                            The value is wrong for the following nodes:
                                             {% for node, value in parameters %}
-                                                {{ node }} {{ value }}%<br>
+                                                {{ node }} ({{ value }}%){% if false == loop.last %},{% endif %}
                                             {% endfor %}
                                         {% endif %}
                                     </td>
@@ -243,8 +247,9 @@
                                 {% if 'heap_size_below_50' == checkpoint %}
                                     <td>
                                         {% if 'audit_fail' == result %}
+                                            The value is wrong for the following nodes:
                                             {% for node, value in parameters %}
-                                                {{ node }} {{ value|round(2) }}%<br>
+                                                {{ node }} ({{ value|round(2) }}%){% if false == loop.last %},{% endif %}
                                             {% endfor %}
                                         {% endif %}
                                     </td>
@@ -290,8 +295,9 @@
                                 {% if 'file_descriptors' == checkpoint %}
                                     <td>
                                         {% if 'audit_fail' == result %}
+                                            The value is wrong for the following nodes:
                                             {% for node, value in parameters %}
-                                                {{ node }} {{ value }}<br>
+                                                {{ node }} ({{ value }}){% if false == loop.last %},{% endif %}
                                             {% endfor %}
                                         {% endif %}
                                     </td>
@@ -302,6 +308,20 @@
                                     </td>
                                 {% endif %}
 
+                                {% if 'password_not_changeme' == checkpoint %}
+                                    <td>
+                                        {% if 'audit_fail' == result %}
+                                            The user <code>elastic</code> uses the default password <code>changeme</code>.
+                                        {% endif %}
+                                    </td>
+                                    <td class="d-none d-xl-table-cell">
+                                    </td>
+                                    <td class="d-none d-xl-table-cell">
+                                        {% if 'audit_fail' == result %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-passwords.html">{{ 'help'|trans }}</a>
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     {% endfor %}

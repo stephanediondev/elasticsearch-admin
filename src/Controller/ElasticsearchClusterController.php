@@ -178,7 +178,7 @@ class ElasticsearchClusterController extends AbstractAppController
     /**
      * @Route("/cluster/audit", name="cluster_audit")
      */
-    public function audit(Request $request): Response
+    public function audit(Request $request, string $elasticsearchUsername, string $elasticsearchPassword): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_AUDIT', 'global');
 
@@ -287,6 +287,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'anonymous_access_disabled',
             'license_not_expired',
             'file_descriptors',
+            'password_not_changeme',
         ];
 
         $checkpoints = [];
@@ -360,10 +361,12 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'adaptive_replica_selection':
-                    if (true == $this->callManager->hasFeature('adaptive_replica_selection') && true == isset($parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) && 'true' == $parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) {
-                        $results['audit_pass'][$checkpoint] = [];
-                    } else {
-                        $results['audit_fail'][$checkpoint] = [];
+                    if (true == $this->callManager->hasFeature('adaptive_replica_selection')) {
+                        if (true == $this->callManager->hasFeature('adaptive_replica_selection') && true == isset($parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) && 'true' == $parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) {
+                            $results['audit_pass'][$checkpoint] = [];
+                        } else {
+                            $results['audit_fail'][$checkpoint] = [];
+                        }
                     }
                     break;
                 case 'indices_with_replica':
@@ -458,6 +461,15 @@ class ElasticsearchClusterController extends AbstractAppController
                     if (true == $fileDescriptors) {
                         if (0 < count($nodesLimit['file_descriptors_under_65535'])) {
                             $results['audit_fail'][$checkpoint] = $nodesLimit['file_descriptors_under_65535'];
+                        } else {
+                            $results['audit_pass'][$checkpoint] = [];
+                        }
+                    }
+                    break;
+                case 'password_not_changeme':
+                    if ('elastic' == $elasticsearchUsername) {
+                        if ('changeme' == $elasticsearchPassword) {
+                            $results['audit_fail'][$checkpoint] = [];
                         } else {
                             $results['audit_pass'][$checkpoint] = [];
                         }
