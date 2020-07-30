@@ -68,6 +68,7 @@ audit_checkpoints:
     license_not_expired: "The license is still valid for more than 30 days"
     file_descriptors: "The number of open files descriptors is higher than 65535"
     password_not_changeme: "The password for the user elastic is not changeme"
+    below_disk_thresholds: "All disks are below thresholds"
 available: "Available"
 aws_account: "AWS account"
 back: "Back"

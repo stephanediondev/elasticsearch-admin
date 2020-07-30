@@ -198,13 +198,27 @@ class ElasticsearchClusterController extends AbstractAppController
         $nodesPlugins = [];
 
         $cpuPercent = false;
+        $diskPercent = false;
         $heapSize = false;
         $fileDescriptors = false;
+
+        if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
+            $diskThresholdEnabled = true;
+
+            $diskWatermarkLow = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.low'];
+            $diskWatermarkHigh = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.high'];
+            if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'])) {
+                $diskWatermarkFloodStage = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'];
+            }
+        } else {
+            $diskThresholdEnabled = false;
+        }
 
         $nodesLimit = [
             'cpu_over_90' => [],
             'heap_size_over_50' => [],
             'file_descriptors_under_65535' => [],
+            'over_disk_thresholds' => [],
         ];
 
         foreach ($nodes as $node) {
@@ -220,6 +234,19 @@ class ElasticsearchClusterController extends AbstractAppController
                 $cpuPercent = true;
                 if (90 < $node['stats']['os']['cpu']['percent']) {
                     $nodesLimit['cpu_over_90'][$node['name']] = $node['stats']['os']['cpu']['percent'];
+                }
+            }
+
+            if (true == isset($node['disk.used_percent']) && $diskThresholdEnabled) {
+                $diskPercent = true;
+                if (true == isset($diskWatermarkFloodStage) && strstr($diskWatermarkFloodStage, '%') && str_replace('%', '', $diskWatermarkFloodStage) <= $node['disk.used_percent']) {
+                    $nodesLimit['over_disk_thresholds'][$node['name']] = 'watermark_flood_stage';
+
+                } else if (strstr($diskWatermarkHigh, '%') && str_replace('%', '', $diskWatermarkHigh) <= $node['disk.used_percent']) {
+                    $nodesLimit['over_disk_thresholds'][$node['name']] = 'watermark_high';
+
+                } else if (strstr($diskWatermarkLow, '%') && str_replace('%', '', $diskWatermarkLow) <= $node['disk.used_percent']) {
+                    $nodesLimit['over_disk_thresholds'][$node['name']] = 'watermark_low';
                 }
             }
 
@@ -288,6 +315,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'license_not_expired',
             'file_descriptors',
             'password_not_changeme',
+            'below_disk_thresholds',
         ];
 
         $checkpoints = [];
@@ -395,10 +423,19 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'allocation_disk_threshold':
-                    if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
+                    if (true == $diskThresholdEnabled) {
                         $results['audit_pass'][$checkpoint] = [];
                     } else {
                         $results['audit_fail'][$checkpoint] = [];
+                    }
+                    break;
+                case 'below_disk_thresholds':
+                    if (true == $diskPercent && true == $diskThresholdEnabled) {
+                        if (0 < count($nodesLimit['over_disk_thresholds'])) {
+                            $results['audit_fail'][$checkpoint] = $nodesLimit['over_disk_thresholds'];
+                        } else {
+                            $results['audit_pass'][$checkpoint] = [];
+                        }
                     }
                     break;
                 case 'cpu_below_90':

@@ -244,6 +244,24 @@
                                     </td>
                                 {% endif %}
 
+                                {% if 'below_disk_thresholds' == checkpoint %}
+                                    <td>
+                                        {% if 'audit_fail' == result %}
+                                            The value is wrong for the following nodes:
+                                            {% for node, value in parameters %}
+                                                {{ node }} ({{ value|trans }}){% if false == loop.last %},{% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                    <td class="d-none d-xl-table-cell">
+                                        {% if is_granted('NODES', 'global') %}
+                                            <a href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                                        {% endif %}
+                                    </td>
+                                    <td class="d-none d-xl-table-cell">
+                                    </td>
+                                {% endif %}
+
                                 {% if 'heap_size_below_50' == checkpoint %}
                                     <td>
                                         {% if 'audit_fail' == result %}
