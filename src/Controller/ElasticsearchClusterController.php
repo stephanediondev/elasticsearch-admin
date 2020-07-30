@@ -192,33 +192,34 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $nodes = $this->elasticsearchNodeManager->getAll();
 
+        $versions = [];
+
+        $plugins = [];
+        $nodesPlugins = [];
+
         $cpuPercent = false;
         $heapSize = false;
         $fileDescriptors = false;
 
-        $nodesVersions = [];
-        $nodesPlugins = [];
-        $nodesPluginsUnique = [];
-        $nodesCpuOver90 = [];
-        $nodesHeapSizeOver50 = [];
-        $nodesFileDescriptorsUnder65535 = [];
+        $nodesLimit = [
+            'cpu_over_90' => [],
+            'heap_size_over_50' => [],
+            'file_descriptors_under_65535' => [],
+        ];
 
         foreach ($nodes as $node) {
-            $nodesVersions[] = $node['version'];
+            $versions[] = $node['version'];
             $nodesPlugins[$node['name']] = [];
 
             foreach ($node['plugins'] as $plugin) {
                 $nodesPlugins[$node['name']][] = $plugin['name'];
-                $nodesPluginsUnique[] = $plugin['name'];
+                $plugins[] = $plugin['name'];
             }
 
             if (true == isset($node['stats']['os']['cpu']['percent'])) {
                 $cpuPercent = true;
                 if (90 < $node['stats']['os']['cpu']['percent']) {
-                    $nodesCpuOver90[] = [
-                        'node' => $node['name'],
-                        'percent' => $node['stats']['os']['cpu']['percent'],
-                    ];
+                    $nodesLimit['cpu_over_90'][$node['name']] = $node['stats']['os']['cpu']['percent'];
                 }
             }
 
@@ -226,29 +227,23 @@ class ElasticsearchClusterController extends AbstractAppController
                 $heapSize = true;
                 $percent = ($node['heap.max'] * 100) / $node['ram.max'];
                 if (50 < $percent) {
-                    $nodesHeapSizeOver50[] = [
-                        'node' => $node['name'],
-                        'percent' => $percent,
-                    ];
+                    $nodesLimit['heap_size_over_50'][$node['name']] = $percent;
                 }
             }
 
             if (true == isset($node['stats']['process']['max_file_descriptors'])) {
                 $fileDescriptors = true;
                 if (65535 > $node['stats']['process']['max_file_descriptors']) {
-                    $nodesFileDescriptorsUnder65535[] = [
-                        'node' => $node['name'],
-                        'value' => $node['stats']['process']['max_file_descriptors'],
-                    ];
+                    $nodesLimit['file_descriptors_under_65535'][$node['name']] = $node['stats']['process']['max_file_descriptors'];
                 }
             }
         }
 
-        $nodesVersions = array_unique($nodesVersions);
-        sort($nodesVersions);
+        $versions = array_unique($versions);
+        sort($versions);
 
-        $nodesPluginsUnique = array_unique($nodesPluginsUnique);
-        sort($nodesPluginsUnique);
+        $plugins = array_unique($plugins);
+        sort($plugins);
 
         $query = [
             'h' => 'index,rep,status',
@@ -260,20 +255,22 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $indices = $this->elasticsearchIndexManager->getAll($query);
 
-        $indicesWithReplica = 0;
-        $indicesOpened = 0;
+        $indicesCount = [
+            'with_replica' => 0,
+            'open' => 0,
+        ];
         foreach ($indices as $index) {
             if (0 < $index->getReplicas()) {
-                $indicesWithReplica++;
+                $indicesCount['with_replica']++;
             }
             if ('open' == $index->getStatus()) {
-                $indicesOpened++;
+                $indicesCount['open']++;
             }
         }
 
         $results = ['audit_fail' => [], 'audit_notice' => [], 'audit_pass' => []];
 
-        $lines = [
+        $checkpointsKeys = [
             'end_of_life',
             'security_features',
             'cluster_name',
@@ -292,8 +289,14 @@ class ElasticsearchClusterController extends AbstractAppController
             'file_descriptors',
         ];
 
-        foreach ($lines as $line) {
-            switch ($line) {
+        $checkpoints = [];
+        foreach ($checkpointsKeys as $checkpointKey) {
+            $checkpoints[$checkpointKey] = $this->translator->trans('audit_checkpoints.'.$checkpointKey);
+        }
+        asort($checkpoints);
+
+        foreach ($checkpoints as $checkpoint => $title) {
+            switch ($checkpoint) {
                 case 'end_of_life':
                     $maintenanceTable = $this->elasticsearchClusterManager->getMaintenanceTable();
 
@@ -306,36 +309,36 @@ class ElasticsearchClusterController extends AbstractAppController
 
                     if ($endOfLife) {
                         if ($endOfLife['eol_date'] < date('Y-m-d')) {
-                            $results['audit_fail'][$line] = $endOfLife;
+                            $results['audit_fail'][$checkpoint] = $endOfLife;
                         } else {
-                            $results['audit_pass'][$line] = $endOfLife;
+                            $results['audit_pass'][$checkpoint] = $endOfLife;
                         }
                     }
                     break;
                 case 'security_features':
                     if (false == $this->callManager->hasFeature('security')) {
-                        $results['audit_fail'][$line] = [];
+                        $results['audit_fail'][$checkpoint] = [];
                     } else {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
                 case 'cluster_name':
                     if ('elasticsearch' == $parameters['cluster_health']['cluster_name']) {
-                        $results['audit_notice'][$line] = [];
+                        $results['audit_notice'][$checkpoint] = [];
                     } else {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
                 case 'same_es_version':
-                    if (1 < count($nodesVersions)) {
-                        $results['audit_fail'][$line] = $nodesVersions;
+                    if (1 < count($versions)) {
+                        $results['audit_fail'][$checkpoint] = $versions;
                     } else {
-                        $results['audit_pass'][$line] = $nodesVersions;
+                        $results['audit_pass'][$checkpoint] = $versions;
                     }
                     break;
                 case 'same_plugins':
                     $fail = [];
-                    foreach ($nodesPluginsUnique as $plugin) {
+                    foreach ($plugins as $plugin) {
                         foreach ($nodesPlugins as $node => $plugins) {
                             if (false == in_array($plugin, $plugins)) {
                                 $fail[$node][] = $plugin;
@@ -344,80 +347,80 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
 
                     if (0 < count($fail)) {
-                        $results['audit_fail'][$line] = $fail;
+                        $results['audit_fail'][$checkpoint] = $fail;
                     } else {
-                        $results['audit_pass'][$line] = $nodesPluginsUnique;
+                        $results['audit_pass'][$checkpoint] = $plugins;
                     }
                     break;
                 case 'unassigned_shards':
                     if (0 != $parameters['cluster_health']['unassigned_shards']) {
-                        $results['audit_fail'][$line] = [];
+                        $results['audit_fail'][$checkpoint] = [];
                     } else {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
                 case 'adaptive_replica_selection':
                     if (true == $this->callManager->hasFeature('adaptive_replica_selection') && true == isset($parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) && 'true' == $parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$checkpoint] = [];
                     } else {
-                        $results['audit_fail'][$line] = [];
+                        $results['audit_fail'][$checkpoint] = [];
                     }
                     break;
                 case 'indices_with_replica':
                     if (1 == count($nodes)) {
-                        $results['audit_notice'][$line] = [];
+                        $results['audit_notice'][$checkpoint] = [];
                     } else {
-                        if ($indicesWithReplica < count($indices)) {
-                            $results['audit_fail'][$line] = [];
+                        if ($indicesCount['with_replica'] < count($indices)) {
+                            $results['audit_fail'][$checkpoint] = [];
                         } else {
-                            $results['audit_pass'][$line] = [];
+                            $results['audit_pass'][$checkpoint] = [];
                         }
                     }
                     break;
                 case 'indices_opened':
-                    if ($indicesOpened < count($indices)) {
-                        $results['audit_fail'][$line] = [];
+                    if ($indicesCount['open'] < count($indices)) {
+                        $results['audit_fail'][$checkpoint] = [];
                     } else {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
                 case 'close_index_not_enabled':
                     if (true == isset($parameters['cluster_settings']['cluster.indices.close.enable']) && 'true' == $parameters['cluster_settings']['cluster.indices.close.enable']) {
-                        $results['audit_fail'][$line] = [];
+                        $results['audit_fail'][$checkpoint] = [];
                     } else {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
                 case 'allocation_disk_threshold':
                     if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$checkpoint] = [];
                     } else {
-                        $results['audit_fail'][$line] = [];
+                        $results['audit_fail'][$checkpoint] = [];
                     }
                     break;
                 case 'cpu_below_90':
                     if (true == $cpuPercent) {
-                        if (0 < count($nodesCpuOver90)) {
-                            $results['audit_fail'][$line] = $nodesCpuOver90;
+                        if (0 < count($nodesLimit['cpu_over_90'])) {
+                            $results['audit_fail'][$checkpoint] = $nodesLimit['cpu_over_90'];
                         } else {
-                            $results['audit_pass'][$line] = [];
+                            $results['audit_pass'][$checkpoint] = [];
                         }
                     }
                     break;
                 case 'heap_size_below_50':
                     if (true == $heapSize) {
-                        if (0 < count($nodesHeapSizeOver50)) {
-                            $results['audit_fail'][$line] = $nodesHeapSizeOver50;
+                        if (0 < count($nodesLimit['heap_size_over_50'])) {
+                            $results['audit_fail'][$checkpoint] = $nodesLimit['heap_size_over_50'];
                         } else {
-                            $results['audit_pass'][$line] = [];
+                            $results['audit_pass'][$checkpoint] = [];
                         }
                     }
                     break;
                 case 'anonymous_access_disabled':
                     if (false == isset($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || false == is_array($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || 0 == count($parameters['cluster_settings']['xpack.security.authc.anonymous.roles'])) {
-                        $results['audit_pass'][$line] = [];
+                        $results['audit_pass'][$checkpoint] = [];
                     } else {
-                        $results['audit_fail'][$line] = [];
+                        $results['audit_fail'][$checkpoint] = [];
                     }
                     break;
                 case 'license_not_expired':
@@ -440,23 +443,23 @@ class ElasticsearchClusterController extends AbstractAppController
                             $interval = $now->diff($expire);
 
                             if (30 > $interval->format('%a')) {
-                                $results['audit_fail'][$line] = $license;
+                                $results['audit_fail'][$checkpoint] = $license;
                             } else {
-                                $results['audit_pass'][$line] = $license;
+                                $results['audit_pass'][$checkpoint] = $license;
                             }
                         } else {
                             if ('basic' == $license['type']) {
-                                $results['audit_notice'][$line] = $license;
+                                $results['audit_notice'][$checkpoint] = $license;
                             }
                         }
                     }
                     break;
                 case 'file_descriptors':
                     if (true == $fileDescriptors) {
-                        if (0 < count($nodesFileDescriptorsUnder65535)) {
-                            $results['audit_fail'][$line] = $nodesFileDescriptorsUnder65535;
+                        if (0 < count($nodesLimit['file_descriptors_under_65535'])) {
+                            $results['audit_fail'][$checkpoint] = $nodesLimit['file_descriptors_under_65535'];
                         } else {
-                            $results['audit_pass'][$line] = [];
+                            $results['audit_pass'][$checkpoint] = [];
                         }
                     }
                     break;
