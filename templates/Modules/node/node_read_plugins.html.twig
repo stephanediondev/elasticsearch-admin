@@ -31,7 +31,7 @@
                         <tr>
                             <th>{{ 'name'|trans }}</th>
                             <th>{{ 'description'|trans }}</th>
-                            <th>{{ 'classname'|trans }}</th>
+                            <th class="d-none d-xl-table-cell">{{ 'classname'|trans }}</th>
                             <th>{{ 'version'|trans }}</th>
                         </tr>
                     {% endblock %}
@@ -41,7 +41,7 @@
                             <tr>
                                 <td>{{ row['name'] }}</td>
                                 <td>{{ row['description'] }}</td>
-                                <td>{{ row['classname'] }}</td>
+                                <td class="d-none d-xl-table-cell">{{ row['classname'] }}</td>
                                 <td>{{ row['version'] }}</td>
                             </tr>
                         {% endfor %}

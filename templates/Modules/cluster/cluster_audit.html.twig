@@ -37,8 +37,8 @@
                         <th>{{ 'audit_checkpoint'|trans }}</th>
                         <th>{{ 'audit_result'|trans }}</th>
                         <th>{{ 'audit_comment'|trans }}</th>
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
+                        <th class="d-none d-xl-table-cell">&nbsp;</th>
+                        <th class="d-none d-xl-table-cell">&nbsp;</th>
                     </tr>
                 {% endblock %}
 
@@ -60,9 +60,9 @@
                                             The release is supported until {{ parameters['eol_date']|date('D, d M Y') }}.
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/support/eol">{{ 'help'|trans }}</a>
                                     </td>
                                 {% endif %}
@@ -70,9 +70,9 @@
                                 {% if 'security_features' == checkpoint %}
                                     <td>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if 'audit_fail' == result %}
                                             <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-security.html">{{ 'help'|trans }}</a>
                                         {% endif %}
@@ -85,9 +85,9 @@
                                             The name may be changed to a name which describes the purpose of the cluster.
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if 'audit_notice' == result %}
                                             <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster.name.html">{{ 'help'|trans }}</a>
                                         {% endif %}
@@ -98,9 +98,9 @@
                                     <td>
                                         {{ parameters|join(', ') }}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
                                 {% endif %}
 
@@ -115,21 +115,21 @@
                                             {{ parameters|join(', ') }}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
                                 {% endif %}
 
                                 {% if 'unassigned_shards' == checkpoint %}
                                     <td>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell"
                                         {% if 'audit_fail' == result and true == hasFeature('allocation_explain') and is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
                                             <a href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
                                 {% endif %}
 
@@ -139,24 +139,24 @@
                                             There is only one node.
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
                                             <a href="{{ path('indices', {'s': 'rep:asc'}) }}">Indices</a>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
                                 {% endif %}
 
                                 {% if 'indices_opened' == checkpoint %}
                                     <td>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
                                             <a href="{{ path('indices', {'s': 'status:asc'}) }}">Indices</a>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if 'audit_fail' == result %}
                                             <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-management-settings.html">{{ 'help'|trans }}</a>
                                         {% endif %}
@@ -173,7 +173,7 @@
                                             The feature is available for version 6.1 and later.
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if true == hasFeature('adaptive_replica_selection') %}
                                             {% if 'audit_fail' == result %}
                                                 {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
@@ -182,7 +182,7 @@
                                             {% endif %}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html#search-adaptive-replica">{{ 'help'|trans }}</a>
                                     </td>
                                 {% endif %}
@@ -193,14 +193,14 @@
                                             The setting <code>cluster.indices.close.enable</code> should be set to <code>false</code>.
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if 'audit_fail' == result %}
                                             {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
                                                 <a href="{{ path('cluster_settings') }}">Cluster settings</a>
                                             {% endif %}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-management-settings.html">{{ 'help'|trans }}</a>
                                     </td>
                                 {% endif %}
@@ -211,14 +211,14 @@
                                             The setting <code>cluster.routing.allocation.disk.threshold_enabled</code> should be set to <code>true</code>.
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if 'audit_fail' == result %}
                                             {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
                                                 <a href="{{ path('cluster_settings') }}">Cluster settings</a>
                                             {% endif %}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html#disk-based-shard-allocation">{{ 'help'|trans }}</a>
                                     </td>
                                 {% endif %}
@@ -231,12 +231,12 @@
                                             {% endfor %}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if is_granted('NODES', 'global') %}
                                             <a href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
                                 {% endif %}
 
@@ -248,12 +248,12 @@
                                             {% endfor %}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if is_granted('NODES', 'global') %}
                                             <a href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html">{{ 'help'|trans }}</a>
                                     </td>
                                 {% endif %}
@@ -261,9 +261,9 @@
                                 {% if 'anonymous_access_disabled' == checkpoint %}
                                     <td>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/anonymous-access.html">{{ 'help'|trans }}</a>
                                     </td>
                                 {% endif %}
@@ -278,12 +278,12 @@
                                             {% endif %}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         {% if true == hasFeature('license') and is_granted('LICENSE', 'global') %}
                                             <a href="{{ path('license') }}">{{ 'license'|trans }}</a>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
                                 {% endif %}
 
@@ -295,9 +295,9 @@
                                             {% endfor %}
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                     </td>
-                                    <td>
+                                    <td class="d-none d-xl-table-cell">
                                         <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/file-descriptors.html">{{ 'help'|trans }}</a>
                                     </td>
                                 {% endif %}

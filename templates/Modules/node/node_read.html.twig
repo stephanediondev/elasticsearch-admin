@@ -65,8 +65,6 @@
                 {% if node.os['arch'] is defined %}
                     {{ appImport.dashboardKpi({'title': 'os_arch'|trans, 'badge': {'title': node.os['arch']}}) }}
                 {% endif %}
-
-                {{ appImport.dashboardKpi({'title': 'id'|trans, 'badge': {'title': node.id}}) }}
             </div>
         {% endblock %}
     {% endembed %}
