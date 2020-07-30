@@ -200,6 +200,7 @@ class ElasticsearchClusterController extends AbstractAppController
         $cpuPercent = false;
         $diskPercent = false;
         $heapSize = false;
+        $heapSizeJvm = false;
         $fileDescriptors = false;
 
         if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
@@ -219,6 +220,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'heap_size_over_50' => [],
             'file_descriptors_under_65535' => [],
             'over_disk_thresholds' => [],
+            'heap_size_init_not_equal_max' => [],
         ];
 
         foreach ($nodes as $node) {
@@ -255,6 +257,13 @@ class ElasticsearchClusterController extends AbstractAppController
                 $percent = ($node['heap.max'] * 100) / $node['ram.max'];
                 if (50 < $percent) {
                     $nodesLimit['heap_size_over_50'][$node['name']] = $percent;
+                }
+            }
+
+            if (true == isset($node['jvm']['mem']['heap_init_in_bytes']) && true == isset($node['jvm']['mem']['heap_max_in_bytes'])) {
+                $heapSizeJvm = true;
+                if ($node['jvm']['mem']['heap_init_in_bytes'] != $node['jvm']['mem']['heap_max_in_bytes']) {
+                    $nodesLimit['heap_size_init_not_equal_max'][$node['name']] = $node['jvm']['mem']['heap_init_in_bytes'].' / '.$node['jvm']['mem']['heap_max_in_bytes'];
                 }
             }
 
@@ -316,6 +325,8 @@ class ElasticsearchClusterController extends AbstractAppController
             'file_descriptors',
             'password_not_changeme',
             'below_disk_thresholds',
+            'cluster_not_readonly',
+            'heap_size_init_equal_max'
         ];
 
         $checkpoints = [];
@@ -422,6 +433,13 @@ class ElasticsearchClusterController extends AbstractAppController
                         $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
+                case 'cluster_not_readonly':
+                    if (true == isset($parameters['cluster_settings']['cluster.blocks.read_only']) && 'true' == $parameters['cluster_settings']['cluster.blocks.read_only']) {
+                        $results['audit_fail'][$checkpoint] = [];
+                    } else {
+                        $results['audit_pass'][$checkpoint] = [];
+                    }
+                    break;
                 case 'allocation_disk_threshold':
                     if (true == $diskThresholdEnabled) {
                         $results['audit_pass'][$checkpoint] = [];
@@ -451,6 +469,15 @@ class ElasticsearchClusterController extends AbstractAppController
                     if (true == $heapSize) {
                         if (0 < count($nodesLimit['heap_size_over_50'])) {
                             $results['audit_fail'][$checkpoint] = $nodesLimit['heap_size_over_50'];
+                        } else {
+                            $results['audit_pass'][$checkpoint] = [];
+                        }
+                    }
+                    break;
+                case 'heap_size_init_equal_max':
+                    if (true == $heapSizeJvm) {
+                        if (0 < count($nodesLimit['heap_size_init_not_equal_max'])) {
+                            $results['audit_fail'][$checkpoint] = $nodesLimit['heap_size_init_not_equal_max'];
                         } else {
                             $results['audit_pass'][$checkpoint] = [];
                         }

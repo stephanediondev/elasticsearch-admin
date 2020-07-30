@@ -213,6 +213,24 @@
                                     {% endembed %}
                                 {% endif %}
 
+                                {% if 'cluster_not_readonly' == checkpoint %}
+                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
+                                        {% block internal_link %}
+                                            {% if 'audit_fail' == result %}
+                                                {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
+                                                    <a href="{{ path('cluster_settings') }}">Cluster settings</a>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block external_link %}
+                                            {% if 'audit_fail' == result %}
+                                                <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html#cluster-read-only">{{ 'help'|trans }}</a>
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endif %}
+
                                 {% if 'allocation_disk_threshold' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
@@ -239,7 +257,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The value is wrong for the following nodes:
+                                                The checkpoint fails for the following nodes:
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value }}%){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -258,7 +276,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The value is wrong for the following nodes:
+                                                The checkpoint fails for the following nodes:
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value|trans }}){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -277,7 +295,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The value is wrong for the following nodes:
+                                                The checkpoint fails for the following nodes:
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value|round(2) }}%){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -292,6 +310,29 @@
 
                                         {% block external_link %}
                                             <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html">{{ 'help'|trans }}</a>
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endif %}
+
+                                {% if 'heap_size_init_equal_max' == checkpoint %}
+                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
+                                        {% block comment %}
+                                            {% if 'audit_fail' == result %}
+                                                The checkpoint fails for the following nodes:
+                                                {% for node, value in parameters %}
+                                                    {{ node }} ({{ value }}){% if false == loop.last %},{% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block internal_link %}
+                                            {% if is_granted('NODES', 'global') %}
+                                                <a href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block external_link %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/_heap_size_check.html">{{ 'help'|trans }}</a>
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
@@ -328,7 +369,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The value is wrong for the following nodes:
+                                                The checkpoint fails for the following nodes:
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value }}){% if false == loop.last %},{% endif %}
                                                 {% endfor %}

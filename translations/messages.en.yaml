@@ -69,6 +69,8 @@ audit_checkpoints:
     file_descriptors: "The number of open files descriptors is higher than 65535"
     password_not_changeme: "The password for the user elastic is not changeme"
     below_disk_thresholds: "All disks are below thresholds"
+    cluster_not_readonly: "The cluster is not read-only"
+    heap_size_init_equal_max: "The initial heap size is equal to the maximum heap size"
 available: "Available"
 aws_account: "AWS account"
 back: "Back"
