@@ -62,7 +62,7 @@ audit_checkpoints:
     indices_opened: "All indices are open"
     close_index_not_enabled: "Closing an index is not allowed"
     allocation_disk_threshold: "The disk-based shard allocation is enabled"
-    cpu_below_90: "All the nodes CPU usage are below 90%"
+    cpu_below_90: "The CPU usage is below 90%"
     heap_size_below_50: "The heap size is no more than 50% of the RAM"
     anonymous_access_disabled: "The anonymous access is disabled"
     license_not_expired: "The license is still valid for more than 30 days"
