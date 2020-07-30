@@ -98,7 +98,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 1 == parameters|length %}
-                                                The installed versions is: {{ parameters|join(', ') }}
+                                                The installed version is: {{ parameters|join(', ') }}
                                             {% else %}
                                                 The installed versions are: {{ parameters|join(', ') }}
                                             {% endif %}
@@ -307,7 +307,7 @@
                                 {% if 'license_not_expired' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
-                                            {% if parameters['expiry_date_in_millis'] is defined %}
+                                            {% if 'basic' != parameters['type'] and parameters['expiry_date_in_millis'] is defined %}
                                                 The {{ parameters['type'] }} license expires on {{ parameters['expiry_date_in_millis']|human_datetime }}.
                                             {% else %}
                                                 {% if 'audit_notice' == result %}

@@ -477,7 +477,7 @@ class ElasticsearchClusterController extends AbstractAppController
                         $license = $callResponse->getContent();
                         $license = $license['license'];
 
-                        if (true == isset($license['expiry_date_in_millis'])) {
+                        if ('basic' != $license['type'] && true == isset($license['expiry_date_in_millis'])) {
                             $now = (new \Datetime());
                             $expire = new \Datetime(date('Y-m-d H:i:s', substr($license['expiry_date_in_millis'], 0, -3)));
                             $interval = $now->diff($expire);

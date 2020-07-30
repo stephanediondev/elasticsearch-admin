@@ -54,7 +54,7 @@
                     {{ appImport.dashboardKpi({'title': 'issue_date'|trans, 'badge': {'title': license['issue_date_in_millis']|human_datetime}}) }}
                 {% endif %}
 
-                {% if license['expiry_date_in_millis'] is defined %}
+                {% if license['type'] is defined and 'basic' != license['type'] and license['expiry_date_in_millis'] is defined %}
                     {{ appImport.dashboardKpi({'title': 'expiry_date'|trans, 'badge': {'title': license['expiry_date_in_millis']|human_datetime}}) }}
                 {% endif %}
             </div>
