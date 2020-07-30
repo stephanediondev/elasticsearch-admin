@@ -133,7 +133,7 @@
                                 {% if 'unassigned_shards' == checkpoint %}
                                     <td>
                                     </td>
-                                    <td class="d-none d-xl-table-cell"
+                                    <td class="d-none d-xl-table-cell">
                                         {% if 'audit_fail' == result and true == hasFeature('allocation_explain') and is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
                                             <a href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
                                         {% endif %}
