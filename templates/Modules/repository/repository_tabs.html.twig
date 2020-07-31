@@ -5,20 +5,14 @@
     </li>
 
     {% if is_granted('REPOSITORIES_CREATE', 'global') %}
-        <li class="nav-item">
-            <a class="nav-link{% if 'create_repository_fs' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'fs'}) }}">{{ 'create_repository_fs'|trans }}</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link{% if 'create_repository_s3' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 's3'}) }}">{{ 'create_repository_s3'|trans }}{% if false == hasPlugin('repository-s3') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link{% if 'create_repository_gcs' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'gcs'}) }}">{{ 'create_repository_gcs'|trans }}{% if false == hasPlugin('repository-gcs') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link{% if 'create_repository_azure' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'azure'}) }}">{{ 'create_repository_azure'|trans }}{% if false == hasPlugin('repository-azure') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle{% if 'create_repository_' in active %} active{% endif %}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'create_repository'|trans }}</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item{% if 'create_repository_fs' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'fs'}) }}">{{ 'create_repository_fs'|trans }}</a>
+                <a class="dropdown-item{% if 'create_repository_s3' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 's3'}) }}">{{ 'create_repository_s3'|trans }}{% if false == hasPlugin('repository-s3') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+                <a class="dropdown-item{% if 'create_repository_gcs' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'gcs'}) }}">{{ 'create_repository_gcs'|trans }}{% if false == hasPlugin('repository-gcs') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+                <a class="dropdown-item{% if 'create_repository_azure' == active %} active{% endif %}" href="{{ path('repositories_create', {'type': 'azure'}) }}">{{ 'create_repository_azure'|trans }}{% if false == hasPlugin('repository-azure') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            </div>
         </li>
     {% endif %}
 </ul>

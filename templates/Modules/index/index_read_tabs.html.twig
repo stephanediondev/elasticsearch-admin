@@ -37,12 +37,18 @@
     {% endif %}
 
     {% if is_granted('INDEX_IMPORT', index) %}
-        <li class="nav-item">
-            <a class="nav-link{% if 'import_from_file' == active %} active{% endif %}" href="{{ path('indices_read_import', {'index': index.name}) }}">{{ 'import_from_file'|trans }}</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle{% if 'import_from_' in active %} active{% endif %}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'import'|trans }}</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item{% if 'import_from_file' == active %} active{% endif %}" href="{{ path('indices_read_import', {'index': index.name}) }}">{{ 'import_from_file'|trans }}</a>
+                <a class="dropdown-item{% if 'import_from_database' == active %} active{% endif %}" href="{{ path('index_database_import', {'index': index.name}) }}">{{ 'import_from_database'|trans }}</a>
+            </div>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link{% if 'import_from_database' == active %} active{% endif %}" href="{{ path('index_database_import', {'index': index.name}) }}">{{ 'import_from_database'|trans }}</a>
+        </li>
+
+        <li class="nav-item">
         </li>
     {% endif %}
 
