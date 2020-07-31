@@ -32,7 +32,7 @@ class ElasticsearchNodeController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('NODES', 'global');
 
-        $nodes = $this->elasticsearchNodeManager->getAll();
+        $nodes = $this->elasticsearchNodeManager->getAll($request->query->get('s', 'name:asc'));
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 

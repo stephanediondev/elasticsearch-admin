@@ -32,13 +32,13 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodeModel;
     }
 
-    public function getAll(): array
+    public function getAll($sort = 'name:asc'): array
     {
         $nodes = [];
 
         $query = ['bytes' => 'b', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current'];
         if (true == $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = 'name';
+            $query['s'] = $sort;
         }
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/nodes');

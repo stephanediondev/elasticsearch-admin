@@ -25,7 +25,7 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ 'name'|trans }}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'name', 'title': 'name'|trans})}}
                         </th>
                     {% endif %}
 
@@ -49,31 +49,31 @@
 
                     {% if 'cpu_usage' == column %}
                         <th>
-                            {{ 'cpu_usage'|trans }}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'cpu', 'title': 'cpu_usage'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'heap_usage' == column %}
                         <th>
-                            {{ 'heap_usage'|trans }}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'heap.percent', 'title': 'heap_usage'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'memory_usage' == column %}
                         <th>
-                            {{ 'memory_usage'|trans }}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'ram.percent', 'title': 'memory_usage'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'disk_usage' == column %}
                         <th>
-                            {{ 'disk_usage'|trans }}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'disk.used_percent', 'title': 'disk_usage'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'uptime' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ 'uptime'|trans }}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'uptime', 'title': 'uptime'|trans})}}
                         </th>
                     {% endif %}
 
