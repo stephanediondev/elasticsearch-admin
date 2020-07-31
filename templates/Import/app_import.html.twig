@@ -144,7 +144,7 @@
     {% endif %}
 
     {% if params.link is defined %}
-        <a class="badge badge-{{ params.context }}" href="{{ params.link }}">{{ params.title }}</a>
+        <a class="badge badge-{{ params.context }}" style="text-decoration:underline;" href="{{ params.link }}">{{ params.title }}</a>
     {% else %}
         <span class="badge badge-{{ params.context }}">{{ params.title }}</span>
     {% endif %}

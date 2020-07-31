@@ -29,7 +29,11 @@
                 {{ appImport.dashboardKpi({'title': 'nodes'|trans, 'badge': {'title': cluster_health['number_of_nodes']}}) }}
 
                 {% if master_node %}
-                    {{ appImport.dashboardKpi({'title': 'master_node'|trans, 'badge': {'title': master_node}}) }}
+                    {% if is_granted('NODES', 'global') %}
+                        {{ appImport.dashboardKpi({'title': 'master_node'|trans, 'badge': {'title': master_node, 'link': path('nodes_read', {'node': master_node})}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': 'master_node'|trans, 'badge': {'title': master_node}}) }}
+                    {% endif %}
                 {% endif %}
 
                 {% if indices %}
