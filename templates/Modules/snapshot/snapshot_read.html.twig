@@ -46,12 +46,20 @@
 
                 {{ appImport.dashboardKpi({'title': 'duration_in_millis'|trans, 'badge': {'title': snapshot.duration}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': snapshot.repository}}) }}
+                {% if is_granted('REPOSITORIES', 'global') %}
+                    {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': snapshot.repository, 'link': path('repositories_read', {'repository': snapshot.repository})}}) }}
+                {% else %}
+                    {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': snapshot.repository}}) }}
+                {% endif %}
 
                 {{ appImport.dashboardKpi({'title': 'version'|trans, 'badge': {'title': snapshot.version}}) }}
 
                 {% if snapshot.metadata['policy'] is defined %}
-                    {{ appImport.dashboardKpi({'title': 'slm_policy'|trans, 'badge': {'title': snapshot.metadata['policy']}}) }}
+                    {% if is_granted('SLM_POLICIES', 'global') %}
+                        {{ appImport.dashboardKpi({'title': 'slm_policy'|trans, 'badge': {'title': snapshot.metadata['policy'], 'link': path('slm_read', {'name': snapshot.metadata['policy']})}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': 'slm_policy'|trans, 'badge': {'title': snapshot.metadata['policy']}}) }}
+                    {% endif %}
                 {% endif %}
             </div>
 

@@ -35,14 +35,22 @@
 
                 <div class="row">
                     {% if allocation_explain['shard'] is defined and allocation_explain['shard'] is iterable %}
-                        {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['shard']['index']}}) }}
+                        {% if is_granted('INDICES', 'global') %}
+                            {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['shard']['index'], 'link': path('indices_read', {'index': allocation_explain['shard']['index']})}}) }}
+                        {% else %}
+                            {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['shard']['index']}}) }}
+                        {% endif %}
 
                         {{ appImport.dashboardKpi({'title': 'shard'|trans, 'badge': {'title': allocation_explain['shard']['id']}}) }}
 
                         {{ appImport.dashboardKpi({'title': 'primary'|trans, 'badge': {'title': ('boolean.' ~ allocation_explain['shard']['primary'])|trans, 'context': allocation_explain['shard']['primary']}}) }}
                     {% else %}
                         {% if allocation_explain['index'] is defined %}
-                            {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['index']}}) }}
+                            {% if is_granted('INDICES', 'global') %}
+                                {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['index'], 'link': path('indices_read', {'index': allocation_explain['index']})}}) }}
+                            {% else %}
+                                {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['index']}}) }}
+                            {% endif %}
                         {% endif %}
 
                         {% if allocation_explain['shard'] is defined %}

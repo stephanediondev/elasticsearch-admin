@@ -143,7 +143,11 @@
         {% set params = params|merge({'context': 'info'}) %}
     {% endif %}
 
-    <span class="badge badge-{{ params.context }}">{{ params.title }}</span>
+    {% if params.link is defined %}
+        <a class="badge badge-{{ params.context }}" href="{{ params.link }}">{{ params.title }}</a>
+    {% else %}
+        <span class="badge badge-{{ params.context }}">{{ params.title }}</span>
+    {% endif %}
 {% endmacro %}
 
 {% macro button(params) %}
