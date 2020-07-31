@@ -30,9 +30,9 @@
 
 [![Create index](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized/resized-index-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original/original-index-create.png)
 
-[![Legacy templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized/resized-index-templates-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original/original-index-templates-legacy.png)
+[![Legacy index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized/resized-index-templates-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original/original-index-templates-legacy.png)
 
-[![Create legacy template](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized/resized-index-template-create-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original/original-index-template-create-legacy.png)
+[![Create legacy index template](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized/resized-index-template-create-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original/original-index-template-create-legacy.png)
 
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/6.0.0/original/original-shards.png)
 

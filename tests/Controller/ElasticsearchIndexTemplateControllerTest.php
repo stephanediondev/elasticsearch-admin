@@ -18,7 +18,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable templates');
+            $this->assertPageTitleSame('Composable index templates');
         }
     }
 
@@ -33,7 +33,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable templates - Create composable template');
+            $this->assertPageTitleSame('Composable index templates - Create composable index template');
         }
     }
 
@@ -67,7 +67,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable templates - Create composable template');
+            $this->assertPageTitleSame('Composable index templates - Create composable index template');
         }
     }
 
@@ -93,7 +93,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable templates - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test');
         }
     }
 
@@ -130,7 +130,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable templates - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test - Update');
         }
     }
 
@@ -156,7 +156,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable templates - elasticsearch-admin-test - Settings');
+            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test - Settings');
         }
     }
 
@@ -182,7 +182,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable templates - elasticsearch-admin-test - Mappings');
+            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test - Mappings');
         }
     }
 
