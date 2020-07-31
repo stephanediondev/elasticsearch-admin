@@ -158,6 +158,8 @@
                 {% if index.setting('index.version.upgraded') %}
                     {{ appImport.dashboardKpi({'title': 'version_upgraded'|trans, 'badge': {'title': index.setting('index.version.upgraded')|human_version}}) }}
                 {% endif %}
+
+                {{ appImport.dashboardKpi({'title': 'creation_date'|trans, 'badge': {'title': index.creationDate|human_datetime}}) }}
             </div>
         {% endblock %}
     {% endembed %}
