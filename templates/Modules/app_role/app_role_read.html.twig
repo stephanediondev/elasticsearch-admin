@@ -35,24 +35,33 @@
                 {% endblock %}
             {% endembed %}
 
-            <p>
-                <strong>{{ 'created_at'|trans }}</strong><br>
-                {{ role.createdAt|date('Y-m-d H:i:s') }}
-            </p>
+            <hr>
 
-            <table class="table table-hover table-sm">
-                {% for module, permissions in permissions_saved %}
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'created_at'|trans, 'badge': {'title': role.createdAt|human_datetime}}) }}
+            </div>
+
+            {% embed 'Embed/table_embed.html.twig' %}
+                {% block thead %}
                     <tr>
-                        <th colspan="2">{{ module }}</th>
+                        <th>{{ 'permissions'|trans }}</th>
                     </tr>
+                {% endblock %}
 
-                    {% for permission in permissions %}
+                {% block tbody %}
+                    {% for module, permissions in permissions_saved %}
                         <tr>
-                            <td>{{ permission }}</td>
+                            <th>{{ module }}</th>
                         </tr>
+
+                        {% for permission in permissions %}
+                            <tr>
+                                <td>{{ permission }}</td>
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-            </table>
+                {% endblock %}
+            {% endembed %}
         {% endblock %}
     {% endembed %}
 {% endblock %}

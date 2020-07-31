@@ -76,9 +76,18 @@ class AppExtension extends AbstractExtension
         return $xx.'.'.intval($yy).'.'.intval($zz);
     }
 
-    public function humanDatetime($datetime)
+    public function humanDatetime($datetime, $format = 'D, d M Y H:i')
     {
-        return date('D, d M Y H:i', substr($datetime, 0, -3));
+        if ($datetime instanceof \Datetime) {
+            return $datetime->format($format);
+
+        } else if (strstr($datetime, 'T')) {
+            $datetime = new \Datetime($datetime);
+            return $datetime->format($format);
+
+        } else {
+            return date($format, substr($datetime, 0, -3));
+        }
     }
 
     public function checkVersion(string $versionGoal): bool

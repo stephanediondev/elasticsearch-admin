@@ -42,7 +42,7 @@
 
                         {% if 'modified_date' == column %}
                             <td>
-                                {{ row.modifiedDate }}
+                                {{ row.modifiedDate|human_datetime }}
                             </td>
                         {% endif %}
 

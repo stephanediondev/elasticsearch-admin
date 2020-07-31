@@ -56,7 +56,7 @@
 
                         {% if 'created_at' == column %}
                             <td>
-                                {{ row.createdAt|date('Y-m-d H:i:s') }}
+                                {{ row.createdAt|human_datetime }}
                             </td>
                         {% endif %}
                     {% endif %}

@@ -35,37 +35,57 @@
                 {% endblock %}
             {% endembed %}
 
+            <hr>
+
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'created_at'|trans, 'badge': {'title': user.createdAt|human_datetime}}) }}
+            </div>
+
             {% if user.roles and 0 < user.roles|length %}
-                <p>
-                    <strong>{{ 'app_roles'|trans }}</strong><br>
-                    {% for record in user.roles %}
-                        {% if record not in ['ROLE_ADMIN', 'ROLE_USER'] %}
-                            <a class="text-secondary" href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
-                        {% else %}
-                            {{ record }}{% if false == loop.last %}, {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </p>
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'app_roles'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for record in user.roles %}
+                            <tr>
+                                {% if record not in ['ROLE_ADMIN', 'ROLE_USER'] %}
+                                    <td><a class="text-secondary" href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a></td>
+                                {% else %}
+                                    <td>{{ record }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
             {% endif %}
 
-            <p>
-                <strong>{{ 'created_at'|trans }}</strong><br>
-                {{ user.createdAt|date('Y-m-d H:i:s') }}
-            </p>
-
-            <table class="table table-hover table-sm">
-                {% for module, permissions in permissions_saved %}
-                    <tr>
-                        <th colspan="2">{{ module }}</th>
-                    </tr>
-
-                    {% for permission in permissions %}
+            {% if 0 < permissions_saved|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% block thead %}
                         <tr>
-                            <td>{{ permission }}</td>
+                            <th>{{ 'permissions'|trans }}</th>
                         </tr>
-                    {% endfor %}
-                {% endfor %}
-            </table>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for module, permissions in permissions_saved %}
+                            <tr>
+                                <th>{{ module }}</th>
+                            </tr>
+
+                            {% for permission in permissions %}
+                                <tr>
+                                    <td>{{ permission }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}

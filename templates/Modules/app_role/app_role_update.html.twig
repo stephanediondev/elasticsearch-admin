@@ -21,27 +21,35 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'update'|trans}) }}
 
-            <table class="table table-hover table-sm">
-                {% for module, permissions in modules %}
+            {% embed 'Embed/table_embed.html.twig' %}
+                {% block thead %}
                     <tr>
-                        <th colspan="2">{{ module }}</th>
+                        <th colspan="3">{{ 'permissions'|trans }}</th>
                     </tr>
+                {% endblock %}
 
-                    {% for permission in permissions %}
+                {% block tbody %}
+                    {% for module, permissions in modules %}
                         <tr>
-                            <td>{{ permission }}</td>
-                            <td>
-                                <div class="custom-control custom-switch custom-switch-email">
-                                    <input type="checkbox" class="custom-control-input custom-control-input-permission"
-                                    data-url="{{ path('app_roles_permission', {'role': role.name, 'module': module, 'permission': permission}) }}"
-                                    id="{{ module }}-{{ permission }}"{% if permissions_saved[module] is defined and permission in permissions_saved[module] %} checked="checked"{% endif %}>
-                                    <label class="custom-control-label" for="{{ module }}-{{ permission }}"></label>
-                                </div>
-                            </td>
+                            <th colspan="2">{{ module }}</th>
                         </tr>
+
+                        {% for permission in permissions %}
+                            <tr>
+                                <td>{{ permission }}</td>
+                                <td>
+                                    <div class="custom-control custom-switch custom-switch-email">
+                                        <input type="checkbox" class="custom-control-input custom-control-input-permission"
+                                        data-url="{{ path('app_roles_permission', {'role': role.name, 'module': module, 'permission': permission}) }}"
+                                        id="{{ module }}-{{ permission }}"{% if permissions_saved[module] is defined and permission in permissions_saved[module] %} checked="checked"{% endif %}>
+                                        <label class="custom-control-label" for="{{ module }}-{{ permission }}"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-            </table>
+                {% endblock %}
+            {% endembed %}
         {% endblock %}
     {% endembed %}
 {% endblock %}

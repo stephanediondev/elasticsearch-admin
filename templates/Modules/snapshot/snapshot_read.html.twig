@@ -35,55 +35,45 @@
                 {% endblock %}
             {% endembed %}
 
-            {% if snapshot.metadata['policy'] is defined %}
-                <p>
-                    <strong>{{ 'slm_policy'|trans }}</strong><br>
-                    {% if is_granted('SLM_POLICIES', 'global') %}
-                        <a class="text-secondary" href="{{ path('slm_read', {'name': snapshot.metadata['policy']}) }}">{{ snapshot.metadata['policy'] }}</a>
-                    {% else %}
-                        {{ snapshot.metadata['policy'] }}
-                    {% endif %}
-                </p>
-            {% endif %}
+            <hr>
 
-            <p>
-                <strong>{{ 'repository'|trans }}</strong><br>
-                {% if is_granted('REPOSITORIES', 'global') %}
-                    <a class="text-secondary" href="{{ path('repositories_read', {'repository': snapshot.repository}) }}">{{ snapshot.repository }}</a>
-                {% else %}
-                    {{ snapshot.repository }}
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'state'|trans, 'badge': {'title': snapshot.state|trans, 'context': snapshot.state}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'start_time'|trans, 'badge': {'title': snapshot.startTime|human_datetime}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'end_time'|trans, 'badge': {'title': snapshot.endTime|human_datetime}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'duration_in_millis'|trans, 'badge': {'title': snapshot.duration}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': snapshot.repository}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'version'|trans, 'badge': {'title': snapshot.version}}) }}
+
+                {% if snapshot.metadata['policy'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'slm_policy'|trans, 'badge': {'title': snapshot.metadata['policy']}}) }}
                 {% endif %}
-            </p>
+            </div>
 
-            <p>
-                <strong>{{ 'version'|trans }}</strong><br>
-                {{ snapshot.version }}
-            </p>
+            {% if 0 < snapshot.indices|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
 
-            <p>
-                <strong>{{ 'indices'|trans }}</strong><br>
-                {{ snapshot.indices|join(', ') }}
-            </p>
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'indices'|trans }}</th>
+                        </tr>
+                    {% endblock %}
 
-            <p>
-                <strong>{{ 'state'|trans }}</strong><br>
-                {{ appImport.badge({'title': snapshot.state|trans, 'context': snapshot.state}) }}
-            </p>
-
-            <p>
-                <strong>{{ 'start_time'|trans }}</strong><br>
-                {{ snapshot.startTime }}
-            </p>
-
-            <p>
-                <strong>{{ 'end_time'|trans }}</strong><br>
-                {{ snapshot.endTime }}
-            </p>
-
-            <p>
-                <strong>{{ 'duration_in_millis'|trans }}</strong><br>
-                {{ snapshot.duration }}
-            </p>
+                    {% block tbody %}
+                        {% for index in snapshot.indices %}
+                            <tr>
+                                <td>{{ index }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}

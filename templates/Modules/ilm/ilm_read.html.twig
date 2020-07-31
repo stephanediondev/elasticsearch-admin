@@ -39,15 +39,13 @@
                 {% endblock %}
             {% endembed %}
 
-            <p>
-                <strong>{{ 'modified_date'|trans }}</strong><br>
-                {{ policy.modifiedDate }}
-            </p>
+            <hr>
 
-            <p>
-                <strong>{{ 'version'|trans }}</strong><br>
-                {{ policy.version }}
-            </p>
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'modified_date'|trans, 'badge': {'title': policy.modifiedDate|human_datetime}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'version'|trans, 'badge': {'title': policy.version}}) }}
+            </div>
         {% endblock %}
     {% endembed %}
 
@@ -56,7 +54,7 @@
         {% embed 'Embed/card_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
-                {{ appImport.heading({'level': 3, 'title': name}) }}
+                {{ appImport.heading({'level': 3, 'title': name|trans}) }}
 
                 {% if phase['min_age'] is defined %}
                     <p>
@@ -72,7 +70,7 @@
                                 {% for name, action_property in action_properties %}
                                     {% if action_property is not iterable %}
                                         <p>
-                                            <strong>{{ name|trans }}</strong><br>
+                                            <strong>{{ name }}</strong><br>
                                             {{ action_property }}
                                         </p>
                                     {% endif %}

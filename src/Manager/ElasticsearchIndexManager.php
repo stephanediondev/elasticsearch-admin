@@ -54,6 +54,21 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
     public function getAll(array $query): array
     {
+        $aliases = [];
+
+        $queryAliases = ['h' => 'alias,index'];
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/aliases');
+        $callRequest->setQuery($queryAliases);
+        $callResponse = $this->callManager->call($callRequest);
+        $rows = $callResponse->getContent();
+
+        if (Response::HTTP_OK == $callResponse->getCode()) {
+            foreach ($rows as $row) {
+                $aliases[$row['index']][$row['alias']] = [];
+            }
+        }
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices');
         $callRequest->setQuery($query);
@@ -62,6 +77,9 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
         $indices = [];
         foreach ($results as $row) {
+            if (true == isset($aliases[$row['index']])) {
+                $row['aliases'] = $aliases[$row['index']];
+            }
             $indexModel = new ElasticsearchIndexModel();
             $indexModel->convert($row);
             $indices[] = $indexModel;

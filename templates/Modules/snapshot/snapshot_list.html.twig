@@ -100,13 +100,13 @@
 
                         {% if 'start_time' == column %}
                             <td>
-                                {{ row.startTime }}
+                                {{ row.startTime|human_datetime }}
                             </td>
                         {% endif %}
 
                         {% if 'end_time' == column %}
                             <td>
-                                {{ row.endTime }}
+                                {{ row.endTime|human_datetime }}
                             </td>
                         {% endif %}
 

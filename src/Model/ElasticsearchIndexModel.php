@@ -34,6 +34,8 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     private $mappings;
 
+    private $aliases;
+
     private $mappingsFlat;
 
     public function getId(): ?string
@@ -228,6 +230,18 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return $this;
     }
 
+    public function getAliases(): ?array
+    {
+        return $this->aliases;
+    }
+
+    public function setAliases($aliases): self
+    {
+        $this->aliases = $aliases;
+
+        return $this;
+    }
+
     public function isSystem(): ?bool
     {
         return '.' == substr($this->getName(), 0, 1);
@@ -321,6 +335,10 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
         if (true == isset($index['mappings_flat']) && 0 < count($index['mappings_flat'])) {
             $this->setMappingsFlat($index['mappings_flat']);
+        }
+
+        if (true == isset($index['aliases']) && 0 < count($index['aliases'])) {
+            $this->setAliases($index['aliases']);
         }
 
         return $this;
