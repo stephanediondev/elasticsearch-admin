@@ -2,6 +2,8 @@
 
 [![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-cluster.png)
 
+[![Cluster audit](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-cluster-audit.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-cluster-audit.png)
+
 [![Cluster settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-cluster-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-cluster-settings.png)
 
 [![Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-cluster-allocation-explain.png)
@@ -20,13 +22,17 @@
 
 [![Index settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-settings.png)
 
-[![Index import / export](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-import-export.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-import-export.png)
+[![Index search](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-search.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-search.png)
+
+[![Index import from file](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-file-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-file-import.png)
+
+[![Index import from database](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-database-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-database-import.png)
 
 [![Create index](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-create.png)
 
-[![Index templates legacy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-templates-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-templates-legacy.png)
+[![Legacy index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-templates-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-templates-legacy.png)
 
-[![Create index template legacy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-template-create-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-template-create-legacy.png)
+[![Create legacy index template](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-template-create-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-template-create-legacy.png)
 
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-shards.png)
 
