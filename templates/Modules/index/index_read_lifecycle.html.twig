@@ -35,21 +35,21 @@
                 {% endembed %}
             {% endif %}
 
-            <p>
-                <strong>{{ 'managed'|trans }}</strong><br>
-                {{ appImport.badge({'title': ('boolean.' ~ lifecycle['managed'])|trans, 'context': lifecycle['managed']}) }}
-            </p>
+            <hr>
+
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'managed'|trans, 'badge': {'title': ('boolean.' ~ lifecycle['managed'])|trans, 'context': lifecycle['managed']}}) }}
+
+                {% if true == lifecycle['managed'] %}
+                    {% if is_granted('ILM_POLICIES', 'global') %}
+                        {{ appImport.dashboardKpi({'title': 'ilm_policy'|trans, 'badge': {'title': lifecycle['policy'], 'link': path('ilm_read', {'name': lifecycle['policy']})}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': 'ilm_policy'|trans, 'badge': {'title': lifecycle['policy']}}) }}
+                    {% endif %}
+                {% endif %}
+            </div>
 
             {% if true == lifecycle['managed'] %}
-                <p>
-                    <strong>{{ 'ilm_policy'|trans }}</strong><br>
-                    {% if is_granted('ILM_POLICIES', 'global') %}
-                        <a class="text-secondary" href="{{ path('ilm_read', {'name': lifecycle['policy']}) }}">{{ lifecycle['policy'] }}</a>
-                    {% else %}
-                        {{ lifecycle['policy'] }}
-                    {% endif %}
-                </p>
-
                 <pre>{{ lifecycle|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
             {% endif %}
         {% endblock %}
