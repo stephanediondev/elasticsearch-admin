@@ -48,91 +48,66 @@
                 {% endblock %}
             {% endembed %}
 
-            <p>
-                <strong>{{ 'version'|trans }}</strong><br>
-                {{ policy.version }}
-            </p>
+            <hr>
 
-            {% if policy.modifiedDate %}
-                <p>
-                    <strong>{{ 'modified_date'|trans }}</strong><br>
-                    {{ policy.modifiedDate|human_datetime }}
-                </p>
-            {% endif %}
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'version'|trans, 'badge': {'title': policy.version}}) }}
 
-            <p>
-                <strong>{{ 'snapshot_name'|trans }}</strong><br>
-                {{ policy.snapshotName }}
-            </p>
+                {% if policy.modifiedDate %}
+                    {{ appImport.dashboardKpi({'title': 'modified_date'|trans, 'badge': {'title': policy.modifiedDate|human_datetime}}) }}
+                {% endif %}
 
-            <p>
-                <strong>{{ 'repository'|trans }}</strong><br>
+                {{ appImport.dashboardKpi({'title': 'snapshot_name'|trans, 'badge': {'title': policy.snapshotName}}) }}
+
                 {% if is_granted('REPOSITORIES', 'global') %}
-                    <a class="text-secondary" href="{{ path('repositories_read', {'repository': policy.repository}) }}">{{ policy.repository }}</a>
+                    {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': policy.repository, 'link': path('repositories_read', {'repository': policy.repository})}}) }}
                 {% else %}
-                    {{ policy.repository }}
-                {% endif %}
-            </p>
-
-            {% if policy.indices %}
-                <p>
-                    <strong>{{ 'indices'|trans }}</strong><br>
-                    {{ policy.indices|join(', ') }}
-                </p>
-            {% endif %}
-
-            <p>
-                <strong>{{ 'schedule'|trans }}</strong><br>
-                {{ policy.schedule }}
-            </p>
-
-            <p>
-                <strong>{{ 'next_execution'|trans }}</strong><br>
-                {{ policy.nextExecution|human_datetime }}
-            </p>
-
-            {% if policy.hasRetention %}
-                {% if policy.expireAfter %}
-                    <p>
-                        <strong>{{ 'expire_after'|trans }}</strong><br>
-                        {{ policy.expireAfter }}
-                    </p>
+                    {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': policy.repository}}) }}
                 {% endif %}
 
-                {% if policy.minCount %}
-                    <p>
-                        <strong>{{ 'min_count'|trans }}</strong><br>
-                        {{ policy.minCount }}
-                    </p>
+                {{ appImport.dashboardKpi({'title': 'schedule'|trans, 'badge': {'title': policy.schedule}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'next_execution'|trans, 'badge': {'title': policy.nextExecution|human_datetime}}) }}
+
+                {% if policy.hasRetention %}
+                    {% if policy.expireAfter %}
+                        {{ appImport.dashboardKpi({'title': 'expire_after'|trans, 'badge': {'title': policy.expireAfter}}) }}
+                    {% endif %}
+
+                    {% if policy.minCount %}
+                        {{ appImport.dashboardKpi({'title': 'min_count'|trans, 'badge': {'title': policy.minCount}}) }}
+                    {% endif %}
+
+                    {% if policy.maxCount %}
+                        {{ appImport.dashboardKpi({'title': 'max_count'|trans, 'badge': {'title': policy.maxCount}}) }}
+                    {% endif %}
                 {% endif %}
 
-                {% if policy.maxCount %}
-                    <p>
-                        <strong>{{ 'max_count'|trans }}</strong><br>
-                        {{ policy.maxCount }}
-                    </p>
-                {% endif %}
-            {% endif %}
+                {{ appImport.dashboardKpi({'title': 'ignore_unavailable'|trans, 'badge': {'title': ('boolean.' ~ policy.ignoreUnavailable)|trans, 'context': policy.ignoreUnavailable}}) }}
 
-            {% if policy.ignoreUnavailable %}
-                <p>
-                    <strong>{{ 'ignore_unavailable'|trans }}</strong><br>
-                    {{ ('boolean.' ~ policy.ignoreUnavailable)|trans }}
-                </p>
-            {% endif %}
+                {{ appImport.dashboardKpi({'title': 'partial'|trans, 'badge': {'title': ('boolean.' ~ policy.partial)|trans, 'context': policy.partial}}) }}
 
-            {% if policy.partial %}
-                <p>
-                    <strong>{{ 'partial'|trans }}</strong><br>
-                    {{ ('boolean.' ~ policy.partial)|trans }}
-                </p>
-            {% endif %}
+                {{ appImport.dashboardKpi({'title': 'include_global_state'|trans, 'badge': {'title': ('boolean.' ~ policy.includeGlobalState)|trans, 'context': policy.includeGlobalState}}) }}
+            </div>
 
-            {% if policy.includeGlobalState %}
-                <p>
-                    <strong>{{ 'include_global_state'|trans }}</strong><br>
-                    {{ ('boolean.' ~ policy.includeGlobalState)|trans }}
-                </p>
+            {% if 0 < policy.indices|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'indices'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for index in policy.indices %}
+                            <tr>
+                                <td>{{ index }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
             {% endif %}
         {% endblock %}
     {% endembed %}
