@@ -10,7 +10,6 @@ use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReloadSecureSettingsModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -32,12 +31,17 @@ class ElasticsearchNodeController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('NODES', 'global');
 
-        $nodes = $this->elasticsearchNodeManager->getAll($request->query->get('s', 'name:asc'));
-
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        return $this->renderAbstract($request, 'Modules/node/node_index.html.twig', [
-            'cluster_settings' => $clusterSettings,
+        $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('s', 'name:asc'), 'cluster_settings' => $clusterSettings]);
+
+        if (true == $request->query->get('fetch')) {
+            $template = 'Modules/node/node_list.html.twig';
+        } else {
+            $template = 'Modules/node/node_index.html.twig';
+        }
+
+        return $this->renderAbstract($request, $template, [
             'nodes' => $this->paginatorManager->paginate([
                 'route' => 'nodes',
                 'route_parameters' => [],
@@ -47,18 +51,6 @@ class ElasticsearchNodeController extends AbstractAppController
                 'size' => count($nodes),
             ]),
         ]);
-    }
-
-    /**
-     * @Route("/nodes/fetch", name="nodes_fetch")
-     */
-    public function fetch(Request $request): JsonResponse
-    {
-        $this->denyAccessUnlessGranted('NODES', 'global');
-
-        $nodes = $this->elasticsearchNodeManager->getAll();
-
-        return new JsonResponse($nodes, JsonResponse::HTTP_OK);
     }
 
     /**

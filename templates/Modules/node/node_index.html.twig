@@ -43,7 +43,9 @@
 
                 {{ appImport.paginator(nodes) }}
 
-                {% include 'Modules/node/node_list.html.twig' with {'nodes': nodes} %}
+                <div id="list">
+                    {% include 'Modules/node/node_list.html.twig' with {'nodes': nodes} %}
+                </div>
 
                 {{ appImport.paginator(nodes) }}
             {% endblock %}
@@ -55,99 +57,33 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        {% if true == hasFeature('cat_nodes_disk') and cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] is defined and 'true' == cluster_settings['cluster.routing.allocation.disk.threshold_enabled'] %}
-            var disk_threshold_enabled = true;
-            var disk_watermark_low = {{ cluster_settings['cluster.routing.allocation.disk.watermark.low']|replace({'%': ''}) }};
-            var disk_watermark_high = {{ cluster_settings['cluster.routing.allocation.disk.watermark.high']|replace({'%': ''}) }};
-            {% if cluster_settings['cluster.routing.allocation.disk.watermark.flood_stage'] is defined %}
-                var disk_watermark_flood_stage = {{ cluster_settings['cluster.routing.allocation.disk.watermark.flood_stage']|replace({'%': ''}) }};
-            {% else %}
-                var disk_watermark_flood_stage = 100;
-            {% endif %}
-        {% else %}
-            var disk_threshold_enabled = false;
-        {% endif %}
-
-        function humanFilesize(size) {
-            var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-            var step = 1024;
-            var i = 0;
-            while ((size / step) > 0.9) {
-                size = size / step;
-                i++;
-            }
-            size = Math.round(size * 100) / 100;
-            return size + ' ' + units[i];
-        }
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
+
         function fetchNodes() {
-            console.log('fetchNodes');
-            fetch('{{ path('nodes_fetch') }}', {
+            var url = window.location.href;
+            if(url.indexOf('?') != -1) {
+                url = url + '&fetch=true';
+            } else {
+                url = url + '?fetch=true';
+            }
+
+            fetch(url, {
                 credentials: 'include',
                 method: 'get'
             }).then(function(response) {
-                return response.json();
-            }).then(async function(json) {
-                var load_average = ['1m', '5m', '15m'];
-                for(var k in json) {
-                    $('#' + k + '-uptime').text(json[k]['uptime']);
-
-                    {% if true == hasFeature('load_average') %}
-                        load_average.forEach(function(key) {
-                            if (typeof json[k]['stats']['os']['cpu']['load_average'][key] != 'undefined') {
-                                var value = json[k]['stats']['os']['cpu']['load_average'][key];
-                                value = Math.round(value * 100) / 100;
-                                $('#' + k + '-load-average-' + key).text(value);
-                            }
-                        });
-                    {% endif %}
-
-                    if (typeof json[k]['stats']['os']['cpu'] != 'undefined' && json[k]['stats']['os']['cpu']['percent'] != 'undefined') {
-                        $('#' + k + '-os-cpu-percent').text(json[k]['stats']['os']['cpu']['percent']);
-                    }
-                    $('#' + k + '-process-cpu-percent').text(json[k]['stats']['process']['cpu']['percent']);
-                    if (typeof json[k]['os']['allocated_processors'] != 'undefined') {
-                        $('#' + k + '-os-allocated_processors').text(json[k]['os']['allocated_processors']);
-                    }
-
-                    $('#' + k + '-heap-percent').text(json[k]['heap.percent']);
-                    $('#' + k + '-heap-current').text(humanFilesize(json[k]['heap.current']));
-                    $('#' + k + '-heap-max').text(humanFilesize(json[k]['heap.max']));
-
-                    $('#' + k + '-ram-percent').text(json[k]['ram.percent']);
-                    $('#' + k + '-ram-current').text(humanFilesize(json[k]['ram.current']));
-                    $('#' + k + '-ram-max').text(humanFilesize(json[k]['ram.max']));
-
-                    {% if true == hasFeature('cat_nodes_disk') %}
-                        $('#' + k + '-disk-used_percent').text(json[k]['disk.used_percent']);
-                        $('#' + k + '-disk-used').text(humanFilesize(json[k]['disk.used']));
-                        $('#' + k + '-disk-total').text(humanFilesize(json[k]['disk.total']));
-                    {% endif %}
-
-                    if (true == disk_threshold_enabled) {
-                        $('#' + k + '-disk-watermark_low').addClass('d-none');
-                        $('#' + k + '-disk-watermark_high').addClass('d-none');
-                        $('#' + k + '-disk-watermark_flood_stage').addClass('d-none');
-
-                        if (disk_watermark_flood_stage <= parseFloat(json[k]['disk.used_percent'])) {
-                            $('#' + k + '-disk-watermark_flood_stage').removeClass('d-none');
-
-                        } else if (disk_watermark_high <= parseFloat(json[k]['disk.used_percent'])) {
-                            $('#' + k + '-disk-watermark_high').removeClass('d-none');
-
-                        } else if (disk_watermark_low <= parseFloat(json[k]['disk.used_percent'])) {
-                            $('#' + k + '-disk-watermark_low').removeClass('d-none');
-                        }
-                    }
-                }
+                return response.text();
+            }).then(async function(text) {
+                $('#list').html(text);
+                $('h3 .badge').text($('#list').find('tbody tr').length);
 
                 await sleep(5000);
                 fetchNodes();
             }).catch(function() {
             });
         }
+
         fetchNodes();
     </script>
 {% endblock %}

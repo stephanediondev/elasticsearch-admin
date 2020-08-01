@@ -190,7 +190,7 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
 
-        $nodes = $this->elasticsearchNodeManager->getAll();
+        $nodes = $this->elasticsearchNodeManager->getAll(['cluster_settings' => $parameters['cluster_settings']]);
 
         $versions = [];
 
@@ -205,12 +205,6 @@ class ElasticsearchClusterController extends AbstractAppController
 
         if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
             $diskThresholdEnabled = true;
-
-            $diskWatermarkLow = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.low'];
-            $diskWatermarkHigh = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.high'];
-            if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'])) {
-                $diskWatermarkFloodStage = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'];
-            }
         } else {
             $diskThresholdEnabled = false;
         }
@@ -241,14 +235,9 @@ class ElasticsearchClusterController extends AbstractAppController
 
             if (true == isset($node['disk.used_percent']) && $diskThresholdEnabled) {
                 $diskPercent = true;
-                if (true == isset($diskWatermarkFloodStage) && strstr($diskWatermarkFloodStage, '%') && str_replace('%', '', $diskWatermarkFloodStage) <= $node['disk.used_percent']) {
-                    $nodesLimit['over_disk_thresholds'][$node['name']] = 'watermark_flood_stage';
 
-                } else if (strstr($diskWatermarkHigh, '%') && str_replace('%', '', $diskWatermarkHigh) <= $node['disk.used_percent']) {
-                    $nodesLimit['over_disk_thresholds'][$node['name']] = 'watermark_high';
-
-                } else if (strstr($diskWatermarkLow, '%') && str_replace('%', '', $diskWatermarkLow) <= $node['disk.used_percent']) {
-                    $nodesLimit['over_disk_thresholds'][$node['name']] = 'watermark_low';
+                if (true == isset($node['disk_threshold'])) {
+                    $nodesLimit['over_disk_thresholds'][$node['name']] = $node['disk_threshold'];
                 }
             }
 

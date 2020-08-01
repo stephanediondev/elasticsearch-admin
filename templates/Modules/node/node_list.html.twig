@@ -151,52 +151,56 @@
                         {% if 'cpu_usage' == column %}
                             <td>
                                 {% if row['stats']['os']['cpu']['percent'] is defined %}
-                                    <strong><span id="{{ row['name'] }}-os-cpu-percent">{{ row['stats']['os']['cpu']['percent'] }}</span>%</strong>
-                                    <br><small>{{ 'process'|trans }}: <span id="{{ row['name'] }}-process-cpu-percent">{{ row['stats']['process']['cpu']['percent'] }}</span>%</small>
+                                    <strong>{{ row['stats']['os']['cpu']['percent'] }}%</strong>
+                                    <br><small>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</small>
                                 {% else %}
-                                    <strong>{{ 'process'|trans }}: <span id="{{ row['name'] }}-process-cpu-percent">{{ row['stats']['process']['cpu']['percent'] }}</span>%</strong>
+                                    <strong>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</strong>
                                 {% endif %}
                                 {% if row['os']['allocated_processors'] is defined %}
-                                    <br><small>{{ 'processors'|trans }}: <span id="{{ row['name'] }}-os-allocated_processors">{{ row['os']['allocated_processors'] }}</span></small>
+                                    <br><small>{{ 'processors'|trans }}: {{ row['os']['allocated_processors'] }}</small>
+                                {% endif %}
+
+                                {% if row['stats']['os']['cpu']['percent'] is defined and 90 < row['stats']['os']['cpu']['percent'] %}
+                                    <br>{{ appImport.badge({'title': 'watermark_high'|trans, 'context': 'danger'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'heap_usage' == column %}
                             <td>
-                                <strong><span id="{{ row['name'] }}-heap-percent">{{ row['heap.percent'] }}</span>%</strong>
+                                <strong>{{ row['heap.percent'] }}%</strong>
                                 {% if row['heap.current'] is defined %}
-                                    <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-heap-current">{{ row['heap.current']|human_filesize }}</span></small>
+                                    <br><small>{{ 'used'|trans }}: {{ row['heap.current']|human_filesize }}</small>
                                 {% endif %}
-                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-heap-max">{{ row['heap.max']|human_filesize }}</span></small>
+                                <br><small>{{ 'total'|trans }}: {{ row['heap.max']|human_filesize }}</small>
                             </td>
                         {% endif %}
 
                         {% if 'memory_usage' == column %}
                             <td>
-                                <strong><span id="{{ row['name'] }}-ram-percent">{{ row['ram.percent'] }}</span>%</strong>
+                                <strong>{{ row['ram.percent'] }}%</strong>
                                 {% if row['ram.current'] is defined %}
-                                    <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-ram-current">{{ row['ram.current']|human_filesize }}</span></small>
+                                    <br><small>{{ 'used'|trans }}: {{ row['ram.current']|human_filesize }}</small>
                                 {% endif %}
-                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-ram-max">{{ row['ram.max']|human_filesize }}</span></small>
+                                <br><small>{{ 'total'|trans }}: {{ row['ram.max']|human_filesize }}</small>
                             </td>
                         {% endif %}
 
                         {% if 'disk_usage' == column %}
                             <td>
-                                <strong><span id="{{ row['name'] }}-disk-used_percent">{{ row['disk.used_percent'] }}</span>%</strong>
-                                <br><small>{{ 'used'|trans }}: <span id="{{ row['name'] }}-disk-used">{{ row['disk.used']|human_filesize }}</span></small>
-                                <br><small>{{ 'total'|trans }}: <span id="{{ row['name'] }}-disk-total">{{ row['disk.total']|human_filesize }}</span></small><br>
+                                <strong>{{ row['disk.used_percent'] }}%</strong>
+                                <br><small>{{ 'used'|trans }}: {{ row['disk.used']|human_filesize }}</small>
+                                <br><small>{{ 'total'|trans }}: {{ row['disk.total']|human_filesize }}</small>
 
-                                <span id="{{ row['name'] }}-disk-watermark_low" class="badge badge-warning d-none">{{ 'watermark_low'|trans }}</span>
-                                <span id="{{ row['name'] }}-disk-watermark_high" class="badge badge-danger d-none">{{ 'watermark_high'|trans }}</span>
-                                <span id="{{ row['name'] }}-disk-watermark_flood_stage" class="badge badge-dark d-none">{{ 'watermark_flood_stage'|trans }}</span>
+                                {% if row['disk_threshold'] is defined %}
+                                    <br>{{ appImport.badge({'title': row['disk_threshold']|trans, 'context': row['disk_threshold']}) }}
+                                {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'uptime' == column %}
                             <td class="d-none d-xl-table-cell">
-                                <span id="{{ row['name'] }}-uptime">{{ row['uptime'] }}</span>
+                                {{ row['uptime'] }}
                             </td>
                         {% endif %}
 
@@ -204,13 +208,13 @@
                             <td>
                                 {% if row['stats']['os']['cpu']['load_average'] is defined %}
                                     {% if row['stats']['os']['cpu']['load_average']['1m'] is defined %}
-                                        <strong>1 min: <span id="{{ row['name'] }}-load-average-1m">{{ row['stats']['os']['cpu']['load_average']['1m']|round(2) }}</span></strong>
+                                        <strong>1 min: {{ row['stats']['os']['cpu']['load_average']['1m']|round(2) }}</strong>
                                     {% endif %}
                                     {% if row['stats']['os']['cpu']['load_average']['5m'] is defined %}
-                                        <br><small>5 min: <span id="{{ row['name'] }}-load-average-5m">{{ row['stats']['os']['cpu']['load_average']['5m']|round(2) }}</span></small>
+                                        <br><small>5 min: {{ row['stats']['os']['cpu']['load_average']['5m']|round(2) }}</small>
                                     {% endif %}
                                     {% if row['stats']['os']['cpu']['load_average']['15m'] is defined %}
-                                        <br><small>15 min: <span id="{{ row['name'] }}-load-average-15m">{{ row['stats']['os']['cpu']['load_average']['15m']|round(2) }}</span></small>
+                                        <br><small>15 min: {{ row['stats']['os']['cpu']['load_average']['15m']|round(2) }}</small>
                                     {% endif %}
                                 {% endif %}
                             </td>
