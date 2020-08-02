@@ -4,14 +4,16 @@ namespace App\Controller;
 
 use App\Kernel;
 use App\Controller\AbstractAppController;
+use App\Model\AppUserModel;
 use DeviceDetector\DeviceDetector;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 
 class AppExceptionController extends AbstractAppController
 {
-    public function read(Request $request, FlattenException $exception, RequestStack $requestStack)
+    public function read(Request $request, FlattenException $exception, RequestStack $requestStack, Security $security)
     {
         $masterRequest = $requestStack->getMasterRequest();
 
@@ -23,6 +25,12 @@ class AppExceptionController extends AbstractAppController
         $codes = [401, 403, 404, 405, 500, 503];
 
         if (true == in_array($exception->getStatusCode(), $codes)) {
+            $user = $security->getUser();
+
+            if (!$user instanceof AppUserModel) {
+                $parameters['firewall'] = false;
+            }
+
             if (503 == $exception->getStatusCode()) {
                 $parameters['exception_503'] = true;
                 $parameters['message'] = $exception->getMessage();
@@ -45,7 +53,6 @@ class AppExceptionController extends AbstractAppController
 
                 $parameters['php_version'] = phpversion();
                 $parameters['symfony_version'] = Kernel::VERSION;
-
             }
 
             return $this->renderAbstract($request, 'Modules/exception/exception_'.$exception->getStatusCode().'.html.twig', $parameters);

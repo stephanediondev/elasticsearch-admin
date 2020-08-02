@@ -49,9 +49,13 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
+        if (false == isset($parameters['firewall'])) {
+            $parameters['firewall'] = true;
+        }
+
         $menus = [];
 
-        if (false == isset($parameters['exception_503']) || false == $parameters['exception_503']) {
+        if (true == $parameters['firewall'] && (false == isset($parameters['exception_503']) || false == $parameters['exception_503'])) {
             try {
                 $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
             } catch (ConnectionException $e) {
