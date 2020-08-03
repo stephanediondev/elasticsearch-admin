@@ -55,7 +55,7 @@ abstract class AbstractAppController extends AbstractController
 
         $menus = [];
 
-        if (true == $parameters['firewall'] && (false == isset($parameters['exception_503']) || false == $parameters['exception_503'])) {
+        if (false == isset($parameters['exception_503']) || false == $parameters['exception_503']) {
             try {
                 $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
             } catch (ConnectionException $e) {
@@ -72,49 +72,51 @@ abstract class AbstractAppController extends AbstractController
 
             $parameters['cat_sort'] = $this->callManager->hasFeature('cat_sort');
 
-            if (true == $this->isGranted('MENU_CONFIGURATION', 'global')) {
-                $entries = [
-                    ['granted' => 'INDEX_TEMPLATES_LEGACY', 'path' => 'index_templates_legacy'],
-                    ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates', 'feature' => 'composable_template'],
-                    ['granted' => 'COMPONENT_TEMPLATES', 'path' => 'component_templates', 'feature' => 'composable_template'],
-                    ['granted' => 'ILM_POLICIES', 'path' => 'ilm', 'feature' => 'ilm'],
-                    ['granted' => 'SLM_POLICIES', 'path' => 'slm', 'feature' => 'slm'],
-                    ['granted' => 'REPOSITORIES', 'path' => 'repositories'],
-                    ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich', 'feature' => 'enrich'],
-                    ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users', 'feature' => 'security'],
-                    ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
-                ];
+            if (true == $parameters['firewall']) {
+                if (true == $this->isGranted('MENU_CONFIGURATION', 'global')) {
+                    $entries = [
+                        ['granted' => 'INDEX_TEMPLATES_LEGACY', 'path' => 'index_templates_legacy'],
+                        ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates', 'feature' => 'composable_template'],
+                        ['granted' => 'COMPONENT_TEMPLATES', 'path' => 'component_templates', 'feature' => 'composable_template'],
+                        ['granted' => 'ILM_POLICIES', 'path' => 'ilm', 'feature' => 'ilm'],
+                        ['granted' => 'SLM_POLICIES', 'path' => 'slm', 'feature' => 'slm'],
+                        ['granted' => 'REPOSITORIES', 'path' => 'repositories'],
+                        ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich', 'feature' => 'enrich'],
+                        ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users', 'feature' => 'security'],
+                        ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
+                    ];
 
-                $menus['configuration'] = $this->populateMenu($entries);
-            }
+                    $menus['configuration'] = $this->populateMenu($entries);
+                }
 
-            if (true == $this->isGranted('MENU_TOOLS', 'global')) {
-                $entries = [
-                    ['granted' => 'SNAPSHOTS', 'path' => 'snapshots'],
-                    ['granted' => 'PIPELINES', 'path' => 'pipelines', 'feature' => 'pipelines'],
-                    ['granted' => 'TASKS', 'path' => 'tasks', 'feature' => 'tasks'],
-                    ['granted' => 'REMOTE_CLUSTERS', 'path' => 'remote_clusters', 'feature' => 'remote_clusters'],
-                    ['granted' => 'CAT', 'path' => 'cat'],
-                    ['granted' => 'SQL', 'path' => 'sql', 'feature' => 'sql'],
-                    ['granted' => 'CONSOLE', 'path' => 'console'],
-                    ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
-                    ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
-                    ['granted' => 'INDEX_GRAVEYARD', 'path' => 'index_graveyard', 'feature' => 'tombstones'],
-                ];
+                if (true == $this->isGranted('MENU_TOOLS', 'global')) {
+                    $entries = [
+                        ['granted' => 'SNAPSHOTS', 'path' => 'snapshots'],
+                        ['granted' => 'PIPELINES', 'path' => 'pipelines', 'feature' => 'pipelines'],
+                        ['granted' => 'TASKS', 'path' => 'tasks', 'feature' => 'tasks'],
+                        ['granted' => 'REMOTE_CLUSTERS', 'path' => 'remote_clusters', 'feature' => 'remote_clusters'],
+                        ['granted' => 'CAT', 'path' => 'cat'],
+                        ['granted' => 'SQL', 'path' => 'sql', 'feature' => 'sql'],
+                        ['granted' => 'CONSOLE', 'path' => 'console'],
+                        ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
+                        ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
+                        ['granted' => 'INDEX_GRAVEYARD', 'path' => 'index_graveyard', 'feature' => 'tombstones'],
+                    ];
 
-                $menus['tools'] = $this->populateMenu($entries);
-            }
+                    $menus['tools'] = $this->populateMenu($entries);
+                }
 
-            if (true == $this->isGranted('MENU_APPLICATION', 'global')) {
-                $entries = [
-                    ['granted' => 'APP_USERS', 'path' => 'app_users'],
-                    ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
-                    ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
-                    ['granted' => 'APP_LOGS', 'path' => 'app_logs'],
-                    ['granted' => 'APP_UPGRADE', 'path' => 'app_upgrade'],
-                ];
+                if (true == $this->isGranted('MENU_APPLICATION', 'global')) {
+                    $entries = [
+                        ['granted' => 'APP_USERS', 'path' => 'app_users'],
+                        ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
+                        ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
+                        ['granted' => 'APP_LOGS', 'path' => 'app_logs'],
+                        ['granted' => 'APP_UPGRADE', 'path' => 'app_upgrade'],
+                    ];
 
-                $menus['application'] = $this->populateMenu($entries);
+                    $menus['application'] = $this->populateMenu($entries);
+                }
             }
         }
 
