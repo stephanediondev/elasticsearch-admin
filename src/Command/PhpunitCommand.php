@@ -28,11 +28,11 @@ class PhpunitCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln('<info>PHP version: '.phpversion().'</info>');
+        $output->writeln('PHP version: <info>'.phpversion().'</info>');
 
-        $output->writeln('<info>Symfony version: '.Kernel::VERSION.'</info>');
+        $output->writeln('Symfony version: <info>'.Kernel::VERSION.'</info>');
 
-        $output->writeln('<info>Elasticsearch version: '.$this->callManager->getRoot()['version']['number'].'</info>');
+        $output->writeln('Elasticsearch version: <info>'.$this->callManager->getRoot()['version']['number'].'</info>');
 
         $output->writeln('');
 
@@ -167,7 +167,7 @@ class PhpunitCommand extends Command
             $callRequest->setPath($parameters['path'].'/'.$parameters['name']);
             $this->callManager->call($callRequest);
 
-            $output->writeln('<info>'.$case.' created: '.$parameters['name'].'</info>');
+            $output->writeln($case.' created: <info>'.$parameters['name'].'</info>');
         }
 
         $output->writeln('');
