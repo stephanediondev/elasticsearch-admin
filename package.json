@@ -20,7 +20,7 @@
     },
     "dependencies": {
         "@ttskch/select2-bootstrap4-theme": "^1.4.0",
-        "bootstrap": "^4.5.0",
+        "bootstrap": "^4.5.1",
         "bs-custom-file-input": "^1.3.1",
         "file-saver": "^2.0.2",
         "jquery": "^3.5.1",
