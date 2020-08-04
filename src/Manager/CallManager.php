@@ -110,7 +110,7 @@ class CallManager
                 if (true == isset($json['error'])) {
                     if (true == isset($json['error']['root_cause']) && true == isset($json['error']['root_cause'][0]) && true == isset($json['error']['root_cause'][0]['reason'])) {
                         $message = $json['error']['root_cause'][0]['reason'];
-                    } else if (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
+                    } elseif (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
                         $message = $json['error']['caused_by']['reason'];
                     } elseif (true == isset($json['error']['reason'])) {
                         $message = $json['error']['reason'];

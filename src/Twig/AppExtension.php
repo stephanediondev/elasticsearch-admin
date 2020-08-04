@@ -80,11 +80,9 @@ class AppExtension extends AbstractExtension
     {
         if ($datetime instanceof \Datetime) {
             return $datetime->format($format);
-
-        } else if (strstr($datetime, 'T')) {
+        } elseif (strstr($datetime, 'T')) {
             $datetime = new \Datetime($datetime);
             return $datetime->format($format);
-
         } else {
             return date($format, substr($datetime, 0, -3));
         }

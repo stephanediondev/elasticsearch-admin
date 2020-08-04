@@ -95,7 +95,6 @@ class ElasticsearchSqlController extends AbstractAppController
                 'error' => false,
                 'content' => $callResponse->getContent(),
             ];
-
         } catch (CallException $e) {
             $json = [
                 'error' => true,

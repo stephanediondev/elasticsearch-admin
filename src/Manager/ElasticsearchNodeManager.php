@@ -70,11 +70,9 @@ class ElasticsearchNodeManager extends AbstractAppManager
             if (true == isset($node['disk.used_percent']) && $diskThresholdEnabled) {
                 if (true == isset($diskWatermarkFloodStage) && strstr($diskWatermarkFloodStage, '%') && str_replace('%', '', $diskWatermarkFloodStage) <= $node['disk.used_percent']) {
                     $nodes[$node['name']]['disk_threshold'] = 'watermark_flood_stage';
-
-                } else if (strstr($diskWatermarkHigh, '%') && str_replace('%', '', $diskWatermarkHigh) <= $node['disk.used_percent']) {
+                } elseif (strstr($diskWatermarkHigh, '%') && str_replace('%', '', $diskWatermarkHigh) <= $node['disk.used_percent']) {
                     $nodes[$node['name']]['disk_threshold'] = 'watermark_high';
-
-                } else if (strstr($diskWatermarkLow, '%') && str_replace('%', '', $diskWatermarkLow) <= $node['disk.used_percent']) {
+                } elseif (strstr($diskWatermarkLow, '%') && str_replace('%', '', $diskWatermarkLow) <= $node['disk.used_percent']) {
                     $nodes[$node['name']]['disk_threshold'] = 'watermark_low';
                 }
             }

@@ -54,7 +54,7 @@
                     {% endif %}
 
                     {% if 'status' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices'), 's': 'status', 'title': 'status'|trans})}}
                         </th>
                     {% endif %}
@@ -132,7 +132,7 @@
                         {% endif %}
 
                         {% if 'status' == column %}
-                            <td>
+                            <th class="d-none d-xl-table-cell">
                                 {% if row.status %}
                                     {{ appImport.badge({'title': row.status|trans, 'context': row.status}) }}
                                 {% endif %}
