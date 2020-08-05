@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'reserved': true, 'indices': false, 'applications': false, 'cluster': false} %}
+    {% set columns = {'name': true, 'reserved': true, 'indices': false, 'applications': false, 'cluster': false, 'deprecated': true, 'deprecated_reason': true} %}
 
     {% block thead %}
         <tr>
@@ -16,6 +16,18 @@
                     {% if 'reserved' == column %}
                         <th>
                             {{ 'reserved'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'deprecated' == column %}
+                        <th>
+                            {{ 'deprecated'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'deprecated_reason' == column %}
+                        <th>
+                            {{ 'deprecated_reason'|trans }}
                         </th>
                     {% endif %}
 
@@ -43,7 +55,7 @@
 
     {% block tbody %}
         {% for row in roles.rows %}
-            <tr class="reserved-{% if row.isReserved %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
+            <tr class="reserved-{% if row.isReserved %}true{% else %}false{% endif %} deprecated-{% if row.isDeprecated %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
@@ -58,6 +70,24 @@
                                     {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                 {% else %}
                                     {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'deprecated' == column %}
+                            <td>
+                                {% if row.isDeprecated %}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'deprecated_reason' == column %}
+                            <td>
+                                {% if row.isDeprecated and row.deprecatedReason %}
+                                    {{ row.deprecatedReason }}
                                 {% endif %}
                             </td>
                         {% endif %}

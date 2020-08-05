@@ -33,6 +33,8 @@
                     {{ appImport.filterCheckboxesBoolean({'title': 'enabled'|trans, 'prefix': 'enabled'}) }}
 
                     {{ appImport.filterCheckboxesBoolean({'title': 'reserved'|trans, 'prefix': 'reserved'}) }}
+
+                    {{ appImport.filterCheckboxesBoolean({'title': 'deprecated'|trans, 'prefix': 'deprecated'}) }}
                 </div>
 
                 {{ appImport.paginator(users) }}

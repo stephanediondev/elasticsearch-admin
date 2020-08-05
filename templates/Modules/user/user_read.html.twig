@@ -91,6 +91,22 @@
                             {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
                         {% endif %}
                     </p>
+
+                    <p>
+                        <strong>{{ 'deprecated'|trans }}</strong><br>
+                        {% if user.isDeprecated %}
+                            {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                        {% else %}
+                            {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                        {% endif %}
+                    </p>
+
+                    {% if user.isDeprecated and user.deprecatedReason %}
+                        <p>
+                            <strong>{{ 'deprecated_reason'|trans }}</strong><br>
+                            {{ user.deprecatedReason }}
+                        </p>
+                    {% endif %}
                 </div>
 
                 {% if user.metadata and 0 < user.metadata|length %}

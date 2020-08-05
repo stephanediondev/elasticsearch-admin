@@ -130,6 +130,18 @@ class ElasticsearchUserModel extends AbstractAppModel
         return true == isset($this->getMetadata()['_reserved']) && true == $this->getMetadata()['_reserved'];
     }
 
+    public function isDeprecated(): ?bool
+    {
+        return true == isset($this->getMetadata()['_deprecated']) && true == $this->getMetadata()['_deprecated'];
+    }
+
+    public function getDeprecatedReason(): ?string
+    {
+        if (true == isset($this->getMetadata()['_deprecated_reason'])) {
+            return $this->getMetadata()['_deprecated_reason'];
+        }
+    }
+
     public function convert(?array $user): self
     {
         $this->setName($user['username']);

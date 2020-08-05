@@ -48,6 +48,22 @@
                 {% endif %}
             </p>
 
+            <p>
+                <strong>{{ 'deprecated'|trans }}</strong><br>
+                {% if role.isDeprecated %}
+                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                {% else %}
+                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                {% endif %}
+            </p>
+
+            {% if role.isDeprecated and role.deprecatedReason %}
+                <p>
+                    <strong>{{ 'deprecated_reason'|trans }}</strong><br>
+                    {{ role.deprecatedReason }}
+                </p>
+            {% endif %}
+
             {% if role.cluster and 0 < role.cluster|length %}
                 {{ appImport.heading({'level': 4, 'title': 'cluster'|trans}) }}
 
