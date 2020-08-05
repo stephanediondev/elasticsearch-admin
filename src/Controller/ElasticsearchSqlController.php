@@ -92,12 +92,12 @@ class ElasticsearchSqlController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
 
             $json = [
-                'error' => false,
+                'exception' => false,
                 'content' => $callResponse->getContent(),
             ];
         } catch (CallException $e) {
             $json = [
-                'error' => true,
+                'exception' => true,
                 'message' => $e->getMessage(),
             ];
         }

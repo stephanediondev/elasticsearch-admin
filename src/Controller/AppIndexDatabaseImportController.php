@@ -54,12 +54,12 @@ class AppIndexDatabaseImportController extends AbstractAppController
             }
 
             $json = [
-                'error' => false,
+                'exception' => false,
                 'columns' => $columns,
             ];
         } catch (\Exception $e) {
             $json = [
-                'error' => true,
+                'exception' => true,
                 'message' => $e->getMessage(),
             ];
         }
@@ -159,13 +159,13 @@ class AppIndexDatabaseImportController extends AbstractAppController
             $callResponse = $this->elasticsearchIndexManager->refreshByName($index->getName());
 
             $json = [
-                'error' => false,
+                'exception' => false,
                 'documents' => $documents - count($errors),
                 'errors' => $errors,
             ];
         } catch (\Exception $e) {
             $json = [
-                'error' => true,
+                'exception' => true,
                 'message' => $e->getMessage(),
             ];
         }

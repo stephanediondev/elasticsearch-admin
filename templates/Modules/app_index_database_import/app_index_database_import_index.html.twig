@@ -218,7 +218,7 @@
             }).then(function(response) {
                 return response.json();
             }).then(function(json) {
-                if (true == json.error) {
+                if (true == json.exception) {
                     $('nav').after('<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' + json.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 
                     if ('form-mappings' == form.attr('id')) {
