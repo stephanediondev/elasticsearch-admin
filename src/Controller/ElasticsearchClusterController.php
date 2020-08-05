@@ -8,6 +8,7 @@ use App\Form\ElasticsearchClusterSettingType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Manager\ElasticsearchSlmPolicyManager;
+use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\ElasticsearchClusterSettingModel;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,11 +22,12 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ElasticsearchClusterController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager, ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager)
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager, ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
     {
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
         $this->elasticsearchSlmPolicyManager = $elasticsearchSlmPolicyManager;
+        $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
     }
 
     /**
@@ -319,6 +321,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'cluster_not_readonly',
             'heap_size_init_equal_max',
             'slm_policies_schedule_unique',
+            'repositories_connected',
         ];
 
         $checkpoints = [];
@@ -545,6 +548,26 @@ class ElasticsearchClusterController extends AbstractAppController
                         } else {
                             $results['audit_pass'][$checkpoint] = [];
                         }
+                    }
+                    break;
+                case 'repositories_connected':
+                    $errors = [];
+                    $repositories = $this->elasticsearchRepositoryManager->getAll();
+                    foreach ($repositories as $repository) {
+                        try {
+                            $callResponse = $this->elasticsearchRepositoryManager->verifyByName($repository->getName());
+                            if (Response::HTTP_OK != $callResponse->getCode()) {
+                                $errors[] = $repository->getName();
+                            }
+                        } catch(Callexception $e) {
+                            $errors[] = $repository->getName();
+                        }
+                    }
+
+                    if (0 < count($errors)) {
+                        $results['audit_fail'][$checkpoint] = $errors;
+                    } else {
+                        $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
             }

@@ -72,6 +72,7 @@ audit_checkpoints:
     cluster_not_readonly: "The cluster is not read-only"
     heap_size_init_equal_max: "The initial heap size is equal to the maximum heap size"
     slm_policies_schedule_unique: "All SLM policies have unique schedule"
+    repositories_connected: "All repositories are connected"
 available: "Available"
 aws_account: "AWS account"
 back: "Back"

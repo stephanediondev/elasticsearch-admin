@@ -413,6 +413,25 @@
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
+
+                                {% if 'repositories_connected' == checkpoint %}
+                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
+                                        {% block comment %}
+                                            {% if 'audit_fail' == result %}
+                                                The checkpoint fails for the following repositories:
+                                                {% for repository in parameters %}
+                                                    {{ repository }}{% if false == loop.last %},{% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block internal_link %}
+                                            {% if is_granted('REPOSITORIES', 'global') %}
+                                                <a href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     {% endfor %}
