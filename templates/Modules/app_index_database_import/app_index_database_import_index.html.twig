@@ -154,6 +154,26 @@
                             <h3><span class="badge badge-info"></span></h3>
                         </div>
                     </div>
+
+                    <div class="table-responsive d-none" id="errors">
+                        <h4>{{ 'errors'|trans }}</h4>
+
+                        <table class="table table-hover table-sm">
+
+                        <thead class="thead-light">
+                            <tr>
+                                <th>{{ 'id'|trans }}</th>
+                                <th>{{ 'status'|trans }}</th>
+                                <th>{{ 'message'|trans }}</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        </tbody>
+
+                        </table>
+                    </div>
+
                 </div>
             </div>
         {% endblock %}
@@ -227,11 +247,23 @@
                     }
 
                     if ('form-mappings' == form.attr('id')) {
-                        $('#step-completed').find('.badge-info').text(json.documents);
+                        $('#step-completed .badge-info').text(json.documents);
 
                         $('#step-mappings').addClass('d-none');
                         $('#step-loading').addClass('d-none');
                         $('#step-completed').removeClass('d-none');
+
+                        $('#errors').addClass('d-none');
+                        $('#step-completed tbody').html('');
+
+                        if (0 < (json.errors).length) {
+                            for (var key in json.errors) {
+                                var error = json.errors[key];
+                                $('#step-completed tbody').append(`<tr><td>${error['_id']}</td><td>${error['status']}</td><td>${error['message']}</td></tr>`);
+                            }
+
+                            $('#errors').removeClass('d-none');
+                        }
                     }
                 }
             }).catch(function() {

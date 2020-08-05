@@ -137,11 +137,31 @@ class AppIndexDatabaseImportController extends AbstractAppController
             $callRequest->setBody($body);
             $callResponse = $this->callManager->call($callRequest);
 
+            $errors = [];
+
+            $content = $callResponse->getContent();
+            if (true == isset($content['errors']) && true == $content['errors']) {
+                foreach ($content['items'] as $item) {
+                    if (true == isset($item['index']['error'])) {
+                        $error = [];
+                        $error['_id'] = $item['index']['_id'];
+                        $error['status'] = $item['index']['status'];
+                        if (true == isset($item['index']['error']['caused_by']['reason'])) {
+                            $error['message'] = $item['index']['error']['caused_by']['reason'];
+                        } else {
+                            $error['message'] = '';
+                        }
+                        $errors[] = $error;
+                    }
+                }
+            }
+
             $callResponse = $this->elasticsearchIndexManager->refreshByName($index->getName());
 
             $json = [
                 'error' => false,
-                'documents' => $documents,
+                'documents' => $documents - count($errors),
+                'errors' => $errors,
             ];
         } catch (\Exception $e) {
             $json = [
