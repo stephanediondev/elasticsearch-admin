@@ -24,7 +24,7 @@
 
             <div class="row step" id="step-connect">
                 <div class="col-12">
-                    {{ appImport.heading({'level': 4, 'title': 'database.connect'|trans}) }}
+                    {{ appImport.heading({'level': 4, 'title': 'database.connect'|trans, 'badge': {'title': '1/4'}}) }}
                 </div>
 
                 <div class="col-12 col-md-5 col-lg-4">
@@ -75,7 +75,7 @@
 
             <div class="row step d-none" id="step-mappings">
                 <div class="col-12">
-                    {{ appImport.heading({'level': 4, 'title': 'database.mappings'|trans}) }}
+                    {{ appImport.heading({'level': 4, 'title': 'database.mappings'|trans, 'badge': {'title': '2/4'}}) }}
                 </div>
 
                 <div class="col-12">
@@ -126,7 +126,7 @@
 
             <div class="row step d-none" id="step-loading">
                 <div class="col-12">
-                    {{ appImport.heading({'level': 4, 'title': 'loading'|trans}) }}
+                    {{ appImport.heading({'level': 4, 'title': 'database.loading'|trans, 'badge': {'title': '3/4'}}) }}
                 </div>
 
                 <div class="col-12">
@@ -138,12 +138,21 @@
 
             <div class="row step d-none" id="step-completed">
                 <div class="col-12">
-                    {{ appImport.heading({'level': 4, 'title': 'import_completed'|trans, 'badge': {'title': 0}}) }}
+                    {{ appImport.heading({'level': 4, 'title': 'database.import_completed'|trans, 'badge': {'title': '4/4'}}) }}
                 </div>
 
                 <div class="col-12">
                     <div class="mb-3">
                         <a href="#step-mappings" class="btn btn-secondary btn-sm back">{{ 'back'|trans }}</a>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="text-center mb-4 col-12 col-md-4 col-lg-3">
+                            <h4>{{ 'documents'|trans }}</h4>
+                            <h3><span class="badge badge-info"></span></h3>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -218,7 +227,7 @@
                     }
 
                     if ('form-mappings' == form.attr('id')) {
-                        $('#step-completed').find('h4 .badge').text(json.documents);
+                        $('#step-completed').find('.badge-info').text(json.documents);
 
                         $('#step-mappings').addClass('d-none');
                         $('#step-loading').addClass('d-none');
