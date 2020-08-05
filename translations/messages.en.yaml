@@ -71,6 +71,7 @@ audit_checkpoints:
     below_disk_thresholds: "All disks are below thresholds"
     cluster_not_readonly: "The cluster is not read-only"
     heap_size_init_equal_max: "The initial heap size is equal to the maximum heap size"
+    slm_policies_schedule_unique: "All SLM policies have unique schedule"
 available: "Available"
 aws_account: "AWS account"
 back: "Back"

@@ -397,6 +397,22 @@
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
+
+                                {% if 'slm_policies_schedule_unique' == checkpoint %}
+                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
+                                        {% block comment %}
+                                            {% if 'audit_fail' == result %}
+                                                Two or more policies have the same schedule.
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block internal_link %}
+                                            {% if is_granted('SLM_POLICIES', 'global') %}
+                                                <a href="{{ path('slm') }}">{{ 'slm'|trans }}</a>
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     {% endfor %}

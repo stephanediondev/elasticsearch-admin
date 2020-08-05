@@ -7,6 +7,7 @@ use App\Exception\CallException;
 use App\Form\ElasticsearchClusterSettingType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchNodeManager;
+use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Model\ElasticsearchClusterSettingModel;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,10 +21,11 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ElasticsearchClusterController extends AbstractAppController
 {
-    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager, ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager)
     {
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+        $this->elasticsearchSlmPolicyManager = $elasticsearchSlmPolicyManager;
     }
 
     /**
@@ -315,7 +317,8 @@ class ElasticsearchClusterController extends AbstractAppController
             'password_not_changeme',
             'below_disk_thresholds',
             'cluster_not_readonly',
-            'heap_size_init_equal_max'
+            'heap_size_init_equal_max',
+            'slm_policies_schedule_unique',
         ];
 
         $checkpoints = [];
@@ -522,6 +525,22 @@ class ElasticsearchClusterController extends AbstractAppController
                 case 'password_not_changeme':
                     if ('elastic' == $elasticsearchUsername) {
                         if ('changeme' == $elasticsearchPassword) {
+                            $results['audit_fail'][$checkpoint] = [];
+                        } else {
+                            $results['audit_pass'][$checkpoint] = [];
+                        }
+                    }
+                    break;
+                case 'slm_policies_schedule_unique':
+                    if (true == $this->callManager->hasFeature('slm')) {
+                        $schedules = [];
+                        $policies = $this->elasticsearchSlmPolicyManager->getAll();
+                        foreach ($policies as $policy) {
+                            $schedules[] = $policy->getSchedule();
+                        }
+                        $schedules = array_unique($schedules);
+
+                        if (count($schedules) != count($policies)) {
                             $results['audit_fail'][$checkpoint] = [];
                         } else {
                             $results['audit_pass'][$checkpoint] = [];
