@@ -553,21 +553,23 @@ class ElasticsearchClusterController extends AbstractAppController
                 case 'repositories_connected':
                     $errors = [];
                     $repositories = $this->elasticsearchRepositoryManager->getAll();
-                    foreach ($repositories as $repository) {
-                        try {
-                            $callResponse = $this->elasticsearchRepositoryManager->verifyByName($repository->getName());
-                            if (Response::HTTP_OK != $callResponse->getCode()) {
+                    if (0 < count($repositories)) {
+                        foreach ($repositories as $repository) {
+                            try {
+                                $callResponse = $this->elasticsearchRepositoryManager->verifyByName($repository->getName());
+                                if (Response::HTTP_OK != $callResponse->getCode()) {
+                                    $errors[] = $repository->getName();
+                                }
+                            } catch(Callexception $e) {
                                 $errors[] = $repository->getName();
                             }
-                        } catch(Callexception $e) {
-                            $errors[] = $repository->getName();
                         }
-                    }
 
-                    if (0 < count($errors)) {
-                        $results['audit_fail'][$checkpoint] = $errors;
-                    } else {
-                        $results['audit_pass'][$checkpoint] = [];
+                        if (0 < count($errors)) {
+                            $results['audit_fail'][$checkpoint] = $errors;
+                        } else {
+                            $results['audit_pass'][$checkpoint] = [];
+                        }
                     }
                     break;
             }
