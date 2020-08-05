@@ -54,6 +54,7 @@ class CallManager
         'tasks' => '2.3',
         'cat_repositories_snapshots' => '2.1',
         'force_merge' => '2.1',
+        'cat_nodeattrs' => '2.0',
     ];
 
     public function __construct(Security $security, HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)

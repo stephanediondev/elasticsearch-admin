@@ -33,7 +33,6 @@ class ElasticsearchCatType extends AbstractType
             'indices',
             'indices/{index}',
             'master',
-            'nodeattrs',
             'nodes',
             'pending_tasks',
             'plugins',
@@ -69,6 +68,9 @@ class ElasticsearchCatType extends AbstractType
         if (true == $this->callManager->hasFeature('cat_repositories_snapshots')) {
             $commands[] = 'repositories';
             $commands[] = 'snapshots/{repository}';
+        }
+        if (true == $this->callManager->hasFeature('cat_nodeattrs')) {
+            $commands[] = 'nodeattrs';
         }
         sort($commands);
 
