@@ -67,8 +67,14 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
                 }
             }
         }
+        usort($snapshots, [$this, 'sortByStartTime']);
 
         return $snapshots;
+    }
+
+    private function sortByStartTime($a, $b)
+    {
+        return $b->getStartTime() > $a->getStartTime();
     }
 
     public function send(ElasticsearchSnapshotModel $snapshotModel): CallResponseModel
