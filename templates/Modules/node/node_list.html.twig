@@ -103,8 +103,8 @@
                                 {% if row['host'] is defined %}
                                     <br><small>{{ 'host'|trans }}: {{ row['host'] }}</small>
                                 {% endif %}
-                                {% if row['version'] is defined %}
-                                    <br><small>{{ 'version_es'|trans }}: {{ row['version'] }}</small>
+                                {% if row['ip'] is defined %}
+                                    <br><small>{{ 'ip'|trans }}: {{ row['ip'] }}</small>
                                 {% endif %}
                             </td>
                         {% endif %}
