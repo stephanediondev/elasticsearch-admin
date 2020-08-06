@@ -13,7 +13,7 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices'), 's': 'index', 'title': 'name'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices'), 's': 'index', 'title': 'name'|trans, 'default': ':asc'})}}
                         </th>
                     {% endif %}
 

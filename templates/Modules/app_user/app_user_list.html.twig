@@ -9,7 +9,7 @@
                 {% if true == display %}
                     {% if 'email' == column %}
                         <th>
-                            {{ 'email'|trans }}
+                            {{ 'email'|trans }}{{ appImport.badge({'title': 'sort_asc'|trans, 'context': 'light'}) }}
                         </th>
                     {% endif %}
 

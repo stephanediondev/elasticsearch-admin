@@ -4,11 +4,11 @@
     {% block thead %}
         <tr>
             <th>&nbsp;</th>
-            <th>
+            <th class="text-nowrap">
                 {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_id', 'title': '_id'})}}
             </th>
-            <th>
-                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_score', 'title': '_score'})}}
+            <th class="text-nowrap">
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_score', 'title': '_score', 'default': ':desc'})}}
             </th>
             {% for field, type in index.mappingsFlat %}
                 <th class="text-nowrap">

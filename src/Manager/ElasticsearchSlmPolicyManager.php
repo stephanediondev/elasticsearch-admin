@@ -45,8 +45,14 @@ class ElasticsearchSlmPolicyManager extends AbstractAppManager
             $policyModel->convert($row);
             $policies[] = $policyModel;
         }
+        usort($policies, [$this, 'sortByName']);
 
         return $policies;
+    }
+
+    private function sortByName($a, $b)
+    {
+        return $b->getName() < $a->getName();
     }
 
     public function send(ElasticsearchSlmPolicyModel $policyModel): CallResponseModel
@@ -112,10 +118,5 @@ class ElasticsearchSlmPolicyManager extends AbstractAppManager
         $callRequest->setPath('/_slm/stop');
 
         return $this->callManager->call($callRequest);
-    }
-
-    private function sortByName($a, $b)
-    {
-        return $b['name'] < $a['name'];
     }
 }

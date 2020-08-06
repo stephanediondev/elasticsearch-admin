@@ -103,10 +103,27 @@
 
         {% if app.request.query.get('s') and app.request.query.get('s') == params.s ~ ':asc' %}
             {% set url = url ~ ':desc' %}
+        {% elseif false == app.request.query.get('s') and params.default is defined and params.default == ':asc' %}
+            {% set url = url ~ ':desc' %}
         {% else %}
             {% set url = url ~ ':asc' %}
         {% endif %}
-        <a class="{{ params.class }}" href="{{ url }}">{{ params.title }}</a>
+        <a class="{{ params.class }}" href="{{ url }}">
+            {{ params.title }}
+            {% set badge = false %}
+            {% if app.request.query.get('s') and (app.request.query.get('s') == params.s ~ ':asc' or app.request.query.get('s') == params.s ~ ':desc') %}
+                {% set badge = app.request.query.get('s') %}
+            {% elseif false == app.request.query.get('s') and params.default is defined %}
+                {% set badge = params.default %}
+            {% endif %}
+            {% if badge %}
+                {% if ':asc' in badge %}
+                    {{ _self.badge({'title': 'sort_asc'|trans, 'context': 'light'}) }}
+                {% else %}
+                    {{ _self.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}
+                {% endif %}
+            {% endif %}
+        </a>
     {% else %}
         {{ params.title }}
     {% endif %}

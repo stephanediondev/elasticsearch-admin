@@ -33,7 +33,7 @@
 
                     {% if 'start_time' == column %}
                         <th>
-                            {{ 'start_time'|trans }}
+                            {{ 'start_time'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}
                         </th>
                     {% endif %}
 

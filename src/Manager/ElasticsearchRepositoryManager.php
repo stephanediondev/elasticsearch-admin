@@ -47,8 +47,14 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
             $repositoryModel->convert($row);
             $repositories[] = $repositoryModel;
         }
+        usort($repositories, [$this, 'sortByName']);
 
         return $repositories;
+    }
+
+    private function sortByName($a, $b)
+    {
+        return $b->getName() < $a->getName();
     }
 
     public function send(ElasticsearchRepositoryModel $repositoryModel): CallResponseModel

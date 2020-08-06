@@ -1,4 +1,6 @@
 {% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
     {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true} %}
 
     {% block thead %}
@@ -7,7 +9,7 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ 'name'|trans }}
+                            {{ 'name'|trans }}{{ appImport.badge({'title': 'sort_asc'|trans, 'context': 'light'}) }}
                         </th>
                     {% endif %}
 

@@ -18,7 +18,7 @@
                 {% if true == display %}
                     {% if 'index' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'index', 'title': 'index'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'index', 'title': 'index'|trans, 'default': ':asc'})}}
                         </th>
                     {% endif %}
 
