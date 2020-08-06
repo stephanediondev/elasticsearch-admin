@@ -1,4 +1,4 @@
-var VERSION ='20200804.2050';
+var VERSION ='20200806.2143';
 var CACHE_KEY_PREFIX = 'elasticsearch-admin-';
 var CACHE_KEY = CACHE_KEY_PREFIX + VERSION;
 var CACHE_FILES = [
