@@ -5,7 +5,6 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - [Running with Docker](#running-with-docker)
 - [Source installation](#source-installation)
 - [Features](#features)
-- [Todo](#todo)
 - [Screenshots](#screenshots)
 - [Other tools](#other-tools)
 - [Unit tests](#unit-tests)
@@ -48,41 +47,33 @@ cp .env.dist .env
 
 ## Features
 
-- [x] Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x, 8.x (snapshot)
-- [x] Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, credentials or not
-- [x] App users: register, login, logout, list, create, read, update, delete
-- [x] App roles: list, create, read, update (permissions), delete
-- [x] Cluster: basic metrics, audit, allocation explain [5.0], settings [5.0] (list, update)
-- [x] Nodes: list, read, usage [6.0], plugins, reload secure settings [6.4]
-- [x] Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search by query, export (CSV, TSV, ODS, XLSX, GEOJSON), import from file (ODS, XLSX), import from database (PDO drivers), aliases (list, create, delete)
-- [x] Legacy index templates: list, create, read, update, delete, copy
-- [x] Composable index templates [7.8]: list, create, read, update, delete, copy
-- [x] Component templates [7.8]: list, create, read, update, delete, copy
-- [x] Index lifecycle management policies [6.6]: list, status, start, stop, create, read, update, delete, copy
-- [x] Shards: list, cluster reroute (move, allocate replica, cancel allocation)
-- [x] Repositories: list, create (fs, s3, gcs, azure), read, update, delete, cleanup, verify
-- [x] Snapshot lifecycle management policies [7.4]: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
-- [x] Snapshots: list, create, read, delete, failures, restore
-- [x] Elasticsearch users (native realm): list, create, read, update, delete, enable, disable
-- [x] Elasticsearch roles: list, create, read, update, delete, copy
-- [x] Tasks [2.3]: list
-- [x] Remote clusters [5.4]: list
-- [x] Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
-- [x] Pipelines [5.0]: list, create, read, update, delete, copy
-- [x] Cat APIs: list, export (CSV, TSV, ODS, XLSX)
-- [x] Console
-- [x] SQL access [6.3]: query, translate to DSL
-- [x] Deprecations info [5.6]
-- [x] License [5.0]: read, status / start trial / revert to basic [6.6], features
-- [x] Index graveyard [5.0]: list
-
-## Todo
-
-- [ ] SQL access: export
-- [ ] Indices: shrink, split, clone
-- [ ] Repositories: create (url, source, hdfs)
-- [ ] Remote clusters: create, update, delete
-- [ ] License: update
+- Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x, 8.x (snapshot)
+- Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, credentials or not
+- App users: register, login, logout, list, create, read, update, delete
+- App roles: list, create, read, update (permissions), delete
+- Cluster: basic metrics, audit, allocation explain [5.0], settings [5.0] (list, update)
+- Nodes: list, read, usage [6.0], plugins, reload secure settings [6.4]
+- Indices: list, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search by query, export (CSV, TSV, ODS, XLSX, GEOJSON), import from file (ODS, XLSX), import from database (PDO drivers), aliases (list, create, delete)
+- Legacy index templates: list, create, read, update, delete, copy
+- Composable index templates [7.8]: list, create, read, update, delete, copy
+- Component templates [7.8]: list, create, read, update, delete, copy
+- Index lifecycle management policies [6.6]: list, status, start, stop, create, read, update, delete, copy
+- Shards: list, cluster reroute (move, allocate replica, cancel allocation)
+- Repositories: list, create (fs, s3, gcs, azure), read, update, delete, cleanup, verify
+- Snapshot lifecycle management policies [7.4]: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
+- Snapshots: list, create, read, delete, failures, restore
+- Elasticsearch users (native realm): list, create, read, update, delete, enable, disable
+- Elasticsearch roles: list, create, read, update, delete, copy
+- Tasks [2.3]: list
+- Remote clusters [5.4]: list
+- Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
+- Pipelines [5.0]: list, create, read, update, delete, copy
+- Cat APIs: list, export (CSV, TSV, ODS, XLSX)
+- Console
+- SQL access [6.3]: query, translate to DSL
+- Deprecations info [5.6]
+- License [5.0]: read, status / start trial / revert to basic [6.6], features
+- Index graveyard [5.0]: list
 
 ## Screenshots
 
