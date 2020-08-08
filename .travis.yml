@@ -1,0 +1,21 @@
+language: php
+php:
+    - 7.4
+
+services:
+    - elasticsearch
+
+#ElasticSearch takes few seconds to start, to make sure it is available when the build script runs add a small delay to your build script:
+before_script:
+    - sleep 10
+
+env:
+    - ELASTICSEARCH_URL="http://127.0.0.1:9200"
+
+install:
+    - composer install
+    - npm install
+    - npm run build
+
+script:
+    - bin/phpunit

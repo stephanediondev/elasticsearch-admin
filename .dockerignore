@@ -20,5 +20,15 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
+.dockerignore
+.env.test
+.git
+.github
+.gitignore
 .php_cs.cache
+docker
+Dockerfile
+phpunit.xml.dist
 screenshots
+tests
+update.sh
