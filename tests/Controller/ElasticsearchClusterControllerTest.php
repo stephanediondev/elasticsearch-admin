@@ -95,7 +95,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/cluster/audit", name="cluster_audit")
      */
-    /*public function testAudit()
+    public function testAudit()
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cluster/health');
@@ -106,5 +106,5 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Audit');
-    }*/
+    }
 }
