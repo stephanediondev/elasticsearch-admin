@@ -3,20 +3,27 @@
 namespace App\Command;
 
 use App\Kernel;
+use App\Manager\AppManager;
+use App\Manager\AppUserManager;
 use App\Manager\CallManager;
+use App\Model\AppUserModel;
 use App\Model\CallRequestModel;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PhpunitCommand extends Command
 {
     protected static $defaultName = 'app:phpunit';
 
-    public function __construct(CallManager $callManager)
+    public function __construct(CallManager $callManager, AppManager $appManager, AppUserManager $appUserManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->callManager = $callManager;
+        $this->appManager = $appManager;
+        $this->appUserManager = $appUserManager;
+        $this->passwordEncoder = $passwordEncoder;
 
         parent::__construct();
     }
@@ -35,6 +42,35 @@ class PhpunitCommand extends Command
         $output->writeln('Elasticsearch version: <info>'.$this->callManager->getRoot()['version']['number'].'</info>');
 
         $output->writeln('');
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('HEAD');
+        $callRequest->setPath('/.elasticsearch-admin-users');
+        $callResponse = $this->callManager->call($callRequest);
+
+        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+            $json = [
+                'settings' => $this->appManager->getSettings('.elasticsearch-admin-users'),
+                'aliases' => ['.elasticsearch-admin-users' => (object)[]],
+            ];
+            if (true == $this->callManager->checkVersion('7.0')) {
+                $json['mappings'] = $this->appManager->getMappings('.elasticsearch-admin-users');
+            }
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('PUT');
+            $callRequest->setJson($json);
+            $callRequest->setPath('/.elasticsearch-admin-users-v'.$this->appManager->getVersion());
+            $callResponse = $this->callManager->call($callRequest);
+
+            $user = new AppUserModel();
+            $user->setEmail('example@example.com');
+            $user->setPassword($this->passwordEncoder->encodePassword($user, 'example'));
+            $user->setRoles(['ROLE_ADMIN']);
+
+            $callResponse = $this->appUserManager->send($user);
+
+            sleep(2);
+        }
 
         if (true == $this->callManager->hasFeature('_security_endpoint')) {
             $this->endpoint = '/_security';

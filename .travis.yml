@@ -18,4 +18,5 @@ install:
     - npm run build
 
 script:
+    - bin/console app:phpunit
     - bin/phpunit
