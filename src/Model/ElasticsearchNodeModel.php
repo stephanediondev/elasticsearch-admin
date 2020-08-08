@@ -75,7 +75,7 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this->os;
     }
 
-    public function setOs($os): self
+    public function setOs(?array $os): self
     {
         $this->os = $os;
 
@@ -87,7 +87,7 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this->roles;
     }
 
-    public function setRoles($roles): self
+    public function setRoles(?array $roles): self
     {
         $this->roles = $roles;
 
@@ -99,7 +99,7 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this->settings;
     }
 
-    public function setSettings($settings): self
+    public function setSettings(?array $settings): self
     {
         $this->settings = $settings;
 
@@ -111,7 +111,7 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this->plugins;
     }
 
-    public function setPlugins($plugins): self
+    public function setPlugins(?array $plugins): self
     {
         $this->plugins = $plugins;
 

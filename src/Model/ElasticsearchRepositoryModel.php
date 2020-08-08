@@ -167,7 +167,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this->settings;
     }
 
-    public function setSettings($settings): self
+    public function setSettings(?array $settings): self
     {
         $this->settings = $settings;
 

@@ -28,7 +28,7 @@ class ElasticsearchReloadSecureSettingsModel extends AbstractAppModel
     public function getJson(): array
     {
         $json = [
-            'secure_settings_password' => $this->getSecureSettingsPassword() ?  $this->getSecureSettingsPassword() : '',
+            'secure_settings_password' => $this->getSecureSettingsPassword() ? $this->getSecureSettingsPassword() : '',
         ];
 
         return $json;

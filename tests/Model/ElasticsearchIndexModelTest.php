@@ -27,6 +27,8 @@ class ElasticsearchIndexModelTest extends WebTestCase
         $index->setMappings('');
         $index->setMappings([]);
         $index->setMappingsFlat(['mapping-field' => ['type' => 'mapping-type']]);
+        $index->setAliases('');
+        $index->setAliases([]);
 
         $this->assertEquals($index->getName(), 'name');
         $this->assertEquals($index->getStatus(), 'status');
@@ -67,6 +69,9 @@ class ElasticsearchIndexModelTest extends WebTestCase
 
         $this->assertEquals($index->hasMappingType('mapping-type'), true);
         $this->assertEquals($index->hasMappingType('mapping-fail'), false);
+
+        $this->assertEquals($index->getAliases(), []);
+        $this->assertIsArray($index->getAliases());
 
         $index->setName('.name');
         $this->assertEquals($index->isSystem(), true);
