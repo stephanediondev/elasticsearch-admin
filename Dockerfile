@@ -28,9 +28,7 @@ COPY docker/php.ini /etc/php7/conf.d/custom.ini
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create folders
-RUN mkdir -p /var/www/html
-RUN mkdir -p /.composer
-RUN mkdir -p /.npm
+RUN mkdir -p /var/www/html && mkdir -p /.composer && mkdir -p /.npm
 
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user
 RUN chown -R nobody.nobody /var/www/html && \
@@ -51,7 +49,7 @@ COPY --chown=nobody . /var/www/html/
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Run composer install to install the dependencies
-RUN composer install --optimize-autoloader --no-interaction --no-progress
+RUN composer install --optimize-autoloader --no-interaction --no-progress --no-dev
 
 RUN npm install
 RUN npm run build
