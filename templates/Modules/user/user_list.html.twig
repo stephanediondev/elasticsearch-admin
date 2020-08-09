@@ -14,13 +14,13 @@
                     {% endif %}
 
                     {% if 'full_name' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'full_name'|trans }}
                         </th>
                     {% endif %}
 
                     {% if 'email' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'email'|trans }}
                         </th>
                     {% endif %}
@@ -44,7 +44,7 @@
                     {% endif %}
 
                     {% if 'deprecated_reason' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'deprecated_reason'|trans }}
                         </th>
                     {% endif %}
@@ -71,13 +71,13 @@
                         {% endif %}
 
                         {% if 'full_name' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.fullName }}
                             </td>
                         {% endif %}
 
                         {% if 'email' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {{ row.email }}
                             </td>
                         {% endif %}
@@ -119,7 +119,7 @@
                         {% endif %}
 
                         {% if 'deprecated_reason' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {% if row.isDeprecated and row.deprecatedReason %}
                                     {{ row.deprecatedReason }}
                                 {% endif %}
