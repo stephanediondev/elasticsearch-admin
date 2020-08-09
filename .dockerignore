@@ -30,9 +30,13 @@ yarn-error.log
 .travis.yml
 bin/.phpunit
 bin/phpunit
+config/packages/dev
+config/packages/test
+config/routes/dev
 Dockerfile
 phpunit.xml.dist
 screenshots
 src/Command
+src/DataFixtures
 tests
 update.sh
