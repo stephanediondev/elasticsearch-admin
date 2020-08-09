@@ -21,14 +21,18 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 .dockerignore
+.DS_Store
 .env.test
 .git
 .github
 .gitignore
 .php_cs.cache
-docker
+.travis.yml
+bin/.phpunit
+bin/phpunit
 Dockerfile
 phpunit.xml.dist
 screenshots
+src/Command
 tests
 update.sh
