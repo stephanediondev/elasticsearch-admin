@@ -1,3 +1,5 @@
+[![PHP Composer](https://github.com/stephanediondev/elasticsearch-admin/workflows/PHP%20Composer/badge.svg)](https://github.com/stephanediondev/elasticsearch-admin/actions) [![Travis CI](https://travis-ci.org/stephanediondev/elasticsearch-admin.svg?branch=master)](https://travis-ci.org/stephanediondev/elasticsearch-admin) [![SymfonyInsight](https://insight.symfony.com/projects/14c0ad4a-2423-45c5-8ba7-bf6bbe205817/mini.svg)](https://insight.symfony.com/projects/14c0ad4a-2423-45c5-8ba7-bf6bbe205817)
+
 The application named elasticsearch-admin is NOT affiliated in any way with Elasticsearch BV.
 
 Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
