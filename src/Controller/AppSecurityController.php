@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class AppSecurityController extends AbstractAppController
@@ -80,7 +80,7 @@ class AppSecurityController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_OK == $callResponse->getCode()) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $user = new AppUserModel();

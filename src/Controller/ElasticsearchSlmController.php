@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -36,7 +36,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policies = $this->elasticsearchSlmPolicyManager->getAll();
@@ -61,7 +61,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATS', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $stats = $this->elasticsearchSlmPolicyManager->getStats();
@@ -79,7 +79,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $status = $this->elasticsearchSlmPolicyManager->getStatus();
@@ -97,7 +97,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $callResponse = $this->elasticsearchSlmPolicyManager->start();
@@ -115,7 +115,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $callResponse = $this->elasticsearchSlmPolicyManager->stop();
@@ -133,7 +133,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES_CREATE', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
@@ -191,7 +191,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
@@ -213,7 +213,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
@@ -235,7 +235,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
@@ -255,7 +255,7 @@ class ElasticsearchSlmController extends AbstractAppController
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
@@ -297,7 +297,7 @@ class ElasticsearchSlmController extends AbstractAppController
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
@@ -321,7 +321,7 @@ class ElasticsearchSlmController extends AbstractAppController
     public function execute(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('slm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);

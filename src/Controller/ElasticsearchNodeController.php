@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -95,7 +95,7 @@ class ElasticsearchNodeController extends AbstractAppController
     public function readUsage(Request $request, string $node): Response
     {
         if (false === $this->callManager->hasFeature('node_usage')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $node = $this->elasticsearchNodeManager->getByName($node);
@@ -130,7 +130,7 @@ class ElasticsearchNodeController extends AbstractAppController
     public function readReloadSecureSettings(Request $request, string $node): Response
     {
         if (false === $this->callManager->hasFeature('reload_secure_settings')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $node = $this->elasticsearchNodeManager->getByName($node);

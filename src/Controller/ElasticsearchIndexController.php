@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -193,7 +193,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $this->denyAccessUnlessGranted('INDICES_FORCE_MERGE', 'global');
 
         if (false === $this->callManager->hasFeature('force_merge')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $callRequest = new CallRequestModel();
@@ -923,7 +923,7 @@ class ElasticsearchIndexController extends AbstractAppController
     public function lifecycle(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -952,7 +952,7 @@ class ElasticsearchIndexController extends AbstractAppController
     public function removePolicy(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1134,7 +1134,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
         if (true === isset($clusterSettings['cluster.indices.close.enable']) && 'false' == $clusterSettings['cluster.indices.close.enable']) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $this->denyAccessUnlessGranted('INDEX_CLOSE', $index);
@@ -1172,7 +1172,7 @@ class ElasticsearchIndexController extends AbstractAppController
     public function freeze(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('freeze_unfreeze')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1196,7 +1196,7 @@ class ElasticsearchIndexController extends AbstractAppController
     public function unfreeze(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('freeze_unfreeze')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1220,7 +1220,7 @@ class ElasticsearchIndexController extends AbstractAppController
     public function forceMerge(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('force_merge')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1304,7 +1304,7 @@ class ElasticsearchIndexController extends AbstractAppController
     public function empty(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('delete_by_query')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);

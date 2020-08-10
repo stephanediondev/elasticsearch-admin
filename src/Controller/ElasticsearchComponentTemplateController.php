@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -31,7 +31,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $templates = $this->elasticsearchComponentTemplateManager->getAll();
@@ -56,7 +56,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_CREATE', 'global');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $template = null;
@@ -105,7 +105,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
@@ -127,7 +127,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
@@ -149,7 +149,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
@@ -169,7 +169,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('composable_template')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
@@ -208,7 +208,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('composable_template')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);

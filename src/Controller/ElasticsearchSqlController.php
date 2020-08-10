@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -28,7 +28,7 @@ class ElasticsearchSqlController extends AbstractAppController
         $this->denyAccessUnlessGranted('SQL', 'global');
 
         if (false === $this->callManager->hasFeature('sql')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $parameters = [];
@@ -75,7 +75,7 @@ class ElasticsearchSqlController extends AbstractAppController
         $this->denyAccessUnlessGranted('SQL', 'global');
 
         if (false === $this->callManager->hasFeature('sql')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $content = $request->getContent();

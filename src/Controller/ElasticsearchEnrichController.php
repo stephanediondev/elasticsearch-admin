@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -36,7 +36,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
 
         if (false === $this->callManager->hasFeature('enrich')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policies = $this->elasticsearchEnrichPolicyManager->getAll();
@@ -61,7 +61,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_STATS', 'global');
 
         if (false === $this->callManager->hasFeature('enrich')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $stats = $this->elasticsearchEnrichPolicyManager->getStats();
@@ -82,7 +82,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE', 'global');
 
         if (false === $this->callManager->hasFeature('enrich')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $indices = $this->elasticsearchIndexManager->selectIndices();
@@ -133,7 +133,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
 
         if (false === $this->callManager->hasFeature('enrich')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
@@ -153,7 +153,7 @@ class ElasticsearchEnrichController extends AbstractAppController
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('enrich')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
@@ -177,7 +177,7 @@ class ElasticsearchEnrichController extends AbstractAppController
     public function execute(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('enrich')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);

@@ -12,7 +12,7 @@ use App\Model\ElasticsearchRoleModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -34,7 +34,7 @@ class ElasticsearchRoleController extends AbstractAppController
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES', 'global');
 
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $roles = $this->elasticsearchRoleManager->getAll();
@@ -59,7 +59,7 @@ class ElasticsearchRoleController extends AbstractAppController
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES_CREATE', 'global');
 
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $role = null;
@@ -108,7 +108,7 @@ class ElasticsearchRoleController extends AbstractAppController
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES', 'global');
 
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $role = $this->elasticsearchRoleManager->getByName($role);
@@ -128,7 +128,7 @@ class ElasticsearchRoleController extends AbstractAppController
     public function update(Request $request, string $role): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $role = $this->elasticsearchRoleManager->getByName($role);
@@ -167,7 +167,7 @@ class ElasticsearchRoleController extends AbstractAppController
     public function delete(Request $request, string $role): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $role = $this->elasticsearchRoleManager->getByName($role);

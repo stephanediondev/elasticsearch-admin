@@ -12,7 +12,7 @@ use App\Model\ElasticsearchUserModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -34,7 +34,7 @@ class ElasticsearchUserController extends AbstractAppController
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS', 'global');
 
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $users = $this->elasticsearchUserManager->getAll();
@@ -59,7 +59,7 @@ class ElasticsearchUserController extends AbstractAppController
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS_CREATE', 'global');
 
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $roles = $this->elasticsearchRoleManager->selectRoles();
@@ -108,7 +108,7 @@ class ElasticsearchUserController extends AbstractAppController
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS', 'global');
 
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $user = $this->elasticsearchUserManager->getByName($user);
@@ -128,7 +128,7 @@ class ElasticsearchUserController extends AbstractAppController
     public function update(Request $request, string $user): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $user = $this->elasticsearchUserManager->getByName($user);
@@ -194,7 +194,7 @@ class ElasticsearchUserController extends AbstractAppController
     public function enable(Request $request, string $user): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $user = $this->elasticsearchUserManager->getByName($user);
@@ -222,7 +222,7 @@ class ElasticsearchUserController extends AbstractAppController
     public function disable(Request $request, string $user): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $user = $this->elasticsearchUserManager->getByName($user);
@@ -250,7 +250,7 @@ class ElasticsearchUserController extends AbstractAppController
     public function delete(Request $request, string $user): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $user = $this->elasticsearchUserManager->getByName($user);

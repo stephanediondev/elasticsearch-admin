@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -162,7 +162,7 @@ class AppRoleController extends AbstractAppController
 
             return new JsonResponse($callResponse->getContent(), JsonResponse::HTTP_OK);
         } else {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
     }
 

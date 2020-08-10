@@ -7,7 +7,7 @@ use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -22,7 +22,7 @@ class ElasticsearchDeprecationController extends AbstractAppController
         $this->denyAccessUnlessGranted('DEPRECATIONS', 'global');
 
         if (false === $this->callManager->hasFeature('deprecations')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $callRequest = new CallRequestModel();

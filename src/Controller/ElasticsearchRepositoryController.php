@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -53,15 +53,15 @@ class ElasticsearchRepositoryController extends AbstractAppController
         $this->denyAccessUnlessGranted('REPOSITORIES_CREATE', 'global');
 
         if ('s3' == $type && false === $this->callManager->hasPlugin('repository-s3')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         if ('gcs' == $type && false === $this->callManager->hasPlugin('repository-gcs')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         if ('azure' == $type && false === $this->callManager->hasPlugin('repository-azure')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();

@@ -7,7 +7,7 @@ use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -22,7 +22,7 @@ class ElasticsearchLicenseController extends AbstractAppController
         $this->denyAccessUnlessGranted('LICENSE', 'global');
 
         if (false === $this->callManager->hasFeature('license')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
@@ -70,7 +70,7 @@ class ElasticsearchLicenseController extends AbstractAppController
         $this->denyAccessUnlessGranted('LICENSE_START_TRIAL', 'global');
 
         if (false === $this->callManager->hasFeature('license_status')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
@@ -98,7 +98,7 @@ class ElasticsearchLicenseController extends AbstractAppController
         $this->denyAccessUnlessGranted('LICENSE_START_BASIC', 'global');
 
         if (false === $this->callManager->hasFeature('license_status')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {

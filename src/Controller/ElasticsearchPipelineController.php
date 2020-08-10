@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -32,7 +32,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
         if (false === $this->callManager->hasFeature('pipelines')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $pipelines = $this->elasticsearchPipelineManager->getAll();
@@ -57,7 +57,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         $this->denyAccessUnlessGranted('PIPELINES_CREATE', 'global');
 
         if (false === $this->callManager->hasFeature('pipelines')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $pipeline = null;
@@ -106,7 +106,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
         if (false === $this->callManager->hasFeature('pipelines')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
@@ -126,7 +126,7 @@ class ElasticsearchPipelineController extends AbstractAppController
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('pipelines')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
@@ -165,7 +165,7 @@ class ElasticsearchPipelineController extends AbstractAppController
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('pipelines')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);

@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -37,7 +37,7 @@ class ElasticsearchIlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('ILM_POLICIES', 'global');
 
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policies = $this->elasticsearchIlmPolicyManager->getAll();
@@ -62,7 +62,7 @@ class ElasticsearchIlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $status = $this->elasticsearchIlmPolicyManager->getStatus();
@@ -80,7 +80,7 @@ class ElasticsearchIlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $callResponse = $this->elasticsearchIlmPolicyManager->start();
@@ -98,7 +98,7 @@ class ElasticsearchIlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $callResponse = $this->elasticsearchIlmPolicyManager->stop();
@@ -116,7 +116,7 @@ class ElasticsearchIlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('ILM_POLICIES_CREATE', 'global');
 
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = null;
@@ -165,7 +165,7 @@ class ElasticsearchIlmController extends AbstractAppController
         $this->denyAccessUnlessGranted('ILM_POLICIES', 'global');
 
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
@@ -185,7 +185,7 @@ class ElasticsearchIlmController extends AbstractAppController
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
@@ -224,7 +224,7 @@ class ElasticsearchIlmController extends AbstractAppController
     public function apply(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
@@ -256,7 +256,7 @@ class ElasticsearchIlmController extends AbstractAppController
                 }
 
                 if (true === $template->isSystem()) {
-                    throw new AccessDeniedHttpException();
+                    throw new AccessDeniedException();
                 }
 
                 $template->setSetting('index.lifecycle.name', $policy->getName());
@@ -284,7 +284,7 @@ class ElasticsearchIlmController extends AbstractAppController
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);

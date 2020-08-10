@@ -7,7 +7,7 @@ use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -22,7 +22,7 @@ class ElasticsearchTaskController extends AbstractAppController
         $this->denyAccessUnlessGranted('TASKS', 'global');
 
         if (false === $this->callManager->hasFeature('tasks')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $tasks = [];

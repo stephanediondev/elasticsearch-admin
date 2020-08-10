@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -61,7 +61,7 @@ class ElasticsearchClusterController extends AbstractAppController
         $this->denyAccessUnlessGranted('CLUSTER_ALLOCATION_EXPLAIN', 'global');
 
         if (false === $this->callManager->hasFeature('allocation_explain')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $allocationExplain = false;
@@ -88,7 +88,7 @@ class ElasticsearchClusterController extends AbstractAppController
         $this->denyAccessUnlessGranted('CLUSTER_SETTINGS', 'global');
 
         if (false === $this->callManager->hasFeature('cluster_settings')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $callRequest = new CallRequestModel();
@@ -111,7 +111,7 @@ class ElasticsearchClusterController extends AbstractAppController
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_EDIT', 'global');
 
         if (false === $this->callManager->hasFeature('cluster_settings')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
@@ -160,7 +160,7 @@ class ElasticsearchClusterController extends AbstractAppController
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_REMOVE', 'global');
 
         if (false === $this->callManager->hasFeature('cluster_settings')) {
-            throw new AccessDeniedHttpException();
+            throw new AccessDeniedException();
         }
 
         $json = [
