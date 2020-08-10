@@ -53,11 +53,11 @@ class ElasticsearchIndexController extends AbstractAppController
             'h' => 'uuid,index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
-        if (true == $this->callManager->hasFeature('cat_sort')) {
+        if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = $request->query->get('s', 'index:asc');
         }
 
-        if (true == $this->callManager->hasFeature('cat_expand_wildcards')) {
+        if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
             $query['expand_wildcards'] = 'all';
         }
 
@@ -87,11 +87,11 @@ class ElasticsearchIndexController extends AbstractAppController
             'h' => 'uuid,index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
-        if (true == $this->callManager->hasFeature('cat_sort')) {
+        if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = $request->query->get('s', 'index:asc');
         }
 
-        if (true == $this->callManager->hasFeature('cat_expand_wildcards')) {
+        if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
             $query['expand_wildcards'] = 'all';
         }
 
@@ -136,7 +136,7 @@ class ElasticsearchIndexController extends AbstractAppController
                                 $key = false;
                         }
                         if ($key) {
-                            if (false == isset($data['tables'][$table]['results'][$key])) {
+                            if (false === isset($data['tables'][$table]['results'][$key])) {
                                 $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
                             }
                             $data['tables'][$table]['results'][$key]['total']++;
@@ -175,7 +175,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $results = $callResponse->getContent();
 
         foreach ($results as $result) {
-            if (true == isset($result['mappings']) && true == isset($result['mappings']['properties'])) {
+            if (true === isset($result['mappings']) && true === isset($result['mappings']['properties'])) {
                 foreach ($result['mappings']['properties'] as $k => $property) {
                     $json[] = $k;
                 }
@@ -192,7 +192,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDICES_FORCE_MERGE', 'global');
 
-        if (false == $this->callManager->hasFeature('force_merge')) {
+        if (false === $this->callManager->hasFeature('force_merge')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -345,7 +345,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -364,7 +364,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -406,7 +406,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -447,7 +447,7 @@ class ElasticsearchIndexController extends AbstractAppController
                             $type = false;
                             $line = [];
                             foreach ($row as $key => $value) {
-                                if (true == in_array($headers[$key], $excludedMeta)) {
+                                if (true === in_array($headers[$key], $excludedMeta)) {
                                     continue;
                                 }
 
@@ -460,7 +460,7 @@ class ElasticsearchIndexController extends AbstractAppController
                                         $value = $value->format('Y-m-d');
                                     }
 
-                                    if (true == array_key_exists($headers[$key], $index->getMappingsFlat())) {
+                                    if (true === array_key_exists($headers[$key], $index->getMappingsFlat())) {
                                         if ('keyword' == $index->getMappingsFlat()[$headers[$key]]['type']) {
                                             $parts = explode(PHP_EOL, $value);
                                             if (1 < count($parts)) {
@@ -473,7 +473,7 @@ class ElasticsearchIndexController extends AbstractAppController
                                                 list($lat, $lon) = explode(',', $value);
                                                 $value = ['lat' => $lat, 'lon' => $lon];
                                             }
-                                        } elseif (true == $this->isJson($value)) {
+                                        } elseif (true === $this->isJson($value)) {
                                             $value = json_decode($value, true);
                                         }
                                     }
@@ -483,28 +483,28 @@ class ElasticsearchIndexController extends AbstractAppController
                                             $keys = explode('.', $headers[$key]);
                                             $keysTotal = count($keys);
 
-                                            if (false == isset($line[$keys[0]])) {
+                                            if (false === isset($line[$keys[0]])) {
                                                 $line[$keys[0]] = [];
                                             }
 
                                             if (2 == $keysTotal) {
                                                 $line[$keys[0]][$keys[1]] = $value;
                                             } else {
-                                                if (false == isset($line[$keys[0]][$keys[1]])) {
+                                                if (false === isset($line[$keys[0]][$keys[1]])) {
                                                     $line[$keys[0]][$keys[1]] = [];
                                                 }
 
                                                 if (3 == $keysTotal) {
                                                     $line[$keys[0]][$keys[1]][$keys[2]] = $value;
                                                 } else {
-                                                    if (false == isset($line[$keys[0]][$keys[1]][$keys[2]])) {
+                                                    if (false === isset($line[$keys[0]][$keys[1]][$keys[2]])) {
                                                         $line[$keys[0]][$keys[1]][$keys[2]] = [];
                                                     }
 
                                                     if (4 == $keysTotal) {
                                                         $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $value;
                                                     } else {
-                                                        if (false == isset($line[$keys[0]][$keys[1]][$keys[2]][$keys[3]])) {
+                                                        if (false === isset($line[$keys[0]][$keys[1]][$keys[2]][$keys[3]])) {
                                                             $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = [];
                                                         }
 
@@ -565,7 +565,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -640,7 +640,7 @@ class ElasticsearchIndexController extends AbstractAppController
                     $line['_id'] = $row['_id'];
                     $line['_score'] = $row['_score'];
                     foreach ($index->getMappingsFlat() as $field => $mapping) {
-                        if (true == isset($row['_source'][$field])) {
+                        if (true === isset($row['_source'][$field])) {
                             $content = $row['_source'][$field];
                         } else {
                             $keys = explode('.', $field);
@@ -654,19 +654,19 @@ class ElasticsearchIndexController extends AbstractAppController
                         }
 
                         if ('geojson' == $writer) {
-                            if ('geo_point' == $mapping['type'] && true == is_array($content)) {
+                            if ('geo_point' == $mapping['type'] && true === is_array($content)) {
                                 $geoPoint = $content;
-                            } elseif ('geo_shape' == $mapping['type'] && true == is_array($content)) {
+                            } elseif ('geo_shape' == $mapping['type'] && true === is_array($content)) {
                                 $geoShape = $content;
                             } else {
                                 $line[$field] = $content;
                             }
                         } else {
-                            if ('geo_point' == $mapping['type'] && true == is_array($content)) {
+                            if ('geo_point' == $mapping['type'] && true === is_array($content)) {
                                 $line[$field] = $content['lat'].','.$content['lon'];
-                            } elseif ('keyword' == $mapping['type'] && true == is_array($content)) {
+                            } elseif ('keyword' == $mapping['type'] && true === is_array($content)) {
                                 $line[$field] = implode(PHP_EOL, $content);
-                            } elseif (true == is_array($content)) {
+                            } elseif (true === is_array($content)) {
                                 $line[$field] = json_encode($content);
                             } else {
                                 $line[$field] = $content;
@@ -685,13 +685,13 @@ class ElasticsearchIndexController extends AbstractAppController
 
                         $json['features'][] = $feature;
                     } elseif ('geojson' == $writer && $geoShape) {
-                        if (true == isset($geoShape['type'])) {
+                        if (true === isset($geoShape['type'])) {
                             if ('envelope' != $geoShape['type']) {
                                 $geoShape['type'] = $this->cleanGeojsonType($geoShape['type']);
 
-                                if (true == isset($geoShape['geometries'])) {
+                                if (true === isset($geoShape['geometries'])) {
                                     foreach ($geoShape['geometries'] as $key => $geometry) {
-                                        if (true == isset($geometry['type'])) {
+                                        if (true === isset($geometry['type'])) {
                                             $geoShape['geometries'][$key]['type'] = $this->cleanGeojsonType($geometry['type']);
                                         }
                                     }
@@ -758,7 +758,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -775,7 +775,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -822,7 +822,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -871,7 +871,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -908,7 +908,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -922,13 +922,13 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function lifecycle(Request $request, string $index): Response
     {
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -951,13 +951,13 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function removePolicy(Request $request, string $index): Response
     {
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -980,7 +980,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1013,7 +1013,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1045,7 +1045,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1084,7 +1084,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1107,7 +1107,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1127,13 +1127,13 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        if (true == isset($clusterSettings['cluster.indices.close.enable']) && 'false' == $clusterSettings['cluster.indices.close.enable']) {
+        if (true === isset($clusterSettings['cluster.indices.close.enable']) && 'false' == $clusterSettings['cluster.indices.close.enable']) {
             throw new AccessDeniedHttpException();
         }
 
@@ -1153,7 +1153,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1171,13 +1171,13 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function freeze(Request $request, string $index): Response
     {
-        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (false === $this->callManager->hasFeature('freeze_unfreeze')) {
             throw new AccessDeniedHttpException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1195,13 +1195,13 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function unfreeze(Request $request, string $index): Response
     {
-        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (false === $this->callManager->hasFeature('freeze_unfreeze')) {
             throw new AccessDeniedHttpException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1219,13 +1219,13 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function forceMerge(Request $request, string $index): Response
     {
-        if (false == $this->callManager->hasFeature('force_merge')) {
+        if (false === $this->callManager->hasFeature('force_merge')) {
             throw new AccessDeniedHttpException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1245,7 +1245,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1265,7 +1265,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1285,7 +1285,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1303,13 +1303,13 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function empty(Request $request, string $index): Response
     {
-        if (false == $this->callManager->hasFeature('delete_by_query')) {
+        if (false === $this->callManager->hasFeature('delete_by_query')) {
             throw new AccessDeniedHttpException();
         }
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1333,7 +1333,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1373,7 +1373,7 @@ class ElasticsearchIndexController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
             $documents = $callResponse->getContent();
 
-            if (true == isset($documents['hits']['total']['value'])) {
+            if (true === isset($documents['hits']['total']['value'])) {
                 $total = $documents['hits']['total']['value'];
                 if ('eq' != $documents['hits']['total']['relation']) {
                     $this->addFlash('warning', 'lower_bound_of_the_total');

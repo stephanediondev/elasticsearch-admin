@@ -60,7 +60,7 @@ class ElasticsearchClusterController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('CLUSTER_ALLOCATION_EXPLAIN', 'global');
 
-        if (false == $this->callManager->hasFeature('allocation_explain')) {
+        if (false === $this->callManager->hasFeature('allocation_explain')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -87,7 +87,7 @@ class ElasticsearchClusterController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTINGS', 'global');
 
-        if (false == $this->callManager->hasFeature('cluster_settings')) {
+        if (false === $this->callManager->hasFeature('cluster_settings')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -110,13 +110,13 @@ class ElasticsearchClusterController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_EDIT', 'global');
 
-        if (false == $this->callManager->hasFeature('cluster_settings')) {
+        if (false === $this->callManager->hasFeature('cluster_settings')) {
             throw new AccessDeniedHttpException();
         }
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        if (true == array_key_exists($setting, $clusterSettings)) {
+        if (true === array_key_exists($setting, $clusterSettings)) {
             $clusterSettingModel = new ElasticsearchClusterSettingModel();
             $clusterSettingModel->setType($type);
             $clusterSettingModel->setSetting($setting);
@@ -159,7 +159,7 @@ class ElasticsearchClusterController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_REMOVE', 'global');
 
-        if (false == $this->callManager->hasFeature('cluster_settings')) {
+        if (false === $this->callManager->hasFeature('cluster_settings')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -207,7 +207,7 @@ class ElasticsearchClusterController extends AbstractAppController
         $heapSizeJvm = false;
         $fileDescriptors = false;
 
-        if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
+        if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
             $diskThresholdEnabled = true;
         } else {
             $diskThresholdEnabled = false;
@@ -230,22 +230,22 @@ class ElasticsearchClusterController extends AbstractAppController
                 $plugins[] = $plugin['name'];
             }
 
-            if (true == isset($node['stats']['os']['cpu']['percent'])) {
+            if (true === isset($node['stats']['os']['cpu']['percent'])) {
                 $cpuPercent = true;
                 if (90 < $node['stats']['os']['cpu']['percent']) {
                     $nodesLimit['cpu_over_90'][$node['name']] = $node['stats']['os']['cpu']['percent'];
                 }
             }
 
-            if (true == isset($node['disk.used_percent']) && $diskThresholdEnabled) {
+            if (true === isset($node['disk.used_percent']) && $diskThresholdEnabled) {
                 $diskPercent = true;
 
-                if (true == isset($node['disk_threshold'])) {
+                if (true === isset($node['disk_threshold'])) {
                     $nodesLimit['over_disk_thresholds'][$node['name']] = $node['disk_threshold'];
                 }
             }
 
-            if (true == isset($node['ram.max']) && true == isset($node['heap.max'])) {
+            if (true === isset($node['ram.max']) && true === isset($node['heap.max'])) {
                 $heapSize = true;
                 $percent = ($node['heap.max'] * 100) / $node['ram.max'];
                 if (50 < $percent) {
@@ -253,14 +253,14 @@ class ElasticsearchClusterController extends AbstractAppController
                 }
             }
 
-            if (true == isset($node['jvm']['mem']['heap_init_in_bytes']) && true == isset($node['jvm']['mem']['heap_max_in_bytes'])) {
+            if (true === isset($node['jvm']['mem']['heap_init_in_bytes']) && true === isset($node['jvm']['mem']['heap_max_in_bytes'])) {
                 $heapSizeJvm = true;
                 if ($node['jvm']['mem']['heap_init_in_bytes'] != $node['jvm']['mem']['heap_max_in_bytes']) {
                     $nodesLimit['heap_size_init_not_equal_max'][$node['name']] = $node['jvm']['mem']['heap_init_in_bytes'].' / '.$node['jvm']['mem']['heap_max_in_bytes'];
                 }
             }
 
-            if (true == isset($node['stats']['process']['max_file_descriptors'])) {
+            if (true === isset($node['stats']['process']['max_file_descriptors'])) {
                 $fileDescriptors = true;
                 if (65535 > $node['stats']['process']['max_file_descriptors']) {
                     $nodesLimit['file_descriptors_under_65535'][$node['name']] = $node['stats']['process']['max_file_descriptors'];
@@ -278,7 +278,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'h' => 'index,rep,status',
         ];
 
-        if (true == $this->callManager->hasFeature('cat_expand_wildcards')) {
+        if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
             $query['expand_wildcards'] = 'all';
         }
 
@@ -351,7 +351,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'security_features':
-                    if (false == $this->callManager->hasFeature('security')) {
+                    if (false === $this->callManager->hasFeature('security')) {
                         $results['audit_fail'][$checkpoint] = [];
                     } else {
                         $results['audit_pass'][$checkpoint] = [];
@@ -375,7 +375,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     $fail = [];
                     foreach ($plugins as $plugin) {
                         foreach ($nodesPlugins as $node => $plugins) {
-                            if (false == in_array($plugin, $plugins)) {
+                            if (false === in_array($plugin, $plugins)) {
                                 $fail[$node][] = $plugin;
                             }
                         }
@@ -395,8 +395,8 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'adaptive_replica_selection':
-                    if (true == $this->callManager->hasFeature('adaptive_replica_selection')) {
-                        if (true == $this->callManager->hasFeature('adaptive_replica_selection') && true == isset($parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) && 'true' == $parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) {
+                    if (true === $this->callManager->hasFeature('adaptive_replica_selection')) {
+                        if (true === $this->callManager->hasFeature('adaptive_replica_selection') && true === isset($parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) && 'true' == $parameters['cluster_settings']['cluster.routing.use_adaptive_replica_selection']) {
                             $results['audit_pass'][$checkpoint] = [];
                         } else {
                             $results['audit_fail'][$checkpoint] = [];
@@ -422,28 +422,28 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'close_index_not_enabled':
-                    if (true == isset($parameters['cluster_settings']['cluster.indices.close.enable']) && 'true' == $parameters['cluster_settings']['cluster.indices.close.enable']) {
+                    if (true === isset($parameters['cluster_settings']['cluster.indices.close.enable']) && 'true' == $parameters['cluster_settings']['cluster.indices.close.enable']) {
                         $results['audit_fail'][$checkpoint] = [];
                     } else {
                         $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
                 case 'cluster_not_readonly':
-                    if (true == isset($parameters['cluster_settings']['cluster.blocks.read_only']) && 'true' == $parameters['cluster_settings']['cluster.blocks.read_only']) {
+                    if (true === isset($parameters['cluster_settings']['cluster.blocks.read_only']) && 'true' == $parameters['cluster_settings']['cluster.blocks.read_only']) {
                         $results['audit_fail'][$checkpoint] = [];
                     } else {
                         $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
                 case 'allocation_disk_threshold':
-                    if (true == $diskThresholdEnabled) {
+                    if (true === $diskThresholdEnabled) {
                         $results['audit_pass'][$checkpoint] = [];
                     } else {
                         $results['audit_fail'][$checkpoint] = [];
                     }
                     break;
                 case 'below_disk_thresholds':
-                    if (true == $diskPercent && true == $diskThresholdEnabled) {
+                    if (true === $diskPercent && true === $diskThresholdEnabled) {
                         if (0 < count($nodesLimit['over_disk_thresholds'])) {
                             $results['audit_fail'][$checkpoint] = $nodesLimit['over_disk_thresholds'];
                         } else {
@@ -452,7 +452,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'cpu_below_90':
-                    if (true == $cpuPercent) {
+                    if (true === $cpuPercent) {
                         if (0 < count($nodesLimit['cpu_over_90'])) {
                             $results['audit_fail'][$checkpoint] = $nodesLimit['cpu_over_90'];
                         } else {
@@ -461,7 +461,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'heap_size_below_50':
-                    if (true == $heapSize) {
+                    if (true === $heapSize) {
                         if (0 < count($nodesLimit['heap_size_over_50'])) {
                             $results['audit_fail'][$checkpoint] = $nodesLimit['heap_size_over_50'];
                         } else {
@@ -470,7 +470,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'heap_size_init_equal_max':
-                    if (true == $heapSizeJvm) {
+                    if (true === $heapSizeJvm) {
                         if (0 < count($nodesLimit['heap_size_init_not_equal_max'])) {
                             $results['audit_fail'][$checkpoint] = $nodesLimit['heap_size_init_not_equal_max'];
                         } else {
@@ -479,15 +479,15 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'anonymous_access_disabled':
-                    if (false == isset($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || false == is_array($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || 0 == count($parameters['cluster_settings']['xpack.security.authc.anonymous.roles'])) {
+                    if (false === isset($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || false === is_array($parameters['cluster_settings']['xpack.security.authc.anonymous.roles']) || 0 == count($parameters['cluster_settings']['xpack.security.authc.anonymous.roles'])) {
                         $results['audit_pass'][$checkpoint] = [];
                     } else {
                         $results['audit_fail'][$checkpoint] = [];
                     }
                     break;
                 case 'license_not_expired':
-                    if (true == $this->callManager->hasFeature('license')) {
-                        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+                    if (true === $this->callManager->hasFeature('license')) {
+                        if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
                             $this->endpoint = '_xpack/license';
                         } else {
                             $this->endpoint = '_license';
@@ -499,7 +499,7 @@ class ElasticsearchClusterController extends AbstractAppController
                         $license = $callResponse->getContent();
                         $license = $license['license'];
 
-                        if ('basic' != $license['type'] && true == isset($license['expiry_date_in_millis'])) {
+                        if ('basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
                             $now = (new \Datetime());
                             $expire = new \Datetime(date('Y-m-d H:i:s', substr($license['expiry_date_in_millis'], 0, -3)));
                             $interval = $now->diff($expire);
@@ -517,7 +517,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'file_descriptors':
-                    if (true == $fileDescriptors) {
+                    if (true === $fileDescriptors) {
                         if (0 < count($nodesLimit['file_descriptors_under_65535'])) {
                             $results['audit_fail'][$checkpoint] = $nodesLimit['file_descriptors_under_65535'];
                         } else {
@@ -535,7 +535,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'slm_policies_schedule_unique':
-                    if (true == $this->callManager->hasFeature('slm')) {
+                    if (true === $this->callManager->hasFeature('slm')) {
                         $schedules = [];
                         $policies = $this->elasticsearchSlmPolicyManager->getAll();
                         foreach ($policies as $policy) {

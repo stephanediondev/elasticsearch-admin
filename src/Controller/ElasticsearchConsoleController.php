@@ -29,7 +29,7 @@ class ElasticsearchConsoleController extends AbstractAppController
         $methods = [];
         $methods[] = 'GET';
         foreach ($testMethods as $testMethod) {
-            if (true == $this->isGranted('CONSOLE_'.$testMethod, 'global')) {
+            if (true === $this->isGranted('CONSOLE_'.$testMethod, 'global')) {
                 $methods[] = $testMethod;
             }
         }

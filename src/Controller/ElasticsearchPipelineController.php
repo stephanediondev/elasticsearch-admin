@@ -31,7 +31,7 @@ class ElasticsearchPipelineController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
-        if (false == $this->callManager->hasFeature('pipelines')) {
+        if (false === $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -56,7 +56,7 @@ class ElasticsearchPipelineController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('PIPELINES_CREATE', 'global');
 
-        if (false == $this->callManager->hasFeature('pipelines')) {
+        if (false === $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -65,7 +65,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         if ($request->query->get('pipeline')) {
             $pipeline = $this->elasticsearchPipelineManager->getByName($request->query->get('pipeline'));
 
-            if (null == $pipeline) {
+            if (null === $pipeline) {
                 throw new NotFoundHttpException();
             }
 
@@ -74,7 +74,7 @@ class ElasticsearchPipelineController extends AbstractAppController
             $pipeline->setName($pipeline->getName().'-copy');
         }
 
-        if (null == $pipeline) {
+        if (null === $pipeline) {
             $pipeline = new ElasticsearchPipelineModel();
         }
         $form = $this->createForm(ElasticsearchPipelineType::class, $pipeline);
@@ -105,13 +105,13 @@ class ElasticsearchPipelineController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('PIPELINES', 'global');
 
-        if (false == $this->callManager->hasFeature('pipelines')) {
+        if (false === $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
-        if (null == $pipeline) {
+        if (null === $pipeline) {
             throw new NotFoundHttpException();
         }
 
@@ -125,13 +125,13 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('pipelines')) {
+        if (false === $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
-        if (null == $pipeline) {
+        if (null === $pipeline) {
             throw new NotFoundHttpException();
         }
 
@@ -164,13 +164,13 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('pipelines')) {
+        if (false === $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedHttpException();
         }
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
-        if (null == $pipeline) {
+        if (null === $pipeline) {
             throw new NotFoundHttpException();
         }
 

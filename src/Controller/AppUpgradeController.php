@@ -68,7 +68,7 @@ class AppUpgradeController extends AbstractAppController
                 $json = [
                     'settings' => $this->appManager->getSettings($index),
                 ];
-                if (true == $this->callManager->checkVersion('7.0')) {
+                if (true === $this->callManager->checkVersion('7.0')) {
                     $json['mappings'] = $this->appManager->getMappings($index);
                 }
                 $callRequest = new CallRequestModel();

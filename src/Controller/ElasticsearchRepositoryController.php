@@ -52,20 +52,20 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('REPOSITORIES_CREATE', 'global');
 
-        if ('s3' == $type && false == $this->callManager->hasPlugin('repository-s3')) {
+        if ('s3' == $type && false === $this->callManager->hasPlugin('repository-s3')) {
             throw new AccessDeniedHttpException();
         }
 
-        if ('gcs' == $type && false == $this->callManager->hasPlugin('repository-gcs')) {
+        if ('gcs' == $type && false === $this->callManager->hasPlugin('repository-gcs')) {
             throw new AccessDeniedHttpException();
         }
 
-        if ('azure' == $type && false == $this->callManager->hasPlugin('repository-azure')) {
+        if ('azure' == $type && false === $this->callManager->hasPlugin('repository-azure')) {
             throw new AccessDeniedHttpException();
         }
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
-        if (true == isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
+        if (true === isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
             $paths = $clusterSettings['path.repo'];
         } else {
             $paths = [];
@@ -104,7 +104,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
 
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (null == $repository) {
+        if (null === $repository) {
             throw new NotFoundHttpException();
         }
 
@@ -120,7 +120,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (null == $repository) {
+        if (null === $repository) {
             throw new NotFoundHttpException();
         }
 
@@ -158,7 +158,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (null == $repository) {
+        if (null === $repository) {
             throw new NotFoundHttpException();
         }
 
@@ -178,7 +178,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (null == $repository) {
+        if (null === $repository) {
             throw new NotFoundHttpException();
         }
 
@@ -202,7 +202,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (null == $repository) {
+        if (null === $repository) {
             throw new NotFoundHttpException();
         }
 

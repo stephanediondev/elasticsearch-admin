@@ -27,7 +27,7 @@ class ElasticsearchSqlController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SQL', 'global');
 
-        if (false == $this->callManager->hasFeature('sql')) {
+        if (false === $this->callManager->hasFeature('sql')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -74,7 +74,7 @@ class ElasticsearchSqlController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SQL', 'global');
 
-        if (false == $this->callManager->hasFeature('sql')) {
+        if (false === $this->callManager->hasFeature('sql')) {
             throw new AccessDeniedHttpException();
         }
 

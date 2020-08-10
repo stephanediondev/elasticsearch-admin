@@ -22,7 +22,7 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_GRAVEYARD', 'global');
 
-        if (false == $this->callManager->hasFeature('tombstones')) {
+        if (false === $this->callManager->hasFeature('tombstones')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -32,7 +32,7 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        if (true == isset($results['metadata']['index-graveyard']['tombstones'])) {
+        if (true === isset($results['metadata']['index-graveyard']['tombstones'])) {
             $tombstones = $results['metadata']['index-graveyard']['tombstones'];
         } else {
             $tombstones = [];

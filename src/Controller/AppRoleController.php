@@ -57,7 +57,7 @@ class AppRoleController extends AbstractAppController
         if ($request->query->get('role')) {
             $role = $this->appRoleManager->getByName($request->query->get('role'));
 
-            if (null == $role) {
+            if (null === $role) {
                 throw new NotFoundHttpException();
             }
 
@@ -66,7 +66,7 @@ class AppRoleController extends AbstractAppController
             $role->setName($role->getName().'-copy');
         }
 
-        if (null == $role) {
+        if (null === $role) {
             $role = new AppRoleModel();
         }
         $form = $this->createForm(AppRoleType::class, $role);
@@ -101,7 +101,7 @@ class AppRoleController extends AbstractAppController
 
         $role = $this->appRoleManager->getByName($role);
 
-        if (null == $role) {
+        if (null === $role) {
             throw new NotFoundHttpException();
         }
 
@@ -126,7 +126,7 @@ class AppRoleController extends AbstractAppController
     {
         $role = $this->appRoleManager->getByName($role);
 
-        if (null == $role) {
+        if (null === $role) {
             throw new NotFoundHttpException();
         }
 
@@ -146,7 +146,7 @@ class AppRoleController extends AbstractAppController
     {
         $role = $this->appRoleManager->getByName($role);
 
-        if (null == $role) {
+        if (null === $role) {
             throw new NotFoundHttpException();
         }
 
@@ -176,7 +176,7 @@ class AppRoleController extends AbstractAppController
     {
         $role = $this->appRoleManager->getByName($role);
 
-        if (null == $role) {
+        if (null === $role) {
             throw new NotFoundHttpException();
         }
 
@@ -186,7 +186,7 @@ class AppRoleController extends AbstractAppController
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        if (true == $this->callManager->hasFeature('delete_by_query')) {
+        if (true === $this->callManager->hasFeature('delete_by_query')) {
             $callResponse = $this->appRoleManager->deletePermissionsByRoleName($role->getName());
 
             $this->addFlash('info', json_encode($callResponse->getContent()));

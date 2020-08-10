@@ -36,7 +36,7 @@ class ElasticsearchIlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES', 'global');
 
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -61,7 +61,7 @@ class ElasticsearchIlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -79,7 +79,7 @@ class ElasticsearchIlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -97,7 +97,7 @@ class ElasticsearchIlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
 
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -115,7 +115,7 @@ class ElasticsearchIlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_CREATE', 'global');
 
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -124,7 +124,7 @@ class ElasticsearchIlmController extends AbstractAppController
         if ($request->query->get('policy')) {
             $policy = $this->elasticsearchIlmPolicyManager->getByName($request->query->get('policy'));
 
-            if (null == $policy) {
+            if (null === $policy) {
                 throw new NotFoundHttpException();
             }
 
@@ -133,7 +133,7 @@ class ElasticsearchIlmController extends AbstractAppController
             $policy->setName($policy->getName().'-copy');
         }
 
-        if (null == $policy) {
+        if (null === $policy) {
             $policy = new ElasticsearchIlmPolicyModel();
         }
         $form = $this->createForm(ElasticsearchIlmPolicyType::class, $policy);
@@ -164,13 +164,13 @@ class ElasticsearchIlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES', 'global');
 
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -184,13 +184,13 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -223,13 +223,13 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function apply(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -251,11 +251,11 @@ class ElasticsearchIlmController extends AbstractAppController
             try {
                 $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($applyPolicyModel->getIndexTemplate());
 
-                if (null == $template) {
+                if (null === $template) {
                     throw new NotFoundHttpException();
                 }
 
-                if (true == $template->isSystem()) {
+                if (true === $template->isSystem()) {
                     throw new AccessDeniedHttpException();
                 }
 
@@ -283,13 +283,13 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('ilm')) {
+        if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 

@@ -35,7 +35,7 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -60,7 +60,7 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATS', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -78,7 +78,7 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -96,7 +96,7 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -114,7 +114,7 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -132,7 +132,7 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_CREATE', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -144,7 +144,7 @@ class ElasticsearchSlmController extends AbstractAppController
         if ($request->query->get('policy')) {
             $policy = $this->elasticsearchSlmPolicyManager->getByName($request->query->get('policy'));
 
-            if (null == $policy) {
+            if (null === $policy) {
                 throw new NotFoundHttpException();
             }
 
@@ -153,7 +153,7 @@ class ElasticsearchSlmController extends AbstractAppController
             $policy->setName($policy->getName().'-copy');
         }
 
-        if (null == $policy) {
+        if (null === $policy) {
             $policy = new ElasticsearchSlmPolicyModel();
         }
         if ($request->query->get('repository')) {
@@ -190,13 +190,13 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -212,13 +212,13 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -234,13 +234,13 @@ class ElasticsearchSlmController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
 
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -254,13 +254,13 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -296,13 +296,13 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -320,13 +320,13 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('slm')) {
+        if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 

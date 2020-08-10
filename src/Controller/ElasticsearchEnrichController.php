@@ -35,7 +35,7 @@ class ElasticsearchEnrichController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
 
-        if (false == $this->callManager->hasFeature('enrich')) {
+        if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -60,7 +60,7 @@ class ElasticsearchEnrichController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_STATS', 'global');
 
-        if (false == $this->callManager->hasFeature('enrich')) {
+        if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -81,7 +81,7 @@ class ElasticsearchEnrichController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE', 'global');
 
-        if (false == $this->callManager->hasFeature('enrich')) {
+        if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -92,7 +92,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         if ($request->query->get('policy')) {
             $policy = $this->elasticsearchEnrichPolicyManager->getByName($request->query->get('policy'));
 
-            if (null == $policy) {
+            if (null === $policy) {
                 throw new NotFoundHttpException();
             }
 
@@ -101,7 +101,7 @@ class ElasticsearchEnrichController extends AbstractAppController
             $policy->setName($policy->getName().'-copy');
         }
 
-        if (null == $policy) {
+        if (null === $policy) {
             $policy = new ElasticsearchEnrichPolicyModel();
         }
         $form = $this->createForm(ElasticsearchEnrichPolicyType::class, $policy, ['indices' => $indices]);
@@ -132,13 +132,13 @@ class ElasticsearchEnrichController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
 
-        if (false == $this->callManager->hasFeature('enrich')) {
+        if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -152,13 +152,13 @@ class ElasticsearchEnrichController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('enrich')) {
+        if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -176,13 +176,13 @@ class ElasticsearchEnrichController extends AbstractAppController
      */
     public function execute(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('enrich')) {
+        if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedHttpException();
         }
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
 
-        if (null == $policy) {
+        if (null === $policy) {
             throw new NotFoundHttpException();
         }
 

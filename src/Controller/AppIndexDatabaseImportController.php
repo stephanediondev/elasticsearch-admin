@@ -29,11 +29,11 @@ class AppIndexDatabaseImportController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
-        if (true == $index->isSystem()) {
+        if (true === $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -74,11 +74,11 @@ class AppIndexDatabaseImportController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
-        if (true == $index->isSystem()) {
+        if (true === $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -106,12 +106,12 @@ class AppIndexDatabaseImportController extends AbstractAppController
                 $type = false;
                 $line = [];
 
-                if (true == isset($fields['_id']) && '' != $fields['_id']) {
+                if (true === isset($fields['_id']) && '' != $fields['_id']) {
                     $id = $row[$fields['_id']];
                 }
 
                 foreach ($index->getMappingsFlat() as $field => $mapping) {
-                    if (true == isset($fields[$field]) && '' != $fields[$field]) {
+                    if (true === isset($fields[$field]) && '' != $fields[$field]) {
                         $line[$field] = $row[$fields[$field]];
                     }
                 }
@@ -140,13 +140,13 @@ class AppIndexDatabaseImportController extends AbstractAppController
             $errors = [];
 
             $content = $callResponse->getContent();
-            if (true == isset($content['errors']) && true == $content['errors']) {
+            if (true === isset($content['errors']) && true === $content['errors']) {
                 foreach ($content['items'] as $item) {
-                    if (true == isset($item['index']['error'])) {
+                    if (true === isset($item['index']['error'])) {
                         $error = [];
                         $error['_id'] = $item['index']['_id'];
                         $error['status'] = $item['index']['status'];
-                        if (true == isset($item['index']['error']['caused_by']['reason'])) {
+                        if (true === isset($item['index']['error']['caused_by']['reason'])) {
                             $error['message'] = $item['index']['error']['caused_by']['reason'];
                         } else {
                             $error['message'] = '';
@@ -180,21 +180,21 @@ class AppIndexDatabaseImportController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (null == $index) {
+        if (null === $index) {
             throw new NotFoundHttpException();
         }
 
-        if (true == $index->isSystem()) {
+        if (true === $index->isSystem()) {
             throw new AccessDeniedHttpException();
         }
 
         $allowedDrivers = [];
 
         $availableDrivers = \PDO::getAvailableDrivers();
-        if (true == in_array('mysql', $availableDrivers)) {
+        if (true === in_array('mysql', $availableDrivers)) {
             $allowedDrivers[] = 'mysql';
         }
-        if (true == in_array('pgsql', $availableDrivers)) {
+        if (true === in_array('pgsql', $availableDrivers)) {
             $allowedDrivers[] = 'pgsql';
         }
 

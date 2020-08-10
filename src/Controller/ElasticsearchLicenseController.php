@@ -21,11 +21,11 @@ class ElasticsearchLicenseController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('LICENSE', 'global');
 
-        if (false == $this->callManager->hasFeature('license')) {
+        if (false === $this->callManager->hasFeature('license')) {
             throw new AccessDeniedHttpException();
         }
 
-        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+        if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
             $this->endpoint = '_xpack/license';
         } else {
             $this->endpoint = '_license';
@@ -37,7 +37,7 @@ class ElasticsearchLicenseController extends AbstractAppController
         $license = $callResponse->getContent();
         $license = $license['license'];
 
-        if (false == $this->callManager->hasFeature('license_status')) {
+        if (false === $this->callManager->hasFeature('license_status')) {
             $trialStatus = false;
             $basicStatus = false;
         } else {
@@ -69,11 +69,11 @@ class ElasticsearchLicenseController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('LICENSE_START_TRIAL', 'global');
 
-        if (false == $this->callManager->hasFeature('license_status')) {
+        if (false === $this->callManager->hasFeature('license_status')) {
             throw new AccessDeniedHttpException();
         }
 
-        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+        if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
             $this->endpoint = '_xpack/license';
         } else {
             $this->endpoint = '_license';
@@ -97,11 +97,11 @@ class ElasticsearchLicenseController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('LICENSE_START_BASIC', 'global');
 
-        if (false == $this->callManager->hasFeature('license_status')) {
+        if (false === $this->callManager->hasFeature('license_status')) {
             throw new AccessDeniedHttpException();
         }
 
-        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+        if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
             $this->endpoint = '_xpack/license';
         } else {
             $this->endpoint = '_license';

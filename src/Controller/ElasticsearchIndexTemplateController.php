@@ -32,7 +32,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -57,7 +57,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_CREATE', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -66,7 +66,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         if ($request->query->get('template')) {
             $template = $this->elasticsearchIndexTemplateManager->getByName($request->query->get('template'));
 
-            if (null == $template) {
+            if (null === $template) {
                 throw new NotFoundHttpException();
             }
 
@@ -82,7 +82,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
             $componentTemplates[] = $row->getName();
         }
 
-        if (null == $template) {
+        if (null === $template) {
             $template = new ElasticsearchIndexTemplateModel();
         }
         $form = $this->createForm(ElasticsearchIndexTemplateType::class, $template, ['component_templates' => $componentTemplates]);
@@ -113,13 +113,13 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 
@@ -135,13 +135,13 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 
@@ -157,13 +157,13 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 
@@ -177,13 +177,13 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 
@@ -223,13 +223,13 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchIndexTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 

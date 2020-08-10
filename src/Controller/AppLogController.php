@@ -62,7 +62,7 @@ class AppLogController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
             $documents = $callResponse->getContent();
 
-            if (true == isset($documents['hits']['total']['value'])) {
+            if (true === isset($documents['hits']['total']['value'])) {
                 $total = $documents['hits']['total']['value'];
                 if ('eq' != $documents['hits']['total']['relation']) {
                     $this->addFlash('info', 'lower_bound_of_the_total');

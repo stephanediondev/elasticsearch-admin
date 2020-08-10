@@ -35,7 +35,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('s', 'name:asc'), 'cluster_settings' => $clusterSettings]);
 
-        if (true == $request->query->get('fetch')) {
+        if (true === $request->query->get('fetch')) {
             $template = 'Modules/node/node_list.html.twig';
         } else {
             $template = 'Modules/node/node_index.html.twig';
@@ -62,7 +62,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (null == $node) {
+        if (null === $node) {
             throw new NotFoundHttpException();
         }
 
@@ -78,7 +78,7 @@ class ElasticsearchNodeController extends AbstractAppController
     {
         $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (null == $node) {
+        if (null === $node) {
             throw new NotFoundHttpException();
         }
 
@@ -94,13 +94,13 @@ class ElasticsearchNodeController extends AbstractAppController
      */
     public function readUsage(Request $request, string $node): Response
     {
-        if (false == $this->callManager->hasFeature('node_usage')) {
+        if (false === $this->callManager->hasFeature('node_usage')) {
             throw new AccessDeniedHttpException();
         }
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (null == $node) {
+        if (null === $node) {
             throw new NotFoundHttpException();
         }
 
@@ -112,7 +112,7 @@ class ElasticsearchNodeController extends AbstractAppController
         $usage = $callResponse->getContent();
         $usage = $usage['nodes'][key($usage['nodes'])];
 
-        if (true == isset($usage['rest_actions'])) {
+        if (true === isset($usage['rest_actions'])) {
             ksort($usage['rest_actions']);
         } else {
             $usage['rest_actions'] = [];
@@ -129,13 +129,13 @@ class ElasticsearchNodeController extends AbstractAppController
      */
     public function readReloadSecureSettings(Request $request, string $node): Response
     {
-        if (false == $this->callManager->hasFeature('reload_secure_settings')) {
+        if (false === $this->callManager->hasFeature('reload_secure_settings')) {
             throw new AccessDeniedHttpException();
         }
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (null == $node) {
+        if (null === $node) {
             throw new NotFoundHttpException();
         }
 

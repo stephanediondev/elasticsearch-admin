@@ -94,21 +94,21 @@ class AppUserController extends AbstractAppController
 
         $user = $this->appUserManager->getById($user);
 
-        if (null == $user) {
+        if (null === $user) {
             throw new NotFoundHttpException();
         }
 
         $roles = $user->getRoles();
 
-        if (true == in_array('ROLE_ADMIN', $roles)) {
+        if (true === in_array('ROLE_ADMIN', $roles)) {
             $permissionsSaved = $this->appRoleManager->getAttributes();
         } else {
             $permissionsSaved = [];
             foreach ($roles as $role) {
-                if (false == in_array($role, ['ROLE_ADMIN', 'ROLE_USER'])) {
+                if (false === in_array($role, ['ROLE_ADMIN', 'ROLE_USER'])) {
                     $permissionsByRole = $this->appRoleManager->getPermissionsByRole($role);
                     foreach ($permissionsByRole as $module => $permissions) {
-                        if (false == isset($permissionsSaved[$module])) {
+                        if (false === isset($permissionsSaved[$module])) {
                             $permissionsSaved[$module] = [];
                         }
                         $permissionsSaved[$module] = array_merge($permissionsSaved[$module], $permissions);
@@ -136,7 +136,7 @@ class AppUserController extends AbstractAppController
     {
         $user = $this->appUserManager->getById($user);
 
-        if (null == $user) {
+        if (null === $user) {
             throw new NotFoundHttpException();
         }
 
@@ -179,7 +179,7 @@ class AppUserController extends AbstractAppController
     {
         $user = $this->appUserManager->getById($user);
 
-        if (null == $user) {
+        if (null === $user) {
             throw new NotFoundHttpException();
         }
 

@@ -21,12 +21,12 @@ class ElasticsearchDeprecationController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('DEPRECATIONS', 'global');
 
-        if (false == $this->callManager->hasFeature('deprecations')) {
+        if (false === $this->callManager->hasFeature('deprecations')) {
             throw new AccessDeniedHttpException();
         }
 
         $callRequest = new CallRequestModel();
-        if (false == $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+        if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
             $callRequest->setPath('/_xpack/migration/deprecations');
         } else {
             $callRequest->setPath('/_migration/deprecations');

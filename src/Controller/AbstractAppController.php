@@ -49,13 +49,13 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
-        if (false == isset($parameters['firewall'])) {
+        if (false === isset($parameters['firewall'])) {
             $parameters['firewall'] = true;
         }
 
         $menus = [];
 
-        if (false == isset($parameters['exception_503']) || false == $parameters['exception_503']) {
+        if (false === isset($parameters['exception_503']) || false === $parameters['exception_503']) {
             try {
                 $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
             } catch (ConnectionException $e) {
@@ -72,8 +72,8 @@ abstract class AbstractAppController extends AbstractController
 
             $parameters['cat_sort'] = $this->callManager->hasFeature('cat_sort');
 
-            if (true == $parameters['firewall']) {
-                if (true == $this->isGranted('MENU_CONFIGURATION', 'global')) {
+            if (true === $parameters['firewall']) {
+                if (true === $this->isGranted('MENU_CONFIGURATION', 'global')) {
                     $entries = [
                         ['granted' => 'INDEX_TEMPLATES_LEGACY', 'path' => 'index_templates_legacy'],
                         ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates', 'feature' => 'composable_template'],
@@ -89,7 +89,7 @@ abstract class AbstractAppController extends AbstractController
                     $menus['configuration'] = $this->populateMenu($entries);
                 }
 
-                if (true == $this->isGranted('MENU_TOOLS', 'global')) {
+                if (true === $this->isGranted('MENU_TOOLS', 'global')) {
                     $entries = [
                         ['granted' => 'SNAPSHOTS', 'path' => 'snapshots'],
                         ['granted' => 'PIPELINES', 'path' => 'pipelines', 'feature' => 'pipelines'],
@@ -106,7 +106,7 @@ abstract class AbstractAppController extends AbstractController
                     $menus['tools'] = $this->populateMenu($entries);
                 }
 
-                if (true == $this->isGranted('MENU_APPLICATION', 'global')) {
+                if (true === $this->isGranted('MENU_APPLICATION', 'global')) {
                     $entries = [
                         ['granted' => 'APP_USERS', 'path' => 'app_users'],
                         ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
@@ -129,10 +129,10 @@ abstract class AbstractAppController extends AbstractController
     {
         $menu = [];
         foreach ($entries as $entry) {
-            if (true == $this->isGranted($entry['granted'], 'global')) {
+            if (true === $this->isGranted($entry['granted'], 'global')) {
                 $disabled = false;
 
-                if (true == isset($entry['feature']) && false == $this->callManager->hasFeature($entry['feature'])) {
+                if (true === isset($entry['feature']) && false === $this->callManager->hasFeature($entry['feature'])) {
                     $disabled = true;
                 }
 

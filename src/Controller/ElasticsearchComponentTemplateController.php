@@ -30,7 +30,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -55,7 +55,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_CREATE', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
@@ -64,7 +64,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         if ($request->query->get('template')) {
             $template = $this->elasticsearchComponentTemplateManager->getByName($request->query->get('template'));
 
-            if (null == $template) {
+            if (null === $template) {
                 throw new NotFoundHttpException();
             }
 
@@ -73,7 +73,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
             $template->setName($template->getName().'-copy');
         }
 
-        if (null == $template) {
+        if (null === $template) {
             $template = new ElasticsearchComponentTemplateModel();
         }
         $form = $this->createForm(ElasticsearchComponentTemplateType::class, $template);
@@ -104,13 +104,13 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 
@@ -126,13 +126,13 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 
@@ -148,13 +148,13 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
 
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 
@@ -168,13 +168,13 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function update(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 
@@ -207,13 +207,13 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function delete(Request $request, string $name): Response
     {
-        if (false == $this->callManager->hasFeature('composable_template')) {
+        if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedHttpException();
         }
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (null == $template) {
+        if (null === $template) {
             throw new NotFoundHttpException();
         }
 

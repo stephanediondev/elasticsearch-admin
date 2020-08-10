@@ -27,7 +27,7 @@ class AppScreenshotsController extends AbstractAppController
         $masterNode = $this->callManager->getMasterNode();
 
         $folder = __DIR__.'/../../screenshots/'.$version;
-        if (false == is_dir($folder)) {
+        if (false === is_dir($folder)) {
             mkdir($folder);
             mkdir($folder.'/original');
             mkdir($folder.'/resized');
@@ -75,15 +75,15 @@ class AppScreenshotsController extends AbstractAppController
         foreach ($entries as $entry) {
             $disabled = false;
 
-            if ('repository-create-s3' == $entry['filename'] && false == $this->callManager->hasPlugin('repository-s3')) {
+            if ('repository-create-s3' == $entry['filename'] && false === $this->callManager->hasPlugin('repository-s3')) {
                 $disabled = true;
             }
 
-            if (true == isset($entry['feature']) && false == $this->callManager->hasFeature($entry['feature'])) {
+            if (true === isset($entry['feature']) && false === $this->callManager->hasFeature($entry['feature'])) {
                 $disabled = true;
             }
 
-            if (false == $disabled) {
+            if (false === $disabled) {
                 fwrite($fp, '[!['.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
                 fwrite($fp, "\r\n");
                 fwrite($fp, "\r\n");

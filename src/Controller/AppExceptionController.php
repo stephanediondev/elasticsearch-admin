@@ -24,7 +24,7 @@ class AppExceptionController extends AbstractAppController
 
         $codes = [401, 403, 404, 405, 500, 503];
 
-        if (true == in_array($exception->getStatusCode(), $codes)) {
+        if (true === in_array($exception->getStatusCode(), $codes)) {
             $user = $security->getUser();
 
             if (!$user instanceof AppUserModel) {
