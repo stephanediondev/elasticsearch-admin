@@ -10,6 +10,7 @@ use App\Manager\ElasticsearchRepositoryManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchCatModel;
+use Box\Spout\Common\Exception\UnsupportedTypeException;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,9 +105,6 @@ class ElasticsearchCatController extends AbstractAppController
             case 'csv':
                 $writer = WriterEntityFactory::createCSVWriter();
                 $writer->setFieldDelimiter($delimiter);
-                break;
-            case 'geojson':
-                $writer = 'geojson';
                 break;
             default:
                 throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
