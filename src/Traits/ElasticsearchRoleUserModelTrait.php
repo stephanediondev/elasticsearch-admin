@@ -2,7 +2,8 @@
 
 namespace App\Traits;
 
-trait ElasticsearchRoleUserModelTrait {
+trait ElasticsearchRoleUserModelTrait
+{
     private $metadata;
 
     public function getMetadata(): ?array
