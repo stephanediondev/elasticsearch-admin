@@ -6,7 +6,7 @@
 
 ### Steps
 
-The Docker image is hosted on Docker Hub (https://hub.docker.com/r/stephanediondev/elasticsearch-admin)
+The Docker image is hosted on Docker Hub https://hub.docker.com/r/stephanediondev/elasticsearch-admin
 
 ```
 docker pull stephanediondev/elasticsearch-admin:latest
