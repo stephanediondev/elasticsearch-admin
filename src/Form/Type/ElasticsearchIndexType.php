@@ -2,7 +2,7 @@
 
 namespace App\Form\Type;
 
-use App\Form\EventListener\MappingsSettingsAliasedSubscriber;
+use App\Form\EventListener\MappingsSettingsAliasesSubscriber;
 use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexModel;
@@ -75,8 +75,6 @@ class ElasticsearchIndexType extends AbstractType
             }
         }
 
-        $builder->addEventSubscriber(new MappingsSettingsAliasedSubscriber());
-
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
@@ -91,19 +89,9 @@ class ElasticsearchIndexType extends AbstractType
                     }
                 }
             }
-
-            if ($form->has('mappings') && $form->get('mappings')->getData()) {
-                $index = $event->getData();
-                $index->setMappings(json_decode($form->get('mappings')->getData(), true));
-                $event->setData($index);
-            }
-
-            if ($form->has('settings') && $form->get('settings')->getData()) {
-                $index = $event->getData();
-                $index->setSettings(json_decode($form->get('settings')->getData(), true));
-                $event->setData($index);
-            }
         });
+
+        $builder->addEventSubscriber(new MappingsSettingsAliasesSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver)

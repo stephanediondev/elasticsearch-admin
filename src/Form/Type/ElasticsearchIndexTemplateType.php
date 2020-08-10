@@ -2,7 +2,7 @@
 
 namespace App\Form\Type;
 
-use App\Form\EventListener\MappingsSettingsAliasedSubscriber;
+use App\Form\EventListener\MappingsSettingsAliasesSubscriber;
 use App\Manager\ElasticsearchIndexTemplateManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateModel;
@@ -147,8 +147,6 @@ class ElasticsearchIndexTemplateType extends AbstractType
             }
         }
 
-        $builder->addEventSubscriber(new MappingsSettingsAliasedSubscriber());
-
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
@@ -163,25 +161,9 @@ class ElasticsearchIndexTemplateType extends AbstractType
                     }
                 }
             }
-
-            if ($form->has('mappings') && $form->get('mappings')->getData()) {
-                $template = $event->getData();
-                $template->setMappings(json_decode($form->get('mappings')->getData(), true));
-                $event->setData($template);
-            }
-
-            if ($form->has('settings') && $form->get('settings')->getData()) {
-                $template = $event->getData();
-                $template->setSettings(json_decode($form->get('settings')->getData(), true));
-                $event->setData($template);
-            }
-
-            if ($form->has('aliases') && $form->get('aliases')->getData()) {
-                $template = $event->getData();
-                $template->setAliases(json_decode($form->get('aliases')->getData(), true));
-                $event->setData($template);
-            }
         });
+
+        $builder->addEventSubscriber(new MappingsSettingsAliasesSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver)
