@@ -9,7 +9,7 @@
 
 ### Web server
 
-Configure a vhost with the document root set to the "public" folder (ie /var/www/elasticsearch-admin/public)
+Configure a vhost with the document root set to the ```public``` folder (ie /var/www/elasticsearch-admin/public)
 
 On Apache, add in your vhost the rules below
 
@@ -43,7 +43,7 @@ DirectoryIndex index.php
 </IfModule>
 ```
 
-If you can't edit a vhost, add the Apache pack to get the .htaccess file in the "public" folder
+If you can't edit a vhost, add the Apache pack to get the ```.htaccess``` file in the ```public``` folder
 
 ```
 composer require symfony/apache-pack
@@ -55,7 +55,7 @@ On nginx, see the server definition used for the Docker image in [nginx.conf](ht
 
 Download or clone the repository from GitHub (https://github.com/stephanediondev/elasticsearch-admin)
 
-If you don't have PHP 7.4, remove composer.lock or you will have the error below
+If you don't have PHP 7.4, remove ```composer.lock``` or you will have the error below
 
 ```
 Fatal Error: composer.lock was created for PHP version 7.4 or higher but the current PHP version is ...
@@ -74,6 +74,6 @@ npm run build
 cp .env.dist .env
 ```
 
-Edit ELASTICSEARCH_URL and SECRET_REGISTER (random string to secure registration)
+Edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure registration)
 
-If Elasticsearch security features are enabled, edit ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
+If Elasticsearch security features are enabled, edit ```ELASTICSEARCH_USERNAME``` and ```ELASTICSEARCH_PASSWORD```
