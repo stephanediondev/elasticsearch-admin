@@ -13,39 +13,11 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 ## Running with Docker
 
-- Repository: https://hub.docker.com/r/stephanediondev/elasticsearch-admin
-
-```
-docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" -p 80:8080 -d --name elasticsearch-admin stephanediondev/elasticsearch-admin:latest
-
-# Edit ELASTICSEARCH_URL and SECRET_REGISTER (random string to secure registration)
-# If Elasticsearch security features are enabled, add -e "ELASTICSEARCH_USERNAME=xxxxx" -e "ELASTICSEARCH_PASSWORD=xxxxx"
-```
+[See detailed documentation](https://github.com/stephanediondev/elasticsearch-admin/blob/master/documentation/RUNNING_WITH_DOCKER.md)
 
 ## Source installation
 
-- Web server with rewrite module enabled
-- PHP 7.2.5 or higher: https://symfony.com/doc/current/setup/web_server_configuration.html
-- Composer: https://getcomposer.org/download/
-- npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
-
-Download or clone the repository
-
-Configure a vhost with the document root set to the "public" folder (ie /var/www/elasticsearch-admin/public)
-
-```
-cd /var/www/elasticsearch-admin/
-
-composer install
-
-npm install
-npm run build
-
-cp .env.dist .env
-
-# Edit ELASTICSEARCH_URL and SECRET_REGISTER (random string to secure registration)
-# If Elasticsearch security features are enabled, edit ELASTICSEARCH_USERNAME and ELASTICSEARCH_PASSWORD
-```
+[See detailed documentation](https://github.com/stephanediondev/elasticsearch-admin/blob/master/documentation/SOURCE_INSTALLATION.md)
 
 ## Features
 
