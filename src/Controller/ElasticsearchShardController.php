@@ -78,14 +78,7 @@ class ElasticsearchShardController extends AbstractAppController
                     ],
                 ],
             ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('POST');
-            $callRequest->setPath('/_cluster/reroute');
-            $callRequest->setJson($json);
-            $callResponse = $this->callManager->call($callRequest);
-
-            $content = $callResponse->getContent();
-            unset($content['state']);
+            $content = $this->clusterReroute($json);
 
             $this->addFlash('info', json_encode($content));
         } catch (CallException $e) {
@@ -126,14 +119,7 @@ class ElasticsearchShardController extends AbstractAppController
                     ],
                 ],
             ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('POST');
-            $callRequest->setPath('/_cluster/reroute');
-            $callRequest->setJson($json);
-            $callResponse = $this->callManager->call($callRequest);
-
-            $content = $callResponse->getContent();
-            unset($content['state']);
+            $content = $this->clusterReroute($json);
 
             $this->addFlash('info', json_encode($content));
         } catch (CallException $e) {
@@ -175,14 +161,7 @@ class ElasticsearchShardController extends AbstractAppController
                     ],
                 ],
             ];
-            $callRequest = new CallRequestModel();
-            $callRequest->setMethod('POST');
-            $callRequest->setPath('/_cluster/reroute');
-            $callRequest->setJson($json);
-            $callResponse = $this->callManager->call($callRequest);
-
-            $content = $callResponse->getContent();
-            unset($content['state']);
+            $content = $this->clusterReroute($json);
 
             $this->addFlash('info', json_encode($content));
         } catch (CallException $e) {
@@ -196,5 +175,19 @@ class ElasticsearchShardController extends AbstractAppController
         } else {
             return $this->redirectToRoute('shards');
         }
+    }
+
+    private function clusterReroute(array $json): array
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_cluster/reroute');
+        $callRequest->setJson($json);
+        $callResponse = $this->callManager->call($callRequest);
+
+        $content = $callResponse->getContent();
+        unset($content['state']);
+
+        return $content;
     }
 }
