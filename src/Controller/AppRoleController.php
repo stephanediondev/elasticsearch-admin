@@ -52,7 +52,7 @@ class AppRoleController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('APP_ROLES_CREATE', 'global');
 
-        $role = false;
+        $role = null;
 
         if ($request->query->get('role')) {
             $role = $this->appRoleManager->getByName($request->query->get('role'));
@@ -151,9 +151,6 @@ class AppRoleController extends AbstractAppController
         }
 
         $this->denyAccessUnlessGranted('APP_ROLE_UPDATE', $role);
-
-        $json = [];
-        $responseStatus = JsonResponse::HTTP_OK;
 
         $content = $request->getContent();
         $content = json_decode($content, true);

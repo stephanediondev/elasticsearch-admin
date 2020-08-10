@@ -57,7 +57,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
                     $builder->add('type', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => ElasticsearchEnrichPolicyModel::getTypes(),
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => function ($choice, $key, $value) {
                             return $key;
                         },
                         'choice_translation_domain' => false,
@@ -106,7 +106,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
         });
 
         if ('create' == $options['context']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $form = $event->getForm();
 
                 if ($form->has('name') && $form->get('name')->getData()) {

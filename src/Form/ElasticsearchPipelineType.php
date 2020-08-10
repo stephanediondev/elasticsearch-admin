@@ -102,7 +102,7 @@ class ElasticsearchPipelineType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
 
             if ($form->has('processors') && $form->get('processors')->getData()) {

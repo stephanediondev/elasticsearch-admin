@@ -112,7 +112,7 @@ class ElasticsearchSnapshotType extends AbstractType
         }
 
         if ('create' == $options['context']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
                 $form = $event->getForm();
 
                 if ($form->has('repository') && $form->has('name')) {
