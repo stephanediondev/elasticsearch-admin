@@ -214,14 +214,14 @@ class AppRoleManager extends AbstractAppManager
 
     public function getPermissionsByUser(AppUserModel $user): array
     {
-        if (false == $this->permissionsDefined) {
+        if (false === $this->permissionsDefined) {
             $this->permissionsDefined = true;
 
             foreach ($user->getRoles() as $role) {
-                if (false == in_array($role, ['ROLE_ADMIN', 'ROLE_USER'])) {
+                if (false === in_array($role, ['ROLE_ADMIN', 'ROLE_USER'])) {
                     $permissionsByRole = $this->getPermissionsByRole($role);
                     foreach ($permissionsByRole as $module => $permissions) {
-                        if (false == isset($this->permissions[$module])) {
+                        if (false === isset($this->permissions[$module])) {
                             $this->permissions[$module] = [];
                         }
                         $this->permissions[$module] = array_merge($this->permissions[$module], $permissions);

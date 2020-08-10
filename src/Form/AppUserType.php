@@ -52,7 +52,7 @@ class AppUserType extends AbstractType
 
         $fields[] = 'passwordPlain';
 
-        if ('register' != $options['context'] && false == $options['current_user_admin']) {
+        if ('register' != $options['context'] && false === $options['current_user_admin']) {
             $fields[] = 'roles';
         }
 

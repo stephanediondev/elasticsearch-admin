@@ -44,7 +44,7 @@ class ElasticsearchClusterManager extends AbstractAppManager
         $clusterSettings = [];
         foreach ($results as $type => $rows) {
             foreach ($rows as $k => $v) {
-                if (false == array_key_exists($k, $clusterSettings)) {
+                if (false === array_key_exists($k, $clusterSettings)) {
                     $clusterSettings[$k] = $v;
                 }
             }

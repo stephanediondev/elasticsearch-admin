@@ -174,7 +174,7 @@ class PhpunitCommand extends Command
         ];
 
         foreach ($cases as $case => $parameters) {
-            if (true === isset($parameters['feature']) && false == $this->callManager->hasFeature($parameters['feature'])) {
+            if (true === isset($parameters['feature']) && false === $this->callManager->hasFeature($parameters['feature'])) {
                 continue;
             }
 

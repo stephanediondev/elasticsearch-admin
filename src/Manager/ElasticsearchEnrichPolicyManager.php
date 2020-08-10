@@ -19,7 +19,7 @@ class ElasticsearchEnrichPolicyManager extends AbstractAppManager
 
         $results = $callResponse->getContent();
 
-        if (false == isset($results['policies']) || 0 == count($results['policies'])) {
+        if (false === isset($results['policies']) || 0 == count($results['policies'])) {
             $policyModel = null;
         } else {
             foreach ($results['policies'] as $row) {

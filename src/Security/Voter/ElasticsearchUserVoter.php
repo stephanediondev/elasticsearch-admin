@@ -34,7 +34,7 @@ class ElasticsearchUserVoter extends AbstractAppVoter
             return false;
         }
 
-        if ('ELASTICSEARCH_USER_DISABLE' == $attribute && false == $subject->getEnabled()) {
+        if ('ELASTICSEARCH_USER_DISABLE' == $attribute && false === $subject->getEnabled()) {
             return false;
         }
 

@@ -28,13 +28,13 @@ class PaginatorManager
         }
         $paginate['pages_slice'] = $pagesSlice;
 
-        if (false == in_array(1, $paginate['pages_slice'])) {
+        if (false === in_array(1, $paginate['pages_slice'])) {
             $paginate['first'] = 1;
         } else {
             $paginate['first'] = false;
         }
 
-        if (false == in_array($paginate['pages'], $paginate['pages_slice'])) {
+        if (false === in_array($paginate['pages'], $paginate['pages_slice'])) {
             $paginate['last'] = $paginate['pages'];
         } else {
             $paginate['last'] = false;

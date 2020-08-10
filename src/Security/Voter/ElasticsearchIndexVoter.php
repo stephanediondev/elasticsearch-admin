@@ -32,7 +32,7 @@ class ElasticsearchIndexVoter extends AbstractAppVoter
             'INDEX_ALIASES',
         ];
 
-        if (false == in_array($attribute, $includeWhenIsSystem) && $subject->isSystem()) {
+        if (false === in_array($attribute, $includeWhenIsSystem) && $subject->isSystem()) {
             return false;
         }
 
@@ -66,7 +66,7 @@ class ElasticsearchIndexVoter extends AbstractAppVoter
             return false;
         }
 
-        if ('INDEX_UNFREEZE' == $attribute && (false == $subject->getSetting('index.frozen') || 'false' == $subject->getSetting('index.frozen'))) {
+        if ('INDEX_UNFREEZE' == $attribute && (false === $subject->getSetting('index.frozen') || 'false' == $subject->getSetting('index.frozen'))) {
             return false;
         }
 

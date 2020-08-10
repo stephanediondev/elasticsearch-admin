@@ -73,7 +73,7 @@ class CallManager
 
         $headers = [];
 
-        if (false == $options['body']) {
+        if (false === $options['body']) {
             unset($options['body']);
         } else {
             $headers['Content-Type'] = 'application/json; charset=UTF-8';
@@ -83,7 +83,7 @@ class CallManager
             unset($options['json']);
         }
 
-        if ('GET' == $callRequest->getMethod() && false == isset($options['query']['format'])) {
+        if ('GET' == $callRequest->getMethod() && false === isset($options['query']['format'])) {
             $options['query']['format'] = 'json';
         }
 
@@ -172,7 +172,7 @@ class CallManager
 
     public function getCatMaster(): array
     {
-        if (false == $this->catMaster) {
+        if (false === $this->catMaster) {
             $this->setCatMaster();
         }
 
@@ -190,7 +190,7 @@ class CallManager
 
     public function getMasterNode(): ?string
     {
-        if (false == $this->catMaster) {
+        if (false === $this->catMaster) {
             $this->setCatMaster();
         }
 
@@ -199,7 +199,7 @@ class CallManager
 
     public function getRoot(): array
     {
-        if (false == $this->root) {
+        if (false === $this->root) {
             $this->setRoot();
         }
 
@@ -217,7 +217,7 @@ class CallManager
 
     public function getXpack(): array
     {
-        if (false == $this->xpack) {
+        if (false === $this->xpack) {
             $this->setXpack();
         }
 
@@ -243,7 +243,7 @@ class CallManager
 
     public function getPlugins(): array
     {
-        if (false == $this->plugins) {
+        if (false === $this->plugins) {
             $this->setPlugins();
         }
 
@@ -271,7 +271,7 @@ class CallManager
 
     public function checkVersion(string $versionGoal): bool
     {
-        if (false == $this->root) {
+        if (false === $this->root) {
             $this->setRoot();
         }
 
@@ -288,7 +288,7 @@ class CallManager
             return $this->checkVersion($this->featuresByVersion[$feature]);
         }
 
-        if (false == $this->xpack) {
+        if (false === $this->xpack) {
             $this->setXpack();
         }
 
@@ -301,7 +301,7 @@ class CallManager
 
     public function hasPlugin(string $plugin): bool
     {
-        if (false == $this->plugins) {
+        if (false === $this->plugins) {
             $this->setPlugins();
         }
 

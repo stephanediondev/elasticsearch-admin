@@ -18,7 +18,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $node = $callResponse->getContent();
 
-        if (false == isset($node['nodes'][key($node['nodes'])])) {
+        if (false === isset($node['nodes'][key($node['nodes'])])) {
             $nodeModel = null;
         } else {
             $id = key($node['nodes']);
@@ -34,7 +34,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
 
     public function getAll(?array $parameters): array
     {
-        if (false == isset($parameters['sort'])) {
+        if (false === isset($parameters['sort'])) {
             $parameters['sort'] = 'name:asc';
         }
 

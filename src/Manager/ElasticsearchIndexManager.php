@@ -32,7 +32,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
             $index = array_merge($index1, $index2[key($index2)]);
 
-            if (true === isset($index['mappings']) && false == isset($index['mappings']['properties']) && 0 < count($index['mappings'])) {
+            if (true === isset($index['mappings']) && false === isset($index['mappings']['properties']) && 0 < count($index['mappings'])) {
                 $firstKey = array_key_first($index['mappings']);
                 if (true === isset($index['mappings'][$firstKey]['properties'])) {
                     $index['mappings']['properties'] = $index['mappings'][$firstKey]['properties'];
