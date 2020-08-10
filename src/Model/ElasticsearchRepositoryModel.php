@@ -189,62 +189,62 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         $this->setName($repository['name']);
         $this->setType($repository['type']);
 
-        if (true == isset($repository['settings']) && 0 < count($repository['settings'])) {
+        if (true === isset($repository['settings']) && 0 < count($repository['settings'])) {
             $this->setSettings($repository['settings']);
 
-            if (true == isset($repository['settings']['compress'])) {
+            if (true === isset($repository['settings']['compress'])) {
                 $this->setCompress($this->convertBoolean($repository['settings']['compress']));
             }
-            if (true == isset($repository['settings']['chunk_size'])) {
+            if (true === isset($repository['settings']['chunk_size'])) {
                 $this->setChunkSize($repository['settings']['chunk_size']);
             }
-            if (true == isset($repository['settings']['max_restore_bytes_per_sec'])) {
+            if (true === isset($repository['settings']['max_restore_bytes_per_sec'])) {
                 $this->setMaxRestoreBytesPerSec($repository['settings']['max_restore_bytes_per_sec']);
             }
-            if (true == isset($repository['settings']['max_snapshot_bytes_per_sec'])) {
+            if (true === isset($repository['settings']['max_snapshot_bytes_per_sec'])) {
                 $this->setMaxSnapshotBytesPerSec($repository['settings']['max_snapshot_bytes_per_sec']);
             }
-            if (true == isset($repository['settings']['readonly'])) {
+            if (true === isset($repository['settings']['readonly'])) {
                 $this->setReadonly($this->convertBoolean($repository['settings']['readonly']));
             }
 
             // TYPE_FS
-            if (true == isset($repository['settings']['location'])) {
+            if (true === isset($repository['settings']['location'])) {
                 $this->setLocation($repository['settings']['location']);
             }
 
             // TYPE_S3, TYPE_GCS or TYPE_AZURE
-            if (true == isset($repository['settings']['client'])) {
+            if (true === isset($repository['settings']['client'])) {
                 $this->setClient($repository['settings']['client']);
             }
-            if (true == isset($repository['settings']['base_path'])) {
+            if (true === isset($repository['settings']['base_path'])) {
                 $this->setBasePath($repository['settings']['base_path']);
             }
 
             // TYPE_S3 or TYPE_GCS
-            if (true == isset($repository['settings']['bucket'])) {
+            if (true === isset($repository['settings']['bucket'])) {
                 $this->setBucket($repository['settings']['bucket']);
             }
 
             // TYPE_S3
-            if (true == isset($repository['settings']['server_side_encryption'])) {
+            if (true === isset($repository['settings']['server_side_encryption'])) {
                 $this->setServerSideEncryption($this->convertBoolean($repository['settings']['server_side_encryption']));
             }
-            if (true == isset($repository['settings']['buffer_size'])) {
+            if (true === isset($repository['settings']['buffer_size'])) {
                 $this->setBufferSize($repository['settings']['buffer_size']);
             }
-            if (true == isset($repository['settings']['canned_acl'])) {
+            if (true === isset($repository['settings']['canned_acl'])) {
                 $this->setCannedAcl($repository['settings']['canned_acl']);
             }
-            if (true == isset($repository['settings']['storage_class'])) {
+            if (true === isset($repository['settings']['storage_class'])) {
                 $this->setStorageClass($repository['settings']['storage_class']);
             }
 
             // TYPE_AZURE
-            if (true == isset($repository['settings']['container'])) {
+            if (true === isset($repository['settings']['container'])) {
                 $this->setContainer($repository['settings']['container']);
             }
-            if (true == isset($repository['settings']['location_mode'])) {
+            if (true === isset($repository['settings']['location_mode'])) {
                 $this->setLocationMode($repository['settings']['location_mode']);
             }
         }

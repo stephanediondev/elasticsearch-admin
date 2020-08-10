@@ -32,14 +32,14 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
             $index = array_merge($index1, $index2[key($index2)]);
 
-            if (true == isset($index['mappings']) && false == isset($index['mappings']['properties']) && 0 < count($index['mappings'])) {
+            if (true === isset($index['mappings']) && false == isset($index['mappings']['properties']) && 0 < count($index['mappings'])) {
                 $firstKey = array_key_first($index['mappings']);
-                if (true == isset($index['mappings'][$firstKey]['properties'])) {
+                if (true === isset($index['mappings'][$firstKey]['properties'])) {
                     $index['mappings']['properties'] = $index['mappings'][$firstKey]['properties'];
                 }
             }
 
-            if (true == isset($index['mappings']) && true == isset($index['mappings']['properties'])) {
+            if (true === isset($index['mappings']) && true === isset($index['mappings']['properties'])) {
                 $index['mappings_flat'] = $this->mappingsFlat($index['mappings']['properties']);
             } else {
                 $index['mappings_flat'] = [];
@@ -77,7 +77,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
         $indices = [];
         foreach ($results as $row) {
-            if (true == isset($aliases[$row['index']])) {
+            if (true === isset($aliases[$row['index']])) {
                 $row['aliases'] = $aliases[$row['index']];
             }
             $indexModel = new ElasticsearchIndexModel();
@@ -183,9 +183,9 @@ class ElasticsearchIndexManager extends AbstractAppManager
                 $property = $prefix.'.'.$property;
             }
 
-            if (true == isset($keys['type']) && true == in_array($keys['type'], ['nested', 'geo_shape'])) {
+            if (true === isset($keys['type']) && true === in_array($keys['type'], ['nested', 'geo_shape'])) {
                 $mappingsFlat[$property] = $keys;
-            } elseif (true == isset($keys['properties'])) {
+            } elseif (true === isset($keys['properties'])) {
                 $mappingsFlat = array_merge($mappingsFlat, $this->mappingsFlat($keys['properties'], $property));
             } else {
                 $mappingsFlat[$property] = $keys;
@@ -197,7 +197,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
     public function selectIndices(): array
     {
         $query = ['h' => 'index'];
-        if (true == $this->callManager->hasFeature('cat_sort')) {
+        if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = 'index';
         }
         $rows = $this->getAll($query);
@@ -215,7 +215,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         $aliases = [];
 
         $query = ['h' => 'alias'];
-        if (true == $this->callManager->hasFeature('cat_sort')) {
+        if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = 'alias';
         }
         $callRequest = new CallRequestModel();

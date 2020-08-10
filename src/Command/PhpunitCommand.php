@@ -53,7 +53,7 @@ class PhpunitCommand extends Command
                 'settings' => $this->appManager->getSettings('.elasticsearch-admin-users'),
                 'aliases' => ['.elasticsearch-admin-users' => (object)[]],
             ];
-            if (true == $this->callManager->checkVersion('7.0')) {
+            if (true === $this->callManager->checkVersion('7.0')) {
                 $json['mappings'] = $this->appManager->getMappings('.elasticsearch-admin-users');
             }
             $callRequest = new CallRequestModel();
@@ -72,7 +72,7 @@ class PhpunitCommand extends Command
             sleep(2);
         }
 
-        if (true == $this->callManager->hasFeature('_security_endpoint')) {
+        if (true === $this->callManager->hasFeature('_security_endpoint')) {
             $this->endpoint = '/_security';
         } else {
             $this->endpoint = '/_xpack/security';
@@ -81,7 +81,7 @@ class PhpunitCommand extends Command
         $jsonIndex = [
             'settings' => ['index' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1']],
         ];
-        if (true == $this->callManager->checkVersion('7.0')) {
+        if (true === $this->callManager->checkVersion('7.0')) {
             $jsonIndex['mappings'] = json_decode(file_get_contents(__DIR__.'/../DataFixtures/es-test-mappings.json'), true);
         }
 
@@ -111,12 +111,12 @@ class PhpunitCommand extends Command
             'index_template_legacy' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => '_template',
-                'json' => true == $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => 'elasticsearch-admin-test'] : ['template' => 'elasticsearch-admin-test'],
+                'json' => true === $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => 'elasticsearch-admin-test'] : ['template' => 'elasticsearch-admin-test'],
             ],
             'index_template_legacy_system' => [
                 'name' => '.elasticsearch-admin-test',
                 'path' => '_template',
-                'json' => true == $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => '.elasticsearch-admin-test'] : ['template' => '.elasticsearch-admin-test'],
+                'json' => true === $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => '.elasticsearch-admin-test'] : ['template' => '.elasticsearch-admin-test'],
             ],
             'index_template' => [
                 'name' => 'elasticsearch-admin-test',
@@ -174,7 +174,7 @@ class PhpunitCommand extends Command
         ];
 
         foreach ($cases as $case => $parameters) {
-            if (true == isset($parameters['feature']) && false == $this->callManager->hasFeature($parameters['feature'])) {
+            if (true === isset($parameters['feature']) && false == $this->callManager->hasFeature($parameters['feature'])) {
                 continue;
             }
 
@@ -197,7 +197,7 @@ class PhpunitCommand extends Command
 
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
-            if (true == isset($parameters['json'])) {
+            if (true === isset($parameters['json'])) {
                 $callRequest->setJson($parameters['json']);
             }
             $callRequest->setPath($parameters['path'].'/'.$parameters['name']);

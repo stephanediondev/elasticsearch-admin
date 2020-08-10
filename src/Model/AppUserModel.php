@@ -163,7 +163,7 @@ class AppUserModel implements UserInterface
 
     public function currentUserAdmin($userConnected): bool
     {
-        if ($this->getId() == $userConnected->getId() && true == in_array('ROLE_ADMIN', $this->roles)) {
+        if ($this->getId() == $userConnected->getId() && true === in_array('ROLE_ADMIN', $this->roles)) {
             return true;
         }
 
@@ -176,7 +176,7 @@ class AppUserModel implements UserInterface
         $this->setEmail($user['email']);
         $this->setPassword($user['password']);
         $this->setRoles($user['roles']);
-        if (true == isset($user['created_at'])) {
+        if (true === isset($user['created_at'])) {
             $this->setCreatedAt(new \Datetime($user['created_at']));
         }
         return $this;

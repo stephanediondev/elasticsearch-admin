@@ -16,7 +16,7 @@ class AppUserManager extends AbstractAppManager
         $userModel = null;
 
         $callRequest = new CallRequestModel();
-        if (true == $this->callManager->hasFeature('_doc_as_type')) {
+        if (true === $this->callManager->hasFeature('_doc_as_type')) {
             $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$id);
         } else {
             $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$id);
@@ -96,14 +96,14 @@ class AppUserManager extends AbstractAppManager
         $callRequest = new CallRequestModel();
         if ($userModel->getId()) {
             $callRequest->setMethod('PUT');
-            if (true == $this->callManager->hasFeature('_doc_as_type')) {
+            if (true === $this->callManager->hasFeature('_doc_as_type')) {
                 $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$userModel->getId());
             } else {
                 $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$userModel->getId());
             }
         } else {
             $callRequest->setMethod('POST');
-            if (true == $this->callManager->hasFeature('_doc_as_type')) {
+            if (true === $this->callManager->hasFeature('_doc_as_type')) {
                 $callRequest->setPath('/.elasticsearch-admin-users/_doc');
             } else {
                 $callRequest->setPath('/.elasticsearch-admin-users/doc/');
@@ -117,7 +117,7 @@ class AppUserManager extends AbstractAppManager
     public function deleteById(string $id): CallResponseModel
     {
         $callRequest = new CallRequestModel();
-        if (true == $this->callManager->hasFeature('_doc_as_type')) {
+        if (true === $this->callManager->hasFeature('_doc_as_type')) {
             $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$id);
         } else {
             $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$id);

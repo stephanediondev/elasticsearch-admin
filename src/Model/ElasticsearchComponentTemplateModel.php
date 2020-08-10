@@ -96,16 +96,16 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
     public function convert(?array $template): self
     {
         $this->setName($template['name']);
-        if (true == isset($template['component_template']['version'])) {
+        if (true === isset($template['component_template']['version'])) {
             $this->setVersion($template['component_template']['version']);
         }
-        if (true == isset($template['component_template']['template']['settings']) && 0 < count($template['component_template']['template']['settings'])) {
+        if (true === isset($template['component_template']['template']['settings']) && 0 < count($template['component_template']['template']['settings'])) {
             $this->setSettings($template['component_template']['template']['settings']);
         }
-        if (true == isset($template['component_template']['template']['mappings']) && 0 < count($template['component_template']['template']['mappings'])) {
+        if (true === isset($template['component_template']['template']['mappings']) && 0 < count($template['component_template']['template']['mappings'])) {
             $this->setMappings($template['component_template']['template']['mappings']);
         }
-        if (true == isset($template['component_template']['template']['aliases']) && 0 < count($template['component_template']['template']['aliases'])) {
+        if (true === isset($template['component_template']['template']['aliases']) && 0 < count($template['component_template']['template']['aliases'])) {
             $this->setAliases($template['component_template']['template']['aliases']);
         }
 

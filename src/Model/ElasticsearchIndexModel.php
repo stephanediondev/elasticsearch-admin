@@ -251,7 +251,7 @@ class ElasticsearchIndexModel extends AbstractAppModel
     {
         if ($this->getMappingsFlat()) {
             foreach ($this->getMappingsFlat() as $mapping) {
-                if (true == isset($mapping['type']) && $type == $mapping['type']) {
+                if (true === isset($mapping['type']) && $type == $mapping['type']) {
                     return true;
                 }
             }
@@ -279,65 +279,65 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     public function convert(?array $index): self
     {
-        if (true == isset($index['uuid'])) {
+        if (true === isset($index['uuid'])) {
             $this->setId($index['uuid']);
         }
 
         $this->setName($index['index']);
 
-        if (true == isset($index['status'])) {
+        if (true === isset($index['status'])) {
             $this->setStatus($index['status']);
         }
 
-        if (true == isset($index['health'])) {
+        if (true === isset($index['health'])) {
             $this->setHealth($index['health']);
         }
 
-        if (true == isset($index['sth'])) {
+        if (true === isset($index['sth'])) {
             $this->setFrozen($index['sth']);
         }
 
-        if (true == isset($index['pri'])) {
+        if (true === isset($index['pri'])) {
             $this->setShards($index['pri']);
         }
 
-        if (true == isset($index['rep'])) {
+        if (true === isset($index['rep'])) {
             $this->setReplicas($index['rep']);
         }
 
-        if (true == isset($index['docs.count'])) {
+        if (true === isset($index['docs.count'])) {
             $this->setDocuments($index['docs.count']);
         }
 
-        if (true == isset($index['docs.deleted'])) {
+        if (true === isset($index['docs.deleted'])) {
             $this->setDocumentsDeleted($index['docs.deleted']);
         }
 
-        if (true == isset($index['pri.store.size'])) {
+        if (true === isset($index['pri.store.size'])) {
             $this->setPrimarySize($index['pri.store.size']);
         }
 
-        if (true == isset($index['store.size'])) {
+        if (true === isset($index['store.size'])) {
             $this->setTotalSize($index['store.size']);
         }
 
-        if (true == isset($index['creation.date.string'])) {
+        if (true === isset($index['creation.date.string'])) {
             $this->setCreationDate($index['creation.date.string']);
         }
 
-        if (true == isset($index['settings']) && 0 < count($index['settings'])) {
+        if (true === isset($index['settings']) && 0 < count($index['settings'])) {
             $this->setSettings($index['settings']);
         }
 
-        if (true == isset($index['mappings']) && 0 < count($index['mappings'])) {
+        if (true === isset($index['mappings']) && 0 < count($index['mappings'])) {
             $this->setMappings($index['mappings']);
         }
 
-        if (true == isset($index['mappings_flat']) && 0 < count($index['mappings_flat'])) {
+        if (true === isset($index['mappings_flat']) && 0 < count($index['mappings_flat'])) {
             $this->setMappingsFlat($index['mappings_flat']);
         }
 
-        if (true == isset($index['aliases']) && 0 < count($index['aliases'])) {
+        if (true === isset($index['aliases']) && 0 < count($index['aliases'])) {
             $this->setAliases($index['aliases']);
         }
 

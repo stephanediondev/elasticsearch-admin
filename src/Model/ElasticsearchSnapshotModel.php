@@ -198,35 +198,35 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         $this->setName($snapshot['snapshot']);
         $this->setRepository($snapshot['repository']);
 
-        if (true == isset($snapshot['version'])) {
+        if (true === isset($snapshot['version'])) {
             $this->setVersion($snapshot['version']);
         }
 
-        if (true == isset($snapshot['state'])) {
+        if (true === isset($snapshot['state'])) {
             $this->setState($snapshot['state']);
         }
 
-        if (true == isset($snapshot['start_time'])) {
+        if (true === isset($snapshot['start_time'])) {
             $this->setStartTime($snapshot['start_time']);
         }
 
-        if (true == isset($snapshot['end_time'])) {
+        if (true === isset($snapshot['end_time'])) {
             $this->setEndTime($snapshot['end_time']);
         }
 
-        if (true == isset($snapshot['duration_in_millis'])) {
+        if (true === isset($snapshot['duration_in_millis'])) {
             $this->setDuration($snapshot['duration_in_millis']);
         }
 
-        if (true == isset($snapshot['failures'])) {
+        if (true === isset($snapshot['failures'])) {
             $this->setFailures($snapshot['failures']);
         }
 
-        if (true == isset($snapshot['indices'])) {
+        if (true === isset($snapshot['indices'])) {
             $this->setIndices($snapshot['indices']);
         }
 
-        if (true == isset($snapshot['metadata'])) {
+        if (true === isset($snapshot['metadata'])) {
             $this->setMetadata($snapshot['metadata']);
         }
 

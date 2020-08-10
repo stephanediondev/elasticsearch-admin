@@ -16,7 +16,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
      */
     public function setEndpoint()
     {
-        if (true == $this->callManager->hasFeature('_security_endpoint')) {
+        if (true === $this->callManager->hasFeature('_security_endpoint')) {
             $this->endpoint = '/_security';
         } else {
             $this->endpoint = '/_xpack/security';
@@ -106,7 +106,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
 
     public function getPrivileges()
     {
-        if (true == $this->callManager->hasFeature('builtin_privileges')) {
+        if (true === $this->callManager->hasFeature('builtin_privileges')) {
             $callRequest = new CallRequestModel();
             $callRequest->setPath($this->getEndpoint().'/privilege/_builtin');
             $callResponse = $this->callManager->call($callRequest);

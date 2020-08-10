@@ -120,33 +120,33 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
     public function convert(?array $node): self
     {
-        if (true == isset($node['id'])) {
+        if (true === isset($node['id'])) {
             $this->setId($node['id']);
         }
 
         $this->setName($node['name']);
 
-        if (true == isset($node['ip'])) {
+        if (true === isset($node['ip'])) {
             $this->setIp($node['ip']);
         }
 
-        if (true == isset($node['version'])) {
+        if (true === isset($node['version'])) {
             $this->setVersion($node['version']);
         }
 
-        if (true == isset($node['os']) && 0 < count($node['os'])) {
+        if (true === isset($node['os']) && 0 < count($node['os'])) {
             $this->setOs($node['os']);
         }
 
-        if (true == isset($node['roles']) && 0 < count($node['roles'])) {
+        if (true === isset($node['roles']) && 0 < count($node['roles'])) {
             $this->setRoles($node['roles']);
         }
 
-        if (true == isset($node['settings']) && 0 < count($node['settings'])) {
+        if (true === isset($node['settings']) && 0 < count($node['settings'])) {
             $this->setSettings($node['settings']);
         }
 
-        if (true == isset($node['plugins']) && 0 < count($node['plugins'])) {
+        if (true === isset($node['plugins']) && 0 < count($node['plugins'])) {
             $this->setPlugins($node['plugins']);
         }
 

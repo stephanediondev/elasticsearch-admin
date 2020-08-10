@@ -50,7 +50,7 @@ class ElasticsearchIndexVoter extends AbstractAppVoter
             'INDICES_REINDEX',
         ];
 
-        if (true == in_array($attribute, $excludeWhenClosed) && 'close' == $subject->getStatus()) {
+        if (true === in_array($attribute, $excludeWhenClosed) && 'close' == $subject->getStatus()) {
             return false;
         }
 

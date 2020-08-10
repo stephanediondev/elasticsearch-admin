@@ -84,16 +84,16 @@ class ElasticsearchPipelineModel extends AbstractAppModel
     public function convert(?array $pipeline): self
     {
         $this->setName($pipeline['name']);
-        if (true == isset($pipeline['description'])) {
+        if (true === isset($pipeline['description'])) {
             $this->setDescription($pipeline['description']);
         }
-        if (true == isset($pipeline['version'])) {
+        if (true === isset($pipeline['version'])) {
             $this->setVersion($pipeline['version']);
         }
-        if (true == isset($pipeline['processors']) && 0 < count($pipeline['processors'])) {
+        if (true === isset($pipeline['processors']) && 0 < count($pipeline['processors'])) {
             $this->setProcessors($pipeline['processors']);
         }
-        if (true == isset($pipeline['on_failure']) && 0 < count($pipeline['on_failure'])) {
+        if (true === isset($pipeline['on_failure']) && 0 < count($pipeline['on_failure'])) {
             $this->setOnFailure($pipeline['on_failure']);
         }
         return $this;

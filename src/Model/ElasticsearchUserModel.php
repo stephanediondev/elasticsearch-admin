@@ -127,17 +127,17 @@ class ElasticsearchUserModel extends AbstractAppModel
 
     public function isReserved(): ?bool
     {
-        return true == isset($this->getMetadata()['_reserved']) && true == $this->getMetadata()['_reserved'];
+        return true === isset($this->getMetadata()['_reserved']) && true === $this->getMetadata()['_reserved'];
     }
 
     public function isDeprecated(): ?bool
     {
-        return true == isset($this->getMetadata()['_deprecated']) && true == $this->getMetadata()['_deprecated'];
+        return true === isset($this->getMetadata()['_deprecated']) && true === $this->getMetadata()['_deprecated'];
     }
 
     public function getDeprecatedReason(): ?string
     {
-        if (true == isset($this->getMetadata()['_deprecated_reason'])) {
+        if (true === isset($this->getMetadata()['_deprecated_reason'])) {
             return $this->getMetadata()['_deprecated_reason'];
         }
     }
@@ -149,7 +149,7 @@ class ElasticsearchUserModel extends AbstractAppModel
         $this->setEmail($user['email']);
         $this->setRoles($user['roles']);
         $this->setEnabled($user['enabled']);
-        if (true == isset($user['metadata']) && 0 < count($user['metadata'])) {
+        if (true === isset($user['metadata']) && 0 < count($user['metadata'])) {
             $this->setMetadata($user['metadata']);
         }
         return $this;

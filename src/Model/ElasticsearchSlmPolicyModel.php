@@ -288,55 +288,55 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         $this->setSchedule($policy['policy']['schedule']);
         $this->setRepository($policy['policy']['repository']);
 
-        if (true == isset($policy['policy']['config']['indices'])) {
+        if (true === isset($policy['policy']['config']['indices'])) {
             $this->setIndices($policy['policy']['config']['indices']);
         }
 
-        if (true == isset($policy['policy']['retention']['expire_after'])) {
+        if (true === isset($policy['policy']['retention']['expire_after'])) {
             $this->setExpireAfter($policy['policy']['retention']['expire_after']);
         }
 
-        if (true == isset($policy['policy']['retention']['min_count'])) {
+        if (true === isset($policy['policy']['retention']['min_count'])) {
             $this->setMinCount($policy['policy']['retention']['min_count']);
         }
 
-        if (true == isset($policy['policy']['retention']['max_count'])) {
+        if (true === isset($policy['policy']['retention']['max_count'])) {
             $this->setMaxCount($policy['policy']['retention']['max_count']);
         }
 
-        if (true == isset($policy['policy']['config']['ignore_unavailable'])) {
+        if (true === isset($policy['policy']['config']['ignore_unavailable'])) {
             $this->setIgnoreUnavailable($this->convertBoolean($policy['policy']['config']['ignore_unavailable']));
         }
 
-        if (true == isset($policy['policy']['config']['partial'])) {
+        if (true === isset($policy['policy']['config']['partial'])) {
             $this->setPartial($this->convertBoolean($policy['policy']['config']['partial']));
         }
 
-        if (true == isset($policy['policy']['config']['include_global_state'])) {
+        if (true === isset($policy['policy']['config']['include_global_state'])) {
             $this->setIncludeGlobalState($this->convertBoolean($policy['policy']['config']['include_global_state']));
         }
 
-        if (true == isset($policy['next_execution_millis'])) {
+        if (true === isset($policy['next_execution_millis'])) {
             $this->setNextExecution($policy['next_execution_millis']);
         }
 
-        if (true == isset($policy['version'])) {
+        if (true === isset($policy['version'])) {
             $this->setVersion($policy['version']);
         }
 
-        if (true == isset($policy['last_success'])) {
+        if (true === isset($policy['last_success'])) {
             $this->setLastSuccess($policy['last_success']);
         }
 
-        if (true == isset($policy['last_failure'])) {
+        if (true === isset($policy['last_failure'])) {
             $this->setLastFailure($policy['last_failure']);
         }
 
-        if (true == isset($policy['modified_date_millis'])) {
+        if (true === isset($policy['modified_date_millis'])) {
             $this->setModifiedDate($policy['modified_date_millis']);
         }
 
-        if (true == isset($policy['stats'])) {
+        if (true === isset($policy['stats'])) {
             $this->setStats($policy['stats']);
         }
 

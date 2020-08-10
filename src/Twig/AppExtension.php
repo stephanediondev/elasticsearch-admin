@@ -109,12 +109,12 @@ class AppExtension extends AbstractExtension
 
         $mappingsFlat = $index->getMappingsFlat();
 
-        if (true == isset($mappingsFlat[$field]['type']) && true == in_array($mappingsFlat[$field]['type'], ['keyword', 'date', 'long', 'integer'])) {
+        if (true === isset($mappingsFlat[$field]['type']) && true === in_array($mappingsFlat[$field]['type'], ['keyword', 'date', 'long', 'integer'])) {
             $sort = $field;
-        } elseif (true == isset($mappingsFlat[$field]['fields'])) {
+        } elseif (true === isset($mappingsFlat[$field]['fields'])) {
             $foundKeyword = false;
             foreach ($mappingsFlat[$field]['fields'] as $fieldSub => $propertiesSub) {
-                if (false == $foundKeyword && true == isset($propertiesSub['type']) && 'keyword' == $propertiesSub['type']) {
+                if (false == $foundKeyword && true === isset($propertiesSub['type']) && 'keyword' == $propertiesSub['type']) {
                     $foundKeyword = true;
                     $sort = $field.'.'.$fieldSub;
                 }
@@ -128,7 +128,7 @@ class AppExtension extends AbstractExtension
     {
         $value = false;
 
-        if (true == isset($source[$field])) {
+        if (true === isset($source[$field])) {
             return $source[$field];
         } else {
             $keys = explode('.', $field);

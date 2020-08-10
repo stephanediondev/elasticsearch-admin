@@ -27,7 +27,7 @@ abstract class AbstractAppVoter extends Voter
             return true;
         }
 
-        if (true == isset($this->permissions[$this->module]) && true == in_array($attribute, $this->permissions[$this->module])) {
+        if (true === isset($this->permissions[$this->module]) && true === in_array($attribute, $this->permissions[$this->module])) {
             return true;
         }
     }

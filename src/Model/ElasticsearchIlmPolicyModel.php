@@ -127,27 +127,27 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
     {
         $this->setName($policy['name']);
 
-        if (true == isset($policy['version'])) {
+        if (true === isset($policy['version'])) {
             $this->setVersion($policy['version']);
         }
 
-        if (true == isset($policy['modified_date'])) {
+        if (true === isset($policy['modified_date'])) {
             $this->setModifiedDate($policy['modified_date']);
         }
 
-        if (true == isset($policy['policy']['phases']) && 0 < count($policy['policy']['phases'])) {
+        if (true === isset($policy['policy']['phases']) && 0 < count($policy['policy']['phases'])) {
             $this->setPhases($policy['policy']['phases']);
 
-            if (true == isset($policy['policy']['phases']['hot'])) {
+            if (true === isset($policy['policy']['phases']['hot'])) {
                 $this->setHot($policy['policy']['phases']['hot']);
             }
-            if (true == isset($policy['policy']['phases']['warm'])) {
+            if (true === isset($policy['policy']['phases']['warm'])) {
                 $this->setWarm($policy['policy']['phases']['warm']);
             }
-            if (true == isset($policy['policy']['phases']['cold'])) {
+            if (true === isset($policy['policy']['phases']['cold'])) {
                 $this->setCold($policy['policy']['phases']['cold']);
             }
-            if (true == isset($policy['policy']['phases']['delete'])) {
+            if (true === isset($policy['policy']['phases']['delete'])) {
                 $this->setDelete($policy['policy']['phases']['delete']);
             }
         }

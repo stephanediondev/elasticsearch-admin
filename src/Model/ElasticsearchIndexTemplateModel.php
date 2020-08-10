@@ -149,23 +149,23 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
     {
         $this->setName($template['name']);
         $this->setIndexPatterns(implode(', ', $template['index_template']['index_patterns']));
-        if (true == isset($template['index_template']['version'])) {
+        if (true === isset($template['index_template']['version'])) {
             $this->setVersion($template['index_template']['version']);
         }
-        if (true == isset($template['index_template']['priority'])) {
+        if (true === isset($template['index_template']['priority'])) {
             $this->setPriority($template['index_template']['priority']);
         }
-        if (true == isset($template['index_template']['composed_of']) && 0 < count($template['index_template']['composed_of'])) {
+        if (true === isset($template['index_template']['composed_of']) && 0 < count($template['index_template']['composed_of'])) {
             $this->setComposedOf($template['index_template']['composed_of']);
         }
-        if (true == isset($template['index_template']['template']) && 0 < count($template['index_template']['template'])) {
-            if (true == isset($template['index_template']['template']['settings']) && 0 < count($template['index_template']['template']['settings'])) {
+        if (true === isset($template['index_template']['template']) && 0 < count($template['index_template']['template'])) {
+            if (true === isset($template['index_template']['template']['settings']) && 0 < count($template['index_template']['template']['settings'])) {
                 $this->setSettings($template['index_template']['template']['settings']);
             }
-            if (true == isset($template['index_template']['template']['mappings']) && 0 < count($template['index_template']['template']['mappings'])) {
+            if (true === isset($template['index_template']['template']['mappings']) && 0 < count($template['index_template']['template']['mappings'])) {
                 $this->setMappings($template['index_template']['template']['mappings']);
             }
-            if (true == isset($template['index_template']['template']['aliases']) && 0 < count($template['index_template']['template']['aliases'])) {
+            if (true === isset($template['index_template']['template']['aliases']) && 0 < count($template['index_template']['template']['aliases'])) {
                 $this->setAliases($template['index_template']['template']['aliases']);
             }
         }

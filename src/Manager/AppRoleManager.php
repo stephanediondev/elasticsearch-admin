@@ -164,14 +164,14 @@ class AppRoleManager extends AbstractAppManager
         $callRequest = new CallRequestModel();
         if ($roleModel->getId()) {
             $callRequest->setMethod('PUT');
-            if (true == $this->callManager->hasFeature('_doc_as_type')) {
+            if (true === $this->callManager->hasFeature('_doc_as_type')) {
                 $callRequest->setPath('/.elasticsearch-admin-roles/_doc/'.$roleModel->getId());
             } else {
                 $callRequest->setPath('/.elasticsearch-admin-roles/doc/'.$roleModel->getId());
             }
         } else {
             $callRequest->setMethod('POST');
-            if (true == $this->callManager->hasFeature('_doc_as_type')) {
+            if (true === $this->callManager->hasFeature('_doc_as_type')) {
                 $callRequest->setPath('/.elasticsearch-admin-roles/_doc');
             } else {
                 $callRequest->setPath('/.elasticsearch-admin-roles/doc/');
@@ -185,7 +185,7 @@ class AppRoleManager extends AbstractAppManager
     public function deleteById(string $id): CallResponseModel
     {
         $callRequest = new CallRequestModel();
-        if (true == $this->callManager->hasFeature('_doc_as_type')) {
+        if (true === $this->callManager->hasFeature('_doc_as_type')) {
             $callRequest->setPath('/.elasticsearch-admin-roles/_doc/'.$id);
         } else {
             $callRequest->setPath('/.elasticsearch-admin-roles/doc/'.$id);
@@ -272,7 +272,7 @@ class AppRoleManager extends AbstractAppManager
         } else {
             $callRequest->setMethod('DELETE');
         }
-        if (true == $this->callManager->hasFeature('_doc_as_type')) {
+        if (true === $this->callManager->hasFeature('_doc_as_type')) {
             $callRequest->setPath('/.elasticsearch-admin-permissions/_doc/'.$id);
         } else {
             $callRequest->setPath('/.elasticsearch-admin-permissions/doc/'.$id);

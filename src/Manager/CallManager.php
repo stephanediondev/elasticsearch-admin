@@ -108,14 +108,14 @@ class CallManager
 
                 $message = 'Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')';
 
-                if (true == isset($json['error'])) {
-                    if (true == isset($json['error']['root_cause']) && true == isset($json['error']['root_cause'][0]) && true == isset($json['error']['root_cause'][0]['reason'])) {
+                if (true === isset($json['error'])) {
+                    if (true === isset($json['error']['root_cause']) && true === isset($json['error']['root_cause'][0]) && true === isset($json['error']['root_cause'][0]['reason'])) {
                         $message = $json['error']['root_cause'][0]['reason'];
-                    } elseif (true == isset($json['error']['caused_by']) && true == isset($json['error']['caused_by']['reason'])) {
+                    } elseif (true === isset($json['error']['caused_by']) && true === isset($json['error']['caused_by']['reason'])) {
                         $message = $json['error']['caused_by']['reason'];
-                    } elseif (true == isset($json['error']['reason'])) {
+                    } elseif (true === isset($json['error']['reason'])) {
                         $message = $json['error']['reason'];
-                    } elseif (true == is_string($json['error'])) {
+                    } elseif (true === is_string($json['error'])) {
                         $message = $json['error'];
                     }
                 }
@@ -128,7 +128,7 @@ class CallManager
             }
 
             if ($response && 'HEAD' != $callRequest->getMethod() && 404 != $response->getStatusCode()) {
-                if (true == isset($options['query']['format']) && 'text' == $options['query']['format']) {
+                if (true === isset($options['query']['format']) && 'text' == $options['query']['format']) {
                     $callResponse->setContentRaw($response->getContent());
                 } else {
                     $callResponse->setContent($response->toArray());
@@ -158,7 +158,7 @@ class CallManager
                 $callRequestLog = new CallRequestModel();
                 $callRequestLog->setLog(false);
                 $callRequestLog->setMethod('POST');
-                if (true == $this->hasFeature('_doc_as_type')) {
+                if (true === $this->hasFeature('_doc_as_type')) {
                     $callRequestLog->setPath('/.elasticsearch-admin-logs/_doc');
                 } else {
                     $callRequestLog->setPath('/.elasticsearch-admin-logs/doc/');
@@ -226,7 +226,7 @@ class CallManager
 
     public function setXpack()
     {
-        if (true == $this->hasFeature('xpack')) {
+        if (true === $this->hasFeature('xpack')) {
             try {
                 $callRequest = new CallRequestModel();
                 $callRequest->setLog(false);
@@ -275,7 +275,7 @@ class CallManager
             $this->setRoot();
         }
 
-        if (true == isset($this->root['version']) && true == isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
+        if (true === isset($this->root['version']) && true === isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
             return true;
         }
 
@@ -284,7 +284,7 @@ class CallManager
 
     public function hasFeature(string $feature): bool
     {
-        if (true == array_key_exists($feature, $this->featuresByVersion)) {
+        if (true === array_key_exists($feature, $this->featuresByVersion)) {
             return $this->checkVersion($this->featuresByVersion[$feature]);
         }
 
@@ -292,7 +292,7 @@ class CallManager
             $this->setXpack();
         }
 
-        if (true == isset($this->xpack['features'][$feature]) && true == $this->xpack['features'][$feature]['available'] && true == $this->xpack['features'][$feature]['enabled']) {
+        if (true === isset($this->xpack['features'][$feature]) && true === $this->xpack['features'][$feature]['available'] && true === $this->xpack['features'][$feature]['enabled']) {
             return true;
         }
 
@@ -305,7 +305,7 @@ class CallManager
             $this->setPlugins();
         }
 
-        if (true == in_array($plugin, $this->plugins)) {
+        if (true === in_array($plugin, $this->plugins)) {
             return true;
         }
 

@@ -18,7 +18,7 @@ class AppScreenshotsController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $cookie = session_id();
+        $cookie = $request->getSession()->getId();
 
         $base = $request->getSchemeAndHttpHost().$request->getBaseURL();
 

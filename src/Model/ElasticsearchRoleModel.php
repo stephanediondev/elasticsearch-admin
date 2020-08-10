@@ -92,17 +92,17 @@ class ElasticsearchRoleModel extends AbstractAppModel
 
     public function isReserved(): ?bool
     {
-        return true == isset($this->getMetadata()['_reserved']) && true == $this->getMetadata()['_reserved'];
+        return true === isset($this->getMetadata()['_reserved']) && true === $this->getMetadata()['_reserved'];
     }
 
     public function isDeprecated(): ?bool
     {
-        return true == isset($this->getMetadata()['_deprecated']) && true == $this->getMetadata()['_deprecated'];
+        return true === isset($this->getMetadata()['_deprecated']) && true === $this->getMetadata()['_deprecated'];
     }
 
     public function getDeprecatedReason(): ?string
     {
-        if (true == isset($this->getMetadata()['_deprecated_reason'])) {
+        if (true === isset($this->getMetadata()['_deprecated_reason'])) {
             return $this->getMetadata()['_deprecated_reason'];
         }
     }
@@ -112,13 +112,13 @@ class ElasticsearchRoleModel extends AbstractAppModel
         $this->setName($role['name']);
         $this->setCluster($role['cluster']);
         $this->setRunAs($role['run_as']);
-        if (true == isset($role['indices']) && 0 < count($role['indices'])) {
+        if (true === isset($role['indices']) && 0 < count($role['indices'])) {
             $this->setIndices($role['indices']);
         }
-        if (true == isset($role['applications']) && 0 < count($role['applications'])) {
+        if (true === isset($role['applications']) && 0 < count($role['applications'])) {
             $this->setApplications($role['applications']);
         }
-        if (true == isset($role['metadata']) && 0 < count($role['metadata'])) {
+        if (true === isset($role['metadata']) && 0 < count($role['metadata'])) {
             $this->setMetadata($role['metadata']);
         }
         return $this;

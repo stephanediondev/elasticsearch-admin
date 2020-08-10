@@ -115,14 +115,14 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
 
         $this->setType($policy['type']);
         $this->setName($policy['name']);
-        if (true == isset($policy['indices'])) {
+        if (true === isset($policy['indices'])) {
             $this->setIndices($policy['indices']);
         }
         $this->setMatchField($policy['match_field']);
-        if (true == isset($policy['enrich_fields'])) {
+        if (true === isset($policy['enrich_fields'])) {
             $this->setEnrichFields($policy['enrich_fields']);
         }
-        if (true == isset($policy['query'])) {
+        if (true === isset($policy['query'])) {
             $this->setQuery($policy['query']);
         }
         return $this;

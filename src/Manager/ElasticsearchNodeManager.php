@@ -40,13 +40,13 @@ class ElasticsearchNodeManager extends AbstractAppManager
 
         $diskThresholdEnabled = false;
 
-        if (true == isset($parameters['cluster_settings'])) {
-            if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
+        if (true === isset($parameters['cluster_settings'])) {
+            if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
                 $diskThresholdEnabled = true;
 
                 $diskWatermarkLow = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.low'];
                 $diskWatermarkHigh = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.high'];
-                if (true == isset($parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'])) {
+                if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'])) {
                     $diskWatermarkFloodStage = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'];
                 }
             }
@@ -55,7 +55,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
         $nodes = [];
 
         $query = ['bytes' => 'b', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current'];
-        if (true == $this->callManager->hasFeature('cat_sort')) {
+        if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = $parameters['sort'];
         }
         $callRequest = new CallRequestModel();
@@ -67,8 +67,8 @@ class ElasticsearchNodeManager extends AbstractAppManager
         foreach ($nodes1 as $node) {
             $nodes[$node['name']] = $node;
 
-            if (true == isset($node['disk.used_percent']) && $diskThresholdEnabled) {
-                if (true == isset($diskWatermarkFloodStage) && strstr($diskWatermarkFloodStage, '%') && str_replace('%', '', $diskWatermarkFloodStage) <= $node['disk.used_percent']) {
+            if (true === isset($node['disk.used_percent']) && $diskThresholdEnabled) {
+                if (true === isset($diskWatermarkFloodStage) && strstr($diskWatermarkFloodStage, '%') && str_replace('%', '', $diskWatermarkFloodStage) <= $node['disk.used_percent']) {
                     $nodes[$node['name']]['disk_threshold'] = 'watermark_flood_stage';
                 } elseif (strstr($diskWatermarkHigh, '%') && str_replace('%', '', $diskWatermarkHigh) <= $node['disk.used_percent']) {
                     $nodes[$node['name']]['disk_threshold'] = 'watermark_high';
