@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
-use App\Manager\ElasticsearchIndexTemplateManager;
+use App\Form\EventListener\MappingsSettingsAliasedSubscriber;
+use App\Manager\CallManager;
+use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\CallRequestModel;
-use App\Model\ElasticsearchIndexTemplateModel;
+use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,11 +23,12 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ElasticsearchIndexTemplateType extends AbstractType
+class ElasticsearchIndexTemplateLegacyType extends AbstractType
 {
-    public function __construct(ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager, TranslatorInterface $translator)
+    public function __construct(CallManager $callManager, ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager, TranslatorInterface $translator)
     {
-        $this->elasticsearchIndexTemplateManager = $elasticsearchIndexTemplateManager;
+        $this->callManager = $callManager;
+        $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;
         $this->translator = $translator;
     }
 
@@ -36,10 +39,13 @@ class ElasticsearchIndexTemplateType extends AbstractType
         if ('create' == $options['context']) {
             $fields[] = 'name';
         }
-        $fields[] = 'index_patterns';
+        if (true === $this->callManager->hasFeature('multiple_patterns')) {
+            $fields[] = 'index_patterns';
+        } else {
+            $fields[] = 'template';
+        }
         $fields[] = 'version';
-        $fields[] = 'priority';
-        $fields[] = 'composed_of';
+        $fields[] = 'order';
         $fields[] = 'settings';
         $fields[] = 'mappings';
         $fields[] = 'aliases';
@@ -68,6 +74,17 @@ class ElasticsearchIndexTemplateType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
+                case 'template':
+                    $builder->add('template', TextType::class, [
+                        'label' => 'template',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                        'help' => 'help_form.index_template.template',
+                        'help_html' => true,
+                    ]);
+                    break;
                 case 'version':
                     $builder->add('version', IntegerType::class, [
                         'label' => 'version',
@@ -82,28 +99,14 @@ class ElasticsearchIndexTemplateType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'priority':
-                    $builder->add('priority', IntegerType::class, [
-                        'label' => 'priority',
-                        'required' => false,
-                        'help' => 'help_form.index_template.priority',
-                        'help_html' => true,
-                    ]);
-                    break;
-                case 'composed_of':
-                    $builder->add('composed_of', ChoiceType::class, [
-                        'multiple' => true,
-                        'choices' => $options['component_templates'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['component_templates'][$key];
-                        },
-                        'choice_translation_domain' => false,
-                        'label' => 'composed_of',
+                case 'order':
+                    $builder->add('order', IntegerType::class, [
+                        'label' => 'order',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
-                        'help' => 'help_form.index_template.composed_of',
+                        'help' => 'help_form.index_template.order',
                         'help_html' => true,
                     ]);
                     break;
@@ -146,34 +149,14 @@ class ElasticsearchIndexTemplateType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-
-            if ($form->has('mappings') && $form->get('mappings')->getData()) {
-                $fieldOptions = $form->get('mappings')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('mappings')->getData(), JSON_PRETTY_PRINT);
-                $form->add('mappings', TextareaType::class, $fieldOptions);
-            }
-
-            if ($form->has('settings') && $form->get('settings')->getData()) {
-                $fieldOptions = $form->get('settings')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('settings')->getData(), JSON_PRETTY_PRINT);
-                $form->add('settings', TextareaType::class, $fieldOptions);
-            }
-
-            if ($form->has('aliases') && $form->get('aliases')->getData()) {
-                $fieldOptions = $form->get('aliases')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('aliases')->getData(), JSON_PRETTY_PRINT);
-                $form->add('aliases', TextareaType::class, $fieldOptions);
-            }
-        });
+        $builder->addEventSubscriber(new MappingsSettingsAliasedSubscriber());
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
             if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
-                    $template = $this->elasticsearchIndexTemplateManager->getByName($form->get('name')->getData());
+                    $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($form->get('name')->getData());
 
                     if ($template) {
                         $form->get('name')->addError(new FormError(
@@ -206,8 +189,7 @@ class ElasticsearchIndexTemplateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ElasticsearchIndexTemplateModel::class,
-            'component_templates' => [],
+            'data_class' => ElasticsearchIndexTemplateLegacyModel::class,
             'context' => 'create',
         ]);
     }

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\AppUserType;
+use App\Form\Type\AppUserType;
 use App\Manager\AppManager;
 use App\Manager\CallManager;
 use App\Manager\AppUserManager;

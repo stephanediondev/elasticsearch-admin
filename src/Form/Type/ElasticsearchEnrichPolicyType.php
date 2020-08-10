@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
 use App\Manager\CallManager;
 use App\Manager\ElasticsearchEnrichPolicyManager;

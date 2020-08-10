@@ -4,12 +4,12 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\CreateAliasType;
-use App\Form\ElasticsearchIndexType;
-use App\Form\ElasticsearchIndexSettingType;
-use App\Form\ElasticsearchIndexImportType;
-use App\Form\ReindexType;
-use App\Form\ElasticsearchIndexQueryType;
+use App\Form\Type\CreateAliasType;
+use App\Form\Type\ElasticsearchIndexType;
+use App\Form\Type\ElasticsearchIndexSettingType;
+use App\Form\Type\ElasticsearchIndexImportType;
+use App\Form\Type\ReindexType;
+use App\Form\Type\ElasticsearchIndexQueryType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
 use App\Manager\ElasticsearchNodeManager;

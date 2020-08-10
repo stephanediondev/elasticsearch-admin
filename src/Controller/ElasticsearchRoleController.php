@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchRoleType;
+use App\Form\Type\ElasticsearchRoleType;
 use App\Manager\ElasticsearchRoleManager;
 use App\Manager\ElasticsearchUserManager;
 use App\Model\CallRequestModel;

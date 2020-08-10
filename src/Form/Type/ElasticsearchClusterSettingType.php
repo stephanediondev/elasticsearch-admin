@@ -1,35 +1,31 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
-use Symfony\Component\HttpFoundation\Response;
+use App\Model\ElasticsearchClusterSettingModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ElasticsearchIndexImportType extends AbstractType
+class ElasticsearchClusterSettingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $fields = [];
 
-        $fields[] = 'import_file';
+        $fields[] = 'value';
 
         foreach ($fields as $field) {
             switch ($field) {
-                case 'import_file':
-                    $builder->add('import_file', FileType::class, [
-                        'label' => 'import_file',
+                case 'value':
+                    $builder->add('value', TextType::class, [
+                        'label' => 'value',
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),
                         ],
-
                     ]);
                     break;
             }
@@ -38,6 +34,9 @@ class ElasticsearchIndexImportType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefaults([
+            'data_class' => ElasticsearchClusterSettingModel::class,
+        ]);
     }
 
     public function getBlockPrefix()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
 use App\Model\ElasticsearchApplyIlmPolicyModel;
 use Symfony\Component\HttpFoundation\Response;

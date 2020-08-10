@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchEnrichPolicyType;
+use App\Form\Type\ElasticsearchEnrichPolicyType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchEnrichPolicyManager;
 use App\Manager\ElasticsearchNodeManager;

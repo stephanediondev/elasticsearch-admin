@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchConsoleType;
+use App\Form\Type\ElasticsearchConsoleType;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;

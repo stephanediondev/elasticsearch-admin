@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchPipelineType;
+use App\Form\Type\ElasticsearchPipelineType;
 use App\Manager\ElasticsearchPipelineManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchPipelineModel;

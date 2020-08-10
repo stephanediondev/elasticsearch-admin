@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchNodeReloadSecureSettingsType;
+use App\Form\Type\ElasticsearchNodeReloadSecureSettingsType;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReloadSecureSettingsModel;

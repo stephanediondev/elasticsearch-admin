@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\AppRoleType;
+use App\Form\Type\AppRoleType;
 use App\Manager\AppRoleManager;
 use App\Model\AppRoleModel;
 use Symfony\Component\Routing\Annotation\Route;

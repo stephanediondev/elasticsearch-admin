@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchIlmPolicyType;
-use App\Form\ApplyIlmPolicyType;
+use App\Form\Type\ElasticsearchIlmPolicyType;
+use App\Form\Type\ApplyIlmPolicyType;
 use App\Manager\ElasticsearchIlmPolicyManager;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\CallRequestModel;

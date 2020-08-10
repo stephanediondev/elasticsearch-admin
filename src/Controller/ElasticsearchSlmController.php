@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchSlmPolicyType;
+use App\Form\Type\ElasticsearchSlmPolicyType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Manager\ElasticsearchRepositoryManager;

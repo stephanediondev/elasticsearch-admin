@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchIndexTemplateLegacyType;
+use App\Form\Type\ElasticsearchIndexTemplateLegacyType;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\Routing\Annotation\Route;

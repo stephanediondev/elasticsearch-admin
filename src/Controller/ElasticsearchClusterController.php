@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchClusterSettingType;
+use App\Form\Type\ElasticsearchClusterSettingType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Manager\ElasticsearchSlmPolicyManager;

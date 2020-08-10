@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchSnapshotType;
-use App\Form\ElasticsearchSnapshotRestoreType;
+use App\Form\Type\ElasticsearchSnapshotType;
+use App\Form\Type\ElasticsearchSnapshotRestoreType;
 use App\Manager\ElasticsearchSnapshotManager;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;

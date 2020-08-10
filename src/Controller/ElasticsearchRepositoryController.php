@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\ElasticsearchRepositoryType;
+use App\Form\Type\ElasticsearchRepositoryType;
 use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
