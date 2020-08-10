@@ -11,7 +11,6 @@ class ElasticsearchClusterManager extends AbstractAppManager
     public function getClusterHealth()
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setLog(false);
         $callRequest->setPath('/_cluster/health');
         $callResponse = $this->callManager->call($callRequest);
         return $callResponse->getContent();

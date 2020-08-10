@@ -153,7 +153,6 @@ class CallManager
     public function setCatMaster()
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setLog(false);
         $callRequest->setPath('/_cat/master');
         $callResponse = $this->call($callRequest);
         $this->catMaster = $callResponse->getContent();
@@ -180,7 +179,6 @@ class CallManager
     public function setRoot()
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setLog(false);
         $callRequest->setPath('/');
         $callResponse = $this->call($callRequest);
         $this->root = $callResponse->getContent();
@@ -200,7 +198,6 @@ class CallManager
         if (true === $this->hasFeature('xpack')) {
             try {
                 $callRequest = new CallRequestModel();
-                $callRequest->setLog(false);
                 $callRequest->setPath('/_xpack');
                 $callResponse = $this->call($callRequest);
                 $this->xpack = $callResponse->getContent();
@@ -224,7 +221,6 @@ class CallManager
     public function setPlugins()
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setLog(false);
         $callRequest->setPath('/_cat/plugins');
         $callResponse = $this->call($callRequest);
         $results = $callResponse->getContent();

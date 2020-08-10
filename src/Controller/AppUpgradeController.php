@@ -33,7 +33,6 @@ class AppUpgradeController extends AbstractAppController
         $upgrade = false;
         foreach ($this->appManager->getIndices() as $index) {
             $callRequest = new CallRequestModel();
-            $callRequest->setLog(false);
             $callRequest->setMethod('HEAD');
             $callRequest->setPath($index.'-v'.$this->appManager->getVersion());
             $callResponse = $this->callManager->call($callRequest);
@@ -58,7 +57,6 @@ class AppUpgradeController extends AbstractAppController
         foreach ($this->appManager->getIndices() as $index) {
             //test new version exists
             $callRequest = new CallRequestModel();
-            $callRequest->setLog(false);
             $callRequest->setMethod('HEAD');
             $callRequest->setPath($index.'-v'.$this->appManager->getVersion());
             $callResponse = $this->callManager->call($callRequest);
@@ -72,7 +70,6 @@ class AppUpgradeController extends AbstractAppController
                     $json['mappings'] = $this->appManager->getMappings($index);
                 }
                 $callRequest = new CallRequestModel();
-                $callRequest->setLog(false);
                 $callRequest->setMethod('PUT');
                 $callRequest->setJson($json);
                 $callRequest->setPath($index.'-v'.$this->appManager->getVersion());
@@ -82,7 +79,6 @@ class AppUpgradeController extends AbstractAppController
 
                 //get current index
                 $callRequest = new CallRequestModel();
-                $callRequest->setLog(false);
                 $callRequest->setMethod('GET');
                 $callRequest->setPath($index);
                 $callResponse = $this->callManager->call($callRequest);
@@ -97,7 +93,6 @@ class AppUpgradeController extends AbstractAppController
 
                     $json = $reindexModel->getJson();
                     $callRequest = new CallRequestModel();
-                    $callRequest->setLog(false);
                     $callRequest->setMethod('POST');
                     $callRequest->setPath('/_reindex');
                     $callRequest->setJson($json);
@@ -107,7 +102,6 @@ class AppUpgradeController extends AbstractAppController
 
                     //delete current index
                     $callRequest = new CallRequestModel();
-                    $callRequest->setLog(false);
                     $callRequest->setMethod('DELETE');
                     $callRequest->setPath('/'.array_key_first($getIndex));
                     $callResponse = $this->callManager->call($callRequest);
@@ -117,7 +111,6 @@ class AppUpgradeController extends AbstractAppController
 
                 //add alias
                 $callRequest = new CallRequestModel();
-                $callRequest->setLog(false);
                 $callRequest->setMethod('PUT');
                 $callRequest->setPath('/'.$index.'-v'.$this->appManager->getVersion().'/_alias/'.$index);
                 $callResponse = $this->callManager->call($callRequest);

@@ -44,7 +44,6 @@ class AppRoleManager extends AbstractAppManager
             'APP_USERS', 'APP_USERS_CREATE',
             'APP_ROLES', 'APP_ROLES_CREATE',
             'APP_UNINSTALL', 'APP_UPGRADE',
-            //'APP_LOGS', 'APP_LOGS_EMPTY','APP_LOGS_EXPORT',
         ],
         'app_user' => [
             'APP_USER_UPDATE', 'APP_USER_DELETE',

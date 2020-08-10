@@ -19,7 +19,6 @@ class AppManager extends AbstractAppManager
             '.elasticsearch-admin-users',
             '.elasticsearch-admin-roles',
             '.elasticsearch-admin-permissions',
-            //'.elasticsearch-admin-logs',
         ];
     }
 
@@ -76,37 +75,6 @@ class AppManager extends AbstractAppManager
                             'type' => 'keyword',
                         ],
                         'permission' => [
-                            'type' => 'keyword',
-                        ],
-                        'created_at' => [
-                            'type' => 'date',
-                            'format' => 'yyyy-MM-dd HH:mm:ss',
-                        ],
-                    ],
-                ];
-            case '.elasticsearch-admin-logs':
-                return [
-                    'properties' => [
-                        'email' => [
-                            'type' => 'text',
-                            'fields' => [
-                                'keyword' => [
-                                    'type' => 'keyword',
-                                ],
-                            ],
-                        ],
-                        'method' => [
-                            'type' => 'keyword',
-                        ],
-                        'path' => [
-                            'type' => 'text',
-                            'fields' => [
-                                'keyword' => [
-                                    'type' => 'keyword',
-                                ],
-                            ],
-                        ],
-                        'response_code' => [
                             'type' => 'keyword',
                         ],
                         'created_at' => [

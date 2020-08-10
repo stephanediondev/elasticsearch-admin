@@ -44,7 +44,6 @@ class AppUninstallController extends AbstractAppController
 
         foreach ($this->appManager->getIndices() as $index) {
             $callRequest = new CallRequestModel();
-            $callRequest->setLog(false);
             $callRequest->setMethod('GET');
             $callRequest->setPath('/'.$index);
             $callResponse = $this->callManager->call($callRequest);
@@ -53,7 +52,6 @@ class AppUninstallController extends AbstractAppController
                 $getIndex = $callResponse->getContent();
 
                 $callRequest = new CallRequestModel();
-                $callRequest->setLog(false);
                 $callRequest->setMethod('DELETE');
                 $callRequest->setPath('/'.array_key_first($getIndex));
                 $callResponse = $this->callManager->call($callRequest);

@@ -111,7 +111,6 @@ abstract class AbstractAppController extends AbstractController
                         ['granted' => 'APP_USERS', 'path' => 'app_users'],
                         ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
                         ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
-                        ['granted' => 'APP_LOGS', 'path' => 'app_logs'],
                         ['granted' => 'APP_UPGRADE', 'path' => 'app_upgrade'],
                     ];
 
