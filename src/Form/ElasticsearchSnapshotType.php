@@ -111,10 +111,10 @@ class ElasticsearchSnapshotType extends AbstractType
             }
         }
 
-        if ('create' == $options['context']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
 
+            if ('create' == $options['context']) {
                 if ($form->has('repository') && $form->has('name')) {
                     if ($form->get('repository')->getData() && $form->get('name')->getData()) {
                         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($form->get('name')->getData(), $form->get('repository')->getData());
@@ -126,8 +126,8 @@ class ElasticsearchSnapshotType extends AbstractType
                         }
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -105,10 +105,10 @@ class ElasticsearchEnrichPolicyType extends AbstractType
             $this->enrichFields($form, $data['indices'], []);
         });
 
-        if ('create' == $options['context']) {
-            $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                $form = $event->getForm();
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+            $form = $event->getForm();
 
+            if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
                     $policy = $this->elasticsearchEnrichPolicyManager->getByName($form->get('name')->getData());
 
@@ -118,8 +118,8 @@ class ElasticsearchEnrichPolicyType extends AbstractType
                         ));
                     }
                 }
-            });
-        }
+            }
+        });
     }
 
     private function enrichFields($form, $indices, $selected)
