@@ -135,39 +135,10 @@ class CallManager
                 }
             }
 
-            $this->log($callRequest, $callResponse);
-
             return $callResponse;
         } catch (TransportException $e) {
             throw new ConnectionException('Couldn\'t connect to Elasticsearch (server error)');
         }
-    }
-
-    public function log(CallRequestModel $callRequest, CallResponseModel $callResponse)
-    {
-        /*if ($callRequest->getLog()) {
-            $user = $this->security->getuser();
-            if ($user) {
-                $json = [
-                    'email' => $user->getEmail(),
-                    'method' => $callRequest->getMethod(),
-                    'path' => $callRequest->getPath(),
-                    'response_code' => $callResponse->getCode(),
-                    'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
-                ];
-                $callRequestLog = new CallRequestModel();
-                $callRequestLog->setLog(false);
-                $callRequestLog->setMethod('POST');
-                if (true === $this->hasFeature('_doc_as_type')) {
-                    $callRequestLog->setPath('/.elasticsearch-admin-logs/_doc');
-                } else {
-                    $callRequestLog->setPath('/.elasticsearch-admin-logs/doc/');
-                }
-                $callRequestLog->setJson($json);
-
-                $this->call($callRequestLog);
-            }
-        }*/
     }
 
     public function getCatMaster(): array

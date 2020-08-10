@@ -10,10 +10,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 {% if firewall and is_granted('IS_AUTHENTICATED_FULLY', app.user) %}
-<link rel="shortcut icon" href="{{ asset('favicon-' ~ cluster_health['status'] ~ '.png') }}">
+<link rel="shortcut icon" href="{{ asset('favicon-' ~ cluster_health['status'] ~ '-64.png') }}">
 {% else %}
-<link rel="shortcut icon" href="{{ asset('favicon-gray.png') }}">
+<link rel="shortcut icon" href="{{ asset('favicon-gray-64.png') }}">
 {% endif %}
+<link rel="manifest" href="{{ asset('site.webmanifest') }}">
 {% block styles %}
 {{ encore_entry_link_tags('app-css') }}
 {% endblock %}

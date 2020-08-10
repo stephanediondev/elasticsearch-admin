@@ -1,10 +1,15 @@
-var VERSION ='20200806.2143';
+var VERSION ='20200810.1215';
 var CACHE_KEY_PREFIX = 'elasticsearch-admin-';
 var CACHE_KEY = CACHE_KEY_PREFIX + VERSION;
 var CACHE_FILES = [
-    'favicon-red.png',
-    'favicon-yellow.png',
-    'favicon-green.png',
+    'favicon-red-64.png',
+    'favicon-yellow-64.png',
+    'favicon-green-64.png',
+    'favicon-gray-64.png',
+    'favicon-red-144.png',
+    'favicon-yellow-144.png',
+    'favicon-green-144.png',
+    'favicon-gray-144.png',
 ];
 
 self.addEventListener('install', function(InstallEvent) {

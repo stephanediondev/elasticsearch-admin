@@ -28,13 +28,12 @@ class GenerateFaviconsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         foreach ($this->colors as $name => $code) {
-            $this->generateFavicon($name, $this->size);
+            $this->generateFavicon($name, 64);
+            $this->generateFavicon($name, 144);
         }
 
         return Command::SUCCESS;
     }
-
-    private $size = 64;
 
     private $colors = [
         'red' => 'dc3545',
@@ -45,7 +44,7 @@ class GenerateFaviconsCommand extends Command
 
     private function generateFavicon($color, $size)
     {
-        $file = __DIR__.'/../../public/favicon-'.$color.'.png';
+        $file = __DIR__.'/../../public/favicon-'.$color.'-'.$size.'.png';
 
         $image = imagecreate($size, $size);
 
