@@ -43,19 +43,14 @@ class ElasticsearchCatType extends AbstractType
             'segments',
             'segments/{index}',
             'thread_pool',
-            //'thread_pool/{thread_pool},
         ];
         if (true === $this->callManager->hasFeature('cat_transforms')) {
             $commands[] = 'transforms';
-            //$commands[] = 'transforms/{transform_id}';
         }
         if (true === $this->callManager->hasFeature('cat_ml')) {
             $commands[] = 'ml/anomaly_detectors';
-            //$commands[] = 'ml/anomaly_detectors/{job_id}';
             $commands[] = 'ml/datafeeds';
-            //$commands[] = 'ml/datafeeds/{feed_id}';
             $commands[] = 'ml/data_frame/analytics';
-            //$commands[] = 'ml/data_frame/analytics/{data_frame_analytics_id}';
             $commands[] = 'ml/trained_models';
         }
         if (true === $this->callManager->hasFeature('cat_tasks')) {
@@ -63,7 +58,6 @@ class ElasticsearchCatType extends AbstractType
         }
         if (true === $this->callManager->hasFeature('cat_templates')) {
             $commands[] = 'templates';
-            //$commands[] = 'templates/{template_name}';
         }
         if (true === $this->callManager->hasFeature('cat_repositories_snapshots')) {
             $commands[] = 'repositories';

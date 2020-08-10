@@ -787,8 +787,6 @@ class ElasticsearchIndexController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$callResponse = $this->elasticsearchIndexManager->closeByName($index->getName());
-
             try {
                 $json = $indexSettingModel->getJson();
                 $callRequest = new CallRequestModel();
@@ -799,12 +797,8 @@ class ElasticsearchIndexController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                //$callResponse = $this->elasticsearchIndexManager->openByName($index->getName());
-
                 return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
             } catch (CallException $e) {
-                //$callResponse = $this->elasticsearchIndexManager->openByName($index->getName());
-
                 $this->addFlash('danger', $e->getMessage());
             }
         }
@@ -836,8 +830,6 @@ class ElasticsearchIndexController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$callResponse = $this->elasticsearchIndexManager->closeByName($index->getName());
-
             try {
                 $json = $indexSettingModel->getJson();
                 $callRequest = new CallRequestModel();
@@ -848,12 +840,8 @@ class ElasticsearchIndexController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                //$callResponse = $this->elasticsearchIndexManager->openByName($index->getName());
-
                 return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
             } catch (CallException $e) {
-                //$callResponse = $this->elasticsearchIndexManager->openByName($index->getName());
-
                 $this->addFlash('danger', $e->getMessage());
             }
         }
