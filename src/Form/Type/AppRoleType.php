@@ -55,6 +55,7 @@ class AppRoleType extends AbstractType
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
+            $data = $event->getData();
 
             if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
@@ -75,9 +76,8 @@ class AppRoleType extends AbstractType
             }
 
             if ($form->has('name') && $form->get('name')->getData()) {
-                $role = $event->getData();
-                $role->setName('ROLE_'.$form->get('name')->getData());
-                $event->setData($role);
+                $data->setName('ROLE_'.$form->get('name')->getData());
+                $event->setData($data);
             }
         });
     }

@@ -96,12 +96,14 @@ class ElasticsearchEnrichPolicyType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();
+
             $this->enrichFields($form, $data->getIndices(), $data->getEnrichFields());
         });
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();
+
             $this->enrichFields($form, $data['indices'], []);
         });
 

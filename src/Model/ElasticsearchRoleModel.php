@@ -59,7 +59,7 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->indices;
     }
 
-    public function setIndices(array $indices): self
+    public function setIndices($indices): self
     {
         $this->indices = $indices;
 

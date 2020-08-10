@@ -120,6 +120,7 @@ class ElasticsearchPipelineType extends AbstractType
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
+            $data = $event->getData();
 
             if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
@@ -134,15 +135,13 @@ class ElasticsearchPipelineType extends AbstractType
             }
 
             if ($form->has('processors') && $form->get('processors')->getData()) {
-                $pipeline = $event->getData();
-                $pipeline->setProcessors(json_decode($form->get('processors')->getData(), true));
-                $event->setData($pipeline);
+                $data->setProcessors(json_decode($form->get('processors')->getData(), true));
+                $event->setData($data);
             }
 
             if ($form->has('on_failure') && $form->get('on_failure')->getData()) {
-                $pipeline = $event->getData();
-                $pipeline->setOnFailure(json_decode($form->get('on_failure')->getData(), true));
-                $event->setData($pipeline);
+                $data->setOnFailure(json_decode($form->get('on_failure')->getData(), true));
+                $event->setData($data);
             }
         });
     }

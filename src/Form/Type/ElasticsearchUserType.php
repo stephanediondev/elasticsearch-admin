@@ -150,6 +150,7 @@ class ElasticsearchUserType extends AbstractType
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
+            $data = $event->getData();
 
             if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
@@ -164,9 +165,8 @@ class ElasticsearchUserType extends AbstractType
             }
 
             if ($form->has('metadata') && $form->get('metadata')->getData()) {
-                $user = $event->getData();
-                $user->setMetadata(json_decode($form->get('metadata')->getData(), true));
-                $event->setData($user);
+                $data->setMetadata(json_decode($form->get('metadata')->getData(), true));
+                $event->setData($data);
             }
         });
     }

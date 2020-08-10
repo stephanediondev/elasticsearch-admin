@@ -147,6 +147,7 @@ class ElasticsearchRoleType extends AbstractType
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
+            $data = $event->getData();
 
             if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
@@ -161,21 +162,18 @@ class ElasticsearchRoleType extends AbstractType
             }
 
             if ($form->has('indices') && $form->get('indices')->getData()) {
-                $role = $event->getData();
-                $role->setIndices(json_decode($form->get('indices')->getData(), true));
-                $event->setData($role);
+                $data->setIndices(json_decode($form->get('indices')->getData(), true));
+                $event->setData($data);
             }
 
             if ($form->has('applications') && $form->get('applications')->getData()) {
-                $role = $event->getData();
-                $role->setApplications(json_decode($form->get('applications')->getData(), true));
-                $event->setData($role);
+                $data->setApplications(json_decode($form->get('applications')->getData(), true));
+                $event->setData($data);
             }
 
             if ($form->has('metadata') && $form->get('metadata')->getData()) {
-                $role = $event->getData();
-                $role->setMetadata(json_decode($form->get('metadata')->getData(), true));
-                $event->setData($role);
+                $data->setMetadata(json_decode($form->get('metadata')->getData(), true));
+                $event->setData($data);
             }
         });
     }

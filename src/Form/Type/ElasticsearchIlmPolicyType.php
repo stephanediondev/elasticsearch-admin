@@ -131,6 +131,7 @@ class ElasticsearchIlmPolicyType extends AbstractType
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
+            $data = $event->getData();
 
             if ('create' == $options['context']) {
                 if ($form->has('name') && $form->get('name')->getData()) {
@@ -145,27 +146,23 @@ class ElasticsearchIlmPolicyType extends AbstractType
             }
 
             if ($form->has('hot') && $form->get('hot')->getData()) {
-                $policy = $event->getData();
-                $policy->setHot(json_decode($form->get('hot')->getData(), true));
-                $event->setData($policy);
+                $data->setHot(json_decode($form->get('hot')->getData(), true));
+                $event->setData($data);
             }
 
             if ($form->has('warm') && $form->get('warm')->getData()) {
-                $policy = $event->getData();
-                $policy->setWarm(json_decode($form->get('warm')->getData(), true));
-                $event->setData($policy);
+                $data->setWarm(json_decode($form->get('warm')->getData(), true));
+                $event->setData($data);
             }
 
             if ($form->has('cold') && $form->get('cold')->getData()) {
-                $policy = $event->getData();
-                $policy->setCold(json_decode($form->get('cold')->getData(), true));
-                $event->setData($policy);
+                $data->setCold(json_decode($form->get('cold')->getData(), true));
+                $event->setData($data);
             }
 
             if ($form->has('delete') && $form->get('delete')->getData()) {
-                $policy = $event->getData();
-                $policy->setDelete(json_decode($form->get('delete')->getData(), true));
-                $event->setData($policy);
+                $data->setDelete(json_decode($form->get('delete')->getData(), true));
+                $event->setData($data);
             }
         });
     }
