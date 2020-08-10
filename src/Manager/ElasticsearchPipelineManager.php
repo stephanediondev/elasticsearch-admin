@@ -48,8 +48,14 @@ class ElasticsearchPipelineManager extends AbstractAppManager
             $pipelineModel->convert($row);
             $pipelines[] = $pipelineModel;
         }
+        usort($pipelines, [$this, 'sortByName']);
 
         return $pipelines;
+    }
+
+    private function sortByName($a, $b)
+    {
+        return $b->getName() < $a->getName();
     }
 
     public function send(ElasticsearchPipelineModel $pipelineModel): CallResponseModel
@@ -70,10 +76,5 @@ class ElasticsearchPipelineManager extends AbstractAppManager
         $callRequest->setPath('/_ingest/pipeline/'.$name);
 
         return $this->callManager->call($callRequest);
-    }
-
-    private function sortByName($a, $b)
-    {
-        return $b['name'] < $a['name'];
     }
 }

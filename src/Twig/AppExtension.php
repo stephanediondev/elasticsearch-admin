@@ -68,7 +68,6 @@ class AppExtension extends AbstractExtension
         * The unreleased revision is the very release with a upped revision 7.3._1_
         */
 
-        $aa = substr($version, -2);
         $zz = substr($version, -4, -2);
         $yy = substr($version, -6, -4);
         $xx = substr($version, 0, -6);
