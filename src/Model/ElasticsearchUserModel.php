@@ -3,9 +3,12 @@
 namespace App\Model;
 
 use App\Model\AbstractAppModel;
+use App\Traits\ElasticsearchRoleUserModelTrait;
 
 class ElasticsearchUserModel extends AbstractAppModel
 {
+    use ElasticsearchRoleUserModelTrait;
+
     private $name;
 
     private $enabled;
@@ -19,8 +22,6 @@ class ElasticsearchUserModel extends AbstractAppModel
     private $password;
 
     private $roles;
-
-    private $metadata;
 
     public function __construct()
     {
@@ -111,35 +112,6 @@ class ElasticsearchUserModel extends AbstractAppModel
         $this->enabled = $enabled;
 
         return $this;
-    }
-
-    public function getMetadata(): ?array
-    {
-        return $this->metadata;
-    }
-
-    public function setMetadata($metadata): self
-    {
-        $this->metadata = $metadata;
-
-        return $this;
-    }
-
-    public function isReserved(): ?bool
-    {
-        return true === isset($this->getMetadata()['_reserved']) && true === $this->getMetadata()['_reserved'];
-    }
-
-    public function isDeprecated(): ?bool
-    {
-        return true === isset($this->getMetadata()['_deprecated']) && true === $this->getMetadata()['_deprecated'];
-    }
-
-    public function getDeprecatedReason(): ?string
-    {
-        if (true === isset($this->getMetadata()['_deprecated_reason'])) {
-            return $this->getMetadata()['_deprecated_reason'];
-        }
     }
 
     public function convert(?array $user): self
