@@ -3,9 +3,12 @@
 namespace App\Model;
 
 use App\Model\AbstractAppModel;
+use App\Traits\MappingsSettingsAliasesModelTrait;
 
 class ElasticsearchIndexModel extends AbstractAppModel
 {
+    use MappingsSettingsAliasesModelTrait;
+
     private $id;
 
     private $name;
@@ -29,12 +32,6 @@ class ElasticsearchIndexModel extends AbstractAppModel
     private $totalSize;
 
     private $creationDate;
-
-    private $settings;
-
-    private $mappings;
-
-    private $aliases;
 
     private $mappingsFlat;
 
@@ -182,42 +179,6 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return $this;
     }
 
-    public function getSettings(): ?array
-    {
-        return $this->settings;
-    }
-
-    public function setSettings($settings): self
-    {
-        $this->settings = $settings;
-
-        return $this;
-    }
-
-    public function getSetting($key): ?string
-    {
-        return $this->settings[$key] ?? false;
-    }
-
-    public function setSetting(?string $key, ?string $value): self
-    {
-        $this->settings[$key] = $value;
-
-        return $this;
-    }
-
-    public function getMappings(): ?array
-    {
-        return $this->mappings;
-    }
-
-    public function setMappings($mappings): self
-    {
-        $this->mappings = $mappings;
-
-        return $this;
-    }
-
     public function getMappingsFlat(): ?array
     {
         return $this->mappingsFlat;
@@ -226,18 +187,6 @@ class ElasticsearchIndexModel extends AbstractAppModel
     public function setMappingsFlat($mappingsFlat): self
     {
         $this->mappingsFlat = $mappingsFlat;
-
-        return $this;
-    }
-
-    public function getAliases(): ?array
-    {
-        return $this->aliases;
-    }
-
-    public function setAliases($aliases): self
-    {
-        $this->aliases = $aliases;
 
         return $this;
     }

@@ -3,9 +3,12 @@
 namespace App\Model;
 
 use App\Model\AbstractAppModel;
+use App\Traits\MappingsSettingsAliasesModelTrait;
 
 class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
 {
+    use MappingsSettingsAliasesModelTrait;
+
     private $name;
 
     private $indexPatterns;
@@ -15,12 +18,6 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
     private $version;
 
     private $order;
-
-    private $settings;
-
-    private $mappings;
-
-    private $aliases;
 
     public function getName(): ?string
     {
@@ -78,54 +75,6 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
     public function setOrder(?int $order): self
     {
         $this->order = $order;
-
-        return $this;
-    }
-
-    public function getSettings(): ?array
-    {
-        return $this->settings;
-    }
-
-    public function setSettings($settings): self
-    {
-        $this->settings = $settings;
-
-        return $this;
-    }
-
-    public function getSetting($key): ?string
-    {
-        return $this->settings[$key] ?? false;
-    }
-
-    public function setSetting(?string $key, ?string $value): self
-    {
-        $this->settings[$key] = $value;
-
-        return $this;
-    }
-
-    public function getMappings(): ?array
-    {
-        return $this->mappings;
-    }
-
-    public function setMappings($mappings): self
-    {
-        $this->mappings = $mappings;
-
-        return $this;
-    }
-
-    public function getAliases(): ?array
-    {
-        return $this->aliases;
-    }
-
-    public function setAliases($aliases): self
-    {
-        $this->aliases = $aliases;
 
         return $this;
     }

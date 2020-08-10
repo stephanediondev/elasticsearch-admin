@@ -3,9 +3,12 @@
 namespace App\Model;
 
 use App\Model\AbstractAppModel;
+use App\Traits\MappingsSettingsAliasesModelTrait;
 
 class ElasticsearchIndexTemplateModel extends AbstractAppModel
 {
+    use MappingsSettingsAliasesModelTrait;
+
     private $name;
 
     private $indexPatterns;
@@ -13,12 +16,6 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
     private $version;
 
     private $priority;
-
-    private $settings;
-
-    private $mappings;
-
-    private $aliases;
 
     private $composedOf;
 
@@ -66,54 +63,6 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
     public function setPriority(?int $priority): self
     {
         $this->priority = $priority;
-
-        return $this;
-    }
-
-    public function getSettings(): ?array
-    {
-        return $this->settings;
-    }
-
-    public function setSettings($settings): self
-    {
-        $this->settings = $settings;
-
-        return $this;
-    }
-
-    public function getSetting($key): ?string
-    {
-        return $this->settings[$key] ?? false;
-    }
-
-    public function setSetting(?string $key, ?string $value): self
-    {
-        $this->settings[$key] = $value;
-
-        return $this;
-    }
-
-    public function getMappings(): ?array
-    {
-        return $this->mappings;
-    }
-
-    public function setMappings($mappings): self
-    {
-        $this->mappings = $mappings;
-
-        return $this;
-    }
-
-    public function getAliases(): ?array
-    {
-        return $this->aliases;
-    }
-
-    public function setAliases($aliases): self
-    {
-        $this->aliases = $aliases;
 
         return $this;
     }
