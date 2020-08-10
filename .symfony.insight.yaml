@@ -1,0 +1,3 @@
+rules:
+    composer.dependencies_not_installable:
+        enabled: true
