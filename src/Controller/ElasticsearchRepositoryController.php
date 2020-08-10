@@ -104,7 +104,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
 
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (false == $repository) {
+        if (null == $repository) {
             throw new NotFoundHttpException();
         }
 
@@ -120,7 +120,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (false == $repository) {
+        if (null == $repository) {
             throw new NotFoundHttpException();
         }
 
@@ -158,7 +158,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (false == $repository) {
+        if (null == $repository) {
             throw new NotFoundHttpException();
         }
 
@@ -178,7 +178,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (false == $repository) {
+        if (null == $repository) {
             throw new NotFoundHttpException();
         }
 
@@ -202,7 +202,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 
-        if (false == $repository) {
+        if (null == $repository) {
             throw new NotFoundHttpException();
         }
 

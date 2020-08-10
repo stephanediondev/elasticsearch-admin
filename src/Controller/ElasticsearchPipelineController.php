@@ -60,12 +60,12 @@ class ElasticsearchPipelineController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $pipeline = false;
+        $pipeline = null;
 
         if ($request->query->get('pipeline')) {
             $pipeline = $this->elasticsearchPipelineManager->getByName($request->query->get('pipeline'));
 
-            if (false == $pipeline) {
+            if (null == $pipeline) {
                 throw new NotFoundHttpException();
             }
 
@@ -74,7 +74,7 @@ class ElasticsearchPipelineController extends AbstractAppController
             $pipeline->setName($pipeline->getName().'-copy');
         }
 
-        if (false == $pipeline) {
+        if (null == $pipeline) {
             $pipeline = new ElasticsearchPipelineModel();
         }
         $form = $this->createForm(ElasticsearchPipelineType::class, $pipeline);
@@ -111,7 +111,7 @@ class ElasticsearchPipelineController extends AbstractAppController
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
-        if (false == $pipeline) {
+        if (null == $pipeline) {
             throw new NotFoundHttpException();
         }
 
@@ -131,7 +131,7 @@ class ElasticsearchPipelineController extends AbstractAppController
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
-        if (false == $pipeline) {
+        if (null == $pipeline) {
             throw new NotFoundHttpException();
         }
 
@@ -170,7 +170,7 @@ class ElasticsearchPipelineController extends AbstractAppController
 
         $pipeline = $this->elasticsearchPipelineManager->getByName($name);
 
-        if (false == $pipeline) {
+        if (null == $pipeline) {
             throw new NotFoundHttpException();
         }
 

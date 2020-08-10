@@ -119,12 +119,12 @@ class ElasticsearchIlmController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $policy = false;
+        $policy = null;
 
         if ($request->query->get('policy')) {
             $policy = $this->elasticsearchIlmPolicyManager->getByName($request->query->get('policy'));
 
-            if (false == $policy) {
+            if (null == $policy) {
                 throw new NotFoundHttpException();
             }
 
@@ -133,7 +133,7 @@ class ElasticsearchIlmController extends AbstractAppController
             $policy->setName($policy->getName().'-copy');
         }
 
-        if (false == $policy) {
+        if (null == $policy) {
             $policy = new ElasticsearchIlmPolicyModel();
         }
         $form = $this->createForm(ElasticsearchIlmPolicyType::class, $policy);
@@ -170,7 +170,7 @@ class ElasticsearchIlmController extends AbstractAppController
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -190,7 +190,7 @@ class ElasticsearchIlmController extends AbstractAppController
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -229,7 +229,7 @@ class ElasticsearchIlmController extends AbstractAppController
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -251,7 +251,7 @@ class ElasticsearchIlmController extends AbstractAppController
             try {
                 $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($applyPolicyModel->getIndexTemplate());
 
-                if (false == $template) {
+                if (null == $template) {
                     throw new NotFoundHttpException();
                 }
 
@@ -289,7 +289,7 @@ class ElasticsearchIlmController extends AbstractAppController
 
         $policy = $this->elasticsearchIlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 

@@ -345,7 +345,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -364,7 +364,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -406,7 +406,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -565,7 +565,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -758,7 +758,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -775,7 +775,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -822,7 +822,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -871,7 +871,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -908,7 +908,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -928,7 +928,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -957,7 +957,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -980,7 +980,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1013,7 +1013,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1045,7 +1045,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1084,7 +1084,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1107,7 +1107,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1127,7 +1127,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1153,7 +1153,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1177,7 +1177,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1201,7 +1201,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1225,7 +1225,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1245,7 +1245,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1265,7 +1265,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1285,7 +1285,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1309,7 +1309,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 
@@ -1333,7 +1333,7 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
 
-        if (false == $index) {
+        if (null == $index) {
             throw new NotFoundHttpException();
         }
 

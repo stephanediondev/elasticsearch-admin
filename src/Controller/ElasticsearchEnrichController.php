@@ -87,12 +87,12 @@ class ElasticsearchEnrichController extends AbstractAppController
 
         $indices = $this->elasticsearchIndexManager->selectIndices();
 
-        $policy = false;
+        $policy = null;
 
         if ($request->query->get('policy')) {
             $policy = $this->elasticsearchEnrichPolicyManager->getByName($request->query->get('policy'));
 
-            if (false == $policy) {
+            if (null == $policy) {
                 throw new NotFoundHttpException();
             }
 
@@ -101,7 +101,7 @@ class ElasticsearchEnrichController extends AbstractAppController
             $policy->setName($policy->getName().'-copy');
         }
 
-        if (false == $policy) {
+        if (null == $policy) {
             $policy = new ElasticsearchEnrichPolicyModel();
         }
         $form = $this->createForm(ElasticsearchEnrichPolicyType::class, $policy, ['indices' => $indices]);
@@ -138,7 +138,7 @@ class ElasticsearchEnrichController extends AbstractAppController
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -158,7 +158,7 @@ class ElasticsearchEnrichController extends AbstractAppController
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -182,7 +182,7 @@ class ElasticsearchEnrichController extends AbstractAppController
 
         $policy = $this->elasticsearchEnrichPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 

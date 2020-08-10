@@ -51,12 +51,12 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_CREATE', 'global');
 
-        $template = false;
+        $template = null;
 
         if ($request->query->get('template')) {
             $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($request->query->get('template'));
 
-            if (false == $template) {
+            if (null == $template) {
                 throw new NotFoundHttpException();
             }
 
@@ -65,7 +65,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
             $template->setName($template->getName().'-copy');
         }
 
-        if (false == $template) {
+        if (null == $template) {
             $template = new ElasticsearchIndexTemplateLegacyModel();
         }
         $form = $this->createForm(ElasticsearchIndexTemplateLegacyType::class, $template);
@@ -98,7 +98,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
 
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 
@@ -116,7 +116,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
 
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 
@@ -134,7 +134,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
 
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 
@@ -150,7 +150,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
     {
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 
@@ -185,7 +185,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
     {
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 

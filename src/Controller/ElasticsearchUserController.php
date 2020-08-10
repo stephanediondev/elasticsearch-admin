@@ -113,7 +113,7 @@ class ElasticsearchUserController extends AbstractAppController
 
         $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (false == $user) {
+        if (null == $user) {
             throw new NotFoundHttpException();
         }
 
@@ -133,7 +133,7 @@ class ElasticsearchUserController extends AbstractAppController
 
         $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (false == $user) {
+        if (null == $user) {
             throw new NotFoundHttpException();
         }
 
@@ -199,7 +199,7 @@ class ElasticsearchUserController extends AbstractAppController
 
         $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (false == $user) {
+        if (null == $user) {
             throw new NotFoundHttpException();
         }
 
@@ -227,7 +227,7 @@ class ElasticsearchUserController extends AbstractAppController
 
         $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (false == $user) {
+        if (null == $user) {
             throw new NotFoundHttpException();
         }
 
@@ -255,7 +255,7 @@ class ElasticsearchUserController extends AbstractAppController
 
         $user = $this->elasticsearchUserManager->getByName($user);
 
-        if (false == $user) {
+        if (null == $user) {
             throw new NotFoundHttpException();
         }
 

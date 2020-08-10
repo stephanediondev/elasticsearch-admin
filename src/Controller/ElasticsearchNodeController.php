@@ -62,7 +62,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (false == $node) {
+        if (null == $node) {
             throw new NotFoundHttpException();
         }
 
@@ -78,7 +78,7 @@ class ElasticsearchNodeController extends AbstractAppController
     {
         $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (false == $node) {
+        if (null == $node) {
             throw new NotFoundHttpException();
         }
 
@@ -100,7 +100,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (false == $node) {
+        if (null == $node) {
             throw new NotFoundHttpException();
         }
 
@@ -135,7 +135,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 
-        if (false == $node) {
+        if (null == $node) {
             throw new NotFoundHttpException();
         }
 

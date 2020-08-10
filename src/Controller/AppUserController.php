@@ -94,7 +94,7 @@ class AppUserController extends AbstractAppController
 
         $user = $this->appUserManager->getById($user);
 
-        if (false == $user) {
+        if (null == $user) {
             throw new NotFoundHttpException();
         }
 
@@ -136,7 +136,7 @@ class AppUserController extends AbstractAppController
     {
         $user = $this->appUserManager->getById($user);
 
-        if (false == $user) {
+        if (null == $user) {
             throw new NotFoundHttpException();
         }
 
@@ -179,7 +179,7 @@ class AppUserController extends AbstractAppController
     {
         $user = $this->appUserManager->getById($user);
 
-        if (false == $user) {
+        if (null == $user) {
             throw new NotFoundHttpException();
         }
 

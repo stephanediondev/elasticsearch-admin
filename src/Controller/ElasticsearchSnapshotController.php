@@ -101,7 +101,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
 
         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
 
-        if (false == $snapshot) {
+        if (null == $snapshot) {
             throw new NotFoundHttpException();
         }
 
@@ -117,7 +117,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
     {
         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
 
-        if (false == $snapshot) {
+        if (null == $snapshot) {
             throw new NotFoundHttpException();
         }
 
@@ -139,7 +139,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
     {
         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
 
-        if (false == $snapshot) {
+        if (null == $snapshot) {
             throw new NotFoundHttpException();
         }
 
@@ -159,7 +159,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
     {
         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
 
-        if (false == $snapshot) {
+        if (null == $snapshot) {
             throw new NotFoundHttpException();
         }
 

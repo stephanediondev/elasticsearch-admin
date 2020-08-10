@@ -59,12 +59,12 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $template = false;
+        $template = null;
 
         if ($request->query->get('template')) {
             $template = $this->elasticsearchComponentTemplateManager->getByName($request->query->get('template'));
 
-            if (false == $template) {
+            if (null == $template) {
                 throw new NotFoundHttpException();
             }
 
@@ -73,7 +73,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
             $template->setName($template->getName().'-copy');
         }
 
-        if (false == $template) {
+        if (null == $template) {
             $template = new ElasticsearchComponentTemplateModel();
         }
         $form = $this->createForm(ElasticsearchComponentTemplateType::class, $template);
@@ -110,7 +110,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 
@@ -132,7 +132,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 
@@ -154,7 +154,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 
@@ -174,7 +174,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 
@@ -213,7 +213,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
 
         $template = $this->elasticsearchComponentTemplateManager->getByName($name);
 
-        if (false == $template) {
+        if (null == $template) {
             throw new NotFoundHttpException();
         }
 

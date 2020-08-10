@@ -57,7 +57,7 @@ class AppRoleController extends AbstractAppController
         if ($request->query->get('role')) {
             $role = $this->appRoleManager->getByName($request->query->get('role'));
 
-            if (false == $role) {
+            if (null == $role) {
                 throw new NotFoundHttpException();
             }
 
@@ -66,7 +66,7 @@ class AppRoleController extends AbstractAppController
             $role->setName($role->getName().'-copy');
         }
 
-        if (false == $role) {
+        if (null == $role) {
             $role = new AppRoleModel();
         }
         $form = $this->createForm(AppRoleType::class, $role);
@@ -101,7 +101,7 @@ class AppRoleController extends AbstractAppController
 
         $role = $this->appRoleManager->getByName($role);
 
-        if (false == $role) {
+        if (null == $role) {
             throw new NotFoundHttpException();
         }
 
@@ -126,7 +126,7 @@ class AppRoleController extends AbstractAppController
     {
         $role = $this->appRoleManager->getByName($role);
 
-        if (false == $role) {
+        if (null == $role) {
             throw new NotFoundHttpException();
         }
 
@@ -146,7 +146,7 @@ class AppRoleController extends AbstractAppController
     {
         $role = $this->appRoleManager->getByName($role);
 
-        if (false == $role) {
+        if (null == $role) {
             throw new NotFoundHttpException();
         }
 
@@ -176,7 +176,7 @@ class AppRoleController extends AbstractAppController
     {
         $role = $this->appRoleManager->getByName($role);
 
-        if (false == $role) {
+        if (null == $role) {
             throw new NotFoundHttpException();
         }
 

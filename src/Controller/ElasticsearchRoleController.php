@@ -62,12 +62,12 @@ class ElasticsearchRoleController extends AbstractAppController
             throw new AccessDeniedHttpException();
         }
 
-        $role = false;
+        $role = null;
 
         if ($request->query->get('role')) {
             $role = $this->elasticsearchRoleManager->getByName($request->query->get('role'));
 
-            if (false == $role) {
+            if (null == $role) {
                 throw new NotFoundHttpException();
             }
 
@@ -76,7 +76,7 @@ class ElasticsearchRoleController extends AbstractAppController
             $role->setName($role->getName().'-copy');
         }
 
-        if (false == $role) {
+        if (null == $role) {
             $role = new ElasticsearchRoleModel();
         }
         $form = $this->createForm(ElasticsearchRoleType::class, $role, ['privileges' => $this->elasticsearchRoleManager->getPrivileges(), 'users' => $this->elasticsearchUserManager->selectUsers()]);
@@ -113,7 +113,7 @@ class ElasticsearchRoleController extends AbstractAppController
 
         $role = $this->elasticsearchRoleManager->getByName($role);
 
-        if (false == $role) {
+        if (null == $role) {
             throw new NotFoundHttpException();
         }
 
@@ -133,7 +133,7 @@ class ElasticsearchRoleController extends AbstractAppController
 
         $role = $this->elasticsearchRoleManager->getByName($role);
 
-        if (false == $role) {
+        if (null == $role) {
             throw new NotFoundHttpException();
         }
 
@@ -172,7 +172,7 @@ class ElasticsearchRoleController extends AbstractAppController
 
         $role = $this->elasticsearchRoleManager->getByName($role);
 
-        if (false == $role) {
+        if (null == $role) {
             throw new NotFoundHttpException();
         }
 

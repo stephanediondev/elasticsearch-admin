@@ -139,12 +139,12 @@ class ElasticsearchSlmController extends AbstractAppController
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
         $indices = $this->elasticsearchIndexManager->selectIndices();
 
-        $policy = false;
+        $policy = null;
 
         if ($request->query->get('policy')) {
             $policy = $this->elasticsearchSlmPolicyManager->getByName($request->query->get('policy'));
 
-            if (false == $policy) {
+            if (null == $policy) {
                 throw new NotFoundHttpException();
             }
 
@@ -153,7 +153,7 @@ class ElasticsearchSlmController extends AbstractAppController
             $policy->setName($policy->getName().'-copy');
         }
 
-        if (false == $policy) {
+        if (null == $policy) {
             $policy = new ElasticsearchSlmPolicyModel();
         }
         if ($request->query->get('repository')) {
@@ -196,7 +196,7 @@ class ElasticsearchSlmController extends AbstractAppController
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -218,7 +218,7 @@ class ElasticsearchSlmController extends AbstractAppController
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -240,7 +240,7 @@ class ElasticsearchSlmController extends AbstractAppController
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -260,7 +260,7 @@ class ElasticsearchSlmController extends AbstractAppController
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -302,7 +302,7 @@ class ElasticsearchSlmController extends AbstractAppController
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
@@ -326,7 +326,7 @@ class ElasticsearchSlmController extends AbstractAppController
 
         $policy = $this->elasticsearchSlmPolicyManager->getByName($name);
 
-        if (false == $policy) {
+        if (null == $policy) {
             throw new NotFoundHttpException();
         }
 
