@@ -74,6 +74,6 @@ npm run build
 cp .env.dist .env
 ```
 
-Edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure registration)
+In the ```.env``` file edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure registration)
 
 If Elasticsearch security features are enabled, edit ```ELASTICSEARCH_USERNAME``` and ```ELASTICSEARCH_PASSWORD```
