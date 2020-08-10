@@ -3,7 +3,7 @@
 ### Requirements
 
 - Web server
-- PHP 7.4 recommended (works with 7.2.5 or higher): https://symfony.com/doc/current/setup/web_server_configuration.html
+- PHP 7.2.5 or higher (7.4 recommended): https://symfony.com/doc/current/setup/web_server_configuration.html
 - Composer: https://getcomposer.org/download/
 - npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
