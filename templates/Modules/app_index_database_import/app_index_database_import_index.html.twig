@@ -184,6 +184,19 @@
     {{ parent() }}
 
     <script type="text/javascript">
+        function createToast(body)
+        {
+            var toast = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body">
+                    ${body}
+                </div>
+            </div>`;
+            $('#toast-container').prepend(toast);
+            var toastObject = $('#toast-container .toast').first();
+            toastObject.toast({'autohide': true, 'delay': 5000});
+            toastObject.toast('show')
+        }
+
         var index = '{{ index.name }}';
 
         $(document).on('click', '.back', function(event) {
@@ -219,7 +232,7 @@
                 return response.json();
             }).then(function(json) {
                 if (true == json.exception) {
-                    $('nav').after('<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' + json.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                    createToast(json.message);
 
                     if ('form-mappings' == form.attr('id')) {
                         $('#step-loading').addClass('d-none');

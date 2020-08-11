@@ -4,6 +4,13 @@
 
 @import "~@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css";
 
+#toast-container {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    z-index: 1500;
+}
+
 textarea.form-control {
     min-height: 300px;
 }
