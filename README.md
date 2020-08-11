@@ -51,6 +51,8 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 ## Screenshots
 
+[See all available screenshots](https://github.com/stephanediondev/elasticsearch-admin/tree/master/screenshots/7.8.1)
+
 [![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.1/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.1/original/original-cluster.png)
 
 [![Cluster audit](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.1/resized/resized-cluster-audit.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.8.1/original/original-cluster-audit.png)
