@@ -788,16 +788,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $indexSettingModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/'.$index->getName().'/_settings');
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
-
-                $this->addFlash('info', json_encode($callResponse->getContent()));
-
-                return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
+                return $this->handleSetting($index, $indexSettingModel);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -831,16 +822,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $json = $indexSettingModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('PUT');
-                $callRequest->setPath('/'.$index->getName().'/_settings');
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
-
-                $this->addFlash('info', json_encode($callResponse->getContent()));
-
-                return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
+                return $this->handleSetting($index, $indexSettingModel);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -850,6 +832,20 @@ class ElasticsearchIndexController extends AbstractAppController
             'form' => $form->createView(),
             'index' => $index,
         ]);
+    }
+
+    private function handleSetting(ElasticsearchIndexModel $index, ElasticsearchIndexSettingModel $indexSettingModel)
+    {
+        $json = $indexSettingModel->getJson();
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('PUT');
+        $callRequest->setPath('/'.$index->getName().'/_settings');
+        $callRequest->setJson($json);
+        $callResponse = $this->callManager->call($callRequest);
+
+        $this->addFlash('info', json_encode($callResponse->getContent()));
+
+        return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
     }
 
     /**

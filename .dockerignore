@@ -27,6 +27,7 @@ yarn-error.log
 .github
 .gitignore
 .php_cs.cache
+.symfony.insight.yaml
 .travis.yml
 bin/.phpunit
 bin/phpunit
