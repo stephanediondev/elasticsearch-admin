@@ -560,7 +560,7 @@ class ElasticsearchClusterController extends AbstractAppController
                                 if (Response::HTTP_OK != $callResponse->getCode()) {
                                     $errors[] = $repository->getName();
                                 }
-                            } catch(Callexception $e) {
+                            } catch (Callexception $e) {
                                 $errors[] = $repository->getName();
                             }
                         }

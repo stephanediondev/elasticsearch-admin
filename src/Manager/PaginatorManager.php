@@ -23,7 +23,7 @@ class PaginatorManager
         if ($paginate['pages'] < $paginate['end_page']) {
             $paginate['end_page'] = $paginate['pages'];
         }
-        for ($i=$paginate['start_page'];$i<=$paginate['end_page'];$i++) {
+        for ($i=$paginate['start_page']; $i<=$paginate['end_page']; $i++) {
             $pagesSlice[] = $i;
         }
         $paginate['pages_slice'] = $pagesSlice;
