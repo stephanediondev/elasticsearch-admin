@@ -79,8 +79,6 @@ class AppRoleController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                sleep(2);
-
                 return $this->redirectToRoute('app_roles_update', ['role' => $role->getName()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
@@ -188,8 +186,6 @@ class AppRoleController extends AbstractAppController
 
             $this->addFlash('info', json_encode($callResponse->getContent()));
         }
-
-        sleep(2);
 
         return $this->redirectToRoute('app_roles');
     }

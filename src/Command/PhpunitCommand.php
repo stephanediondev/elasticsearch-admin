@@ -68,8 +68,6 @@ class PhpunitCommand extends Command
             $user->setRoles(['ROLE_ADMIN']);
 
             $callResponse = $this->appUserManager->send($user);
-
-            sleep(2);
         }
 
         if (true === $this->callManager->hasFeature('_security_endpoint')) {

@@ -110,6 +110,7 @@ class AppUserManager extends AbstractAppManager
             }
         }
         $callRequest->setJson($json);
+        $callRequest->setQuery(['refresh' => 'true']);
 
         return $this->callManager->call($callRequest);
     }
@@ -123,6 +124,7 @@ class AppUserManager extends AbstractAppManager
             $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$id);
         }
         $callRequest->setMethod('DELETE');
+        $callRequest->setQuery(['refresh' => 'true']);
 
         return $this->callManager->call($callRequest);
     }

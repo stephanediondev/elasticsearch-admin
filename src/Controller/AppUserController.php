@@ -72,8 +72,6 @@ class AppUserController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($content));
 
-                sleep(2);
-
                 return $this->redirectToRoute('app_users_read', ['user' => $content['_id']]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
@@ -158,8 +156,6 @@ class AppUserController extends AbstractAppController
 
                 $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                sleep(2);
-
                 return $this->redirectToRoute('app_users_read', ['user' => $user->getId()]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
@@ -188,8 +184,6 @@ class AppUserController extends AbstractAppController
         $callResponse = $this->appUserManager->deleteById($user->getId());
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
-
-        sleep(2);
 
         return $this->redirectToRoute('app_users');
     }

@@ -177,6 +177,7 @@ class AppRoleManager extends AbstractAppManager
             }
         }
         $callRequest->setJson($json);
+        $callRequest->setQuery(['refresh' => 'true']);
 
         return $this->callManager->call($callRequest);
     }
@@ -190,6 +191,7 @@ class AppRoleManager extends AbstractAppManager
             $callRequest->setPath('/.elasticsearch-admin-roles/doc/'.$id);
         }
         $callRequest->setMethod('DELETE');
+        $callRequest->setQuery(['refresh' => 'true']);
 
         return $this->callManager->call($callRequest);
     }
@@ -207,6 +209,7 @@ class AppRoleManager extends AbstractAppManager
         $callRequest->setMethod('POST');
         $callRequest->setPath('/.elasticsearch-admin-permissions/_delete_by_query');
         $callRequest->setJson($json);
+        $callRequest->setQuery(['refresh' => 'true']);
 
         return $this->callManager->call($callRequest);
     }
