@@ -60,8 +60,6 @@ class AppUninstallController extends AbstractAppController
             }
         }
 
-        sleep(2);
-
         return $this->redirectToRoute('register');
     }
 }
