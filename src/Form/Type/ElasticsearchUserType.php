@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Form\EventListener\MetadataSubscriber;
 use App\Manager\ElasticsearchUserManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchUserModel;
@@ -138,16 +139,6 @@ class ElasticsearchUserType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-
-            if ($form->has('metadata') && $form->get('metadata')->getData()) {
-                $fieldOptions = $form->get('metadata')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('metadata')->getData(), JSON_PRETTY_PRINT);
-                $form->add('metadata', TextareaType::class, $fieldOptions);
-            }
-        });
-
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
             $data = $event->getData();
@@ -163,12 +154,9 @@ class ElasticsearchUserType extends AbstractType
                     }
                 }
             }
-
-            if ($form->has('metadata') && $form->get('metadata')->getData()) {
-                $data->setMetadata(json_decode($form->get('metadata')->getData(), true));
-                $event->setData($data);
-            }
         });
+
+        $builder->addEventSubscriber(new MetadataSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver)

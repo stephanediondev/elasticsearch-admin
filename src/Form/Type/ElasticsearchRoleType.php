@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Form\EventListener\MetadataSubscriber;
 use App\Manager\ElasticsearchRoleManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRoleModel;
@@ -137,12 +138,6 @@ class ElasticsearchRoleType extends AbstractType
                 $fieldOptions['data'] = json_encode($form->get('applications')->getData(), JSON_PRETTY_PRINT);
                 $form->add('applications', TextareaType::class, $fieldOptions);
             }
-
-            if ($form->has('metadata') && $form->get('metadata')->getData()) {
-                $fieldOptions = $form->get('metadata')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('metadata')->getData(), JSON_PRETTY_PRINT);
-                $form->add('metadata', TextareaType::class, $fieldOptions);
-            }
         });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
@@ -170,12 +165,9 @@ class ElasticsearchRoleType extends AbstractType
                 $data->setApplications(json_decode($form->get('applications')->getData(), true));
                 $event->setData($data);
             }
-
-            if ($form->has('metadata') && $form->get('metadata')->getData()) {
-                $data->setMetadata(json_decode($form->get('metadata')->getData(), true));
-                $event->setData($data);
-            }
         });
+
+        $builder->addEventSubscriber(new MetadataSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver)

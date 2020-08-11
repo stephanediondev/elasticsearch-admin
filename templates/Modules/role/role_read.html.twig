@@ -39,30 +39,43 @@
                 {% endblock %}
             {% endembed %}
 
-            <p>
-                <strong>{{ 'reserved'|trans }}</strong><br>
-                {% if role.isReserved %}
-                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                {% else %}
-                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
-                {% endif %}
-            </p>
+            <div class="row">
+                <div class="col-12 col-md-5 col-lg-4">
+                    <p>
+                        <strong>{{ 'reserved'|trans }}</strong><br>
+                        {% if role.isReserved %}
+                            {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                        {% else %}
+                            {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                        {% endif %}
+                    </p>
 
-            <p>
-                <strong>{{ 'deprecated'|trans }}</strong><br>
-                {% if role.isDeprecated %}
-                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                {% else %}
-                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
-                {% endif %}
-            </p>
+                    <p>
+                        <strong>{{ 'deprecated'|trans }}</strong><br>
+                        {% if role.isDeprecated %}
+                            {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                        {% else %}
+                            {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                        {% endif %}
+                    </p>
 
-            {% if role.isDeprecated and role.deprecatedReason %}
-                <p>
-                    <strong>{{ 'deprecated_reason'|trans }}</strong><br>
-                    {{ role.deprecatedReason }}
-                </p>
-            {% endif %}
+                    {% if role.isDeprecated and role.deprecatedReason %}
+                        <p>
+                            <strong>{{ 'deprecated_reason'|trans }}</strong><br>
+                            {{ role.deprecatedReason }}
+                        </p>
+                    {% endif %}
+                </div>
+
+                {% if role.metadata and 0 < role.metadata|length %}
+                    <div class="col-12 col-md-5 col-lg-4">
+                        <p>
+                            <strong>{{ 'metadata'|trans }}</strong><br>
+                            <pre>{{ role.metadata|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
 
             {% if role.cluster and 0 < role.cluster|length %}
                 {{ appImport.heading({'level': 4, 'title': 'cluster'|trans}) }}
