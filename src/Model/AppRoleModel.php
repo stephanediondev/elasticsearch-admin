@@ -56,7 +56,9 @@ class AppRoleModel extends AbstractAppModel
     public function convert(?array $role): self
     {
         $this->setId($role['id']);
-        $this->setName($role['name']);
+        if (true === isset($role['name'])) {
+            $this->setName($role['name']);
+        }
         if (true === isset($role['created_at'])) {
             $this->setCreatedAt(new \Datetime($role['created_at']));
         }

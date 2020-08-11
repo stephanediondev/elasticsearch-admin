@@ -172,9 +172,15 @@ class AppUserModel implements UserInterface
     public function convert(?array $user): self
     {
         $this->setId($user['id']);
-        $this->setEmail($user['email']);
-        $this->setPassword($user['password']);
-        $this->setRoles($user['roles']);
+        if (true === isset($user['email'])) {
+            $this->setEmail($user['email']);
+        }
+        if (true === isset($user['password'])) {
+            $this->setPassword($user['password']);
+        }
+        if (true === isset($user['roles'])) {
+            $this->setRoles($user['roles']);
+        }
         if (true === isset($user['created_at'])) {
             $this->setCreatedAt(new \Datetime($user['created_at']));
         }

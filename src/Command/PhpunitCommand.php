@@ -84,6 +84,18 @@ class PhpunitCommand extends Command
         }
 
         $cases = [
+            'app_role' => [
+                'name' => 'app-admin-test',
+                'path' => '.elasticsearch-admin-roles/_doc',
+                'json' => ['name' => 'app-admin-test'],
+                'query' => ['refresh' => 'true'],
+            ],
+            'app_user' => [
+                'name' => 'app-admin-test',
+                'path' => '.elasticsearch-admin-users/_doc',
+                'json' => ['email' => 'app-admin-test'],
+                'query' => ['refresh' => 'true'],
+            ],
             'elasticsearch_role' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => $this->endpoint.'/role',
@@ -197,6 +209,9 @@ class PhpunitCommand extends Command
             $callRequest->setMethod('PUT');
             if (true === isset($parameters['json'])) {
                 $callRequest->setJson($parameters['json']);
+            }
+            if (true === isset($parameters['query'])) {
+                $callRequest->setQuery($parameters['query']);
             }
             $callRequest->setPath($parameters['path'].'/'.$parameters['name']);
             $this->callManager->call($callRequest);
