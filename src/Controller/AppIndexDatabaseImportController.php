@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use \PDO;
+use \PDOException;
 
 /**
  * @Route("/admin")
@@ -40,10 +42,10 @@ class AppIndexDatabaseImportController extends AbstractAppController
         $fields = $request->request->all();
 
         try {
-            $conn = $this->getConnection($fields);
+            $dbh = $this->getConnection($fields);
 
             $sql = $fields['query'].' LIMIT 1';
-            $stmt = $conn->prepare($sql);
+            $stmt = $dbh->prepare($sql);
             $stmt->execute();
 
             $columns = [];
@@ -57,7 +59,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
                 'exception' => false,
                 'columns' => $columns,
             ];
-        } catch (\Exception $e) {
+        } catch (PDOException $e) {
             $json = [
                 'exception' => true,
                 'message' => $e->getMessage(),
@@ -91,10 +93,10 @@ class AppIndexDatabaseImportController extends AbstractAppController
         }
 
         try {
-            $conn = $this->getConnection($fields);
+            $dbh = $this->getConnection($fields);
 
             $sql = $fields['query'];
-            $stmt = $conn->prepare($sql);
+            $stmt = $dbh->prepare($sql);
             $stmt->execute();
 
             $documents = 0;
@@ -163,7 +165,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
                 'documents' => $documents - count($errors),
                 'errors' => $errors,
             ];
-        } catch (\Exception $e) {
+        } catch (PDOException $e) {
             $json = [
                 'exception' => true,
                 'message' => $e->getMessage(),
@@ -190,7 +192,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
 
         $allowedDrivers = [];
 
-        $availableDrivers = \PDO::getAvailableDrivers();
+        $availableDrivers = PDO::getAvailableDrivers();
         if (true === in_array('mysql', $availableDrivers)) {
             $allowedDrivers[] = 'mysql';
         }
@@ -206,14 +208,8 @@ class AppIndexDatabaseImportController extends AbstractAppController
 
     private function getConnection($fields)
     {
-        $connectionParams = [
-            'dbname' => $fields['dbname'],
-            'user' => $fields['user'],
-            'password' => $fields['password'],
-            'host' => $fields['host'],
-            'driver' => 'pdo_'.$fields['driver'],
-        ];
-
-        return \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+        $dbh = new PDO($fields['driver'].':host='.$fields['host'].';dbname='.$fields['dbname'], $fields['user'], $fields['password']);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $dbh;
     }
 }
