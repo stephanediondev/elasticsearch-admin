@@ -119,8 +119,6 @@ class AppUpgradeController extends AbstractAppController
             }
         }
 
-        sleep(2);
-
         return $this->redirectToRoute('app_upgrade');
     }
 }
