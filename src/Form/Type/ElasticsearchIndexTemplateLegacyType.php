@@ -59,7 +59,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'help_form.index_template.name',
+                        'help' => 'help_form.index_template_legacy.name',
                         'help_html' => true,
                     ]);
                     break;
@@ -70,7 +70,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'help_form.index_template.index_patterns',
+                        'help' => 'help_form.index_template_legacy.index_patterns',
                         'help_html' => true,
                     ]);
                     break;
@@ -81,7 +81,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
-                        'help' => 'help_form.index_template.template',
+                        'help' => 'help_form.index_template_legacy.template',
                         'help_html' => true,
                     ]);
                     break;
@@ -95,7 +95,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'attr' => [
                             'min' => 1,
                         ],
-                        'help' => 'help_form.index_template.version',
+                        'help' => 'help_form.index_template_legacy.version',
                         'help_html' => true,
                     ]);
                     break;
@@ -106,7 +106,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
-                        'help' => 'help_form.index_template.order',
+                        'help' => 'help_form.index_template_legacy.order',
                         'help_html' => true,
                     ]);
                     break;
@@ -120,7 +120,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
-                        'help' => 'help_form.index_template.settings',
+                        'help' => 'help_form.index_template_legacy.settings',
                         'help_html' => true,
                     ]);
                     break;
@@ -131,7 +131,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
-                        'help' => 'help_form.index_template.mappings',
+                        'help' => 'help_form.index_template_legacy.mappings',
                         'help_html' => true,
                     ]);
                     break;
@@ -142,7 +142,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
-                        'help' => 'help_form.index_template.aliases',
+                        'help' => 'help_form.index_template_legacy.aliases',
                         'help_html' => true,
                     ]);
                     break;

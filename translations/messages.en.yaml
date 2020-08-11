@@ -247,17 +247,24 @@ help_form:
         ignore_unavailable: "Ignores indices that are unavailable when taking the snapshot. Otherwise, the entire snapshot will fail."
         partial: "Allows snapshots of indices with primary shards that are unavailable. Otherwise, the entire snapshot will fail."
         include_global_state: "Stores the global state of the cluster as part of the snapshot."
-    index_template:
+    index_template_legacy:
         name: "A unique identifier for this template."
-        index_patterns: "The index patterns to apply to the template (separated by commas)."
         template: "The index pattern to apply to the template."
-        order: "The merge order when multiple templates match an index."
+        index_patterns: "The index patterns to apply to the template (separated by commas)."
         version: "A number that identifies the template to external management systems."
+        order: "The merge order when multiple templates match an index."
         settings: "Define the behavior of your indices."
         mappings: "Define how to store and index documents."
         aliases: "Set up aliases to associate with your indices."
+    index_template:
+        name: "A unique identifier for this template."
+        index_patterns: "The index patterns to apply to the template (separated by commas)."
+        version: "A number that identifies the template to external management systems."
         priority: "Priority to determine index template precedence when a new index is created."
         composed_of: "An ordered list of component template names."
+        settings: "Define the behavior of your indices."
+        mappings: "Define how to store and index documents."
+        aliases: "Set up aliases to associate with your indices."
     component_template:
         name: "A unique identifier for this template."
         version: "A number that identifies the template to external management systems."
