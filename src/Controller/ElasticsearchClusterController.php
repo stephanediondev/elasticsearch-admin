@@ -262,7 +262,7 @@ class ElasticsearchClusterController extends AbstractAppController
 
             if (true === isset($node['stats']['process']['max_file_descriptors'])) {
                 $fileDescriptors = true;
-                if (65535 > $node['stats']['process']['max_file_descriptors']) {
+                if (-1 < $node['stats']['process']['max_file_descriptors'] && 65535 > $node['stats']['process']['max_file_descriptors']) {
                     $nodesLimit['file_descriptors_under_65535'][$node['name']] = $node['stats']['process']['max_file_descriptors'];
                 }
             }
