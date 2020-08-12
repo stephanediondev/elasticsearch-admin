@@ -5,10 +5,13 @@
 <meta charset="UTF-8">
 <title>{% block head_title %}elasticsearch-admin{% endblock %}</title>
 <meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="HandheldFriendly" content="true">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#ffffff">
+<link rel="apple-touch-icon" sizes="512x512" href="{{ asset('favicon-gray-512.png') }}">
+<link rel="apple-touch-icon-precomposed" sizes="512x512" href="{{ asset('favicon-gray-512.png') }}">
 {% if firewall and is_granted('IS_AUTHENTICATED_FULLY', app.user) %}
 <link rel="shortcut icon" href="{{ asset('favicon-' ~ cluster_health['status'] ~ '-64.png') }}">
 {% else %}
@@ -21,99 +24,101 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div id="toast-container">
-    </div>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="{{ 'toggle_navigation'|trans }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="navbar-nav">
-                {% if firewall and is_granted('IS_AUTHENTICATED_FULLY', app.user) %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': root['version']['number'], 'context': cluster_health['status']}) }}</a>
-                    </li>
-
-                    {% if is_granted('NODES', 'global') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
-                        </li>
-                    {% endif %}
-
-                    {% if is_granted('INDICES', 'global') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
-                        </li>
-                    {% endif %}
-
-                    {% if is_granted('SHARDS', 'global') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
-                        </li>
-                    {% endif %}
-
-                    {% if menus['configuration'] is defined %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="configurationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ 'configuration'|trans }}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="configurationDropdown">
-                                {% for entry in menus['configuration'] %}
-                                    <a class="dropdown-item" href="{{ path(entry['path']) }}">
-                                        {{ entry['name'] }}
-                                        {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </li>
-                    {% endif %}
-
-                    {% if menus['tools'] is defined %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ 'tools'|trans }}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="toolsDropdown">
-                                {% for entry in menus['tools'] %}
-                                    <a class="dropdown-item" href="{{ path(entry['path']) }}">
-                                        {{ entry['name'] }}
-                                        {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </li>
-                    {% endif %}
-
-                    {% if menus['application'] is defined %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ 'application'|trans }}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="applicationDropdown">
-                                {% for entry in menus['application'] %}
-                                    <a class="dropdown-item" href="{{ path(entry['path']) }}">
-                                        {{ entry['name'] }}
-                                        {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                                    </a>
-                                {% endfor %}
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" rel="noreferrer" target="_blank" href="https://github.com/stephanediondev/elasticsearch-admin">{{ 'github'|trans }}</a>
-                                <a class="dropdown-item" rel="noreferrer" target="_blank" href="https://hub.docker.com/r/stephanediondev/elasticsearch-admin">{{ 'docker_hub'|trans }}</a>
-                            </div>
-                        </li>
-                    {% endif %}
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
-                    </li>
-                {% endif %}
-            </ul>
+    {% if 'offline' != app.request.attributes.get('_route') %}
+        <div id="toast-container">
         </div>
-    </nav>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="{{ 'toggle_navigation'|trans }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <ul class="navbar-nav">
+                    {% if firewall and is_granted('IS_AUTHENTICATED_FULLY', app.user) %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': root['version']['number'], 'context': cluster_health['status']}) }}</a>
+                        </li>
+
+                        {% if is_granted('NODES', 'global') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                            </li>
+                        {% endif %}
+
+                        {% if is_granted('INDICES', 'global') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
+                            </li>
+                        {% endif %}
+
+                        {% if is_granted('SHARDS', 'global') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
+                            </li>
+                        {% endif %}
+
+                        {% if menus['configuration'] is defined %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="configurationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ 'configuration'|trans }}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="configurationDropdown">
+                                    {% for entry in menus['configuration'] %}
+                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">
+                                            {{ entry['name'] }}
+                                            {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        {% if menus['tools'] is defined %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="toolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ 'tools'|trans }}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="toolsDropdown">
+                                    {% for entry in menus['tools'] %}
+                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">
+                                            {{ entry['name'] }}
+                                            {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        {% if menus['application'] is defined %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ 'application'|trans }}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="applicationDropdown">
+                                    {% for entry in menus['application'] %}
+                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">
+                                            {{ entry['name'] }}
+                                            {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        </a>
+                                    {% endfor %}
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" rel="noreferrer" target="_blank" href="https://github.com/stephanediondev/elasticsearch-admin">{{ 'github'|trans }}</a>
+                                    <a class="dropdown-item" rel="noreferrer" target="_blank" href="https://hub.docker.com/r/stephanediondev/elasticsearch-admin">{{ 'docker_hub'|trans }}</a>
+                                </div>
+                            </li>
+                        {% endif %}
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    {% endif %}
 
     {% block heading_1 %}
     {% endblock %}

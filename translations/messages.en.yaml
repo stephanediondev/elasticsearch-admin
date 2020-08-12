@@ -5,6 +5,9 @@ boolean:
     "false": "False"
     "true": "True"
 
+offline:
+    title: "Offline"
+    note: "Sorry, you are not connected to network."
 error403:
     title: "Forbidden"
     note: "Sorry, you are not allowed to access this content."

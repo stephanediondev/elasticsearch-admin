@@ -1,7 +1,8 @@
-var VERSION ='20200811.1518';
+var VERSION ='20200812.2038';
 var CACHE_KEY_PREFIX = 'elasticsearch-admin-';
 var CACHE_KEY = CACHE_KEY_PREFIX + VERSION;
 var CACHE_FILES = [
+    'offline',
     'favicon-red-64.png',
     'favicon-yellow-64.png',
     'favicon-green-64.png',
@@ -10,6 +11,10 @@ var CACHE_FILES = [
     'favicon-yellow-144.png',
     'favicon-green-144.png',
     'favicon-gray-144.png',
+    'favicon-red-512.png',
+    'favicon-yellow-512.png',
+    'favicon-green-512.png',
+    'favicon-gray-512.png',
 ];
 
 self.addEventListener('install', function(InstallEvent) {
@@ -57,7 +62,7 @@ self.addEventListener('fetch', function(FetchEvent) {
                     return response;
                 }
 
-                if(request.method == 'GET') {
+                if ('GET' === request.method) {
                     caches.open(CACHE_KEY)
                     .then(function(cache) {
                         return fetch(request)
@@ -69,6 +74,16 @@ self.addEventListener('fetch', function(FetchEvent) {
                 return fetch(request);
             })
         );
+    } else {
+        if ('GET' === request.method) {
+            FetchEvent.respondWith(
+                fetch(request).catch(function() {
+                    return caches.open(CACHE_KEY).then(function(cache) {
+                        return cache.match('offline');
+                    });
+                })
+            );
+        }
     }
 });
 

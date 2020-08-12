@@ -30,6 +30,7 @@ class GenerateFaviconsCommand extends Command
         foreach ($this->colors as $name => $code) {
             $this->generateFavicon($name, 64);
             $this->generateFavicon($name, 144);
+            $this->generateFavicon($name, 512);
         }
 
         return Command::SUCCESS;

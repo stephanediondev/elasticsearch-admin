@@ -11,8 +11,15 @@
             "src": "favicon-gray-144.png",
             "sizes": "144x144",
             "type": "image/png"
+        },
+        {
+            "src": "favicon-gray-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
         }
     ],
     "start_url": ".",
-    "display": "standalone"
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff"
 }
