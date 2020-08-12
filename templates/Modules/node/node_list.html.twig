@@ -147,8 +147,8 @@
 
                         {% if 'cpu_usage' == column %}
                             <td>
-                                {% if row['stats']['os']['cpu']['percent'] is defined %}
-                                    <strong>{{ row['stats']['os']['cpu']['percent'] }}%</strong>
+                                {% if row['cpu'] is defined %}
+                                    <strong>{{ row['cpu'] }}%</strong>
                                     <br><small>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</small>
                                 {% else %}
                                     <strong>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</strong>
@@ -157,7 +157,7 @@
                                     <br><small>{{ 'processors'|trans }}: {{ row['os']['allocated_processors'] }}</small>
                                 {% endif %}
 
-                                {% if row['stats']['os']['cpu']['percent'] is defined and 90 < row['stats']['os']['cpu']['percent'] %}
+                                {% if row['cpu'] is defined and 90 < row['cpu'] %}
                                     <br>{{ appImport.badge({'title': 'watermark_high'|trans, 'context': 'danger'}) }}
                                 {% endif %}
                             </td>

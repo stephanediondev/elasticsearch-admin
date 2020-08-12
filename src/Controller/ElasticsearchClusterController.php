@@ -230,10 +230,10 @@ class ElasticsearchClusterController extends AbstractAppController
                 $plugins[] = $plugin['name'];
             }
 
-            if (true === isset($node['stats']['os']['cpu']['percent'])) {
+            if (true === isset($node['cpu'])) {
                 $cpuPercent = true;
-                if (90 < $node['stats']['os']['cpu']['percent']) {
-                    $nodesLimit['cpu_over_90'][$node['name']] = $node['stats']['os']['cpu']['percent'];
+                if (90 < $node['cpu']) {
+                    $nodesLimit['cpu_over_90'][$node['name']] = $node['cpu'];
                 }
             }
 
