@@ -121,7 +121,7 @@ class CallManager
                 }
 
                 if (401 == $response->getStatusCode()) {
-                    throw new ConnectionException('Couldn\'t connect to Elasticsearch (credentials error)');
+                    throw new ConnectionException('error503.elasticsearch_credentials_error');
                 } else {
                     throw new CallException($message);
                 }
@@ -137,7 +137,7 @@ class CallManager
 
             return $callResponse;
         } catch (TransportException $e) {
-            throw new ConnectionException('Couldn\'t connect to Elasticsearch (server error)');
+            throw new ConnectionException('error503.elasticsearch_server_error');
         }
     }
 

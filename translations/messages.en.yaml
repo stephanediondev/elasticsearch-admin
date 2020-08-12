@@ -23,6 +23,8 @@ error500:
 error503:
     title: "Service Unavailable"
     note: "We are currently in maintenance for few minutes. \n Thanks much for your understanding."
+    elasticsearch_server_error: "Couldn't connect to Elasticsearch (server error)"
+    elasticsearch_credentials_error: "Couldn't connect to Elasticsearch (credentials error)"
 
 "-": "-"
 action: "Action"
