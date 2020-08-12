@@ -57,10 +57,6 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
         function fetchNodes() {
             var url = window.location.href;
             if(url.indexOf('?') != -1) {

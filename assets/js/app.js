@@ -15,6 +15,22 @@ slug.charmap['?'] = '-';
 slug.charmap['='] = '-';
 global.slug = slug;
 
+global.sleep = function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+global.createToast = function createToast(body) {
+    var toast = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            ${body}
+        </div>
+    </div>`;
+    $('#toast-container').prepend(toast);
+    var toastObject = $('#toast-container .toast').first();
+    toastObject.toast({'autohide': true, 'delay': 5000});
+    toastObject.toast('show')
+}
+
 function search() {
     //reset
     $(document).find('tbody tr').attr('data-score', 0);
