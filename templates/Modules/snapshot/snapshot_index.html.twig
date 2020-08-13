@@ -30,7 +30,7 @@
                 <div class="collapse" id="collapseFilter">
                     {{ appImport.filterText({'label': 'name'|trans}) }}
 
-                    {{ appImport.filterCheckboxes({'title': 'state'|trans, 'prefix': 'state', 'choices': ['FAILED', 'INCOMPATIBLE', 'IN_PROGRESS', 'PARTIAL', 'SUCCESS']}) }}
+                    {{ appImport.filterCheckboxes({'title': 'state'|trans, 'prefix': 'state', 'choices': ['failed', 'incompatible', 'in_progress', 'partial', 'success']}) }}
                 </div>
 
                 {{ appImport.paginator(snapshots) }}

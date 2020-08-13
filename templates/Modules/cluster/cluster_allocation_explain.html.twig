@@ -64,7 +64,7 @@
                     {% endif %}
 
                     {% if allocation_explain['unassigned_info']['reason'] is defined %}
-                        {{ appImport.dashboardKpi({'title': 'unassigned_reason'|trans, 'badge': {'title': allocation_explain['unassigned_info']['reason']|trans, 'context': 'danger'}}) }}
+                        {{ appImport.dashboardKpi({'title': 'unassigned_reason'|trans, 'badge': {'title': allocation_explain['unassigned_info']['reason']|lower|trans, 'context': 'danger'}}) }}
                     {% endif %}
                 </div>
 
@@ -146,11 +146,11 @@
                                                 </td>
                                                 <td{% if 1 < decidersTotal %} rowspan="{{ decidersTotal }}"{% endif %}>
                                                     {% if row['final_decision'] is defined %}
-                                                        {{ appImport.badge({'title': row['final_decision']|trans, 'context': row['final_decision']}) }}
+                                                        {{ appImport.badge({'title': row['final_decision']|lower|trans, 'context': row['final_decision']|lower}) }}
                                                     {% endif %}
 
                                                     {% if row['node_decision'] is defined %}
-                                                        {{ appImport.badge({'title': row['node_decision']|trans, 'context': row['node_decision']}) }}
+                                                        {{ appImport.badge({'title': row['node_decision']|lower|trans, 'context': row['node_decision']|lower}) }}
                                                     {% endif %}
                                                 </td>
                                             {% endif %}
@@ -158,7 +158,7 @@
                                                 {{ decider['decider'] }}
                                             </td>
                                             <td>
-                                                {{ appImport.badge({'title': decider['decision']|trans, 'context': decider['decision']}) }}
+                                                {{ appImport.badge({'title': decider['decision']|lower|trans, 'context': decider['decision']|lower}) }}
                                             </td>
                                             <td>
                                                 {{ decider['explanation'] }}

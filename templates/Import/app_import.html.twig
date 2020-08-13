@@ -147,16 +147,16 @@
     {% elseif params.context in ['false', '0'] %}
         {% set params = params|merge({'context': 'light'}) %}
 
-    {% elseif params.context in ['green', 'open', 'STARTED', 'RUNNING', 'SUCCESS', 'audit_pass', 'YES', 'yes'] %}
+    {% elseif params.context in ['green', 'open', 'started', 'running', 'success', 'audit_pass', 'yes'] %}
         {% set params = params|merge({'context': 'success'}) %}
 
-    {% elseif params.context in ['red', 'STOPPED', 'UNASSIGNED', 'FAILED', 'INCOMPATIBLE', 'close', 'audit_fail', 'watermark_high', 'watermark_flood_stage', 'NO', 'no'] %}
+    {% elseif params.context in ['red', 'stopped', 'unassigned', 'failed', 'incompatible', 'close', 'audit_fail', 'watermark_high', 'watermark_flood_stage', 'no'] %}
         {% set params = params|merge({'context': 'danger'}) %}
 
-    {% elseif params.context in ['yellow', 'STOPPING', 'RELOCATING', 'IN_PROGRESS', 'PARTIAL', 'watermark_low'] %}
+    {% elseif params.context in ['yellow', 'stopping', 'relocating', 'in_progress', 'partial', 'watermark_low'] %}
         {% set params = params|merge({'context': 'warning'}) %}
 
-    {% elseif params.context in ['INITIALIZING', 'audit_notice'] %}
+    {% elseif params.context in ['initializing', 'audit_notice'] %}
         {% set params = params|merge({'context': 'light'}) %}
 
     {% elseif params.context in ['master_node'] %}
@@ -344,19 +344,22 @@
         {% set params = params|merge({'context': 'info'}) %}
     {% endif %}
 
-    {% if params.context in ['true', '1', 'green', 'open', 'STARTED', 'RUNNING', 'SUCCESS'] %}
-        {% set params = params|merge({'context': 'success'}) %}
-
-    {% elseif params.context in ['false', '0', 'close'] %}
+    {% if params.context in ['true', '1'] %}
         {% set params = params|merge({'context': 'secondary'}) %}
 
-    {% elseif params.context in ['red', 'STOPPED', 'UNASSIGNED', 'FAILED', 'INCOMPATIBLE'] %}
+    {% elseif params.context in ['false', '0'] %}
+        {% set params = params|merge({'context': 'light'}) %}
+
+    {% elseif params.context in ['green', 'open', 'started', 'running', 'success', 'audit_pass', 'yes'] %}
+        {% set params = params|merge({'context': 'success'}) %}
+
+    {% elseif params.context in ['red', 'stopped', 'unassigned', 'failed', 'incompatible', 'close', 'audit_fail', 'watermark_high', 'watermark_flood_stage', 'no'] %}
         {% set params = params|merge({'context': 'danger'}) %}
 
-    {% elseif params.context in ['yellow', 'STOPPING', 'RELOCATING', 'IN_PROGRESS', 'PARTIAL'] %}
+    {% elseif params.context in ['yellow', 'stopping', 'relocating', 'in_progress', 'partial', 'watermark_low'] %}
         {% set params = params|merge({'context': 'warning'}) %}
 
-    {% elseif params.context in ['INITIALIZING'] %}
+    {% elseif params.context in ['initializing', 'audit_notice'] %}
         {% set params = params|merge({'context': 'light'}) %}
 
     {% elseif params.context in ['master_node'] %}

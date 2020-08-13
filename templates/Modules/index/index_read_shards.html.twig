@@ -34,7 +34,7 @@
                 <div class="collapse" id="collapseFilter">
                     {{ appImport.filterCheckboxesBoolean({'title': 'primary'|trans, 'prefix': 'primary'}) }}
 
-                    {{ appImport.filterCheckboxes({'title': 'state'|trans, 'prefix': 'state', 'choices': ['INITIALIZING', 'RELOCATING', 'STARTED', 'UNASSIGNED']}) }}
+                    {{ appImport.filterCheckboxes({'title': 'state'|trans, 'prefix': 'state', 'choices': ['initializing', 'relocating', 'started', 'unassigned']}) }}
                 </div>
 
                 {{ appImport.paginator(shards) }}

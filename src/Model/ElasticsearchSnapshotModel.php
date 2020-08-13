@@ -150,7 +150,7 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         }
 
         if (true === isset($snapshot['state'])) {
-            $this->setState($snapshot['state']);
+            $this->setState(strtolower($snapshot['state']));
         }
 
         if (true === isset($snapshot['start_time'])) {

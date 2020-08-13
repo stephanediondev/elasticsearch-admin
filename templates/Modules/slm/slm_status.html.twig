@@ -39,7 +39,7 @@
             <hr>
 
             <div class="row">
-                {{ appImport.dashboardKpi({'title': 'operation_mode'|trans, 'badge': {'title': status['operation_mode'], 'context': status['operation_mode']}}) }}
+                {{ appImport.dashboardKpi({'title': 'operation_mode'|trans, 'badge': {'title': status['operation_mode']|lower|trans, 'context': status['operation_mode']|lower}}) }}
             </div>
         {% endblock %}
     {% endembed %}
