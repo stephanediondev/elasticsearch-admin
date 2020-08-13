@@ -177,6 +177,7 @@ class ElasticsearchShardController extends AbstractAppController
         $callRequest->setMethod('POST');
         $callRequest->setPath('/_cluster/reroute');
         $callRequest->setJson($json);
+        $callRequest->setQuery(['explain' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
 
         $content = $callResponse->getContent();
