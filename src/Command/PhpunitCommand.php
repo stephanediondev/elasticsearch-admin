@@ -71,9 +71,15 @@ class PhpunitCommand extends Command
         }
 
         if (true === $this->callManager->hasFeature('_security_endpoint')) {
-            $this->endpoint = '/_security';
+            $this->pathSecurity = '_security';
         } else {
-            $this->endpoint = '/_xpack/security';
+            $this->pathSecurity = '_xpack/security';
+        }
+
+        if (true === $this->callManager->hasFeature('_doc_as_type')) {
+            $this->pathDoc = '_doc';
+        } else {
+            $this->pathDoc = 'doc';
         }
 
         $jsonIndex = [
@@ -86,25 +92,25 @@ class PhpunitCommand extends Command
         $cases = [
             'app_role' => [
                 'name' => 'app-admin-test',
-                'path' => '.elasticsearch-admin-roles/_doc',
+                'path' => '.elasticsearch-admin-roles/'.$this->pathDoc,
                 'json' => ['name' => 'app-admin-test'],
                 'query' => ['refresh' => 'true'],
             ],
             'app_user' => [
                 'name' => 'app-admin-test',
-                'path' => '.elasticsearch-admin-users/_doc',
+                'path' => '.elasticsearch-admin-users/'.$this->pathDoc,
                 'json' => ['email' => 'app-admin-test'],
                 'query' => ['refresh' => 'true'],
             ],
             'elasticsearch_role' => [
                 'name' => 'elasticsearch-admin-test',
-                'path' => $this->endpoint.'/role',
+                'path' => $this->pathSecurity.'/role',
                 'feature' => 'security',
                 'json' => ['cluster' => [], 'run_as' => []],
             ],
             'elasticsearch_user' => [
                 'name' => 'elasticsearch-admin-test',
-                'path' => $this->endpoint.'/user',
+                'path' => $this->pathSecurity.'/user',
                 'feature' => 'security',
                 'json' => ['password' => uniqid(), 'roles' => ['elasticsearch-admin-test']],
             ],
