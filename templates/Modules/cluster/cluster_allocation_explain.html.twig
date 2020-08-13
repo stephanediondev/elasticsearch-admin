@@ -144,7 +144,7 @@
                                                     {% endif %}
                                                     {% if master_node == row['node_name'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
                                                 </td>
-                                                <td class="text-center"{% if 1 < decidersTotal %} rowspan="{{ decidersTotal }}"{% endif %}>
+                                                <td{% if 1 < decidersTotal %} rowspan="{{ decidersTotal }}"{% endif %}>
                                                     {% if row['final_decision'] is defined %}
                                                         {{ appImport.badge({'title': row['final_decision']|trans, 'context': row['final_decision']}) }}
                                                     {% endif %}
@@ -157,7 +157,7 @@
                                             <td>
                                                 {{ decider['decider'] }}
                                             </td>
-                                            <td class="text-center">
+                                            <td>
                                                 {{ appImport.badge({'title': decider['decision']|trans, 'context': decider['decision']}) }}
                                             </td>
                                             <td>
