@@ -69,6 +69,9 @@ class ElasticsearchClusterController extends AbstractAppController
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_cluster/allocation/explain');
+            if ('true' == $request->query->get('include_yes_decisions')) {
+                $callRequest->setQuery(['include_yes_decisions' => 'true']);
+            }
             $callResponse = $this->callManager->call($callRequest);
             $allocationExplain = $callResponse->getContent();
         } catch (CallException $e) {
