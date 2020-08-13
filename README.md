@@ -11,6 +11,8 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - [Other tools](#other-tools)
 - [Unit tests](#unit-tests)
 
+## [Featured on Product Hunt](https://www.producthunt.com/posts/elasticsearch-admin)
+
 ## Running with Docker
 
 [See detailed documentation](https://github.com/stephanediondev/elasticsearch-admin/blob/master/documentation/RUNNING_WITH_DOCKER.md)
