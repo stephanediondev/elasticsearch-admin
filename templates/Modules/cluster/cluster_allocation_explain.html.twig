@@ -155,7 +155,7 @@
                                                 </td>
                                             {% endif %}
                                             <td>
-                                                {{ decider['decider'] }}
+                                                {{ decider['decider']|trans }}
                                             </td>
                                             <td>
                                                 {{ appImport.badge({'title': decider['decision']|lower|trans, 'context': decider['decision']|lower}) }}
