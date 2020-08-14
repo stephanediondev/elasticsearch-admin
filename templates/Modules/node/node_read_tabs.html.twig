@@ -12,7 +12,7 @@
 
     {% if is_granted('NODE_PLUGINS', node) %}
         <li class="nav-item">
-            <a class="nav-link{% if 'plugins' == active %} active{% endif %}" href="{{ path('nodes_read_plugins', {'node': node.name}) }}">{{ 'plugins'|trans }}</a>
+            <a class="nav-link{% if 'plugins' == active %} active{% endif %}" href="{{ path('nodes_read_plugins', {'node': node.name}) }}">{{ 'plugins'|trans }}{{ appImport.badge({'title': node.plugins|length, 'context': 'light'}) }}</a>
         </li>
     {% endif %}
 
