@@ -100,28 +100,28 @@ class ElasticsearchIndexController extends AbstractAppController
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['indices_total'] = 0;
         $data['totals']['indices_total_documents'] = 0;
-        $data['totals']['indices_total_size'] = 0;
+        $data['totals']['indices_primary_size'] = 0;
 
         $tables = [
             'indices_by_status',
             'indices_by_health',
             'indices_by_documents',
-            'indices_by_total_size',
+            'indices_by_primary_size',
         ];
 
         foreach ($indices as $index) {
             $data['totals']['indices_total']++;
 
             $data['totals']['indices_total_documents'] += $index->getDocuments();
-            $data['totals']['indices_total_size'] += $index->getTotalSize();
+            $data['totals']['indices_primary_size'] += $index->getPrimarySize();
 
             foreach ($tables as $table) {
                 switch ($table) {
                     case 'indices_by_documents':
                         $data['tables'][$table]['results'][] = ['total' => $index->getDocuments(), 'title' => $index->getName()];
                         break;
-                    case 'indices_by_total_size':
-                        $data['tables'][$table]['results'][] = ['total' => $index->getTotalSize(), 'title' => $index->getName()];
+                    case 'indices_by_primary_size':
+                        $data['tables'][$table]['results'][] = ['total' => $index->getPrimarySize(), 'title' => $index->getName()];
                         break;
                     case 'indices_by_status':
                     case 'indices_by_health':

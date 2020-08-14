@@ -53,6 +53,85 @@ class ElasticsearchShardController extends AbstractAppController
     }
 
     /**
+     * @Route("/shards/stats", name="shards_stats")
+     */
+    public function stats(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('SHARDS_STATS', 'global');
+
+        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'));
+
+        $data = ['totals' => [], 'tables' => []];
+        $data['totals']['shards_total'] = 0;
+        $data['totals']['shards_total_unassigned'] = 0;
+        $data['totals']['shards_total_documents'] = 0;
+        $data['totals']['shards_total_size'] = 0;
+
+        $tables = [
+            'shards_by_state',
+            'shards_by_unassigned_reason',
+            'shards_by_node',
+        ];
+
+        foreach ($shards as $shard) {
+            $data['totals']['shards_total']++;
+
+            if ('unassigned' == $shard->getState()) {
+                $data['totals']['shards_total_unassigned']++;
+            }
+            $data['totals']['shards_total_documents'] += $shard->getDocuments();
+            $data['totals']['shards_total_size'] += $shard->getSize();
+
+            foreach ($tables as $table) {
+                switch ($table) {
+                    case 'shards_by_node':
+                        if ($shard->getNode()) {
+                            if (false === isset($data['tables'][$table]['results'][$shard->getNode()])) {
+                                $data['tables'][$table]['results'][$shard->getNode()] = ['total' => 0, 'title' => $shard->getNode()];
+                            }
+                            $data['tables'][$table]['results'][$shard->getNode()]['total']++;
+                        }
+                        break;
+                    case 'shards_by_state':
+                    case 'shards_by_unassigned_reason':
+                        switch ($table) {
+                            case 'shards_by_state':
+                                $key = $shard->getState();
+                                break;
+                            case 'shards_by_unassigned_reason':
+                                $key = $shard->getUnassignedReason();
+                                break;
+                            default:
+                                $key = false;
+                        }
+                        if ($key) {
+                            if (false === isset($data['tables'][$table]['results'][$key])) {
+                                $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
+                            }
+                            $data['tables'][$table]['results'][$key]['total']++;
+                        }
+                        break;
+                }
+            }
+        }
+
+        foreach ($tables as $table) {
+            if (true === isset($data['tables'][$table]['results'])) {
+                usort($data['tables'][$table]['results'], [$this, 'sortByTotal']);
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/shard/shard_stats.html.twig', [
+            'data' => $data,
+        ]);
+    }
+
+    private function sortByTotal($a, $b)
+    {
+        return $b['total'] - $a['total'];
+    }
+
+    /**
      * @Route("/shards/{index}/{number}/move", name="shards_move")
      */
     public function move(Request $request, string $index, string $number): Response
