@@ -107,11 +107,7 @@
 
                         {% if 'state' == column %}
                             <td>
-                                {% if 'unassigned' == row.state and is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
-                                    {{ appImport.badge({'title': row.state|trans, 'context': row.state, 'link': path('cluster_allocation_explain')}) }}
-                                {% else %}
-                                    {{ appImport.badge({'title': row.state|trans, 'context': row.state}) }}
-                                {% endif %}
+                                {{ appImport.badge({'title': row.state|trans, 'context': row.state}) }}
                             </td>
                         {% endif %}
 
