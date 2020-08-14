@@ -63,9 +63,16 @@
                                     {% endif %}
 
                                     {% embed 'Embed/stats_table_row_embed.html.twig' %}
+                                        {% import 'Import/app_import.html.twig' as appImport %}
+
                                         {% block title %}
                                             {% if key in ['shards_by_node'] %}
-                                                {{ row.title }}
+                                                {% if is_granted('NODES', 'global') %}
+                                                    <a class="text-secondary" href="{{ path('nodes_read', {'node': row.title}) }}">{{ row.title }}</a>
+                                                {% else %}
+                                                    {{ row.title }}
+                                                {% endif %}
+                                                {% if master_node == row.title %}<span class="ml-1">{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}</span>{% endif %}
                                             {% else %}
                                                 {{ row.title|trans }}
                                             {% endif %}
