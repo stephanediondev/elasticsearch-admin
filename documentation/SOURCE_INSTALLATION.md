@@ -14,33 +14,37 @@ Configure a vhost with the document root set to the ```public``` folder (ie /var
 On Apache, add in your vhost the rules below
 
 ```
-DirectoryIndex index.php
+<Directory /var/www/elasticsearch-admin/public>
+    AllowOverride None
 
-<IfModule mod_negotiation.c>
-    Options -MultiViews
-</IfModule>
+    DirectoryIndex index.php
 
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-
-    RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
-    RewriteRule .* - [E=BASE:%1]
-
-    RewriteCond %{HTTP:Authorization} .+
-    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
-
-    RewriteCond %{ENV:REDIRECT_STATUS} =""
-    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
-
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ %{ENV:BASE}/index.php [L]
-</IfModule>
-
-<IfModule !mod_rewrite.c>
-    <IfModule mod_alias.c>
-        RedirectMatch 307 ^/$ /index.php/
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
     </IfModule>
-</IfModule>
+
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+
+        RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
+        RewriteRule .* - [E=BASE:%1]
+
+        RewriteCond %{HTTP:Authorization} .+
+        RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+
+        RewriteCond %{ENV:REDIRECT_STATUS} =""
+        RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule ^ %{ENV:BASE}/index.php [L]
+    </IfModule>
+
+    <IfModule !mod_rewrite.c>
+        <IfModule mod_alias.c>
+            RedirectMatch 307 ^/$ /index.php/
+        </IfModule>
+    </IfModule>
+</Directory>
 ```
 
 If you can't edit a vhost, add the Apache pack to get the ```.htaccess``` file in the ```public``` folder
