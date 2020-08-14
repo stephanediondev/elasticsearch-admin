@@ -127,7 +127,7 @@ if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
 $(document).ready(function () {
     bsCustomFileInput.init('input[type="file"]');
 
-    $('label.required').append(' <small class="badge badge-info ml-1">' + trans_required + '</small>');
+    $('label.required').append(' <small class="badge bg-info ml-1">' + trans_required + '</small>');
 
     $('select').select2({
         theme: 'bootstrap4',

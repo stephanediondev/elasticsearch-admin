@@ -44,7 +44,7 @@
                 $('#data_password').removeAttr('disabled');
                 $('#data_password').attr('required', 'required');
 
-                $('label[for="data_password"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+                $('label[for="data_password"]').append(' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
             } else {
                 $('#data_password').attr('disabled', 'disabled');
                 $('#data_password').removeAttr('required');

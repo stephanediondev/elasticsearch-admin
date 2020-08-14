@@ -35,12 +35,12 @@
                 $('#data_passwordPlain_first').removeAttr('disabled');
                 $('#data_passwordPlain_first').attr('required', 'required');
 
-                $('label[for="data_passwordPlain_first"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+                $('label[for="data_passwordPlain_first"]').append(' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
 
                 $('#data_passwordPlain_second').removeAttr('disabled');
                 $('#data_passwordPlain_second').attr('required', 'required');
 
-                $('label[for="data_passwordPlain_second"]').append(' <small class="badge badge-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+                $('label[for="data_passwordPlain_second"]').append(' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
             } else {
                 $('#data_passwordPlain_first').attr('disabled', 'disabled');
                 $('#data_passwordPlain_first').removeAttr('required');

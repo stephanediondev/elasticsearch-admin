@@ -176,8 +176,8 @@
 
                                                             <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
                                                             <input type="hidden" name="from_node" value="{{ row.node }}">
-                                                            <div class="form-group">
-                                                                <label for="move-to-{{ row.node }}"><strong>{{ 'to_node'|trans }}</strong></label>
+                                                            <div class="form-group mb-3">
+                                                                <label for="move-to-{{ row.node }}" class="form-label"><strong>{{ 'to_node'|trans }}</strong></label>
                                                                 <select id="move-to-{{ row.node }}" class="form-control" name="to_node" required="required">
                                                                     <option value="">-</option>
                                                                     {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
@@ -264,8 +264,8 @@
                                                             </p>
 
                                                             <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
-                                                            <div class="form-group">
-                                                                <label for="allocate-to-{{ row.node }}"><strong>{{ 'node'|trans }}</strong></label>
+                                                            <div class="form-group mb-3">
+                                                                <label for="allocate-to-{{ row.node }}" class="form-label"><strong>{{ 'node'|trans }}</strong></label>
                                                                 <select id="allocate-to-{{ row.node }}" class="form-control" name="node" required="required">
                                                                     <option value="">-</option>
                                                                     {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
