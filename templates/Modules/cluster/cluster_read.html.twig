@@ -51,7 +51,7 @@
                 {% endif %}
 
                 {% if documents %}
-                    {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': documents}}) }}
+                    {{ appImport.dashboardKpi({'title': 'total_primary_documents'|trans, 'badge': {'title': documents}}) }}
                 {% endif %}
 
                 {% if total_size %}
