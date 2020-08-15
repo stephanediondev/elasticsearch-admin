@@ -15,6 +15,10 @@ textarea.form-control {
     min-height: 300px;
 }
 
-.custom-control-label {
+.form-check-label {
     cursor: pointer;
+}
+
+p .form-check .form-check-input {
+    float: none;
 }

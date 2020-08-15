@@ -37,7 +37,7 @@
 
             <hr>
 
-            <div class="card-columns">
+            <div class="row row-cols-1 row-cols-md-2 g-4">
                 {% for key, table in data.tables %}
                     {% if 0 < table.results|length %}
                         {% embed 'Embed/stats_table_embed.html.twig' %}

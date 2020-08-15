@@ -1,6 +1,6 @@
 {% macro filterText(params) %}
     <p>
-        <label for="searchInput"><strong>{{ params.label }}</strong></label>
+        <label for="searchInput" class="form-label"><strong>{{ params.label }}</strong></label>
         <input
             id="searchInput"
             name="{{ app.request.attributes.get('_route') }}-searchInput"
@@ -15,16 +15,16 @@
     <p>
         <strong>{{ params.title }}</strong><br>
         {% for v in ['true', 'false'] %}
-            <span class="custom-control custom-switch d-inline mr-2">
+            <span class="form-check form-switch d-inline mr-2">
                 <input
                     type="checkbox"
                     name="{{ app.request.attributes.get('_route') }}-{{ params.prefix }}-{{ v }}"
-                    class="custom-control-input searchCheckbox"
+                    class="form-check-input searchCheckbox"
                     id="{{ params.prefix }}-{{ v }}Switch"
                     checked="checked"
                     value="{{ params.prefix }}-{{ v }}"
                 >
-                <label class="custom-control-label" for="{{ params.prefix }}-{{ v }}Switch">
+                <label class="form-check-label" for="{{ params.prefix }}-{{ v }}Switch">
                     {{ _self.badge({'title': ('boolean.' ~ v)|trans, 'context': v}) }}
                 </label>
             </span>
@@ -36,16 +36,16 @@
     <p>
         <strong>{{ params.title }}</strong><br>
         {% for v in params.choices %}
-            <span class="custom-control custom-switch d-inline mr-2">
+            <span class="form-check form-switch d-inline mr-2">
                 <input
                     type="checkbox"
                     name="{{ app.request.attributes.get('_route') }}-{{ params.prefix }}-{{ v }}"
-                    class="custom-control-input searchCheckbox"
+                    class="form-check-input searchCheckbox"
                     id="{{ params.prefix }}-{{ v }}Switch"
                     checked="checked"
                     value="{{ params.prefix }}-{{ v }}"
                 >
-                <label class="custom-control-label" for="{{ params.prefix }}-{{ v }}Switch">
+                <label class="form-check-label" for="{{ params.prefix }}-{{ v }}Switch">
                     {{ _self.badge({'title': v|trans, 'context': v}) }}
                 </label>
             </span>
@@ -164,9 +164,9 @@
     {% endif %}
 
     {% if params.link is defined %}
-        <a class="badge badge-{{ params.context }}" style="text-decoration:underline;" href="{{ params.link }}">{{ params.title }}</a>
+        <a class="badge bg-{{ params.context }}{% if params.context in ['light', 'warning'] %} text-dark{% endif %}" style="text-decoration:underline;" href="{{ params.link }}">{{ params.title }}</a>
     {% else %}
-        <span class="badge badge-{{ params.context }}">{{ params.title }}</span>
+        <span class="badge bg-{{ params.context }}{% if params.context in ['light', 'warning'] %} text-dark{% endif %}">{{ params.title }}</span>
     {% endif %}
 {% endmacro %}
 
@@ -257,7 +257,7 @@
                 {% endfor %}
             </div>
             <div class="col-12">
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
                 </div>
             </div>
