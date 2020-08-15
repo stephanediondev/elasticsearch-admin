@@ -34,6 +34,8 @@
 
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-shards.png)
 
+[![Shards stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-shards-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-shards-stats.png)
+
 [![Create Shared file system repository](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-repository-create-fs.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-repository-create-fs.png)
 
 [![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-snapshots.png)
@@ -43,8 +45,4 @@
 [![License](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-license.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-license.png)
 
 [![Console](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-console.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-console.png)
-
-[![Users](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-elasticsearch-users.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-elasticsearch-users.png)
-
-[![Roles](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-elasticsearch-roles.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-elasticsearch-roles.png)
 
