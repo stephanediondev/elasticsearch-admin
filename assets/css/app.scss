@@ -22,3 +22,10 @@ textarea.form-control {
 p .form-check .form-check-input {
     float: none;
 }
+
+.jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: var(--bs-light);
+    border-radius: .3rem;
+}
