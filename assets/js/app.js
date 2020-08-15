@@ -5,9 +5,6 @@ require('bootstrap');
 
 require('select2');
 
-import bsCustomFileInput from 'bs-custom-file-input';
-global.bsCustomFileInput = bsCustomFileInput;
-
 import { saveAs } from 'file-saver';
 var slug = require('slug');
 slug.charmap['/'] = '-';
@@ -125,8 +122,6 @@ if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
 }
 
 $(document).ready(function () {
-    bsCustomFileInput.init('input[type="file"]');
-
     $('label.required').append(' <small class="badge bg-info ml-1">' + trans_required + '</small>');
 
     $('select').select2({

@@ -21,10 +21,9 @@
     "dependencies": {
         "@ttskch/select2-bootstrap4-theme": "^1.4.0",
         "bootstrap": "^5.0.0-alpha1",
-        "bs-custom-file-input": "^1.3.1",
         "file-saver": "^2.0.2",
         "jquery": "^3.5.1",
-        "popper.js": "^1.16.1",
+        "popper.js": "^1.16.1-lts",
         "select2": "^4.0.13",
         "slug": "^2.1.1"
     }
