@@ -36,6 +36,8 @@
 
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-shards.png)
 
+[![Shards stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-shards-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-shards-stats.png)
+
 [![Create Shared file system repository](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-repository-create-fs.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-repository-create-fs.png)
 
 [![Create SLM policy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-slm-policy-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-slm-policy-create.png)
