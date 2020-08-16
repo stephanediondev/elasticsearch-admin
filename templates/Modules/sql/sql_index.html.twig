@@ -104,10 +104,15 @@
 
     {% if query is defined %}
         <script type="text/javascript">
+            var nav = document.querySelector('nav');
+            var h3Badge = document.querySelector('h3 .badge');
+            var tbody = document.querySelector('tbody');
+            var cursor = document.getElementById('cursor');
             var countResults = {{ query['rows']|length }};
-            $(document).on('click', '#cursor', function(event) {
+
+            cursor.addEventListener('click', function(event) {
                 event.preventDefault();
-                var body = {'cursor': $(this).attr('href')};
+                var body = {'cursor': cursor.getAttribute('href')};
                 var url = '{{ path('sql_cursor') }}';
                 fetch(url, {
                     credentials: 'include',
@@ -118,14 +123,14 @@
                     return response.json();
                 }).then(function(json) {
                     if (true == json.exception) {
-                        $('nav').after('<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' + json.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                        nav.insertAdjacentHTML('afterend', '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' + json.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                         window.scrollTo(0, 0);
 
                     } else {
                         if (typeof json['content']['cursor'] != 'undefined') {
-                            $('#cursor').attr('href', json['content']['cursor']);
+                            cursor.setAttribute('href', json['content']['cursor']);
                         } else {
-                            $('#cursor').remove();
+                            cursor.parentNode.removeChild(cursor);
                         }
 
                         for (var row in json['content']['rows']) {
@@ -138,11 +143,11 @@
                                 }
                             }
                             tr += '</tr>';
-                            $('tbody').append(tr);
+                            tbody.insertAdjacentHTML('beforeend', tr);
                             countResults++;
                         }
 
-                        $('h3 .badge').text(countResults);
+                        h3Badge.textContent = countResults;
                     }
                 }).catch(function(error) {
                     console.log(error);
