@@ -280,6 +280,7 @@ class AppRoleManager extends AbstractAppManager
             $callRequest->setPath('/.elasticsearch-admin-permissions/doc/'.$id);
         }
         $callRequest->setJson($json);
+        $callRequest->setQuery(['refresh' => 'true']);
 
         return $this->callManager->call($callRequest);
     }

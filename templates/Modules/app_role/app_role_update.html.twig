@@ -41,6 +41,7 @@
                                     <div class="form-check form-switch">
                                         <input type="checkbox" class="form-check-input custom-control-input-permission"
                                         data-url="{{ path('app_roles_permission', {'role': role.name, 'module': module, 'permission': permission}) }}"
+                                        data-permission="{{ permission }}"
                                         id="{{ module }}-{{ permission }}"{% if permissions_saved[module] is defined and permission in permissions_saved[module] %} checked="checked"{% endif %}>
                                         <label class="form-check-label" for="{{ module }}-{{ permission }}"></label>
                                     </div>
@@ -58,20 +59,30 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        $(document).on('change', '.custom-control-input-permission', function() {
-            var body = {'value': $(this).is(':checked') ? 'yes' : 'no'};
-            var url = $(this).data('url');
-            fetch(url, {
-                credentials: 'include',
-                method: 'POST',
-                body: JSON.stringify(body),
-                mode: 'cors',
-            })
-            .then(function(Response) {
-            })
-            .catch(function(error) {
-                console.log(error);
+        var checkboxes = [].slice.call(document.querySelectorAll('.custom-control-input-permission'));
+        checkboxes.map(function (checkbox) {
+            checkbox.addEventListener('change', function(event) {
+                var target = event.target;
+                var body = {'value': target.checked ? 'yes' : 'no'};
+                var url = target.dataset.url;
+                var permission = target.dataset.permission;
+
+                fetch(url, {
+                    credentials: 'include',
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                    mode: 'cors',
+                })
+                .then(function(Response) {
+                    var message = target.checked ? '{{ 'added'|trans|escape('js') }}' : '{{ 'removed'|trans|escape('js') }}';
+                    message += ': ';
+                    message += permission;
+                    createToast(message);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
             });
-        });
+        })
     </script>
 {% endblock %}
