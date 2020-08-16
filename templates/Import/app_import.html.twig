@@ -136,40 +136,6 @@
     </div>
 {% endmacro %}
 
-{% macro badge(params) %}
-    {% if params.context is not defined %}
-        {% set params = params|merge({'context': 'info'}) %}
-    {% endif %}
-
-    {% if params.context in ['true', '1'] %}
-        {% set params = params|merge({'context': 'secondary'}) %}
-
-    {% elseif params.context in ['false', '0'] %}
-        {% set params = params|merge({'context': 'light'}) %}
-
-    {% elseif params.context in ['green', 'open', 'started', 'running', 'success', 'audit_pass', 'yes'] %}
-        {% set params = params|merge({'context': 'success'}) %}
-
-    {% elseif params.context in ['red', 'stopped', 'unassigned', 'failed', 'incompatible', 'close', 'audit_fail', 'watermark_high', 'watermark_flood_stage', 'no'] %}
-        {% set params = params|merge({'context': 'danger'}) %}
-
-    {% elseif params.context in ['yellow', 'stopping', 'relocating', 'in_progress', 'partial', 'watermark_low'] %}
-        {% set params = params|merge({'context': 'warning'}) %}
-
-    {% elseif params.context in ['initializing', 'audit_notice'] %}
-        {% set params = params|merge({'context': 'light'}) %}
-
-    {% elseif params.context in ['master_node'] %}
-        {% set params = params|merge({'context': 'info'}) %}
-    {% endif %}
-
-    {% if params.link is defined %}
-        <a class="badge bg-{{ params.context }}{% if params.context in ['light', 'warning'] %} text-dark{% endif %}" style="text-decoration:underline;" href="{{ params.link }}">{{ params.title }}</a>
-    {% else %}
-        <span class="badge bg-{{ params.context }}{% if params.context in ['light', 'warning'] %} text-dark{% endif %}">{{ params.title }}</span>
-    {% endif %}
-{% endmacro %}
-
 {% macro button(params) %}
     {% if params.context is not defined %}
         {% set params = params|merge({'context': 'primary'}) %}
@@ -339,7 +305,18 @@
 {% endapply %}
 {% endmacro %}
 
-{% macro convertColor(params) %}
+{% macro badge(params) %}
+    {% set contextColor = _self.getContextColor(params) %}
+
+    {% if params.link is defined %}
+        <a class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning'] %} link-dark{% else %} link-light{% endif %}" href="{{ params.link }}">{{ params.title }}</a>
+    {% else %}
+        <span class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning'] %} text-dark{% endif %}">{{ params.title }}</span>
+    {% endif %}
+{% endmacro %}
+
+{% macro getContextColor(params) %}
+{% apply spaceless %}
     {% if params.context is not defined %}
         {% set params = params|merge({'context': 'info'}) %}
     {% endif %}
@@ -363,8 +340,9 @@
         {% set params = params|merge({'context': 'light'}) %}
 
     {% elseif params.context in ['master_node'] %}
-        {% set params = params|merge({'context': 'info'}) %}
+        {% set params = params|merge({'context': 'dark'}) %}
     {% endif %}
 
-    bg-{{ params.context }}
+    {{ params.context }}
+{% endapply %}
 {% endmacro %}

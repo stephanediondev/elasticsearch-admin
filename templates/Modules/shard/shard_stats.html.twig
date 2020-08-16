@@ -55,11 +55,11 @@
 
                                     {% set class = 'progress-bar' %}
                                     {% if key in ['shards_by_unassigned_reason'] %}
-                                        {% set class = class ~ ' ' ~ appImport.convertColor({'context': 'danger'}) %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': 'danger'}) %}
                                     {% elseif key in ['shards_by_node'] %}
-                                        {% set class = class ~ ' ' ~ appImport.convertColor({}) %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({}) %}
                                     {% else %}
-                                        {% set class = class ~ ' ' ~ appImport.convertColor({'context': row.title}) %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': row.title}) %}
                                     {% endif %}
 
                                     {% embed 'Embed/stats_table_row_embed.html.twig' %}

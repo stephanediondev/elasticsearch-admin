@@ -51,9 +51,9 @@
 
                                     {% set class = 'progress-bar' %}
                                     {% if key in ['indices_by_documents', 'indices_by_primary_size'] %}
-                                        {% set class = class ~ ' ' ~ appImport.convertColor({}) %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({}) %}
                                     {% else %}
-                                        {% set class = class ~ ' ' ~ appImport.convertColor({'context': row.title}) %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': row.title}) %}
                                     {% endif %}
 
                                     {% embed 'Embed/stats_table_row_embed.html.twig' %}
