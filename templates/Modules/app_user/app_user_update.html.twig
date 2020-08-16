@@ -30,33 +30,47 @@
     {{ parent() }}
 
     <script type="text/javascript">
+        var dataChangePassword = document.getElementById('data_change_password');
+        var dataPasswordPlainFirst = document.getElementById('data_passwordPlain_first');
+        var dataPasswordPlainSecond = document.getElementById('data_passwordPlain_second');
+
         function changePassword() {
-            if ($('#data_change_password').is(':checked')) {
-                $('#data_passwordPlain_first').removeAttr('disabled');
-                $('#data_passwordPlain_first').attr('required', 'required');
+            if (true === dataChangePassword.checked) {
+                var badge = ' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>';
 
-                $('label[for="data_passwordPlain_first"]').append(' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+                dataPasswordPlainFirst.removeAttribute('disabled');
+                dataPasswordPlainFirst.setAttribute('required', 'required');
 
-                $('#data_passwordPlain_second').removeAttr('disabled');
-                $('#data_passwordPlain_second').attr('required', 'required');
+                var dataPasswordPlainFirstLabel = document.querySelector('label[for="data_passwordPlain_first"]');
+                dataPasswordPlainFirstLabel.insertAdjacentHTML('beforeend', badge);
 
-                $('label[for="data_passwordPlain_second"]').append(' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+                dataPasswordPlainSecond.removeAttribute('disabled');
+                dataPasswordPlainSecond.setAttribute('required', 'required');
+
+                var dataPasswordPlainSecondLabel = document.querySelector('label[for="data_passwordPlain_second"]');
+                dataPasswordPlainSecondLabel.insertAdjacentHTML('beforeend', badge);
             } else {
-                $('#data_passwordPlain_first').attr('disabled', 'disabled');
-                $('#data_passwordPlain_first').removeAttr('required');
+                dataPasswordPlainFirst.setAttribute('disabled', 'disabled');
+                dataPasswordPlainFirst.removeAttribute('required');
 
-                $('label[for="data_passwordPlain_first"] .badge').remove();
+                var dataPasswordPlainFirstLabelBadge = document.querySelector('label[for="data_passwordPlain_first"] .badge');
+                if (dataPasswordPlainFirstLabelBadge) {
+                    dataPasswordPlainFirstLabelBadge.parentNode.removeChild(dataPasswordPlainFirstLabelBadge);
+                }
 
-                $('#data_passwordPlain_second').attr('disabled', 'disabled');
-                $('#data_passwordPlain_second').removeAttr('required');
+                dataPasswordPlainSecond.setAttribute('disabled', 'disabled');
+                dataPasswordPlainSecond.removeAttribute('required');
 
-                $('label[for="data_passwordPlain_second"] .badge').remove();
+                var dataPasswordPlainSecondLabelBadge = document.querySelector('label[for="data_passwordPlain_second"] .badge');
+                if (dataPasswordPlainSecondLabelBadge) {
+                    dataPasswordPlainSecondLabelBadge.parentNode.removeChild(dataPasswordPlainSecondLabelBadge);
+                }
             }
         }
 
         changePassword();
 
-        $(document).on('click', '#data_change_password', function(event) {
+        dataChangePassword.addEventListener('click', function(event) {
             changePassword();
         });
     </script>

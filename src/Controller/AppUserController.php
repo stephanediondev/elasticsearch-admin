@@ -148,7 +148,7 @@ class AppUserController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if ($user->getChangePassword() && $user->getPassword()) {
+                if ($user->getChangePassword() && $user->getPasswordPlain()) {
                     $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
                 }
 

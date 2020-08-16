@@ -44,11 +44,13 @@
 
         function changePassword() {
             if (true === dataChangePassword.checked) {
+                var badge = ' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>';
+
                 dataPassword.removeAttribute('disabled');
                 dataPassword.setAttribute('required', 'required');
 
                 var dataPasswordLabel = document.querySelector('label[for="data_password"]');
-                dataPasswordLabel.insertAdjacentHTML('beforeend', ' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+                dataPasswordLabel.insertAdjacentHTML('beforeend', badge);
             } else {
                 dataPassword.setAttribute('disabled', 'disabled');
                 dataPassword.removeAttribute('required');
