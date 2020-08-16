@@ -71,8 +71,10 @@
             }).then(function(response) {
                 return response.text();
             }).then(async function(text) {
-                $('#list').html(text);
-                $('h3 .badge').text($('#list').find('tbody tr').length);
+                var h3Badge = document.querySelector('h3 .badge');
+                var list = document.getElementById('list');
+                list.innerHTML = text;
+                h3Badge.textContent = list.querySelectorAll('tbody tr').length;
 
                 await sleep(5000);
                 fetchNodes();
