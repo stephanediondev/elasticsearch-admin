@@ -39,23 +39,30 @@
     {{ parent() }}
 
     <script type="text/javascript">
+        var dataChangePassword = document.getElementById('data_change_password');
+        var dataPassword = document.getElementById('data_password');
+
         function changePassword() {
-            if ($('#data_change_password').is(':checked')) {
-                $('#data_password').removeAttr('disabled');
-                $('#data_password').attr('required', 'required');
+            if (true === dataChangePassword.checked) {
+                dataPassword.removeAttribute('disabled');
+                dataPassword.setAttribute('required', 'required');
 
-                $('label[for="data_password"]').append(' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
+                var dataPasswordLabel = document.querySelector('label[for="data_password"]');
+                dataPasswordLabel.insertAdjacentHTML('beforeend', ' <small class="badge bg-info ml-1">{{ 'required'|trans|escape('js') }}</small>');
             } else {
-                $('#data_password').attr('disabled', 'disabled');
-                $('#data_password').removeAttr('required');
+                dataPassword.setAttribute('disabled', 'disabled');
+                dataPassword.removeAttribute('required');
 
-                $('label[for="data_password"] .badge').remove();
+                var dataPasswordLabelBadge = document.querySelector('label[for="data_password"] .badge');
+                if (dataPasswordLabelBadge) {
+                    dataPasswordLabelBadge.parentNode.removeChild(dataPasswordLabelBadge);
+                }
             }
         }
 
         changePassword();
 
-        $(document).on('click', '#data_change_password', function(event) {
+        dataChangePassword.addEventListener('click', function(event) {
             changePassword();
         });
     </script>
