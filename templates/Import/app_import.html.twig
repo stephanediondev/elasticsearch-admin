@@ -311,7 +311,7 @@
     {% if params.link is defined %}
         <a class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning'] %} link-dark{% else %} link-light{% endif %}" href="{{ params.link }}">{{ params.title }}</a>
     {% else %}
-        <span class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning'] %} text-dark{% endif %}">{{ params.title }}</span>
+        <span class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning'] %} text-dark{% else %} text-light{% endif %}">{{ params.title }}</span>
     {% endif %}
 {% endmacro %}
 
