@@ -66,7 +66,7 @@ class ElasticsearchIndexVoter extends AbstractAppVoter
             return false;
         }
 
-        if ('INDEX_UNFREEZE' == $attribute && (false === $subject->getSetting('index.frozen') || 'false' == $subject->getSetting('index.frozen'))) {
+        if ('INDEX_UNFREEZE' == $attribute && ('' == $subject->getSetting('index.frozen') || 'false' == $subject->getSetting('index.frozen'))) {
             return false;
         }
 
