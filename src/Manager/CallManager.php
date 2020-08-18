@@ -22,6 +22,7 @@ class CallManager
 
     private $featuresByVersion = [
         '_xpack_endpoint_removed' => '8.0',
+        'dangling_indices' => '7.9',
         'composable_template' => '7.8',
         'cat_expand_wildcards' => '7.7',
         'cat_ml' => '7.7',

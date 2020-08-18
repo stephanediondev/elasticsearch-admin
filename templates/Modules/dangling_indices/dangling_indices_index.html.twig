@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'dangling_indices'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'dangling_indices'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/dangling_indices/dangling_indices_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% if 0 < indices.total %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': indices.total}}) }}
+
+                {{ appImport.paginator(indices) }}
+
+                {% include 'Modules/dangling_indices/dangling_indices_list.html.twig' with {'indices': indices} %}
+
+                {{ appImport.paginator(indices) }}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}

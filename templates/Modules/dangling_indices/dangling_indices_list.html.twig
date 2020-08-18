@@ -1,0 +1,159 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'uuid': true, 'name': true, 'nodes': true, 'creation_date': true, '_buttons': true} %}
+
+    {% set modalReference = 0 %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'uuid' == column %}
+                        <th>
+                            {{ 'uuid'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'name' == column %}
+                        <th>
+                            {{ 'name'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'nodes' == column %}
+                        <th>
+                            {{ 'nodes'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'creation_date' == column %}
+                        <th>
+                            {{ 'creation_date'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if '_buttons' == column %}
+                        <th>
+                            &nbsp;
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in indices.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'uuid' == column %}
+                            <td>
+                                {{ row['index_uuid'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'name' == column %}
+                            <td>
+                                {{ row['index_name'] }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'nodes' == column %}
+                            <td>
+                                {% for node_id in row['node_ids'] %}
+                                    {% if nodes[node_id] is defined %}
+                                        {% if is_granted('NODES', 'global') %}
+                                            <a class="text-secondary" href="{{ path('nodes_read', {'node': nodes[node_id]}) }}">{{ nodes[node_id] }}</a>{% if false == loop.last %}, {% endif %}
+                                        {% else %}
+                                            {{ nodes[node_id] }}{% if false == loop.last %}, {% endif %}
+                                        {% endif %}
+                                    {% else %}
+                                        {{ node_id }}{% if false == loop.last %}, {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'creation_date' == column %}
+                            <td>
+                                {{ row['creation_date_millis']|human_datetime }}
+                            </td>
+                        {% endif %}
+
+                        {% if '_buttons' == column %}
+                            <td>
+                                {% if is_granted('DANGLING_INDICES_IMPORT', 'global') %}
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                        {{ 'dangling_indices_import'|trans }}
+                                    </button>
+                                    <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'dangling_indices_import'|trans }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-left">
+                                                    <p>
+                                                        <strong>{{ 'uuid'|trans }}</strong><br>
+                                                        {{ row['index_uuid'] }}
+                                                    </p>
+                                                    <p>
+                                                        <strong>{{ 'name'|trans }}</strong><br>
+                                                        {{ row['index_name'] }}
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                                    <a href="{{ path('dangling_indices_import', {'index': row['index_uuid']}) }}" class="btn btn-primary">{{ 'confirm'|trans }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% set modalReference = modalReference + 1 %}
+                                {% endif %}
+
+                                {% if is_granted('DANGLING_INDICES_DELETE', 'global') %}
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                        {{ 'dangling_indices_delete'|trans }}
+                                    </button>
+                                    <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'dangling_indices_delete'|trans }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-left">
+                                                    <p>
+                                                        <strong>{{ 'uuid'|trans }}</strong><br>
+                                                        {{ row['index_uuid'] }}
+                                                    </p>
+                                                    <p>
+                                                        <strong>{{ 'name'|trans }}</strong><br>
+                                                        {{ row['index_name'] }}
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                                    <a href="{{ path('dangling_indices_delete', {'index': row['index_uuid']}) }}" class="btn btn-primary">{{ 'confirm'|trans }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% set modalReference = modalReference + 1 %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

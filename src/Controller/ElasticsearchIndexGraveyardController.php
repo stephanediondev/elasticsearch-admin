@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Manager\ElasticsearchShardManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
