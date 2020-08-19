@@ -53,6 +53,7 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Create legacy index template', 'filename' => 'index-template-create-legacy', 'path' => '/admin/index-templates-legacy/create'],
             ['title' => 'Shards', 'filename' => 'shards', 'path' => '/admin/shards'],
             ['title' => 'Shards stats', 'filename' => 'shards-stats', 'path' => '/admin/shards/stats'],
+            ['title' => 'Dangling indices', 'filename' => 'dangling-indices', 'path' => '/admin/dangling-indices', 'feature' => 'dangling_indices'],
             ['title' => 'Create Shared file system repository', 'filename' => 'repository-create-fs', 'path' => '/admin/repositories/create/fs'],
             ['title' => 'Create AWS S3 repository', 'filename' => 'repository-create-s3', 'path' => '/admin/repositories/create/s3'],
             ['title' => 'Create SLM policy', 'filename' => 'slm-policy-create', 'path' => '/admin/slm/create', 'feature' => 'slm'],
