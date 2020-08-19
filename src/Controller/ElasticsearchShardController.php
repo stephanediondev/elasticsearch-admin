@@ -188,7 +188,7 @@ class ElasticsearchShardController extends AbstractAppController
             $json = [
                 'commands' => [
                     [
-                        'allocate_replica' => [
+                        $this->callManager->hasFeature('extend_reroute') ? 'allocate_replica' : 'allocate' => [
                             'index' => $index->getName(),
                             'shard' => $number,
                             'node' => $request->query->get('node'),

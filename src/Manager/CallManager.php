@@ -50,6 +50,7 @@ class CallManager
         'cluster_settings' => '5.0',
         'delete_by_query' => '5.0',
         'load_average' => '5.0',
+        'extend_reroute' => '5.0',
         'license' => '5.0',
         'xpack' => '5.0',
         'tasks' => '2.3',

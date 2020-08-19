@@ -132,6 +132,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/5.0/release-notes-5.0.0.
 - Reintroduce five-minute and fifteen-minute load averages on Linux #15907 (issues: #12049, #14741)
 - Add REST _ingest/pipeline to get all pipelines #19603 (issue: #19585)
 - Adds tombstones to cluster state for index deletions #17265 (issues: #16358, #17435)
+- Extend reroute with an option to force assign stale primary shard copies #15708 (issue: #14739)
 
 ### 2.3.0
 
