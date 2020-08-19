@@ -85,7 +85,7 @@ class ElasticsearchShardController extends AbstractAppController
             foreach ($tables as $table) {
                 switch ($table) {
                     case 'shards_by_node':
-                        if ($shard->getNode()) {
+                        if ($shard->getNode() && 'relocating' != $shard->getState()) {
                             if (false === isset($data['tables'][$table]['results'][$shard->getNode()])) {
                                 $data['tables'][$table]['results'][$shard->getNode()] = ['total' => 0, 'title' => $shard->getNode()];
                             }
