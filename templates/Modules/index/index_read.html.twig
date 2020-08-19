@@ -56,7 +56,7 @@
                             {{ appImport.buttonModal({
                                 'id': 'IndexForceMerge',
                                 'title': 'force_merge'|trans,
-                                'body': index.name,
+                                'body': 'force_merge_note'|trans,
                                 'href': path('indices_force_merge', {'index': index.name}),
                             }) }}
                         {% endif %}
@@ -75,7 +75,7 @@
                         {{ appImport.buttonModal({
                             'id': 'IndexFlush',
                             'title': 'flush'|trans,
-                            'body': index.name,
+                            'body': 'flush_note'|trans,
                             'href': path('indices_flush', {'index': index.name}),
                         }) }}
                     {% endif %}
@@ -84,7 +84,7 @@
                         {{ appImport.buttonModal({
                             'id': 'IndexRefresh',
                             'title': 'refresh'|trans,
-                            'body': index.name,
+                            'body': 'refresh_note'|trans,
                             'href': path('indices_refresh', {'index': index.name}),
                         }) }}
                     {% endif %}

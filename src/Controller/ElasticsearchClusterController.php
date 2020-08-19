@@ -84,6 +84,35 @@ class ElasticsearchClusterController extends AbstractAppController
     }
 
     /**
+     * @Route("/cluster/retry/failed", name="cluster_retry_failed")
+     */
+    public function retryFailed(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('CLUSTER_ALLOCATION_EXPLAIN', 'global');
+
+        if (false === $this->callManager->hasFeature('allocation_explain')) {
+            throw new AccessDeniedException();
+        }
+
+        try {
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setPath('/_cluster/reroute');
+            $callRequest->setQuery(['retry_failed' => 'true']);
+            $callResponse = $this->callManager->call($callRequest);
+
+            $content = $callResponse->getContent();
+            unset($content['state']);
+
+            $this->addFlash('info', json_encode($content));
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
+        }
+
+        return $this->redirectToRoute('cluster_allocation_explain');
+    }
+
+    /**
      * @Route("/cluster/settings", name="cluster_settings")
      */
     public function settings(Request $request): Response

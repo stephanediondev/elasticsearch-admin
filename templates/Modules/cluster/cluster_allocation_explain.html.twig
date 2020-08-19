@@ -92,6 +92,7 @@
                     {{ appImport.heading({'level': 4, 'title': 'node_allocation_decisions'|trans}) }}
 
                     {% embed 'Embed/buttons_embed.html.twig' %}
+                        {% import 'Import/app_import.html.twig' as appImport %}
                         {% block content %}
                             {% if 'true' == app.request.query.get('include_yes_decisions') %}
                                 <a class="btn btn-primary btn-sm" href="{{ path('cluster_allocation_explain') }}">
@@ -102,6 +103,13 @@
                                     {{ 'include_yes_decisions'|trans }}
                                 </a>
                             {% endif %}
+
+                            {{ appImport.buttonModal({
+                                'id': 'RetryFailed',
+                                'title': 'retry_failed'|trans,
+                                'body': 'retry_failed_note'|trans,
+                                'href': path('cluster_retry_failed'),
+                            }) }}
                         {% endblock %}
                     {% endembed %}
 

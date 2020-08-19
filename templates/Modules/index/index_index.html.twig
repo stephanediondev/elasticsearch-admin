@@ -26,6 +26,7 @@
                                 {{ appImport.buttonModal({
                                     'id': 'IndicesForceMergeAll',
                                     'title': 'force_merge'|trans,
+                                    'body': 'force_merge_note'|trans,
                                     'href': path('indices_force_merge_all'),
                                 }) }}
                             {% endif %}
@@ -43,6 +44,7 @@
                             {{ appImport.buttonModal({
                                 'id': 'IndicesFlushAll',
                                 'title': 'flush'|trans,
+                                'body': 'flush_note'|trans,
                                 'href': path('indices_flush_all'),
                             }) }}
                         {% endif %}
@@ -51,6 +53,7 @@
                             {{ appImport.buttonModal({
                                 'id': 'IndicesRefreshAll',
                                 'title': 'refresh'|trans,
+                                'body': 'refresh_note'|trans,
                                 'href': path('indices_refresh_all'),
                             }) }}
                         {% endif %}
