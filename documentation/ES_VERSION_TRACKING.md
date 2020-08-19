@@ -8,6 +8,12 @@ https://www.elastic.co/guide/en/elasticsearch/reference/master/breaking-changes-
 - The get snapshot API’s response format has changed.
 - The repositories.fs.compress node-level setting has been removed.
 
+### 7.9.0
+
+https://www.elastic.co/guide/en/elasticsearch/reference/7.9/release-notes-7.9.0.html
+
+- Implement dangling indices API #50920 (issue: #48366)
+
 ### 7.8.0
 
 https://www.elastic.co/guide/en/elasticsearch/reference/7.8/release-notes-7.8.0.html
