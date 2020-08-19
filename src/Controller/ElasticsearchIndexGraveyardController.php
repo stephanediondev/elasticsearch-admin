@@ -27,10 +27,6 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        if (true === isset($clusterSettings['cluster.indices.tombstones.size']) && is_numeric($clusterSettings['cluster.indices.tombstones.size'])) {
-            $this->addFlash('info', $this->translator->trans('number_tombstones_maintained', ['{size}' => $clusterSettings['cluster.indices.tombstones.size']]));
-        }
-
         $callRequest = new CallRequestModel();
         $callRequest->setQuery(['filter_path' => '**.tombstones']);
         $callRequest->setPath('/_cluster/state');
@@ -52,6 +48,7 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
                 'page' => 1,
                 'size' => count($tombstones),
             ]),
+            'tombstones_size' => $clusterSettings['cluster.indices.tombstones.size'],
         ]);
     }
 }
