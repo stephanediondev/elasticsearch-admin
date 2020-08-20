@@ -149,8 +149,10 @@
                             <td>
                                 {% if row['cpu'] is defined %}
                                     <strong>{{ row['cpu'] }}%</strong>
-                                    <br><small>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</small>
-                                {% else %}
+                                    {% if row['stats']['process']['cpu']['percent'] is defined %}
+                                        <br><small>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</small>
+                                    {% endif %}
+                                {% elseif row['stats']['process']['cpu']['percent'] is defined %}
                                     <strong>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</strong>
                                 {% endif %}
                                 {% if row['os']['allocated_processors'] is defined %}
