@@ -59,7 +59,7 @@ class LoadTestCommand extends Command
                 $callRequest->setMethod('PUT');
                 $callRequest->setJson($json);
                 $callRequest->setPath('/load-test-'.uniqid('', true));
-                $callResponse = $this->callManager->call($callRequest);
+                $this->callManager->call($callRequest);
 
                 $progressBar->advance();
             }

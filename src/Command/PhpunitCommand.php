@@ -60,14 +60,14 @@ class PhpunitCommand extends Command
             $callRequest->setMethod('PUT');
             $callRequest->setJson($json);
             $callRequest->setPath('/.elasticsearch-admin-users-v'.$this->appManager->getVersion());
-            $callResponse = $this->callManager->call($callRequest);
+            $this->callManager->call($callRequest);
 
             $user = new AppUserModel();
             $user->setEmail('example@example.com');
             $user->setPassword($this->passwordEncoder->encodePassword($user, 'example'));
             $user->setRoles(['ROLE_ADMIN']);
 
-            $callResponse = $this->appUserManager->send($user);
+            $this->appUserManager->send($user);
         }
 
         if (true === $this->callManager->hasFeature('_security_endpoint')) {
