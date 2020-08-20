@@ -67,6 +67,8 @@ class ElasticsearchRepositoryController extends AbstractAppController
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
         if (true === isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
             $paths = $clusterSettings['path.repo'];
+        } else if (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
+            $paths = [$clusterSettings['path.repo.0']];
         } else {
             $paths = [];
         }
@@ -127,7 +129,13 @@ class ElasticsearchRepositoryController extends AbstractAppController
         $this->denyAccessUnlessGranted('REPOSITORY_UPDATE', $repository);
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
-        $paths = $clusterSettings['path.repo'] ?? [];
+        if (true === isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
+            $paths = $clusterSettings['path.repo'];
+        } else if (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
+            $paths = [$clusterSettings['path.repo.0']];
+        } else {
+            $paths = [];
+        }
 
         $form = $this->createForm(ElasticsearchRepositoryType::class, $repository, ['type' => $repository->getType(), 'paths' => $paths, 'context' => 'update']);
 
