@@ -10,6 +10,12 @@
         </li>
     {% endif %}
 
+    {% if 'reroute' == active %}
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ path('shards_reroute', {'node': row.node, 'index': row.index, 'number': row.number, 'state': row.state}) }}">{{ 'reroute'|trans }}</a>
+        </li>
+    {% endif %}
+
     {% if is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
         {% if 0 < cluster_health['unassigned_shards'] %}
             <li class="nav-item">

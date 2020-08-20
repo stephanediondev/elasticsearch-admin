@@ -8,6 +8,7 @@ use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
+use App\Model\ElasticsearchShardModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,10 +36,6 @@ class ElasticsearchShardController extends AbstractAppController
 
         $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'));
 
-        $nodes = $this->elasticsearchNodeManager->selectNodes();
-
-        $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
-
         return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
             'shards' => $this->paginatorManager->paginate([
                 'route' => 'shards',
@@ -48,7 +45,6 @@ class ElasticsearchShardController extends AbstractAppController
                 'page' => 1,
                 'size' => count($shards),
             ]),
-            'nodesAvailable' => $nodesAvailable,
         ]);
     }
 
@@ -129,6 +125,41 @@ class ElasticsearchShardController extends AbstractAppController
     private function sortByTotal($a, $b)
     {
         return $b['total'] - $a['total'];
+    }
+
+        /**
+     * @Route("/shards/{index}/{number}/{state}/reroute", name="shards_reroute")
+     */
+    public function reroute(Request $request, string $index, string $number, string $state): Response
+    {
+        $this->denyAccessUnlessGranted('SHARDS', 'global');
+
+        $index = $this->elasticsearchIndexManager->getByName($index);
+
+        if (null === $index) {
+            throw new NotFoundHttpException();
+        }
+
+        $shards = $this->elasticsearchShardManager->getAll();
+
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
+
+        $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
+
+        $row = [
+            'node' => $request->query->get('node'),
+            'index' => $index->getName(),
+            'shard' => $number,
+            'state' => $state,
+        ];
+
+        $shardModel = new ElasticsearchShardModel();
+        $shardModel->convert($row);
+
+        return $this->renderAbstract($request, 'Modules/shard/shard_reroute.html.twig', [
+            'row' => $shardModel,
+            'nodesAvailable' => $nodesAvailable,
+        ]);
     }
 
     /**

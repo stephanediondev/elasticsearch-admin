@@ -133,14 +133,22 @@ class ElasticsearchShardModel extends AbstractAppModel
     {
         $this->setNumber($shard['shard']);
         $this->setIndex($shard['index']);
-        $this->setPrimaryOrReplica($shard['prirep']);
+        if (true === isset($shard['prirep'])) {
+            $this->setPrimaryOrReplica($shard['prirep']);
+        }
         $this->setState(strtolower($shard['state']));
         if (true === isset($shard['unassigned.reason'])) {
             $this->setUnassignedReason(strtolower($shard['unassigned.reason']));
         }
-        $this->setDocuments($shard['docs']);
-        $this->setSize($shard['store']);
-        $this->setNode($shard['node']);
+        if (true === isset($shard['docs'])) {
+            $this->setDocuments($shard['docs']);
+        }
+        if (true === isset($shard['store'])) {
+            $this->setSize($shard['store']);
+        }
+        if (true === isset($shard['node'])) {
+            $this->setNode($shard['node']);
+        }
         return $this;
     }
 }
