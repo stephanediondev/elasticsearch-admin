@@ -25,123 +25,115 @@
         {% endblock %}
     {% endembed %}
 
-    {% set command = false %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'move_to'|trans}) }}
 
-    {% if 'relocating' != row.state %}
-        {% if is_granted('SHARD_MOVE', 'global') and nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and row.node %}
-            {% set command = true %}
+            {% if is_granted('SHARD_MOVE', 'global') and nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and row.node %}
+                <form action="{{ path('shards_move', {'index': row.index, 'number': row.number}) }}">
+                    <p>
+                        <strong>{{ 'index'|trans }}</strong><br>
+                        {{ row.index }}
+                    </p>
+                    <p>
+                        <strong>{{ 'shard'|trans }}</strong><br>
+                        {{ row.number }}
+                    </p>
+                    <p>
+                        <strong>{{ 'from_node'|trans }}</strong><br>
+                        {{ row.node }}
+                    </p>
 
-            {% embed 'Embed/card_embed.html.twig' %}
-                {% import 'Import/app_import.html.twig' as appImport %}
-                {% block content %}
-                    {{ appImport.heading({'level': 3, 'title': 'move_to'|trans}) }}
+                    <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
+                    <input type="hidden" name="from_node" value="{{ row.node }}">
+                    <div class="form-group mb-3">
+                        <label for="move-to-{{ row.node }}" class="form-label"><strong>{{ 'to_node'|trans }}</strong></label>
+                        <select id="move-to-{{ row.node }}" class="form-control" name="to_node" required="required">
+                            <option value="">-</option>
+                            {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
+                                <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-                    <form action="{{ path('shards_move', {'index': row.index, 'number': row.number}) }}">
-                        <p>
-                            <strong>{{ 'index'|trans }}</strong><br>
-                            {{ row.index }}
-                        </p>
-                        <p>
-                            <strong>{{ 'shard'|trans }}</strong><br>
-                            {{ row.number }}
-                        </p>
-                        <p>
-                            <strong>{{ 'from_node'|trans }}</strong><br>
-                            {{ row.node }}
-                        </p>
+                    <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                </form>
+            {% else %}
+                <p>
+                    {{ 'not_available'|trans }}
+                </p>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 
-                        <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
-                        <input type="hidden" name="from_node" value="{{ row.node }}">
-                        <div class="form-group mb-3">
-                            <label for="move-to-{{ row.node }}" class="form-label"><strong>{{ 'to_node'|trans }}</strong></label>
-                            <select id="move-to-{{ row.node }}" class="form-control" name="to_node" required="required">
-                                <option value="">-</option>
-                                {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
-                                    <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'cancel_allocation'|trans}) }}
 
-                        <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
-                    </form>
-                {% endblock %}
-            {% endembed %}
-        {% endif %}
+            {% if is_granted('SHARD_CANCEL_ALLOCATION', 'global') and row.node %}
+                <form action="{{ path('shards_cancel_allocation', {'index': row.index, 'number': row.number}) }}">
+                    <p>
+                        <strong>{{ 'index'|trans }}</strong><br>
+                        {{ row.index }}
+                    </p>
+                    <p>
+                        <strong>{{ 'shard'|trans }}</strong><br>
+                        {{ row.number }}
+                    </p>
+                    <p>
+                        <strong>{{ 'node'|trans }}</strong><br>
+                        {{ row.node }}
+                    </p>
 
-        {% if is_granted('SHARD_CANCEL_ALLOCATION', 'global') and row.node %}
-            {% set command = true %}
+                    <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
+                    <input type="hidden" name="node" value="{{ row.node }}">
 
-            {% embed 'Embed/card_embed.html.twig' %}
-                {% import 'Import/app_import.html.twig' as appImport %}
-                {% block content %}
-                    {{ appImport.heading({'level': 3, 'title': 'cancel_allocation'|trans}) }}
+                    <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                </form>
+            {% else %}
+                <p>
+                    {{ 'not_available'|trans }}
+                </p>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 
-                    <form action="{{ path('shards_cancel_allocation', {'index': row.index, 'number': row.number}) }}">
-                        <p>
-                            <strong>{{ 'index'|trans }}</strong><br>
-                            {{ row.index }}
-                        </p>
-                        <p>
-                            <strong>{{ 'shard'|trans }}</strong><br>
-                            {{ row.number }}
-                        </p>
-                        <p>
-                            <strong>{{ 'node'|trans }}</strong><br>
-                            {{ row.node }}
-                        </p>
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'allocate_replica'|trans}) }}
 
-                        <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
-                        <input type="hidden" name="node" value="{{ row.node }}">
+            {% if is_granted('SHARD_ALLOCATE_REPLICA', 'global') and nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and 'unassigned' == row.state %}
+                <form action="{{ path('shards_allocate_replica', {'index': row.index, 'number': row.number}) }}">
+                    <p>
+                        <strong>{{ 'index'|trans }}</strong><br>
+                        {{ row.index }}
+                    </p>
+                    <p>
+                        <strong>{{ 'shard'|trans }}</strong><br>
+                        {{ row.number }}
+                    </p>
 
-                        <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
-                    </form>
-                {% endblock %}
-            {% endembed %}
-        {% endif %}
+                    <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
+                    <div class="form-group mb-3">
+                        <label for="allocate-to-{{ row.node }}" class="form-label"><strong>{{ 'node'|trans }}</strong></label>
+                        <select id="allocate-to-{{ row.node }}" class="form-control" name="node" required="required">
+                            <option value="">-</option>
+                            {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
+                                <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-        {% if is_granted('SHARD_ALLOCATE_REPLICA', 'global') and nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and 'unassigned' == row.state %}
-            {% set command = true %}
-
-            {% embed 'Embed/card_embed.html.twig' %}
-                {% import 'Import/app_import.html.twig' as appImport %}
-                {% block content %}
-                    {{ appImport.heading({'level': 3, 'title': 'allocate_replica'|trans}) }}
-
-                    <form action="{{ path('shards_allocate_replica', {'index': row.index, 'number': row.number}) }}">
-                        <p>
-                            <strong>{{ 'index'|trans }}</strong><br>
-                            {{ row.index }}
-                        </p>
-                        <p>
-                            <strong>{{ 'shard'|trans }}</strong><br>
-                            {{ row.number }}
-                        </p>
-
-                        <input type="hidden" name="redirect" value="{{ app.request.attributes.get('_route') }}">
-                        <div class="form-group mb-3">
-                            <label for="allocate-to-{{ row.node }}" class="form-label"><strong>{{ 'node'|trans }}</strong></label>
-                            <select id="allocate-to-{{ row.node }}" class="form-control" name="node" required="required">
-                                <option value="">-</option>
-                                {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
-                                    <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
-                    </form>
-                {% endblock %}
-            {% endembed %}
-        {% endif %}
-    {% endif %}
-
-    {% if false == command %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                No command possible
-
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+                    <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                </form>
+            {% else %}
+                <p>
+                    {{ 'not_available'|trans }}
+                </p>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
