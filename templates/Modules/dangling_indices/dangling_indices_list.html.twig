@@ -3,6 +3,12 @@
 
     {% set columns = {'uuid': true, 'name': true, 'nodes': true, 'creation_date': true, '_buttons': true} %}
 
+    {% set is_granted_nodes = is_granted('NODES', 'global') %}
+
+    {% set is_granted_dangling_indices_import = is_granted('DANGLING_INDICES_IMPORT', 'global') %}
+
+    {% set is_granted_dangling_indices_delete = is_granted('DANGLING_INDICES_DELETE', 'global') %}
+
     {% set modalReference = 0 %}
 
     {% block thead %}
@@ -64,7 +70,7 @@
                             <td>
                                 {% for node_id in row['node_ids'] %}
                                     {% if nodes[node_id] is defined %}
-                                        {% if is_granted('NODES', 'global') %}
+                                        {% if is_granted_nodes %}
                                             <a class="text-secondary" href="{{ path('nodes_read', {'node': nodes[node_id]}) }}">{{ nodes[node_id] }}</a>{% if false == loop.last %}, {% endif %}
                                         {% else %}
                                             {{ nodes[node_id] }}{% if false == loop.last %}, {% endif %}
@@ -84,7 +90,7 @@
 
                         {% if '_buttons' == column %}
                             <td>
-                                {% if is_granted('DANGLING_INDICES_IMPORT', 'global') %}
+                                {% if is_granted_dangling_indices_import %}
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
                                         {{ 'dangling_indices_import'|trans }}
                                     </button>
@@ -117,7 +123,7 @@
                                     {% set modalReference = modalReference + 1 %}
                                 {% endif %}
 
-                                {% if is_granted('DANGLING_INDICES_DELETE', 'global') %}
+                                {% if is_granted_dangling_indices_delete %}
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
                                         {{ 'dangling_indices_delete'|trans }}
                                     </button>

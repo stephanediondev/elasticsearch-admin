@@ -3,6 +3,8 @@
 
     {% set columns = {'id': true, 'node': true, 'type': true, 'action': true, 'start_time': true, 'running_time_in_nanos': true, 'cancellable': true} %}
 
+    {% set is_granted_nodes = is_granted('NODES', 'global') %}
+
     {% block thead %}
         <tr>
             {% for column, display in columns %}
@@ -66,7 +68,7 @@
 
                         {% if 'node' == column %}
                             <td>
-                                {% if is_granted('NODES', 'global') %}
+                                {% if is_granted_nodes %}
                                     <a class="text-secondary" href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
                                 {% else %}
                                     {{ row['node'] }}

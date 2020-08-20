@@ -3,6 +3,8 @@
 
     {% set columns = {'name': true, 'repository': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration': true, 'failures': true, 'version': true} %}
 
+    {% set is_granted_repositories = is_granted('REPOSITORIES', 'global') %}
+
     {% block thead %}
         <tr>
             {% for column, display in columns %}
@@ -72,7 +74,7 @@
                     {% if true == display %}
                         {% if 'repository' == column %}
                             <td>
-                                {% if is_granted('REPOSITORIES', 'global') %}
+                                {% if is_granted_repositories %}
                                     <a class="text-secondary" href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
                                 {% else %}
                                     {{ row.repository }}
