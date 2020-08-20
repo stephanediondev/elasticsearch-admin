@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'repository': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration_in_millis': true, 'failures': true, 'version': true} %}
+    {% set columns = {'name': true, 'repository': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration': true, 'failures': true, 'version': true} %}
 
     {% block thead %}
         <tr>
@@ -43,9 +43,9 @@
                         </th>
                     {% endif %}
 
-                    {% if 'duration_in_millis' == column %}
+                    {% if 'duration' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ 'duration_in_millis'|trans }}
+                            {{ 'duration'|trans }}
                         </th>
                     {% endif %}
 
@@ -110,7 +110,7 @@
                             </td>
                         {% endif %}
 
-                        {% if 'duration_in_millis' == column %}
+                        {% if 'duration' == column %}
                             <td class="d-none d-xl-table-cell">
                                 {{ row.duration }}
                             </td>

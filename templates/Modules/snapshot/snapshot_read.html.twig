@@ -44,7 +44,7 @@
 
                 {{ appImport.dashboardKpi({'title': 'end_time'|trans, 'badge': {'title': snapshot.endTime|human_datetime}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'duration_in_millis'|trans, 'badge': {'title': snapshot.duration}}) }}
+                {{ appImport.dashboardKpi({'title': 'duration'|trans, 'badge': {'title': snapshot.duration}}) }}
 
                 {% if is_granted('REPOSITORIES', 'global') %}
                     {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': snapshot.repository, 'link': path('repositories_read', {'repository': snapshot.repository})}}) }}
