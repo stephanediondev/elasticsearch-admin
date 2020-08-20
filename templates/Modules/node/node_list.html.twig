@@ -79,7 +79,7 @@
 
                     {% if 'load_average' == column %}
                         <th>
-                            {{ 'load_average'|trans }}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'load_1m', 'title': 'load_average'|trans})}}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -111,8 +111,8 @@
 
                         {% if 'master_eligible' == column %}
                             <td class="d-none d-xl-table-cell">
-                                {% if row['roles'] is defined %}
-                                    {% if 'master' in row['roles'] %}
+                                {% if row['node.role'] is defined %}
+                                    {% if 'm' in row['node.role'] %}
                                         {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                     {% else %}
                                         {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
@@ -123,8 +123,8 @@
 
                         {% if 'voting_only' == column %}
                             <td class="d-none d-xl-table-cell">
-                                {% if true == hasFeature('voting_only') and row['roles'] is defined %}
-                                    {% if 'voting_only' in row['roles'] %}
+                                {% if true == hasFeature('voting_only') and row['node.role'] is defined %}
+                                    {% if 'v' in row['node.role'] %}
                                         {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                     {% else %}
                                         {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
@@ -135,8 +135,8 @@
 
                         {% if 'data' == column %}
                             <td class="d-none d-xl-table-cell">
-                                {% if row['roles'] is defined %}
-                                    {% if 'data' in row['roles'] %}
+                                {% if row['node.role'] is defined %}
+                                    {% if 'd' in row['node.role'] %}
                                         {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
                                     {% else %}
                                         {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
@@ -205,15 +205,13 @@
 
                         {% if 'load_average' == column %}
                             <td>
-                                {% if row['stats']['os']['cpu']['load_average'] is defined %}
-                                    {% if row['stats']['os']['cpu']['load_average']['1m'] is defined %}
-                                        <strong>1 min: {{ row['stats']['os']['cpu']['load_average']['1m']|round(2) }}</strong>
+                                {% if row['load_1m'] is defined and row['load_1m'] %}
+                                    <strong>1 min: {{ row['load_1m']|round(2) }}</strong>
+                                    {% if row['load_5m'] is defined and row['load_5m'] %}
+                                        <br><small>5 min: {{ row['load_5m']|round(2) }}</small>
                                     {% endif %}
-                                    {% if row['stats']['os']['cpu']['load_average']['5m'] is defined %}
-                                        <br><small>5 min: {{ row['stats']['os']['cpu']['load_average']['5m']|round(2) }}</small>
-                                    {% endif %}
-                                    {% if row['stats']['os']['cpu']['load_average']['15m'] is defined %}
-                                        <br><small>15 min: {{ row['stats']['os']['cpu']['load_average']['15m']|round(2) }}</small>
+                                    {% if row['load_15m'] is defined and row['load_15m'] %}
+                                        <br><small>15 min: {{ row['load_15m']|round(2) }}</small>
                                     {% endif %}
                                 {% endif %}
                             </td>

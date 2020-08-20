@@ -54,7 +54,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
 
         $nodes = [];
 
-        $query = ['bytes' => 'b', 'h' => 'name,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current'];
+        $query = ['bytes' => 'b', 'h' => 'name,node.role,load_1m,load_5m,load_15m,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,ram.current,ram.max,heap.percent,heap.max,heap.current'];
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = $parameters['sort'];
         }
