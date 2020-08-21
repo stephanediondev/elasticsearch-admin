@@ -61,10 +61,28 @@ class ElasticsearchCatController extends AbstractAppController
                 $callRequest->setPath('/_cat/'.$catModel->getCommandReplace());
                 $callRequest->setQuery($query);
                 $callResponse = $this->callManager->call($callRequest);
-                $parameters['rows'] = $callResponse->getContent();
-                if (true === is_array($parameters['rows']) && 0 < count($parameters['rows'])) {
-                    $parameters['headers'] = array_keys($parameters['rows'][0]);
+
+                $size = 100;
+                if ($request->query->get('page') && '' != $request->query->get('page')) {
+                    $page = $request->query->get('page');
+                } else {
+                    $page = 1;
                 }
+
+                $rows = $callResponse->getContent();
+
+                if (true === is_array($rows) && 0 < count($rows)) {
+                    $parameters['headers'] = array_keys($rows[0]);
+                }
+
+                $parameters['rows'] = $this->paginatorManager->paginate([
+                    'route' => 'cat',
+                    'route_parameters' => [],
+                    'total' => count($rows),
+                    'rows' => array_slice($rows, ($size * $page) - $size, $size),
+                    'page' => $page,
+                    'size' => $size,
+                ]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());
             }

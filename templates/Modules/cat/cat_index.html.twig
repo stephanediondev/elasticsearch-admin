@@ -29,7 +29,7 @@
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
                 {% if rows is defined %}
-                    {{ appImport.heading({'level': 3, 'title': command, 'badge': {'title': rows|length}}) }}
+                    {{ appImport.heading({'level': 3, 'title': command, 'badge': {'title': rows.total}}) }}
                 {% else %}
                     {{ appImport.heading({'level': 3, 'title': command}) }}
                 {% endif %}
@@ -48,7 +48,7 @@
                     </div>
                 {% endif %}
 
-                {% if rows is defined and 0 < rows|length %}
+                {% if rows is defined and 0 < rows.total %}
                     {% if is_granted('CAT_EXPORT', 'global') %}
                         {% embed 'Embed/buttons_embed.html.twig' %}
                             {% block content %}
@@ -60,6 +60,8 @@
                             {% endblock %}
                         {% endembed %}
                     {% endif %}
+
+                    {{ appImport.paginator(rows) }}
 
                     {% embed 'Embed/table_embed.html.twig' %}
                         {% block thead %}
@@ -73,7 +75,7 @@
                         {% endblock %}
 
                         {% block tbody %}
-                            {% for row in rows %}
+                            {% for row in rows.rows %}
                                 <tr>
                                     {% for column in row %}
                                         <td>
@@ -84,6 +86,8 @@
                             {% endfor %}
                         {% endblock %}
                     {% endembed %}
+
+                    {{ appImport.paginator(rows) }}
                 {% endif %}
             {% endblock %}
         {% endembed %}
