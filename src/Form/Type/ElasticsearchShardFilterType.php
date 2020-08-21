@@ -5,6 +5,7 @@ namespace App\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -18,6 +19,7 @@ class ElasticsearchShardFilterType extends AbstractType
         $fields = [];
 
         $fields[] = 'index';
+        $fields[] = 'state';
         $fields[] = 's';
         $fields[] = 'page';
 
@@ -26,6 +28,17 @@ class ElasticsearchShardFilterType extends AbstractType
                 case 'index':
                     $builder->add('index', TextType::class, [
                         'label' => 'index',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'state':
+                    $builder->add('state', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['state'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['state'][$key];
+                        },
+                        'label' => 'state',
                         'required' => false,
                     ]);
                     break;
@@ -48,6 +61,7 @@ class ElasticsearchShardFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'state' => ['initializing', 'relocating', 'started', 'unassigned'],
         ]);
     }
 

@@ -51,22 +51,29 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
             $callResponse = $this->callManager->call($callRequest);
             $results = $callResponse->getContent();
 
+            $rows = [];
             if (true === isset($results['responses'])) {
                 foreach ($results['responses'] as $response) {
                     foreach ($response['snapshots'] as $row) {
                         $row['repository'] = $repository;
-
-                        $snapshotModel = new ElasticsearchSnapshotModel();
-                        $snapshotModel->convert($row);
-                        $snapshots[] = $snapshotModel;
+                        $rows[] = $row;
                     }
                 }
             } elseif (true === isset($results['snapshots'])) {
                 foreach ($results['snapshots'] as $row) {
                     $row['repository'] = $repository;
+                    $rows[] = $row;
+                }
+            }
 
-                    $snapshotModel = new ElasticsearchSnapshotModel();
-                    $snapshotModel->convert($row);
+            foreach ($rows as $row) {
+                $snapshotModel = new ElasticsearchSnapshotModel();
+                $snapshotModel->convert($row);
+                if (true === isset($filter['state'])) {
+                    if (true === in_array($snapshotModel->getState(), $filter['state'])) {
+                        $snapshots[] = $snapshotModel;
+                    }
+                } else {
                     $snapshots[] = $snapshotModel;
                 }
             }

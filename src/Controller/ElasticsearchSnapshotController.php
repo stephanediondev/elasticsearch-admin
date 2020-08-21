@@ -45,7 +45,10 @@ class ElasticsearchSnapshotController extends AbstractAppController
 
         $form->handleRequest($request);
 
-        $snapshots = $this->elasticsearchSnapshotManager->getAll($repositories, ['name' => $form->get('name')->getData()]);
+        $snapshots = $this->elasticsearchSnapshotManager->getAll($repositories, [
+            'name' => $form->get('name')->getData(),
+            'state' => $form->get('state')->getData(),
+        ]);
 
         $size = 100;
         if ($request->query->get('page') && '' != $request->query->get('page')) {

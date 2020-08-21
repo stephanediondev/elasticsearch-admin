@@ -5,6 +5,7 @@ namespace App\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -18,6 +19,7 @@ class ElasticsearchIndexFilterType extends AbstractType
         $fields = [];
 
         $fields[] = 'name';
+        $fields[] = 'health';
         $fields[] = 's';
         $fields[] = 'page';
 
@@ -26,6 +28,17 @@ class ElasticsearchIndexFilterType extends AbstractType
                 case 'name':
                     $builder->add('name', TextType::class, [
                         'label' => 'name',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'health':
+                    $builder->add('health', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['health'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['health'][$key];
+                        },
+                        'label' => 'health',
                         'required' => false,
                     ]);
                     break;
@@ -48,6 +61,7 @@ class ElasticsearchIndexFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'health' => ['red', 'yellow', 'green'],
         ]);
     }
 

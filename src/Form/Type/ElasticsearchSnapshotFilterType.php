@@ -5,6 +5,7 @@ namespace App\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -18,6 +19,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
         $fields = [];
 
         $fields[] = 'name';
+        $fields[] = 'state';
         $fields[] = 'page';
 
         foreach ($fields as $field) {
@@ -25,6 +27,17 @@ class ElasticsearchSnapshotFilterType extends AbstractType
                 case 'name':
                     $builder->add('name', TextType::class, [
                         'label' => 'name',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'state':
+                    $builder->add('state', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['state'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['state'][$key];
+                        },
+                        'label' => 'state',
                         'required' => false,
                     ]);
                     break;
@@ -41,6 +54,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'state' => ['failed', 'incompatible', 'in_progress', 'partial', 'success'],
         ]);
     }
 
