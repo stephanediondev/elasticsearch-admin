@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchSnapshotType;
 use App\Form\Type\ElasticsearchSnapshotRestoreType;
+use App\Form\Type\ElasticsearchSnapshotFilterType;
 use App\Manager\ElasticsearchSnapshotManager;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchRepositoryManager;
@@ -40,17 +41,29 @@ class ElasticsearchSnapshotController extends AbstractAppController
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
 
-        $snapshots = $this->elasticsearchSnapshotManager->getAll($repositories);
+        $form = $this->createForm(ElasticsearchSnapshotFilterType::class);
+
+        $form->handleRequest($request);
+
+        $snapshots = $this->elasticsearchSnapshotManager->getAll($repositories, ['name' => $form->get('name')->getData()]);
+
+        $size = 100;
+        if ($request->query->get('page') && '' != $request->query->get('page')) {
+            $page = $request->query->get('page');
+        } else {
+            $page = 1;
+        }
 
         return $this->renderAbstract($request, 'Modules/snapshot/snapshot_index.html.twig', [
             'snapshots' => $this->paginatorManager->paginate([
                 'route' => 'snapshots',
                 'route_parameters' => [],
                 'total' => count($snapshots),
-                'rows' => $snapshots,
-                'page' => 1,
-                'size' => count($snapshots),
+                'rows' => array_slice($snapshots, ($size * $page) - $size, $size),
+                'page' => $page,
+                'size' => $size,
             ]),
+            'form' => $form->createView(),
         ]);
     }
 

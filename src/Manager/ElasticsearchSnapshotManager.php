@@ -37,13 +37,17 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         return $snapshotModel;
     }
 
-    public function getAll($repositories): array
+    public function getAll($repositories, array $filter = []): array
     {
         $snapshots = [];
 
         foreach ($repositories as $repository) {
             $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_snapshot/'.$repository.'/_all');
+            if (true === isset($filter['name'])) {
+                $callRequest->setPath('/_snapshot/'.$repository.'/'.$filter['name']);
+            } else {
+                $callRequest->setPath('/_snapshot/'.$repository.'/_all');
+            }
             $callResponse = $this->callManager->call($callRequest);
             $results = $callResponse->getContent();
 
