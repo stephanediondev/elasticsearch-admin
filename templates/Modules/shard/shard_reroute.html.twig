@@ -1,14 +1,18 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'shards'|trans }}{% endblock %}
+{% block head_title %}{{ 'indices'|trans }} - {{ index.name }} - {{ 'shards'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'shards'|trans}) }}
+    {{ appImport.heading({'level': 1, 'title': 'indices'|trans, 'link': {'url': path('indices')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': index.name}) }}
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/shard/shard_tabs.html.twig' with {'active': 'reroute'} %}
+    {% include 'Modules/index/index_read_tabs.html.twig' with {'active': 'shards'} %}
 {% endblock %}
 
 {% block main_content %}
@@ -20,6 +24,9 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
+                    <a class="btn btn-secondary btn-sm" href="{{ path('indices_read_shards', {'index': index.name}) }}">
+                        {{ 'cancel'|trans }}
+                    </a>
                     <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html">
                         {{ 'help'|trans }}
                     </a>

@@ -37,27 +37,6 @@ class ElasticsearchShardController extends AbstractAppController
 
         $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'));
 
-        return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
-            'shards' => $this->paginatorManager->paginate([
-                'route' => 'shards',
-                'route_parameters' => [],
-                'total' => count($shards),
-                'rows' => $shards,
-                'page' => 1,
-                'size' => count($shards),
-            ]),
-        ]);
-    }
-
-    /**
-     * @Route("/shards/stats", name="shards_stats")
-     */
-    public function stats(Request $request): Response
-    {
-        $this->denyAccessUnlessGranted('SHARDS_STATS', 'global');
-
-        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'));
-
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['shards_total'] = 0;
         $data['totals']['shards_total_unassigned'] = 0;
@@ -223,20 +202,21 @@ class ElasticsearchShardController extends AbstractAppController
 
                     $this->addFlash('info', json_encode($content));
 
-                    return $this->redirectToRoute('shards');
+                    return $this->redirectToRoute('indices_read_shards', ['index' => $reroute->getIndex()]);
                 } catch (CallException $e) {
                     $this->addFlash('danger', $e->getMessage());
                 }
             }
 
             return $this->renderAbstract($request, 'Modules/shard/shard_reroute.html.twig', [
+                'index' => $index,
                 'reroute' => $reroute,
                 'form' => $form->createView(),
             ]);
         } else {
             $this->addFlash('danger', 'reroute_not_possible');
 
-            return $this->redirectToRoute('shards');
+            return $this->redirectToRoute('indices_read_shards', ['index' => $reroute->getIndex()]);
         }
     }
 }
