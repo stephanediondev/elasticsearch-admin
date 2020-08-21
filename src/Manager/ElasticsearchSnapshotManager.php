@@ -69,7 +69,7 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
             foreach ($rows as $row) {
                 $snapshotModel = new ElasticsearchSnapshotModel();
                 $snapshotModel->convert($row);
-                if (true === isset($filter['state'])) {
+                if (true === isset($filter['state']) && 0 < count($filter['state'])) {
                     if (true === in_array($snapshotModel->getState(), $filter['state'])) {
                         $snapshots[] = $snapshotModel;
                     }
