@@ -43,7 +43,7 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
 
         foreach ($repositories as $repository) {
             $callRequest = new CallRequestModel();
-            if (true === isset($filter['name'])) {
+            if (true === isset($filter['name']) && '' != $filter['name']) {
                 $callRequest->setPath('/_snapshot/'.$repository.'/'.$filter['name']);
             } else {
                 $callRequest->setPath('/_snapshot/'.$repository.'/_all');

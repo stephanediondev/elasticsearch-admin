@@ -71,7 +71,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         }
 
         $callRequest = new CallRequestModel();
-        if (true === isset($filter['name'])) {
+        if (true === isset($filter['name']) && '' != $filter['name']) {
             $callRequest->setPath('/_cat/indices/'.$filter['name']);
         } else {
             $callRequest->setPath('/_cat/indices');

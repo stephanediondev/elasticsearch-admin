@@ -20,7 +20,7 @@ class ElasticsearchShardManager extends AbstractAppManager
             $query['s'] = $sort;
         }
         $callRequest = new CallRequestModel();
-        if (true === isset($filter['index'])) {
+        if (true === isset($filter['index']) && '' != $filter['index']) {
             $callRequest->setPath('/_cat/shards/'.$filter['index']);
         } else {
             $callRequest->setPath('/_cat/shards');
