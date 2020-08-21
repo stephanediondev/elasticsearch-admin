@@ -39,14 +39,21 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
             $tombstones = [];
         }
 
+        $size = 100;
+        if ($request->query->get('page') && '' != $request->query->get('page')) {
+            $page = $request->query->get('page');
+        } else {
+            $page = 1;
+        }
+
         return $this->renderAbstract($request, 'Modules/index_graveyard/index_graveyard_index.html.twig', [
             'tombstones' => $this->paginatorManager->paginate([
-                'route' => 'tombstones',
+                'route' => 'index_graveyard',
                 'route_parameters' => [],
                 'total' => count($tombstones),
-                'rows' => $tombstones,
-                'page' => 1,
-                'size' => count($tombstones),
+                'rows' => array_slice($tombstones, ($size * $page) - $size, $size),
+                'page' => $page,
+                'size' => $size,
             ]),
             'tombstones_size' => $clusterSettings['cluster.indices.tombstones.size'],
         ]);

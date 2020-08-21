@@ -41,14 +41,21 @@ class ElasticsearchTaskController extends AbstractAppController
 
         krsort($tasks);
 
+        $size = 100;
+        if ($request->query->get('page') && '' != $request->query->get('page')) {
+            $page = $request->query->get('page');
+        } else {
+            $page = 1;
+        }
+
         return $this->renderAbstract($request, 'Modules/task/task_index.html.twig', [
             'tasks' => $this->paginatorManager->paginate([
                 'route' => 'tasks',
                 'route_parameters' => [],
                 'total' => count($tasks),
-                'rows' => $tasks,
-                'page' => 1,
-                'size' => count($tasks),
+                'rows' => array_slice($tasks, ($size * $page) - $size, $size),
+                'page' => $page,
+                'size' => $size,
             ]),
         ]);
     }
