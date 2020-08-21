@@ -12,7 +12,7 @@
 
     {% if 'reroute' == active %}
         <li class="nav-item">
-            <a class="nav-link active" href="{{ path('shards_reroute', {'node': row.node, 'index': row.index, 'number': row.number, 'state': row.state}) }}">{{ 'reroute'|trans }}</a>
+            <a class="nav-link active" href="{{ path('shards_reroute', {'index': reroute.index, 'number': reroute.number, 'state': reroute.state, 'node': reroute.node}) }}">{{ 'reroute'|trans }}</a>
         </li>
     {% endif %}
 

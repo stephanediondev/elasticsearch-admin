@@ -7,6 +7,8 @@
 
     {% set is_granted_nodes = is_granted('NODES', 'global') %}
 
+    {% set is_granted_shards_reroute = is_granted('SHARDS_REROUTE', 'global') %}
+
     {% if 'index_shards' == context %}
         {% set columns = columns|merge({'index': false}) %}
         {% set sortUrl = path('indices_read_shards', {'index': index.name}) %}
@@ -148,8 +150,8 @@
 
                         {% if '_buttons' == column %}
                             <td>
-                                {% if 'relocating' != row.state %}
-                                    <a class="btn btn-primary btn-sm" href="{{ path('shards_reroute', {'node': row.node, 'index': row.index, 'number': row.number, 'state': row.state}) }}">
+                                {% if is_granted_shards_reroute and 'relocating' != row.state %}
+                                    <a class="btn btn-primary btn-sm" href="{{ path('shards_reroute', {'index': row.index, 'number': row.number, 'state': row.state, 'node': row.node}) }}">
                                         {{ 'reroute'|trans }}
                                     </a>
                                 {% endif %}

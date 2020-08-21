@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
+use App\Form\Type\ElasticsearchShardRerouteType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
-use App\Model\ElasticsearchShardModel;
+use App\Model\ElasticsearchShardRerouteModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -128,11 +129,11 @@ class ElasticsearchShardController extends AbstractAppController
     }
 
         /**
-     * @Route("/shards/{index}/{number}/{state}/reroute", name="shards_reroute")
+     * @Route("/shards/{index}/{number}/reroute", name="shards_reroute")
      */
-    public function reroute(Request $request, string $index, string $number, string $state): Response
+    public function reroute(Request $request, string $index, string $number): Response
     {
-        $this->denyAccessUnlessGranted('SHARDS', 'global');
+        $this->denyAccessUnlessGranted('SHARDS_REROUTE', 'global');
 
         $index = $this->elasticsearchIndexManager->getByName($index);
 
@@ -147,152 +148,89 @@ class ElasticsearchShardController extends AbstractAppController
         $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
 
         $row = [
-            'node' => $request->query->get('node'),
             'index' => $index->getName(),
             'shard' => $number,
-            'state' => $state,
+            'state' => $request->query->get('state'),
+            'node' => $request->query->get('node'),
         ];
 
-        $shardModel = new ElasticsearchShardModel();
-        $shardModel->convert($row);
+        $reroute = new ElasticsearchShardRerouteModel();
+        $reroute->convert($row);
+
+        $commands = [];
+
+        if (true === isset($nodesAvailable[$reroute->getIndex()][$reroute->getNumber()]) && 0 < count($nodesAvailable[$reroute->getIndex()][$reroute->getNumber()]) && 'unassigned' == $reroute->getState()) {
+            $commands[] = $this->callManager->hasFeature('extend_reroute') ? 'allocate_replica' : 'allocate';
+        }
+
+        if ($reroute->getNode()) {
+            $commands[] = 'cancel';
+        }
+
+        if (true === isset($nodesAvailable[$reroute->getIndex()][$reroute->getNumber()]) && 0 < count($nodesAvailable[$reroute->getIndex()][$reroute->getNumber()]) && $reroute->getNode()) {
+            $commands[] = 'move';
+        }
+
+        $form = $this->createForm(ElasticsearchShardRerouteType::class, $reroute, ['commands' => $commands, 'nodes' => $nodesAvailable[$reroute->getIndex()][$reroute->getNumber()] ?? []]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                switch ($reroute->getCommand()) {
+                    case 'move':
+                        $command = [
+                            'index' => $reroute->getIndex(),
+                            'shard' => $reroute->getNumber(),
+                            'from_node' => $reroute->getNode(),
+                            'to_node' => $reroute->getToNode(),
+                        ];
+                        break;
+                    case 'cancel':
+                        $command = [
+                            'index' => $reroute->getIndex(),
+                            'shard' => $reroute->getNumber(),
+                            'node' => $reroute->getNode(),
+                            'allow_primary' => true,
+                        ];
+                        break;
+                    case 'allocate_replica':
+                    case 'allocate':
+                        $command = [
+                            'index' => $reroute->getIndex(),
+                            'shard' => $reroute->getNumber(),
+                            'node' => $reroute->getNode(),
+                        ];
+                        break;
+                }
+                $json = [
+                    'commands' => [
+                        [
+                            $reroute->getCommand() => $command,
+                        ],
+                    ],
+                ];
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_cluster/reroute');
+                $callRequest->setJson($json);
+                $callRequest->setQuery(['explain' => 'true']);
+                $callResponse = $this->callManager->call($callRequest);
+
+                $content = $callResponse->getContent();
+                unset($content['state']);
+
+                $this->addFlash('info', json_encode($content));
+
+                return $this->redirectToRoute('shards');
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
 
         return $this->renderAbstract($request, 'Modules/shard/shard_reroute.html.twig', [
-            'row' => $shardModel,
-            'nodesAvailable' => $nodesAvailable,
+            'reroute' => $reroute,
+            'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * @Route("/shards/{index}/{number}/move", name="shards_move")
-     */
-    public function move(Request $request, string $index, string $number): Response
-    {
-        $this->denyAccessUnlessGranted('SHARDS', 'global');
-
-        $index = $this->elasticsearchIndexManager->getByName($index);
-
-        if (null === $index) {
-            throw new NotFoundHttpException();
-        }
-
-        try {
-            $json = [
-                'commands' => [
-                    [
-                        'move' => [
-                            'index' => $index->getName(),
-                            'shard' => $number,
-                            'from_node' => $request->query->get('from_node'),
-                            'to_node' => $request->query->get('to_node'),
-                        ],
-                    ],
-                ],
-            ];
-            $content = $this->clusterReroute($json);
-
-            $this->addFlash('info', json_encode($content));
-        } catch (CallException $e) {
-            $this->addFlash('danger', $e->getMessage());
-        }
-
-        if ('indices_read_shards' == $request->query->get('redirect')) {
-            return $this->redirectToRoute('indices_read_shards', ['index' => $index->getName()]);
-        } else {
-            return $this->redirectToRoute('shards');
-        }
-    }
-
-    /**
-     * @Route("/shards/{index}/{number}/allocate-replica", name="shards_allocate_replica")
-     */
-    public function allocateReplica(Request $request, string $index, string $number): Response
-    {
-        $this->denyAccessUnlessGranted('SHARDS', 'global');
-
-        $index = $this->elasticsearchIndexManager->getByName($index);
-
-        if (null === $index) {
-            throw new NotFoundHttpException();
-        }
-
-        try {
-            $json = [
-                'commands' => [
-                    [
-                        $this->callManager->hasFeature('extend_reroute') ? 'allocate_replica' : 'allocate' => [
-                            'index' => $index->getName(),
-                            'shard' => $number,
-                            'node' => $request->query->get('node'),
-                        ],
-                    ],
-                ],
-            ];
-            $content = $this->clusterReroute($json);
-
-            $this->addFlash('info', json_encode($content));
-        } catch (CallException $e) {
-            $this->addFlash('danger', $e->getMessage());
-        }
-
-        if ('indices_read_shards' == $request->query->get('redirect')) {
-            return $this->redirectToRoute('indices_read_shards', ['index' => $index->getName()]);
-        } else {
-            return $this->redirectToRoute('shards');
-        }
-    }
-
-    /**
-     * @Route("/shards/{index}/{number}/cancel-allocation", name="shards_cancel_allocation")
-     */
-    public function cancelAllocation(Request $request, string $index, string $number): Response
-    {
-        $this->denyAccessUnlessGranted('SHARDS', 'global');
-
-        $index = $this->elasticsearchIndexManager->getByName($index);
-
-        if (null === $index) {
-            throw new NotFoundHttpException();
-        }
-
-        try {
-            $json = [
-                'commands' => [
-                    [
-                        'cancel' => [
-                            'index' => $index->getName(),
-                            'shard' => $number,
-                            'node' => $request->query->get('node'),
-                            'allow_primary' => true,
-                        ],
-                    ],
-                ],
-            ];
-            $content = $this->clusterReroute($json);
-
-            $this->addFlash('info', json_encode($content));
-        } catch (CallException $e) {
-            $this->addFlash('danger', $e->getMessage());
-        }
-
-        if ('indices_read_shards' == $request->query->get('redirect')) {
-            return $this->redirectToRoute('indices_read_shards', ['index' => $index->getName()]);
-        } else {
-            return $this->redirectToRoute('shards');
-        }
-    }
-
-    private function clusterReroute(array $json): array
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_cluster/reroute');
-        $callRequest->setJson($json);
-        $callRequest->setQuery(['explain' => 'true']);
-        $callResponse = $this->callManager->call($callRequest);
-
-        $content = $callResponse->getContent();
-        unset($content['state']);
-
-        return $content;
     }
 }
