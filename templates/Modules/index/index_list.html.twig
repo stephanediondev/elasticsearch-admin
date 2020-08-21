@@ -85,7 +85,7 @@
 
     {% block tbody %}
         {% for row in indices.rows %}
-            <tr class="index_system-{% if row.isSystem %}true{% else %}false{% endif %} status-{{ row.status }} health-{{ row.health }} frozen-{{ row.frozen }}" data-search="{{ row.name }}">
+            <tr>
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}

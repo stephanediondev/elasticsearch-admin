@@ -41,13 +41,14 @@ class ElasticsearchSnapshotController extends AbstractAppController
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
 
-        $form = $this->createForm(ElasticsearchSnapshotFilterType::class);
+        $form = $this->createForm(ElasticsearchSnapshotFilterType::class, null, ['repository' => $repositories]);
 
         $form->handleRequest($request);
 
         $snapshots = $this->elasticsearchSnapshotManager->getAll($repositories, [
             'name' => $form->get('name')->getData(),
             'state' => $form->get('state')->getData(),
+            'repository' => $form->get('repository')->getData(),
         ]);
 
         $size = 100;

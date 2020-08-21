@@ -82,16 +82,21 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
         if ($results) {
             foreach ($results as $row) {
+                $score = 0;
+
                 if (true === isset($aliases[$row['index']])) {
                     $row['aliases'] = $aliases[$row['index']];
                 }
                 $indexModel = new ElasticsearchIndexModel();
                 $indexModel->convert($row);
+
                 if (true === isset($filter['health']) && 0 < count($filter['health'])) {
-                    if (true === in_array($indexModel->getHealth(), $filter['health'])) {
-                        $indices[] = $indexModel;
+                    if (false === in_array($indexModel->getHealth(), $filter['health'])) {
+                        $score--;
                     }
-                } else {
+                }
+
+                if (0 <= $score) {
                     $indices[] = $indexModel;
                 }
             }

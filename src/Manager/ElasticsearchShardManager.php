@@ -31,13 +31,24 @@ class ElasticsearchShardManager extends AbstractAppManager
 
         if ($results) {
             foreach ($results as $row) {
+                $score = 0;
+
                 $shardModel = new ElasticsearchShardModel();
                 $shardModel->convert($row);
+
                 if (true === isset($filter['state']) && 0 < count($filter['state'])) {
-                    if (true === in_array($shardModel->getState(), $filter['state'])) {
-                        $shards[] = $shardModel;
+                    if (false === in_array($shardModel->getState(), $filter['state'])) {
+                        $score--;
                     }
-                } else {
+                }
+
+                if (true === isset($filter['node']) && 0 < count($filter['node'])) {
+                    if (false === in_array($shardModel->getNode(), $filter['node'])) {
+                        $score--;
+                    }
+                }
+
+                if (0 <= $score) {
                     $shards[] = $shardModel;
                 }
             }

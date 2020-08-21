@@ -19,6 +19,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
         $fields = [];
 
         $fields[] = 'name';
+        $fields[] = 'repository';
         $fields[] = 'state';
         $fields[] = 'page';
 
@@ -41,6 +42,18 @@ class ElasticsearchSnapshotFilterType extends AbstractType
                         'required' => false,
                     ]);
                     break;
+                case 'repository':
+                    $builder->add('repository', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['repository'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['repository'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'repository',
+                        'required' => false,
+                    ]);
+                    break;
                 case 'page':
                     $builder->add('page', HiddenType::class, [
                         'label' => 'page',
@@ -55,6 +68,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'state' => ['failed', 'incompatible', 'in_progress', 'partial', 'success'],
+            'repository' => [],
         ]);
     }
 

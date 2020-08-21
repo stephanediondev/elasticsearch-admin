@@ -20,6 +20,7 @@ class ElasticsearchShardFilterType extends AbstractType
 
         $fields[] = 'index';
         $fields[] = 'state';
+        $fields[] = 'node';
         $fields[] = 's';
         $fields[] = 'page';
 
@@ -39,6 +40,18 @@ class ElasticsearchShardFilterType extends AbstractType
                             return $options['state'][$key];
                         },
                         'label' => 'state',
+                        'required' => false,
+                    ]);
+                    break;
+                case 'node':
+                    $builder->add('node', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['node'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['node'][$key];
+                        },
+                        'choice_translation_domain' => false,
+                        'label' => 'node',
                         'required' => false,
                     ]);
                     break;
@@ -62,6 +75,7 @@ class ElasticsearchShardFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'state' => ['initializing', 'relocating', 'started', 'unassigned'],
+            'node' => [],
         ]);
     }
 
