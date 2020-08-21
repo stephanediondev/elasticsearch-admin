@@ -171,66 +171,72 @@ class ElasticsearchShardController extends AbstractAppController
             $commands[] = 'move';
         }
 
-        $form = $this->createForm(ElasticsearchShardRerouteType::class, $reroute, ['commands' => $commands, 'nodes' => $nodesAvailable[$reroute->getIndex()][$reroute->getNumber()] ?? []]);
+        if (0 < count($commands)) {
+            $form = $this->createForm(ElasticsearchShardRerouteType::class, $reroute, ['commands' => $commands, 'nodes' => $nodesAvailable[$reroute->getIndex()][$reroute->getNumber()] ?? []]);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                switch ($reroute->getCommand()) {
-                    case 'move':
-                        $command = [
-                            'index' => $reroute->getIndex(),
-                            'shard' => $reroute->getNumber(),
-                            'from_node' => $reroute->getNode(),
-                            'to_node' => $reroute->getToNode(),
-                        ];
-                        break;
-                    case 'cancel':
-                        $command = [
-                            'index' => $reroute->getIndex(),
-                            'shard' => $reroute->getNumber(),
-                            'node' => $reroute->getNode(),
-                            'allow_primary' => true,
-                        ];
-                        break;
-                    case 'allocate_replica':
-                    case 'allocate':
-                        $command = [
-                            'index' => $reroute->getIndex(),
-                            'shard' => $reroute->getNumber(),
-                            'node' => $reroute->getNode(),
-                        ];
-                        break;
-                }
-                $json = [
-                    'commands' => [
-                        [
-                            $reroute->getCommand() => $command,
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    switch ($reroute->getCommand()) {
+                        case 'move':
+                            $command = [
+                                'index' => $reroute->getIndex(),
+                                'shard' => $reroute->getNumber(),
+                                'from_node' => $reroute->getNode(),
+                                'to_node' => $reroute->getToNode(),
+                            ];
+                            break;
+                        case 'cancel':
+                            $command = [
+                                'index' => $reroute->getIndex(),
+                                'shard' => $reroute->getNumber(),
+                                'node' => $reroute->getNode(),
+                                'allow_primary' => true,
+                            ];
+                            break;
+                        case 'allocate_replica':
+                        case 'allocate':
+                            $command = [
+                                'index' => $reroute->getIndex(),
+                                'shard' => $reroute->getNumber(),
+                                'node' => $reroute->getNode(),
+                            ];
+                            break;
+                    }
+                    $json = [
+                        'commands' => [
+                            [
+                                $reroute->getCommand() => $command,
+                            ],
                         ],
-                    ],
-                ];
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('POST');
-                $callRequest->setPath('/_cluster/reroute');
-                $callRequest->setJson($json);
-                $callRequest->setQuery(['explain' => 'true']);
-                $callResponse = $this->callManager->call($callRequest);
+                    ];
+                    $callRequest = new CallRequestModel();
+                    $callRequest->setMethod('POST');
+                    $callRequest->setPath('/_cluster/reroute');
+                    $callRequest->setJson($json);
+                    $callRequest->setQuery(['explain' => 'true']);
+                    $callResponse = $this->callManager->call($callRequest);
 
-                $content = $callResponse->getContent();
-                unset($content['state']);
+                    $content = $callResponse->getContent();
+                    unset($content['state']);
 
-                $this->addFlash('info', json_encode($content));
+                    $this->addFlash('info', json_encode($content));
 
-                return $this->redirectToRoute('shards');
-            } catch (CallException $e) {
-                $this->addFlash('danger', $e->getMessage());
+                    return $this->redirectToRoute('shards');
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
             }
-        }
 
-        return $this->renderAbstract($request, 'Modules/shard/shard_reroute.html.twig', [
-            'reroute' => $reroute,
-            'form' => $form->createView(),
-        ]);
+            return $this->renderAbstract($request, 'Modules/shard/shard_reroute.html.twig', [
+                'reroute' => $reroute,
+                'form' => $form->createView(),
+            ]);
+        } else {
+            $this->addFlash('danger', 'reroute_not_possible');
+
+            return $this->redirectToRoute('shards');
+        }
     }
 }

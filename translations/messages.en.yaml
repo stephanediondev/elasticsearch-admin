@@ -478,6 +478,7 @@ reroute_commands:
     cancel: "Cancel allocation"
     allocate_replica: "Allocate replica"
     allocate: "Allocate replica"
+reroute_not_possible: "Reroute not possible for this shard"
 reserved: "Reserved"
 response: "Response"
 response_code: "Code"
