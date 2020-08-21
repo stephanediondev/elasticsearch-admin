@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchShardManager extends AbstractAppManager
 {
-    public function getAll(string $sort = 'index:asc,shard:asc,prirep:asc', string $index = null): array
+    public function getAll(string $sort = 'index:asc,shard:asc,prirep:asc', array $filter = []): array
     {
         $shards = [];
 
@@ -20,8 +20,8 @@ class ElasticsearchShardManager extends AbstractAppManager
             $query['s'] = $sort;
         }
         $callRequest = new CallRequestModel();
-        if ($index) {
-            $callRequest->setPath('/_cat/shards/'.$index);
+        if (true === isset($filter['index'])) {
+            $callRequest->setPath('/_cat/shards/'.$filter['index']);
         } else {
             $callRequest->setPath('/_cat/shards');
         }
@@ -29,10 +29,12 @@ class ElasticsearchShardManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        foreach ($results as $row) {
-            $shardModel = new ElasticsearchShardModel();
-            $shardModel->convert($row);
-            $shards[] = $shardModel;
+        if ($results) {
+            foreach ($results as $row) {
+                $shardModel = new ElasticsearchShardModel();
+                $shardModel->convert($row);
+                $shards[] = $shardModel;
+            }
         }
 
         return $shards;

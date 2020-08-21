@@ -12,37 +12,44 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < shards.total %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': shards.total}}) }}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': shards.total}}) }}
 
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            {{ 'filter'|trans }}
-                        </button>
-                    {% endblock %}
-                {% endembed %}
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+                        {{ 'filter'|trans }}
+                    </button>
+                {% endblock %}
+            {% endembed %}
 
-                <div class="collapse" id="collapseFilter">
-                    {{ appImport.filterText({'label': 'index'|trans}) }}
+            <div class="collapse" id="collapseSearch">
+                {{ appImport.form({'form': form}) }}
+            </div>
 
-                    {{ appImport.filterCheckboxesBoolean({'title': 'index_system'|trans, 'prefix': 'index_system'}) }}
-
-                    {{ appImport.filterCheckboxesBoolean({'title': 'primary'|trans, 'prefix': 'primary'}) }}
-
-                    {{ appImport.filterCheckboxes({'title': 'state'|trans, 'prefix': 'state', 'choices': ['initializing', 'relocating', 'started', 'unassigned']}) }}
-                </div>
-
+            {% if 0 < shards.total %}
                 {{ appImport.paginator(shards) }}
 
                 {% include 'Modules/shard/shard_list.html.twig' with {'shards': shards, 'context': 'shards'} %}
 
                 {{ appImport.paginator(shards) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var form = document.querySelector('form');
+        var page = document.getElementById('page');
+
+        form.addEventListener('submit', function(event) {
+            page.value = 1;
+        });
+    </script>
 {% endblock %}

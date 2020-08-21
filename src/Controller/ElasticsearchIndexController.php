@@ -9,6 +9,7 @@ use App\Form\Type\ElasticsearchIndexType;
 use App\Form\Type\ElasticsearchIndexSettingType;
 use App\Form\Type\ElasticsearchIndexImportType;
 use App\Form\Type\ReindexType;
+use App\Form\Type\ElasticsearchIndexFilterType;
 use App\Form\Type\ElasticsearchIndexQueryType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
@@ -61,17 +62,29 @@ class ElasticsearchIndexController extends AbstractAppController
             $query['expand_wildcards'] = 'all';
         }
 
-        $indices = $this->elasticsearchIndexManager->getAll($query);
+        $form = $this->createForm(ElasticsearchIndexFilterType::class);
+
+        $form->handleRequest($request);
+
+        $indices = $this->elasticsearchIndexManager->getAll($query, ['name' => $form->get('name')->getData()]);
+
+        $size = 100;
+        if ($request->query->get('page') && '' != $request->query->get('page')) {
+            $page = $request->query->get('page');
+        } else {
+            $page = 1;
+        }
 
         return $this->renderAbstract($request, 'Modules/index/index_index.html.twig', [
             'indices' => $this->paginatorManager->paginate([
                 'route' => 'indices',
                 'route_parameters' => [],
                 'total' => count($indices),
-                'rows' => $indices,
-                'page' => 1,
-                'size' => count($indices),
+                'rows' => array_slice($indices, ($size * $page) - $size, $size),
+                'page' => $page,
+                'size' => $size,
             ]),
+            'form' => $form->createView(),
         ]);
     }
 
@@ -970,7 +983,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_SHARDS', $index);
 
-        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'), $index->getName());
+        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'), ['index' => $index->getName()]);
 
         $nodes = $this->elasticsearchNodeManager->selectNodes();
 

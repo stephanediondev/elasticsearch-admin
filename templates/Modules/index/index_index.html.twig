@@ -12,83 +12,86 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < indices.total %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': indices.total}}) }}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': indices.total}}) }}
 
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        {% if true == hasFeature('force_merge') %}
-                            {% if is_granted('INDICES_FORCE_MERGE', 'global') %}
-                                {{ appImport.buttonModal({
-                                    'id': 'IndicesForceMergeAll',
-                                    'title': 'force_merge'|trans,
-                                    'body': 'force_merge_note'|trans,
-                                    'href': path('indices_force_merge_all'),
-                                }) }}
-                            {% endif %}
-                        {% endif %}
-
-                        {% if is_granted('INDICES_CACHE_CLEAR', 'global') %}
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if true == hasFeature('force_merge') %}
+                        {% if is_granted('INDICES_FORCE_MERGE', 'global') %}
                             {{ appImport.buttonModal({
-                                'id': 'IndicesCacheClearAll',
-                                'title': 'cache_clear'|trans,
-                                'href': path('indices_cache_clear_all'),
+                                'id': 'IndicesForceMergeAll',
+                                'title': 'force_merge'|trans,
+                                'body': 'force_merge_note'|trans,
+                                'href': path('indices_force_merge_all'),
                             }) }}
                         {% endif %}
-
-                        {% if is_granted('INDICES_FLUSH', 'global') %}
-                            {{ appImport.buttonModal({
-                                'id': 'IndicesFlushAll',
-                                'title': 'flush'|trans,
-                                'body': 'flush_note'|trans,
-                                'href': path('indices_flush_all'),
-                            }) }}
-                        {% endif %}
-
-                        {% if is_granted('INDICES_REFRESH', 'global') %}
-                            {{ appImport.buttonModal({
-                                'id': 'IndicesRefreshAll',
-                                'title': 'refresh'|trans,
-                                'body': 'refresh_note'|trans,
-                                'href': path('indices_refresh_all'),
-                            }) }}
-                        {% endif %}
-                    {% endblock %}
-                {% endembed %}
-
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            {{ 'filter'|trans }}
-                        </button>
-                    {% endblock %}
-                {% endembed %}
-
-                <div class="collapse" id="collapseFilter">
-                    {{ appImport.filterText({'label': 'name'|trans}) }}
-
-                    {{ appImport.filterCheckboxesBoolean({'title': 'index_system'|trans, 'prefix': 'index_system'}) }}
-
-                    {{ appImport.filterCheckboxes({'title': 'status'|trans, 'prefix': 'status', 'choices': ['open', 'close']}) }}
-
-                    {{ appImport.filterCheckboxes({'title': 'health'|trans, 'prefix': 'health', 'choices': ['red', 'yellow', 'green']}) }}
-
-                    {% if true == hasFeature('freeze_unfreeze') %}
-                        {{ appImport.filterCheckboxesBoolean({'title': 'frozen'|trans, 'prefix': 'frozen'}) }}
                     {% endif %}
-                </div>
 
+                    {% if is_granted('INDICES_CACHE_CLEAR', 'global') %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesCacheClearAll',
+                            'title': 'cache_clear'|trans,
+                            'href': path('indices_cache_clear_all'),
+                        }) }}
+                    {% endif %}
+
+                    {% if is_granted('INDICES_FLUSH', 'global') %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesFlushAll',
+                            'title': 'flush'|trans,
+                            'body': 'flush_note'|trans,
+                            'href': path('indices_flush_all'),
+                        }) }}
+                    {% endif %}
+
+                    {% if is_granted('INDICES_REFRESH', 'global') %}
+                        {{ appImport.buttonModal({
+                            'id': 'IndicesRefreshAll',
+                            'title': 'refresh'|trans,
+                            'body': 'refresh_note'|trans,
+                            'href': path('indices_refresh_all'),
+                        }) }}
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+                        {{ 'filter'|trans }}
+                    </button>
+                {% endblock %}
+            {% endembed %}
+
+            <div class="collapse" id="collapseSearch">
+                {{ appImport.form({'form': form}) }}
+            </div>
+
+            {% if 0 < indices.total %}
                 {{ appImport.paginator(indices) }}
 
                 {% include 'Modules/index/index_list.html.twig' with {'indices': indices} %}
 
                 {{ appImport.paginator(indices) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var form = document.querySelector('form');
+        var page = document.getElementById('page');
+
+        form.addEventListener('submit', function(event) {
+            page.value = 1;
+        });
+    </script>
 {% endblock %}

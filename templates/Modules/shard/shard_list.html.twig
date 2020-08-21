@@ -11,9 +11,9 @@
 
     {% if 'index_shards' == context %}
         {% set columns = columns|merge({'index': false}) %}
-        {% set sortUrl = path('indices_read_shards', {'index': index.name}) %}
+        {% set sortUrl = path('indices_read_shards', {'index': index.name}|merge(app.request.query.all)) %}
     {% else %}
-        {% set sortUrl = path('shards') %}
+        {% set sortUrl = path('shards', app.request.query.all) %}
     {% endif %}
 
     {% block thead %}

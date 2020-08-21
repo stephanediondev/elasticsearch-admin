@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
+use App\Form\Type\ElasticsearchShardFilterType;
 use App\Form\Type\ElasticsearchShardRerouteType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
@@ -34,6 +35,39 @@ class ElasticsearchShardController extends AbstractAppController
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SHARDS', 'global');
+
+        $form = $this->createForm(ElasticsearchShardFilterType::class);
+
+        $form->handleRequest($request);
+
+        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'), ['index' => $form->get('index')->getData()]);
+
+        $size = 100;
+        if ($request->query->get('page') && '' != $request->query->get('page')) {
+            $page = $request->query->get('page');
+        } else {
+            $page = 1;
+        }
+
+        return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
+            'shards' => $this->paginatorManager->paginate([
+                'route' => 'shards',
+                'route_parameters' => [],
+                'total' => count($shards),
+                'rows' => array_slice($shards, ($size * $page) - $size, $size),
+                'page' => $page,
+                'size' => $size,
+            ]),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/shards/stats", name="shards_stats")
+     */
+    public function stats(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('SHARDS_STATS', 'global');
 
         $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'));
 
