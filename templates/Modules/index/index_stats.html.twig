@@ -60,6 +60,8 @@
                                         {% block title %}
                                             {% if key in ['indices_by_documents', 'indices_by_primary_size'] %}
                                                 <a class="text-secondary" href="{{ path('indices_read', {'index': row.title}) }}">{{ row.title }}</a>
+                                            {% elseif key in ['indices_by_health'] and is_granted('INDICES', 'global') %}
+                                                <a class="text-secondary" href="{{ path('indices', {'health[]': row.title}) }}">{{ row.title|trans }}</a>
                                             {% else %}
                                                 {{ row.title|trans }}
                                             {% endif %}
