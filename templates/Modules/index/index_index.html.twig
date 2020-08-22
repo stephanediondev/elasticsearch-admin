@@ -59,18 +59,7 @@
                 {% endblock %}
             {% endembed %}
 
-            {% embed 'Embed/buttons_embed.html.twig' %}
-                {% import 'Import/app_import.html.twig' as appImport %}
-                {% block content %}
-                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                        {{ 'filter'|trans }}
-                    </button>
-                {% endblock %}
-            {% endembed %}
-
-            <div class="collapse" id="collapseFilter">
-                {{ appImport.form({'form': form}) }}
-            </div>
+            {{ appImport.form({'form': form}) }}
 
             {% if 0 < indices.total %}
                 {{ appImport.paginator(indices) }}

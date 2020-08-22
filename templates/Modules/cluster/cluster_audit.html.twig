@@ -147,7 +147,7 @@
 
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
-                                                <a href="{{ path('indices', {'s': 'rep:asc'}) }}">Indices</a>
+                                                <a href="{{ path('indices', {'sort': 'rep:asc'}) }}">Indices</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -157,7 +157,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
-                                                <a href="{{ path('indices', {'s': 'status:asc'}) }}">Indices</a>
+                                                <a href="{{ path('indices', {'sort': 'status:asc'}) }}">Indices</a>
                                             {% endif %}
                                         {% endblock %}
 

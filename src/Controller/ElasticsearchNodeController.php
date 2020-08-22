@@ -33,7 +33,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('s', 'name:asc'), 'cluster_settings' => $clusterSettings]);
+        $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('sort', 'name:asc'), 'cluster_settings' => $clusterSettings]);
 
         if ('true' === $request->query->get('fetch')) {
             $template = 'Modules/node/node_list.html.twig';

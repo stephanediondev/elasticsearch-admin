@@ -1,20 +1,22 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
+    {% set sortUrl = path('indices_read_search', {'index': index.name}|merge(app.request.query.all|filter((v, k) => k != 'sort'))) %}
+
     {% block thead %}
         <tr>
             <th>&nbsp;</th>
             <th class="text-nowrap">
-                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_id', 'title': '_id'})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': '_id', 'title': '_id'})}}
             </th>
             <th class="text-nowrap">
-                {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': '_score', 'title': '_score', 'default': ':desc'})}}
+                {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': '_score', 'title': '_score', 'default': ':desc'})}}
             </th>
             {% for field, type in index.mappingsFlat %}
                 <th class="text-nowrap">
                     {% set sort = retrieve_sort(index, field) %}
                     {% if true == sort %}
-                        {{ appImport.sort({'cat_sort': cat_sort, 'url': path('indices_read_search', {'index': index.name}|merge(app.request.query.all)), 's': sort, 'title': field})}}
+                        {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': sort, 'title': field})}}
                     {% else %}
                         {{ field }}
                     {% endif %}

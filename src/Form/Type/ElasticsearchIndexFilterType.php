@@ -20,7 +20,7 @@ class ElasticsearchIndexFilterType extends AbstractType
 
         $fields[] = 'name';
         $fields[] = 'health';
-        $fields[] = 's';
+        $fields[] = 'sort';
         $fields[] = 'page';
 
         foreach ($fields as $field) {
@@ -29,6 +29,9 @@ class ElasticsearchIndexFilterType extends AbstractType
                     $builder->add('name', TextType::class, [
                         'label' => 'name',
                         'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                     ]);
                     break;
                 case 'health':
@@ -42,8 +45,8 @@ class ElasticsearchIndexFilterType extends AbstractType
                         'required' => false,
                     ]);
                     break;
-                case 's':
-                    $builder->add('s', HiddenType::class, [
+                case 'sort':
+                    $builder->add('sort', HiddenType::class, [
                         'label' => 'sort',
                         'required' => false,
                     ]);
@@ -61,6 +64,7 @@ class ElasticsearchIndexFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => false,
             'health' => ['red', 'yellow', 'green'],
         ]);
     }

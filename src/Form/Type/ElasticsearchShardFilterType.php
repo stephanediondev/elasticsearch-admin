@@ -21,7 +21,7 @@ class ElasticsearchShardFilterType extends AbstractType
         $fields[] = 'index';
         $fields[] = 'state';
         $fields[] = 'node';
-        $fields[] = 's';
+        $fields[] = 'sort';
         $fields[] = 'page';
 
         foreach ($fields as $field) {
@@ -30,6 +30,9 @@ class ElasticsearchShardFilterType extends AbstractType
                     $builder->add('index', TextType::class, [
                         'label' => 'index',
                         'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                     ]);
                     break;
                 case 'state':
@@ -41,6 +44,9 @@ class ElasticsearchShardFilterType extends AbstractType
                         },
                         'label' => 'state',
                         'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                     ]);
                     break;
                 case 'node':
@@ -55,8 +61,8 @@ class ElasticsearchShardFilterType extends AbstractType
                         'required' => false,
                     ]);
                     break;
-                case 's':
-                    $builder->add('s', HiddenType::class, [
+                case 'sort':
+                    $builder->add('sort', HiddenType::class, [
                         'label' => 'sort',
                         'required' => false,
                     ]);
@@ -74,6 +80,7 @@ class ElasticsearchShardFilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => false,
             'state' => ['initializing', 'relocating', 'started', 'unassigned'],
             'node' => [],
         ]);

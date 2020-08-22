@@ -47,7 +47,11 @@
                 {% if 0 == cluster_health['unassigned_shards'] %}
                     {{ appImport.dashboardKpi({'title': 'unassigned_shards'|trans, 'badge': {'title': cluster_health['unassigned_shards'], 'context': 'success'}}) }}
                 {% else %}
-                    {{ appImport.dashboardKpi({'title': 'unassigned_shards'|trans, 'badge': {'title': cluster_health['unassigned_shards'], 'context': 'danger'}}) }}
+                    {% if is_granted('SHARDS', 'global') %}
+                        {{ appImport.dashboardKpi({'title': 'unassigned_shards'|trans, 'badge': {'title': cluster_health['unassigned_shards'], 'context': 'danger', 'link': path('shards', {'state[]': 'unassigned'})}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': 'unassigned_shards'|trans, 'badge': {'title': cluster_health['unassigned_shards'], 'context': 'danger', 'link': path('shards', {'state[]': 'unassigned'})}}) }}
+                    {% endif %}
                 {% endif %}
 
                 {% if documents %}

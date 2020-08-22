@@ -99,30 +99,30 @@
 
     <script type="text/javascript">
         function toggle() {
-            var command = $('#data_command').val();
+            var command = $('#command').val();
 
             if (command.indexOf('{index}') != -1) {
-                enable('#data_index');
+                enable('#index');
             } else {
-                disable('#data_index');
+                disable('#index');
             }
 
             if (command.indexOf('{repository}') != -1) {
-                enable('#data_repository');
+                enable('#repository');
             } else {
-                disable('#data_repository');
+                disable('#repository');
             }
 
             if (command.indexOf('{alias}') != -1) {
-                enable('#data_alias');
+                enable('#alias');
             } else {
-                disable('#data_alias');
+                disable('#alias');
             }
 
             if (command.indexOf('{node}') != -1) {
-                enable('#data_node');
+                enable('#node');
             } else {
-                disable('#data_node');
+                disable('#node');
             }
         }
 
@@ -141,7 +141,7 @@
 
         toggle();
 
-        $(document).on('change', '#data_command', function(event) {
+        $(document).on('change', '#command', function(event) {
             toggle();
         });
     </script>

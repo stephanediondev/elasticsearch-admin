@@ -13,7 +13,7 @@
         {% set columns = columns|merge({'index': false}) %}
         {% set sortUrl = path('indices_read_shards', {'index': index.name}|merge(app.request.query.all)) %}
     {% else %}
-        {% set sortUrl = path('shards', app.request.query.all) %}
+        {% set sortUrl = path('shards', app.request.query.all|filter((v, k) => k != 'sort')) %}
     {% endif %}
 
     {% block thead %}
@@ -22,49 +22,49 @@
                 {% if true == display %}
                     {% if 'index' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'index', 'title': 'index'|trans, 'default': ':asc'})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'index', 'title': 'index'|trans, 'default': ':asc'})}}
                         </th>
                     {% endif %}
 
                     {% if 'shard' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'shard', 'title': 'shard'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'shard', 'title': 'shard'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'primary' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'prirep', 'title': 'primary'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'prirep', 'title': 'primary'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'state' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'state', 'title': 'state'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'state', 'title': 'state'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'unassigned_reason' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'unassigned.reason', 'title': 'unassigned_reason'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'unassigned.reason', 'title': 'unassigned_reason'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'documents' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'docs', 'title': 'documents'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'docs', 'title': 'documents'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'size' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'store', 'title': 'size'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'store', 'title': 'size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'node' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'node', 'title': 'node'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'node', 'title': 'node'|trans})}}
                         </th>
                     {% endif %}
 

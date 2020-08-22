@@ -55,7 +55,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ];
 
         if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = $request->query->get('s', 'index:asc');
+            $query['s'] = $request->query->get('sort', 'index:asc');
         }
 
         if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
@@ -104,7 +104,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ];
 
         if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = $request->query->get('s', 'index:asc');
+            $query['s'] = $request->query->get('sort', 'index:asc');
         }
 
         if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
@@ -613,7 +613,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $size = 1000;
         $query = [
-            'sort' => $request->query->get('s', '_id:desc'),
+            'sort' => $request->query->get('sort', '_id:desc'),
             'size' => $size,
         ];
         if ($request->query->get('query') && '' != $request->query->get('query')) {
@@ -986,7 +986,16 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_SHARDS', $index);
 
-        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'), ['index' => $index->getName()]);
+        $query = [
+            'bytes' => 'b',
+            'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node',
+        ];
+
+        if (true === $this->callManager->hasFeature('cat_sort')) {
+            $query['s'] = $request->query->get('sort', 'index:asc,shard:asc,prirep:asc');
+        }
+
+        $shards = $this->elasticsearchShardManager->getAll($query, ['index' => $index->getName()]);
 
         $nodes = $this->elasticsearchNodeManager->selectNodes();
 
@@ -1355,8 +1364,8 @@ class ElasticsearchIndexController extends AbstractAppController
             } else {
                 $page = 1;
             }
-            if ($request->query->get('s') && '' != $request->query->get('s')) {
-                $sort = $request->query->get('s');
+            if ($request->query->get('sort') && '' != $request->query->get('sort')) {
+                $sort = $request->query->get('sort');
             } else {
                 $sort = '_score:desc';
             }

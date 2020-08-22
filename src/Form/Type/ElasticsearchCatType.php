@@ -79,6 +79,7 @@ class ElasticsearchCatType extends AbstractType
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $fields[] = 'sort';
         }
+        $fields[] = 'page';
 
         $builder->setMethod('GET');
 
@@ -100,13 +101,7 @@ class ElasticsearchCatType extends AbstractType
                     ]);
                     break;
                 case 'index':
-                    $builder->add('index', ChoiceType::class, [
-                        'placeholder' => '-',
-                        'choices' => $options['indices'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['indices'][$key];
-                        },
-                        'choice_translation_domain' => false,
+                    $builder->add('index', TextType::class, [
                         'label' => 'index',
                         'required' => false,
                     ]);
@@ -154,6 +149,9 @@ class ElasticsearchCatType extends AbstractType
                     $builder->add('headers', TextType::class, [
                         'label' => 'headers',
                         'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                     ]);
                     break;
                 case 'sort':
@@ -169,9 +167,9 @@ class ElasticsearchCatType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => false,
             'data_class' => ElasticsearchCatModel::class,
             'repositories' => [],
-            'indices' => [],
             'aliases' => [],
             'nodes' => [],
         ]);
@@ -179,6 +177,6 @@ class ElasticsearchCatType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'data';
+        return '';
     }
 }

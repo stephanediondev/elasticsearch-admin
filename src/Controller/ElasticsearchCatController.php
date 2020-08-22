@@ -39,16 +39,15 @@ class ElasticsearchCatController extends AbstractAppController
         $parameters = [];
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-        $indices = $this->elasticsearchIndexManager->selectIndices();
         $aliases = $this->elasticsearchIndexManager->selectAliases();
         $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         $catModel = new ElasticsearchCatModel();
-        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases, 'nodes' => $nodes]);
+        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'aliases' => $aliases, 'nodes' => $nodes]);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($catModel->getCommand()) {
             try {
                 $query = [];
                 if ($catModel->getHeaders()) {
@@ -129,12 +128,11 @@ class ElasticsearchCatController extends AbstractAppController
         }
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
-        $indices = $this->elasticsearchIndexManager->selectIndices();
         $aliases = $this->elasticsearchIndexManager->selectAliases();
         $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         $catModel = new ElasticsearchCatModel();
-        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'indices' => $indices, 'aliases' => $aliases, 'nodes' => $nodes]);
+        $form = $this->createForm(ElasticsearchCatType::class, $catModel, ['repositories' => $repositories, 'aliases' => $aliases, 'nodes' => $nodes]);
 
         $form->handleRequest($request);
 

@@ -42,7 +42,16 @@ class ElasticsearchShardController extends AbstractAppController
 
         $form->handleRequest($request);
 
-        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'), [
+        $query = [
+            'bytes' => 'b',
+            'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node',
+        ];
+
+        if (true === $this->callManager->hasFeature('cat_sort')) {
+            $query['s'] = $request->query->get('sort', 'index:asc,shard:asc,prirep:asc');
+        }
+
+        $shards = $this->elasticsearchShardManager->getAll($query, [
             'index' => $form->get('index')->getData(),
             'state' => $form->get('state')->getData(),
             'node' => $form->get('node')->getData(),
@@ -75,7 +84,16 @@ class ElasticsearchShardController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SHARDS_STATS', 'global');
 
-        $shards = $this->elasticsearchShardManager->getAll($request->query->get('s', 'index:asc,shard:asc,prirep:asc'));
+        $query = [
+            'bytes' => 'b',
+            'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node',
+        ];
+
+        if (true === $this->callManager->hasFeature('cat_sort')) {
+            $query['s'] = $request->query->get('sort', 'index:asc,shard:asc,prirep:asc');
+        }
+
+        $shards = $this->elasticsearchShardManager->getAll($query);
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['shards_total'] = 0;

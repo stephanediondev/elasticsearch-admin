@@ -25,7 +25,7 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'name', 'title': 'name'|trans, 'default': ':asc'})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'name', 'title': 'name'|trans, 'default': ':asc'})}}
                         </th>
                     {% endif %}
 
@@ -49,37 +49,37 @@
 
                     {% if 'cpu_usage' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'cpu', 'title': 'cpu_usage'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'cpu', 'title': 'cpu_usage'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'heap_usage' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'heap.percent', 'title': 'heap_usage'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'heap.percent', 'title': 'heap_usage'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'memory_usage' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'ram.percent', 'title': 'memory_usage'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'ram.percent', 'title': 'memory_usage'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'disk_usage' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'disk.used_percent', 'title': 'disk_usage'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'disk.used_percent', 'title': 'disk_usage'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'uptime' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'uptime', 'title': 'uptime'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'uptime', 'title': 'uptime'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'load_average' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 's': 'load_1m', 'title': 'load_average'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'load_1m', 'title': 'load_average'|trans})}}
                         </th>
                     {% endif %}
                 {% endif %}

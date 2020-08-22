@@ -18,7 +18,7 @@ class ElasticsearchIndexQueryType extends AbstractType
         $fields = [];
 
         $fields[] = 'query';
-        $fields[] = 's';
+        $fields[] = 'sort';
         $fields[] = 'page';
 
         foreach ($fields as $field) {
@@ -31,8 +31,8 @@ class ElasticsearchIndexQueryType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 's':
-                    $builder->add('s', HiddenType::class, [
+                case 'sort':
+                    $builder->add('sort', HiddenType::class, [
                         'label' => 'sort',
                         'required' => false,
                     ]);
@@ -50,6 +50,7 @@ class ElasticsearchIndexQueryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'csrf_protection' => false,
         ]);
     }
 

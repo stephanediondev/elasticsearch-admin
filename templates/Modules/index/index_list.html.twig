@@ -7,7 +7,7 @@
         {% set columns = columns|merge({'frozen': true}) %}
     {% endif %}
 
-    {% set sortUrl = path('indices', app.request.query.all) %}
+    {% set sortUrl = path('indices', app.request.query.all|filter((v, k) => k != 'sort')) %}
 
     {% block thead %}
         <tr>
@@ -15,67 +15,67 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'index', 'title': 'name'|trans, 'default': ':asc'})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'index', 'title': 'name'|trans, 'default': ':asc'})}}
                         </th>
                     {% endif %}
 
                     {% if 'shards' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'pri', 'title': 'shards'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'pri', 'title': 'shards'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'replicas' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'rep', 'title': 'replicas'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'rep', 'title': 'replicas'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'documents' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'docs.count', 'title': 'documents'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'docs.count', 'title': 'documents'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'documents_deleted' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'docs.deleted', 'title': 'documents_deleted'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'docs.deleted', 'title': 'documents_deleted'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'primary_size' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'pri.store.size', 'title': 'primary_size'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'pri.store.size', 'title': 'primary_size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'total_size' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'store.size', 'title': 'total_size'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'store.size', 'title': 'total_size'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'status' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'status', 'title': 'status'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'status', 'title': 'status'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'health' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'health', 'title': 'health'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'health', 'title': 'health'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'frozen' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'sth', 'title': 'frozen'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'sth', 'title': 'frozen'|trans})}}
                         </th>
                     {% endif %}
 
                     {% if 'creation_date' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 's': 'creation.date.string', 'title': 'creation_date'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'creation.date.string', 'title': 'creation_date'|trans})}}
                         </th>
                     {% endif %}
                 {% endif %}

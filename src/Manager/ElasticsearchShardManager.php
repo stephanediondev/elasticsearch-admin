@@ -11,14 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchShardManager extends AbstractAppManager
 {
-    public function getAll(string $sort = 'index:asc,shard:asc,prirep:asc', array $filter = []): array
+    public function getAll(array $query, array $filter = []): array
     {
         $shards = [];
 
-        $query = ['bytes' => 'b', 'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node'];
-        if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = $sort;
-        }
         $callRequest = new CallRequestModel();
         if (true === isset($filter['index']) && '' != $filter['index']) {
             $callRequest->setPath('/_cat/shards/'.$filter['index']);
