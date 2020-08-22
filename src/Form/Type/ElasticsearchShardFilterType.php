@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Manager\CallManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,6 +13,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ElasticsearchShardFilterType extends AbstractType
 {
+    public function __construct(CallManager $callManager)
+    {
+        $this->callManager = $callManager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
@@ -21,7 +27,9 @@ class ElasticsearchShardFilterType extends AbstractType
         $fields[] = 'index';
         $fields[] = 'state';
         $fields[] = 'node';
-        $fields[] = 'sort';
+        if (true === $this->callManager->hasFeature('cat_sort')) {
+            $fields[] = 'sort';
+        }
         $fields[] = 'page';
 
         foreach ($fields as $field) {

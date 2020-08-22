@@ -48,7 +48,7 @@ class ElasticsearchShardController extends AbstractAppController
         ];
 
         if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = $request->query->get('sort', 'index:asc,shard:asc,prirep:asc');
+            $query['s'] = '' != $request->query->get('sort') ? $request->query->get('sort') : 'index:asc,shard:asc,prirep:asc';
         }
 
         $shards = $this->elasticsearchShardManager->getAll($query, [
@@ -88,10 +88,6 @@ class ElasticsearchShardController extends AbstractAppController
             'bytes' => 'b',
             'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node',
         ];
-
-        if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = $request->query->get('sort', 'index:asc,shard:asc,prirep:asc');
-        }
 
         $shards = $this->elasticsearchShardManager->getAll($query);
 

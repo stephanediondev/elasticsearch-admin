@@ -55,7 +55,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ];
 
         if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = $request->query->get('sort', 'index:asc');
+            $query['s'] = '' != $request->query->get('sort') ? $request->query->get('sort') : 'index:asc';
         }
 
         if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
@@ -102,10 +102,6 @@ class ElasticsearchIndexController extends AbstractAppController
             'bytes' => 'b',
             'h' => 'uuid,index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
-
-        if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = $request->query->get('sort', 'index:asc');
-        }
 
         if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
             $query['expand_wildcards'] = 'all';
