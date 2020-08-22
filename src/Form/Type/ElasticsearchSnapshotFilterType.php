@@ -46,6 +46,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
                         'label' => 'repository',
                         'required' => false,
                         'attr' => [
+                            'size' => 1,
                             'data-break-after' => 'yes',
                         ],
                     ]);
@@ -59,6 +60,9 @@ class ElasticsearchSnapshotFilterType extends AbstractType
                         },
                         'label' => 'state',
                         'required' => false,
+                        'attr' => [
+                            'size' => 1,
+                        ],
                     ]);
                     break;
                 case 'sort':

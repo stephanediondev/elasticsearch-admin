@@ -51,6 +51,9 @@ class ElasticsearchIndexFilterType extends AbstractType
                         },
                         'label' => 'health',
                         'required' => false,
+                        'attr' => [
+                            'size' => 1,
+                        ],
                     ]);
                     break;
                 case 'sort':

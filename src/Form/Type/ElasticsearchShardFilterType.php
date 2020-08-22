@@ -53,6 +53,7 @@ class ElasticsearchShardFilterType extends AbstractType
                         'label' => 'state',
                         'required' => false,
                         'attr' => [
+                            'size' => 1,
                             'data-break-after' => 'yes',
                         ],
                     ]);
@@ -67,6 +68,9 @@ class ElasticsearchShardFilterType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'node',
                         'required' => false,
+                        'attr' => [
+                            'size' => 1,
+                        ],
                     ]);
                     break;
                 case 'sort':
