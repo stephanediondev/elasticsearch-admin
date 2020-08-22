@@ -19,9 +19,9 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     private $frozen;
 
-    private $shards;
+    private $primaryShards;
 
-    private $replicas;
+    private $replicaShards;
 
     private $documents;
 
@@ -95,26 +95,26 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return $this;
     }
 
-    public function getShards(): ?int
+    public function getPrimaryShards(): ?int
     {
-        return $this->shards;
+        return $this->primaryShards;
     }
 
-    public function setShards(?int $shards): self
+    public function setPrimaryShards(?int $primaryShards): self
     {
-        $this->shards = $shards;
+        $this->primaryShards = $primaryShards;
 
         return $this;
     }
 
-    public function getReplicas(): ?int
+    public function getReplicaShards(): ?int
     {
-        return $this->replicas;
+        return $this->replicaShards;
     }
 
-    public function setReplicas(?int $replicas): self
+    public function setReplicaShards(?int $replicaShards): self
     {
-        $this->replicas = $replicas;
+        $this->replicaShards = $replicaShards;
 
         return $this;
     }
@@ -196,6 +196,11 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return '.' == substr($this->getName(), 0, 1);
     }
 
+    public function getShards(): ?int
+    {
+        return $this->getPrimaryShards() + ($this->getReplicaShards() * $this->getPrimaryShards());
+    }
+
     public function hasMappingType(string $type): ?bool
     {
         if ($this->getMappingsFlat()) {
@@ -247,11 +252,11 @@ class ElasticsearchIndexModel extends AbstractAppModel
         }
 
         if (true === isset($index['pri'])) {
-            $this->setShards($index['pri']);
+            $this->setPrimaryShards($index['pri']);
         }
 
         if (true === isset($index['rep'])) {
-            $this->setReplicas($index['rep']);
+            $this->setReplicaShards($index['rep']);
         }
 
         if (true === isset($index['docs.count'])) {

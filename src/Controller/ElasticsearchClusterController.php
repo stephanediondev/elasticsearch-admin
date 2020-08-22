@@ -321,7 +321,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'open' => 0,
         ];
         foreach ($indices as $index) {
-            if (0 < $index->getReplicas()) {
+            if (0 < $index->getReplicaShards()) {
                 $indicesCount['with_replica']++;
             }
             if ('open' == $index->getStatus()) {

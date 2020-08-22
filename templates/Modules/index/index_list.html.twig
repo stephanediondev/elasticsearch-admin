@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'shards': true, 'replicas': true, 'documents': true, 'documents_deleted': false, 'primary_size': true, 'total_size': false, 'status': true, 'health': true, 'frozen': false, 'creation_date': true} %}
+    {% set columns = {'name': true, 'primary_shards': true, 'replica_shards': true, 'documents': true, 'documents_deleted': false, 'primary_size': true, 'total_size': false, 'status': true, 'health': true, 'frozen': false, 'creation_date': true} %}
 
     {% if true == hasFeature('freeze_unfreeze') %}
         {% set columns = columns|merge({'frozen': true}) %}
@@ -19,15 +19,15 @@
                         </th>
                     {% endif %}
 
-                    {% if 'shards' == column %}
+                    {% if 'primary_shards' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'pri', 'title': 'shards'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'pri', 'title': 'primary_shards'|trans})}}
                         </th>
                     {% endif %}
 
-                    {% if 'replicas' == column %}
+                    {% if 'replica_shards' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'rep', 'title': 'replicas'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'rep', 'title': 'replica_shards'|trans})}}
                         </th>
                     {% endif %}
 
@@ -97,15 +97,15 @@
                             </td>
                         {% endif %}
 
-                        {% if 'shards' == column %}
+                        {% if 'primary_shards' == column %}
                             <td>
-                                {{ row.shards }}
+                                {{ row.primaryShards }}
                             </td>
                         {% endif %}
 
-                        {% if 'replicas' == column %}
+                        {% if 'replica_shards' == column %}
                             <td>
-                                {{ row.replicas }}
+                                {{ row.replicaShards }}
                             </td>
                         {% endif %}
 

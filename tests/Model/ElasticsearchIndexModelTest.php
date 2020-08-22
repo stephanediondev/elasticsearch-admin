@@ -14,8 +14,8 @@ class ElasticsearchIndexModelTest extends WebTestCase
         $index->setStatus('status');
         $index->setHealth('health');
         $index->setFrozen('frozen');
-        $index->setShards(1);
-        $index->setReplicas(2);
+        $index->setPrimaryShards(5);
+        $index->setReplicaShards(2);
         $index->setDocuments(3);
         $index->setDocumentsDeleted(4);
         $index->setPrimarySize(5);
@@ -35,11 +35,14 @@ class ElasticsearchIndexModelTest extends WebTestCase
         $this->assertEquals($index->getHealth(), 'health');
         $this->assertEquals($index->getFrozen(), 'frozen');
 
-        $this->assertEquals($index->getShards(), 1);
-        $this->assertIsInt($index->getShards());
+        $this->assertEquals($index->getPrimaryShards(), 5);
+        $this->assertIsInt($index->getPrimaryShards());
 
-        $this->assertEquals($index->getReplicas(), 2);
-        $this->assertIsInt($index->getReplicas());
+        $this->assertEquals($index->getReplicaShards(), 2);
+        $this->assertIsInt($index->getReplicaShards());
+
+        $this->assertEquals($index->getShards(), 15);
+        $this->assertIsInt($index->getShards());
 
         $this->assertEquals($index->getDocuments(), 3);
         $this->assertIsInt($index->getDocuments());
