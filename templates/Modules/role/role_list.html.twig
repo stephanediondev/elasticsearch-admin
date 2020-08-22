@@ -55,7 +55,7 @@
 
     {% block tbody %}
         {% for row in roles.rows %}
-            <tr class="reserved-{% if row.isReserved %}true{% else %}false{% endif %} deprecated-{% if row.isDeprecated %}true{% else %}false{% endif %}" data-search="{{ row.name }}">
+            <tr>
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}

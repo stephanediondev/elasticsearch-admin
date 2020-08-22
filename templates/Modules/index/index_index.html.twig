@@ -62,13 +62,13 @@
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}
                 {% block content %}
-                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseSearch">
+                    <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                         {{ 'filter'|trans }}
                     </button>
                 {% endblock %}
             {% endembed %}
 
-            <div class="collapse" id="collapseSearch">
+            <div class="collapse" id="collapseFilter">
                 {{ appImport.form({'form': form}) }}
             </div>
 

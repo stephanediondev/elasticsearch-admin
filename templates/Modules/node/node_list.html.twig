@@ -89,11 +89,7 @@
 
     {% block tbody %}
         {% for row in nodes.rows %}
-            {% if true == hasFeature('node_roles') and row['roles'] is defined %}
-                <tr class="master_eligible-{% if 'master' in row['roles'] %}true{% else %}false{% endif %} voting_only-{% if 'voting_only' in row['roles'] %}true{% else %}false{% endif %} data-{% if 'data' in row['roles'] %}true{% else %}false{% endif %}" data-search="{{ row['name'] }}">
-            {% else %}
-                <tr data-search="{{ row['name'] }}">
-            {% endif %}
+            <tr>
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}

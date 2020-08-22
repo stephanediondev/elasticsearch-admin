@@ -18,21 +18,6 @@
             {% block content %}
                 {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': templates.total}}) }}
 
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            {{ 'filter'|trans }}
-                        </button>
-                    {% endblock %}
-                {% endembed %}
-
-                <div class="collapse" id="collapseFilter">
-                    {{ appImport.filterText({'label': 'name'|trans}) }}
-
-                    {{ appImport.filterCheckboxesBoolean({'title': 'index_template_system'|trans, 'prefix': 'index_template_system'}) }}
-                </div>
-
                 {{ appImport.paginator(templates) }}
 
                 {% include 'Modules/index_template/index_template_list.html.twig' with {'templates': templates} %}

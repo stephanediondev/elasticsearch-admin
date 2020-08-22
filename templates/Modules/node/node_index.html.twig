@@ -18,29 +18,6 @@
             {% block content %}
                 {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': nodes.total}}) }}
 
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            {{ 'filter'|trans }}
-                        </button>
-                    {% endblock %}
-                {% endembed %}
-
-                <div class="collapse" id="collapseFilter">
-                    {{ appImport.filterText({'label': 'name'|trans}) }}
-
-                    {% if true == hasFeature('node_roles') %}
-                        {{ appImport.filterCheckboxesBoolean({'title': 'master_eligible'|trans, 'prefix': 'master_eligible'}) }}
-
-                        {% if true == hasFeature('voting_only') %}
-                            {{ appImport.filterCheckboxesBoolean({'title': 'voting_only'|trans, 'prefix': 'voting_only'}) }}
-                        {% endif %}
-
-                        {{ appImport.filterCheckboxesBoolean({'title': 'data'|trans, 'prefix': 'data'}) }}
-                    {% endif %}
-                </div>
-
                 {{ appImport.paginator(nodes) }}
 
                 <div id="list">

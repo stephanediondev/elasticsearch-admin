@@ -22,21 +22,6 @@
             {{ appImport.heading({'level': 3, 'title': 'shards'|trans, 'badge': {'title': shards.total}}) }}
 
             {% if 0 < shards.total %}
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            {{ 'filter'|trans }}
-                        </button>
-                    {% endblock %}
-                {% endembed %}
-
-                <div class="collapse" id="collapseFilter">
-                    {{ appImport.filterCheckboxesBoolean({'title': 'primary'|trans, 'prefix': 'primary'}) }}
-
-                    {{ appImport.filterCheckboxes({'title': 'state'|trans, 'prefix': 'state', 'choices': ['initializing', 'relocating', 'started', 'unassigned']}) }}
-                </div>
-
                 {{ appImport.paginator(shards) }}
 
                 {% include 'Modules/shard/shard_list.html.twig' with {'shards': shards, 'context': 'index_shards'} %}

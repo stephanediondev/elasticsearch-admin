@@ -18,25 +18,6 @@
             {% block content %}
                 {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': users.total}}) }}
 
-                {% embed 'Embed/buttons_embed.html.twig' %}
-                    {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                            {{ 'filter'|trans }}
-                        </button>
-                    {% endblock %}
-                {% endembed %}
-
-                <div class="collapse" id="collapseFilter">
-                    {{ appImport.filterText({'label': 'name'|trans}) }}
-
-                    {{ appImport.filterCheckboxesBoolean({'title': 'enabled'|trans, 'prefix': 'enabled'}) }}
-
-                    {{ appImport.filterCheckboxesBoolean({'title': 'reserved'|trans, 'prefix': 'reserved'}) }}
-
-                    {{ appImport.filterCheckboxesBoolean({'title': 'deprecated'|trans, 'prefix': 'deprecated'}) }}
-                </div>
-
                 {{ appImport.paginator(users) }}
 
                 {% include 'Modules/user/user_list.html.twig' with {'users': users} %}
