@@ -178,7 +178,12 @@ class ElasticsearchShardController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
-        $shards = $this->elasticsearchShardManager->getAll();
+        $query = [
+            'bytes' => 'b',
+            'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node',
+        ];
+
+        $shards = $this->elasticsearchShardManager->getAll($query);
 
         $nodes = $this->elasticsearchNodeManager->selectNodes();
 
