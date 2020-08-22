@@ -39,6 +39,7 @@ class ElasticsearchDanglingIndicesController extends AbstractAppController
 
         if (true === isset($results['dangling_indices'])) {
             $indices = $results['dangling_indices'];
+            usort($indices, [$this, 'sortByCreationDate']);
         } else {
             $indices = [];
         }
@@ -63,6 +64,11 @@ class ElasticsearchDanglingIndicesController extends AbstractAppController
             ]),
             'nodes' => $nodes,
         ]);
+    }
+
+    private function sortByCreationDate($a, $b)
+    {
+        return $b['creation_date_millis'] - $a['creation_date_millis'];
     }
 
     /**

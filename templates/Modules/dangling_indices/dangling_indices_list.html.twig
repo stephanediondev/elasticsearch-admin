@@ -35,7 +35,7 @@
 
                     {% if 'creation_date' == column %}
                         <th>
-                            {{ 'creation_date'|trans }}
+                            {{ 'creation_date'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}
                         </th>
                     {% endif %}
 

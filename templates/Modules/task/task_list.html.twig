@@ -35,7 +35,7 @@
 
                     {% if 'start_time' == column %}
                         <th>
-                            {{ 'start_time'|trans }}
+                            {{ 'start_time'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}
                         </th>
                     {% endif %}
 
@@ -91,7 +91,7 @@
 
                         {% if 'start_time' == column %}
                             <td>
-                                {{ row['start_time_in_millis']|human_datetime }}
+                                {{ row['start_time_in_millis']|human_datetime('D, d M Y H:i:s') }}
                             </td>
                         {% endif %}
 

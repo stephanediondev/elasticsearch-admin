@@ -35,11 +35,11 @@ class ElasticsearchTaskController extends AbstractAppController
         foreach ($nodes['nodes'] as $node) {
             foreach ($node['tasks'] as $task) {
                 $task['node'] = $node['name'];
-                $tasks[$task['id']] = $task;
+                $tasks[] = $task;
             }
         }
 
-        krsort($tasks);
+        usort($tasks, [$this, 'sortByStartTime']);
 
         $size = 100;
         if ($request->query->get('page') && '' != $request->query->get('page')) {
@@ -58,5 +58,10 @@ class ElasticsearchTaskController extends AbstractAppController
                 'size' => $size,
             ]),
         ]);
+    }
+
+    private function sortByStartTime($a, $b)
+    {
+        return $b['start_time_in_millis'] - $a['start_time_in_millis'];
     }
 }

@@ -35,6 +35,7 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
 
         if (true === isset($results['metadata']['index-graveyard']['tombstones'])) {
             $tombstones = $results['metadata']['index-graveyard']['tombstones'];
+            usort($tombstones, [$this, 'sortByDeleteDate']);
         } else {
             $tombstones = [];
         }
@@ -57,5 +58,10 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
             ]),
             'tombstones_size' => $clusterSettings['cluster.indices.tombstones.size'],
         ]);
+    }
+
+    private function sortByDeleteDate($a, $b)
+    {
+        return $b['delete_date_in_millis'] - $a['delete_date_in_millis'];
     }
 }
