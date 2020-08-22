@@ -26,7 +26,7 @@
                                 'id': 'IndicesForceMergeAll',
                                 'title': 'force_merge'|trans,
                                 'body': 'force_merge_note'|trans,
-                                'href': path('indices_force_merge_all'),
+                                'href': path('indices_force_merge_all', app.request.query.all),
                             }) }}
                         {% endif %}
                     {% endif %}
@@ -35,7 +35,7 @@
                         {{ appImport.buttonModal({
                             'id': 'IndicesCacheClearAll',
                             'title': 'cache_clear'|trans,
-                            'href': path('indices_cache_clear_all'),
+                            'href': path('indices_cache_clear_all', app.request.query.all),
                         }) }}
                     {% endif %}
 
@@ -44,7 +44,7 @@
                             'id': 'IndicesFlushAll',
                             'title': 'flush'|trans,
                             'body': 'flush_note'|trans,
-                            'href': path('indices_flush_all'),
+                            'href': path('indices_flush_all', app.request.query.all),
                         }) }}
                     {% endif %}
 
@@ -53,7 +53,7 @@
                             'id': 'IndicesRefreshAll',
                             'title': 'refresh'|trans,
                             'body': 'refresh_note'|trans,
-                            'href': path('indices_refresh_all'),
+                            'href': path('indices_refresh_all', app.request.query.all),
                         }) }}
                     {% endif %}
                 {% endblock %}

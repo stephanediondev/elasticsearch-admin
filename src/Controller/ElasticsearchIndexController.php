@@ -212,14 +212,18 @@ class ElasticsearchIndexController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_forcemerge');
-        $callResponse = $this->callManager->call($callRequest);
+        if ($request->query->get('name')) {
+            $callResponse = $this->elasticsearchIndexManager->forceMergeByName($request->query->get('name'));
+        } else {
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setPath('/_forcemerge');
+            $callResponse = $this->callManager->call($callRequest);
+        }
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices');
+        return $this->redirectToRoute('indices', $request->query->all());
     }
 
     /**
@@ -229,14 +233,18 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDICES_CACHE_CLEAR', 'global');
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_cache/clear');
-        $callResponse = $this->callManager->call($callRequest);
+        if ($request->query->get('name')) {
+            $callResponse = $this->elasticsearchIndexManager->cacheClearByName($request->query->get('name'));
+        } else {
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setPath('/_cache/clear');
+            $callResponse = $this->callManager->call($callRequest);
+        }
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices');
+        return $this->redirectToRoute('indices', $request->query->all());
     }
 
     /**
@@ -246,14 +254,18 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDICES_FLUSH', 'global');
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_flush');
-        $callResponse = $this->callManager->call($callRequest);
+        if ($request->query->get('name')) {
+            $callResponse = $this->elasticsearchIndexManager->flushByName($request->query->get('name'));
+        } else {
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setPath('/_flush');
+            $callResponse = $this->callManager->call($callRequest);
+        }
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices');
+        return $this->redirectToRoute('indices', $request->query->all());
     }
 
     /**
@@ -263,14 +275,18 @@ class ElasticsearchIndexController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDICES_REFRESH', 'global');
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_refresh');
-        $callResponse = $this->callManager->call($callRequest);
+        if ($request->query->get('name')) {
+            $callResponse = $this->elasticsearchIndexManager->refreshByName($request->query->get('name'));
+        } else {
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
+            $callRequest->setPath('/_refresh');
+            $callResponse = $this->callManager->call($callRequest);
+        }
 
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('indices');
+        return $this->redirectToRoute('indices', $request->query->all());
     }
 
     /**
