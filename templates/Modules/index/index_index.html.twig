@@ -15,53 +15,60 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': indices.total}}) }}
-
-            {% embed 'Embed/buttons_embed.html.twig' %}
-                {% import 'Import/app_import.html.twig' as appImport %}
-                {% block content %}
-                    {% if true == hasFeature('force_merge') %}
-                        {% if is_granted('INDICES_FORCE_MERGE', 'global') %}
-                            {{ appImport.buttonModal({
-                                'id': 'IndicesForceMergeAll',
-                                'title': 'force_merge'|trans,
-                                'body': 'force_merge_note'|trans,
-                                'href': path('indices_force_merge_all', app.request.query.all),
-                            }) }}
-                        {% endif %}
-                    {% endif %}
-
-                    {% if is_granted('INDICES_CACHE_CLEAR', 'global') %}
-                        {{ appImport.buttonModal({
-                            'id': 'IndicesCacheClearAll',
-                            'title': 'cache_clear'|trans,
-                            'href': path('indices_cache_clear_all', app.request.query.all),
-                        }) }}
-                    {% endif %}
-
-                    {% if is_granted('INDICES_FLUSH', 'global') %}
-                        {{ appImport.buttonModal({
-                            'id': 'IndicesFlushAll',
-                            'title': 'flush'|trans,
-                            'body': 'flush_note'|trans,
-                            'href': path('indices_flush_all', app.request.query.all),
-                        }) }}
-                    {% endif %}
-
-                    {% if is_granted('INDICES_REFRESH', 'global') %}
-                        {{ appImport.buttonModal({
-                            'id': 'IndicesRefreshAll',
-                            'title': 'refresh'|trans,
-                            'body': 'refresh_note'|trans,
-                            'href': path('indices_refresh_all', app.request.query.all),
-                        }) }}
-                    {% endif %}
-                {% endblock %}
-            {% endembed %}
+            {{ appImport.heading({'level': 3, 'title': 'search'|trans}) }}
 
             {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': indices.total}}) }}
 
             {% if 0 < indices.total %}
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+                    {% block content %}
+                        {% if true == hasFeature('force_merge') %}
+                            {% if is_granted('INDICES_FORCE_MERGE', 'global') %}
+                                {{ appImport.buttonModal({
+                                    'id': 'IndicesForceMergeAll',
+                                    'title': 'force_merge'|trans,
+                                    'body': 'force_merge_note'|trans,
+                                    'href': path('indices_force_merge_all', app.request.query.all),
+                                }) }}
+                            {% endif %}
+                        {% endif %}
+
+                        {% if is_granted('INDICES_CACHE_CLEAR', 'global') %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndicesCacheClearAll',
+                                'title': 'cache_clear'|trans,
+                                'href': path('indices_cache_clear_all', app.request.query.all),
+                            }) }}
+                        {% endif %}
+
+                        {% if is_granted('INDICES_FLUSH', 'global') %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndicesFlushAll',
+                                'title': 'flush'|trans,
+                                'body': 'flush_note'|trans,
+                                'href': path('indices_flush_all', app.request.query.all),
+                            }) }}
+                        {% endif %}
+
+                        {% if is_granted('INDICES_REFRESH', 'global') %}
+                            {{ appImport.buttonModal({
+                                'id': 'IndicesRefreshAll',
+                                'title': 'refresh'|trans,
+                                'body': 'refresh_note'|trans,
+                                'href': path('indices_refresh_all', app.request.query.all),
+                            }) }}
+                        {% endif %}
+                    {% endblock %}
+                {% endembed %}
+
                 {{ appImport.paginator(indices) }}
 
                 {% include 'Modules/index/index_list.html.twig' with {'indices': indices} %}

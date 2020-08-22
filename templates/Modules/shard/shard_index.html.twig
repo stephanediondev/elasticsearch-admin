@@ -15,9 +15,16 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': shards.total}}) }}
+            {{ appImport.heading({'level': 3, 'title': 'search'|trans}) }}
 
             {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': shards.total}}) }}
 
             {% if 0 < shards.total %}
                 {{ appImport.paginator(shards) }}
