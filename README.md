@@ -102,12 +102,12 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 | Name | Website | GitHub | Main language |
 | --- | --- | --- | --- |
-| cerebro | | https://github.com/lmenezes/cerebro | Scala |
-| Dejavu | https://opensource.appbase.io/dejavu/ | https://github.com/appbaseio/dejavu | JavaScript |
-| ElasticHQ | http://www.elastichq.org/ | https://github.com/ElasticHQ/elasticsearch-HQ | Python |
-| Elasticsearch Comrade | | https://github.com/moshe/elasticsearch-comrade | Python |
-| elasticsearch-head | http://mobz.github.io/elasticsearch-head/ | https://github.com/mobz/elasticsearch-head | JavaScript |
-| Elasticvue | https://elasticvue.com/ | https://github.com/cars10/elasticvue | JavaScript |
+| cerebro | | [lmenezes/cerebro](https://github.com/lmenezes/cerebro) | Scala |
+| Dejavu | https://opensource.appbase.io/dejavu/ | [appbaseio/dejavu](https://github.com/appbaseio/dejavu) | JavaScript |
+| ElasticHQ | http://www.elastichq.org/ | [ElasticHQ/elasticsearch-HQ](https://github.com/ElasticHQ/elasticsearch-HQ) | Python |
+| Elasticsearch Comrade | | [moshe/elasticsearch-comrade](https://github.com/moshe/elasticsearch-comrade) | Python |
+| elasticsearch-head | http://mobz.github.io/elasticsearch-head/ | [mobz/elasticsearch-head](https://github.com/mobz/elasticsearch-head) | JavaScript |
+| Elasticvue | https://elasticvue.com/ | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript |
 | ELKman | https://www.elkman.io/ | | PHP |
 | Kaizen | https://www.elastic-kaizen.com/ | | JavaFX |
 
