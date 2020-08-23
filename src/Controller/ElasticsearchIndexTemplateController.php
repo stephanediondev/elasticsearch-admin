@@ -44,8 +44,9 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
                 'route_parameters' => [],
                 'total' => count($templates),
                 'rows' => $templates,
-                'page' => 1,
-                'size' => count($templates),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }

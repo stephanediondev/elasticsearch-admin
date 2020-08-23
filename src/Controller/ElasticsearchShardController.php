@@ -64,13 +64,6 @@ class ElasticsearchShardController extends AbstractAppController
             'node' => $form->get('node')->getData(),
         ]);
 
-        $size = 100;
-        if ($request->query->get('page') && '' != $request->query->get('page')) {
-            $page = $request->query->get('page');
-        } else {
-            $page = 1;
-        }
-
         return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
             'shards' => $this->paginatorManager->paginate([
                 'route' => 'shards',
@@ -78,8 +71,8 @@ class ElasticsearchShardController extends AbstractAppController
                 'total' => count($shards),
                 'rows' => $shards,
                 'array_slice' => true,
-                'page' => $page,
-                'size' => $size,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
             'form' => $form->createView(),
             'nodesAvailable' => $nodesAvailable,

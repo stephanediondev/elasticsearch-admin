@@ -41,12 +41,13 @@ class ElasticsearchRoleController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/role/role_index.html.twig', [
             'roles' => $this->paginatorManager->paginate([
-                'route' => 'roles',
+                'route' => 'elasticsearch_roles',
                 'route_parameters' => [],
                 'total' => count($roles),
                 'rows' => $roles,
-                'page' => 1,
-                'size' => count($roles),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }

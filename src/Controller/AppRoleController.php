@@ -35,12 +35,13 @@ class AppRoleController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/app_role/app_role_index.html.twig', [
             'roles' => $this->paginatorManager->paginate([
-                'route' => 'roles',
+                'route' => 'app_roles',
                 'route_parameters' => [],
                 'total' => count($roles),
                 'rows' => $roles,
-                'page' => 1,
-                'size' => count($roles),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }

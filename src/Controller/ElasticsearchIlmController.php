@@ -48,8 +48,9 @@ class ElasticsearchIlmController extends AbstractAppController
                 'route_parameters' => [],
                 'total' => count($policies),
                 'rows' => $policies,
-                'page' => 1,
-                'size' => count($policies),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }

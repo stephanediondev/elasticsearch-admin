@@ -51,13 +51,6 @@ class ElasticsearchSnapshotController extends AbstractAppController
             'repository' => $form->get('repository')->getData(),
         ]);
 
-        $size = 100;
-        if ($request->query->get('page') && '' != $request->query->get('page')) {
-            $page = $request->query->get('page');
-        } else {
-            $page = 1;
-        }
-
         return $this->renderAbstract($request, 'Modules/snapshot/snapshot_index.html.twig', [
             'snapshots' => $this->paginatorManager->paginate([
                 'route' => 'snapshots',
@@ -65,8 +58,8 @@ class ElasticsearchSnapshotController extends AbstractAppController
                 'total' => count($snapshots),
                 'rows' => $snapshots,
                 'array_slice' => true,
-                'page' => $page,
-                'size' => $size,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
             'form' => $form->createView(),
         ]);

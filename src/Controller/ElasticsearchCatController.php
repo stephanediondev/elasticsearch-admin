@@ -61,13 +61,6 @@ class ElasticsearchCatController extends AbstractAppController
                 $callRequest->setQuery($query);
                 $callResponse = $this->callManager->call($callRequest);
 
-                $size = 100;
-                if ($request->query->get('page') && '' != $request->query->get('page')) {
-                    $page = $request->query->get('page');
-                } else {
-                    $page = 1;
-                }
-
                 $rows = $callResponse->getContent();
 
                 if (true === is_array($rows) && 0 < count($rows)) {
@@ -80,8 +73,8 @@ class ElasticsearchCatController extends AbstractAppController
                     'total' => count($rows),
                     'rows' => $rows,
                     'array_slice' => true,
-                    'page' => $page,
-                    'size' => $size,
+                    'page' => $request->query->get('page'),
+                    'size' => 100,
                 ]);
             } catch (CallException $e) {
                 $this->addFlash('danger', $e->getMessage());

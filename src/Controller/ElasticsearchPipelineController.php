@@ -43,8 +43,9 @@ class ElasticsearchPipelineController extends AbstractAppController
                 'route_parameters' => [],
                 'total' => count($pipelines),
                 'rows' => $pipelines,
-                'page' => 1,
-                'size' => count($pipelines),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }

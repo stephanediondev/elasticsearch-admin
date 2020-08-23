@@ -39,12 +39,13 @@ class AppUserController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/app_user/app_user_index.html.twig', [
             'users' => $this->paginatorManager->paginate([
-                'route' => 'users',
+                'route' => 'app_users',
                 'route_parameters' => [],
                 'total' => count($users),
                 'rows' => $users,
-                'page' => 1,
-                'size' => count($users),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }

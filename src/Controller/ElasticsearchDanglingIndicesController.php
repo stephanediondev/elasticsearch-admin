@@ -46,13 +46,6 @@ class ElasticsearchDanglingIndicesController extends AbstractAppController
 
         $nodes = $this->elasticsearchNodeManager->selectNodes();
 
-        $size = 100;
-        if ($request->query->get('page') && '' != $request->query->get('page')) {
-            $page = $request->query->get('page');
-        } else {
-            $page = 1;
-        }
-
         return $this->renderAbstract($request, 'Modules/dangling_indices/dangling_indices_index.html.twig', [
             'indices' => $this->paginatorManager->paginate([
                 'route' => 'dangling_indices',
@@ -60,8 +53,8 @@ class ElasticsearchDanglingIndicesController extends AbstractAppController
                 'total' => count($indices),
                 'rows' => $indices,
                 'array_slice' => true,
-                'page' => $page,
-                'size' => $size,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
             'nodes' => $nodes,
         ]);

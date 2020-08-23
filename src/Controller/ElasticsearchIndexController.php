@@ -67,13 +67,6 @@ class ElasticsearchIndexController extends AbstractAppController
             'health' => $form->get('health')->getData(),
         ]);
 
-        $size = 100;
-        if ($request->query->get('page') && '' != $request->query->get('page')) {
-            $page = $request->query->get('page');
-        } else {
-            $page = 1;
-        }
-
         return $this->renderAbstract($request, 'Modules/index/index_index.html.twig', [
             'indices' => $this->paginatorManager->paginate([
                 'route' => 'indices',
@@ -81,8 +74,8 @@ class ElasticsearchIndexController extends AbstractAppController
                 'total' => count($indices),
                 'rows' => $indices,
                 'array_slice' => true,
-                'page' => $page,
-                'size' => $size,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
             'form' => $form->createView(),
         ]);
@@ -1008,8 +1001,9 @@ class ElasticsearchIndexController extends AbstractAppController
                 'route_parameters' => ['index' => $index->getName()],
                 'total' => count($aliases),
                 'rows' => $aliases,
-                'page' => 1,
-                'size' => count($aliases),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }
@@ -1364,7 +1358,7 @@ class ElasticsearchIndexController extends AbstractAppController
                 'total' => $total,
                 'rows' => $documents['hits']['hits'],
                 'page' => $page,
-                'size' => $size,
+                'size' => 100,
             ]);
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());

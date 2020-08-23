@@ -39,8 +39,9 @@ class ElasticsearchRepositoryController extends AbstractAppController
                 'route_parameters' => [],
                 'total' => count($repositories),
                 'rows' => $repositories,
-                'page' => 1,
-                'size' => count($repositories),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }

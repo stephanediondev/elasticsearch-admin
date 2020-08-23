@@ -41,12 +41,13 @@ class ElasticsearchUserController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/user/user_index.html.twig', [
             'users' => $this->paginatorManager->paginate([
-                'route' => 'users',
+                'route' => 'elasticsearch_users',
                 'route_parameters' => [],
                 'total' => count($users),
                 'rows' => $users,
-                'page' => 1,
-                'size' => count($users),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }

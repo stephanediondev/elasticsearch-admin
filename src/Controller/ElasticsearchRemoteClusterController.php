@@ -36,8 +36,9 @@ class ElasticsearchRemoteClusterController extends AbstractAppController
                 'route_parameters' => [],
                 'total' => count($remoteClusters),
                 'rows' => $remoteClusters,
-                'page' => 1,
-                'size' => count($remoteClusters),
+                'array_slice' => true,
+                'page' => $request->query->get('page'),
+                'size' => 100,
             ]),
         ]);
     }
