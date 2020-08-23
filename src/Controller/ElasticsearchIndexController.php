@@ -12,8 +12,6 @@ use App\Form\Type\ReindexType;
 use App\Form\Type\ElasticsearchIndexFilterType;
 use App\Form\Type\ElasticsearchIndexQueryType;
 use App\Manager\ElasticsearchIndexManager;
-use App\Manager\ElasticsearchShardManager;
-use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexModel;
 use App\Model\ElasticsearchIndexAliasModel;
@@ -35,11 +33,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchIndexController extends AbstractAppController
 {
-    public function __construct(ElasticsearchShardManager $elasticsearchShardManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
+    public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
     {
-        $this->elasticsearchShardManager = $elasticsearchShardManager;
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
-        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
     /**
@@ -983,48 +979,6 @@ class ElasticsearchIndexController extends AbstractAppController
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('indices_read_lifecycle', ['index' => $index->getName()]);
-    }
-
-    /**
-     * @Route("/indices/{index}/shards", name="indices_read_shards")
-     */
-    public function shards(Request $request, string $index): Response
-    {
-        $index = $this->elasticsearchIndexManager->getByName($index);
-
-        if (null === $index) {
-            throw new NotFoundHttpException();
-        }
-
-        $this->denyAccessUnlessGranted('INDEX_SHARDS', $index);
-
-        $query = [
-            'bytes' => 'b',
-            'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node',
-        ];
-
-        if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = $request->query->get('sort', 'index:asc,shard:asc,prirep:asc');
-        }
-
-        $shards = $this->elasticsearchShardManager->getAll($query, ['index' => $index->getName()]);
-
-        $nodes = $this->elasticsearchNodeManager->selectNodes();
-
-        $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
-
-        return $this->renderAbstract($request, 'Modules/index/index_read_shards.html.twig', [
-            'index' => $index,
-            'shards' => $this->paginatorManager->paginate([
-                'route' => 'indices_read_shards',
-                'route_parameters' => ['index' => $index->getName()],
-                'total' => count($shards),
-                'rows' => $shards,
-                'page' => 1,
-                'size' => count($shards),
-            ]),
-            'nodesAvailable' => $nodesAvailable,
-        ]);
     }
 
     /**

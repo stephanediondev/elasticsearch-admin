@@ -3,18 +3,17 @@
 
     {% set columns = {'index': true, 'shard': true, 'primary': true, 'state': true, 'unassigned_reason': true, 'documents': true, 'size': true, 'node': true, '_buttons': true} %}
 
+    {% set modalReference = 0 %}
+
+    {% set redirect_url = path('shards', app.request.query.all) %}
+
     {% set is_granted_indices = is_granted('INDICES', 'global') %}
 
     {% set is_granted_nodes = is_granted('NODES', 'global') %}
 
     {% set is_granted_shards_reroute = is_granted('SHARDS_REROUTE', 'global') %}
 
-    {% if 'index_shards' == context %}
-        {% set columns = columns|merge({'index': false}) %}
-        {% set sortUrl = path('indices_read_shards', {'index': index.name}|merge(app.request.query.all)) %}
-    {% else %}
-        {% set sortUrl = path('shards', app.request.query.all|filter((v, k) => k != 'sort')) %}
-    {% endif %}
+    {% set sortUrl = path('shards', app.request.query.all|filter((v, k) => k != 'sort')) %}
 
     {% block thead %}
         <tr>
@@ -151,9 +150,144 @@
                         {% if '_buttons' == column %}
                             <td>
                                 {% if is_granted_shards_reroute and 'relocating' != row.state %}
-                                    <a class="btn btn-primary btn-sm" href="{{ path('shards_reroute', {'index': row.index, 'number': row.number, 'state': row.state, 'node': row.node}) }}">
-                                        {{ 'reroute'|trans }}
-                                    </a>
+                                    {% if nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and row.node %}
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                            {{ 'reroute_commands.move'|trans }}
+                                        </button>
+                                        <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form action="{{ path('shards_move', {'index': row.index, 'number': row.number}) }}">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'reroute_commands.move'|trans }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-left">
+                                                            <p>
+                                                                <strong>{{ 'index'|trans }}</strong><br>
+                                                                {{ row.index }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'shard'|trans }}</strong><br>
+                                                                {{ row.number }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'from_node'|trans }}</strong><br>
+                                                                {{ row.node }}
+                                                            </p>
+
+                                                            <input type="hidden" name="redirect" value="{{ redirect_url }}">
+                                                            <input type="hidden" name="from_node" value="{{ row.node }}">
+                                                            <div class="form-group mb-3">
+                                                                <label for="move-to-{{ row.node }}" class="form-label"><strong>{{ 'to_node'|trans }}</strong></label>
+                                                                <select id="move-to-{{ row.node }}" class="form-control" name="to_node" required="required">
+                                                                    <option value="">-</option>
+                                                                    {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
+                                                                        <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% set modalReference = modalReference + 1 %}
+                                    {% endif %}
+
+                                    {% if row.node %}
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                            {{ 'reroute_commands.cancel'|trans }}
+                                        </button>
+                                        <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form action="{{ path('shards_cancel_allocation', {'index': row.index, 'number': row.number}) }}">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'reroute_commands.cancel'|trans }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-left">
+                                                            <p>
+                                                                <strong>{{ 'index'|trans }}</strong><br>
+                                                                {{ row.index }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'shard'|trans }}</strong><br>
+                                                                {{ row.number }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'node'|trans }}</strong><br>
+                                                                {{ row.node }}
+                                                            </p>
+
+                                                            <input type="hidden" name="redirect" value="{{ redirect_url }}">
+                                                            <input type="hidden" name="node" value="{{ row.node }}">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% set modalReference = modalReference + 1 %}
+                                    {% endif %}
+
+                                    {% if nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and 'unassigned' == row.state %}
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                            {{ 'reroute_commands.allocate_replica'|trans }}
+                                        </button>
+                                        <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <form action="{{ path('shards_allocate_replica', {'index': row.index, 'number': row.number}) }}">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'reroute_commands.allocate_replica'|trans }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body text-left">
+                                                            <p>
+                                                                <strong>{{ 'index'|trans }}</strong><br>
+                                                                {{ row.index }}
+                                                            </p>
+                                                            <p>
+                                                                <strong>{{ 'shard'|trans }}</strong><br>
+                                                                {{ row.number }}
+                                                            </p>
+
+                                                            <input type="hidden" name="redirect" value="{{ redirect_url }}">
+                                                            <div class="form-group mb-3">
+                                                                <label for="allocate-to-{{ row.node }}" class="form-label"><strong>{{ 'node'|trans }}</strong></label>
+                                                                <select id="allocate-to-{{ row.node }}" class="form-control" name="node" required="required">
+                                                                    <option value="">-</option>
+                                                                    {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
+                                                                        <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% set modalReference = modalReference + 1 %}
+                                    {% endif %}
                                 {% endif %}
                             </td>
                         {% endif %}
