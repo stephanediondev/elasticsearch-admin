@@ -105,7 +105,7 @@ class CallManager
             $callResponse = new CallResponseModel();
             $callResponse->setCode($response->getStatusCode());
 
-            if ($response && in_array($response->getStatusCode(), [400, 401, 405, 500])) {
+            if ($response && in_array($response->getStatusCode(), [400, 401, 405, 500, 503])) {
                 $json = json_decode($response->getContent(false), true);
 
                 $message = 'Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')';
