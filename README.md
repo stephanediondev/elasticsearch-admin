@@ -4,6 +4,7 @@ The application named elasticsearch-admin is NOT affiliated in any way with Elas
 
 Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
 
+- [Product pages](#product-pages)
 - [Running with Docker](#running-with-docker)
 - [Source installation](#source-installation)
 - [Features](#features)
@@ -11,7 +12,10 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - [Other tools](#other-tools)
 - [Unit tests](#unit-tests)
 
-## [Featured on Product Hunt](https://www.producthunt.com/posts/elasticsearch-admin)
+## Product pages
+
+- [Product Hunt](https://www.producthunt.com/posts/elasticsearch-admin)
+- [Slant](https://www.slant.co/topics/11537/viewpoints/12/~elasticsearch-gui-clients~elasticsearch-admin)
 
 ## Running with Docker
 
