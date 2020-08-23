@@ -6,16 +6,20 @@ class PaginatorManager
 {
     public function paginate($paginate): array
     {
-        if (true === isset($paginate['array_slice']) && true === $paginate['array_slice']) {
-            $paginate['rows'] = array_slice($paginate['rows'], ($paginate['size'] * $paginate['page']) - $paginate['size'], $paginate['size']);
-        }
-
         $slice = 2;
 
         if (0 == $paginate['size']) {
             $paginate['pages'] = 0;
         } else {
             $paginate['pages'] = ceil($paginate['total'] / $paginate['size']);
+        }
+
+        if ($paginate['pages'] < $paginate['page']) {
+            $paginate['page'] = 1;
+        }
+
+        if (true === isset($paginate['array_slice']) && true === $paginate['array_slice']) {
+            $paginate['rows'] = array_slice($paginate['rows'], ($paginate['size'] * $paginate['page']) - $paginate['size'], $paginate['size']);
         }
 
         $pagesSlice = [];
