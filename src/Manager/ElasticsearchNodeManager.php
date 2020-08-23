@@ -84,7 +84,9 @@ class ElasticsearchNodeManager extends AbstractAppManager
         $nodes2 = $callResponse->getContent();
 
         foreach ($nodes2['nodes'] as $node) {
-            $nodes[$node['name']] = array_merge($node, $nodes[$node['name']]);
+            if (true === isset($nodes[$node['name']])) {
+                $nodes[$node['name']] = array_merge($node, $nodes[$node['name']]);
+            }
         }
 
         $callRequest = new CallRequestModel();
@@ -93,7 +95,9 @@ class ElasticsearchNodeManager extends AbstractAppManager
         $nodes3 = $callResponse->getContent();
 
         foreach ($nodes3['nodes'] as $node) {
-            $nodes[$node['name']]['stats'] = $node;
+            if (true === isset($nodes[$node['name']])) {
+                $nodes[$node['name']]['stats'] = $node;
+            }
         }
 
         return $nodes;
