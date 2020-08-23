@@ -16,7 +16,7 @@ class AppScreenshotsController extends AbstractAppController
     /**
      * @Route("/screenshots", name="screenshots")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, string $appEnv): Response
     {
         $cookie = $request->getSession()->getId();
 
@@ -100,6 +100,12 @@ class AppScreenshotsController extends AbstractAppController
         }
 
         fclose($fp);
+
+        if ('prod' != $appEnv) {
+            $this->addFlash('warning', 'Set APP_ENV to prod');
+        }
+
+        $this->addFlash('warning', 'Run bin/console app:phpunit');
 
         return $this->renderAbstract($request, 'Modules/screenshots/screenshots_index.html.twig', [
             'results' => $results,

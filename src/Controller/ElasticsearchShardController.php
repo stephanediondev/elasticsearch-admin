@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchShardFilterType;
-use App\Form\Type\ElasticsearchShardRerouteType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
 use App\Manager\ElasticsearchNodeManager;
