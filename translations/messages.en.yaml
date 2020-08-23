@@ -28,6 +28,7 @@ error503:
 
 "-": "-"
 action: "Action"
+active_shards: "Active shards"
 add: "Add"
 added: "Added"
 addresses: "Addresses"
@@ -556,7 +557,7 @@ stats_data:
     indices_by_frozen: "Indices by frozen status"
     indices_by_documents: "Indices by documents"
     indices_by_primary_size: "Indices by primary size"
-    shards_total: "Shards"
+    shards_total: "Total shards"
     shards_total_primary: "Primary shards"
     shards_total_unassigned: "Unassigned shards"
     shards_total_documents: "Total documents"

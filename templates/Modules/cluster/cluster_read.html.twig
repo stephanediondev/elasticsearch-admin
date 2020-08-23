@@ -40,8 +40,8 @@
                     {{ appImport.dashboardKpi({'title': 'indices'|trans, 'badge': {'title': indices}}) }}
                 {% endif %}
 
-                {% if shards %}
-                    {{ appImport.dashboardKpi({'title': 'shards'|trans, 'badge': {'title': shards}}) }}
+                {% if cluster_health['active_shards'] is defined %}
+                    {{ appImport.dashboardKpi({'title': 'active_shards'|trans, 'badge': {'title': cluster_health['active_shards']}}) }}
                 {% endif %}
 
                 {% if is_granted('SHARDS', 'global') and 0 < cluster_health['unassigned_shards'] %}

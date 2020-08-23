@@ -47,7 +47,6 @@ class ElasticsearchClusterController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/cluster/cluster_read.html.twig', [
             'master_node' => $nodes[$clusterState['master_node']] ?? false,
             'indices' => $clusterStats['indices']['count'] ?? false,
-            'shards' => $clusterStats['indices']['shards']['total'] ?? false,
             'documents' => $clusterStats['indices']['docs']['count'] ?? false,
             'total_size' => $clusterStats['indices']['store']['size_in_bytes'] ?? false,
         ]);
