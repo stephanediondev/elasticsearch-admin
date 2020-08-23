@@ -78,7 +78,8 @@ class ElasticsearchCatController extends AbstractAppController
                     'route' => 'cat',
                     'route_parameters' => [],
                     'total' => count($rows),
-                    'rows' => array_slice($rows, ($size * $page) - $size, $size),
+                    'rows' => $rows,
+                    'array_slice' => true,
                     'page' => $page,
                     'size' => $size,
                 ]);
