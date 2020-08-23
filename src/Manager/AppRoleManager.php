@@ -30,7 +30,7 @@ class AppRoleManager extends AbstractAppManager
             'ELASTICSEARCH_USERS', 'ELASTICSEARCH_USERS_CREATE',
             'ELASTICSEARCH_ROLES', 'ELASTICSEARCH_ROLES_CREATE',
             'MENU_TOOLS',
-            'SNAPSHOTS', 'SNAPSHOTS_CREATE',
+            'SNAPSHOTS', 'SNAPSHOTS_STATS', 'SNAPSHOTS_CREATE',
             'PIPELINES', 'PIPELINES_CREATE',
             'TASKS',
             'REMOTE_CLUSTERS',

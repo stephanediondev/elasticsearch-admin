@@ -59,6 +59,7 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Create AWS S3 repository', 'filename' => 'repository-create-s3', 'path' => '/admin/repositories/create/s3'],
             ['title' => 'Create SLM policy', 'filename' => 'slm-policy-create', 'path' => '/admin/slm/create', 'feature' => 'slm'],
             ['title' => 'Snaphosts', 'filename' => 'snapshots', 'path' => '/admin/snapshots'],
+            ['title' => 'Snaphosts stats', 'filename' => 'snapshots-stats', 'path' => '/admin/snapshots/stats'],
             ['title' => 'Create snapshot', 'filename' => 'snapshot-create', 'path' => '/admin/snapshots/create'],
             ['title' => 'Create enrich policy', 'filename' => 'enrich-create', 'path' => '/admin/enrich/create', 'feature' => 'enrich'],
             ['title' => 'License', 'filename' => 'license', 'path' => '/admin/license', 'feature' => 'license'],

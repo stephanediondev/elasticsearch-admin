@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'snapshots'|trans }} - {{ 'stats'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'snapshots'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/snapshot/snapshot_tabs.html.twig' with {'active': 'stats'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+
+            <hr>
+
+            <div class="row">
+                {% for key, total in data.totals %}
+                    {% if 'snapshots_total_size' == key %}
+                        {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total|human_filesize}}) }}
+                    {% elseif 'snapshots_total_success' == key %}
+                        {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total, 'context': 'success'}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total}}) }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <hr>
+
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                {% for key, table in data.tables %}
+                    {% if 0 < table.results|length %}
+                        {% embed 'Embed/stats_table_embed.html.twig' %}
+                            {% import 'Import/app_import.html.twig' as appImport %}
+
+                            {% block title %}{{ ('stats_data.' ~ key)|trans }}{% endblock %}
+
+                            {% block content %}
+                                {% for row in table.results %}
+                                    {% if 'snapshots_by_unassigned_reason' == key %}
+                                        {% set percent = appImport.getPercent(data.totals.snapshots_total_unassigned, row.total, 1) %}
+                                    {% else %}
+                                        {% set percent = appImport.getPercent(data.totals.snapshots_total, row.total, 1) %}
+                                    {% endif %}
+
+                                    {% set class = 'progress-bar' %}
+                                    {% if key in ['snapshots_by_unassigned_reason'] %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': 'danger'}) %}
+                                    {% elseif key in ['snapshots_by_node'] %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({}) %}
+                                    {% else %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': row.title}) %}
+                                    {% endif %}
+
+                                    {% embed 'Embed/stats_table_row_embed.html.twig' %}
+                                        {% import 'Import/app_import.html.twig' as appImport %}
+
+                                        {% block title %}
+                                            {% if key in ['snapshots_by_repository'] %}
+                                                {% if is_granted('SNAPSHOTS', 'global') %}
+                                                    <a class="text-secondary" href="{{ path('snapshots', {'repository[]': row.title}) }}">{{ row.title }}</a>
+                                                {% else %}
+                                                    {{ row.title }}
+                                                {% endif %}
+                                            {% elseif key in ['snapshots_by_state'] and is_granted('SNAPSHOTS', 'global') %}
+                                                <a class="text-secondary" href="{{ path('snapshots', {'state[]': row.title}) }}">{{ row.title|trans }}</a>
+                                            {% else %}
+                                                {{ row.title|trans }}
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block total %}
+                                            {% if 'snapshots_by_total_size' == key %}
+                                                {{ row.total|human_filesize }}
+                                            {% else %}
+                                                {{ row.total }}
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endfor %}
+                            {% endblock %}
+                        {% endembed %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

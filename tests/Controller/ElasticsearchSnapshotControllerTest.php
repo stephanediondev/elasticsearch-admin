@@ -19,6 +19,17 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
     }
 
     /**
+     * @Route("/snapshots/stats", name="snapshots_stats")
+     */
+    public function testStats()
+    {
+        $this->client->request('GET', '/admin/snapshots/stats');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Snapshots - Stats');
+    }
+
+    /**
      * @Route("/snapshots/create", name="snapshots_create")
      */
     public function testCreate()
