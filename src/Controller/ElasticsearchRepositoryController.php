@@ -67,7 +67,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
         if (true === isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
             $paths = $clusterSettings['path.repo'];
-        } else if (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
+        } elseif (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
             $paths = [$clusterSettings['path.repo.0']];
         } else {
             $paths = [];
@@ -131,7 +131,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
         if (true === isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
             $paths = $clusterSettings['path.repo'];
-        } else if (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
+        } elseif (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
             $paths = [$clusterSettings['path.repo.0']];
         } else {
             $paths = [];
