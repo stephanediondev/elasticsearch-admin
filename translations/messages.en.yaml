@@ -557,6 +557,7 @@ stats_data:
     indices_by_documents: "Indices by documents"
     indices_by_primary_size: "Indices by primary size"
     shards_total: "Shards"
+    shards_total_primary: "Primary shards"
     shards_total_unassigned: "Unassigned shards"
     shards_total_documents: "Total documents"
     shards_total_size: "Total size"

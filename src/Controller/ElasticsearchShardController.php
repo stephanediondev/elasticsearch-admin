@@ -95,6 +95,7 @@ class ElasticsearchShardController extends AbstractAppController
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['shards_total'] = 0;
+        $data['totals']['shards_total_primary'] = 0;
         $data['totals']['shards_total_unassigned'] = 0;
         $data['totals']['shards_total_documents'] = 0;
         $data['totals']['shards_total_size'] = 0;
@@ -108,6 +109,9 @@ class ElasticsearchShardController extends AbstractAppController
         foreach ($shards as $shard) {
             $data['totals']['shards_total']++;
 
+            if ($shard->isPrimary()) {
+                $data['totals']['shards_total_primary']++;
+            }
             if ('unassigned' == $shard->getState()) {
                 $data['totals']['shards_total_unassigned']++;
             }
