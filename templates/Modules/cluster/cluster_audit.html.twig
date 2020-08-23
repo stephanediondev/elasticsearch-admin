@@ -130,8 +130,8 @@
                                 {% if 'unassigned_shards' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block internal_link %}
-                                            {% if 'audit_fail' == result and true == hasFeature('allocation_explain') and is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
-                                                <a href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
+                                            {% if 'audit_fail' == result and is_granted('SHARDS', 'global') %}
+                                                <a href="{{ path('shards', {'state[]': 'unassigned'}) }}">{{ 'shards'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
