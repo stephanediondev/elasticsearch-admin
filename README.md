@@ -100,14 +100,16 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 ## Other tools
 
-- http://mobz.github.io/elasticsearch-head/
-- http://www.elastichq.org/
-- https://elasticvue.com/
-- https://github.com/lmenezes/cerebro
-- https://github.com/moshe/elasticsearch-comrade
-- https://opensource.appbase.io/dejavu/
-- https://www.elastic-kaizen.com/
-- https://www.elkman.io/
+| Name | Website | GitHub | Main language |
+| --- | --- | --- | --- |
+| cerebro | | https://github.com/lmenezes/cerebro | Scala |
+| Dejavu | https://opensource.appbase.io/dejavu/ | https://github.com/appbaseio/dejavu | JavaScript |
+| ElasticHQ | http://www.elastichq.org/ | https://github.com/ElasticHQ/elasticsearch-HQ | Python |
+| Elasticsearch Comrade | | https://github.com/moshe/elasticsearch-comrade | Python |
+| elasticsearch-head | http://mobz.github.io/elasticsearch-head/ | https://github.com/mobz/elasticsearch-head | JavaScript |
+| Elasticvue | https://elasticvue.com/ | https://github.com/cars10/elasticvue | JavaScript |
+| ELKman | https://www.elkman.io/ | | PHP |
+| Kaizen | https://www.elastic-kaizen.com/ | | JavaFX |
 
 ## Unit tests
 
