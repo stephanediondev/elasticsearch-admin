@@ -28,7 +28,7 @@
                         {{ appImport.buttonModal({
                             'id': 'IndexDelete',
                             'title': 'delete'|trans,
-                            'body': index.name,
+                            'body': 'delete_note'|trans,
                             'href': path('indices_delete', {'index': index.name}),
                         }) }}
                     {% endif %}
@@ -37,7 +37,7 @@
                         {{ appImport.buttonModal({
                             'id': 'IndexOpen',
                             'title': 'open'|trans,
-                            'body': index.name,
+                            'body': 'open_note'|trans,
                             'href': path('indices_open', {'index': index.name}),
                         }) }}
                     {% endif %}
@@ -46,7 +46,7 @@
                         {{ appImport.buttonModal({
                             'id': 'IndexClose',
                             'title': 'close'|trans,
-                            'body': index.name,
+                            'body': 'close_note'|trans,
                             'href': path('indices_close', {'index': index.name}),
                         }) }}
                     {% endif %}
