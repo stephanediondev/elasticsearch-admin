@@ -12,12 +12,12 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < nodes.total %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': nodes.total}}) }}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': nodes.total}}) }}
 
+            {% if 0 < nodes.total %}
                 {{ appImport.paginator(nodes) }}
 
                 <div id="list">
@@ -25,9 +25,9 @@
                 </div>
 
                 {{ appImport.paginator(nodes) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
 
 {% block scripts %}

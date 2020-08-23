@@ -12,18 +12,18 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < templates.total %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': templates.total}}) }}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': templates.total}}) }}
 
+            {% if 0 < templates.total %}
                 {{ appImport.paginator(templates) }}
 
                 {% include 'Modules/component_template/component_template_list.html.twig' with {'templates': templates} %}
 
                 {{ appImport.paginator(templates) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}

@@ -12,18 +12,18 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < pipelines.total %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': pipelines.total}}) }}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': pipelines.total}}) }}
 
+            {% if 0 < pipelines.total %}
                 {{ appImport.paginator(pipelines) }}
 
                 {% include 'Modules/pipeline/pipeline_list.html.twig' with {'pipelines': pipelines} %}
 
                 {{ appImport.paginator(pipelines) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}

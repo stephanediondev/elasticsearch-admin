@@ -12,18 +12,18 @@
 {% endblock %}
 
 {% block main_content %}
-    {% if 0 < repositories.total %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': repositories.total}}) }}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': repositories.total}}) }}
 
+            {% if 0 < repositories.total %}
                 {{ appImport.paginator(repositories) }}
 
                 {% include 'Modules/repository/repository_list.html.twig' with {'repositories': repositories} %}
 
                 {{ appImport.paginator(repositories) }}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
