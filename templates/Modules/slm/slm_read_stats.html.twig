@@ -26,11 +26,11 @@
             <div class="row">
                 {{ appImport.dashboardKpi({'title': 'snapshots_taken'|trans, 'badge': {'title': policy.stats['snapshots_taken']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'snapshots_failed'|trans, 'badge': {'title': policy.stats['snapshots_failed']}}) }}
+                {{ appImport.dashboardKpi({'title': 'snapshots_failed'|trans, 'badge': {'title': policy.stats['snapshots_failed'], 'context': 'danger'}}) }}
 
                 {{ appImport.dashboardKpi({'title': 'snapshots_deleted'|trans, 'badge': {'title': policy.stats['snapshots_deleted']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'snapshot_deletion_failures'|trans, 'badge': {'title': policy.stats['snapshot_deletion_failures']}}) }}
+                {{ appImport.dashboardKpi({'title': 'snapshot_deletion_failures'|trans, 'badge': {'title': policy.stats['snapshot_deletion_failures'], 'context': 'danger'}}) }}
             </div>
         {% endblock %}
     {% endembed %}

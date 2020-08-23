@@ -22,7 +22,7 @@
             <div class="row">
                 {{ appImport.dashboardKpi({'title': 'retention_runs'|trans, 'badge': {'title': stats['retention_runs']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'retention_failed'|trans, 'badge': {'title': stats['retention_failed']}}) }}
+                {{ appImport.dashboardKpi({'title': 'retention_failed'|trans, 'badge': {'title': stats['retention_failed'], 'context': 'danger'}}) }}
 
                 {{ appImport.dashboardKpi({'title': 'retention_timed_out'|trans, 'badge': {'title': stats['retention_timed_out']}}) }}
 
@@ -30,11 +30,11 @@
 
                 {{ appImport.dashboardKpi({'title': 'total_snapshots_taken'|trans, 'badge': {'title': stats['total_snapshots_taken']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'total_snapshots_failed'|trans, 'badge': {'title': stats['total_snapshots_failed']}}) }}
+                {{ appImport.dashboardKpi({'title': 'total_snapshots_failed'|trans, 'badge': {'title': stats['total_snapshots_failed'], 'context': 'danger'}}) }}
 
                 {{ appImport.dashboardKpi({'title': 'total_snapshots_deleted'|trans, 'badge': {'title': stats['total_snapshots_deleted']}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'total_snapshot_deletion_failures'|trans, 'badge': {'title': stats['total_snapshot_deletion_failures']}}) }}
+                {{ appImport.dashboardKpi({'title': 'total_snapshot_deletion_failures'|trans, 'badge': {'title': stats['total_snapshot_deletion_failures'], 'context': 'danger'}}) }}
             </div>
         {% endblock %}
     {% endembed %}
