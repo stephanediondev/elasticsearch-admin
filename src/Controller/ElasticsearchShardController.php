@@ -57,6 +57,10 @@ class ElasticsearchShardController extends AbstractAppController
             'node' => $form->get('node')->getData(),
         ]);
 
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
+
+        $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
+
         $size = 100;
         if ($request->query->get('page') && '' != $request->query->get('page')) {
             $page = $request->query->get('page');
@@ -74,6 +78,7 @@ class ElasticsearchShardController extends AbstractAppController
                 'size' => $size,
             ]),
             'form' => $form->createView(),
+            'nodesAvailable' => $nodesAvailable,
         ]);
     }
 
