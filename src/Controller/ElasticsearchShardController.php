@@ -51,15 +51,17 @@ class ElasticsearchShardController extends AbstractAppController
             $query['s'] = '' != $request->query->get('sort') ? $request->query->get('sort') : 'index:asc,shard:asc,prirep:asc';
         }
 
+        $shards = $this->elasticsearchShardManager->getAll($query);
+
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
+
+        $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
+
         $shards = $this->elasticsearchShardManager->getAll($query, [
             'index' => $form->get('index')->getData(),
             'state' => $form->get('state')->getData(),
             'node' => $form->get('node')->getData(),
         ]);
-
-        $nodes = $this->elasticsearchNodeManager->selectNodes();
-
-        $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
 
         $size = 100;
         if ($request->query->get('page') && '' != $request->query->get('page')) {
