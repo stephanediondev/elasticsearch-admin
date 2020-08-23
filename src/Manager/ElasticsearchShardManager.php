@@ -27,30 +27,40 @@ class ElasticsearchShardManager extends AbstractAppManager
 
         if ($results) {
             foreach ($results as $row) {
-                $score = 0;
-
                 $shardModel = new ElasticsearchShardModel();
                 $shardModel->convert($row);
-
-                if (true === isset($filter['state']) && 0 < count($filter['state'])) {
-                    if (false === in_array($shardModel->getState(), $filter['state'])) {
-                        $score--;
-                    }
-                }
-
-                if (true === isset($filter['node']) && 0 < count($filter['node'])) {
-                    if (false === in_array($shardModel->getNode(), $filter['node'])) {
-                        $score--;
-                    }
-                }
-
-                if (0 <= $score) {
-                    $shards[] = $shardModel;
-                }
+                $shards[] = $shardModel;
             }
         }
 
-        return $shards;
+        return $this->filter($shards, $filter);
+    }
+
+    public function filter(array $shards, array $filter = []): array
+    {
+        $shardsWithFilter = [];
+
+        foreach ($shards as $row) {
+            $score = 0;
+
+            if (true === isset($filter['state']) && 0 < count($filter['state'])) {
+                if (false === in_array($row->getState(), $filter['state'])) {
+                    $score--;
+                }
+            }
+
+            if (true === isset($filter['node']) && 0 < count($filter['node'])) {
+                if (false === in_array($row->getNode(), $filter['node'])) {
+                    $score--;
+                }
+            }
+
+            if (0 <= $score) {
+                $shardsWithFilter[] = $row;
+            }
+        }
+
+        return $shardsWithFilter;
     }
 
     public function getNodesAvailable(array $shards, array $nodes): array

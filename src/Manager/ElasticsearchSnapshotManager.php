@@ -67,36 +67,46 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
             }
 
             foreach ($rows as $row) {
-                $score = 0;
-
                 $snapshotModel = new ElasticsearchSnapshotModel();
                 $snapshotModel->convert($row);
-
-                if (true === isset($filter['state']) && 0 < count($filter['state'])) {
-                    if (false === in_array($snapshotModel->getState(), $filter['state'])) {
-                        $score--;
-                    }
-                }
-
-                if (true === isset($filter['repository']) && 0 < count($filter['repository'])) {
-                    if (false === in_array($snapshotModel->getRepository(), $filter['repository'])) {
-                        $score--;
-                    }
-                }
-
-                if (0 <= $score) {
-                    $snapshots[] = $snapshotModel;
-                }
+                $snapshots[] = $snapshotModel;
             }
         }
         usort($snapshots, [$this, 'sortByStartTime']);
 
-        return $snapshots;
+        return $this->filter($snapshots, $filter);
     }
 
     private function sortByStartTime($a, $b)
     {
         return $b->getStartTime() > $a->getStartTime();
+    }
+
+    public function filter(array $snapshots, array $filter = []): array
+    {
+        $snapshotsWithFilter = [];
+
+        foreach ($snapshots as $row) {
+            $score = 0;
+
+            if (true === isset($filter['state']) && 0 < count($filter['state'])) {
+                if (false === in_array($row->getState(), $filter['state'])) {
+                    $score--;
+                }
+            }
+
+            if (true === isset($filter['repository']) && 0 < count($filter['repository'])) {
+                if (false === in_array($row->getRepository(), $filter['repository'])) {
+                    $score--;
+                }
+            }
+
+            if (0 <= $score) {
+                $snapshotsWithFilter[] = $row;
+            }
+        }
+
+        return $snapshotsWithFilter;
     }
 
     public function send(ElasticsearchSnapshotModel $snapshotModel): CallResponseModel

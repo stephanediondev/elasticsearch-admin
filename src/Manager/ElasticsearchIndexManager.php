@@ -82,27 +82,37 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
         if ($results) {
             foreach ($results as $row) {
-                $score = 0;
-
                 if (true === isset($aliases[$row['index']])) {
                     $row['aliases'] = $aliases[$row['index']];
                 }
                 $indexModel = new ElasticsearchIndexModel();
                 $indexModel->convert($row);
-
-                if (true === isset($filter['health']) && 0 < count($filter['health'])) {
-                    if (false === in_array($indexModel->getHealth(), $filter['health'])) {
-                        $score--;
-                    }
-                }
-
-                if (0 <= $score) {
-                    $indices[] = $indexModel;
-                }
+                $indices[] = $indexModel;
             }
         }
 
-        return $indices;
+        return $this->filter($indices, $filter);
+    }
+
+    public function filter(array $indices, array $filter = []): array
+    {
+        $indicesWithFilter = [];
+
+        foreach ($indices as $row) {
+            $score = 0;
+
+            if (true === isset($filter['health']) && 0 < count($filter['health'])) {
+                if (false === in_array($row->getHealth(), $filter['health'])) {
+                    $score--;
+                }
+            }
+
+            if (0 <= $score) {
+                $indicesWithFilter[] = $row;
+            }
+        }
+
+        return $indicesWithFilter;
     }
 
     public function deleteByName(string $name): CallResponseModel
