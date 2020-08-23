@@ -52,7 +52,7 @@
                                     {% set class = 'progress-bar' %}
                                     {% if key in ['snapshots_by_unassigned_reason'] %}
                                         {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': 'danger'}) %}
-                                    {% elseif key in ['snapshots_by_node'] %}
+                                    {% elseif key in ['snapshots_by_repository'] %}
                                         {% set class = class ~ ' bg-' ~ appImport.getContextColor({}) %}
                                     {% else %}
                                         {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': row.title}) %}
