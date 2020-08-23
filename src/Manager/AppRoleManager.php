@@ -74,7 +74,6 @@ class AppRoleManager extends AbstractAppManager
             'INDEX_FREEZE', 'INDEX_UNFREEZE',
             'INDEX_FORCE_MERGE', 'INDEX_CACHE_CLEAR', 'INDEX_FLUSH', 'INDEX_REFRESH', 'INDEX_EMPTY',
             'INDEX_SEARCH', 'INDEX_IMPORT', 'INDEX_EXPORT',
-            'INDEX_SHARDS',
             'INDEX_LIFECYCLE',
             'INDEX_ALIASES', 'INDEX_ALIAS_CREATE', 'INDEX_ALIAS_DELETE',
         ],

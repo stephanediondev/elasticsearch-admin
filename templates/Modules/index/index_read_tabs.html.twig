@@ -24,7 +24,7 @@
         </li>
     {% endif %}
 
-    {% if is_granted('INDEX_SHARDS', index) %}
+    {% if is_granted('SHARDS', 'global') %}
         <li class="nav-item">
             <a class="nav-link" href="{{ path('shards', {'index': index.name}) }}">{{ 'shards'|trans }}{{ appImport.badge({'title': index.shards, 'context': 'light'}) }}</a>
         </li>

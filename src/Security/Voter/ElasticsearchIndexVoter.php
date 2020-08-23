@@ -27,7 +27,6 @@ class ElasticsearchIndexVoter extends AbstractAppVoter
         }
 
         $includeWhenIsSystem = [
-            'INDEX_SHARDS',
             'INDEX_LIFECYCLE',
             'INDEX_ALIASES',
         ];
@@ -42,7 +41,6 @@ class ElasticsearchIndexVoter extends AbstractAppVoter
             'INDEX_FLUSH',
             'INDEX_REFRESH',
             'INDEX_EMPTY',
-            'INDEX_SHARDS',
             'INDEX_SEARCH',
             'INDEX_IMPORT',
             'INDEX_ALIASES',

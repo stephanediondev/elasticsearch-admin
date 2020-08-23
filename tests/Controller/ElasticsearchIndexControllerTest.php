@@ -157,24 +157,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     }
 
     /**
-     * @Route("/indices/{index}/shards", name="indices_read_shards")
-     */
-    public function testShards404()
-    {
-        $this->client->request('GET', '/admin/indices/'.uniqid().'/shards');
-
-        $this->assertResponseStatusCodeSame(404);
-    }
-
-    public function testShards()
-    {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/shards');
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Shards');
-    }
-
-    /**
      * @Route("/indices/{index}/search", name="indices_read_search")
      */
     public function testSearch404()
