@@ -42,6 +42,5 @@ jobs:
                     ELASTICSEARCH_URL: 127.0.0.1:9200
 
             - run: |
-                mkdir var/cache
                 bin/console app:phpunit
                 bin/phpunit
