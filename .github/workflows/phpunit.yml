@@ -25,11 +25,7 @@ jobs:
               uses: elastic/elastic-github-actions/elasticsearch@master
               with:
                     stack-version: ${{ matrix.stack-version }}
-                    host port: 9200
-                    container port: 9200
-                    host node port: 9300
-                    node port: 9300
-                    discovery type: 'single-node'
+                    port: 9200
 
             - name: Sleep for 30 seconds
               uses: jakejarvis/wait-action@master
@@ -46,5 +42,6 @@ jobs:
                     ELASTICSEARCH_URL: 127.0.0.1:9200
 
             - run: |
+                mkdir var/cache
                 bin/console app:phpunit
                 bin/phpunit
