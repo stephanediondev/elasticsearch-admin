@@ -9,7 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                stack-version: [7.9.0]
+                stack-version: [5.0.0, 6.0.0, 7.9.0]
 
         steps:
             - uses: actions/checkout@v2
@@ -25,10 +25,10 @@ jobs:
                     stack-version: ${{ matrix.stack-version }}
                     port: 9200
 
-            - name: Sleep for 30 seconds
+            - name: Sleep for 20 seconds
               uses: jakejarvis/wait-action@master
               with:
-                    time: '30s'
+                    time: '20s'
 
             - uses: php-actions/composer@v1
 
@@ -41,10 +41,9 @@ jobs:
 
             - name: Use Node.js
               uses: actions/setup-node@v1
+
             - run: npm install
             - run: npm run build
-
-            - run: |
-                sudo chown -R $USER:$USER /home/runner/work/elasticsearch-admin/elasticsearch-admin
-                bin/console app:phpunit
-                bin/phpunit
+            - run: sudo chown -R $USER:$USER /home/runner/work/elasticsearch-admin/elasticsearch-admin
+            - run: bin/console app:phpunit
+            - run: bin/phpunit
