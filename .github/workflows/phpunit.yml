@@ -9,7 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                stack-version: [5.0.0, 6.0.0, 7.9.0]
+                stack-version: [7.9.0]
 
         steps:
             - uses: actions/checkout@v2
@@ -30,8 +30,6 @@ jobs:
               with:
                     time: '20s'
 
-            - uses: php-actions/composer@v1
-
             - name: Setup PHP
               uses: nanasess/setup-php@master
               with:
@@ -39,11 +37,18 @@ jobs:
               env:
                     ELASTICSEARCH_URL: 127.0.0.1:9200
 
+            - name: Validate composer.json and composer.lock
+              run: composer validate
+
+            - name: Install dependencies
+              run: composer install --optimize-autoloader --no-interaction --no-progress --no-dev
+              
             - name: Use Node.js
               uses: actions/setup-node@v1
 
             - run: npm install
             - run: npm run build
+ 
             - run: sudo chown -R $USER:$USER /home/runner/work/elasticsearch-admin/elasticsearch-admin
             - run: bin/console app:phpunit
             - run: bin/phpunit
