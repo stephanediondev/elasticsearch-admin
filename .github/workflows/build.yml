@@ -1,15 +1,15 @@
-name: phpunit
+name: build
 
 on:
     pull_request:
         branches: [ master ]
 
 jobs:
-    build:
+    es:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                stack-version: [7.9.0]
+                stack-version: [6.8.12, 7.9.0]
 
         steps:
             - uses: actions/checkout@v2
