@@ -1,4 +1,4 @@
-[![Build and test](https://github.com/stephanediondev/elasticsearch-admin/workflows/Build%20and%20test/badge.svg)](https://github.com/stephanediondev/elasticsearch-admin/actions) [![Travis CI](https://travis-ci.org/stephanediondev/elasticsearch-admin.svg?branch=master)](https://travis-ci.org/stephanediondev/elasticsearch-admin) [![SymfonyInsight](https://insight.symfony.com/projects/9eefdae6-9dfc-452e-856e-716f94e08ffa/mini.svg)](https://insight.symfony.com/projects/9eefdae6-9dfc-452e-856e-716f94e08ffa)
+[![GitHub Action](https://github.com/stephanediondev/elasticsearch-admin/workflows/build/badge.svg)](https://github.com/stephanediondev/elasticsearch-admin/actions) [![Travis CI](https://travis-ci.org/stephanediondev/elasticsearch-admin.svg?branch=master)](https://travis-ci.org/stephanediondev/elasticsearch-admin) [![SymfonyInsight](https://insight.symfony.com/projects/9eefdae6-9dfc-452e-856e-716f94e08ffa/mini.svg)](https://insight.symfony.com/projects/9eefdae6-9dfc-452e-856e-716f94e08ffa)
 
 The application named elasticsearch-admin is NOT affiliated in any way with Elasticsearch BV.
 
