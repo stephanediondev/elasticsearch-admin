@@ -16,14 +16,14 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Configure sysctl limits
-                run: |
+              run: |
                     sudo swapoff -a
                     sudo sysctl -w vm.swappiness=1
                     sudo sysctl -w fs.file-max=262144
                     sudo sysctl -w vm.max_map_count=262144
             - name: Runs Elasticsearch
-                uses: elastic/elastic-github-actions/elasticsearch@master
-                with:
+              uses: elastic/elastic-github-actions/elasticsearch@master
+              with:
                     stack-version: ${{ matrix.stack-version }}
                     host port: 9200
                     container port: 9200
@@ -32,17 +32,17 @@ jobs:
                     discovery type: 'single-node'
 
             - name: Sleep for 30 seconds
-                uses: jakejarvis/wait-action@master
-                with:
+              uses: jakejarvis/wait-action@master
+              with:
                     time: '30s'
 
             - uses: php-actions/composer@v1
 
             - name: Setup PHP
-                uses: nanasess/setup-php@master
-                with:
+              uses: nanasess/setup-php@master
+              with:
                     php-version: 7.4
-                env:
+              env:
                     ELASTICSEARCH_URL: 127.0.0.1:9200
 
             - run: |
