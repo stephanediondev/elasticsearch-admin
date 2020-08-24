@@ -1,8 +1,6 @@
 name: phpunit
 
 on:
-    push:
-        branches: [ master ]
     pull_request:
         branches: [ master ]
 
@@ -40,6 +38,11 @@ jobs:
                     php-version: 7.4
               env:
                     ELASTICSEARCH_URL: 127.0.0.1:9200
+
+            - name: Use Node.js
+              uses: actions/setup-node@v1
+            - run: npm install
+            - run: npm run build
 
             - run: |
                 sudo chown -R $USER:$USER /home/runner/work/elasticsearch-admin/elasticsearch-admin
