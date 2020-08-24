@@ -108,7 +108,7 @@ class CallManager
             if ($response && in_array($response->getStatusCode(), [400, 401, 405, 500, 503])) {
                 $json = json_decode($response->getContent(false), true);
 
-                $message = 'Not found or method not allowed for '.$callRequest->getPath().' ('.$callRequest->getMethod().')';
+                $message = null;
 
                 if (true === isset($json['error'])) {
                     if (true === isset($json['error']['root_cause']) && true === isset($json['error']['root_cause'][0]) && true === isset($json['error']['root_cause'][0]['reason'])) {
@@ -124,6 +124,8 @@ class CallManager
 
                 if (401 == $response->getStatusCode()) {
                     throw new ConnectionException('error503.elasticsearch_credentials_error');
+                } elseif (503 == $response->getStatusCode()) {
+                    throw new ConnectionException($message);
                 } else {
                     throw new CallException($message);
                 }
