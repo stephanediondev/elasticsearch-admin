@@ -11,16 +11,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @Route("/admin")
  */
 class AppUninstallController extends AbstractAppController
 {
-    public function __construct(AppManager $appManager, ElasticsearchIndexManager $elasticsearchIndexManager)
+    public function __construct(AppManager $appManager, ElasticsearchIndexManager $elasticsearchIndexManager, TokenStorageInterface $tokenStorage)
     {
         $this->appManager = $appManager;
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -59,6 +61,9 @@ class AppUninstallController extends AbstractAppController
                 $this->addFlash('info', json_encode($callResponse->getContent()));
             }
         }
+
+        $this->tokenStorage->setToken(null);
+        $request->getSession()->invalidate();
 
         return $this->redirectToRoute('register');
     }
