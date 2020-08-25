@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master_eligible': false, 'voting_only': false, 'data': false, 'uptime': true, 'load_average': false, 'cpu_usage': true, 'memory_usage': true, 'disk_usage': false, 'heap_usage': true} %}
+    {% set columns = {'name': true, 'master_eligible': false, 'voting_only': false, 'data': false, 'uptime': true, 'load_average': false, 'cpu_usage': true, 'disk_usage': false, 'memory_usage': true, 'heap_usage': true} %}
 
     {% if true == hasFeature('load_average') %}
         {% set columns = columns|merge({'load_average': true}) %}
