@@ -21,6 +21,17 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     }
 
     /**
+     * @Route("/nodes/stats", name="nodes_stats")
+     */
+    public function testStats()
+    {
+        $this->client->request('GET', '/admin/nodes/stats');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Nodes - Stats');
+    }
+
+    /**
      * @Route("/nodes/{node}", name="nodes_read")
      */
     public function testRead404()

@@ -39,6 +39,7 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Cluster settings', 'filename' => 'cluster-settings', 'path' => '/admin/cluster/settings', 'feature' => 'cluster_settings'],
             ['title' => 'Cluster allocation explain', 'filename' => 'cluster-allocation-explain', 'path' => '/admin/cluster/allocation/explain', 'feature' => 'allocation_explain'],
             ['title' => 'Nodes', 'filename' => 'nodes', 'path' => '/admin/nodes'],
+            ['title' => 'Nodes stats', 'filename' => 'nodes-stats', 'path' => '/admin/nodes/stats'],
             ['title' => 'Node', 'filename' => 'node', 'path' => '/admin/nodes/'.urlencode($masterNode)],
             ['title' => 'Node usage', 'filename' => 'node-usage', 'path' => '/admin/nodes/'.urlencode($masterNode).'/usage', 'feature' => 'node_usage'],
             ['title' => 'Indices', 'filename' => 'indices', 'path' => '/admin/indices'],
