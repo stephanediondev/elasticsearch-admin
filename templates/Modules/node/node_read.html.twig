@@ -28,28 +28,6 @@
             <hr>
 
             <div class="row">
-                {% if true == hasFeature('node_roles') and node.roles %}
-                    {% if 'master' in node.roles %}
-                        {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
-                    {% else %}
-                        {{ appImport.dashboardKpi({'title': 'master_eligible'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
-                    {% endif %}
-
-                    {% if true == hasFeature('voting_only') %}
-                        {% if 'voting_only' in node.roles %}
-                            {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
-                        {% else %}
-                            {{ appImport.dashboardKpi({'title': 'voting_only'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
-                        {% endif %}
-                    {% endif %}
-
-                    {% if 'data' in node.roles %}
-                        {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
-                    {% else %}
-                        {{ appImport.dashboardKpi({'title': 'data'|trans, 'badge': {'title': 'boolean.false'|trans, 'context': 'false'}}) }}
-                    {% endif %}
-                {% endif %}
-
                 {{ appImport.dashboardKpi({'title': 'ip'|trans, 'badge': {'title': node.ip}}) }}
 
                 {{ appImport.dashboardKpi({'title': 'version_es'|trans, 'badge': {'title': node.version}}) }}
@@ -66,6 +44,26 @@
                     {{ appImport.dashboardKpi({'title': 'os_arch'|trans, 'badge': {'title': node.os['arch']}}) }}
                 {% endif %}
             </div>
+
+            {% if node.roles %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'roles'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for role in node.roles %}
+                            <tr>
+                                <td>{{ ('node_roles.' ~ role)|trans }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}
