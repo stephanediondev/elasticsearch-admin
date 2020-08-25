@@ -107,6 +107,7 @@ class AppScreenshotsController extends AbstractAppController
         }
 
         $this->addFlash('warning', 'Run bin/console app:phpunit');
+        $this->addFlash('warning', 'Run bin/console cache:clear --env=prod');
 
         return $this->renderAbstract($request, 'Modules/screenshots/screenshots_index.html.twig', [
             'results' => $results,

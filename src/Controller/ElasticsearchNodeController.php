@@ -66,16 +66,16 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['nodes_total'] = 0;
-        $data['totals']['nodes_total_disk_used'] = 0;
         $data['totals']['nodes_total_disk_avail'] = 0;
+        $data['totals']['nodes_total_disk_used'] = 0;
 
         $tables = [
             'nodes_by_disk_avail',
             'nodes_by_disk_used',
-            'nodes_by_es_version',
-            'nodes_by_jdk_version',
             'nodes_by_os',
             'nodes_by_os_arch',
+            'nodes_by_es_version',
+            'nodes_by_jdk_version',
             'nodes_by_role',
         ];
 
