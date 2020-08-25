@@ -144,26 +144,22 @@
                         {% if 'cpu_usage' == column %}
                             <td>
                                 {% if row['cpu'] is defined %}
-                                    <strong>{{ row['cpu'] }}%</strong>
+                                    {{ appImport.badge({'title': row['cpu'] ~ '%', 'context': 90 < row['cpu'] ? 'danger' : 'info'}) }}
                                     {% if row['stats']['process']['cpu']['percent'] is defined %}
                                         <br><small>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</small>
                                     {% endif %}
                                 {% elseif row['stats']['process']['cpu']['percent'] is defined %}
-                                    <strong>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</strong>
+                                    {{ 'process'|trans }}: {{ appImport.badge({'title': row['stats']['process']['cpu']['percent'] ~ '%', 'context': 'info'}) }}
                                 {% endif %}
                                 {% if row['os']['allocated_processors'] is defined %}
                                     <br><small>{{ 'processors'|trans }}: {{ row['os']['allocated_processors'] }}</small>
-                                {% endif %}
-
-                                {% if row['cpu'] is defined and 90 < row['cpu'] %}
-                                    <br>{{ appImport.badge({'title': 'watermark_high'|trans, 'context': 'danger'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'heap_usage' == column %}
                             <td>
-                                <strong>{{ row['heap.percent'] }}%</strong>
+                                {{ appImport.badge({'title': row['heap.percent'] ~ '%', 'context': 'info'}) }}
                                 {% if row['heap.current'] is defined %}
                                     <br><small>{{ 'used'|trans }}: {{ row['heap.current']|human_filesize }}</small>
                                 {% endif %}
@@ -173,7 +169,7 @@
 
                         {% if 'memory_usage' == column %}
                             <td>
-                                <strong>{{ row['ram.percent'] }}%</strong>
+                                {{ appImport.badge({'title': row['ram.percent'] ~ '%', 'context': 'info'}) }}
                                 {% if row['ram.current'] is defined %}
                                     <br><small>{{ 'used'|trans }}: {{ row['ram.current']|human_filesize }}</small>
                                 {% endif %}
@@ -183,26 +179,22 @@
 
                         {% if 'disk_usage' == column %}
                             <td>
-                                <strong>{{ row['disk.used_percent'] }}%</strong>
+                                {{ appImport.badge({'title': row['disk.used_percent'] ~ '%', 'context': row['disk_threshold'] is defined ? row['disk_threshold'] : 'info'}) }}
                                 <br><small>{{ 'used'|trans }}: {{ row['disk.used']|human_filesize }}</small>
                                 <br><small>{{ 'total'|trans }}: {{ row['disk.total']|human_filesize }}</small>
-
-                                {% if row['disk_threshold'] is defined %}
-                                    <br>{{ appImport.badge({'title': row['disk_threshold']|trans, 'context': row['disk_threshold']}) }}
-                                {% endif %}
                             </td>
                         {% endif %}
 
                         {% if 'uptime' == column %}
                             <td class="d-none d-xl-table-cell">
-                                {{ row['uptime'] }}
+                                {{ appImport.badge({'title': row['uptime'], 'context': 'info'}) }}
                             </td>
                         {% endif %}
 
                         {% if 'load_average' == column %}
                             <td>
                                 {% if row['load_1m'] is defined and row['load_1m'] %}
-                                    <strong>1 min: {{ row['load_1m']|round(2) }}</strong>
+                                    1 min: {{ appImport.badge({'title': row['load_1m']|round(2), 'context': 'info'}) }}
                                     {% if row['load_5m'] is defined and row['load_5m'] %}
                                         <br><small>5 min: {{ row['load_5m']|round(2) }}</small>
                                     {% endif %}
