@@ -130,7 +130,7 @@
             $(id).parent().show();
             $(id).attr('required', 'required');
             $('label[for="' + id.substring(1) + '"] .badge').remove();
-            $('label[for="' + id.substring(1) + '"]').append(' <small class="badge bg-info text-light ml-1">{{ 'required'|trans|escape('js') }}</small>');
+            $('label[for="' + id.substring(1) + '"]').append(' <small class="badge bg-dark text-light ml-1">{{ 'required'|trans|escape('js') }}</small>');
         }
 
         function disable(id) {

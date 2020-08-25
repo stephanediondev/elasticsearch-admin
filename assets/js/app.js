@@ -66,7 +66,7 @@ if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
 }
 
 $(document).ready(function () {
-    $('label.required').append(' <small class="badge bg-info text-light ml-1">' + trans_required + '</small>');
+    $('label.required').append(' <small class="badge bg-dark text-light ml-1">' + trans_required + '</small>');
 
     $('select').select2({
         theme: 'bootstrap4',
