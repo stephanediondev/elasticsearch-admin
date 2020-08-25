@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'master_eligible': false, 'voting_only': false, 'data': false, 'uptime': true, 'load_average': false, 'cpu_usage': true, 'disk_usage': false, 'memory_usage': true, 'heap_usage': true} %}
+    {% set columns = {'name': true, 'master_eligible': false, 'voting_only': false, 'data': false, 'uptime': true, 'load_average': false, 'cpu': true, 'disk': false, 'memory': true, 'heap': true} %}
 
     {% if true == hasFeature('load_average') %}
         {% set columns = columns|merge({'load_average': true}) %}
@@ -16,7 +16,7 @@
     {% endif %}
 
     {% if true == hasFeature('cat_nodes_disk') %}
-        {% set columns = columns|merge({'disk_usage': true}) %}
+        {% set columns = columns|merge({'disk': true}) %}
     {% endif %}
 
     {% block thead %}
@@ -47,27 +47,27 @@
                         </th>
                     {% endif %}
 
-                    {% if 'cpu_usage' == column %}
+                    {% if 'cpu' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'cpu', 'title': 'cpu_usage'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'cpu', 'title': 'cpu'|trans})}}
                         </th>
                     {% endif %}
 
-                    {% if 'heap_usage' == column %}
+                    {% if 'heap' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'heap.percent', 'title': 'heap_usage'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'heap.percent', 'title': 'heap'|trans})}}
                         </th>
                     {% endif %}
 
-                    {% if 'memory_usage' == column %}
+                    {% if 'memory' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'ram.percent', 'title': 'memory_usage'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'ram.percent', 'title': 'memory'|trans})}}
                         </th>
                     {% endif %}
 
-                    {% if 'disk_usage' == column %}
+                    {% if 'disk' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'disk.used_percent', 'title': 'disk_usage'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'disk.used_percent', 'title': 'disk'|trans})}}
                         </th>
                     {% endif %}
 
@@ -141,15 +141,15 @@
                             </td>
                         {% endif %}
 
-                        {% if 'cpu_usage' == column %}
+                        {% if 'cpu' == column %}
                             <td>
                                 {% if row['cpu'] is defined %}
-                                    {{ appImport.badge({'title': row['cpu'] ~ '%', 'context': 90 < row['cpu'] ? 'danger' : 'info'}) }}
+                                    {{ 'usage'|trans }}: {{ appImport.badge({'title': row['cpu'] ~ '%', 'context': 90 < row['cpu'] ? 'danger' : 'info'}) }}
                                     {% if row['stats']['process']['cpu']['percent'] is defined %}
-                                        <br><small>{{ 'process'|trans }}: {{ row['stats']['process']['cpu']['percent'] }}%</small>
+                                        <br><small>{{ 'usage_es'|trans }}: {{ appImport.badge({'title': row['stats']['process']['cpu']['percent'] ~ '%', 'context': 90 < row['stats']['process']['cpu']['percent'] ? 'danger' : 'info'}) }}</small>
                                     {% endif %}
                                 {% elseif row['stats']['process']['cpu']['percent'] is defined %}
-                                    {{ 'process'|trans }}: {{ appImport.badge({'title': row['stats']['process']['cpu']['percent'] ~ '%', 'context': 'info'}) }}
+                                    {{ 'usage_es'|trans }}: {{ appImport.badge({'title': row['stats']['process']['cpu']['percent'] ~ '%', 'context': 90 < row['stats']['process']['cpu']['percent'] ? 'danger' : 'info'}) }}
                                 {% endif %}
                                 {% if row['os']['allocated_processors'] is defined %}
                                     <br><small>{{ 'processors'|trans }}: {{ row['os']['allocated_processors'] }}</small>
@@ -157,9 +157,9 @@
                             </td>
                         {% endif %}
 
-                        {% if 'heap_usage' == column %}
+                        {% if 'heap' == column %}
                             <td class="d-none d-xl-table-cell">
-                                {{ appImport.badge({'title': row['heap.percent'] ~ '%', 'context': 'info'}) }}
+                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['heap.percent'] ~ '%', 'context': 'info'}) }}
                                 {% if row['heap.current'] is defined %}
                                     <br><small>{{ 'used'|trans }}: {{ row['heap.current']|human_filesize }}</small>
                                 {% endif %}
@@ -167,9 +167,9 @@
                             </td>
                         {% endif %}
 
-                        {% if 'memory_usage' == column %}
+                        {% if 'memory' == column %}
                             <td class="d-none d-xl-table-cell">
-                                {{ appImport.badge({'title': row['ram.percent'] ~ '%', 'context': 'info'}) }}
+                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['ram.percent'] ~ '%', 'context': 'info'}) }}
                                 {% if row['ram.current'] is defined %}
                                     <br><small>{{ 'used'|trans }}: {{ row['ram.current']|human_filesize }}</small>
                                 {% endif %}
@@ -177,9 +177,9 @@
                             </td>
                         {% endif %}
 
-                        {% if 'disk_usage' == column %}
+                        {% if 'disk' == column %}
                             <td>
-                                {{ appImport.badge({'title': row['disk.used_percent'] ~ '%', 'context': row['disk_threshold'] is defined ? row['disk_threshold'] : 'info'}) }}
+                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['disk.used_percent'] ~ '%', 'context': row['disk_threshold'] is defined ? row['disk_threshold'] : 'info'}) }}
                                 <br><small>{{ 'used'|trans }}: {{ row['disk.used']|human_filesize }}</small>
                                 <br><small>{{ 'total'|trans }}: {{ row['disk.total']|human_filesize }}</small>
                             </td>
@@ -194,12 +194,25 @@
                         {% if 'load_average' == column %}
                             <td>
                                 {% if row['load_1m'] is defined and row['load_1m'] %}
-                                    1 min: {{ appImport.badge({'title': row['load_1m']|round(2), 'context': 'info'}) }}
-                                    {% if row['load_5m'] is defined and row['load_5m'] %}
-                                        <br><small>5 min: {{ row['load_5m']|round(2) }}</small>
-                                    {% endif %}
-                                    {% if row['load_15m'] is defined and row['load_15m'] %}
-                                        <br><small>15 min: {{ row['load_15m']|round(2) }}</small>
+                                    {% if row['os']['allocated_processors'] is defined %}
+                                        {% set load = ((row['load_1m']*100)/row['os']['allocated_processors'])|round(2) %}
+                                        1 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'warning' : 'info'}) }}
+                                        {% if row['load_5m'] is defined and row['load_5m'] %}
+                                            {% set load = ((row['load_5m']*100)/row['os']['allocated_processors'])|round(2) %}
+                                            <br><small>5 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'danger' : 'info'}) }}</small>
+                                        {% endif %}
+                                        {% if row['load_15m'] is defined and row['load_15m'] %}
+                                            {% set load = ((row['load_15m']*100)/row['os']['allocated_processors'])|round(2) %}
+                                            <br><small>15 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'danger' : 'info'}) }}</small>
+                                        {% endif %}
+                                    {% else %}
+                                        1 min: {{ appImport.badge({'title': row['load_1m']|round(2), 'context': 'info'}) }}
+                                        {% if row['load_5m'] is defined and row['load_5m'] %}
+                                            <br><small>5 min: {{ row['load_5m']|round(2) }}</small>
+                                        {% endif %}
+                                        {% if row['load_15m'] is defined and row['load_15m'] %}
+                                            <br><small>15 min: {{ row['load_15m']|round(2) }}</small>
+                                        {% endif %}
                                     {% endif %}
                                 {% endif %}
                             </td>
