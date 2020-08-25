@@ -2,4 +2,10 @@
     <li class="nav-item">
         <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('nodes') }}">{{ 'list'|trans }}</a>
     </li>
+
+    {% if is_granted('NODES_STATS', 'global') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'stats' == active %} active{% endif %}" href="{{ path('nodes_stats') }}">{{ 'stats'|trans }}</a>
+        </li>
+    {% endif %}
 </ul>

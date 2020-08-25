@@ -127,6 +127,7 @@ class ElasticsearchIndexController extends AbstractAppController
                         break;
                     case 'indices_by_status':
                     case 'indices_by_health':
+                        $key = false;
                         switch ($table) {
                             case 'indices_by_status':
                                 $key = $index->getStatus();
@@ -134,8 +135,6 @@ class ElasticsearchIndexController extends AbstractAppController
                             case 'indices_by_health':
                                 $key = $index->getHealth();
                                 break;
-                            default:
-                                $key = false;
                         }
                         if ($key) {
                             if (false === isset($data['tables'][$table]['results'][$key])) {

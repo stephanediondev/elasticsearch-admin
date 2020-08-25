@@ -53,6 +53,119 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
+/**
+     * @Route("/nodes/stats", name="nodes_stats")
+     */
+    public function stats(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('NODES_STATS', 'global');
+
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+
+        $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('sort', 'name:asc'), 'cluster_settings' => $clusterSettings]);
+
+        $data = ['totals' => [], 'tables' => []];
+        $data['totals']['nodes_total'] = 0;
+        $data['totals']['nodes_total_disk_used'] = 0;
+        $data['totals']['nodes_total_disk_avail'] = 0;
+
+        $tables = [
+            'nodes_by_disk_avail',
+            'nodes_by_disk_used',
+            'nodes_by_es_version',
+            'nodes_by_jdk_version',
+            'nodes_by_os',
+            'nodes_by_os_arch',
+            'nodes_by_role',
+        ];
+
+        foreach ($nodes as $node) {
+            $data['totals']['nodes_total']++;
+            $data['totals']['nodes_total_disk_avail'] += $node['disk.avail'];
+            $data['totals']['nodes_total_disk_used'] += $node['disk.used'];
+
+            foreach ($tables as $table) {
+                switch ($table) {
+                    case 'nodes_by_disk_avail':
+                        if ($node['disk.avail']) {
+                            $data['tables'][$table]['results'][] = ['total' => $node['disk.avail'], 'title' => $node['name']];
+                        }
+                        break;
+                    case 'nodes_by_disk_used':
+                        if ($node['disk.used']) {
+                            $data['tables'][$table]['results'][] = ['total' => $node['disk.used'], 'title' => $node['name']];
+                        }
+                        break;
+                    case 'nodes_by_role':
+                        if ($node['roles']) {
+                            foreach ($node['roles'] as $role) {
+                                if (false === isset($data['tables'][$table]['results'][$role])) {
+                                    $data['tables'][$table]['results'][$role] = ['total' => 0, 'title' => $role];
+                                }
+                                $data['tables'][$table]['results'][$role]['total']++;
+                            }
+                        }
+                        break;
+                    case 'nodes_by_es_version':
+                        if ($node['version']) {
+                            if (false === isset($data['tables'][$table]['results'][$node['version']])) {
+                                $data['tables'][$table]['results'][$node['version']] = ['total' => 0, 'title' => $node['version']];
+                            }
+                            $data['tables'][$table]['results'][$node['version']]['total']++;
+                        }
+                        break;
+                    case 'nodes_by_jdk_version':
+                        if ($node['jdk']) {
+                            if (false === isset($data['tables'][$table]['results'][$node['jdk']])) {
+                                $data['tables'][$table]['results'][$node['jdk']] = ['total' => 0, 'title' => $node['jdk']];
+                            }
+                            $data['tables'][$table]['results'][$node['jdk']]['total']++;
+                        }
+                        break;
+                    case 'nodes_by_os':
+                    case 'nodes_by_os_arch':
+                        if ($os = $node['os']) {
+                            $key = false;
+                            switch ($table) {
+                                case 'nodes_by_os':
+                                    if (true === isset($os['pretty_name'])) {
+                                        $key = $os['pretty_name'];
+                                    }
+                                    break;
+                                case 'nodes_by_os_arch':
+                                    if (true === isset($os['arch'])) {
+                                        $key = $os['arch'];
+                                    }
+                                    break;
+                            }
+                            if ($key) {
+                                if (false === isset($data['tables'][$table]['results'][$key])) {
+                                    $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
+                                }
+                                $data['tables'][$table]['results'][$key]['total']++;
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+
+        foreach ($tables as $table) {
+            if (true === isset($data['tables'][$table]['results'])) {
+                usort($data['tables'][$table]['results'], [$this, 'sortByTotal']);
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/node/node_stats.html.twig', [
+            'data' => $data,
+        ]);
+    }
+
+    private function sortByTotal($a, $b)
+    {
+        return $b['total'] - $a['total'];
+    }
+
     /**
      * @Route("/nodes/{node}", name="nodes_read")
      */

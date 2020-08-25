@@ -103,12 +103,11 @@ class ElasticsearchSnapshotController extends AbstractAppController
                         }
                         break;
                     case 'snapshots_by_state':
+                        $key = false;
                         switch ($table) {
                             case 'snapshots_by_state':
                                 $key = $snapshot->getState();
                                 break;
-                            default:
-                                $key = false;
                         }
                         if ($key) {
                             if (false === isset($data['tables'][$table]['results'][$key])) {

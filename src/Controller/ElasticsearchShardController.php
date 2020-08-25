@@ -130,6 +130,7 @@ class ElasticsearchShardController extends AbstractAppController
                         break;
                     case 'shards_by_state':
                     case 'shards_by_unassigned_reason':
+                        $key = false;
                         switch ($table) {
                             case 'shards_by_state':
                                 $key = $shard->getState();
@@ -137,8 +138,6 @@ class ElasticsearchShardController extends AbstractAppController
                             case 'shards_by_unassigned_reason':
                                 $key = $shard->getUnassignedReason();
                                 break;
-                            default:
-                                $key = false;
                         }
                         if ($key) {
                             if (false === isset($data['tables'][$table]['results'][$key])) {
