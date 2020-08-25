@@ -7,6 +7,7 @@ use App\Exception\CallException;
 use App\Form\Type\ElasticsearchIndexTemplateType;
 use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Manager\ElasticsearchIndexTemplateManager;
+use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -241,5 +242,33 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         $this->addFlash('info', json_encode($callResponse->getContent()));
 
         return $this->redirectToRoute('index_templates');
+    }
+
+    /**
+     * @Route("/index-templates/{name}/simulate", name="index_templates_simulate")
+     */
+    public function simulate(Request $request, string $name): Response
+    {
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES', 'global');
+
+        if (false === $this->callManager->hasFeature('composable_template')) {
+            throw new AccessDeniedException();
+        }
+
+        $template = $this->elasticsearchIndexTemplateManager->getByName($name);
+
+        if (null === $template) {
+            throw new NotFoundHttpException();
+        }
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        $callRequest->setPath('/_index_template/_simulate/'.$template->getName());
+        $callResponse = $this->callManager->call($callRequest);
+
+        return $this->renderAbstract($request, 'Modules/index_template/index_template_simulate.html.twig', [
+            'template' => $template,
+            'simulate' => $callResponse->getContent(),
+        ]);
     }
 }
