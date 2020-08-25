@@ -56,7 +56,11 @@
                                         {% import 'Import/app_import.html.twig' as appImport %}
 
                                         {% block title %}
-                                            {{ row.title }}
+                                            {% if 'nodes_by_role' == key %}
+                                                {{ ('node_roles.' ~ row.title)|trans }}
+                                            {% else %}
+                                                {{ row.title }}
+                                            {% endif %}
                                         {% endblock %}
 
                                         {% block total %}

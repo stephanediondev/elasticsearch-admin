@@ -97,8 +97,8 @@ class ElasticsearchNodeController extends AbstractAppController
                         }
                         break;
                     case 'nodes_by_role':
-                        if ($node['roles']) {
-                            foreach ($node['roles'] as $role) {
+                        if ($node['node.role']) {
+                            foreach (str_split($node['node.role']) as $role) {
                                 if (false === isset($data['tables'][$table]['results'][$role])) {
                                     $data['tables'][$table]['results'][$role] = ['total' => 0, 'title' => $role];
                                 }
