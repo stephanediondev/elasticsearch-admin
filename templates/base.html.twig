@@ -94,6 +94,7 @@
                                     {{ 'application'|trans }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="applicationDropdown">
+                                    <h6 class="dropdown-header">elasticsearch-admin</h6>
                                     {% for entry in menus['application'] %}
                                         <a class="dropdown-item" href="{{ path(entry['path']) }}">
                                             {{ entry['name'] }}
