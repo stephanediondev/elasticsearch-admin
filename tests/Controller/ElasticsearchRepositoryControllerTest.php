@@ -53,6 +53,18 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         }
     }
 
+    public function testCreateAzure()
+    {
+        $this->client->request('GET', '/admin/repositories/create/azure');
+
+        if (false == $this->callManager->hasPlugin('repository-azure')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Repositories - Create Microsoft Azure repository');
+        }
+    }
+
     /**
      * @Route("/repositories/{repository}", name="repositories_read")
      */
