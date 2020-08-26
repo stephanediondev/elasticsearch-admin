@@ -32,10 +32,14 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
         return $templateModel;
     }
 
-    public function getAll(): array
+    public function getAll(array $filter = []): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_template');
+        if (true === isset($filter['name']) && '' != $filter['name']) {
+            $callRequest->setPath('/_template/'.$filter['name']);
+        } else {
+            $callRequest->setPath('/_template');
+        }
         $callRequest->setQuery(['flat_settings' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();

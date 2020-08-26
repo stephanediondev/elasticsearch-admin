@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchIndexTemplateLegacyType;
+use App\Form\Type\ElasticsearchIndexTemplateLegacyFilterType;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +31,13 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY', 'global');
 
-        $templates = $this->elasticsearchIndexTemplateLegacyManager->getAll();
+        $form = $this->createForm(ElasticsearchIndexTemplateLegacyFilterType::class);
+
+        $form->handleRequest($request);
+
+        $templates = $this->elasticsearchIndexTemplateLegacyManager->getAll([
+            'name' => $form->get('name')->getData(),
+        ]);
 
         return $this->renderAbstract($request, 'Modules/index_template_legacy/index_template_legacy_index.html.twig', [
             'templates' => $this->paginatorManager->paginate([
@@ -42,6 +49,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
                 'page' => $request->query->get('page'),
                 'size' => 100,
             ]),
+            'form' => $form->createView(),
         ]);
     }
 
