@@ -340,7 +340,7 @@
         {% set params = params|merge({'context': 'light'}) %}
 
     {% elseif params.context in ['master_node'] %}
-        {% set params = params|merge({'context': 'dark'}) %}
+        {% set params = params|merge({'context': 'masternode'}) %}
     {% endif %}
 
     {{ params.context }}

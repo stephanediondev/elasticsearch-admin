@@ -59,7 +59,7 @@
                                             {% if 'nodes_by_role' == key %}
                                                 {{ ('node_roles.' ~ row.title)|trans }}
                                             {% else %}
-                                                {{ row.title }}
+                                                {{ row.title }}{% if master_node == row.title %}<span class="ml-1">{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}</span>{% endif %}
                                             {% endif %}
                                         {% endblock %}
 
