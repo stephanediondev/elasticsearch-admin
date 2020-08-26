@@ -63,7 +63,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [(Back to top)](#table-of-contents)
 
-[See all available screenshots](https://github.com/stephanediondev/elasticsearch-admin/tree/master/screenshots/7.9.0)
+[See all screenshots](https://github.com/stephanediondev/elasticsearch-admin/tree/master/screenshots/7.9.0)
 
 [![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-cluster.png)
 
@@ -74,10 +74,6 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 [![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-nodes.png)
 
 [![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-indices.png)
-
-[![Index](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-index.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-index.png)
-
-[![Index import from file](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-index-file-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-index-file-import.png)
 
 [![Index import from database](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-index-database-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-index-database-import.png)
 
