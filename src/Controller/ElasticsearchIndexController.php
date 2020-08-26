@@ -616,12 +616,12 @@ class ElasticsearchIndexController extends AbstractAppController
         $query = [
             'sort' => $request->query->get('sort', '_id:desc'),
             'size' => $size,
+            'scroll' => '1m',
         ];
         if ($request->query->get('query') && '' != $request->query->get('query')) {
             $query['track_scores'] = 'true';
             $query['q'] = $request->query->get('query');
         }
-        $query['scroll'] = '1m';
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index->getName().'/_search');
         $callRequest->setQuery($query);
