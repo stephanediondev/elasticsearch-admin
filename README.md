@@ -27,8 +27,8 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [(Back to table of contents)](#table-of-contents)
 
-- [Product Hunt](https://www.producthunt.com/posts/elasticsearch-admin)
-- [Slant](https://www.slant.co/topics/11537/viewpoints/12/~elasticsearch-gui-clients~elasticsearch-admin)
+- Product Hunt [Visit](https://www.producthunt.com/posts/elasticsearch-admin)
+- Slant [Visit](https://www.slant.co/topics/11537/viewpoints/12/~elasticsearch-gui-clients~elasticsearch-admin)
 
 # Features
 
@@ -97,13 +97,13 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [(Back to running with Docker)](#running-with-docker)
 
-- Docker: https://www.docker.com/get-started
+- Docker: [Visit](https://www.docker.com/get-started)
 
 ### Steps
 
 [(Back to running with Docker)](#running-with-docker)
 
-The Docker image is hosted on Docker Hub https://hub.docker.com/r/stephanediondev/elasticsearch-admin
+The Docker image is hosted on Docker Hub [Visit](https://hub.docker.com/r/stephanediondev/elasticsearch-admin)
 
 ```
 docker pull stephanediondev/elasticsearch-admin
@@ -124,9 +124,9 @@ If Elasticsearch security features are enabled, add ```-e "ELASTICSEARCH_USERNAM
 [(Back to source installation)](#source-installation)
 
 - Web server
-- PHP 7.2.5 or higher (7.4 recommended): https://symfony.com/doc/current/setup/web_server_configuration.html
-- Composer: https://getcomposer.org/download/
-- npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+- PHP 7.2.5 or higher (7.4 recommended): [Visit](https://symfony.com/doc/current/setup/web_server_configuration.html)
+- Composer: [Visit](https://getcomposer.org/download/)
+- npm: [Visit](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ### Web server
 
@@ -182,7 +182,7 @@ On nginx, see the server definition used for the Docker image in [nginx.conf](ht
 
 [(Back to source installation)](#source-installation)
 
-Download or clone the repository from GitHub https://github.com/stephanediondev/elasticsearch-admin
+Download or clone the repository from GitHub [Visit](https://github.com/stephanediondev/elasticsearch-admin)
 
 If you don't have PHP 7.4, remove ```composer.lock``` or you will have the error below
 
