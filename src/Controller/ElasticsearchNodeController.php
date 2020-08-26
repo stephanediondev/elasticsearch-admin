@@ -53,7 +53,7 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
-/**
+    /**
      * @Route("/nodes/stats", name="nodes_stats")
      */
     public function stats(Request $request): Response
