@@ -117,9 +117,6 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
-                        'attr' => [
-                            'data-break-after' => 'yes',
-                        ],
                         'help' => 'help_form.index_template_legacy.settings',
                         'help_html' => true,
                     ]);
@@ -130,6 +127,9 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Json(),
+                        ],
+                        'attr' => [
+                            'data-break-after' => 'yes',
                         ],
                         'help' => 'help_form.index_template_legacy.mappings',
                         'help_html' => true,

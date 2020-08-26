@@ -13,6 +13,8 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
 
     private $version;
 
+    private $metadata;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -37,6 +39,18 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    public function getMetadata(): ?array
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata($metadata): self
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
     public function isSystem(): ?bool
     {
         return '.' == substr($this->getName(), 0, 1);
@@ -56,6 +70,9 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         }
         if (true === isset($template['component_template']['template']['aliases']) && 0 < count($template['component_template']['template']['aliases'])) {
             $this->setAliases($template['component_template']['template']['aliases']);
+        }
+        if (true === isset($template['component_template']['_meta']) && 0 < count($template['component_template']['_meta'])) {
+            $this->setMetadata($template['component_template']['_meta']);
         }
 
         return $this;
@@ -81,6 +98,10 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
 
         if ($this->getAliases()) {
             $json['template']['aliases'] = $this->getAliases();
+        }
+
+        if ($this->getMetadata()) {
+            $json['_meta'] = $this->getMetadata();
         }
 
         if (0 == count($json['template'])) {

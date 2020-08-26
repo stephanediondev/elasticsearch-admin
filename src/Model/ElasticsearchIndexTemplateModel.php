@@ -19,6 +19,8 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     private $composedOf;
 
+    private $metadata;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -79,6 +81,18 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    public function getMetadata(): ?array
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata($metadata): self
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
     private function getIndexToArray(): ?array
     {
         $indexPatterns = [];
@@ -118,6 +132,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
                 $this->setAliases($template['index_template']['template']['aliases']);
             }
         }
+        if (true === isset($template['index_template']['_meta']) && 0 < count($template['index_template']['_meta'])) {
+            $this->setMetadata($template['index_template']['_meta']);
+        }
         return $this;
     }
 
@@ -153,6 +170,10 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
         if ($this->getAliases()) {
             $json['template']['aliases'] = $this->getAliases();
+        }
+
+        if ($this->getMetadata()) {
+            $json['_meta'] = $this->getMetadata();
         }
 
         return $json;

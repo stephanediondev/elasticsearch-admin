@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Form\EventListener\MappingsSettingsAliasesSubscriber;
+use App\Form\EventListener\MetadataSubscriber;
 use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchComponentTemplateModel;
@@ -40,6 +41,7 @@ class ElasticsearchComponentTemplateType extends AbstractType
         $fields[] = 'settings';
         $fields[] = 'mappings';
         $fields[] = 'aliases';
+        $fields[] = 'metadata';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -62,6 +64,7 @@ class ElasticsearchComponentTemplateType extends AbstractType
                             new GreaterThanOrEqual(1),
                         ],
                         'attr' => [
+                            'data-break-after' => 'yes',
                             'min' => 1,
                         ],
                         'help' => 'help_form.component_template.version',
@@ -75,9 +78,6 @@ class ElasticsearchComponentTemplateType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
-                        'attr' => [
-                            'data-break-after' => 'yes',
-                        ],
                         'help' => 'help_form.component_template.settings',
                         'help_html' => true,
                     ]);
@@ -88,6 +88,9 @@ class ElasticsearchComponentTemplateType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Json(),
+                        ],
+                        'attr' => [
+                            'data-break-after' => 'yes',
                         ],
                         'help' => 'help_form.component_template.mappings',
                         'help_html' => true,
@@ -101,6 +104,17 @@ class ElasticsearchComponentTemplateType extends AbstractType
                             new Json(),
                         ],
                         'help' => 'help_form.component_template.aliases',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'metadata':
+                    $builder->add('metadata', TextareaType::class, [
+                        'label' => 'metadata',
+                        'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
+                        'help' => 'help_form.component_template.metadata',
                         'help_html' => true,
                     ]);
                     break;
@@ -124,6 +138,7 @@ class ElasticsearchComponentTemplateType extends AbstractType
         });
 
         $builder->addEventSubscriber(new MappingsSettingsAliasesSubscriber());
+        $builder->addEventSubscriber(new MetadataSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver)

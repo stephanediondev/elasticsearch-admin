@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Form\EventListener\MappingsSettingsAliasesSubscriber;
+use App\Form\EventListener\MetadataSubscriber;
 use App\Manager\ElasticsearchIndexTemplateManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateModel;
@@ -44,6 +45,7 @@ class ElasticsearchIndexTemplateType extends AbstractType
         $fields[] = 'settings';
         $fields[] = 'mappings';
         $fields[] = 'aliases';
+        $fields[] = 'metadata';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -115,9 +117,6 @@ class ElasticsearchIndexTemplateType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
-                        'attr' => [
-                            'data-break-after' => 'yes',
-                        ],
                         'help' => 'help_form.index_template.settings',
                         'help_html' => true,
                     ]);
@@ -128,6 +127,9 @@ class ElasticsearchIndexTemplateType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Json(),
+                        ],
+                        'attr' => [
+                            'data-break-after' => 'yes',
                         ],
                         'help' => 'help_form.index_template.mappings',
                         'help_html' => true,
@@ -141,6 +143,17 @@ class ElasticsearchIndexTemplateType extends AbstractType
                             new Json(),
                         ],
                         'help' => 'help_form.index_template.aliases',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'metadata':
+                    $builder->add('metadata', TextareaType::class, [
+                        'label' => 'metadata',
+                        'required' => false,
+                        'constraints' => [
+                            new Json(),
+                        ],
+                        'help' => 'help_form.index_template.metadata',
                         'help_html' => true,
                     ]);
                     break;
@@ -164,6 +177,7 @@ class ElasticsearchIndexTemplateType extends AbstractType
         });
 
         $builder->addEventSubscriber(new MappingsSettingsAliasesSubscriber());
+        $builder->addEventSubscriber(new MetadataSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver)

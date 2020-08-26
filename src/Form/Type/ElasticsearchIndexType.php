@@ -58,9 +58,6 @@ class ElasticsearchIndexType extends AbstractType
                         'constraints' => [
                             new Json(),
                         ],
-                        'attr' => [
-                            'data-break-after' => 'yes',
-                        ],
                     ]);
                     break;
                 case 'mappings':
@@ -69,6 +66,9 @@ class ElasticsearchIndexType extends AbstractType
                         'required' => false,
                         'constraints' => [
                             new Json(),
+                        ],
+                        'attr' => [
+                            'data-break-after' => 'yes',
                         ],
                     ]);
                     break;

@@ -291,12 +291,14 @@ help_form:
         settings: "Define the behavior of your indices."
         mappings: "Define how to store and index documents."
         aliases: "Set up aliases to associate with your indices."
+        metadata: "Optional meta-data."
     component_template:
         name: "A unique identifier for this template."
         version: "A number that identifies the template to external management systems."
         settings: "Define the behavior of your indices."
         mappings: "Define how to store and index documents."
         aliases: "Set up aliases to associate with your indices."
+        metadata: "Optional meta-data."
     repository:
         name: "A unique name for the repository."
         chunk_size: "Breaks files into smaller units when taking snapshots. Examples: 1g, 10mb, 5k, 1024B."
