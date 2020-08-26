@@ -9,9 +9,9 @@
 The Docker image is hosted on Docker Hub https://hub.docker.com/r/stephanediondev/elasticsearch-admin
 
 ```
-docker pull stephanediondev/elasticsearch-admin:latest
+docker pull stephanediondev/elasticsearch-admin
 
-docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" -p 80:8080 -d --name elasticsearch-admin stephanediondev/elasticsearch-admin:latest
+docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" -p 80:8080 -d --name elasticsearch-admin stephanediondev/elasticsearch-admin
 ```
 
 Edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure registration)
