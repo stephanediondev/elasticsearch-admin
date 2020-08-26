@@ -37,6 +37,8 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
 
     public function getAll(array $filter = []): array
     {
+        $templates = [];
+
         $callRequest = new CallRequestModel();
         if (true === isset($filter['name']) && '' != $filter['name']) {
             $callRequest->setPath('/_index_template/'.$filter['name']);
@@ -46,14 +48,16 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
         $callRequest->setQuery(['flat_settings' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
-        $results = $results['index_templates'];
-        usort($results, [$this, 'sortByName']);
 
-        $templates = [];
-        foreach ($results as $row) {
-            $templateModel = new ElasticsearchIndexTemplateModel();
-            $templateModel->convert($row);
-            $templates[] = $templateModel;
+        if ($results) {
+            $results = $results['index_templates'];
+            usort($results, [$this, 'sortByName']);
+
+            foreach ($results as $row) {
+                $templateModel = new ElasticsearchIndexTemplateModel();
+                $templateModel->convert($row);
+                $templates[] = $templateModel;
+            }
         }
 
         return $templates;

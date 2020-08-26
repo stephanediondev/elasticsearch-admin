@@ -34,6 +34,8 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
 
     public function getAll(array $filter = []): array
     {
+        $templates = [];
+
         $callRequest = new CallRequestModel();
         if (true === isset($filter['name']) && '' != $filter['name']) {
             $callRequest->setPath('/_template/'.$filter['name']);
@@ -44,14 +46,15 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        ksort($results);
+        if ($results) {
+            ksort($results);
 
-        $templates = [];
-        foreach ($results as $key => $row) {
-            $templateModel = new ElasticsearchIndexTemplateLegacyModel();
-            $row['name'] = $key;
-            $templateModel->convert($row);
-            $templates[] = $templateModel;
+            foreach ($results as $key => $row) {
+                $templateModel = new ElasticsearchIndexTemplateLegacyModel();
+                $row['name'] = $key;
+                $templateModel->convert($row);
+                $templates[] = $templateModel;
+            }
         }
 
         return $templates;
