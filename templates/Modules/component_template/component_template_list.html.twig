@@ -48,7 +48,7 @@
 
                         {% if 'description' == column %}
                             <td>
-                                {% if row.metadata and row.metadata.description %}
+                                {% if row.metadata and row.metadata.description is defined %}
                                     {{ row.metadata.description }}
                                 {% endif %}
                             </td>

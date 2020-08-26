@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
+{% set is_granted_component_templates = is_granted('COMPONENT_TEMPLATES', 'global') %}
+
 {% block head_title %}{{ 'index_templates'|trans }} - {{ template.name }}{% endblock %}
 
 {% block heading_1 %}
@@ -68,7 +70,14 @@
             {% if template.composedOf %}
                 <p>
                     <strong>{{ 'composed_of'|trans }}</strong><br>
-                    {{ template.composedOf|join(', ') }}
+                    {% for componentTemplate in template.composedOf %}
+                        {% if is_granted_component_templates %}
+                            <a class="text-secondary" href="{{ path('component_templates_read', {'name': componentTemplate}) }}">{{ componentTemplate }}</a>
+                        {% else %}
+                            {{ componentTemplate }}
+                        {% endif %}
+                        {% if false == loop.last %}, {% endif %}
+                    {% endfor %}
                 </p>
             {% endif %}
         {% endblock %}

@@ -1,7 +1,9 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true} %}
+    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true, 'description': true} %}
+
+    {% set is_granted_component_templates = is_granted('COMPONENT_TEMPLATES', 'global') %}
 
     {% block thead %}
         <tr>
@@ -26,7 +28,7 @@
                     {% endif %}
 
                     {% if 'version' == column %}
-                        <th>
+                        <th class="d-none d-xl-table-cell">
                             {{ 'version'|trans }}
                         </th>
                     {% endif %}
@@ -34,6 +36,12 @@
                     {% if 'composed_of' == column %}
                         <th>
                             {{ 'composed_of'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'description' == column %}
+                        <th class="d-none d-xl-table-cell">
+                            {{ 'description'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -67,7 +75,7 @@
                         {% endif %}
 
                         {% if 'version' == column %}
-                            <td>
+                            <td class="d-none d-xl-table-cell">
                                 {% if row.version %}
                                     {{ row.version }}
                                 {% endif %}
@@ -77,7 +85,22 @@
                         {% if 'composed_of' == column %}
                             <td>
                                 {% if row.composedOf %}
-                                    {{ row.composedOf|join(', ') }}
+                                    {% for componentTemplate in row.composedOf %}
+                                        {% if is_granted_component_templates %}
+                                            <a class="text-secondary" href="{{ path('component_templates_read', {'name': componentTemplate}) }}">{{ componentTemplate }}</a>
+                                        {% else %}
+                                            {{ componentTemplate }}
+                                        {% endif %}
+                                        {% if false == loop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'description' == column %}
+                            <td class="d-none d-xl-table-cell">
+                                {% if row.metadata and row.metadata.description is defined %}
+                                    {{ row.metadata.description }}
                                 {% endif %}
                             </td>
                         {% endif %}
