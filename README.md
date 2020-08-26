@@ -19,7 +19,7 @@
 
 [(Back to table of contents)](#table-of-contents)
 
-The application named elasticsearch-admin is NOT affiliated in any way with Elasticsearch BV.
+The application named elasticsearch-admin is **NOT** affiliated in any way with Elasticsearch BV.
 
 Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
 
