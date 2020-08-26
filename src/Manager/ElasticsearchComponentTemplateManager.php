@@ -16,7 +16,8 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
     {
         try {
             $callRequest = new CallRequestModel();
-            $callRequest->setPath('/_component_template/'.$name.'?flat_settings=true');
+            $callRequest->setPath('/_component_template/'.$name);
+            $callRequest->setQuery(['flat_settings' => 'true']);
             $callResponse = $this->callManager->call($callRequest);
 
             if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
@@ -34,10 +35,15 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
         return $templateModel;
     }
 
-    public function getAll(): array
+    public function getAll(array $filter = []): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_component_template?flat_settings=true');
+        if (true === isset($filter['name']) && '' != $filter['name']) {
+            $callRequest->setPath('/_component_template/'.$filter['name']);
+        } else {
+            $callRequest->setPath('/_component_template');
+        }
+        $callRequest->setQuery(['flat_settings' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
         $results = $results['component_templates'];

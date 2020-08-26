@@ -14,7 +14,8 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
     public function getByName(string $name): ?ElasticsearchIndexTemplateLegacyModel
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_template/'.$name.'?flat_settings=true');
+        $callRequest->setPath('/_template/'.$name);
+        $callRequest->setQuery(['flat_settings' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
@@ -34,7 +35,8 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_template?flat_settings=true');
+        $callRequest->setPath('/_template');
+        $callRequest->setQuery(['flat_settings' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 

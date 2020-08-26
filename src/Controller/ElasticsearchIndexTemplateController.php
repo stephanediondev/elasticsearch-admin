@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchIndexTemplateType;
+use App\Form\Type\ElasticsearchIndexTemplateFilterType;
 use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Manager\ElasticsearchIndexTemplateManager;
 use App\Model\CallRequestModel;
@@ -37,7 +38,13 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $templates = $this->elasticsearchIndexTemplateManager->getAll();
+        $form = $this->createForm(ElasticsearchIndexTemplateFilterType::class);
+
+        $form->handleRequest($request);
+
+        $templates = $this->elasticsearchIndexTemplateManager->getAll([
+            'name' => $form->get('name')->getData(),
+        ]);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
             'templates' => $this->paginatorManager->paginate([
@@ -49,6 +56,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
                 'page' => $request->query->get('page'),
                 'size' => 100,
             ]),
+            'form' => $form->createView(),
         ]);
     }
 
