@@ -98,7 +98,6 @@ class ElasticsearchClusterController extends AbstractAppController
                 $allocationExplain['primary'] = $allocationExplain['shard']['primary'];
                 $allocationExplain['shard'] = $allocationExplain['shard']['id'];
             }
-
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
