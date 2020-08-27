@@ -10,6 +10,8 @@
 
 [![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-nodes.png)
 
+[![Nodes stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-nodes-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-nodes-stats.png)
+
 [![Node](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-node.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-node.png)
 
 [![Node usage](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-node-usage.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-node-usage.png)
@@ -38,11 +40,17 @@
 
 [![Shards stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-shards-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-shards-stats.png)
 
+[![Index graveyard](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-graveyard.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-graveyard.png)
+
+[![Dangling indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-dangling-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-dangling-indices.png)
+
 [![Create Shared file system repository](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-repository-create-fs.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-repository-create-fs.png)
 
 [![Create SLM policy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-slm-policy-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-slm-policy-create.png)
 
 [![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-snapshots.png)
+
+[![Snaphosts stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-snapshots-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-snapshots-stats.png)
 
 [![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-snapshot-create.png)
 
