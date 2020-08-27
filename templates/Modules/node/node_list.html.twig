@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'uptime': true, 'load_average': false, 'cpu': true, 'disk': false, 'memory': true, 'heap': true} %}
+    {% set columns = {'name': true, 'uptime': true, 'load_average': false, 'cpu': true, 'disk': false, 'memory': true, 'heap': true, 'file_descriptors': true} %}
 
     {% if true == hasFeature('load_average') %}
         {% set columns = columns|merge({'load_average': true}) %}
@@ -54,6 +54,12 @@
                     {% if 'load_average' == column %}
                         <th class="text-nowrap">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'load_1m', 'title': 'load_average'|trans})}}
+                        </th>
+                    {% endif %}
+
+                    {% if 'file_descriptors' == column %}
+                        <th class="text-nowrap d-none d-xl-table-cell">
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'file_desc.percent', 'title': 'file_descriptors'|trans})}}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -160,6 +166,16 @@
                                         {% endif %}
                                     {% endif %}
                                 {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'file_descriptors' == column %}
+                            <td class="text-nowrap d-none d-xl-table-cell">
+                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['file_desc.percent'] ~ '%', 'context': 'info'}) }}
+                                {% if row['file_desc.current'] is defined %}
+                                    <br><small>{{ 'used'|trans }}: {{ appImport.badge({'title': row['file_desc.current'], 'context': 'light'}) }}</small>
+                                {% endif %}
+                                <br><small>{{ 'total'|trans }}: {{ appImport.badge({'title': row['file_desc.max'], 'context': 'light'}) }}</small>
                             </td>
                         {% endif %}
                     {% endif %}

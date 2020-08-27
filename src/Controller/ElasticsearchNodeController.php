@@ -124,17 +124,17 @@ class ElasticsearchNodeController extends AbstractAppController
                         break;
                     case 'nodes_by_os':
                     case 'nodes_by_os_arch':
-                        if ($os = $node['os']) {
+                        if (true === isset($node['os'])) {
                             $key = false;
                             switch ($table) {
                                 case 'nodes_by_os':
-                                    if (true === isset($os['pretty_name'])) {
-                                        $key = $os['pretty_name'];
+                                    if (true === isset($node['os']['pretty_name'])) {
+                                        $key = $node['os']['pretty_name'];
                                     }
                                     break;
                                 case 'nodes_by_os_arch':
-                                    if (true === isset($os['arch'])) {
-                                        $key = $os['arch'];
+                                    if (true === isset($node['os']['arch'])) {
+                                        $key = $node['os']['arch'];
                                     }
                                     break;
                             }
