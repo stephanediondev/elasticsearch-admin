@@ -276,23 +276,26 @@ If Elasticsearch security features are enabled, edit ```ELASTICSEARCH_USERNAME``
 | Kaizen | [Visit](https://www.elastic-kaizen.com/) | | JavaFX |
 
 # License
+
 [(Back to table of contents)](#table-of-contents)
 
 [MIT License](https://github.com/stephanediondev/elasticsearch-admin/blob/master/LICENSE)
 
 # Privacy
+
 [(Back to table of contents)](#table-of-contents)
 
 This application does **NOT** collect and send any user data.
 
 # Development
+
 [(Back to table of contents)](#table-of-contents)
 
 You can run the application from a folder in an existing vhost (ie http://localhost/elasticsearch-admin/public)
 
 ## Unit tests
 
-[(Back to table of contents)](#table-of-contents)
+[(Back to development)](#development)
 
 ```
 bin/console app:phpunit && bin/phpunit
