@@ -72,8 +72,11 @@ class ElasticsearchClusterController extends AbstractAppController
             if ($request->query->get('index')) {
                 $json['index'] = $request->query->get('index');
             }
-            if ($request->query->get('primary')) {
-                $json['primary'] = $request->query->get('primary');
+            if ('true' == $request->query->get('primary')) {
+                $json['primary'] = true;
+            }
+            if ('false' == $request->query->get('primary')) {
+                $json['primary'] = false;
             }
             if ($request->query->get('shard') || '0' == $request->query->get('shard')) {
                 $json['shard'] = $request->query->get('shard');
@@ -89,6 +92,13 @@ class ElasticsearchClusterController extends AbstractAppController
             }
             $callResponse = $this->callManager->call($callRequest);
             $allocationExplain = $callResponse->getContent();
+
+            if (true === isset($allocationExplain['shard']) && true === is_array($allocationExplain['shard'])) {
+                $allocationExplain['index'] = $allocationExplain['shard']['index'];
+                $allocationExplain['primary'] = $allocationExplain['shard']['primary'];
+                $allocationExplain['shard'] = $allocationExplain['shard']['id'];
+            }
+
         } catch (CallException $e) {
             $this->addFlash('danger', $e->getMessage());
         }
