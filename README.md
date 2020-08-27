@@ -8,7 +8,14 @@
 - [Screenshots](#screenshots)
 - [Installation](#installation)
     - [Running with Docker](#running-with-docker)
+        - [Requirements](#requirements)
+        - [Steps](#steps)
     - [Source installation](#source-installation)
+        - [Requirements](#requirements-1)
+        - [Web server](#web-server)
+            - [Apache](#apache)
+            - [nginx](#nginx)
+        - [Steps](#steps-1)
 - [Other tools](#other-tools)
 - [License](#license)
 - [Privacy](#privacy)
@@ -134,7 +141,11 @@ If Elasticsearch security features are enabled, add ```-e "ELASTICSEARCH_USERNAM
 
 Configure a vhost with the document root set to the ```public``` folder (ie /var/www/elasticsearch-admin/public)
 
-On **Apache**, add the vhost below
+#### Apache
+
+[(Back to web server)](#web-server)
+
+Add the vhost below
 
 ```
 <VirtualHost *:80>
@@ -183,7 +194,11 @@ If you can't edit a vhost, add the Apache pack to get the ```.htaccess``` file i
 composer require symfony/apache-pack
 ```
 
-On **nginx**, add the server definition below
+#### nginx
+
+Add the server definition below
+
+[(Back to web server)](#web-server)
 
 ```
 server {
