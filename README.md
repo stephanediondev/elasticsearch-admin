@@ -186,7 +186,7 @@ server {
 
     sendfile off;
 
-    root /var/www/html/public;
+    root /var/www/elasticsearch-admin/public;
     index index.php index.html;
 
     location / {
