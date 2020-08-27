@@ -43,7 +43,7 @@ class ElasticsearchShardController extends AbstractAppController
 
         $query = [
             'bytes' => 'b',
-            'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node',
+            'h' => 'index,shard,prirep,state,unassigned.reason,unassigned.details,docs,store,node',
         ];
 
         if (true === $this->callManager->hasFeature('cat_sort')) {

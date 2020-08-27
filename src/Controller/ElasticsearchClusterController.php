@@ -68,7 +68,23 @@ class ElasticsearchClusterController extends AbstractAppController
         try {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/_cluster/allocation/explain');
-            if ('true' == $request->query->get('include_yes_decisions')) {
+            $json = [];
+            if ($request->query->get('index')) {
+                $json['index'] = $request->query->get('index');
+            }
+            if ($request->query->get('primary')) {
+                $json['primary'] = $request->query->get('primary');
+            }
+            if ($request->query->get('shard') || '0' == $request->query->get('shard')) {
+                $json['shard'] = $request->query->get('shard');
+            }
+            if ($request->query->get('current_node')) {
+                $json['current_node'] = $request->query->get('current_node');
+            }
+            if (0 < count($json)) {
+                $callRequest->setJson($json);
+            }
+            if ('include' == $request->query->get('yes_decisions')) {
                 $callRequest->setQuery(['include_yes_decisions' => 'true']);
             }
             $callResponse = $this->callManager->call($callRequest);
@@ -108,7 +124,7 @@ class ElasticsearchClusterController extends AbstractAppController
             $this->addFlash('danger', $e->getMessage());
         }
 
-        return $this->redirectToRoute('cluster_allocation_explain');
+        return $this->redirectToRoute('cluster_allocation_explain', $request->query->all());
     }
 
     /**

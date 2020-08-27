@@ -31,44 +31,80 @@
             {% endembed %}
 
             {% if allocation_explain %}
-                <hr>
-
-                <div class="row">
-                    {% if allocation_explain['shard'] is defined and allocation_explain['shard'] is iterable %}
-                        {% if is_granted('INDICES', 'global') %}
-                            {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['shard']['index'], 'link': path('indices_read', {'index': allocation_explain['shard']['index']})}}) }}
-                        {% else %}
-                            {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['shard']['index']}}) }}
-                        {% endif %}
-
-                        {{ appImport.dashboardKpi({'title': 'shard'|trans, 'badge': {'title': allocation_explain['shard']['id']}}) }}
-
-                        {{ appImport.dashboardKpi({'title': 'primary'|trans, 'badge': {'title': ('boolean.' ~ allocation_explain['shard']['primary'])|trans, 'context': allocation_explain['shard']['primary']}}) }}
+                {% if allocation_explain['shard'] is defined and allocation_explain['shard'] is iterable %}
+                    {% if is_granted('INDICES', 'global') %}
+                        {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['shard']['index'], 'link': path('indices_read', {'index': allocation_explain['shard']['index']})}}) }}
                     {% else %}
-                        {% if allocation_explain['index'] is defined %}
-                            {% if is_granted('INDICES', 'global') %}
-                                {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['index'], 'link': path('indices_read', {'index': allocation_explain['index']})}}) }}
-                            {% else %}
-                                {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['index']}}) }}
-                            {% endif %}
-                        {% endif %}
-
-                        {% if allocation_explain['shard'] is defined %}
-                            {{ appImport.dashboardKpi({'title': 'shard'|trans, 'badge': {'title': allocation_explain['shard']}}) }}
-                        {% endif %}
-
-                        {% if allocation_explain['primary'] is defined %}
-                            {{ appImport.dashboardKpi({'title': 'primary'|trans, 'badge': {'title': ('boolean.' ~ allocation_explain['primary'])|trans, 'context': allocation_explain['primary']}}) }}
-                        {% endif %}
-
+                        {{ appImport.dashboardKpi({'title': 'index'|trans, 'badge': {'title': allocation_explain['shard']['index']}}) }}
                     {% endif %}
 
-                    {% if allocation_explain['unassigned_info']['reason'] is defined %}
-                        {{ appImport.dashboardKpi({'title': 'unassigned_reason'|trans, 'badge': {'title': allocation_explain['unassigned_info']['reason']|lower|trans, 'context': 'danger'}}) }}
-                    {% endif %}
-                </div>
+                    {{ appImport.dashboardKpi({'title': 'shard'|trans, 'badge': {'title': allocation_explain['shard']['id']}}) }}
 
-                <hr>
+                    {{ appImport.dashboardKpi({'title': 'primary'|trans, 'badge': {'title': ('boolean.' ~ allocation_explain['shard']['primary'])|trans, 'context': allocation_explain['shard']['primary']}}) }}
+                {% else %}
+                    {% embed 'Embed/table_embed.html.twig' %}
+                        {% import 'Import/app_import.html.twig' as appImport %}
+
+                        {% block thead %}
+                            <tr>
+                                <th>{{ 'index'|trans }}</th>
+                                <th>{{ 'shard'|trans }}</th>
+                                <th>{{ 'primary'|trans }}</th>
+                                <th>{{ 'state'|trans }}</th>
+                                <th>{{ 'unassigned_reason'|trans }}</th>
+                                <th>{{ 'node'|trans }}</th>
+                            </tr>
+                        {% endblock %}
+
+                        {% block tbody %}
+                            <tr>
+                                <td>
+                                    {% if allocation_explain['index'] is defined %}
+                                        {% if is_granted('INDICES', 'global') %}
+                                            <a class="text-secondary" href="{{ path('indices_read', {'index': allocation_explain['index']}) }}">{{ allocation_explain['index'] }}</a>
+                                        {% else %}
+                                            {{ row.index }}
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if allocation_explain['shard'] is defined %}
+                                        {{ allocation_explain['shard'] }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if allocation_explain['primary'] is defined %}
+                                        {% if allocation_explain['primary'] %}
+                                            {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                        {% else %}
+                                            {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if allocation_explain['current_state'] is defined %}
+                                        {{ appImport.badge({'title': allocation_explain['current_state']|lower|trans, 'context': allocation_explain['current_state']|lower}) }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if allocation_explain['unassigned_info']['reason'] is defined %}
+                                        {{ appImport.badge({'title': allocation_explain['unassigned_info']['reason']|lower|trans, 'context': 'danger'}) }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if allocation_explain['current_node'] is defined %}
+                                        {% if is_granted('NODES', 'global') %}
+                                            <a class="text-secondary" href="{{ path('nodes_read', {'node': allocation_explain['current_node']['name']}) }}">{{ allocation_explain['current_node']['name'] }}</a>
+                                        {% else %}
+                                            {{ allocation_explain['current_node']['name'] }}
+                                        {% endif %}
+                                        {% if master_node == allocation_explain['current_node']['name'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endblock %}
+                    {% endembed %}
+                {% endif %}
 
                 {% if allocation_explain['allocate_explanation'] is defined %}
                     {{ appImport.heading({'level': 4, 'title': 'allocate_explanation'|trans}) }}
@@ -94,12 +130,12 @@
                     {% embed 'Embed/buttons_embed.html.twig' %}
                         {% import 'Import/app_import.html.twig' as appImport %}
                         {% block content %}
-                            {% if 'true' == app.request.query.get('include_yes_decisions') %}
-                                <a class="btn btn-primary btn-sm" href="{{ path('cluster_allocation_explain') }}">
+                            {% if 'include' == app.request.query.get('yes_decisions') %}
+                                <a class="btn btn-primary btn-sm" href="{{ path('cluster_allocation_explain', app.request.query.all|filter((v, k) => k != 'yes_decisions')|merge({'yes_decisions': 'exclude'})) }}">
                                     {{ 'exclude_yes_decisions'|trans }}
                                 </a>
                             {% else %}
-                                <a class="btn btn-primary btn-sm" href="{{ path('cluster_allocation_explain', {'include_yes_decisions': 'true'}) }}">
+                                <a class="btn btn-primary btn-sm" href="{{ path('cluster_allocation_explain', app.request.query.all|filter((v, k) => k != 'yes_decisions')|merge({'yes_decisions': 'include'})) }}">
                                     {{ 'include_yes_decisions'|trans }}
                                 </a>
                             {% endif %}
@@ -108,7 +144,7 @@
                                 'id': 'RetryFailed',
                                 'title': 'retry_failed'|trans,
                                 'body': 'retry_failed_note'|trans,
-                                'href': path('cluster_retry_failed'),
+                                'href': path('cluster_retry_failed', app.request.query.all),
                             }) }}
                         {% endblock %}
                     {% endembed %}

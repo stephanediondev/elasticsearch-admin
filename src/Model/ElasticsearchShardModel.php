@@ -16,6 +16,8 @@ class ElasticsearchShardModel extends AbstractAppModel
 
     private $unassignedReason;
 
+    private $unassignedDetails;
+
     private $documents;
 
     private $size;
@@ -82,6 +84,18 @@ class ElasticsearchShardModel extends AbstractAppModel
         return $this;
     }
 
+    public function getUnassignedDetails(): ?string
+    {
+        return $this->unassignedDetails;
+    }
+
+    public function setUnassignedDetails(?string $unassignedDetails): self
+    {
+        $this->unassignedDetails = $unassignedDetails;
+
+        return $this;
+    }
+
     public function getDocuments(): ?int
     {
         return $this->documents;
@@ -139,6 +153,9 @@ class ElasticsearchShardModel extends AbstractAppModel
         $this->setState(strtolower($shard['state']));
         if (true === isset($shard['unassigned.reason'])) {
             $this->setUnassignedReason(strtolower($shard['unassigned.reason']));
+        }
+        if (true === isset($shard['unassigned.details'])) {
+            $this->setUnassignedDetails($shard['unassigned.details']);
         }
         if (true === isset($shard['docs'])) {
             $this->setDocuments($shard['docs']);
