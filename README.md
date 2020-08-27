@@ -134,7 +134,7 @@ If Elasticsearch security features are enabled, add ```-e "ELASTICSEARCH_USERNAM
 
 Configure a vhost with the document root set to the ```public``` folder (ie /var/www/elasticsearch-admin/public)
 
-On Apache, add in your vhost the rules below
+On **Apache**, add in your vhost the rules below
 
 ```
 <Directory /var/www/elasticsearch-admin/public>
@@ -176,7 +176,38 @@ If you can't edit a vhost, add the Apache pack to get the ```.htaccess``` file i
 composer require symfony/apache-pack
 ```
 
-On nginx, see the server definition used for the Docker image in [nginx.conf](https://github.com/stephanediondev/elasticsearch-admin/blob/master/docker/nginx.conf)
+On **nginx**, add the server definition below
+
+```
+server {
+    listen [::]:8080 default_server;
+    listen 8080 default_server;
+    server_name _;
+
+    sendfile off;
+
+    root /var/www/html/public;
+    index index.php index.html;
+
+    location / {
+        try_files $uri /index.php$is_args$args;
+    }
+
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        internal;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+}
+```
 
 ### Steps
 
