@@ -87,17 +87,17 @@ class ElasticsearchNodeController extends AbstractAppController
             foreach ($tables as $table) {
                 switch ($table) {
                     case 'nodes_by_disk_avail':
-                        if ($node['disk.avail']) {
+                        if (true === isset($node['disk.avail'])) {
                             $data['tables'][$table]['results'][] = ['total' => $node['disk.avail'], 'title' => $node['name']];
                         }
                         break;
                     case 'nodes_by_disk_used':
-                        if ($node['disk.used']) {
+                        if (true === isset($node['disk.used'])) {
                             $data['tables'][$table]['results'][] = ['total' => $node['disk.used'], 'title' => $node['name']];
                         }
                         break;
                     case 'nodes_by_role':
-                        if ($node['node.role']) {
+                        if (true === isset($node['node.role'])) {
                             foreach (str_split($node['node.role']) as $role) {
                                 if (false === isset($data['tables'][$table]['results'][$role])) {
                                     $data['tables'][$table]['results'][$role] = ['total' => 0, 'title' => $role];
@@ -107,7 +107,7 @@ class ElasticsearchNodeController extends AbstractAppController
                         }
                         break;
                     case 'nodes_by_es_version':
-                        if ($node['version']) {
+                        if (true === isset($node['version'])) {
                             if (false === isset($data['tables'][$table]['results'][$node['version']])) {
                                 $data['tables'][$table]['results'][$node['version']] = ['total' => 0, 'title' => $node['version']];
                             }
@@ -115,7 +115,7 @@ class ElasticsearchNodeController extends AbstractAppController
                         }
                         break;
                     case 'nodes_by_jdk_version':
-                        if ($node['jdk']) {
+                        if (true === isset($node['jdk'])) {
                             if (false === isset($data['tables'][$table]['results'][$node['jdk']])) {
                                 $data['tables'][$table]['results'][$node['jdk']] = ['total' => 0, 'title' => $node['jdk']];
                             }

@@ -28,7 +28,7 @@
                     {% endif %}
 
                     {% if 'heap' == column %}
-                        <th class="text-nowrap">
+                        <th class="text-nowrap d-none d-xl-table-cell">
                             {{ appImport.sort({'cat_sort': cat_sort, 'url': path('nodes'), 'sort': 'heap.percent', 'title': 'heap'|trans})}}
                         </th>
                     {% endif %}
@@ -109,7 +109,7 @@
                         {% endif %}
 
                         {% if 'heap' == column %}
-                            <td class="text-nowrap">
+                            <td class="text-nowrap d-none d-xl-table-cell">
                                 {{ 'usage'|trans }}: {{ appImport.badge({'title': row['heap.percent'] ~ '%', 'context': 'info'}) }}
                                 {% if row['heap.current'] is defined %}
                                     <br><small>{{ 'used'|trans }}: {{ appImport.badge({'title': row['heap.current']|human_filesize, 'context': 'light'}) }}</small>
