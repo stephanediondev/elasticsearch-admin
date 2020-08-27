@@ -10,6 +10,8 @@
 
 [![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-nodes.png)
 
+[![Nodes stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-nodes-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-nodes-stats.png)
+
 [![Node](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-node.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-node.png)
 
 [![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-indices.png)
@@ -36,9 +38,13 @@
 
 [![Shards stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-shards-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-shards-stats.png)
 
+[![Index graveyard](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-index-graveyard.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-index-graveyard.png)
+
 [![Create Shared file system repository](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-repository-create-fs.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-repository-create-fs.png)
 
 [![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-snapshots.png)
+
+[![Snaphosts stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-snapshots-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-snapshots-stats.png)
 
 [![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/resized/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/5.0.1/original/original-snapshot-create.png)
 
