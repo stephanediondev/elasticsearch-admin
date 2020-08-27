@@ -106,6 +106,22 @@
                     {% endblock %}
                 {% endembed %}
 
+                {% if allocation_explain['unassigned_info']['details'] is defined %}
+                    {{ appImport.heading({'level': 4, 'title': 'unassigned_details'|trans}) }}
+
+                    <p>
+                        {{ allocation_explain['unassigned_info']['details'] }}
+                    </p>
+                {% endif %}
+
+                {% if allocation_explain['explanation'] is defined %}
+                    {{ appImport.heading({'level': 4, 'title': 'explanation'|trans}) }}
+
+                    <p>
+                        {{ allocation_explain['explanation'] }}
+                    </p>
+                {% endif %}
+
                 {% if allocation_explain['allocate_explanation'] is defined %}
                     {{ appImport.heading({'level': 4, 'title': 'allocate_explanation'|trans}) }}
 
