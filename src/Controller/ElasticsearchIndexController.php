@@ -107,6 +107,8 @@ class ElasticsearchIndexController extends AbstractAppController
         $tables = [
             'indices_by_status',
             'indices_by_health',
+            'indices_by_primary_shards',
+            'indices_by_replicas',
             'indices_by_documents',
             'indices_by_primary_size',
         ];
@@ -127,6 +129,8 @@ class ElasticsearchIndexController extends AbstractAppController
                         break;
                     case 'indices_by_status':
                     case 'indices_by_health':
+                    case 'indices_by_primary_shards':
+                    case 'indices_by_replicas':
                         $key = false;
                         switch ($table) {
                             case 'indices_by_status':
@@ -135,13 +139,17 @@ class ElasticsearchIndexController extends AbstractAppController
                             case 'indices_by_health':
                                 $key = $index->getHealth();
                                 break;
+                            case 'indices_by_primary_shards':
+                                $key = $index->getPrimaryShards();
+                                break;
+                            case 'indices_by_replicas':
+                                $key = $index->getReplicas();
+                                break;
                         }
-                        if ($key) {
-                            if (false === isset($data['tables'][$table]['results'][$key])) {
-                                $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
-                            }
-                            $data['tables'][$table]['results'][$key]['total']++;
+                        if (false === isset($data['tables'][$table]['results'][$key])) {
+                            $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
                         }
+                        $data['tables'][$table]['results'][$key]['total']++;
                         break;
                 }
             }
@@ -149,6 +157,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         foreach ($tables as $table) {
             usort($data['tables'][$table]['results'], [$this, 'sortByTotal']);
+            $data['tables'][$table]['results'] = array_slice($data['tables'][$table]['results'], 0, 50);
         }
 
         return $this->renderAbstract($request, 'Modules/index/index_stats.html.twig', [

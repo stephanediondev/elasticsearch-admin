@@ -50,10 +50,10 @@
                                     {% endif %}
 
                                     {% set class = 'progress-bar' %}
-                                    {% if key in ['indices_by_documents', 'indices_by_primary_size'] %}
-                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({}) %}
-                                    {% else %}
+                                    {% if key in ['indices_by_status', 'indices_by_health'] %}
                                         {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': row.title}) %}
+                                    {% else %}
+                                        {% set class = class ~ ' bg-' ~ appImport.getContextColor({}) %}
                                     {% endif %}
 
                                     {% embed 'Embed/stats_table_row_embed.html.twig' %}

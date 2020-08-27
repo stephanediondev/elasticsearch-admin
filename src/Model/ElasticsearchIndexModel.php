@@ -21,7 +21,7 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     private $primaryShards;
 
-    private $replicaShards;
+    private $replicas;
 
     private $documents;
 
@@ -107,14 +107,14 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return $this;
     }
 
-    public function getReplicaShards(): ?int
+    public function getReplicas(): ?int
     {
-        return $this->replicaShards;
+        return $this->replicas;
     }
 
-    public function setReplicaShards(?int $replicaShards): self
+    public function setReplicas(?int $replicas): self
     {
-        $this->replicaShards = $replicaShards;
+        $this->replicas = $replicas;
 
         return $this;
     }
@@ -198,7 +198,7 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     public function getShards(): ?int
     {
-        return $this->getPrimaryShards() + ($this->getReplicaShards() * $this->getPrimaryShards());
+        return $this->getPrimaryShards() + ($this->getReplicas() * $this->getPrimaryShards());
     }
 
     public function hasMappingType(string $type): ?bool
@@ -256,7 +256,7 @@ class ElasticsearchIndexModel extends AbstractAppModel
         }
 
         if (true === isset($index['rep'])) {
-            $this->setReplicaShards($index['rep']);
+            $this->setReplicas($index['rep']);
         }
 
         if (true === isset($index['docs.count'])) {
