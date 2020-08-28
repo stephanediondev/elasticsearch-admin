@@ -1,14 +1,10 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'uptime': true, 'load_average': false, 'cpu': true, 'disk': false, 'memory': true, 'heap': true, 'file_descriptors': true} %}
+    {% set columns = {'name': true, 'uptime': true, 'load_average': false, 'cpu': true, 'disk': true, 'memory': true, 'heap': true, 'file_descriptors': true} %}
 
     {% if true == hasFeature('load_average') %}
         {% set columns = columns|merge({'load_average': true}) %}
-    {% endif %}
-
-    {% if true == hasFeature('cat_nodes_disk') %}
-        {% set columns = columns|merge({'disk': true}) %}
     {% endif %}
 
     {% block thead %}
@@ -130,10 +126,13 @@
 
                         {% if 'disk' == column %}
                             <td class="text-nowrap">
-                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['disk.used_percent'] ~ '%', 'context': row['disk_threshold'] is defined ? row['disk_threshold'] : 'info'}) }}
-                                <br><small>{{ 'used'|trans }}: {{ appImport.badge({'title': row['disk.used']|human_filesize, 'context': 'light'}) }}</small>
-                                <br><small>{{ 'available'|trans }}: {{ appImport.badge({'title': row['disk.avail']|human_filesize, 'context': 'light'}) }}</small>
-                                <br><small>{{ 'total'|trans }}: {{ appImport.badge({'title': row['disk.total']|human_filesize, 'context': 'light'}) }}</small>
+                                {% if row['disk.used_percent'] is defined %}
+                                    {{ 'usage'|trans }}: {{ appImport.badge({'title': row['disk.used_percent'] ~ '%', 'context': row['disk_threshold'] is defined ? row['disk_threshold'] : 'info'}) }}
+                                    <br><small>{{ 'used'|trans }}: {{ appImport.badge({'title': row['disk.used']|human_filesize, 'context': 'light'}) }}</small>
+                                    <br><small>{{ 'total'|trans }}: {{ appImport.badge({'title': row['disk.total']|human_filesize, 'context': 'light'}) }}</small>
+                                {% else %}
+                                    {{ 'available'|trans }}: {{ appImport.badge({'title': row['disk.avail']|human_filesize, 'context': row['disk_threshold'] is defined ? row['disk_threshold'] : 'info'}) }}
+                                {% endif %}
                             </td>
                         {% endif %}
 
