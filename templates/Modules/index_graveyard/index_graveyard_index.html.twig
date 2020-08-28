@@ -15,7 +15,11 @@
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
-            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': tombstones.total ~ '/' ~ tombstones_size}}) }}
+            {% if tombstones_size %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': tombstones.total ~ '/' ~ tombstones_size}}) }}
+            {% else %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': tombstones.total}}) }}
+            {% endif %}
 
             {% embed 'Embed/buttons_embed.html.twig' %}
                 {% import 'Import/app_import.html.twig' as appImport %}

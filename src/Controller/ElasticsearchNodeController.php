@@ -67,7 +67,9 @@ class ElasticsearchNodeController extends AbstractAppController
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['nodes_total'] = 0;
         $data['totals']['nodes_total_disk_avail'] = 0;
-        $data['totals']['nodes_total_disk_used'] = 0;
+        if (true === $this->callManager->hasFeature('cat_nodes_disk')) {
+            $data['totals']['nodes_total_disk_used'] = 0;
+        }
 
         $tables = [
             'nodes_by_disk_avail',
@@ -82,7 +84,9 @@ class ElasticsearchNodeController extends AbstractAppController
         foreach ($nodes as $node) {
             $data['totals']['nodes_total']++;
             $data['totals']['nodes_total_disk_avail'] += $node['disk.avail'];
-            $data['totals']['nodes_total_disk_used'] += $node['disk.used'];
+            if (true == isset($node['disk.used'])) {
+                $data['totals']['nodes_total_disk_used'] += $node['disk.used'];
+            }
 
             foreach ($tables as $table) {
                 switch ($table) {

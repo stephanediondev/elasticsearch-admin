@@ -50,7 +50,7 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
                 'page' => $request->query->get('page'),
                 'size' => 100,
             ]),
-            'tombstones_size' => $clusterSettings['cluster.indices.tombstones.size'],
+            'tombstones_size' => $clusterSettings['cluster.indices.tombstones.size'] ?? null,
         ]);
     }
 
