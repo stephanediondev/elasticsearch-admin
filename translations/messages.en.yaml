@@ -330,6 +330,10 @@ help_form:
             location_mode: "The primary or secondary location. If secondary, read-only is true."
     index_search:
         query: "Use <a rel=\"noreferrer\" target=\"_blank\" href=\"https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-string-syntax\">Query string syntax</a>."
+    disk_thresholds:
+        low: "Default value 85%"
+        high: "Default value 90%"
+        flood_stage: "Default value 95%"
 
 help_modal:
     license:

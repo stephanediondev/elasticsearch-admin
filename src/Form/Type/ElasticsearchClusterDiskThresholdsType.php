@@ -34,18 +34,24 @@ class ElasticsearchClusterDiskThresholdsType extends AbstractType
                     $builder->add('low', TextType::class, [
                         'label' => 'watermark_low',
                         'required' => false,
+                        'help' => 'help_form.disk_thresholds.low',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'high':
                     $builder->add('high', TextType::class, [
                         'label' => 'watermark_high',
                         'required' => false,
+                        'help' => 'help_form.disk_thresholds.high',
+                        'help_html' => true,
                     ]);
                     break;
                 case 'flood_stage':
                     $builder->add('flood_stage', TextType::class, [
                         'label' => 'watermark_flood_stage',
                         'required' => false,
+                        'help' => 'help_form.disk_thresholds.flood_stage',
+                        'help_html' => true,
                     ]);
                     break;
             }
