@@ -19,7 +19,9 @@ class ElasticsearchClusterDiskThresholdsType extends AbstractType
         $fields[] = 'enabled';
         $fields[] = 'low';
         $fields[] = 'high';
-        $fields[] = 'flood_stage';
+        if (true === isset($options['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'])) {
+            $fields[] = 'flood_stage';
+        }
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -64,6 +66,7 @@ class ElasticsearchClusterDiskThresholdsType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchClusterDiskThresholdsModel::class,
+            'cluster_settings' => [],
         ]);
     }
 

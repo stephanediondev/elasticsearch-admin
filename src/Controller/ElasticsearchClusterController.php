@@ -651,14 +651,14 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        dump($clusterSettings['cluster.routing.allocation.disk.threshold_enabled']);
-
         $clusterDiskThresholdsModel = new ElasticsearchClusterDiskThresholdsModel();
         $clusterDiskThresholdsModel->setEnabled('true' == $clusterSettings['cluster.routing.allocation.disk.threshold_enabled'] ? true : false);
         $clusterDiskThresholdsModel->setLow($clusterSettings['cluster.routing.allocation.disk.watermark.low']);
         $clusterDiskThresholdsModel->setHigh($clusterSettings['cluster.routing.allocation.disk.watermark.high']);
-        $clusterDiskThresholdsModel->setFloodStage($clusterSettings['cluster.routing.allocation.disk.watermark.flood_stage']);
-        $form = $this->createForm(ElasticsearchClusterDiskThresholdsType::class, $clusterDiskThresholdsModel);
+        if (true === isset($clusterSettings['cluster.routing.allocation.disk.watermark.flood_stage'])) {
+            $clusterDiskThresholdsModel->setFloodStage($clusterSettings['cluster.routing.allocation.disk.watermark.flood_stage']);
+        }
+        $form = $this->createForm(ElasticsearchClusterDiskThresholdsType::class, $clusterDiskThresholdsModel, ['cluster_settings' => $clusterSettings]);
 
         $form->handleRequest($request);
 
