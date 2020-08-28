@@ -79,6 +79,7 @@ audit_checkpoints:
     heap_size_init_equal_max: "The initial heap size is equal to the maximum heap size"
     slm_policies_schedule_unique: "All SLM policies have unique schedule"
     repositories_connected: "All repositories are connected"
+    shard_allocation_enabled: "The cluster-level shard allocation is enabled"
 available: "Available"
 awaiting_info: "Awaiting info"
 awareness: "Awareness"

@@ -71,9 +71,7 @@
                                 {% if 'security_features' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block external_link %}
-                                            {% if 'audit_fail' == result %}
-                                                <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-security.html">{{ 'help'|trans }}</a>
-                                            {% endif %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-security.html">{{ 'help'|trans }}</a>
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
@@ -87,9 +85,7 @@
                                         {% endblock %}
 
                                         {% block external_link %}
-                                            {% if 'audit_notice' == result %}
-                                                <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster.name.html">{{ 'help'|trans }}</a>
-                                            {% endif %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster.name.html">{{ 'help'|trans }}</a>
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
@@ -147,7 +143,7 @@
 
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
-                                                <a href="{{ path('indices', {'sort': 'rep:asc'}) }}">Indices</a>
+                                                <a href="{{ path('indices', {'sort': 'rep:asc'}) }}">{{ 'indices'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -157,14 +153,12 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
-                                                <a href="{{ path('indices', {'sort': 'status:asc'}) }}">Indices</a>
+                                                <a href="{{ path('indices', {'sort': 'status:asc'}) }}">{{ 'indices'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
                                         {% block external_link %}
-                                            {% if 'audit_fail' == result %}
-                                                <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-management-settings.html">{{ 'help'|trans }}</a>
-                                            {% endif %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-management-settings.html">{{ 'help'|trans }}</a>
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
@@ -180,7 +174,7 @@
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result %}
                                                 {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                    <a href="{{ path('cluster_settings') }}">Cluster settings</a>
+                                                    <a href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                                 {% endif %}
                                             {% endif %}
                                         {% endblock %}
@@ -202,7 +196,7 @@
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result %}
                                                 {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                    <a href="{{ path('cluster_settings') }}">Cluster settings</a>
+                                                    <a href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                                 {% endif %}
                                             {% endif %}
                                         {% endblock %}
@@ -218,15 +212,13 @@
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result %}
                                                 {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                    <a href="{{ path('cluster_settings') }}">Cluster settings</a>
+                                                    <a href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                                 {% endif %}
                                             {% endif %}
                                         {% endblock %}
 
                                         {% block external_link %}
-                                            {% if 'audit_fail' == result %}
-                                                <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html#cluster-read-only">{{ 'help'|trans }}</a>
-                                            {% endif %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html#cluster-read-only">{{ 'help'|trans }}</a>
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
@@ -240,10 +232,8 @@
                                         {% endblock %}
 
                                         {% block internal_link %}
-                                            {% if 'audit_fail' == result %}
-                                                {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                    <a href="{{ path('cluster_settings') }}">Cluster settings</a>
-                                                {% endif %}
+                                            {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_DISK_THRESHOLDS', 'global') %}
+                                                <a href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
@@ -391,9 +381,7 @@
                                         {% endblock %}
 
                                         {% block external_link %}
-                                            {% if 'audit_fail' == result %}
-                                                <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-passwords.html">{{ 'help'|trans }}</a>
-                                            {% endif %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-passwords.html">{{ 'help'|trans }}</a>
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
@@ -429,6 +417,24 @@
                                             {% if is_granted('REPOSITORIES', 'global') %}
                                                 <a href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
                                             {% endif %}
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endif %}
+
+                                {% if 'shard_allocation_enabled' == checkpoint %}
+                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
+                                        {% block comment %}
+                                            The value is set to <code>{{ parameters }}</code>
+                                        {% endblock %}
+
+                                        {% block internal_link %}
+                                            {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
+                                                <a href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block external_link %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html#cluster-shard-allocation-settings">{{ 'help'|trans }}</a>
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
