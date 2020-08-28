@@ -79,6 +79,9 @@
                                 {% if 'cluster_name' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
+                                            {% if 'audit_pass' == result %}
+                                                The cluster name is <code>{{ cluster_health['cluster_name'] }}</code>.
+                                            {% endif %}
                                             {% if 'audit_notice' == result %}
                                                 The name may be changed to a name which describes the purpose of the cluster.
                                             {% endif %}
@@ -424,7 +427,7 @@
                                 {% if 'shard_allocation_enabled' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
-                                            The value is set to <code>{{ parameters }}</code>
+                                            The value is set to <code>{{ parameters }}</code>.
                                         {% endblock %}
 
                                         {% block internal_link %}
