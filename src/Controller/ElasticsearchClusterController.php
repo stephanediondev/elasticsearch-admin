@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchClusterSettingType;
+use App\Form\Type\ElasticsearchClusterDiskThresholdsType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\ElasticsearchClusterSettingModel;
+use App\Model\ElasticsearchClusterDiskThresholdsModel;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -634,5 +636,51 @@ class ElasticsearchClusterController extends AbstractAppController
         $parameters['results'] = $results;
 
         return $this->renderAbstract($request, 'Modules/cluster/cluster_audit.html.twig', $parameters);
+    }
+
+    /**
+     * @Route("/cluster/disk-thresholds", name="cluster_disk_thresholds")
+     */
+    public function diskThresholds(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('CLUSTER_DISK_THRESHOLDS', 'global');
+
+        if (false === $this->callManager->hasFeature('cluster_settings')) {
+            throw new AccessDeniedException();
+        }
+
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+
+        dump($clusterSettings['cluster.routing.allocation.disk.threshold_enabled']);
+
+        $clusterDiskThresholdsModel = new ElasticsearchClusterDiskThresholdsModel();
+        $clusterDiskThresholdsModel->setEnabled('true' == $clusterSettings['cluster.routing.allocation.disk.threshold_enabled'] ? true : false);
+        $clusterDiskThresholdsModel->setLow($clusterSettings['cluster.routing.allocation.disk.watermark.low']);
+        $clusterDiskThresholdsModel->setHigh($clusterSettings['cluster.routing.allocation.disk.watermark.high']);
+        $clusterDiskThresholdsModel->setFloodStage($clusterSettings['cluster.routing.allocation.disk.watermark.flood_stage']);
+        $form = $this->createForm(ElasticsearchClusterDiskThresholdsType::class, $clusterDiskThresholdsModel);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = $clusterDiskThresholdsModel->getJson();
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_cluster/settings');
+                $callRequest->setJson($json);
+                $callResponse = $this->callManager->call($callRequest);
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
+
+                return $this->redirectToRoute('cluster_disk_thresholds');
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/cluster/cluster_disk_thresholds.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

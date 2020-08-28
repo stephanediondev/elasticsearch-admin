@@ -107,4 +107,24 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Audit');
     }
+
+    /**
+     * @Route("/cluster/disk-thresholds", name="cluster_disk_thresholds")
+     */
+    public function testDiskThresholds()
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cluster/health');
+        $callResponse = $this->callManager->call($callRequest);
+        $clusterHealth = $callResponse->getContent();
+
+        $this->client->request('GET', '/admin/cluster/disk-thresholds');
+
+        if (false == $this->callManager->hasFeature('cluster_settings')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Disk thresholds');
+        }
+    }
 }

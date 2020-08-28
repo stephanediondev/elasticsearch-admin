@@ -132,6 +132,7 @@
                             <td class="text-nowrap">
                                 {{ 'usage'|trans }}: {{ appImport.badge({'title': row['disk.used_percent'] ~ '%', 'context': row['disk_threshold'] is defined ? row['disk_threshold'] : 'info'}) }}
                                 <br><small>{{ 'used'|trans }}: {{ appImport.badge({'title': row['disk.used']|human_filesize, 'context': 'light'}) }}</small>
+                                <br><small>{{ 'available'|trans }}: {{ appImport.badge({'title': row['disk.avail']|human_filesize, 'context': 'light'}) }}</small>
                                 <br><small>{{ 'total'|trans }}: {{ appImport.badge({'title': row['disk.total']|human_filesize, 'context': 'light'}) }}</small>
                             </td>
                         {% endif %}

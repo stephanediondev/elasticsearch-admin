@@ -50,6 +50,21 @@ class ElasticsearchNodeManager extends AbstractAppManager
                 }
                 $diskWatermarks['high'] = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.high'];
                 $diskWatermarks['low'] = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.low'];
+
+                $unit = false;
+                $types = ['b', 'kb', 'mb', 'gb', 'tb', 'p'];
+                foreach ($diskWatermarks as $watermark => $value) {
+                    if (strstr($value, '%')) {
+                        $unit = 'percent';
+                        $diskWatermarks[$watermark] = str_replace('%', '', $value);
+                    } else {
+                        $unit = 'size';
+                        $type = strtolower(substr($value, -2));
+                        $value = intval(substr($value, 0, -2));
+                        $key = array_search($type, $types);
+                        $diskWatermarks[$watermark] = $value * pow(1024, $key);
+                    }
+                }
             }
         }
 
@@ -69,21 +84,6 @@ class ElasticsearchNodeManager extends AbstractAppManager
             $nodes[$node['name']] = $node;
 
             if ($diskThresholdEnabled) {
-                $unit = false;
-                $types = ['b', 'kb', 'mb', 'gb', 'tb', 'p'];
-                foreach ($diskWatermarks as $watermark => $value) {
-                    if (strstr($value, '%')) {
-                        $unit = 'percent';
-                        $diskWatermarks[$watermark] = str_replace('%', '', $value);
-                    } else {
-                        $unit = 'size';
-                        $type = strtolower(substr($value, -2));
-                        $value = intval(substr($value, 0, -2));
-                        $key = array_search($type, $types);
-                        $diskWatermarks[$watermark] = $value * pow(1024, $key);
-                    }
-                }
-
                 if ('percent' == $unit && true === isset($node['disk.used_percent'])) {
                     if (true === isset($diskWatermarks['flood_stage']) && $diskWatermarks['flood_stage'] <= $node['disk.used_percent']) {
                         $nodes[$node['name']]['disk_threshold'] = 'watermark_flood_stage';
