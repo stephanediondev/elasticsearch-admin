@@ -21,6 +21,8 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     private $metadata;
 
+    private $dataStream;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -93,6 +95,18 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    public function getDataStream(): ?bool
+    {
+        return $this->dataStream;
+    }
+
+    public function setDataStream(?bool $dataStream): self
+    {
+        $this->dataStream = $dataStream;
+
+        return $this;
+    }
+
     private function getIndexToArray(): ?array
     {
         $indexPatterns = [];
@@ -135,6 +149,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         if (true === isset($template['index_template']['_meta']) && 0 < count($template['index_template']['_meta'])) {
             $this->setMetadata($template['index_template']['_meta']);
         }
+        if (true === isset($template['index_template']['data_stream'])) {
+            $this->setDataStream(true);
+        }
         return $this;
     }
 
@@ -174,6 +191,10 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
         if ($this->getMetadata()) {
             $json['_meta'] = $this->getMetadata();
+        }
+
+        if ($this->getDataStream()) {
+            $json['data_stream'] = (object)[];
         }
 
         return $json;

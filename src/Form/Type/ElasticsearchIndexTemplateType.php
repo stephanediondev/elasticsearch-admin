@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormEvent;
@@ -42,6 +43,7 @@ class ElasticsearchIndexTemplateType extends AbstractType
         $fields[] = 'version';
         $fields[] = 'priority';
         $fields[] = 'composed_of';
+        $fields[] = 'data_stream';
         $fields[] = 'settings';
         $fields[] = 'mappings';
         $fields[] = 'aliases';
@@ -103,10 +105,18 @@ class ElasticsearchIndexTemplateType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'composed_of',
                         'required' => false,
+                        'help' => 'help_form.index_template.composed_of',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'data_stream':
+                    $builder->add('data_stream', CheckboxType::class, [
+                        'label' => 'data_stream',
+                        'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
-                        'help' => 'help_form.index_template.composed_of',
+                        'help' => 'help_form.index_template.data_stream',
                         'help_html' => true,
                     ]);
                     break;

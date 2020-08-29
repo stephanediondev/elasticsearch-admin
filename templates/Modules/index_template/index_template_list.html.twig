@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true, 'description': true} %}
+    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true, 'data_stream': true, 'description': true} %}
 
     {% set is_granted_component_templates = is_granted('COMPONENT_TEMPLATES', 'global') %}
 
@@ -36,6 +36,12 @@
                     {% if 'composed_of' == column %}
                         <th>
                             {{ 'composed_of'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'data_stream' == column %}
+                        <th>
+                            {{ 'data_stream'|trans }}
                         </th>
                     {% endif %}
 
@@ -93,6 +99,16 @@
                                         {% endif %}
                                         {% if false == loop.last %}, {% endif %}
                                     {% endfor %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'data_stream' == column %}
+                            <td>
+                                {% if row.dataStream %}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}
