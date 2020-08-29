@@ -55,10 +55,10 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The release is no longer supported since {{ parameters['eol_date']|date('D, d M Y') }}.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.fail')|trans({'{date}': parameters['eol_date']|date('D, d M Y')})|raw }}
                                             {% endif %}
                                             {% if 'audit_pass' == result %}
-                                                The release is supported until {{ parameters['eol_date']|date('D, d M Y') }}.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.pass')|trans({'{date}': parameters['eol_date']|date('D, d M Y')})|raw }}
                                             {% endif %}
                                         {% endblock %}
 
@@ -80,10 +80,10 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_pass' == result %}
-                                                The cluster name is <code>{{ cluster_health['cluster_name'] }}</code>.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.pass')|trans({'{name}': cluster_health['cluster_name']})|raw }}
                                             {% endif %}
                                             {% if 'audit_notice' == result %}
-                                                The name may be changed to a name which describes the purpose of the cluster.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.notice')|trans|raw }}
                                             {% endif %}
                                         {% endblock %}
 
@@ -97,9 +97,9 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 1 == parameters|length %}
-                                                The installed version is: {{ parameters|join(', ') }}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.singular')|trans({'{versions}': parameters|join(', ')})|raw }}
                                             {% else %}
-                                                The installed versions are: {{ parameters|join(', ') }}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.plural')|trans({'{versions}': parameters|join(', ')})|raw }}
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -109,7 +109,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                Plugins are missing for the following nodes:
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.fail')|trans|raw }}
                                                 {% for node, plugins in parameters %}
                                                     {{ node }} ({{ plugins|join(', ') }}){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -117,9 +117,9 @@
 
                                             {% if 'audit_pass' == result %}
                                                 {% if 0 < parameters|length %}
-                                                    The installed plugins are: {{ parameters|join(', ') }}
+                                                    {{ ('audit_comments.' ~ checkpoint ~ '.pass_plural')|trans({'{plugins}': parameters|join(', ')})|raw }}
                                                 {% else %}
-                                                    No plugins are installed.
+                                                    {{ ('audit_comments.' ~ checkpoint ~ '.pass_no_plugins')|trans|raw }}
                                                 {% endif %}
                                             {% endif %}
                                         {% endblock %}
@@ -140,7 +140,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_notice' == result %}
-                                                There is only one node.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.notice')|trans|raw }}
                                             {% endif %}
                                         {% endblock %}
 
@@ -170,7 +170,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The setting <code>cluster.routing.use_adaptive_replica_selection</code> should be set to <code>true</code>.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.fail')|trans({'{setting}': 'cluster.routing.use_adaptive_replica_selection', '{value}': 'true'})|raw }}
                                             {% endif %}
                                         {% endblock %}
 
@@ -192,7 +192,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The setting <code>cluster.indices.close.enable</code> should be set to <code>false</code>.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.fail')|trans({'{setting}': 'cluster.indices.close.enable', '{value}': 'false'})|raw }}
                                             {% endif %}
                                         {% endblock %}
 
@@ -230,7 +230,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The setting <code>cluster.routing.allocation.disk.threshold_enabled</code> should be set to <code>true</code>.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.fail')|trans({'{setting}': 'cluster.routing.allocation.disk.threshold_enabled', '{value}': 'true'})|raw }}
                                             {% endif %}
                                         {% endblock %}
 
@@ -250,7 +250,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The checkpoint fails for the following nodes:
+                                                {{ 'audit_comments.fail_for_nodes'|trans|raw }}
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value }}%){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -269,7 +269,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The checkpoint fails for the following nodes:
+                                                {{ 'audit_comments.fail_for_nodes'|trans|raw }}
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value|trans }}){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -288,7 +288,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The checkpoint fails for the following nodes:
+                                                {{ 'audit_comments.fail_for_nodes'|trans|raw }}
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value|round(2) }}%){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -311,7 +311,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The checkpoint fails for the following nodes:
+                                                {{ 'audit_comments.fail_for_nodes'|trans|raw }}
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value }}){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -342,10 +342,10 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'basic' != parameters['type'] and parameters['expiry_date_in_millis'] is defined %}
-                                                The {{ parameters['type'] }} license expires on {{ parameters['expiry_date_in_millis']|human_datetime }}.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.expiration')|trans({'{type}': parameters['type'], '{date}': parameters['expiry_date_in_millis']|human_datetime})|raw }}
                                             {% else %}
                                                 {% if 'audit_notice' == result %}
-                                                    There is no expiration with basic license.
+                                                    {{ ('audit_comments.' ~ checkpoint ~ '.no_expiration')|trans|raw }}
                                                 {% endif %}
                                             {% endif %}
                                         {% endblock %}
@@ -362,7 +362,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The checkpoint fails for the following nodes:
+                                                {{ 'audit_comments.fail_for_nodes'|trans|raw }}
                                                 {% for node, value in parameters %}
                                                     {{ node }} ({{ value }}){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -379,7 +379,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The user <code>elastic</code> uses the default password <code>changeme</code>.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.fail')|trans|raw }}
                                             {% endif %}
                                         {% endblock %}
 
@@ -393,7 +393,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                Two or more policies have the same schedule.
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.fail')|trans|raw }}
                                             {% endif %}
                                         {% endblock %}
 
@@ -409,7 +409,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 'audit_fail' == result %}
-                                                The checkpoint fails for the following repositories:
+                                                {{ ('audit_comments.fail_for_repositories')|trans|raw }}
                                                 {% for repository in parameters %}
                                                     {{ repository }}{% if false == loop.last %},{% endif %}
                                                 {% endfor %}
@@ -427,7 +427,7 @@
                                 {% if 'shard_allocation_enabled' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
-                                            The setting <code>cluster.routing.allocation.enable</code> is set to <code>{{ parameters }}</code>.
+                                            {{ ('audit_comments.' ~ checkpoint ~ '.note')|trans({'{setting}': 'cluster.routing.allocation.enable', '{value}': parameters})|raw }}
                                         {% endblock %}
 
                                         {% block internal_link %}

@@ -80,6 +80,39 @@ audit_checkpoints:
     slm_policies_schedule_unique: "All SLM policies have unique schedule"
     repositories_connected: "All repositories are connected"
     shard_allocation_enabled: "The cluster-level shard allocation is enabled"
+audit_comments:
+    fail_for_nodes: "The checkpoint fails for the following nodes:"
+    fail_for_repositories: "The checkpoint fails for the following repositories:"
+    end_of_life:
+        fail: "The release is no longer supported since {date}"
+        pass: "The release is supported until {date}"
+    cluster_name:
+        notice: "The name may be changed to a name which describes the purpose of the cluster."
+        pass: "The cluster name is <code>{name}</code>."
+    same_es_version:
+        plural: "The installed versions are: {versions}"
+        singular: "The installed version is: {versions}"
+    same_plugins:
+        fail: "Plugins are missing for the following nodes:"
+        pass_plural: "The installed plugins are: {plugins}"
+        pass_no_plugins: "No plugins are installed."
+    adaptive_replica_selection:
+        fail: "The setting <code>{setting}</code> should be set to <code>{value}</code>."
+    indices_with_replica:
+        notice: "There is only one node."
+    close_index_not_enabled:
+        fail: "The setting <code>{setting}</code> should be set to <code>{value}</code>."
+    allocation_disk_threshold:
+        fail: "The setting <code>{setting}</code> should be set to <code>{value}</code>."
+    license_not_expired:
+        expiration: "The {type} license expires on {date}."
+        no_expiration: "There is no expiration with basic license."
+    password_not_changeme:
+        fail: "The user <code>elastic</code> uses the default password <code>changeme</code>."
+    slm_policies_schedule_unique:
+        fail: "Two or more policies have the same schedule."
+    shard_allocation_enabled:
+        note: "The setting <code>{setting}</code> is set to <code>{value}</code>."
 available: "Available"
 awaiting_info: "Awaiting info"
 awareness: "Awareness"
