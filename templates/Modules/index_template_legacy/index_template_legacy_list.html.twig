@@ -1,7 +1,11 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'index_patterns': true, 'order': true, 'version': true} %}
+    {% set columns = {'name': true, 'index_patterns': true, 'ilm_policy': false, 'order': true, 'version': true} %}
+
+    {% if true == hasFeature('ilm') %}
+        {% set columns = columns|merge({'ilm_policy': true}) %}
+    {% endif %}
 
     {% block thead %}
         <tr>
@@ -16,6 +20,12 @@
                     {% if 'index_patterns' == column %}
                         <th>
                             {{ 'index_patterns'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'ilm_policy' == column %}
+                        <th>
+                            {{ 'ilm_policy'|trans }}
                         </th>
                     {% endif %}
 
@@ -49,6 +59,18 @@
                         {% if 'index_patterns' == column %}
                             <td>
                                 {{ row.indexPatterns|join(',')|replace({'[': '', ']': ''}) }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'ilm_policy' == column %}
+                            <td>
+                                {% if row.setting('index.lifecycle.name') %}
+                                    {% if is_granted('ILM_POLICIES', 'global') %}
+                                        <a class="text-secondary" href="{{ path('ilm_read', {'name': row.setting('index.lifecycle.name')}) }}">{{ row.setting('index.lifecycle.name') }}</a>
+                                    {% else %}
+                                        {{ row.setting('index.lifecycle.name') }}
+                                    {% endif %}
+                                {% endif %}
                             </td>
                         {% endif %}
 

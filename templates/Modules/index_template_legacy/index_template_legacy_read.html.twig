@@ -39,10 +39,14 @@
                 {% endblock %}
             {% endembed %}
 
-            {% if template.setting('index.lifecycle.name') %}
+            {% if true == hasFeature('ilm') and template.setting('index.lifecycle.name') %}
                 <p>
                     <strong>{{ 'ilm_policy'|trans }}</strong><br>
-                    <a class="text-secondary" href="{{ path('ilm_read', {'name': template.setting('index.lifecycle.name')}) }}">{{ template.setting('index.lifecycle.name') }}</a>
+                    {% if is_granted('ILM_POLICIES', 'global') %}
+                        <a class="text-secondary" href="{{ path('ilm_read', {'name': template.setting('index.lifecycle.name')}) }}">{{ template.setting('index.lifecycle.name') }}</a>
+                    {% else %}
+                        {{ template.setting('index.lifecycle.name') }}
+                    {% endif %}
                 </p>
             {% endif %}
 
