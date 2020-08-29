@@ -38,6 +38,10 @@
 
 [![Create legacy index template](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-index-template-create-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-index-template-create-legacy.png)
 
+[![Composable index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-index-templates.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-index-templates.png)
+
+[![Create composable index template](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-index-template-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-index-template-create.png)
+
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-shards.png)
 
 [![Shards stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-shards-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-shards-stats.png)
