@@ -38,15 +38,15 @@
             <hr>
 
             <div class="row row-cols-1 row-cols-md-2 g-4">
-                {% for key, table in data.tables %}
-                    {% if 0 < table.results|length %}
+                {% for key, results in data.tables %}
+                    {% if 0 < results|length %}
                         {% embed 'Embed/stats_table_embed.html.twig' %}
                             {% import 'Import/app_import.html.twig' as appImport %}
 
                             {% block title %}{{ ('stats_data.' ~ key)|trans }}{% endblock %}
 
                             {% block content %}
-                                {% for row in table.results %}
+                                {% for row in results %}
                                     {% if 'shards_by_unassigned_reason' == key %}
                                         {% set percent = appImport.getPercent(data.totals.shards_total_unassigned, row.total, 1) %}
                                     {% else %}
@@ -56,7 +56,7 @@
                                     {% set class = 'progress-bar' %}
                                     {% if key in ['shards_by_unassigned_reason'] %}
                                         {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': 'danger'}) %}
-                                    {% elseif key in ['shards_by_node'] %}
+                                    {% elseif key in ['shards_by_node', 'shards_by_type'] %}
                                         {% set class = class ~ ' bg-' ~ appImport.getContextColor({}) %}
                                     {% else %}
                                         {% set class = class ~ ' bg-' ~ appImport.getContextColor({'context': row.title}) %}

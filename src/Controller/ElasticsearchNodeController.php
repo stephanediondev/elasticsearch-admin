@@ -83,16 +83,13 @@ class ElasticsearchNodeController extends AbstractAppController
         if (true === $this->callManager->hasFeature('cat_nodes_disk')) {
             $data['totals']['nodes_total_disk_used'] = 0;
         }
-
-        $tables = [
-            'nodes_by_disk_avail',
-            'nodes_by_disk_used',
-            'nodes_by_os',
-            'nodes_by_os_arch',
-            'nodes_by_es_version',
-            'nodes_by_jdk_version',
-            'nodes_by_role',
-        ];
+        $data['tables']['nodes_by_disk_avail'] = [];
+        $data['tables']['nodes_by_disk_used'] = [];
+        $data['tables']['nodes_by_os'] = [];
+        $data['tables']['nodes_by_os_arch'] = [];
+        $data['tables']['nodes_by_es_version'] = [];
+        $data['tables']['nodes_by_jdk_version'] = [];
+        $data['tables']['nodes_by_role'] = [];
 
         foreach ($nodes as $node) {
             $data['totals']['nodes_total']++;
@@ -101,42 +98,42 @@ class ElasticsearchNodeController extends AbstractAppController
                 $data['totals']['nodes_total_disk_used'] += $node['disk.used'];
             }
 
-            foreach ($tables as $table) {
+            foreach (array_keys($data['tables']) as $table) {
                 switch ($table) {
                     case 'nodes_by_disk_avail':
                         if (true === isset($node['disk.avail'])) {
-                            $data['tables'][$table]['results'][] = ['total' => $node['disk.avail'], 'title' => $node['name']];
+                            $data['tables'][$table][] = ['total' => $node['disk.avail'], 'title' => $node['name']];
                         }
                         break;
                     case 'nodes_by_disk_used':
                         if (true === isset($node['disk.used'])) {
-                            $data['tables'][$table]['results'][] = ['total' => $node['disk.used'], 'title' => $node['name']];
+                            $data['tables'][$table][] = ['total' => $node['disk.used'], 'title' => $node['name']];
                         }
                         break;
                     case 'nodes_by_role':
                         if (true === isset($node['node.role'])) {
                             foreach (str_split($node['node.role']) as $role) {
-                                if (false === isset($data['tables'][$table]['results'][$role])) {
-                                    $data['tables'][$table]['results'][$role] = ['total' => 0, 'title' => $role];
+                                if (false === isset($data['tables'][$table][$role])) {
+                                    $data['tables'][$table][$role] = ['total' => 0, 'title' => $role];
                                 }
-                                $data['tables'][$table]['results'][$role]['total']++;
+                                $data['tables'][$table][$role]['total']++;
                             }
                         }
                         break;
                     case 'nodes_by_es_version':
                         if (true === isset($node['version'])) {
-                            if (false === isset($data['tables'][$table]['results'][$node['version']])) {
-                                $data['tables'][$table]['results'][$node['version']] = ['total' => 0, 'title' => $node['version']];
+                            if (false === isset($data['tables'][$table][$node['version']])) {
+                                $data['tables'][$table][$node['version']] = ['total' => 0, 'title' => $node['version']];
                             }
-                            $data['tables'][$table]['results'][$node['version']]['total']++;
+                            $data['tables'][$table][$node['version']]['total']++;
                         }
                         break;
                     case 'nodes_by_jdk_version':
                         if (true === isset($node['jdk'])) {
-                            if (false === isset($data['tables'][$table]['results'][$node['jdk']])) {
-                                $data['tables'][$table]['results'][$node['jdk']] = ['total' => 0, 'title' => $node['jdk']];
+                            if (false === isset($data['tables'][$table][$node['jdk']])) {
+                                $data['tables'][$table][$node['jdk']] = ['total' => 0, 'title' => $node['jdk']];
                             }
-                            $data['tables'][$table]['results'][$node['jdk']]['total']++;
+                            $data['tables'][$table][$node['jdk']]['total']++;
                         }
                         break;
                     case 'nodes_by_os':
@@ -156,10 +153,10 @@ class ElasticsearchNodeController extends AbstractAppController
                                     break;
                             }
                             if ($key) {
-                                if (false === isset($data['tables'][$table]['results'][$key])) {
-                                    $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
+                                if (false === isset($data['tables'][$table][$key])) {
+                                    $data['tables'][$table][$key] = ['total' => 0, 'title' => $key];
                                 }
-                                $data['tables'][$table]['results'][$key]['total']++;
+                                $data['tables'][$table][$key]['total']++;
                             }
                         }
                         break;
@@ -167,9 +164,9 @@ class ElasticsearchNodeController extends AbstractAppController
             }
         }
 
-        foreach ($tables as $table) {
-            if (true === isset($data['tables'][$table]['results'])) {
-                usort($data['tables'][$table]['results'], [$this, 'sortByTotal']);
+        foreach (array_keys($data['tables']) as $table) {
+            if (true === isset($data['tables'][$table])) {
+                usort($data['tables'][$table], [$this, 'sortByTotal']);
             }
         }
 

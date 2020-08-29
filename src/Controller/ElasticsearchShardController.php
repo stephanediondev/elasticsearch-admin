@@ -99,12 +99,10 @@ class ElasticsearchShardController extends AbstractAppController
         $data['totals']['shards_total_unassigned'] = 0;
         $data['totals']['shards_total_documents'] = 0;
         $data['totals']['shards_total_size'] = 0;
-
-        $tables = [
-            'shards_by_state',
-            'shards_by_unassigned_reason',
-            'shards_by_node',
-        ];
+        $data['tables']['shards_by_state'] = [];
+        $data['tables']['shards_by_unassigned_reason'] = [];
+        $data['tables']['shards_by_type'] = [];
+        $data['tables']['shards_by_node'] = [];
 
         foreach ($shards as $shard) {
             $data['totals']['shards_total']++;
@@ -118,18 +116,19 @@ class ElasticsearchShardController extends AbstractAppController
             $data['totals']['shards_total_documents'] += $shard->getDocuments();
             $data['totals']['shards_total_size'] += $shard->getSize();
 
-            foreach ($tables as $table) {
+            foreach (array_keys($data['tables']) as $table) {
                 switch ($table) {
                     case 'shards_by_node':
                         if ($shard->getNode() && 'relocating' != $shard->getState()) {
-                            if (false === isset($data['tables'][$table]['results'][$shard->getNode()])) {
-                                $data['tables'][$table]['results'][$shard->getNode()] = ['total' => 0, 'title' => $shard->getNode()];
+                            if (false === isset($data['tables'][$table][$shard->getNode()])) {
+                                $data['tables'][$table][$shard->getNode()] = ['total' => 0, 'title' => $shard->getNode()];
                             }
-                            $data['tables'][$table]['results'][$shard->getNode()]['total']++;
+                            $data['tables'][$table][$shard->getNode()]['total']++;
                         }
                         break;
                     case 'shards_by_state':
                     case 'shards_by_unassigned_reason':
+                    case 'shards_by_type':
                         $key = false;
                         switch ($table) {
                             case 'shards_by_state':
@@ -138,21 +137,24 @@ class ElasticsearchShardController extends AbstractAppController
                             case 'shards_by_unassigned_reason':
                                 $key = $shard->getUnassignedReason();
                                 break;
+                            case 'shards_by_type':
+                                $key = $shard->isPrimary() ? 'primary' : 'replica';
+                                break;
                         }
                         if ($key) {
-                            if (false === isset($data['tables'][$table]['results'][$key])) {
-                                $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
+                            if (false === isset($data['tables'][$table][$key])) {
+                                $data['tables'][$table][$key] = ['total' => 0, 'title' => $key];
                             }
-                            $data['tables'][$table]['results'][$key]['total']++;
+                            $data['tables'][$table][$key]['total']++;
                         }
                         break;
                 }
             }
         }
 
-        foreach ($tables as $table) {
-            if (true === isset($data['tables'][$table]['results'])) {
-                usort($data['tables'][$table]['results'], [$this, 'sortByTotal']);
+        foreach (array_keys($data['tables']) as $table) {
+            if (true === isset($data['tables'][$table])) {
+                usort($data['tables'][$table], [$this, 'sortByTotal']);
             }
         }
 

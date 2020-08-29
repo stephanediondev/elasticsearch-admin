@@ -79,11 +79,8 @@ class ElasticsearchSnapshotController extends AbstractAppController
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['snapshots_total'] = 0;
         $data['totals']['snapshots_total_success'] = 0;
-
-        $tables = [
-            'snapshots_by_state',
-            'snapshots_by_repository',
-        ];
+        $data['tables']['snapshots_by_state'] = [];
+        $data['tables']['snapshots_by_repository'] = [];
 
         foreach ($snapshots as $snapshot) {
             $data['totals']['snapshots_total']++;
@@ -92,14 +89,14 @@ class ElasticsearchSnapshotController extends AbstractAppController
                 $data['totals']['snapshots_total_success']++;
             }
 
-            foreach ($tables as $table) {
+            foreach (array_keys($data['tables']) as $table) {
                 switch ($table) {
                     case 'snapshots_by_repository':
                         if ($snapshot->getRepository()) {
-                            if (false === isset($data['tables'][$table]['results'][$snapshot->getRepository()])) {
-                                $data['tables'][$table]['results'][$snapshot->getRepository()] = ['total' => 0, 'title' => $snapshot->getRepository()];
+                            if (false === isset($data['tables'][$table][$snapshot->getRepository()])) {
+                                $data['tables'][$table][$snapshot->getRepository()] = ['total' => 0, 'title' => $snapshot->getRepository()];
                             }
-                            $data['tables'][$table]['results'][$snapshot->getRepository()]['total']++;
+                            $data['tables'][$table][$snapshot->getRepository()]['total']++;
                         }
                         break;
                     case 'snapshots_by_state':
@@ -110,19 +107,19 @@ class ElasticsearchSnapshotController extends AbstractAppController
                                 break;
                         }
                         if ($key) {
-                            if (false === isset($data['tables'][$table]['results'][$key])) {
-                                $data['tables'][$table]['results'][$key] = ['total' => 0, 'title' => $key];
+                            if (false === isset($data['tables'][$table][$key])) {
+                                $data['tables'][$table][$key] = ['total' => 0, 'title' => $key];
                             }
-                            $data['tables'][$table]['results'][$key]['total']++;
+                            $data['tables'][$table][$key]['total']++;
                         }
                         break;
                 }
             }
         }
 
-        foreach ($tables as $table) {
-            if (true === isset($data['tables'][$table]['results'])) {
-                usort($data['tables'][$table]['results'], [$this, 'sortByTotal']);
+        foreach (array_keys($data['tables']) as $table) {
+            if (true === isset($data['tables'][$table])) {
+                usort($data['tables'][$table], [$this, 'sortByTotal']);
             }
         }
 

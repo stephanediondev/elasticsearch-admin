@@ -32,15 +32,15 @@
             <hr>
 
             <div class="row row-cols-1 row-cols-md-2 g-4">
-                {% for key, table in data.tables %}
-                    {% if 0 < table.results|length %}
+                {% for key, results in data.tables %}
+                    {% if 0 < results|length %}
                         {% embed 'Embed/stats_table_embed.html.twig' %}
                             {% import 'Import/app_import.html.twig' as appImport %}
 
                             {% block title %}{{ ('stats_data.' ~ key)|trans }}{% endblock %}
 
                             {% block content %}
-                                {% for row in table.results %}
+                                {% for row in results %}
                                     {% if 'nodes_by_disk_avail' == key %}
                                         {% set percent = appImport.getPercent(data.totals.nodes_total_disk_avail, row.total, 1) %}
                                     {% elseif 'nodes_by_disk_used' == key %}
