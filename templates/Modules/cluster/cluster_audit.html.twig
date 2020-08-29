@@ -427,7 +427,7 @@
                                 {% if 'shard_allocation_enabled' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
-                                            The value is set to <code>{{ parameters }}</code>.
+                                            The setting <code>cluster.routing.allocation.enable</code> is set to <code>{{ parameters }}</code>.
                                         {% endblock %}
 
                                         {% block internal_link %}

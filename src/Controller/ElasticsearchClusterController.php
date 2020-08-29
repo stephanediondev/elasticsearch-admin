@@ -633,7 +633,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     break;
                 case 'shard_allocation_enabled':
                     if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.enable'])) {
-                        if ('all' == $parameters['cluster_settings']['cluster.routing.allocation.enable']) {
+                        if ('all' == strtolower($parameters['cluster_settings']['cluster.routing.allocation.enable'])) {
                             $results['audit_pass'][$checkpoint] = $parameters['cluster_settings']['cluster.routing.allocation.enable'];
                         } else {
                             $results['audit_fail'][$checkpoint] = $parameters['cluster_settings']['cluster.routing.allocation.enable'];
