@@ -35,6 +35,7 @@ config/packages/dev
 config/packages/test
 config/routes/dev
 Dockerfile
+docs
 phpunit.xml.dist
 screenshots
 src/Command
