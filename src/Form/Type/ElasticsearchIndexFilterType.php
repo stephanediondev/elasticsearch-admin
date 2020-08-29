@@ -45,6 +45,7 @@ class ElasticsearchIndexFilterType extends AbstractType
                     break;
                 case 'status':
                     $builder->add('status', ChoiceType::class, [
+                        'placeholder' => '-',
                         'choices' => $options['status'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $options['status'][$key];

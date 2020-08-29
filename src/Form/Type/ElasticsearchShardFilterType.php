@@ -46,6 +46,7 @@ class ElasticsearchShardFilterType extends AbstractType
                     break;
                 case 'type':
                     $builder->add('type', ChoiceType::class, [
+                        'placeholder' => '-',
                         'choices' => $options['type'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
                             return $options['type'][$key];
