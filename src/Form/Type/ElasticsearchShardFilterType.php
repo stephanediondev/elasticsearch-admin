@@ -25,6 +25,7 @@ class ElasticsearchShardFilterType extends AbstractType
         $fields = [];
 
         $fields[] = 'index';
+        $fields[] = 'type';
         $fields[] = 'state';
         $fields[] = 'node';
         if (true === $this->callManager->hasFeature('cat_sort')) {
@@ -37,6 +38,19 @@ class ElasticsearchShardFilterType extends AbstractType
                 case 'index':
                     $builder->add('index', TextType::class, [
                         'label' => 'index',
+                        'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
+                    ]);
+                    break;
+                case 'type':
+                    $builder->add('type', ChoiceType::class, [
+                        'choices' => $options['type'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['type'][$key];
+                        },
+                        'label' => 'type',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
@@ -93,6 +107,7 @@ class ElasticsearchShardFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'type' => ['primary', 'replica'],
             'state' => ['initializing', 'relocating', 'started', 'unassigned'],
             'node' => [],
         ]);

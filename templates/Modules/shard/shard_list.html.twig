@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'index': true, 'shard': true, 'primary': true, 'state': true, 'unassigned_reason': true, 'documents': true, 'size': true, 'node': true, '_buttons': true} %}
+    {% set columns = {'index': true, 'shard': true, 'type': true, 'state': true, 'unassigned_reason': true, 'documents': true, 'size': true, 'node': true, '_buttons': true} %}
 
     {% set modalReference = 0 %}
 
@@ -31,9 +31,9 @@
                         </th>
                     {% endif %}
 
-                    {% if 'primary' == column %}
+                    {% if 'type' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'prirep', 'title': 'primary'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'prirep', 'title': 'type'|trans})}}
                         </th>
                     {% endif %}
 
@@ -98,12 +98,12 @@
                             </td>
                         {% endif %}
 
-                        {% if 'primary' == column %}
+                        {% if 'type' == column %}
                             <td class="d-none d-xl-table-cell">
                                 {% if row.isPrimary %}
-                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                    {{ appImport.badge({'title': 'primary'|trans, 'context': 'true'}) }}
                                 {% else %}
-                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                    {{ appImport.badge({'title': 'replica'|trans, 'context': 'false'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}

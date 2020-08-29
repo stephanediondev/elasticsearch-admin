@@ -43,7 +43,7 @@
                                 <th>{{ 'shard'|trans }}</th>
                             {% endif %}
                             {% if allocation_explain['primary'] is defined %}
-                                <th>{{ 'primary'|trans }}</th>
+                                <th>{{ 'type'|trans }}</th>
                             {% endif %}
                             {% if allocation_explain['current_state'] is defined %}
                                 <th>{{ 'state'|trans }}</th>
@@ -76,9 +76,9 @@
                             {% if allocation_explain['primary'] is defined %}
                                 <td>
                                     {% if allocation_explain['primary'] %}
-                                        {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                        {{ appImport.badge({'title': 'primary'|trans, 'context': 'true'}) }}
                                     {% else %}
-                                        {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                        {{ appImport.badge({'title': 'replica'|trans, 'context': 'false'}) }}
                                     {% endif %}
                                 </td>
                             {% endif %}

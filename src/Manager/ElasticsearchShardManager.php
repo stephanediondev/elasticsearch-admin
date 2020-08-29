@@ -43,6 +43,15 @@ class ElasticsearchShardManager extends AbstractAppManager
         foreach ($shards as $row) {
             $score = 0;
 
+            if (true === isset($filter['type'])) {
+                if ('primary' == $filter['type'] && false === $row->isPrimary()) {
+                    $score--;
+                }
+                if ('replica' == $filter['type'] && false === $row->isReplica()) {
+                    $score--;
+                }
+            }
+
             if (true === isset($filter['state']) && 0 < count($filter['state'])) {
                 if (false === in_array($row->getState(), $filter['state'])) {
                     $score--;

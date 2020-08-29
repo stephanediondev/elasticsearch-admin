@@ -60,6 +60,7 @@ class ElasticsearchShardController extends AbstractAppController
 
         $shards = $this->elasticsearchShardManager->filter($shards, [
             'index' => $form->get('index')->getData(),
+            'type' => $form->get('type')->getData(),
             'state' => $form->get('state')->getData(),
             'node' => $form->get('node')->getData(),
         ]);
