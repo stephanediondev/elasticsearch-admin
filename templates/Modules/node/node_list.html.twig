@@ -150,7 +150,7 @@
                                         1 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'warning' : 'info'}) }}
                                         {% if row['load_5m'] is defined and row['load_5m'] %}
                                             {% set load = ((row['load_5m']*100)/row['os']['allocated_processors'])|round(2) %}
-                                            <br><small>5 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'danger' : 'light'}) }}</small>
+                                            <br><small>5 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'strongwarning' : 'light'}) }}</small>
                                         {% endif %}
                                         {% if row['load_15m'] is defined and row['load_15m'] %}
                                             {% set load = ((row['load_15m']*100)/row['os']['allocated_processors'])|round(2) %}

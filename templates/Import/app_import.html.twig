@@ -309,9 +309,9 @@
     {% set contextColor = _self.getContextColor(params) %}
 
     {% if params.link is defined %}
-        <a class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning'] %} link-dark{% else %} link-light{% endif %}" href="{{ params.link }}">{{ params.title }}</a>
+        <a class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning', 'strongwarning'] %} link-dark{% else %} link-light{% endif %}" href="{{ params.link }}">{{ params.title }}</a>
     {% else %}
-        <span class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning'] %} text-dark{% else %} text-light{% endif %}">{{ params.title }}</span>
+        <span class="badge bg-{{ contextColor }}{% if contextColor in ['light', 'warning', 'strongwarning'] %} text-dark{% else %} text-light{% endif %}">{{ params.title }}</span>
     {% endif %}
 {% endmacro %}
 
@@ -330,8 +330,11 @@
     {% elseif params.context in ['green', 'open', 'started', 'running', 'success', 'audit_pass', 'yes'] %}
         {% set params = params|merge({'context': 'success'}) %}
 
-    {% elseif params.context in ['red', 'stopped', 'unassigned', 'failed', 'incompatible', 'close', 'audit_fail', 'watermark_high', 'watermark_flood_stage', 'no'] %}
+    {% elseif params.context in ['red', 'stopped', 'unassigned', 'failed', 'incompatible', 'close', 'audit_fail', 'watermark_flood_stage', 'no'] %}
         {% set params = params|merge({'context': 'danger'}) %}
+
+    {% elseif params.context in ['watermark_high'] %}
+        {% set params = params|merge({'context': 'strongwarning'}) %}
 
     {% elseif params.context in ['yellow', 'stopping', 'relocating', 'in_progress', 'partial', 'watermark_low', 'throttle', 'throttled'] %}
         {% set params = params|merge({'context': 'warning'}) %}
