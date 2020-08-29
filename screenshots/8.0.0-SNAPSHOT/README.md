@@ -6,6 +6,8 @@
 
 [![Cluster settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-cluster-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-cluster-settings.png)
 
+[![Cluster disk thresholds](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-disk-thresholds.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-disk-thresholds.png)
+
 [![Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-cluster-allocation-explain.png)
 
 [![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-nodes.png)
@@ -35,6 +37,10 @@
 [![Legacy index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-templates-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-templates-legacy.png)
 
 [![Create legacy index template](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-template-create-legacy.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-template-create-legacy.png)
+
+[![Composable index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-templates.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-templates.png)
+
+[![Create composable index template](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-index-template-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-index-template-create.png)
 
 [![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/8.0.0-SNAPSHOT/original/original-shards.png)
 

@@ -53,6 +53,8 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Create index', 'filename' => 'index-create', 'path' => '/admin/indices/create'],
             ['title' => 'Legacy index templates', 'filename' => 'index-templates-legacy', 'path' => '/admin/index-templates-legacy'],
             ['title' => 'Create legacy index template', 'filename' => 'index-template-create-legacy', 'path' => '/admin/index-templates-legacy/create'],
+            ['title' => 'Composable index templates', 'filename' => 'index-templates', 'path' => '/admin/index-templates', 'feature' => 'composable_template'],
+            ['title' => 'Create composable index template', 'filename' => 'index-template-create', 'path' => '/admin/index-templates/create', 'feature' => 'composable_template'],
             ['title' => 'Shards', 'filename' => 'shards', 'path' => '/admin/shards'],
             ['title' => 'Shards stats', 'filename' => 'shards-stats', 'path' => '/admin/shards/stats'],
             ['title' => 'Index graveyard', 'filename' => 'index-graveyard', 'path' => '/admin/index-graveyard', 'feature' => 'tombstones'],
