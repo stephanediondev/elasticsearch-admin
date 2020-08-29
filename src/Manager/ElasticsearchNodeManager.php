@@ -135,19 +135,12 @@ class ElasticsearchNodeManager extends AbstractAppManager
     {
         $nodesWithFilter = [];
 
-        $letters = [
-            'm' => 'master',
-            'd' => 'data',
-            'v' => 'voting_only',
-            'i' => 'ingest',
-        ];
-
         foreach ($nodes as $row) {
             $score = 0;
 
             if (true === isset($row['node.role'])) {
                 $roles = str_split($row['node.role']);
-                foreach ($letters as $letter => $role) {
+                foreach ($this->filterletters() as $letter => $role) {
                     if (true === isset($filter[$role])) {
                         if ('yes' === $filter[$role] && false === in_array($letter, $roles)) {
                             $score--;
@@ -181,5 +174,15 @@ class ElasticsearchNodeManager extends AbstractAppManager
         }
 
         return $nodes;
+    }
+
+    public function filterletters()
+    {
+        return [
+            'm' => 'master',
+            'd' => 'data',
+            'v' => 'voting_only',
+            'i' => 'ingest',
+        ];
     }
 }

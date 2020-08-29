@@ -175,6 +175,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/node/node_stats.html.twig', [
             'data' => $data,
+            'letters' => $this->elasticsearchNodeManager->filterletters(),
         ]);
     }
 

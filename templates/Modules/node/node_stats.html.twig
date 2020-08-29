@@ -57,7 +57,11 @@
 
                                         {% block title %}
                                             {% if 'nodes_by_role' == key %}
-                                                {{ ('node_roles.' ~ row.title)|trans }}
+                                                {% if is_granted('NODES', 'global') and letters[row.title] is defined %}
+                                                    <a class="text-secondary" href="{{ path('nodes', {(letters[row.title]): 'yes'}) }}">{{ ('node_roles.' ~ row.title)|trans }}</a>
+                                                {% else %}
+                                                    {{ ('node_roles.' ~ row.title)|trans }}
+                                                {% endif %}
                                             {% else %}
                                                 {{ row.title }}{% if master_node == row.title %}<span class="ml-1">{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}</span>{% endif %}
                                             {% endif %}
