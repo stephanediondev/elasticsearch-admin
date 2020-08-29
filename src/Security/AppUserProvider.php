@@ -94,7 +94,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        if ($results && 1 == count($results['hits']['hits'])) {
+        if ($results && 0 < count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
                 $user = new AppUserModel();
                 $user->setId($row['_id']);
