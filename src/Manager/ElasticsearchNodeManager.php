@@ -131,6 +131,42 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodes;
     }
 
+    public function filter(array $nodes, array $filter = []): array
+    {
+        $nodesWithFilter = [];
+
+        $letters = [
+            'm' => 'master',
+            'd' => 'data',
+            'v' => 'voting_only',
+            'i' => 'ingest',
+        ];
+
+        foreach ($nodes as $row) {
+            $score = 0;
+
+            if (true === isset($row['node.role'])) {
+                $roles = str_split($row['node.role']);
+                foreach ($letters as $letter => $role) {
+                    if (true === isset($filter[$role])) {
+                        if ('yes' === $filter[$role] && false === in_array($letter, $roles)) {
+                            $score--;
+                        }
+                        if ('no' === $filter[$role] && true === in_array($letter, $roles)) {
+                            $score--;
+                        }
+                    }
+                }
+            }
+
+            if (0 <= $score) {
+                $nodesWithFilter[] = $row;
+            }
+        }
+
+        return $nodesWithFilter;
+    }
+
     public function selectNodes(): array
     {
         $nodes = [];

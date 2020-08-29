@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
+use App\Form\Type\ElasticsearchNodeFilterType;
 use App\Form\Type\ElasticsearchNodeReloadSecureSettingsType;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
@@ -33,7 +34,18 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
+        $form = $this->createForm(ElasticsearchNodeFilterType::class);
+
+        $form->handleRequest($request);
+
         $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('sort', 'name:asc'), 'cluster_settings' => $clusterSettings]);
+
+        $nodes = $this->elasticsearchNodeManager->filter($nodes, [
+            'master' => $form->get('master')->getData(),
+            'data' => $form->get('data')->getData(),
+            'voting_only' => $form->has('voting_only') ? $form->get('voting_only')->getData() : false,
+            'ingest' => $form->get('ingest')->getData(),
+        ]);
 
         if ('true' === $request->query->get('fetch')) {
             $template = 'Modules/node/node_list.html.twig';
@@ -50,6 +62,7 @@ class ElasticsearchNodeController extends AbstractAppController
                 'page' => 1,
                 'size' => count($nodes),
             ]),
+            'form' => $form->createView(),
         ]);
     }
 

@@ -8,7 +8,11 @@ class PaginatorManager
     {
         $slice = 2;
 
-        $paginate['pages'] = ceil($paginate['total'] / $paginate['size']);
+        if (0 == $paginate['size']) {
+            $paginate['pages'] = 0;
+        } else {
+            $paginate['pages'] = ceil($paginate['total'] / $paginate['size']);
+        }
 
         if (false === $paginate['page'] || '' == $paginate['page'] || false === is_numeric($paginate['page'])) {
             $paginate['page'] = 1;
