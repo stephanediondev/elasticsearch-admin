@@ -25,6 +25,7 @@ class ElasticsearchIndexFilterType extends AbstractType
         $fields = [];
 
         $fields[] = 'name';
+        $fields[] = 'status';
         $fields[] = 'health';
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $fields[] = 'sort';
@@ -36,6 +37,19 @@ class ElasticsearchIndexFilterType extends AbstractType
                 case 'name':
                     $builder->add('name', TextType::class, [
                         'label' => 'name',
+                        'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
+                    ]);
+                    break;
+                case 'status':
+                    $builder->add('status', ChoiceType::class, [
+                        'choices' => $options['status'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['status'][$key];
+                        },
+                        'label' => 'status',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
@@ -76,6 +90,7 @@ class ElasticsearchIndexFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'status' => ['open', 'close'],
             'health' => ['red', 'yellow', 'green'],
         ]);
     }

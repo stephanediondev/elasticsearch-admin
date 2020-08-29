@@ -101,6 +101,12 @@ class ElasticsearchIndexManager extends AbstractAppManager
         foreach ($indices as $row) {
             $score = 0;
 
+            if (true === isset($filter['status'])) {
+                if ($filter['status'] != $row->getStatus()) {
+                    $score--;
+                }
+            }
+
             if (true === isset($filter['health']) && 0 < count($filter['health'])) {
                 if (false === in_array($row->getHealth(), $filter['health'])) {
                     $score--;

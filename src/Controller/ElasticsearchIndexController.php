@@ -64,6 +64,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $indices = $this->elasticsearchIndexManager->getAll($query, [
             'name' => $form->get('name')->getData(),
+            'status' => $form->get('status')->getData(),
             'health' => $form->get('health')->getData(),
         ]);
 
