@@ -313,13 +313,23 @@
                                                             {{ row.number }}
                                                         </p>
                                                         <p>
-                                                            <strong>{{ 'primary'|trans }}</strong><br>
+                                                            <strong>{{ 'type'|trans }}</strong><br>
                                                             {% if row.isPrimary %}
-                                                                {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                                                {{ appImport.badge({'title': 'primary'|trans, 'context': 'true'}) }}
                                                             {% else %}
-                                                                {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                                                {{ appImport.badge({'title': 'replica'|trans, 'context': 'false'}) }}
                                                             {% endif %}
                                                         </p>
+                                                        <p>
+                                                            <strong>{{ 'state'|trans }}</strong><br>
+                                                            {{ appImport.badge({'title': row.state|trans, 'context': row.state}) }}
+                                                        </p>
+                                                        {% if row.unassignedReason %}
+                                                            <p>
+                                                                <strong>{{ 'unassigned_reason'|trans }}</strong><br>
+                                                                {{ appImport.badge({'title': row.unassignedReason|trans, 'context': 'danger'}) }}
+                                                            </p>
+                                                        {% endif %}
                                                         {% if row.node %}
                                                             <p>
                                                                 <strong>{{ 'node'|trans }}</strong><br>
