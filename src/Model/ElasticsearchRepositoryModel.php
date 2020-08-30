@@ -55,8 +55,6 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
     {
         $this->compress = true;
         $this->chunkSize = null;
-        $this->maxRestoreBytesPerSec = '40mb';
-        $this->maxSnapshotBytesPerSec = '40mb';
         $this->readonly = false;
         $this->verify = true;
 
