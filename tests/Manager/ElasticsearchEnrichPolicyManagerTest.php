@@ -2,12 +2,11 @@
 
 namespace App\Tests\Manager;
 
-use App\Model\ElasticsearchEnrichPolicyModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchEnrichPolicyManagerTest extends WebTestCase
 {
-    public function testGetByName404()
+    public function testGetByNameNull()
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();

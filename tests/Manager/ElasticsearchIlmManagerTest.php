@@ -2,12 +2,11 @@
 
 namespace App\Tests\Manager;
 
-use App\Model\ElasticsearchIlmPolicyModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchIlmManagerTest extends WebTestCase
 {
-    public function testGetByName404()
+    public function testGetByNameNull()
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();

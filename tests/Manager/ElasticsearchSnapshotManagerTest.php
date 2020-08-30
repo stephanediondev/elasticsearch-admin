@@ -2,12 +2,11 @@
 
 namespace App\Tests\Manager;
 
-use App\Model\ElasticsearchSnapshotModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchSnapshotManagerTest extends WebTestCase
 {
-    public function testGetByNameAndRepository404()
+    public function testGetByNameAndRepositoryNull()
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();

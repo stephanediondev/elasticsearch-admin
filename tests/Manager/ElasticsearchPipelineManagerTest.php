@@ -2,12 +2,11 @@
 
 namespace App\Tests\Manager;
 
-use App\Model\ElasticsearchPipelineModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchPipelineManagerTest extends WebTestCase
 {
-    public function testGetByName404()
+    public function testGetByNameNull()
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();

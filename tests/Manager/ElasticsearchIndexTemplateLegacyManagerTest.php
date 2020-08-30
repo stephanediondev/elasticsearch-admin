@@ -2,12 +2,11 @@
 
 namespace App\Tests\Manager;
 
-use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchIndexTemplateLegacyManagerTest extends WebTestCase
 {
-    public function testGetByName404()
+    public function testGetByNameNull()
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();
