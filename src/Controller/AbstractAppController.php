@@ -107,6 +107,18 @@ abstract class AbstractAppController extends AbstractController
                     $menus['tools'] = $this->populateMenu($entries);
                 }
 
+                if (true === $this->isGranted('MENU_STATS', 'global')) {
+                    $entries = [
+                        ['granted' => 'NODES_STATS', 'path' => 'nodes_stats'],
+                        ['granted' => 'INDICES_STATS', 'path' => 'indices_stats'],
+                        ['granted' => 'SHARDS_STATS', 'path' => 'shards_stats'],
+                        ['granted' => 'SLM_POLICIES_STATS', 'path' => 'slm_stats', 'feature' => 'slm'],
+                        ['granted' => 'SNAPSHOTS_STATS', 'path' => 'snapshots_stats'],
+                    ];
+
+                    $menus['stats'] = $this->populateMenu($entries);
+                }
+
                 if (true === $this->isGranted('MENU_APPLICATION', 'global')) {
                     $entries = [
                         ['granted' => 'APP_USERS', 'path' => 'app_users'],
@@ -138,7 +150,7 @@ abstract class AbstractAppController extends AbstractController
 
                 $menu[] = [
                     'path' => $entry['path'],
-                    'name' => $this->translator->trans($entry['path']),
+                    'name' => $this->translator->trans(str_replace('_stats', '', $entry['path'])),
                     'disabled' => $disabled,
                 ];
             }

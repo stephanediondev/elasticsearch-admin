@@ -88,6 +88,22 @@
                             </li>
                         {% endif %}
 
+                        {% if menus['stats'] is defined %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="statsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ 'stats'|trans }}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="statsDropdown">
+                                    {% for entry in menus['stats'] %}
+                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">
+                                            {{ entry['name'] }}
+                                            {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endif %}
+
                         {% if menus['application'] is defined %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="applicationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
