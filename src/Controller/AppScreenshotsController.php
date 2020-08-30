@@ -44,6 +44,7 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Nodes reload secure settings', 'filename' => 'nodes-reload-secure-settings', 'path' => '/admin/nodes/reload-secure-settings', 'feature' => 'reload_secure_settings'],
             ['title' => 'Node', 'filename' => 'node', 'path' => '/admin/nodes/'.urlencode($masterNode)],
             ['title' => 'Node usage', 'filename' => 'node-usage', 'path' => '/admin/nodes/'.urlencode($masterNode).'/usage', 'feature' => 'node_usage'],
+            ['title' => 'Node plugins', 'filename' => 'node-plugins', 'path' => '/admin/nodes/'.urlencode($masterNode).'/plugins'],
             ['title' => 'Indices', 'filename' => 'indices', 'path' => '/admin/indices'],
             ['title' => 'Indices stats', 'filename' => 'indices-stats', 'path' => '/admin/indices/stats'],
             ['title' => 'Index', 'filename' => 'index', 'path' => '/admin/indices/elasticsearch-admin-test'],

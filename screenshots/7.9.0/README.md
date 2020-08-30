@@ -20,6 +20,8 @@
 
 [![Node usage](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-node-usage.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-node-usage.png)
 
+[![Node plugins](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-node-plugins.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-node-plugins.png)
+
 [![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-indices.png)
 
 [![Indices stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/resized/resized-indices-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.0/original/original-indices-stats.png)
