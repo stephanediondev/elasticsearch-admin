@@ -224,7 +224,7 @@
             </div>
             <div class="col-12">
                 <div class="form-group mb-3">
-                    <button type="submit" class="btn btn-primary">{{ 'submit'|trans }}</button>
+                    <button type="submit" class="btn btn-primary">{% if 'search' == params.type %}{{ 'search'|trans }}{% else %}{{ 'submit'|trans }}{% endif %}</button>
                 </div>
             </div>
         </div>
