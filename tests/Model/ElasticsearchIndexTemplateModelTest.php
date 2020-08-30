@@ -24,6 +24,7 @@ class ElasticsearchIndexTemplateModelTest extends WebTestCase
         $template->setMetadata('');
         $template->setMetadata([]);
         $template->setComposedOf([]);
+        $template->setDataStream(true);
 
         $this->assertEquals($template->getName(), 'name');
 
@@ -50,6 +51,9 @@ class ElasticsearchIndexTemplateModelTest extends WebTestCase
 
         $this->assertEquals($template->getComposedOf(), []);
         $this->assertIsArray($template->getComposedOf());
+
+        $this->assertEquals($template->getDataStream(), true);
+        $this->assertIsBool($template->getDataStream());
 
         $this->assertEquals($template->isSystem(), false);
 
