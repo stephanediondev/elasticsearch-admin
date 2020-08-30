@@ -1,7 +1,5 @@
 # Elasticsearch version tracking (for feature detection)
 
-[(Back to index)]()
-
 ## 8.0.0 [Breaking changes](https://www.elastic.co/guide/en/elasticsearch/reference/master/breaking-changes-8.0.html)
 
 - REST API endpoints containing _xpack have been removed.
