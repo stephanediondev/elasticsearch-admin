@@ -32,6 +32,21 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     }
 
     /**
+     * @Route("/nodes/reload-secure-settings", name="nodes_reload_secure_settings")
+     */
+    public function testReadReloadSecureSettings()
+    {
+        $this->client->request('GET', '/admin/nodes/reload-secure-settings');
+
+        if (false == $this->callManager->hasFeature('reload_secure_settings')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Nodes - Reload secure settings');
+        }
+    }
+
+    /**
      * @Route("/nodes/{node}", name="nodes_read")
      */
     public function testRead404()
@@ -96,34 +111,6 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Nodes - '.$masterNode.' - Usage');
-        }
-    }
-
-    /**
-     * @Route("/nodes/{node}/reload-secure-settings", name="nodes_reload_secure_settings")
-     */
-    public function testReadReloadSecureSettings404()
-    {
-        $this->client->request('GET', '/admin/nodes/'.uniqid().'/reload-secure-settings');
-
-        if (false == $this->callManager->hasFeature('reload_secure_settings')) {
-            $this->assertResponseStatusCodeSame(403);
-        } else {
-            $this->assertResponseStatusCodeSame(404);
-        }
-    }
-
-    public function testReadReloadSecureSettings()
-    {
-        $masterNode = $this->callManager->getMasterNode();
-
-        $this->client->request('GET', '/admin/nodes/'.$masterNode.'/reload-secure-settings');
-
-        if (false == $this->callManager->hasFeature('reload_secure_settings')) {
-            $this->assertResponseStatusCodeSame(403);
-        } else {
-            $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Nodes - '.$masterNode.' - Reload secure settings');
         }
     }
 }

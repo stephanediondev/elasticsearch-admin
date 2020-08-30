@@ -15,7 +15,7 @@ class AppRoleManager extends AbstractAppManager
     private $attributes = [
         'global' => [
             'CLUSTER_SETTINGS', 'CLUSTER_SETTING_EDIT', 'CLUSTER_SETTING_REMOVE', 'CLUSTER_DISK_THRESHOLDS', 'CLUSTER_ALLOCATION_EXPLAIN', 'CLUSTER_AUDIT',
-            'NODES', 'NODES_STATS',
+            'NODES', 'NODES_STATS', 'NODES_RELOAD_SECURE_SETTINGS',
             'INDICES', 'INDICES_STATS', 'INDICES_CREATE', 'INDICES_REINDEX', 'INDICES_FORCE_MERGE', 'INDICES_CACHE_CLEAR', 'INDICES_FLUSH', 'INDICES_REFRESH',
             'SHARDS', 'SHARDS_STATS', 'SHARDS_REROUTE',
             'MENU_CONFIGURATION',
@@ -79,7 +79,7 @@ class AppRoleManager extends AbstractAppManager
             'INDEX_ALIASES', 'INDEX_ALIAS_CREATE', 'INDEX_ALIAS_DELETE',
         ],
         'node' => [
-            'NODE_PLUGINS', 'NODE_USAGE', 'NODE_RELOAD_SECURE_SETTINGS',
+            'NODE_PLUGINS', 'NODE_USAGE',
         ],
         'pipeline' => [
             'PIPELINE_UPDATE', 'PIPELINE_DELETE', 'PIPELINE_COPY',

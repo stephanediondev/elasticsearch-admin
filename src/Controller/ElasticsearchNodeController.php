@@ -182,6 +182,43 @@ class ElasticsearchNodeController extends AbstractAppController
     }
 
     /**
+     * @Route("/nodes/reload-secure-settings", name="nodes_reload_secure_settings")
+     */
+    public function readReloadSecureSettings(Request $request): Response
+    {
+        if (false === $this->callManager->hasFeature('reload_secure_settings')) {
+            throw new AccessDeniedException();
+        }
+
+        $this->denyAccessUnlessGranted('NODES_RELOAD_SECURE_SETTINGS', 'global');
+
+        $reloadSecureSettingsModel = new ElasticsearchReloadSecureSettingsModel();
+        $form = $this->createForm(ElasticsearchNodeReloadSecureSettingsType::class, $reloadSecureSettingsModel);
+
+        $form->handleRequest($request);
+
+        $parameters = [
+            'form' => $form->createView(),
+        ];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = $reloadSecureSettingsModel->getJson();
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('POST');
+                $callRequest->setPath('/_nodes/reload_secure_settings');
+                $callRequest->setJson($json);
+                $callResponse = $this->callManager->call($callRequest);
+                $parameters['response'] = $callResponse->getContent();
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/node/node_reload_secure_settings.html.twig', $parameters);
+    }
+
+    /**
      * @Route("/nodes/{node}", name="nodes_read")
      */
     public function read(Request $request, string $node): Response
@@ -250,49 +287,5 @@ class ElasticsearchNodeController extends AbstractAppController
             'node' => $node,
             'usage' => $usage,
         ]);
-    }
-
-    /**
-     * @Route("/nodes/{node}/reload-secure-settings", name="nodes_reload_secure_settings")
-     */
-    public function readReloadSecureSettings(Request $request, string $node): Response
-    {
-        if (false === $this->callManager->hasFeature('reload_secure_settings')) {
-            throw new AccessDeniedException();
-        }
-
-        $node = $this->elasticsearchNodeManager->getByName($node);
-
-        if (null === $node) {
-            throw new NotFoundHttpException();
-        }
-
-        $this->denyAccessUnlessGranted('NODE_RELOAD_SECURE_SETTINGS', $node);
-
-        $reloadSecureSettingsModel = new ElasticsearchReloadSecureSettingsModel();
-        $form = $this->createForm(ElasticsearchNodeReloadSecureSettingsType::class, $reloadSecureSettingsModel);
-
-        $form->handleRequest($request);
-
-        $parameters = [
-            'node' => $node,
-            'form' => $form->createView(),
-        ];
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $json = $reloadSecureSettingsModel->getJson();
-                $callRequest = new CallRequestModel();
-                $callRequest->setMethod('POST');
-                $callRequest->setPath('/_nodes/'.$node->getName().'/reload_secure_settings');
-                $callRequest->setJson($json);
-                $callResponse = $this->callManager->call($callRequest);
-                $parameters['response'] = $callResponse->getContent();
-            } catch (CallException $e) {
-                $this->addFlash('danger', $e->getMessage());
-            }
-        }
-
-        return $this->renderAbstract($request, 'Modules/node/node_reload_secure_settings.html.twig', $parameters);
     }
 }
