@@ -30,19 +30,23 @@ class ElasticsearchRoleManager extends AbstractAppManager
 
     public function getByName(string $name): ?ElasticsearchRoleModel
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath($this->getEndpoint().'/role/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false === $this->callManager->hasFeature('security')) {
             $roleModel = null;
         } else {
-            $role = $callResponse->getContent();
-            $roleNice = $role[key($role)];
-            $roleNice['name'] = key($role);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath($this->getEndpoint().'/role/'.$name);
+            $callResponse = $this->callManager->call($callRequest);
 
-            $roleModel = new ElasticsearchRoleModel();
-            $roleModel->convert($roleNice);
+            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+                $roleModel = null;
+            } else {
+                $role = $callResponse->getContent();
+                $roleNice = $role[key($role)];
+                $roleNice['name'] = key($role);
+
+                $roleModel = new ElasticsearchRoleModel();
+                $roleModel->convert($roleNice);
+            }
         }
 
         return $roleModel;

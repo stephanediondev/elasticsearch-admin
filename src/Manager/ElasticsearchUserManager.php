@@ -30,19 +30,23 @@ class ElasticsearchUserManager extends AbstractAppManager
 
     public function getByName(string $name): ?ElasticsearchUserModel
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath($this->getEndpoint().'/user/'.$name);
-        $callResponse = $this->callManager->call($callRequest);
-
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+        if (false === $this->callManager->hasFeature('security')) {
             $userModel = null;
         } else {
-            $user = $callResponse->getContent();
-            $userNice = $user[key($user)];
-            $userNice['name'] = key($user);
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath($this->getEndpoint().'/user/'.$name);
+            $callResponse = $this->callManager->call($callRequest);
 
-            $userModel = new ElasticsearchUserModel();
-            $userModel->convert($userNice);
+            if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
+                $userModel = null;
+            } else {
+                $user = $callResponse->getContent();
+                $userNice = $user[key($user)];
+                $userNice['name'] = key($user);
+
+                $userModel = new ElasticsearchUserModel();
+                $userModel->convert($userNice);
+            }
         }
 
         return $userModel;
