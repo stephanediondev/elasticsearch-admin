@@ -65,6 +65,7 @@ audit_checkpoints:
     unassigned_shards: "There is no unassigned shards"
     adaptive_replica_selection: "The Adaptive Replica Selection is enabled"
     indices_with_replica: "All indices have a replica"
+    indices_replicas_data_nodes: "All indices have a number of replicas inferior to data nodes count"
     indices_opened: "All indices are open"
     close_index_not_enabled: "Closing an index is not allowed"
     allocation_disk_threshold: "The disk-based shard allocation is enabled"
@@ -100,6 +101,8 @@ audit_comments:
         fail: "The setting <code>{setting}</code> should be set to <code>{value}</code>."
     indices_with_replica:
         notice: "There is only one node."
+    indices_replicas_data_nodes:
+        note: "The number of replicas should be inferior to <code>{data_nodes}</code> (number of data nodes)"
     close_index_not_enabled:
         fail: "The setting <code>{setting}</code> should be set to <code>{value}</code>."
     allocation_disk_threshold:

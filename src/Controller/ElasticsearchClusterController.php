@@ -279,7 +279,16 @@ class ElasticsearchClusterController extends AbstractAppController
             'heap_size_init_not_equal_max' => [],
         ];
 
+        $dataNodes = 0;
+
         foreach ($nodes as $node) {
+            if (true === isset($node['node.role'])) {
+                $roles = str_split($node['node.role']);
+                if (true === in_array('d', $roles)) {
+                    $dataNodes++;
+                }
+            }
+
             $versions[] = $node['version'];
             $nodesPlugins[$node['name']] = [];
 
@@ -344,11 +353,15 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $indicesCount = [
             'with_replica' => 0,
+            'enough_data_nodes' => 0,
             'open' => 0,
         ];
         foreach ($indices as $index) {
             if (0 < $index->getReplicas()) {
                 $indicesCount['with_replica']++;
+            }
+            if ($dataNodes > $index->getReplicas()) {
+                $indicesCount['enough_data_nodes']++;
             }
             if ('open' == $index->getStatus()) {
                 $indicesCount['open']++;
@@ -366,6 +379,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'unassigned_shards',
             'adaptive_replica_selection',
             'indices_with_replica',
+            'indices_replicas_data_nodes',
             'indices_opened',
             'close_index_not_enabled',
             'allocation_disk_threshold',
@@ -471,6 +485,13 @@ class ElasticsearchClusterController extends AbstractAppController
                         } else {
                             $results['audit_pass'][$checkpoint] = [];
                         }
+                    }
+                    break;
+                case 'indices_replicas_data_nodes':
+                    if ($indicesCount['enough_data_nodes'] < count($indices)) {
+                        $results['audit_fail'][$checkpoint] = $dataNodes;
+                    } else {
+                        $results['audit_pass'][$checkpoint] = $dataNodes;
                     }
                     break;
                 case 'indices_opened':
