@@ -105,7 +105,7 @@ class CallManager
             $callResponse = new CallResponseModel();
             $callResponse->setCode($response->getStatusCode());
 
-            if ($response && in_array($response->getStatusCode(), [400, 401, 405, 500, 503])) {
+            if ($response && true === in_array($response->getStatusCode(), [400, 401, 403, 405, 500, 503])) {
                 $json = json_decode($response->getContent(false), true);
 
                 $message = null;
@@ -124,7 +124,7 @@ class CallManager
 
                 if (401 == $response->getStatusCode()) {
                     throw new ConnectionException('error503.elasticsearch_credentials_error');
-                } elseif (503 == $response->getStatusCode()) {
+                } elseif (true === in_array($response->getStatusCode(), [403, 503])) {
                     throw new ConnectionException($message);
                 } else {
                     throw new CallException($message);
