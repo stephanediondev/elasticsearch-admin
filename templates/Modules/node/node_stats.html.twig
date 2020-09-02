@@ -62,6 +62,12 @@
                                                 {% else %}
                                                     {{ ('node_roles.' ~ row.title)|trans }}
                                                 {% endif %}
+                                            {% elseif 'nodes_by_es_version' == key %}
+                                                {% if is_granted('NODES', 'global') and 1 < results|length %}
+                                                    <a class="text-secondary" href="{{ path('nodes', {'version': row.title}) }}">{{ row.title }}</a>
+                                                {% else %}
+                                                    {{ row.title }}
+                                                {% endif %}
                                             {% else %}
                                                 {{ row.title }}{% if master_node == row.title %}<span class="ml-1">{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}</span>{% endif %}
                                             {% endif %}
