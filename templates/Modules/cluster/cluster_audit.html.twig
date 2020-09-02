@@ -334,7 +334,7 @@
                                             {% if 'audit_fail' == result %}
                                                 {{ 'audit_comments.fail_for_nodes'|trans|raw }}
                                                 {% for node, value in parameters %}
-                                                    {{ node }} ({{ value }}){% if false == loop.last %},{% endif %}
+                                                    {{ node }} ({{ value.init|human_filesize }} / {{ value.max|human_filesize }}){% if false == loop.last %},{% endif %}
                                                 {% endfor %}
                                             {% endif %}
                                         {% endblock %}

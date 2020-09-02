@@ -322,7 +322,10 @@ class ElasticsearchClusterController extends AbstractAppController
             if (true === isset($node['jvm']['mem']['heap_init_in_bytes']) && true === isset($node['jvm']['mem']['heap_max_in_bytes'])) {
                 $heapSizeJvm = true;
                 if ($node['jvm']['mem']['heap_init_in_bytes'] != $node['jvm']['mem']['heap_max_in_bytes']) {
-                    $nodesLimit['heap_size_init_not_equal_max'][$node['name']] = $node['jvm']['mem']['heap_init_in_bytes'].' / '.$node['jvm']['mem']['heap_max_in_bytes'];
+                    $nodesLimit['heap_size_init_not_equal_max'][$node['name']] = [
+                        'init' => $node['jvm']['mem']['heap_init_in_bytes'],
+                        'max' => $node['jvm']['mem']['heap_max_in_bytes'],
+                    ];
                 }
             }
 
