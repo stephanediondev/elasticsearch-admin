@@ -254,7 +254,7 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $nodes = $this->elasticsearchNodeManager->getAll(['cluster_settings' => $parameters['cluster_settings']]);
 
-        $versions = [];
+        $versions = $this->elasticsearchNodeManager->getVersions($nodes);
 
         $plugins = [];
         $nodesPlugins = [];
@@ -289,7 +289,6 @@ class ElasticsearchClusterController extends AbstractAppController
                 }
             }
 
-            $versions[] = $node['version'];
             $nodesPlugins[$node['name']] = [];
 
             foreach ($node['plugins'] as $plugin) {
@@ -334,9 +333,6 @@ class ElasticsearchClusterController extends AbstractAppController
                 }
             }
         }
-
-        $versions = array_unique($versions);
-        sort($versions);
 
         $plugins = array_unique($plugins);
         sort($plugins);

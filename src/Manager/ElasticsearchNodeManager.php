@@ -152,6 +152,12 @@ class ElasticsearchNodeManager extends AbstractAppManager
                 }
             }
 
+            if (true === isset($row['version']) && true === isset($filter['version']) && $filter['version']) {
+                if ($row['version'] !== $filter['version']) {
+                    $score--;
+                }
+            }
+
             if (0 <= $score) {
                 $nodesWithFilter[] = $row;
             }
@@ -184,5 +190,18 @@ class ElasticsearchNodeManager extends AbstractAppManager
             'v' => 'voting_only',
             'i' => 'ingest',
         ];
+    }
+
+    public function getVersions(array $nodes): array
+    {
+        $versions = [];
+        foreach ($nodes as $node) {
+            $versions[] = $node['version'];
+        }
+        $versions = array_unique($versions);
+        sort($versions);
+
+
+        return $versions;
     }
 }

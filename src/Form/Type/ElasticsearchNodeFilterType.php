@@ -29,6 +29,9 @@ class ElasticsearchNodeFilterType extends AbstractType
             $fields[] = 'voting_only';
         }
         $fields[] = 'ingest';
+        if (1 < count($options['version'])) {
+            $fields[] = 'version';
+        }
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $fields[] = 'sort';
         }
@@ -47,6 +50,20 @@ class ElasticsearchNodeFilterType extends AbstractType
                             return $options['question'][$key];
                         },
                         'label' => 'node_roles.'.$field,
+                        'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
+                    ]);
+                    break;
+                case 'version':
+                    $builder->add($field, ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['version'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['version'][$key];
+                        },
+                        'label' => 'version',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
@@ -74,6 +91,7 @@ class ElasticsearchNodeFilterType extends AbstractType
         $resolver->setDefaults([
             'csrf_protection' => false,
             'question' => ['yes', 'no'],
+            'version' => [],
         ]);
     }
 

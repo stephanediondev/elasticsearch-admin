@@ -34,17 +34,20 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        $form = $this->createForm(ElasticsearchNodeFilterType::class);
+        $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('sort', 'name:asc'), 'cluster_settings' => $clusterSettings]);
+
+        $versions = $this->elasticsearchNodeManager->getVersions($nodes);
+
+        $form = $this->createForm(ElasticsearchNodeFilterType::class, null, ['version' => $versions]);
 
         $form->handleRequest($request);
-
-        $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('sort', 'name:asc'), 'cluster_settings' => $clusterSettings]);
 
         $nodes = $this->elasticsearchNodeManager->filter($nodes, [
             'master' => $form->get('master')->getData(),
             'data' => $form->get('data')->getData(),
             'voting_only' => $form->has('voting_only') ? $form->get('voting_only')->getData() : false,
             'ingest' => $form->get('ingest')->getData(),
+            'version' => $form->has('version') ? $form->get('version')->getData() : false,
         ]);
 
         if ('true' === $request->query->get('fetch')) {
