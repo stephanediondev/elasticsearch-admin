@@ -91,8 +91,8 @@ audit_comments:
         notice: "The name may be changed to a name which describes the purpose of the cluster."
         pass: "The cluster name is <code>{name}</code>."
     same_es_version:
-        plural: "The installed versions are: {versions}"
-        singular: "The installed version is: {versions}"
+        plural: "The installed versions are:"
+        singular: "The installed version is:"
     same_plugins:
         fail: "Plugins are missing for the following nodes:"
         pass_plural: "The installed plugins are: {plugins}"

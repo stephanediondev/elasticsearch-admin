@@ -97,9 +97,16 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
                                             {% if 1 == parameters|length %}
-                                                {{ ('audit_comments.' ~ checkpoint ~ '.singular')|trans({'{versions}': parameters|join(', ')})|raw }}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.singular')|trans|raw }} {{ parameters|join(', ') }}
                                             {% else %}
-                                                {{ ('audit_comments.' ~ checkpoint ~ '.plural')|trans({'{versions}': parameters|join(', ')})|raw }}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.plural')|trans|raw }}
+                                                {% for version in parameters %}
+                                                    {% if is_granted('NODES', 'global') %}
+                                                        <a href="{{ path('nodes', {'version': version}) }}">{{ version }}</a>{% if false == loop.last %},{% endif %}
+                                                    {% else %}
+                                                        {{ version }}{% if false == loop.last %},{% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
