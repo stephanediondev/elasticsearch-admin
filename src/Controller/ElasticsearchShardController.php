@@ -94,10 +94,15 @@ class ElasticsearchShardController extends AbstractAppController
 
         $shards = $this->elasticsearchShardManager->getAll($query);
 
+        $clusterStats = $this->elasticsearchClusterManager->getClusterStats();
+
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['shards_total'] = 0;
         $data['totals']['shards_total_primary'] = 0;
         $data['totals']['shards_total_unassigned'] = 0;
+        if (true == isset($clusterStats['indices']['shards']['replication'])) {
+            $data['totals']['shards_replication'] = round($clusterStats['indices']['shards']['replication']*100, 2).'%';
+        }
         $data['totals']['shards_total_documents'] = 0;
         $data['totals']['shards_total_size'] = 0;
         $data['tables']['shards_by_state'] = [];
