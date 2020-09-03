@@ -26,16 +26,22 @@
         "symfony/serializer": "5.1.*",
         "symfony/string": "5.1.*",
         "symfony/translation": "5.1.*",
-        "symfony/twig-pack": "^1.0",
+        "symfony/twig-bundle": "^5.1",
         "symfony/validator": "5.1.*",
         "symfony/webpack-encore-bundle": "^1.7",
-        "symfony/yaml": "5.1.*"
+        "symfony/yaml": "5.1.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "symfony/debug-pack": "^1.0",
+        "symfony/browser-kit": "^5.1",
+        "symfony/css-selector": "^5.1",
+        "symfony/debug-bundle": "^5.1",
         "symfony/maker-bundle": "^1.0",
-        "symfony/profiler-pack": "^1.0",
-        "symfony/test-pack": "^1.0"
+        "symfony/phpunit-bridge": "^5.1",
+        "symfony/stopwatch": "^5.1",
+        "symfony/var-dumper": "^5.1",
+        "symfony/web-profiler-bundle": "^5.1"
     },
     "config": {
         "optimize-autoloader": true,
