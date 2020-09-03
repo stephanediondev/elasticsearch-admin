@@ -100,7 +100,7 @@ class ElasticsearchShardController extends AbstractAppController
         $data['totals']['shards_total'] = 0;
         $data['totals']['shards_total_primary'] = 0;
         $data['totals']['shards_total_unassigned'] = 0;
-        if (true == isset($clusterStats['indices']['shards']['replication'])) {
+        if (true === isset($clusterStats['indices']['shards']['replication'])) {
             $data['totals']['shards_replication'] = round($clusterStats['indices']['shards']['replication']*100, 2).'%';
         }
         $data['totals']['shards_total_documents'] = 0;
