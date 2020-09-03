@@ -148,6 +148,8 @@
                                         {% block comment %}
                                             {% if 'audit_notice' == result %}
                                                 {{ ('audit_comments.' ~ checkpoint ~ '.notice')|trans|raw }}
+                                            {% elseif parameters %}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.note')|trans({'{replication}': parameters})|raw }}
                                             {% endif %}
                                         {% endblock %}
 

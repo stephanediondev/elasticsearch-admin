@@ -248,6 +248,8 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $parameters['cluster_settings'] = $this->elasticsearchClusterManager->getClusterSettings();
 
+        $parameters['cluster_stats'] = $this->elasticsearchClusterManager->getClusterStats();
+
         $parameters['root'] = $this->callManager->getRoot();
 
         $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
@@ -481,10 +483,15 @@ class ElasticsearchClusterController extends AbstractAppController
                     if (1 == count($nodes)) {
                         $results['audit_notice'][$checkpoint] = [];
                     } else {
-                        if ($indicesCount['with_replica'] < count($indices)) {
-                            $results['audit_fail'][$checkpoint] = [];
+                        if (true === isset($parameters['cluster_stats']['indices']['shards']['replication'])) {
+                            $replication = round($parameters['cluster_stats']['indices']['shards']['replication']*100, 2).'%';
                         } else {
-                            $results['audit_pass'][$checkpoint] = [];
+                            $replication = null;
+                        }
+                        if ($indicesCount['with_replica'] < count($indices)) {
+                            $results['audit_fail'][$checkpoint] = $replication;
+                        } else {
+                            $results['audit_pass'][$checkpoint] = $replication;
                         }
                     }
                     break;
@@ -663,10 +670,12 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'max_shards_per_node':
-                    if (true === isset($parameters['cluster_settings']['cluster.max_shards_per_node']) && 1000 < $parameters['cluster_settings']['cluster.max_shards_per_node']) {
-                        $results['audit_fail'][$checkpoint] = $parameters['cluster_settings']['cluster.max_shards_per_node'];
-                    } else {
-                        $results['audit_pass'][$checkpoint] = $parameters['cluster_settings']['cluster.max_shards_per_node'];
+                    if (true === isset($parameters['cluster_settings']['cluster.max_shards_per_node'])) {
+                        if (1000 < $parameters['cluster_settings']['cluster.max_shards_per_node']) {
+                            $results['audit_fail'][$checkpoint] = $parameters['cluster_settings']['cluster.max_shards_per_node'];
+                        } else {
+                            $results['audit_pass'][$checkpoint] = $parameters['cluster_settings']['cluster.max_shards_per_node'];
+                        }
                     }
                     break;
                 case 'total_shards_per_node':
