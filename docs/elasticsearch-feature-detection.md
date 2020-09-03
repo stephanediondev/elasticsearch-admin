@@ -58,6 +58,7 @@
 
 ## 6.5.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/6.5/release-notes-6.5.0.html)
 
+- Add cluster-wide shard limit warnings #34021 (issues: #20705, #32856)
 - Add start trial API to HLRC #33406
 
 ## 6.4.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/6.4/release-notes-6.4.0.html)
