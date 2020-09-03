@@ -394,6 +394,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'slm_policies_schedule_unique',
             'repositories_connected',
             'shard_allocation_enabled',
+            'max_shards_per_node',
         ];
 
         $checkpoints = [];
@@ -658,6 +659,13 @@ class ElasticsearchClusterController extends AbstractAppController
                         } else {
                             $results['audit_fail'][$checkpoint] = $parameters['cluster_settings']['cluster.routing.allocation.enable'];
                         }
+                    }
+                    break;
+                case 'max_shards_per_node':
+                    if (true === isset($parameters['cluster_settings']['cluster.max_shards_per_node']) && 1000 < $parameters['cluster_settings']['cluster.max_shards_per_node']) {
+                        $results['audit_fail'][$checkpoint] = $parameters['cluster_settings']['cluster.max_shards_per_node'];
+                    } else {
+                        $results['audit_pass'][$checkpoint] = [];
                     }
                     break;
             }
