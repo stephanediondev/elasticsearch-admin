@@ -670,10 +670,12 @@ class ElasticsearchClusterController extends AbstractAppController
                     }
                     break;
                 case 'total_shards_per_node':
-                    if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node']) && 1000 < $parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node']) {
-                        $results['audit_fail'][$checkpoint] = $parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node'];
-                    } else {
-                        $results['audit_pass'][$checkpoint] = $parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node'];
+                    if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node']) && -1 < $parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node']) {
+                        if (1000 < $parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node']) {
+                            $results['audit_fail'][$checkpoint] = $parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node'];
+                        } else {
+                            $results['audit_pass'][$checkpoint] = $parameters['cluster_settings']['cluster.routing.allocation.total_shards_per_node'];
+                        }
                     }
                     break;
             }
