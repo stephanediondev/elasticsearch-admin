@@ -148,14 +148,24 @@
                                         {% block comment %}
                                             {% if 'audit_notice' == result %}
                                                 {{ ('audit_comments.' ~ checkpoint ~ '.notice')|trans|raw }}
-                                            {% elseif parameters %}
-                                                {{ ('audit_comments.' ~ checkpoint ~ '.note')|trans({'{replication}': parameters})|raw }}
                                             {% endif %}
                                         {% endblock %}
 
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
                                                 <a href="{{ path('indices', {'sort': 'rep:asc'}) }}">{{ 'indices'|trans }}</a>
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endif %}
+
+                                {% if 'replication_100_percent' == checkpoint %}
+                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
+                                        {% block comment %}
+                                            {% if 'audit_notice' == result %}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.notice')|trans|raw }}
+                                            {% else %}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.note')|trans({'{replication}': parameters})|raw }}
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}

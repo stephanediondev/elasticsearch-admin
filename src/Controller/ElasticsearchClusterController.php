@@ -398,6 +398,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'shard_allocation_enabled',
             'max_shards_per_node',
             'total_shards_per_node',
+            'replication_100_percent',
         ];
 
         $checkpoints = [];
@@ -492,6 +493,20 @@ class ElasticsearchClusterController extends AbstractAppController
                             $results['audit_fail'][$checkpoint] = $replication;
                         } else {
                             $results['audit_pass'][$checkpoint] = $replication;
+                        }
+                    }
+                    break;
+                case 'replication_100_percent':
+                    if (1 == count($nodes)) {
+                        $results['audit_notice'][$checkpoint] = [];
+                    } else {
+                        if (true === isset($parameters['cluster_stats']['indices']['shards']['replication'])) {
+                            $replication = $parameters['cluster_stats']['indices']['shards']['replication'];
+                            if (1 > $replication) {
+                                $results['audit_fail'][$checkpoint] = round($replication * 100, 2).'%';
+                            } else {
+                                $results['audit_pass'][$checkpoint] = round($replication * 100, 2).'%';
+                            }
                         }
                     }
                     break;
