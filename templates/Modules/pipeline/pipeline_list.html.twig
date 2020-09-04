@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'description': true, 'version': true} %}
+    {% set columns = {'name': true, 'description': true, 'version': true, 'processors': true} %}
 
     {% block thead %}
         <tr>
@@ -24,6 +24,12 @@
                             {{ 'version'|trans }}
                         </th>
                     {% endif %}
+
+                    {% if 'processors' == column %}
+                        <th>
+                            {{ 'processors'|trans }}
+                        </th>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
         </tr>
@@ -35,7 +41,7 @@
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
-                            <td>
+                            <td class="text-nowrap">
                                 <a href="{{ path('pipelines_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
@@ -51,6 +57,12 @@
                                 {% if row.version is defined %}
                                     {{ row.version }}
                                 {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'processors' == column %}
+                            <td>
+                                {{ row.processors|length }}
                             </td>
                         {% endif %}
                     {% endif %}
