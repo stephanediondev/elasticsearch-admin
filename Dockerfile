@@ -19,6 +19,8 @@ RUN apk --update add php7 php7-fpm php7-opcache php7-json php7-openssl php7-curl
 
 # Configure nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/privkey.pem /etc/nginx/privkey.pem
+COPY docker/fullchain.pem /etc/nginx/fullchain.pem
 
 # Configure PHP-FPM
 COPY docker/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
@@ -35,6 +37,7 @@ RUN chown -R nobody.nobody /var/www/html && \
   chown -R nobody.nobody /.composer && \
   chown -R nobody.nobody /.npm && \
   chown -R nobody.nobody /run && \
+  chown -R nobody.nobody /etc/nginx && \
   chown -R nobody.nobody /var/lib/nginx && \
   chown -R nobody.nobody /var/log/nginx
 
