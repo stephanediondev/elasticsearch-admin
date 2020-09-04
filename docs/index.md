@@ -127,6 +127,8 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 The Docker image is hosted on Docker Hub [Visit](https://hub.docker.com/r/stephanediondev/elasticsearch-admin)
 
 ```
+docker pull stephanediondev/elasticsearch-admin
+
 docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" -p 80:8080 -p 443:4443 -d --name elasticsearch-admin stephanediondev/elasticsearch-admin
 ```
 
@@ -134,7 +136,7 @@ Edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure 
 
 If Elasticsearch security features are enabled, add ```-e "ELASTICSEARCH_USERNAME=xxxxx" -e "ELASTICSEARCH_PASSWORD=xxxxx"```
 
-If you have SSL certificates add ```-v /path/privkey.pem:/etc/nginx/privkey.pem -v /path/fullchain.pem:/etc/nginx/fullchain.pem```
+If you have SSL certificates, add ```-v /path/privkey.pem:/etc/nginx/privkey.pem -v /path/fullchain.pem:/etc/nginx/fullchain.pem```
 
 ## Source installation
 
