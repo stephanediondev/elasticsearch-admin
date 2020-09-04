@@ -196,11 +196,12 @@ class ElasticsearchNodeManager extends AbstractAppManager
     {
         $versions = [];
         foreach ($nodes as $node) {
-            $versions[] = $node['version'];
+            if (true === isset($node['version'])) {
+                $versions[] = $node['version'];
+            }
         }
         $versions = array_unique($versions);
         sort($versions);
-
 
         return $versions;
     }
