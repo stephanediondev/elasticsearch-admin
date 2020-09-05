@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': stream.name}) }}
+    {{ appImport.heading({'level': 2, 'title': stream.name, 'badge': {'title': stream.status|trans, 'context': stream.status}}) }}
 {% endblock %}
 
 {% block tabs %}
