@@ -85,8 +85,6 @@ class ElasticsearchDataStreamController extends AbstractAppController
      */
     public function readStats(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('DATA_STREAMS', 'global');
-
         if (false === $this->callManager->hasFeature('data_streams')) {
             throw new AccessDeniedException();
         }
@@ -96,6 +94,8 @@ class ElasticsearchDataStreamController extends AbstractAppController
         if (null === $stream) {
             throw new NotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted('DATA_STREAM_STATS', $stream);
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_data_stream/'.$stream->getName().'/_stats');
