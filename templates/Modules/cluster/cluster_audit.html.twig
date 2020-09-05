@@ -447,6 +447,9 @@
                                                     {{ repository }}{% if false == loop.last %},{% endif %}
                                                 {% endfor %}
                                             {% endif %}
+                                            {% if 'audit_notice' == result %}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.notice')|trans|raw }}
+                                            {% endif %}
                                         {% endblock %}
 
                                         {% block internal_link %}

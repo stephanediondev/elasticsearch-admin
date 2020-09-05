@@ -120,6 +120,8 @@ audit_comments:
         fail: "The user <code>elastic</code> uses the default password <code>changeme</code>."
     slm_policies_schedule_unique:
         fail: "Two or more policies have the same schedule."
+    repositories_connected:
+        notice: "There is no repository configured."
     shard_allocation_enabled:
         note: "The setting <code>{setting}</code> is set to <code>{value}</code>."
     max_shards_per_node:

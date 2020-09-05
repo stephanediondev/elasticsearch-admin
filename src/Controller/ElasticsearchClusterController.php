@@ -673,6 +673,8 @@ class ElasticsearchClusterController extends AbstractAppController
                         } else {
                             $results['audit_pass'][$checkpoint] = [];
                         }
+                    } else {
+                        $results['audit_notice'][$checkpoint] = [];
                     }
                     break;
                 case 'shard_allocation_enabled':
