@@ -44,6 +44,7 @@ class ElasticsearchDataStreamManager extends AbstractAppManager
         $results = $callResponse->getContent();
 
         if ($results) {
+            usort($results['data_streams'], [$this, 'sortByName']);
             foreach ($results['data_streams'] as $row) {
                 $dataStreamModel = new ElasticsearchDataStreamModel();
                 $dataStreamModel->convert($row);
@@ -82,5 +83,10 @@ class ElasticsearchDataStreamManager extends AbstractAppManager
         $callRequest->setPath('/_data_stream/'.$name);
 
         return $this->callManager->call($callRequest);
+    }
+
+    private function sortByName($a, $b)
+    {
+        return $b['name'] < $a['name'];
     }
 }
