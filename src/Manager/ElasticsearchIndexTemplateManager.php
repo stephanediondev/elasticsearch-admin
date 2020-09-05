@@ -60,7 +60,31 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
             }
         }
 
-        return $templates;
+        return $this->filter($templates, $filter);
+    }
+
+    public function filter(array $templates, array $filter = []): array
+    {
+        $templatesWithFilter = [];
+
+        foreach ($templates as $row) {
+            $score = 0;
+
+            if (true === isset($filter['data_stream'])) {
+                if ('yes' === $filter['data_stream'] && false === $row->getDataStream()) {
+                    $score--;
+                }
+                if ('no' === $filter['data_stream'] && true === $row->getDataStream()) {
+                    $score--;
+                }
+            }
+
+            if (0 <= $score) {
+                $templatesWithFilter[] = $row;
+            }
+        }
+
+        return $templatesWithFilter;
     }
 
     public function send(ElasticsearchIndexTemplateModel $templateModel): CallResponseModel

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'data_streams'|trans }} - {{ stream.name }} - {{ 'stats'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'data_streams'|trans, 'link': {'url': path('data_streams')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': stream.name}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/data_stream/data_stream_read_tabs.html.twig' with {'active': 'stats'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
+
+            {% if stats %}
+                <pre>{{ stats|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

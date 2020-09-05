@@ -8,6 +8,7 @@
 
 ## 7.9.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.9/release-notes-7.9.0.html)
 
+- Add support for data streams #58106 (issue: #53100)
 - Implement dangling indices API #50920 (issue: #48366)
 
 ## 7.8.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.8/release-notes-7.8.0.html)

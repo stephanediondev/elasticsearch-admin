@@ -84,6 +84,7 @@ abstract class AbstractAppController extends AbstractController
                         ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich', 'feature' => 'enrich'],
                         ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users', 'feature' => 'security'],
                         ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
+                        ['granted' => 'DATA_STREAMS', 'path' => 'data_streams', 'feature' => 'data_streams'],
                     ];
 
                     $menus['configuration'] = $this->populateMenu($entries);

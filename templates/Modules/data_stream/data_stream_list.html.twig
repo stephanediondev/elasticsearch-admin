@@ -1,0 +1,111 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'name': true, 'timestamp_field': true, 'generation': true, 'template': true, 'ilm_policy': true, 'status': true, } %}
+
+    {% set is_granted_index_templates = is_granted('INDEX_TEMPLATES', 'global') %}
+
+    {% set is_granted_ilm_policies = is_granted('ILM_POLICIES', 'global') %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'name' == column %}
+                        <th>
+                            {{ 'name'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'timestamp_field' == column %}
+                        <th>
+                            {{ 'timestamp_field'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'status' == column %}
+                        <th>
+                            {{ 'status'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'generation' == column %}
+                        <th>
+                            {{ 'generation'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'template' == column %}
+                        <th>
+                            {{ 'template'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'ilm_policy' == column %}
+                        <th>
+                            {{ 'ilm_policy'|trans }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in streams.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'name' == column %}
+                            <td>
+                                <a href="{{ path('data_streams_read', {'name': row.name}) }}">{{ row.name }}</a>
+                            </td>
+                        {% endif %}
+
+                        {% if 'timestamp_field' == column %}
+                            <td>
+                                {{ row.timestampFieldName }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'status' == column %}
+                            <td>
+                                {{ appImport.badge({'title': row.status|trans, 'context': row.status}) }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'generation' == column %}
+                            <td>
+                                {{ row.generation }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'template' == column %}
+                            <td>
+                                {% if row.template %}
+                                    {% if is_granted_index_templates and hasFeature('composable_template') %}
+                                        <a class="text-secondary" href="{{ path('index_templates_read', {'name': row.template}) }}">{{ row.template }}</a>
+                                    {% else %}
+                                        {{ row.template }}
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'ilm_policy' == column %}
+                            <td>
+                                {% if row.ilmPolicy %}
+                                    {% if is_granted_ilm_policies and hasFeature('ilm') %}
+                                        <a class="text-secondary" href="{{ path('ilm_read', {'name': row.ilmPolicy}) }}">{{ row.ilmPolicy }}</a>
+                                    {% else %}
+                                        {{ row.ilmPolicy }}
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

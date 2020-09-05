@@ -71,6 +71,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - License [5.0]: read, status / start trial / revert to basic [6.6], features
 - Index graveyard [5.0]: list
 - Dangling indices [7.9]: list, import, delete
+- Data streams [7.9]: list, read, delete, stats
 
 # Screenshots
 

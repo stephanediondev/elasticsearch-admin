@@ -151,6 +151,8 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         }
         if (true === isset($template['index_template']['data_stream'])) {
             $this->setDataStream(true);
+        } else {
+            $this->setDataStream(false);
         }
         return $this;
     }

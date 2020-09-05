@@ -1,7 +1,11 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true, 'data_stream': true, 'description': true} %}
+    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true, 'data_stream': false, 'description': true} %}
+
+    {% if true == hasFeature('data_streams') %}
+        {% set columns = columns|merge({'data_stream': true}) %}
+    {% endif %}
 
     {% set is_granted_component_templates = is_granted('COMPONENT_TEMPLATES', 'global') %}
 

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'data_streams'|trans }} - {{ stream.name }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'data_streams'|trans, 'link': {'url': path('data_streams')}}) }}
+{% endblock %}
+
+{% block heading_2 %}
+    {{ appImport.heading({'level': 2, 'title': stream.name, 'badge': {'title': stream.status|trans, 'context': stream.status}}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/data_stream/data_stream_read_tabs.html.twig' with {'active': 'summary'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if is_granted('DATA_STREAM_DELETE', stream) %}
+                        {{ appImport.buttonModal({
+                            'id': 'DataStreamDelete',
+                            'title': 'delete'|trans,
+                            'body': 'delete_data_stream_note'|trans,
+                            'href': path('data_streams_delete', {'name': stream.name}),
+                        }) }}
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+
+            <hr>
+
+            <div class="row">
+                {{ appImport.dashboardKpi({'title': 'status'|trans, 'badge': {'title': stream.status|trans, 'context': stream.status}}) }}
+
+                {{ appImport.dashboardKpi({'title': 'generation'|trans, 'badge': {'title': stream.generation}}) }}
+
+                {% if stream.template %}
+                    {% if is_granted('INDEX_TEMPLATES', 'global') and hasFeature('composable_template') %}
+                        {{ appImport.dashboardKpi({'title': 'template'|trans, 'badge': {'title': stream.template, 'link': path('index_templates_read', {'name': stream.template})}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': 'template'|trans, 'badge': {'title': stream.template}}) }}
+                    {% endif %}
+                {% endif %}
+
+                {% if stream.ilmPolicy %}
+                    {% if is_granted('ILM_POLICIES', 'global') and hasFeature('ilm') %}
+                        {{ appImport.dashboardKpi({'title': 'ilm_policy'|trans, 'badge': {'title': stream.ilmPolicy, 'link': path('ilm_read', {'name': stream.ilmPolicy})}}) }}
+                    {% else %}
+                        {{ appImport.dashboardKpi({'title': 'ilm_policy'|trans, 'badge': {'title': stream.ilmPolicy}}) }}
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            {% if 0 < stream.indices|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'indices'|trans }}</th>
+                        </tr>
+                    {% endblock %}
+
+                    {% block tbody %}
+                        {% for index in stream.indices %}
+                            <tr>
+                                <td>{{ index['index_name'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endblock %}
+                {% endembed %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

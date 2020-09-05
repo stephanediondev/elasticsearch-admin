@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Form\EventListener\MappingsSettingsAliasesSubscriber;
 use App\Form\EventListener\MetadataSubscriber;
+use App\Manager\CallManager;
 use App\Manager\ElasticsearchIndexTemplateManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateModel;
@@ -26,8 +27,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchIndexTemplateType extends AbstractType
 {
-    public function __construct(ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager, TranslatorInterface $translator)
+    public function __construct(CallManager $callManager, ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager, TranslatorInterface $translator)
     {
+        $this->callManager = $callManager;
         $this->elasticsearchIndexTemplateManager = $elasticsearchIndexTemplateManager;
         $this->translator = $translator;
     }
@@ -42,8 +44,10 @@ class ElasticsearchIndexTemplateType extends AbstractType
         $fields[] = 'index_patterns';
         $fields[] = 'version';
         $fields[] = 'priority';
+        if (true === $this->callManager->hasFeature('data_streams')) {
+            $fields[] = 'data_stream';
+        }
         $fields[] = 'composed_of';
-        $fields[] = 'data_stream';
         $fields[] = 'settings';
         $fields[] = 'mappings';
         $fields[] = 'aliases';
@@ -105,6 +109,9 @@ class ElasticsearchIndexTemplateType extends AbstractType
                         'choice_translation_domain' => false,
                         'label' => 'composed_of',
                         'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
                         'help' => 'help_form.index_template.composed_of',
                         'help_html' => true,
                     ]);
@@ -113,9 +120,6 @@ class ElasticsearchIndexTemplateType extends AbstractType
                     $builder->add('data_stream', CheckboxType::class, [
                         'label' => 'data_stream',
                         'required' => false,
-                        'attr' => [
-                            'data-break-after' => 'yes',
-                        ],
                         'help' => 'help_form.index_template.data_stream',
                         'help_html' => true,
                     ]);

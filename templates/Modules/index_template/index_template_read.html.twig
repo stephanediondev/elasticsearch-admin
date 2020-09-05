@@ -81,14 +81,16 @@
                 </p>
             {% endif %}
 
-            <p>
-                <strong>{{ 'data_stream'|trans }}</strong><br>
-                {% if template.dataStream %}
-                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
-                {% else %}
-                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
-                {% endif %}
-            </p>
+            {% if true == hasFeature('data_streams') %}
+                <p>
+                    <strong>{{ 'data_stream'|trans }}</strong><br>
+                    {% if template.dataStream %}
+                        {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                    {% else %}
+                        {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                    {% endif %}
+                </p>
+            {% endif %}
         {% endblock %}
     {% endembed %}
 {% endblock %}
