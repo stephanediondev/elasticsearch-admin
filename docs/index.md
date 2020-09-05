@@ -18,6 +18,7 @@
             - [Apache](#apache)
             - [nginx](#nginx)
         - [Steps](#steps-1)
+    - [Launch](#launch)
 - [Other tools](#other-tools)
 - [License](#license)
 - [Privacy](#privacy)
@@ -167,7 +168,7 @@ Add the vhost below
 ```
 <VirtualHost *:80>
     DocumentRoot "/var/www/elasticsearch-admin/public"
-    ServerName elasticsearch-admin.domain.com
+    ServerName your-domain-or-sub-domain
     ErrorLog ${APACHE_LOG_DIR}/elasticsearch-admin-error.log
     CustomLog ${APACHE_LOG_DIR}/elasticsearch-admin-access.log combined
 
@@ -221,7 +222,7 @@ Add the server definition below
 server {
     listen [::]:8080 default_server;
     listen 8080 default_server;
-    server_name elasticsearch-admin.domain.com;
+    server_name your-domain-or-sub-domain;
 
     sendfile off;
 
@@ -276,6 +277,21 @@ cp .env.dist .env
 In the ```.env``` file edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure registration)
 
 If Elasticsearch security features are enabled, edit ```ELASTICSEARCH_USERNAME``` and ```ELASTICSEARCH_PASSWORD```
+
+## Launch
+
+[(Back to installation)](#installation)
+
+Once the installation is finished, you can access the application with one of the URL below (depending on your installation):
+
+- http://docker-ip
+- https://docker-ip (you need to approve the default localhost certificate)
+- http://your-domain-or-sub-domain
+- https://your-domain-or-sub-domain (if you have added certificates)
+
+You will see a register page to create the first user (you need the secret registration key) [View](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/original-register.png)
+
+After registration you can login [View](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/original-login.png)
 
 # Other tools
 
