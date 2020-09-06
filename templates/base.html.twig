@@ -111,6 +111,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="applicationDropdown">
                                     <h6 class="dropdown-header">elasticsearch-admin</h6>
+                                    <a class="dropdown-item d-none" href="#" id="button_install">{{ 'add_to_home_screen'|trans }}</a>
                                     {% for entry in menus['application'] %}
                                         <a class="dropdown-item" href="{{ path(entry['path']) }}">
                                             {{ entry['name'] }}
