@@ -30,6 +30,7 @@ error503:
 action: "Action"
 active_shards: "Active shards"
 add: "Add"
+add_to_home_screen: "Add to home screen"
 added: "Added"
 addresses: "Addresses"
 alias: "Alias"

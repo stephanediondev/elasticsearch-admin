@@ -48,9 +48,33 @@ function messageToServiceWorker(content) {
     }
 }
 
+var buttonInstall = document.getElementById('button_install');
+buttonInstall.addEventListener('click', function(event) {
+    event.preventDefault();
+});
+
 if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
     navigator.serviceWorker.register(app_base_url + 'serviceworker.js')
     .then(function(ServiceWorkerRegistration) {
+        var standalone = window.matchMedia('(display-mode: standalone)');
+        if (false === standalone.matches) {
+            buttonInstall.classList.remove('d-none');
+
+            window.addEventListener('beforeinstallprompt', function(BeforeInstallPromptEvent) {
+                BeforeInstallPromptEvent.preventDefault();
+
+                buttonInstall.addEventListener('click', function() {
+                    BeforeInstallPromptEvent.prompt();
+
+                    BeforeInstallPromptEvent.userChoice.then(function(AppBannerPromptResult) {
+                        if ('dismissed' == AppBannerPromptResult.outcome) {
+                            buttonInstall.classList.add('d-none');
+                        }
+                    });
+                });
+            });
+        }
+
         ServiceWorkerRegistration.addEventListener('updatefound', function() {
             messageToServiceWorker({'command': 'reload'});
         });
