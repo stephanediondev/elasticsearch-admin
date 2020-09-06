@@ -67,7 +67,7 @@
                 event.preventDefault();
                 var jsonString = response.textContent;
                 var blob = new Blob([jsonString], {'type': 'application/json;charset=utf-8'});
-                saveAs(blob, 'response-{{ method }}' + slug('{{ path }}') + '.json');
+                saveAs(blob, 'response-{{ method }}-' + slug('{{ path }}') + '.json');
             });
         {% endif %}
     </script>
