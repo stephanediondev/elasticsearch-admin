@@ -27,6 +27,9 @@ class ElasticsearchIndexFilterType extends AbstractType
         $fields[] = 'name';
         $fields[] = 'status';
         $fields[] = 'health';
+        if (true === $this->callManager->hasFeature('freeze_unfreeze')) {
+            $fields[] = 'frozen';
+        }
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $fields[] = 'sort';
         }
@@ -67,8 +70,20 @@ class ElasticsearchIndexFilterType extends AbstractType
                         'label' => 'health',
                         'required' => false,
                         'attr' => [
+                            'data-break-after' => 'yes',
                             'size' => 1,
                         ],
+                    ]);
+                    break;
+                case 'frozen':
+                    $builder->add('frozen', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['question'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['question'][$key];
+                        },
+                        'label' => 'frozen',
+                        'required' => false,
                     ]);
                     break;
                 case 'sort':
@@ -93,6 +108,7 @@ class ElasticsearchIndexFilterType extends AbstractType
             'csrf_protection' => false,
             'status' => ['open', 'close'],
             'health' => ['red', 'yellow', 'green'],
+            'question' => ['yes', 'no'],
         ]);
     }
 

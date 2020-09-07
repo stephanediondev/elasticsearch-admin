@@ -66,6 +66,7 @@ class ElasticsearchIndexController extends AbstractAppController
             'name' => $form->get('name')->getData(),
             'status' => $form->get('status')->getData(),
             'health' => $form->get('health')->getData(),
+            'frozen' => $form->has('frozen') ? $form->get('frozen')->getData() : false,
         ]);
 
         return $this->renderAbstract($request, 'Modules/index/index_index.html.twig', [

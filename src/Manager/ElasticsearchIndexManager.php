@@ -113,6 +113,15 @@ class ElasticsearchIndexManager extends AbstractAppManager
                 }
             }
 
+            if (true === isset($filter['frozen'])) {
+                if ('yes' === $filter['frozen'] && 'false' === $row->getFrozen()) {
+                    $score--;
+                }
+                if ('no' === $filter['frozen'] && 'true' === $row->getFrozen()) {
+                    $score--;
+                }
+            }
+
             if (0 <= $score) {
                 $indicesWithFilter[] = $row;
             }
