@@ -444,17 +444,15 @@
                                             {% if 'audit_fail' == result %}
                                                 {{ ('audit_comments.fail_for_repositories')|trans|raw }}
                                                 {% for repository in parameters %}
-                                                    {{ repository }}{% if false == loop.last %},{% endif %}
+                                                    {% if is_granted('REPOSITORIES', 'global') %}
+                                                        <a href="{{ path('repositories_read', {'repository': repository}) }}">{{ repository }}</a>{% if false == loop.last %},{% endif %}
+                                                    {% else %}
+                                                        {{ repository }}{% if false == loop.last %},{% endif %}
+                                                    {% endif %}
                                                 {% endfor %}
                                             {% endif %}
                                             {% if 'audit_notice' == result %}
                                                 {{ ('audit_comments.' ~ checkpoint ~ '.notice')|trans|raw }}
-                                            {% endif %}
-                                        {% endblock %}
-
-                                        {% block internal_link %}
-                                            {% if is_granted('REPOSITORIES', 'global') %}
-                                                <a href="{{ path('repositories') }}">{{ 'repositories'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
