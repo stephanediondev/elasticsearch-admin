@@ -1,3 +1,5 @@
+# Web administration for Elasticsearch
+
 # Table of contents
 
 - [Disclaimer](#disclaimer)

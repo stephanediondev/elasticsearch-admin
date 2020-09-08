@@ -1,5 +1,2 @@
 theme: jekyll-theme-cayman
 google_site_verification: JhQeRDOcxzM8KPEnU6AL4MXH8lrGSBAPwafRSyLbVf8
-title: "elasticsearch-admin"
-tagline: "Web administration for Elasticsearch"
-description: "Cluster, nodes, indices, shards, index templates, repositories, snapshots ..."
