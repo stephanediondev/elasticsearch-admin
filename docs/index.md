@@ -1,5 +1,3 @@
-<meta name="google-site-verification" content="JhQeRDOcxzM8KPEnU6AL4MXH8lrGSBAPwafRSyLbVf8" />
-
 # Web administration for Elasticsearch
 
 # Table of contents
