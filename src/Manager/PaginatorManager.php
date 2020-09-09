@@ -18,7 +18,7 @@ class PaginatorManager
             $paginate['page'] = 1;
         }
 
-        if ($paginate['pages'] < $paginate['page']) {
+        if (1 > $paginate['page'] || $paginate['pages'] < $paginate['page']) {
             $paginate['page'] = 1;
         }
 
