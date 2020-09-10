@@ -151,7 +151,7 @@
                             <td>
                                 {% if is_granted_shards_reroute and 'relocating' != row.state %}
                                     {% if nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and row.node %}
-                                        {% embed 'Embed/shard_reroute_cluster.html.twig' with {'title': 'reroute_commands.move'|trans, 'form_action': path('shards_move', {'index': row.index, 'number': row.number})} %}
+                                        {% embed 'Embed/shard_reroute_cluster_embed.html.twig' with {'title': 'reroute_commands.move'|trans, 'form_action': path('shards_move', {'index': row.index, 'number': row.number})} %}
                                             {% block content %}
                                                 <p>
                                                     <strong>{{ 'from_node'|trans }}</strong><br>
@@ -175,7 +175,7 @@
                                     {% endif %}
 
                                     {% if row.node %}
-                                        {% embed 'Embed/shard_reroute_cluster.html.twig' with {'title': 'reroute_commands.cancel'|trans, 'form_action': path('shards_cancel_allocation', {'index': row.index, 'number': row.number})} %}
+                                        {% embed 'Embed/shard_reroute_cluster_embed.html.twig' with {'title': 'reroute_commands.cancel'|trans, 'form_action': path('shards_cancel_allocation', {'index': row.index, 'number': row.number})} %}
                                             {% block content %}
                                                 <p>
                                                     <strong>{{ 'node'|trans }}</strong><br>
@@ -190,7 +190,7 @@
                                     {% endif %}
 
                                     {% if nodesAvailable[row.index][row.number] is defined and 0 < nodesAvailable[row.index][row.number]|length and 'unassigned' == row.state %}
-                                        {% embed 'Embed/shard_reroute_cluster.html.twig' with {'title': 'reroute_commands.allocate_replica'|trans, 'form_action': path('shards_allocate_replica', {'index': row.index, 'number': row.number})} %}
+                                        {% embed 'Embed/shard_reroute_cluster_embed.html.twig' with {'title': 'reroute_commands.allocate_replica'|trans, 'form_action': path('shards_allocate_replica', {'index': row.index, 'number': row.number})} %}
                                             {% block content %}
                                                 <input type="hidden" name="redirect" value="{{ redirect_url }}">
                                                 <div class="form-group mb-3">

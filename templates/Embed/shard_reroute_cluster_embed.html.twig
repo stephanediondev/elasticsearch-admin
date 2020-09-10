@@ -1,3 +1,5 @@
+{% import 'Import/app_import.html.twig' as appImport %}
+
 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
     {{ title }}
 </button>
@@ -21,7 +23,18 @@
                         <strong>{{ 'shard'|trans }}</strong><br>
                         {{ row.number }}
                     </p>
-
+                    <p>
+                        <strong>{{ 'type'|trans }}</strong><br>
+                        {% if row.isPrimary %}
+                            {{ appImport.badge({'title': 'primary'|trans, 'context': 'true'}) }}
+                        {% else %}
+                            {{ appImport.badge({'title': 'replica'|trans, 'context': 'false'}) }}
+                        {% endif %}
+                    </p>
+                    <p>
+                        <strong>{{ 'state'|trans }}</strong><br>
+                        {{ appImport.badge({'title': row.state|trans, 'context': row.state}) }}
+                    </p>
                     {% block content %}
                     {% endblock %}
                 </div>
