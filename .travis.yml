@@ -1,6 +1,10 @@
 language: php
+
 php:
     - 7.4
+
+node_js:
+    - 10
 
 services:
     - elasticsearch
