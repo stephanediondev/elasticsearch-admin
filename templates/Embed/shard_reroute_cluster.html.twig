@@ -1,0 +1,35 @@
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+    {{ title }}
+</button>
+
+<div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{{ form_action }}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ title }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-left">
+                    <p>
+                        <strong>{{ 'index'|trans }}</strong><br>
+                        {{ row.index }}
+                    </p>
+                    <p>
+                        <strong>{{ 'shard'|trans }}</strong><br>
+                        {{ row.number }}
+                    </p>
+
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                    <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
