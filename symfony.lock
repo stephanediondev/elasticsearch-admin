@@ -20,6 +20,21 @@
     "doctrine/lexer": {
         "version": "1.2.0"
     },
+    "fgrosse/phpasn1": {
+        "version": "v2.1.1"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "6.5.5"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.6.1"
+    },
+    "minishlink/web-push": {
+        "version": "v6.0.0"
+    },
     "monolog/monolog": {
         "version": "2.0.2"
     },
@@ -28,6 +43,9 @@
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
+    },
+    "paragonie/sodium_compat": {
+        "version": "v1.13.0"
     },
     "php": {
         "version": "7.4"
@@ -44,8 +62,14 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.1.2"
+    },
+    "ralouphie/getallheaders": {
+        "version": "3.0.3"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -58,6 +82,9 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "spomky-labs/base64url": {
+        "version": "v2.0.3"
     },
     "symfony/asset": {
         "version": "v5.0.5"
@@ -235,6 +262,9 @@
     "symfony/polyfill-intl-icu": {
         "version": "v1.14.0"
     },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.18.1"
+    },
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.14.0"
     },
@@ -408,5 +438,32 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
+    },
+    "web-token/jwt-core": {
+        "version": "v2.2.2"
+    },
+    "web-token/jwt-key-mgmt": {
+        "version": "v2.2.2"
+    },
+    "web-token/jwt-signature": {
+        "version": "v2.2.2"
+    },
+    "web-token/jwt-signature-algorithm-ecdsa": {
+        "version": "v2.2.2"
+    },
+    "web-token/jwt-signature-algorithm-eddsa": {
+        "version": "v1.3.10"
+    },
+    "web-token/jwt-signature-algorithm-hmac": {
+        "version": "v1.3.10"
+    },
+    "web-token/jwt-signature-algorithm-none": {
+        "version": "v1.3.10"
+    },
+    "web-token/jwt-signature-algorithm-rsa": {
+        "version": "v1.3.10"
+    },
+    "web-token/jwt-util-ecc": {
+        "version": "v2.2.2"
     }
 }

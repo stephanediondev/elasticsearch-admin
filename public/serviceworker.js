@@ -95,6 +95,29 @@ self.addEventListener('message', function(message) {
     }
 });
 
+self.addEventListener('push', function(PushEvent) {
+    if('waitUntil' in PushEvent) {
+        if(PushEvent.data) {
+            var json = PushEvent.data.json();
+            PushEvent.waitUntil(
+                self.registration.showNotification(json.title, {
+                    'data': {'url': self.registration.scope},
+                    'tag': json.tag,
+                    'body': json.body,
+                    'badge': json.icon,
+                    'icon': json.icon,
+                })
+            );
+        }
+    }
+});
+
+self.addEventListener('notificationclick', function(NotificationEvent) {
+    NotificationEvent.notification.close();
+
+    return clients.openWindow(NotificationEvent.notification.data.url);
+});
+
 function cacheAddAll() {
     caches.delete(CACHE_KEY);
     return caches.open(CACHE_KEY)

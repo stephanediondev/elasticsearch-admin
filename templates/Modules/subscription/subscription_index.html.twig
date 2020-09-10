@@ -1,0 +1,243 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'subscriptions'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'subscriptions'|trans}) }}
+{% endblock %}
+
+{% block main_content %}
+    <div class="jumbotron">
+        <p class="lead">{{ 'subscribe_note'|trans }}</p>
+    </div>
+
+    {% if applicationServerKey %}
+        {% embed 'Embed/card_embed.html.twig' %}
+            {% import 'Import/app_import.html.twig' as appImport %}
+            {% block content %}
+                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': subscriptions|length}}) }}
+
+                {% embed 'Embed/buttons_embed.html.twig' %}
+                    {% import 'Import/app_import.html.twig' as appImport %}
+                    {% block content %}
+                        <a href="#" class="btn btn-primary btn-sm d-none" id="subscribe-button">
+                            {{ 'subscribe'|trans }}
+                        </a>
+                        <a href="{{ path('app_subscriptions_test') }}" class="btn btn-primary btn-sm d-none" id="test-notification-push">
+                            {{ 'test'|trans }}
+                        </a>
+                    {% endblock %}
+                {% endembed %}
+
+                {% if 0 < subscriptions|length %}
+                    {% embed 'Embed/table_embed.html.twig' %}
+                        {% import 'Import/app_import.html.twig' as appImport %}
+
+                        {% block thead %}
+                            <tr>
+                                <th>{{ 'os'|trans }}</th>
+                                <th>{{ 'client'|trans }}</th>
+                                <th>{{ 'ip'|trans }}</th>
+                                <th>{{ 'created_at'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        {% endblock %}
+
+                        {% block tbody %}
+                            {% for subscription in subscriptions %}
+                                <tr>
+                                    <td>
+                                        {{ subscription.os }}
+                                    </td>
+                                    <td>
+                                        {{ subscription.client }}
+                                    </td>
+                                    <td>
+                                        {{ subscription.ip }}
+                                    </td>
+                                    <td>
+                                        {{ subscription.createdAt|human_datetime }}
+                                    </td>
+                                    <td class="actions">
+                                        <a href="{{ path('app_subscriptions_delete', {'id': subscription.id}) }}" class="btn btn-primary btn-sm delete-button">
+                                            {{ 'delete'|trans }}
+                                        </a>
+                                        <a data-endpoint="{{ subscription.endpoint }}" href="{{ path('app_subscriptions_delete', {'id': subscription.id}) }}" class="btn btn-primary btn-sm d-none unsubscribe-button">
+                                            {{ 'unsubscribe'|trans }}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                    {% endembed %}
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    {% if applicationServerKey %}
+    <script type="text/javascript">
+        function urlBase64ToUint8Array(base64String) {
+            var padding = '='.repeat((4 - base64String.length % 4) % 4);
+            var base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+
+            var rawData = window.atob(base64);
+            var outputArray = new Uint8Array(rawData.length);
+
+            for(var i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+
+        function createSubscription(PushSubscription) {
+            var toJSON = PushSubscription.toJSON();
+
+            var data = {
+                endpoint: PushSubscription.endpoint,
+                public_key: toJSON.keys.p256dh,
+                authentication_secret: toJSON.keys.auth,
+                content_encoding: (PushManager.supportedContentEncodings || ['aesgcm'])[0]
+            };
+
+            var url = '{{ path('app_subscriptions_create') }}';
+            fetch(url, {
+                credentials: 'include',
+                method: 'POST',
+                body: JSON.stringify(data),
+                mode: 'cors',
+            })
+            .then(function() {
+                window.location.reload();
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
+
+        function deleteSubscription(url) {
+            window.location.href = url;
+        }
+
+        function testNotification(url) {
+            fetch(url, {
+                credentials: 'include',
+                method: 'GET',
+                mode: 'cors',
+            })
+            .then(function() {
+                createToast('Sent');
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        }
+
+        function getSubscription() {
+            if (true == serviceWorkerEnabled) {
+                navigator.serviceWorker.ready.then(function(ServiceWorkerRegistration) {
+                    if ('pushManager' in ServiceWorkerRegistration) {
+                        $('.push').removeClass('d-none');
+
+                        ServiceWorkerRegistration.pushManager.getSubscription()
+                        .then(function(PushSubscription) {
+                            if (PushSubscription && 'object' === typeof PushSubscription) {
+                                var found = false;
+
+                                $(document).find('.actions').each(function() {
+                                    var deleteButton = $(this).find('.delete-button');
+                                    var unsubscribeButton = $(this).find('.unsubscribe-button');
+                                    if (PushSubscription.endpoint == unsubscribeButton.data('endpoint')) {
+                                        found = true;
+                                        unsubscribeButton.removeClass('d-none');
+                                        deleteButton.addClass('d-none');
+                                        $('#test-notification-push').removeClass('d-none');
+                                    }
+                                });
+
+                                if (false == found) {
+                                    createSubscription(PushSubscription);
+                                }
+                            } else {
+                                $('#subscribe-button').removeClass('d-none');
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        function pushManagerSubscribe() {
+            if (true == serviceWorkerEnabled) {
+                navigator.serviceWorker.ready.then(function(ServiceWorkerRegistration) {
+                    if ('pushManager' in ServiceWorkerRegistration) {
+                        ServiceWorkerRegistration.pushManager.permissionState({userVisibleOnly: true}).then(function(permissionState) {
+                            if (permissionState == 'prompt' || permissionState == 'granted') {
+                                ServiceWorkerRegistration.pushManager.subscribe(
+                                    {'applicationServerKey': urlBase64ToUint8Array('{{ applicationServerKey }}'), 'userVisibleOnly': true}
+                                )
+                                .then(function(PushSubscription) {
+
+                                    if (PushSubscription && 'object' === typeof PushSubscription) {
+                                        createSubscription(PushSubscription);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        function pushManagerUnsubscribe(url) {
+            if (true == serviceWorkerEnabled) {
+                navigator.serviceWorker.ready.then(function(ServiceWorkerRegistration) {
+                    if ('pushManager' in ServiceWorkerRegistration) {
+                        ServiceWorkerRegistration.pushManager.getSubscription()
+                        .then(function(PushSubscription) {
+                            if (PushSubscription && 'object' === typeof PushSubscription) {
+                                PushSubscription.unsubscribe()
+                                .then(function() {
+                                    deleteSubscription(url);
+                                })
+                                .catch(function(error) {
+                                    console.log(error);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            getSubscription();
+
+            $(document).on('click', '#subscribe-button', function(event) {
+                event.preventDefault();
+                pushManagerSubscribe();
+            });
+
+            $(document).on('click', '.unsubscribe-button', function(event) {
+                event.preventDefault();
+                pushManagerUnsubscribe($(this).attr('href'));
+            });
+
+            $(document).on('click', '.delete-button', function(event) {
+                event.preventDefault();
+                deleteSubscription($(this).attr('href'));
+            });
+
+            $(document).on('click', '#test-notification-push', function(event) {
+                event.preventDefault();
+                testNotification($(this).attr('href'));
+            });
+        });
+    </script>
+    {% endif %}
+{% endblock %}

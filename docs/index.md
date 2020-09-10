@@ -278,6 +278,20 @@ In the ```.env``` file edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (r
 
 If Elasticsearch security features are enabled, edit ```ELASTICSEARCH_USERNAME``` and ```ELASTICSEARCH_PASSWORD```
 
+You can also edit ```VAPID_PUBLIC_KEY``` and ```VAPID_PRIVATE_KEY``` to use push notifications (you can generate values with the command below)
+
+```
+bin/console app:generate-vapid
+```
+
+Add a cron command to send notifications every 5 minutes
+
+```
+crontab -e
+# m h dom mon dow command
+*/5 * * * * cd /var/www/elasticsearch-admin && bin/console app:send-notifications
+```
+
 ## Launch
 
 [(Back to installation)](#installation)

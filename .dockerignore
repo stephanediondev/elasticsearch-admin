@@ -42,3 +42,4 @@ src/Command
 src/DataFixtures
 tests
 update.sh
+info.json
