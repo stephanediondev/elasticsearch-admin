@@ -3,9 +3,9 @@
 namespace App\Tests\Model;
 
 use App\Model\ElasticsearchCatModel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ElasticsearchCatModelTest extends WebTestCase
+class ElasticsearchCatModelTest extends TestCase
 {
     public function test()
     {

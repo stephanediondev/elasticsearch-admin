@@ -3,9 +3,9 @@
 namespace App\Tests\Model;
 
 use App\Model\ElasticsearchIndexModel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ElasticsearchIndexModelTest extends WebTestCase
+class ElasticsearchIndexModelTest extends TestCase
 {
     public function test()
     {

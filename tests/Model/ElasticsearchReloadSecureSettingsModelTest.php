@@ -3,9 +3,9 @@
 namespace App\Tests\Model;
 
 use App\Model\ElasticsearchReloadSecureSettingsModel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ElasticsearchReloadSecureSettingsModelTest extends WebTestCase
+class ElasticsearchReloadSecureSettingsModelTest extends TestCase
 {
     public function test()
     {

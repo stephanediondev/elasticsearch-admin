@@ -3,9 +3,9 @@
 namespace App\Tests\Model;
 
 use App\Model\ElasticsearchSnapshotModel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ElasticsearchSnapshotModelTest extends WebTestCase
+class ElasticsearchSnapshotModelTest extends TestCase
 {
     public function test()
     {

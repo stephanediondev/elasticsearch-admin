@@ -3,9 +3,9 @@
 namespace App\Tests\Model;
 
 use App\Model\ElasticsearchPipelineModel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ElasticsearchPipelineModelTest extends WebTestCase
+class ElasticsearchPipelineModelTest extends TestCase
 {
     public function test()
     {

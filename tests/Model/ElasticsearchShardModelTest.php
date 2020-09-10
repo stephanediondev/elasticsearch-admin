@@ -3,9 +3,9 @@
 namespace App\Tests\Model;
 
 use App\Model\ElasticsearchShardModel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ElasticsearchShardModelTest extends WebTestCase
+class ElasticsearchShardModelTest extends TestCase
 {
     public function test()
     {

@@ -3,9 +3,9 @@
 namespace App\Tests\Model;
 
 use App\Model\ElasticsearchIlmPolicyModel;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ElasticsearchIlmModelTest extends WebTestCase
+class ElasticsearchIlmModelTest extends TestCase
 {
     public function test()
     {
