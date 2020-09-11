@@ -38,7 +38,6 @@ Dockerfile
 docs
 phpunit.xml.dist
 screenshots
-src/Command
 src/DataFixtures
 tests
 update.sh

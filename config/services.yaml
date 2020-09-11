@@ -12,6 +12,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $appEnv: '%env(APP_ENV)%'
+            $installationType: '%env(INSTALLATION_TYPE)%'
             $elasticsearchUrl: '%env(ELASTICSEARCH_URL)%'
             $elasticsearchUsername: '%env(ELASTICSEARCH_USERNAME)%'
             $elasticsearchPassword: '%env(ELASTICSEARCH_PASSWORD)%'

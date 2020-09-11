@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Security;
 
 class AppExceptionController extends AbstractAppController
 {
-    public function read(Request $request, FlattenException $exception, RequestStack $requestStack, Security $security)
+    public function read(Request $request, FlattenException $exception, RequestStack $requestStack, Security $security, string $installationType)
     {
         $masterRequest = $requestStack->getMasterRequest();
 
@@ -51,6 +51,7 @@ class AppExceptionController extends AbstractAppController
                 $parameters['file'] = $exception->getFile();
                 $parameters['line'] = $exception->getLine();
 
+                $parameters['installation_type'] = $installationType;
                 $parameters['php_version'] = phpversion();
                 $parameters['symfony_version'] = Kernel::VERSION;
             }
