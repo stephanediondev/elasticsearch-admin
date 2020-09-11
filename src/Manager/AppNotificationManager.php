@@ -76,16 +76,7 @@ class AppNotificationManager extends AbstractAppManager
             return $this->compareInfo($previousInfo, $lastInfo);
 
         } catch (ConnectionException $e) {
-            $notifications = [];
-
-            /*$notification = new AppNotificationModel();
-            $notification->setTitle('server error');
-            $notification->setBody($e->getMessage());
-            $notification->setIcon('favicon-red-144.png');
-
-            $notifications[] = $notification;*/
-
-            return $notifications;
+            return [];
         }
     }
 
