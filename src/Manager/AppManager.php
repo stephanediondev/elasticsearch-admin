@@ -19,6 +19,7 @@ class AppManager extends AbstractAppManager
             '.elasticsearch-admin-users',
             '.elasticsearch-admin-roles',
             '.elasticsearch-admin-permissions',
+            '.elasticsearch-admin-subscriptions',
         ];
     }
 
@@ -75,6 +76,39 @@ class AppManager extends AbstractAppManager
                             'type' => 'keyword',
                         ],
                         'permission' => [
+                            'type' => 'keyword',
+                        ],
+                        'created_at' => [
+                            'type' => 'date',
+                            'format' => 'yyyy-MM-dd HH:mm:ss',
+                        ],
+                    ],
+                ];
+            case '.elasticsearch-admin-subscriptions':
+                return [
+                    'properties' => [
+                        'user_id' => [
+                            'type' => 'keyword',
+                        ],
+                        'endpoint' => [
+                            'type' => 'keyword',
+                        ],
+                        'public_key' => [
+                            'type' => 'keyword',
+                        ],
+                        'authentication_secret' => [
+                            'type' => 'keyword',
+                        ],
+                        'content_encoding' => [
+                            'type' => 'keyword',
+                        ],
+                        'ip' => [
+                            'type' => 'keyword',
+                        ],
+                        'os' => [
+                            'type' => 'keyword',
+                        ],
+                        'client' => [
                             'type' => 'keyword',
                         ],
                         'created_at' => [

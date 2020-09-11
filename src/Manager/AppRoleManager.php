@@ -46,7 +46,7 @@ class AppRoleManager extends AbstractAppManager
             'MENU_APPLICATION',
             'APP_USERS', 'APP_USERS_CREATE',
             'APP_ROLES', 'APP_ROLES_CREATE',
-            'APP_UNINSTALL', 'APP_UPGRADE',
+            'APP_UNINSTALL', 'APP_UPGRADE', 'APP_SUBSCRIPTIONS',
         ],
         'app_user' => [
             'APP_USER_UPDATE', 'APP_USER_DELETE',

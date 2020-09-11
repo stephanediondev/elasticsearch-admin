@@ -22,3 +22,4 @@ yarn-error.log
 
 public/.htaccess
 .php_cs.cache
+info.json

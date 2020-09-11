@@ -2,23 +2,14 @@
 
 namespace App\Command;
 
-use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 class GenerateFaviconsCommand extends Command
 {
     protected static $defaultName = 'app:generate-favicons';
-
-    public function __construct(CallManager $callManager)
-    {
-        $this->callManager = $callManager;
-
-        parent::__construct();
-    }
 
     protected function configure()
     {
@@ -38,8 +29,10 @@ class GenerateFaviconsCommand extends Command
 
     private $colors = [
         'red' => 'dc3545',
+        'orange' => 'fd7e14',
         'yellow' => 'ffc107',
         'green' => '28a745',
+        'purple' => '9371d1',
         'gray' => '6c757d',
     ];
 

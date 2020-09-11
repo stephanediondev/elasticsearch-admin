@@ -55,9 +55,13 @@ if (buttonInstall) {
     });
 }
 
+global.serviceWorkerEnabled = false;
+
 if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
     navigator.serviceWorker.register(app_base_url + 'serviceworker.js')
     .then(function(ServiceWorkerRegistration) {
+        global.serviceWorkerEnabled = true;
+
         if (buttonInstall) {
             var standalone = window.matchMedia('(display-mode: standalone)');
             if (false === standalone.matches) {

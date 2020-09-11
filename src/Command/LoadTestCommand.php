@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Kernel;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\Console\Command\Command;
@@ -10,7 +9,6 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\HttpFoundation\Response;
 
 class LoadTestCommand extends Command
 {

@@ -127,8 +127,17 @@
                             </li>
                         {% endif %}
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ app.user.email }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                {% if is_granted('APP_SUBSCRIPTIONS', 'global') %}
+                                    <a class="dropdown-item" href="{{ path('app_subscriptions') }}">{{ 'subscriptions'|trans }}</a>
+                                {% endif %}
+
+                                <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
+                            </div>
                         </li>
                     {% else %}
                         <li class="nav-item">
