@@ -99,8 +99,8 @@ class AppScreenshotsController extends AbstractAppController
                 fwrite($fp, "\r\n");
 
                 $results[] = [
-                    'pageres' => 'pageres '.$base.$entry['path'].' 1280x768 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
-                    'convert' => 'convert -resize 800x480 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
+                    'pageres' => 'pageres '.$base.$entry['path'].' 1280x960 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
+                    'convert' => 'convert -resize 800x600 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
                 ];
             }
         }
