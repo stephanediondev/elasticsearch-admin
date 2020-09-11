@@ -69,6 +69,7 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Create snapshot', 'filename' => 'snapshot-create', 'path' => '/admin/snapshots/create'],
             ['title' => 'Create enrich policy', 'filename' => 'enrich-create', 'path' => '/admin/enrich/create', 'feature' => 'enrich'],
             ['title' => 'License', 'filename' => 'license', 'path' => '/admin/license', 'feature' => 'license'],
+            ['title' => 'Subscriptions', 'filename' => 'subscriptions', 'path' => '/admin/subscriptions'],
             ['title' => 'Console', 'filename' => 'console', 'path' => '/admin/console'],
             ['title' => 'SQL access', 'filename' => 'sql', 'path' => '/admin/sql', 'feature' => 'sql'],
             ['title' => 'Users', 'filename' => 'elasticsearch-users', 'path' => '/admin/elasticsearch-users', 'feature' => 'security'],

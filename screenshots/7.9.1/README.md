@@ -70,6 +70,8 @@
 
 [![License](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-license.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-license.png)
 
+[![Subscriptions](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-subscriptions.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-subscriptions.png)
+
 [![Console](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-console.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-console.png)
 
 [![SQL access](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-sql.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-sql.png)
