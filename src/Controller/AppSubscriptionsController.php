@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Model\CallRequestModel;
 use App\Manager\AppSubscriptionManager;
+use App\Manager\AppNotificationManager;
 use App\Model\AppSubscriptionModel;
 use DeviceDetector\DeviceDetector;
 use Minishlink\WebPush\WebPush;
@@ -21,9 +22,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AppSubscriptionsController extends AbstractAppController
 {
-    public function __construct(AppSubscriptionManager $appSubscriptionManager, Security $security)
+    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, Security $security)
     {
         $this->appSubscriptionManager = $appSubscriptionManager;
+        $this->appNotificationManager = $appNotificationManager;
         $this->user = $security->getUser();
     }
 
@@ -37,6 +39,10 @@ class AppSubscriptionsController extends AbstractAppController
         if ('' == $vapidPublicKey || '' == $vapidPrivateKey) {
             $this->addFlash('warning', 'Run bin/console app:generate-vapid');
             $this->addFlash('warning', 'Edit VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY in .env file');
+        }
+
+        if (false === $this->appNotificationManager->infoFileExists()) {
+            $this->addFlash('warning', 'Add to cron */5 * * * * cd '.str_replace('/public', '', $request->getBasePath()).' && bin/console app:send-notifications');
         }
 
         $query = [

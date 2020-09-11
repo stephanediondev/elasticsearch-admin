@@ -57,9 +57,9 @@ class SendNotificationsCommand extends Command
                         foreach ($notifications as $notification) {
                             $payload = [
                                 'tag' => uniqid('', true),
-                                'title' => $notification['title'],
-                                'body' => $notification['body'],
-                                'icon' => $notification['icon'],
+                                'title' => $notification->getTitle(),
+                                'body' => $notification->getBody(),
+                                'icon' => $notification->getIcon(),
                             ];
 
                             $subcription = Subscription::create([
