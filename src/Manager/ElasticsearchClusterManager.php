@@ -24,14 +24,6 @@ class ElasticsearchClusterManager extends AbstractAppManager
         return $callResponse->getContent();
     }
 
-    public function getClusterState(): array
-    {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/state');
-        $callResponse = $this->callManager->call($callRequest);
-        return $callResponse->getContent();
-    }
-
     public function getClusterSettings()
     {
         $callRequest = new CallRequestModel();
