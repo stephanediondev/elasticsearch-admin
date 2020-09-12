@@ -67,19 +67,9 @@ class AppNotificationManager extends AbstractAppManager
             $licenseInfo = 'license_ok';
 
             if (true === $this->callManager->hasFeature('license')) {
-                if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
-                    $this->endpoint = '_xpack/license';
-                } else {
-                    $this->endpoint = '_license';
-                }
+                $license = $this->callManager->getLicense();
 
-                $callRequest = new CallRequestModel();
-                $callRequest->setPath('/'.$this->endpoint);
-                $callResponse = $this->callManager->call($callRequest);
-                $license = $callResponse->getContent();
-                $license = $license['license'];
-
-                if ('basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
+                if ($license && 'basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
                     $now = (new \Datetime());
                     $expire = new \Datetime(date('Y-m-d H:i:s', substr($license['expiry_date_in_millis'], 0, -3)));
                     $interval = $now->diff($expire);

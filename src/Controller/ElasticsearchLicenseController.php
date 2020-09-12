@@ -25,22 +25,18 @@ class ElasticsearchLicenseController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
-            $this->endpoint = '_xpack/license';
-        } else {
-            $this->endpoint = '_license';
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/'.$this->endpoint);
-        $callResponse = $this->callManager->call($callRequest);
-        $license = $callResponse->getContent();
-        $license = $license['license'];
+        $license = $this->callManager->getLicense();
 
         if (false === $this->callManager->hasFeature('license_status')) {
             $trialStatus = false;
             $basicStatus = false;
         } else {
+            if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+                $this->endpoint = '_xpack/license';
+            } else {
+                $this->endpoint = '_license';
+            }
+
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/'.$this->endpoint.'/trial_status');
             $callResponse = $this->callManager->call($callRequest);

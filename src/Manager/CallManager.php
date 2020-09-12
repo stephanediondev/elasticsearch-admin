@@ -20,6 +20,8 @@ class CallManager
 
     public $plugins = false;
 
+    public $license = false;
+
     private $featuresByVersion = [
         '_xpack_endpoint_removed' => '8.0',
         'data_streams' => '7.9',
@@ -282,5 +284,38 @@ class CallManager
         }
 
         return false;
+    }
+
+    public function getLicense(): array
+    {
+        if (false === $this->license) {
+            $this->setLicense();
+        }
+
+        return $this->license;
+    }
+
+    public function setLicense()
+    {
+        if (true === $this->hasFeature('license')) {
+            try {
+                if (false === $this->hasFeature('_xpack_endpoint_removed')) {
+                    $this->endpoint = '_xpack/license';
+                } else {
+                    $this->endpoint = '_license';
+                }
+
+                $callRequest = new CallRequestModel();
+                $callRequest->setPath('/'.$this->endpoint);
+                $callResponse = $this->call($callRequest);
+                $license = $callResponse->getContent();
+                $this->license = $license['license'];
+
+            } catch (CallException $e) {
+                $this->license = [];
+            }
+        } else {
+            $this->license = [];
+        }
     }
 }

@@ -582,17 +582,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     break;
                 case 'license_not_expired':
                     if (true === $this->callManager->hasFeature('license')) {
-                        if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
-                            $this->endpoint = '_xpack/license';
-                        } else {
-                            $this->endpoint = '_license';
-                        }
-
-                        $callRequest = new CallRequestModel();
-                        $callRequest->setPath('/'.$this->endpoint);
-                        $callResponse = $this->callManager->call($callRequest);
-                        $license = $callResponse->getContent();
-                        $license = $license['license'];
+                        $license = $this->callManager->getLicense();
 
                         if ('basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
                             $now = (new \Datetime());
