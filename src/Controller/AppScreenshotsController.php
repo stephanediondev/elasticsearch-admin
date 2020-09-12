@@ -72,6 +72,7 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Subscriptions', 'filename' => 'subscriptions', 'path' => '/admin/subscriptions'],
             ['title' => 'Console', 'filename' => 'console', 'path' => '/admin/console'],
             ['title' => 'SQL access', 'filename' => 'sql', 'path' => '/admin/sql', 'feature' => 'sql'],
+            ['title' => 'Tasks', 'filename' => 'tasks', 'path' => '/admin/tasks', 'feature' => 'tasks'],
             ['title' => 'Users', 'filename' => 'elasticsearch-users', 'path' => '/admin/elasticsearch-users', 'feature' => 'security'],
             ['title' => 'Roles', 'filename' => 'elasticsearch-roles', 'path' => '/admin/elasticsearch-roles', 'feature' => 'security'],
         ];

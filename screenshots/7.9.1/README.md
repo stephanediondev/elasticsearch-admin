@@ -76,6 +76,8 @@
 
 [![SQL access](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-sql.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-sql.png)
 
+[![Tasks](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-tasks.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-tasks.png)
+
 [![Users](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-elasticsearch-users.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-elasticsearch-users.png)
 
 [![Roles](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-elasticsearch-roles.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-elasticsearch-roles.png)

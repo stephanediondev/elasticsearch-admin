@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Form\Type\ElasticsearchTaskFilterType;
 use App\Model\CallRequestModel;
+use App\Manager\ElasticsearchNodeManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +16,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchTaskController extends AbstractAppController
 {
+    public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
+    {
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+    }
+
     /**
      * @Route("/tasks", name="tasks")
      */
@@ -25,10 +32,19 @@ class ElasticsearchTaskController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
+
+        $form = $this->createForm(ElasticsearchTaskFilterType::class, null, ['node' => $nodes]);
+
+        $form->handleRequest($request);
+
         $tasks = [];
 
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_tasks');
+        if ($form->get('node')->getData()) {
+            $callRequest->setQuery(['nodes' => implode(',', $form->get('node')->getData())]);
+        }
         $callResponse = $this->callManager->call($callRequest);
         $nodes = $callResponse->getContent();
 
@@ -51,6 +67,7 @@ class ElasticsearchTaskController extends AbstractAppController
                 'page' => $request->query->get('page'),
                 'size' => 100,
             ]),
+            'form' => $form->createView(),
         ]);
     }
 
