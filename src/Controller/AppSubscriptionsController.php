@@ -77,6 +77,7 @@ class AppSubscriptionsController extends AbstractAppController
 
             $subscription = new AppSubscriptionModel();
             $subscription->setUserId($this->user->getId());
+            $subscription->setType(AppSubscriptionModel::TYPE_PUSH);
             $subscription->setEndpoint($content['endpoint']);
             $subscription->setPublicKey($content['public_key']);
             $subscription->setAuthenticationSecret($content['authentication_secret']);

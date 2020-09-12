@@ -36,6 +36,7 @@
 
                         {% block thead %}
                             <tr>
+                                <th>{{ 'type'|trans }}</th>
                                 <th>{{ 'os'|trans }}</th>
                                 <th>{{ 'client'|trans }}</th>
                                 <th>{{ 'ip'|trans }}</th>
@@ -47,6 +48,9 @@
                         {% block tbody %}
                             {% for subscription in subscriptions %}
                                 <tr>
+                                    <td>
+                                        {{ subscription.type }}
+                                    </td>
                                     <td>
                                         {{ subscription.os }}
                                     </td>

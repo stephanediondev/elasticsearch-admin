@@ -90,6 +90,9 @@ class AppManager extends AbstractAppManager
                         'user_id' => [
                             'type' => 'keyword',
                         ],
+                        'type' => [
+                            'type' => 'keyword',
+                        ],
                         'endpoint' => [
                             'type' => 'keyword',
                         ],

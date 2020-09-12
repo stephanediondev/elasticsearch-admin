@@ -6,7 +6,11 @@ use App\Model\AbstractAppModel;
 
 class AppSubscriptionModel extends AbstractAppModel
 {
+    const TYPE_PUSH = 'push';
+
     private $id;
+
+    private $type;
 
     private $userId;
 
@@ -39,6 +43,18 @@ class AppSubscriptionModel extends AbstractAppModel
     public function setId(string $id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
@@ -154,6 +170,7 @@ class AppSubscriptionModel extends AbstractAppModel
     public function convert(?array $subscription): self
     {
         $this->setId($subscription['id']);
+        $this->setType($subscription['type'] ?? 'push');
         $this->setUserId($subscription['user_id']);
         $this->setEndpoint($subscription['endpoint']);
         $this->setPublicKey($subscription['public_key']);
@@ -170,6 +187,7 @@ class AppSubscriptionModel extends AbstractAppModel
     {
         $json = [
             'user_id' => $this->getUserId(),
+            'type' => $this->getType(),
             'endpoint' => $this->getEndpoint(),
             'public_key' => $this->getPublicKey(),
             'authentication_secret' => $this->getAuthenticationSecret(),
