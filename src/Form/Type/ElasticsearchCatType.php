@@ -28,7 +28,6 @@ class ElasticsearchCatType extends AbstractType
             'count',
             'count/{index}',
             'fielddata',
-            //'fielddata/{field}',
             'health',
             'indices',
             'indices/{index}',

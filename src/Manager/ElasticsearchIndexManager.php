@@ -238,15 +238,23 @@ class ElasticsearchIndexManager extends AbstractAppManager
 
     public function selectIndices(): array
     {
+        $indices = [];
+
         $query = ['h' => 'index'];
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = 'index';
         }
-        $rows = $this->getAll($query);
+        if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
+            $query['expand_wildcards'] = 'all';
+        }
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_cat/indices');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        $rows = $callResponse->getContent();
 
-        $indices = [];
         foreach ($rows as $row) {
-            $indices[] = $row->getName();
+            $indices[] = $row['index'];
         }
 
         return $indices;
