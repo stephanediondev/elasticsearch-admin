@@ -50,7 +50,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - App roles: list, create, read, update (permissions), delete
 - Cluster: basic metrics, audit, disk thresholds, allocation explain [5.0], settings [5.0] (list, update)
 - Nodes: list, stats, reload secure settings [6.4], read, usage [6.0], plugins
-- Indices: list, stats, reindex, create, read, update (mappings), lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search by query, export (CSV, TSV, ODS, XLSX, GEOJSON), import from file (ODS, XLSX), import from database (MySQL, PostgreSQL), aliases (list, create, delete)
+- Indices: list, stats, reindex, create, read, update, lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search by query, export (CSV, TSV, ODS, XLSX, GEOJSON), import from file (ODS, XLSX), import from database (MySQL, PostgreSQL), aliases (list, create, delete)
 - Legacy index templates: list, create, read, update, delete, copy
 - Composable index templates [7.8]: list, create, read, update, delete, simulate, copy
 - Component templates [7.8]: list, create, read, update, delete, copy
