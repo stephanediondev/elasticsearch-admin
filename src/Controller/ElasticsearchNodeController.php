@@ -34,11 +34,11 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        $query = [
+        $parameters = [
             'sort' => '' != $request->query->get('sort') ? $request->query->get('sort') : 'name:asc',
             'cluster_settings' => $clusterSettings,
         ];
-        $nodes = $this->elasticsearchNodeManager->getAll($query);
+        $nodes = $this->elasticsearchNodeManager->getAll($parameters);
 
         $versions = $this->elasticsearchNodeManager->getVersions($nodes);
 
@@ -82,7 +82,10 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
-        $nodes = $this->elasticsearchNodeManager->getAll(['sort' => $request->query->get('sort', 'name:asc'), 'cluster_settings' => $clusterSettings]);
+        $parameters = [
+            'cluster_settings' => $clusterSettings,
+        ];
+        $nodes = $this->elasticsearchNodeManager->getAll($parameters);
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['nodes_total'] = 0;
