@@ -26,7 +26,7 @@
 
     {% if is_granted('SHARDS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link" href="{{ path('shards', {'index': index.name}) }}">{{ 'shards'|trans }}{{ appImport.badge({'title': index.shards, 'context': 'light'}) }}</a>
+            <a class="nav-link" href="{{ path('shards', {'index': index.name}) }}">{{ 'shards'|trans }}</a>
         </li>
     {% endif %}
 
@@ -54,7 +54,7 @@
 
     {% if is_granted('INDEX_ALIASES', index) %}
         <li class="nav-item">
-            <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index.name}) }}">{{ 'aliases'|trans }}{{ appImport.badge({'title': index.aliases|length, 'context': 'light'}) }}</a>
+            <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index.name}) }}">{{ 'aliases'|trans }}</a>
         </li>
     {% endif %}
 
