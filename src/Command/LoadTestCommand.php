@@ -23,7 +23,7 @@ class LoadTestCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Add multiple indices');
+        $this->setDescription('Add multiple indices for testing');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

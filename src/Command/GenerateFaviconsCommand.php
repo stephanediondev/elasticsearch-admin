@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Model\CallRequestModel;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

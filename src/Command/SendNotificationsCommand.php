@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Manager\AppNotificationManager;
 use App\Manager\AppSubscriptionManager;
-use App\Model\CallRequestModel;
 use Minishlink\WebPush\WebPush;
 use Minishlink\WebPush\Subscription;
 use Symfony\Component\Console\Command\Command;
@@ -27,7 +26,7 @@ class SendNotificationsCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Notify');
+        $this->setDescription('Send notifications');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -40,7 +39,7 @@ class SendNotificationsCommand extends Command
             if (0 < count($subscriptions)) {
                 $apiKeys = [
                     'VAPID' => [
-                        'subject' => 'mailto:example@example.com',
+                        'subject' => 'https://github.com/stephanediondev/elasticsearch-admin',
                         'publicKey' => $this->vapidPublicKey,
                         'privateKey' => $this->vapidPrivateKey,
                     ],
@@ -78,9 +77,9 @@ class SendNotificationsCommand extends Command
                     $endpoint = $report->getRequest()->getUri()->__toString();
 
                     if ($report->isSuccess()) {
-                        $output->writeln('[v] Message sent successfully for subscription '.$endpoint.'.');
+                        $output->writeln('<info>Message sent successfully for subscription '.$endpoint.'.</info>');
                     } else {
-                        $output->writeln('[x] Message failed to sent for subscription '.$endpoint.': '.$report->getReason());
+                        $output->writeln('<error>Message failed to sent for subscription '.$endpoint.': '.$report->getReason().'</error>');
                     }
                 }
             }

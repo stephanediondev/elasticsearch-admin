@@ -29,7 +29,7 @@ class AppUninstallCommand extends Command
 
     protected function configure()
     {
-        $this->setDescription('Add multiple indices');
+        $this->setDescription('Uninstall application');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
