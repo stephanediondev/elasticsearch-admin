@@ -64,6 +64,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$masterNode);
+        $this->assertSelectorTextSame('h2', $masterNode.' Master');
     }
 
     /**
@@ -84,6 +85,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$masterNode.' - Settings');
+        $this->assertSelectorTextSame('h2', $masterNode.' Master');
     }
 
     /**
@@ -104,6 +106,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$masterNode.' - Plugins');
+        $this->assertSelectorTextSame('h2', $masterNode.' Master');
     }
 
     /**
@@ -131,6 +134,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Nodes - '.$masterNode.' - Usage');
+            $this->assertSelectorTextSame('h2', $masterNode.' Master');
         }
     }
 }
