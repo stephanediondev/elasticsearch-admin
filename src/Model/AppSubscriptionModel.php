@@ -7,6 +7,9 @@ use App\Model\AbstractAppModel;
 class AppSubscriptionModel extends AbstractAppModel
 {
     const TYPE_PUSH = 'push';
+    const TYPE_EMAIL = 'email';
+    const TYPE_SMS = 'sms';
+    const TYPE_SLACK = 'slack';
 
     private $id;
 
@@ -170,7 +173,7 @@ class AppSubscriptionModel extends AbstractAppModel
     public function convert(?array $subscription): self
     {
         $this->setId($subscription['id']);
-        $this->setType($subscription['type'] ?? 'push');
+        $this->setType($subscription['type'] ?? self::TYPE_PUSH);
         $this->setUserId($subscription['user_id']);
         $this->setEndpoint($subscription['endpoint']);
         $this->setPublicKey($subscription['public_key']);

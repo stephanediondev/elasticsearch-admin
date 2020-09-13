@@ -130,7 +130,7 @@ class AppSubscriptionsController extends AbstractAppController
 
         $apiKeys = [
             'VAPID' => [
-                'subject' => 'mailto:example@example.com',
+                'subject' => 'https://github.com/stephanediondev/elasticsearch-admin',
                 'publicKey' => $vapidPublicKey,
                 'privateKey' => $vapidPrivateKey,
             ],
@@ -158,7 +158,7 @@ class AppSubscriptionsController extends AbstractAppController
                     'contentEncoding' => $contentEncoding,
                 ]);
 
-                $webPush->sendNotification($subcription, json_encode($payload), false);
+                $webPush->queueNotification($subcription, json_encode($payload));
             }
         }
 

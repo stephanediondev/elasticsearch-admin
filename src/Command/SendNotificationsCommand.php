@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Manager\AppNotificationManager;
 use App\Manager\AppSubscriptionManager;
+use App\Model\AppSubscriptionModel;
 use Minishlink\WebPush\WebPush;
 use Minishlink\WebPush\Subscription;
 use Symfony\Component\Console\Command\Command;
@@ -47,28 +48,32 @@ class SendNotificationsCommand extends Command
 
                 $webPush = new WebPush($apiKeys);
 
-                foreach ($subscriptions as $subscription) {
-                    $publicKey = $subscription->getPublicKey();
-                    $authenticationSecret = $subscription->getAuthenticationSecret();
-                    $contentEncoding = $subscription->getContentEncoding();
+                foreach ($notifications as $notification) {
+                    foreach ($subscriptions as $subscription) {
+                        switch ($subscription->getType()) {
+                            case AppSubscriptionModel::TYPE_PUSH:
+                                $publicKey = $subscription->getPublicKey();
+                                $authenticationSecret = $subscription->getAuthenticationSecret();
+                                $contentEncoding = $subscription->getContentEncoding();
 
-                    if ($publicKey && $authenticationSecret && $contentEncoding) {
-                        foreach ($notifications as $notification) {
-                            $payload = [
-                                'tag' => uniqid('', true),
-                                'title' => $notification->getTitle(),
-                                'body' => $notification->getBody(),
-                                'icon' => $notification->getIcon(),
-                            ];
+                                if ($publicKey && $authenticationSecret && $contentEncoding) {
+                                    $payload = [
+                                        'tag' => uniqid('', true),
+                                        'title' => $notification->getTitle(),
+                                        'body' => $notification->getBody(),
+                                        'icon' => $notification->getIcon(),
+                                    ];
 
-                            $subcription = Subscription::create([
-                                'endpoint' => $subscription->getEndpoint(),
-                                'publicKey' => $publicKey,
-                                'authToken' => $authenticationSecret,
-                                'contentEncoding' => $contentEncoding,
-                            ]);
+                                    $subscription = Subscription::create([
+                                        'endpoint' => $subscription->getEndpoint(),
+                                        'publicKey' => $publicKey,
+                                        'authToken' => $authenticationSecret,
+                                        'contentEncoding' => $contentEncoding,
+                                    ]);
 
-                            $webPush->sendNotification($subcription, json_encode($payload), false);
+                                    $webPush->queueNotification($subscription, json_encode($payload));
+                                }
+                                break;
                         }
                     }
                 }

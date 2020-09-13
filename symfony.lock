@@ -2,6 +2,9 @@
     "box/spout": {
         "version": "v3.1.0"
     },
+    "brick/math": {
+        "version": "0.9.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -44,9 +47,6 @@
     "nikic/php-parser": {
         "version": "v4.3.0"
     },
-    "paragonie/sodium_compat": {
-        "version": "v1.13.0"
-    },
     "php": {
         "version": "7.4"
     },
@@ -61,6 +61,12 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-client": {
+        "version": "1.0.1"
+    },
+    "psr/http-factory": {
+        "version": "1.0.1"
     },
     "psr/http-message": {
         "version": "1.0.1"
@@ -262,9 +268,6 @@
     "symfony/polyfill-intl-icu": {
         "version": "v1.14.0"
     },
-    "symfony/polyfill-intl-idn": {
-        "version": "v1.18.1"
-    },
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.14.0"
     },
@@ -450,18 +453,6 @@
     },
     "web-token/jwt-signature-algorithm-ecdsa": {
         "version": "v2.2.2"
-    },
-    "web-token/jwt-signature-algorithm-eddsa": {
-        "version": "v1.3.10"
-    },
-    "web-token/jwt-signature-algorithm-hmac": {
-        "version": "v1.3.10"
-    },
-    "web-token/jwt-signature-algorithm-none": {
-        "version": "v1.3.10"
-    },
-    "web-token/jwt-signature-algorithm-rsa": {
-        "version": "v1.3.10"
     },
     "web-token/jwt-util-ecc": {
         "version": "v2.2.2"
