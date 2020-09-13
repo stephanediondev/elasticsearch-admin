@@ -13,24 +13,25 @@ class ElasticsearchSnapshotModelTest extends TestCase
         $snapshot->setName('name');
         $snapshot->setRepository('repository');
 
-        $snapshot->setIndices([]);
+        $snapshot->setIndices(['indices']);
 
         $snapshot->setIgnoreUnavailable(true);
         $snapshot->setPartial(true);
         $snapshot->setIncludeGlobalState(true);
         $snapshot->setVersion('version');
-        $snapshot->setFailures([]);
+        $snapshot->setFailures(['failures']);
         $snapshot->setState('state');
         $snapshot->setStartTime('start-time');
         $snapshot->setEndTime('end-time');
         $snapshot->setDuration('duration');
-        $snapshot->setMetadata([]);
+        $snapshot->setMetadata(['metadata']);
 
         $this->assertEquals($snapshot->getName(), 'name');
+        $this->assertEquals(strval($snapshot), 'name');
 
         $this->assertEquals($snapshot->getRepository(), 'repository');
 
-        $this->assertEquals($snapshot->getIndices(), []);
+        $this->assertEquals($snapshot->getIndices(), ['indices']);
         $this->assertIsArray($snapshot->getIndices());
 
         $this->assertEquals($snapshot->getIgnoreUnavailable(), true);
@@ -44,7 +45,7 @@ class ElasticsearchSnapshotModelTest extends TestCase
 
         $this->assertEquals($snapshot->getVersion(), 'version');
 
-        $this->assertEquals($snapshot->getFailures(), []);
+        $this->assertEquals($snapshot->getFailures(), ['failures']);
         $this->assertIsArray($snapshot->getFailures());
 
         $this->assertEquals($snapshot->getState(), 'state');
@@ -52,7 +53,7 @@ class ElasticsearchSnapshotModelTest extends TestCase
         $this->assertEquals($snapshot->getEndTime(), 'end-time');
         $this->assertEquals($snapshot->getDuration(), 'duration');
 
-        $this->assertEquals($snapshot->getMetadata(), []);
+        $this->assertEquals($snapshot->getMetadata(), ['metadata']);
         $this->assertIsArray($snapshot->getMetadata());
     }
 }

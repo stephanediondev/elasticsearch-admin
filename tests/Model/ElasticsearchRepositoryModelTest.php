@@ -13,7 +13,7 @@ class ElasticsearchRepositoryModelTest extends TestCase
         $repository->setName('name');
         $repository->setType('type');
 
-        $repository->setSettings([]);
+        $repository->setSettings(['settings']);
 
         $repository->setVerify(true);
 
@@ -35,10 +35,11 @@ class ElasticsearchRepositoryModelTest extends TestCase
         $repository->setAwsAccount('aws-account');
 
         $this->assertEquals($repository->getName(), 'name');
+        $this->assertEquals(strval($repository), 'name');
 
         $this->assertEquals($repository->getType(), 'type');
 
-        $this->assertEquals($repository->getSettings(), []);
+        $this->assertEquals($repository->getSettings(), ['settings']);
         $this->assertIsArray($repository->getSettings());
 
         $this->assertEquals($repository->getVerify(), true);

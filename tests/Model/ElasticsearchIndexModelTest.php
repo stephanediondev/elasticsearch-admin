@@ -25,12 +25,14 @@ class ElasticsearchIndexModelTest extends TestCase
         $index->setSettings([]);
         $index->setSetting('setting-key', 'setting-value');
         $index->setMappings('');
-        $index->setMappings([]);
+        $index->setMappings(['mappings']);
         $index->setMappingsFlat(['mapping-field' => ['type' => 'mapping-type']]);
         $index->setAliases('');
-        $index->setAliases([]);
+        $index->setAliases(['aliases']);
 
         $this->assertEquals($index->getName(), 'name');
+        $this->assertEquals(strval($index), 'name');
+
         $this->assertEquals($index->getStatus(), 'status');
         $this->assertEquals($index->getHealth(), 'health');
         $this->assertEquals($index->getFrozen(), 'frozen');
@@ -62,7 +64,7 @@ class ElasticsearchIndexModelTest extends TestCase
         $this->assertIsArray($index->getSettings());
         $this->assertEquals($index->getSetting('setting-key'), 'setting-value');
 
-        $this->assertEquals($index->getMappings(), []);
+        $this->assertEquals($index->getMappings(), ['mappings']);
         $this->assertIsArray($index->getMappings());
 
         $this->assertEquals($index->getMappingsFlat(), ['mapping-field' => ['type' => 'mapping-type']]);
@@ -73,7 +75,7 @@ class ElasticsearchIndexModelTest extends TestCase
         $this->assertEquals($index->hasMappingType('mapping-type'), true);
         $this->assertEquals($index->hasMappingType('mapping-fail'), false);
 
-        $this->assertEquals($index->getAliases(), []);
+        $this->assertEquals($index->getAliases(), ['aliases']);
         $this->assertIsArray($index->getAliases());
 
         $index->setName('.name');

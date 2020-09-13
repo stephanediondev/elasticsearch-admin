@@ -20,10 +20,10 @@ class ElasticsearchSlmModelTest extends TestCase
         $policy->setPartial(true);
         $policy->setIncludeGlobalState(true);
 
-        $policy->setIndices([]);
-        $policy->setLastSuccess([]);
-        $policy->setLastFailure([]);
-        $policy->setStats([]);
+        $policy->setIndices(['indices']);
+        $policy->setLastSuccess(['lastsuccess']);
+        $policy->setLastFailure(['lastfailure']);
+        $policy->setStats(['stats']);
 
         $policy->setMinCount(1);
         $policy->setMaxCount(2);
@@ -32,6 +32,8 @@ class ElasticsearchSlmModelTest extends TestCase
         $policy->setModifiedDate(5);
 
         $this->assertEquals($policy->getName(), 'name');
+        $this->assertEquals(strval($policy), 'name');
+
         $this->assertEquals($policy->getSnapshotName(), 'snapshot-name');
         $this->assertEquals($policy->getRepository(), 'repository');
         $this->assertEquals($policy->getSchedule(), 'schedule');
@@ -46,16 +48,16 @@ class ElasticsearchSlmModelTest extends TestCase
         $this->assertEquals($policy->getIncludeGlobalState(), true);
         $this->assertIsBool($policy->getIncludeGlobalState());
 
-        $this->assertEquals($policy->getIndices(), []);
+        $this->assertEquals($policy->getIndices(), ['indices']);
         $this->assertIsArray($policy->getIndices());
 
-        $this->assertEquals($policy->getLastSuccess(), []);
+        $this->assertEquals($policy->getLastSuccess(), ['lastsuccess']);
         $this->assertIsArray($policy->getLastSuccess());
 
-        $this->assertEquals($policy->getLastFailure(), []);
+        $this->assertEquals($policy->getLastFailure(), ['lastfailure']);
         $this->assertIsArray($policy->getLastFailure());
 
-        $this->assertEquals($policy->getStats(), []);
+        $this->assertEquals($policy->getStats(), ['stats']);
         $this->assertIsArray($policy->getStats());
 
         $this->assertEquals($policy->getMinCount(), 1);

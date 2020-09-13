@@ -18,11 +18,12 @@ class ElasticsearchIndexTemplateLegacyModelTest extends TestCase
         $template->setSettings([]);
         $template->setSetting('setting-key', 'setting-value');
         $template->setMappings('');
-        $template->setMappings([]);
+        $template->setMappings(['mappings']);
         $template->setAliases('');
-        $template->setAliases([]);
+        $template->setAliases(['aliases']);
 
         $this->assertEquals($template->getName(), 'name');
+        $this->assertEquals(strval($template), 'name');
 
         $this->assertEquals($template->getIndexPatterns(), 'index-patterns');
 
@@ -36,10 +37,10 @@ class ElasticsearchIndexTemplateLegacyModelTest extends TestCase
         $this->assertIsArray($template->getSettings());
         $this->assertEquals($template->getSetting('setting-key'), 'setting-value');
 
-        $this->assertEquals($template->getMappings(), []);
+        $this->assertEquals($template->getMappings(), ['mappings']);
         $this->assertIsArray($template->getMappings());
 
-        $this->assertEquals($template->getAliases(), []);
+        $this->assertEquals($template->getAliases(), ['aliases']);
         $this->assertIsArray($template->getAliases());
 
         $this->assertEquals($template->isSystem(), false);

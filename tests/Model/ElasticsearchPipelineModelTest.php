@@ -14,21 +14,22 @@ class ElasticsearchPipelineModelTest extends TestCase
         $pipeline->setVersion(1);
         $pipeline->setDescription('description');
         $pipeline->setProcessors('');
-        $pipeline->setProcessors([]);
+        $pipeline->setProcessors(['processors']);
         $pipeline->setOnFailure('');
-        $pipeline->setOnFailure([]);
+        $pipeline->setOnFailure(['onfailure']);
 
         $this->assertEquals($pipeline->getName(), 'name');
+        $this->assertEquals(strval($pipeline), 'name');
 
         $this->assertEquals($pipeline->getVersion(), 1);
         $this->assertIsInt($pipeline->getVersion());
 
         $this->assertEquals($pipeline->getDescription(), 'description');
 
-        $this->assertEquals($pipeline->getProcessors(), []);
+        $this->assertEquals($pipeline->getProcessors(), ['processors']);
         $this->assertIsArray($pipeline->getProcessors());
 
-        $this->assertEquals($pipeline->getOnFailure(), []);
+        $this->assertEquals($pipeline->getOnFailure(), ['onfailure']);
         $this->assertIsArray($pipeline->getOnFailure());
 
         $pipeline->setName('.name');

@@ -19,4 +19,9 @@ class ElasticsearchIndexAliasModel extends AbstractAppModel
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

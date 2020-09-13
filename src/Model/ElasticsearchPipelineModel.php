@@ -119,4 +119,9 @@ class ElasticsearchPipelineModel extends AbstractAppModel
 
         return $json;
     }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 }

@@ -198,4 +198,9 @@ class AppUserModel implements UserInterface
 
         return $json;
     }
+
+    public function __toString(): string
+    {
+        return $this->email;
+    }
 }

@@ -18,15 +18,16 @@ class ElasticsearchIndexTemplateModelTest extends TestCase
         $template->setSettings([]);
         $template->setSetting('setting-key', 'setting-value');
         $template->setMappings('');
-        $template->setMappings([]);
+        $template->setMappings(['mappings']);
         $template->setAliases('');
-        $template->setAliases([]);
+        $template->setAliases(['aliases']);
         $template->setMetadata('');
-        $template->setMetadata([]);
-        $template->setComposedOf([]);
+        $template->setMetadata(['metadata']);
+        $template->setComposedOf(['composedof']);
         $template->setDataStream(true);
 
         $this->assertEquals($template->getName(), 'name');
+        $this->assertEquals(strval($template), 'name');
 
         $this->assertEquals($template->getIndexPatterns(), 'index-patterns');
 
@@ -40,16 +41,16 @@ class ElasticsearchIndexTemplateModelTest extends TestCase
         $this->assertIsArray($template->getSettings());
         $this->assertEquals($template->getSetting('setting-key'), 'setting-value');
 
-        $this->assertEquals($template->getMappings(), []);
+        $this->assertEquals($template->getMappings(), ['mappings']);
         $this->assertIsArray($template->getMappings());
 
-        $this->assertEquals($template->getAliases(), []);
+        $this->assertEquals($template->getAliases(), ['aliases']);
         $this->assertIsArray($template->getAliases());
 
-        $this->assertEquals($template->getMetadata(), []);
+        $this->assertEquals($template->getMetadata(), ['metadata']);
         $this->assertIsArray($template->getMetadata());
 
-        $this->assertEquals($template->getComposedOf(), []);
+        $this->assertEquals($template->getComposedOf(), ['composedof']);
         $this->assertIsArray($template->getComposedOf());
 
         $this->assertEquals($template->getDataStream(), true);

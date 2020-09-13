@@ -13,34 +13,35 @@ class ElasticsearchIlmModelTest extends TestCase
         $policy->setName('name');
         $policy->setVersion(1);
         $policy->setPhases('');
-        $policy->setPhases([]);
+        $policy->setPhases(['phases']);
         $policy->setHot('');
-        $policy->setHot([]);
+        $policy->setHot(['hot']);
         $policy->setWarm('');
-        $policy->setWarm([]);
+        $policy->setWarm(['warm']);
         $policy->setCold('');
-        $policy->setCold([]);
+        $policy->setCold(['cold']);
         $policy->setDelete('');
-        $policy->setDelete([]);
+        $policy->setDelete(['delete']);
 
         $this->assertEquals($policy->getName(), 'name');
+        $this->assertEquals(strval($policy), 'name');
 
         $this->assertEquals($policy->getVersion(), 1);
         $this->assertIsInt($policy->getVersion());
 
-        $this->assertEquals($policy->getPhases(), []);
+        $this->assertEquals($policy->getPhases(), ['phases']);
         $this->assertIsArray($policy->getPhases());
 
-        $this->assertEquals($policy->getHot(), []);
+        $this->assertEquals($policy->getHot(), ['hot']);
         $this->assertIsArray($policy->getHot());
 
-        $this->assertEquals($policy->getWarm(), []);
+        $this->assertEquals($policy->getWarm(), ['warm']);
         $this->assertIsArray($policy->getWarm());
 
-        $this->assertEquals($policy->getCold(), []);
+        $this->assertEquals($policy->getCold(), ['cold']);
         $this->assertIsArray($policy->getCold());
 
-        $this->assertEquals($policy->getDelete(), []);
+        $this->assertEquals($policy->getDelete(), ['delete']);
         $this->assertIsArray($policy->getDelete());
 
         $policy->setName('.name');
