@@ -21,11 +21,41 @@
                 {% embed 'Embed/buttons_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalSubscribeSlack">
+                            {{ 'subscribe_slack'|trans }}
+                        </button>
+
+                        <div class="modal fade" id="modalSubscribeSlack" tabindex="-1" role="dialog" aria-labelledby="modalLabelSubscribeSlack" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <form action="#" id="subscribe-slack">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabelSubscribeSlack">{{ 'subscribe_slack'|trans }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-left">
+                                            <div class="form-group mb-3">
+                                            <label class="form-label required" for="slack_endpoint">{{ 'url'|trans }}</label>
+                                            <input type="text" id="slack_endpoint" name="slack_endpoint" required="required" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         <a href="#" class="btn btn-primary btn-sm d-none" id="subscribe-button">
-                            {{ 'subscribe'|trans }}
+                            {{ 'subscribe_push'|trans }}
                         </a>
+
                         <a href="{{ path('app_subscriptions_test') }}" class="btn btn-primary btn-sm d-none" id="test-notification-push">
-                            {{ 'test'|trans }}
+                            {{ 'test_push'|trans }}
                         </a>
                     {% endblock %}
                 {% endembed %}
@@ -99,16 +129,21 @@
             return outputArray;
         }
 
-        function createSubscription(PushSubscription) {
+        function createSubscriptionPush(PushSubscription) {
             var toJSON = PushSubscription.toJSON();
 
             var data = {
-                endpoint: PushSubscription.endpoint,
-                public_key: toJSON.keys.p256dh,
-                authentication_secret: toJSON.keys.auth,
-                content_encoding: (PushManager.supportedContentEncodings || ['aesgcm'])[0]
+                'type': 'push',
+                'endpoint': PushSubscription.endpoint,
+                'public_key': toJSON.keys.p256dh,
+                'authentication_secret': toJSON.keys.auth,
+                'content_encoding': (PushManager.supportedContentEncodings || ['aesgcm'])[0]
             };
 
+            sendSubscription(data);
+        }
+
+        function sendSubscription(data) {
             var url = '{{ path('app_subscriptions_create') }}';
             fetch(url, {
                 credentials: 'include',
@@ -165,7 +200,7 @@
                                 });
 
                                 if (false == found) {
-                                    createSubscription(PushSubscription);
+                                    createSubscriptionPush(PushSubscription);
                                 }
                             } else {
                                 $('#subscribe-button').removeClass('d-none');
@@ -188,7 +223,7 @@
                                 .then(function(PushSubscription) {
 
                                     if (PushSubscription && 'object' === typeof PushSubscription) {
-                                        createSubscription(PushSubscription);
+                                        createSubscriptionPush(PushSubscription);
                                     }
                                 });
                             }
@@ -241,6 +276,18 @@
                 event.preventDefault();
                 testNotification($(this).attr('href'));
             });
+
+            $(document).on('submit', '#subscribe-slack', function(event) {
+                event.preventDefault();
+
+                var data = {
+                    'type': 'slack',
+                    'endpoint': $('#slack_endpoint').val(),
+                };
+
+                sendSubscription(data);
+            });
+
         });
     </script>
     {% endif %}
