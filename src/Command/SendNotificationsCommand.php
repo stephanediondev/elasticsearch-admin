@@ -85,7 +85,7 @@ class SendNotificationsCommand extends Command
                                             'text' => $notification->getTitle()."\r\n".$notification->getBody(),
                                         ],
                                     ];
-                                    $response = $this->client->request('POST', $subscription->getEndpoint(), $options);
+                                    $this->client->request('POST', $subscription->getEndpoint(), $options);
                                 } catch (TransportException $e) {
                                     $output->writeln('<error>Message failed to sent for subscription '.$subscription->getEndpoint().': '.$e->getMessage().'</error>');
                                 }
