@@ -10,6 +10,7 @@ class AppSubscriptionModel extends AbstractAppModel
     const TYPE_EMAIL = 'email';
     const TYPE_SMS = 'sms';
     const TYPE_SLACK = 'slack';
+    const TYPE_TEAMS = 'teams';
 
     private $id;
 

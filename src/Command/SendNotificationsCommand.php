@@ -90,6 +90,22 @@ class SendNotificationsCommand extends Command
                                     $output->writeln('<error>Message failed to sent for subscription '.$subscription->getEndpoint().': '.$e->getMessage().'</error>');
                                 }
                                 break;
+
+                            case AppSubscriptionModel::TYPE_TEAMS:
+                                try {
+                                    $options = [
+                                        'json' => [
+                                            '@context' => 'https://schema.org/extensions',
+                                            '@type' => 'MessageCard',
+                                            'title' => $notification->getTitle(),
+                                            'text' => $notification->getBody(),
+                                        ],
+                                    ];
+                                    $this->client->request('POST', $subscription->getEndpoint(), $options);
+                                } catch (TransportException $e) {
+                                    $output->writeln('<error>Message failed to sent for subscription '.$subscription->getEndpoint().': '.$e->getMessage().'</error>');
+                                }
+                                break;
                         }
                     }
                 }

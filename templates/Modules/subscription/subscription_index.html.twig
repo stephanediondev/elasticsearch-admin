@@ -50,6 +50,35 @@
                             </div>
                         </div>
 
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalSubscribeTeams">
+                            {{ 'subscribe_teams'|trans }}
+                        </button>
+
+                        <div class="modal fade" id="modalSubscribeTeams" tabindex="-1" role="dialog" aria-labelledby="modalLabelSubscribeTeams" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <form action="#" id="subscribe-teams">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabelSubscribeTeams">{{ 'subscribe_teams'|trans }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-left">
+                                            <div class="form-group mb-3">
+                                            <label class="form-label required" for="teams_endpoint">{{ 'url'|trans }}</label>
+                                            <input type="text" id="teams_endpoint" name="teams_endpoint" required="required" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         <a href="#" class="btn btn-primary btn-sm d-none" id="subscribe-button">
                             {{ 'subscribe_push'|trans }}
                         </a>
@@ -288,6 +317,16 @@
                 sendSubscription(data);
             });
 
+            $(document).on('submit', '#subscribe-teams', function(event) {
+                event.preventDefault();
+
+                var data = {
+                    'type': 'teams',
+                    'endpoint': $('#teams_endpoint').val(),
+                };
+
+                sendSubscription(data);
+            });
         });
     </script>
     {% endif %}
