@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'index_templates_legacy'|trans }} - {{ template.name }} - {{ 'settings'|trans }}{% endblock %}
+{% block head_title %}{{ 'nodes'|trans }} - {{ node.name }} - {{ 'settings'|trans }}{% endblock %}
 
 {% block heading_1 %}
-    {{ appImport.heading({'level': 1, 'title': 'index_templates_legacy'|trans, 'link': {'url': path('index_templates_legacy')}}) }}
+    {{ appImport.heading({'level': 1, 'title': 'nodes'|trans, 'link': {'url': path('nodes')}}) }}
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': template.name}) }}
+    {{ appImport.heading({'level': 2, 'title': node.name}) }}
 {% endblock %}
 
 {% block tabs %}
-    {% include 'Modules/index_template_legacy/index_template_legacy_read_tabs.html.twig' with {'active': 'settings'} %}
+    {% include 'Modules/node/node_read_tabs.html.twig' with {'active': 'settings'} %}
 {% endblock %}
 
 {% block main_content %}
@@ -21,7 +21,7 @@
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'settings'|trans}) }}
 
-            {% if template.settings %}
+            {% if node.settings %}
                 {% embed 'Embed/table_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
 
@@ -33,7 +33,7 @@
                     {% endblock %}
 
                     {% block tbody %}
-                        {% for key, value in template.settings %}
+                        {% for key, value in node.settings %}
                             <tr>
                                 <td>{{ key }}</td>
                                 <td>

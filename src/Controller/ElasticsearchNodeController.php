@@ -247,6 +247,24 @@ class ElasticsearchNodeController extends AbstractAppController
     }
 
     /**
+     * @Route("/nodes/{node}/settings", name="nodes_read_settings")
+     */
+    public function readSettings(Request $request, string $node): Response
+    {
+        $node = $this->elasticsearchNodeManager->getByName($node);
+
+        if (null === $node) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('NODE_SETTINGS', $node);
+
+        return $this->renderAbstract($request, 'Modules/node/node_read_settings.html.twig', [
+            'node' => $node,
+        ]);
+    }
+
+    /**
      * @Route("/nodes/{node}/plugins", name="nodes_read_plugins")
      */
     public function readPlugins(Request $request, string $node): Response

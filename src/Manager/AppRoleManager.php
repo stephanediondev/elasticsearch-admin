@@ -83,7 +83,7 @@ class AppRoleManager extends AbstractAppManager
             'DATA_STREAM_STATS', 'DATA_STREAM_DELETE',
         ],
         'node' => [
-            'NODE_PLUGINS', 'NODE_USAGE',
+            'NODE_SETTINGS', 'NODE_PLUGINS', 'NODE_USAGE',
         ],
         'pipeline' => [
             'PIPELINE_UPDATE', 'PIPELINE_DELETE', 'PIPELINE_COPY',

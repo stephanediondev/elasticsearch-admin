@@ -15,6 +15,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_nodes/'.$name);
+        $callRequest->setQuery(['flat_settings' => 'true']);
         $callResponse = $this->callManager->call($callRequest);
         $node = $callResponse->getContent();
 
@@ -70,7 +71,10 @@ class ElasticsearchNodeManager extends AbstractAppManager
 
         $nodes = [];
 
-        $query = ['bytes' => 'b', 'h' => 'name,file_desc.max,file_desc.current,file_desc.percent,node.role,jdk,load_1m,load_5m,load_15m,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,disk.avail,ram.current,ram.max,heap.percent,heap.max,heap.current'];
+        $query = [
+            'bytes' => 'b',
+            'h' => 'name,file_desc.max,file_desc.current,file_desc.percent,node.role,jdk,load_1m,load_5m,load_15m,disk.used_percent,ram.percent,cpu,uptime,master,disk.total,disk.used,disk.avail,ram.current,ram.max,heap.percent,heap.max,heap.current',
+        ];
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = $parameters['sort'];
         }

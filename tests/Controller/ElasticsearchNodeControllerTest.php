@@ -67,6 +67,26 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     }
 
     /**
+     * @Route("/nodes/{node}/settings", name="nodes_read_settings")
+     */
+    public function testReadSettings404()
+    {
+        $this->client->request('GET', '/admin/nodes/'.uniqid().'/settings');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testReadSettings()
+    {
+        $masterNode = $this->callManager->getMasterNode();
+
+        $this->client->request('GET', '/admin/nodes/'.$masterNode.'/settings');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Nodes - '.$masterNode.' - Settings');
+    }
+
+    /**
      * @Route("/nodes/{node}/plugins", name="nodes_read_plugins")
      */
     public function testReadPlugins404()
