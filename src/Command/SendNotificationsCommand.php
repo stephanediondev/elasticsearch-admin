@@ -10,17 +10,20 @@ use Minishlink\WebPush\Subscription;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\HttpClient\Exception\TransportException;
 
 class SendNotificationsCommand extends Command
 {
     protected static $defaultName = 'app:send-notifications';
 
-    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, string $vapidPublicKey, string $vapidPrivateKey)
+    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, string $vapidPublicKey, string $vapidPrivateKey, HttpClientInterface $client)
     {
         $this->appSubscriptionManager = $appSubscriptionManager;
         $this->appNotificationManager = $appNotificationManager;
         $this->vapidPublicKey = $vapidPublicKey;
         $this->vapidPrivateKey = $vapidPrivateKey;
+        $this->client = $client;
 
         parent::__construct();
     }
@@ -72,6 +75,19 @@ class SendNotificationsCommand extends Command
                                     ]);
 
                                     $webPush->queueNotification($subscription, json_encode($payload));
+                                }
+                                break;
+
+                            case AppSubscriptionModel::TYPE_SLACK:
+                                try {
+                                    $options = [
+                                        'json' => [
+                                            'text' => $notification->getTitle()."\r\n".$notification->getBody(),
+                                        ],
+                                    ];
+                                    $response = $this->client->request('POST', $subscription->getEndpoint(), $options);
+                                } catch (TransportException $e) {
+                                    $output->writeln('<error>Message failed to sent for subscription '.$subscription->getEndpoint().': '.$e->getMessage().'</error>');
                                 }
                                 break;
                         }

@@ -176,9 +176,15 @@ class AppSubscriptionModel extends AbstractAppModel
         $this->setType($subscription['type'] ?? self::TYPE_PUSH);
         $this->setUserId($subscription['user_id']);
         $this->setEndpoint($subscription['endpoint']);
-        $this->setPublicKey($subscription['public_key']);
-        $this->setAuthenticationSecret($subscription['authentication_secret']);
-        $this->setContentEncoding($subscription['content_encoding']);
+        if (true === isset($subscription['public_key'])) {
+            $this->setPublicKey($subscription['public_key']);
+        }
+        if (true === isset($subscription['authentication_secret'])) {
+            $this->setAuthenticationSecret($subscription['authentication_secret']);
+        }
+        if (true === isset($subscription['content_encoding'])) {
+            $this->setContentEncoding($subscription['content_encoding']);
+        }
         $this->setIp($subscription['ip']);
         $this->setOs($subscription['os']);
         $this->setClient($subscription['client']);
