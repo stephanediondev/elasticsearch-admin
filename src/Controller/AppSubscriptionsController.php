@@ -69,6 +69,12 @@ class AppSubscriptionsController extends AbstractAppController
         }
 
         if (AppSubscriptionModel::TYPE_PUSH == $type) {
+            if (false == $request->isSecure()) {
+                $this->addFlash('warning', 'Push API available only with HTTPS');
+
+                throw new AccessDeniedException();
+            }
+
             if ('' == $this->vapidPublicKey || '' == $this->vapidPrivateKey) {
                 $this->addFlash('warning', 'Run bin/console app:generate-vapid');
                 $this->addFlash('warning', 'Edit VAPID_PUBLIC_KEY and VAPID_PRIVATE_KEY in .env file');

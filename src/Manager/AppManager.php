@@ -114,6 +114,9 @@ class AppManager extends AbstractAppManager
                         'client' => [
                             'type' => 'keyword',
                         ],
+                        'notifications' => [
+                            'type' => 'keyword',
+                        ],
                         'created_at' => [
                             'type' => 'date',
                             'format' => 'yyyy-MM-dd HH:mm:ss',

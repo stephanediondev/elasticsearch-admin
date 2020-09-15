@@ -19,7 +19,7 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->client = static::createClient();
+        $this->client = static::createClient([], ['HTTPS' => true]);
 
         $this->callManager = self::$container->get('App\Manager\CallManager');
 
