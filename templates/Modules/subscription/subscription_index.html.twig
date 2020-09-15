@@ -82,10 +82,6 @@
                         <a href="#" class="btn btn-primary btn-sm d-none" id="subscribe-button">
                             {{ 'subscribe_push'|trans }}
                         </a>
-
-                        <a href="{{ path('app_subscriptions_test') }}" class="btn btn-primary btn-sm d-none" id="test-notification-push">
-                            {{ 'test_push'|trans }}
-                        </a>
                     {% endblock %}
                 {% endembed %}
 
@@ -126,9 +122,15 @@
                                         <a href="{{ path('app_subscriptions_delete', {'id': subscription.id}) }}" class="btn btn-primary btn-sm delete-button">
                                             {{ 'delete'|trans }}
                                         </a>
-                                        <a data-endpoint="{{ subscription.endpoint }}" href="{{ path('app_subscriptions_delete', {'id': subscription.id}) }}" class="btn btn-primary btn-sm d-none unsubscribe-button">
-                                            {{ 'unsubscribe'|trans }}
-                                        </a>
+                                        {% if 'push' == subscription.type %}
+                                            <a data-endpoint="{{ subscription.endpoint }}" href="{{ path('app_subscriptions_delete', {'id': subscription.id}) }}" class="btn btn-primary btn-sm d-none unsubscribe-button">
+                                                {{ 'unsubscribe'|trans }}
+                                            </a>
+
+                                            <a href="{{ path('app_subscriptions_test', {'id': subscription.id}) }}" class="btn btn-primary btn-sm test-notification-push">
+                                                {{ 'test'|trans }}
+                                            </a>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -197,9 +199,14 @@
                 credentials: 'include',
                 method: 'GET',
                 mode: 'cors',
-            })
-            .then(function() {
-                createToast('Sent');
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                if ('undefined' !== typeof json.message) {
+                    createToast(json.message);
+                } else {
+                    createToast('Sent');
+                }
             })
             .catch(function(error) {
                 console.log(error);
@@ -224,7 +231,6 @@
                                         found = true;
                                         unsubscribeButton.removeClass('d-none');
                                         deleteButton.addClass('d-none');
-                                        $('#test-notification-push').removeClass('d-none');
                                     }
                                 });
 
@@ -301,7 +307,7 @@
                 deleteSubscription($(this).attr('href'));
             });
 
-            $(document).on('click', '#test-notification-push', function(event) {
+            $(document).on('click', '.test-notification-push', function(event) {
                 event.preventDefault();
                 testNotification($(this).attr('href'));
             });

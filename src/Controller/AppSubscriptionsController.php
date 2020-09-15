@@ -97,7 +97,7 @@ class AppSubscriptionsController extends AbstractAppController
     }
 
     /**
-     * @Route("/subscriptions/delete/{id}", name="app_subscriptions_delete")
+     * @Route("/subscriptions/{id}/delete", name="app_subscriptions_delete")
      */
     public function delete(Request $request, string $id): Response
     {
@@ -117,54 +117,60 @@ class AppSubscriptionsController extends AbstractAppController
     }
 
     /**
-     * @Route("/subscriptions/test", name="app_subscriptions_test")
+     * @Route("/subscriptions/{id}/test", name="app_subscriptions_test")
      */
-    public function test(Request $request, string $vapidPublicKey, string $vapidPrivateKey): JsonResponse
+    public function test(Request $request, string $id, string $vapidPublicKey, string $vapidPrivateKey): JsonResponse
     {
         $this->denyAccessUnlessGranted('APP_SUBSCRIPTIONS', 'global');
 
-        $json = [];
+        $subscription = $this->appSubscriptionManager->getById($id);
 
-        $query = [
-            'q' => 'user_id:"'.$this->user->getId().'"',
-        ];
-        $subscriptions = $this->appSubscriptionManager->getAll($query);
-
-        $apiKeys = [
-            'VAPID' => [
-                'subject' => 'https://github.com/stephanediondev/elasticsearch-admin',
-                'publicKey' => $vapidPublicKey,
-                'privateKey' => $vapidPrivateKey,
-            ],
-        ];
-
-        $webPush = new WebPush($apiKeys);
-
-        foreach ($subscriptions as $subscription) {
-            $publicKey = $subscription->getPublicKey();
-            $authenticationSecret = $subscription->getAuthenticationSecret();
-            $contentEncoding = $subscription->getContentEncoding();
-
-            if ($publicKey && $authenticationSecret && $contentEncoding) {
-                $payload = [
-                    'tag' => uniqid('', true),
-                    'title' => 'test',
-                    'body' => 'test',
-                    'icon' => 'favicon-green-144.png',
-                ];
-
-                $subcription = Subscription::create([
-                    'endpoint' => $subscription->getEndpoint(),
-                    'publicKey' => $publicKey,
-                    'authToken' => $authenticationSecret,
-                    'contentEncoding' => $contentEncoding,
-                ]);
-
-                $webPush->queueNotification($subcription, json_encode($payload));
-            }
+        if (null === $subscription) {
+            throw new NotFoundHttpException();
         }
 
-        foreach ($webPush->flush() as $report) {
+        $json = [];
+
+        switch ($subscription->getType()) {
+            case AppSubscriptionModel::TYPE_PUSH:
+                $apiKeys = [
+                    'VAPID' => [
+                        'subject' => 'https://github.com/stephanediondev/elasticsearch-admin',
+                        'publicKey' => $vapidPublicKey,
+                        'privateKey' => $vapidPrivateKey,
+                    ],
+                ];
+
+                $webPush = new WebPush($apiKeys);
+
+                $publicKey = $subscription->getPublicKey();
+                $authenticationSecret = $subscription->getAuthenticationSecret();
+                $contentEncoding = $subscription->getContentEncoding();
+
+                if ($publicKey && $authenticationSecret && $contentEncoding) {
+                    $payload = [
+                        'tag' => uniqid('', true),
+                        'title' => 'test',
+                        'body' => 'test',
+                        'icon' => 'favicon-green-144.png',
+                    ];
+
+                    $subcription = Subscription::create([
+                        'endpoint' => $subscription->getEndpoint(),
+                        'publicKey' => $publicKey,
+                        'authToken' => $authenticationSecret,
+                        'contentEncoding' => $contentEncoding,
+                    ]);
+
+                    $report = $webPush->sendOneNotification($subcription, json_encode($payload));
+
+                    if ($report->isSuccess()) {
+                        $json['message'] = 'Message sent successfully for subscription '.$subscription->getEndpoint().'.';
+                    } else {
+                        $json['message'] = 'Message failed to sent for subscription '.$subscription->getEndpoint().': '.$report->getReason().'.';
+                    }
+                }
+            break;
         }
 
         return new JsonResponse($json, JsonResponse::HTTP_OK);
