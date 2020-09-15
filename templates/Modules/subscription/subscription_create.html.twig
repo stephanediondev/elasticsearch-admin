@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'subscriptions'|trans }} - {{ ('create_subscription_' ~ type)|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'subscriptions'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/subscription/subscription_tabs.html.twig' with {'active': 'create_subscription_' ~ type} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': ('create_subscription_' ~ type)|trans}) }}
+
+            {% embed 'Embed/buttons_embed.html.twig' %}
+                {% import 'Import/app_import.html.twig' as appImport %}
+                {% block content %}
+                    {% if applicationServerKey and 'push' == type %}
+                        <a href="#" class="btn btn-primary btn-sm" id="allow-notifications">
+                            {{ 'allow_notifications'|trans }}
+                        </a>
+                    {% endif %}
+
+                    {% if 'slack' == type %}
+                        <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://api.slack.com/messaging/webhooks">
+                            {{ 'help'|trans }}
+                        </a>
+                    {% endif %}
+
+                    {% if 'teams' == type %}
+                        <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook#what-are-incoming-webhooks-in-teams">
+                            {{ 'help'|trans }}
+                        </a>
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    {% if applicationServerKey and 'push' == type %}
+    <script type="text/javascript">
+        function urlBase64ToUint8Array(base64String) {
+            var padding = '='.repeat((4 - base64String.length % 4) % 4);
+            var base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+
+            var rawData = window.atob(base64);
+            var outputArray = new Uint8Array(rawData.length);
+
+            for(var i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+
+        function getSubscription() {
+            if (true == serviceWorkerEnabled) {
+                navigator.serviceWorker.ready.then(function(ServiceWorkerRegistration) {
+                    if ('pushManager' in ServiceWorkerRegistration) {
+                        ServiceWorkerRegistration.pushManager.getSubscription()
+                        .then(function(PushSubscription) {
+                            if (PushSubscription && 'object' === typeof PushSubscription) {
+                                var toJSON = PushSubscription.toJSON();
+
+                                $('#data_endpoint').val(PushSubscription.endpoint);
+                                $('#data_public_key').val(toJSON.keys.p256dh);
+                                $('#data_authentication_secret').val(toJSON.keys.auth);
+                                $('#data_content_encoding').val((PushManager.supportedContentEncodings || ['aesgcm'])[0]);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        function pushManagerSubscribe() {
+            if (true == serviceWorkerEnabled) {
+                navigator.serviceWorker.ready.then(function(ServiceWorkerRegistration) {
+                    if ('pushManager' in ServiceWorkerRegistration) {
+                        ServiceWorkerRegistration.pushManager.permissionState({userVisibleOnly: true}).then(function(permissionState) {
+                            if (permissionState == 'prompt' || permissionState == 'granted') {
+                                ServiceWorkerRegistration.pushManager.subscribe(
+                                    {'applicationServerKey': urlBase64ToUint8Array('{{ applicationServerKey }}'), 'userVisibleOnly': true}
+                                )
+                                .then(function(PushSubscription) {
+
+                                    if (PushSubscription && 'object' === typeof PushSubscription) {
+                                        getSubscription();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            $(document).on('click', '#allow-notifications', function(event) {
+                event.preventDefault();
+
+                pushManagerSubscribe();
+            });
+        });
+    </script>
+    {% endif %}
+{% endblock %}

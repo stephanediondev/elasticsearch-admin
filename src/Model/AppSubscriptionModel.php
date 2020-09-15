@@ -32,6 +32,8 @@ class AppSubscriptionModel extends AbstractAppModel
 
     private $client;
 
+    private $notifications = [];
+
     private $createdAt;
 
     public function __construct()
@@ -159,6 +161,19 @@ class AppSubscriptionModel extends AbstractAppModel
         return $this;
     }
 
+    public function getNotifications(): ?array
+    {
+        return array_values($this->notifications);
+    }
+
+    public function setNotifications($notifications): self
+    {
+        $this->notifications = $notifications;
+
+        return $this;
+    }
+
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -189,6 +204,9 @@ class AppSubscriptionModel extends AbstractAppModel
         $this->setIp($subscription['ip']);
         $this->setOs($subscription['os']);
         $this->setClient($subscription['client']);
+        if (true === isset($subscription['notifications']) && 0 < count($subscription['notifications'])) {
+            $this->setNotifications($subscription['notifications']);
+        }
         $this->setCreatedAt(new \Datetime($subscription['created_at']));
         return $this;
     }
@@ -208,11 +226,26 @@ class AppSubscriptionModel extends AbstractAppModel
             'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s'),
         ];
 
+        if ($this->getNotifications()) {
+            $json['notifications'] = $this->getNotifications();
+        }
+
         return $json;
     }
 
     public function __toString(): string
     {
         return $this->id;
+    }
+
+    public static function getTypes()
+    {
+        return [
+            self::TYPE_PUSH,
+            self::TYPE_EMAIL,
+            self::TYPE_SMS,
+            self::TYPE_SLACK,
+            self::TYPE_TEAMS,
+        ];
     }
 }

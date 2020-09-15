@@ -53,6 +53,10 @@ class ElasticsearchRepositoryController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('REPOSITORIES_CREATE', 'global');
 
+        if (false === in_array($type, ElasticsearchRepositoryModel::getTypes())) {
+            throw new AccessDeniedException();
+        }
+
         if ('s3' == $type && false === $this->callManager->hasPlugin('repository-s3')) {
             throw new AccessDeniedException();
         }

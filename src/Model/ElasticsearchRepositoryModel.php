@@ -172,16 +172,6 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this;
     }
 
-    public static function allowedTypes(): ?array
-    {
-        return [
-            self::TYPE_FS => self::TYPE_FS,
-            self::TYPE_S3 => self::TYPE_S3,
-            self::TYPE_GCS => self::TYPE_GCS,
-            self::TYPE_AZURE => self::TYPE_AZURE,
-        ];
-    }
-
     public function convert(?array $repository): self
     {
         $this->setName($repository['name']);
@@ -464,5 +454,15 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public static function getTypes(): ?array
+    {
+        return [
+            self::TYPE_FS,
+            self::TYPE_S3,
+            self::TYPE_GCS,
+            self::TYPE_AZURE,
+        ];
     }
 }
