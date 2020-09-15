@@ -279,7 +279,9 @@ In the ```.env``` file edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (r
 
 If Elasticsearch security features are enabled, edit ```ELASTICSEARCH_USERNAME``` and ```ELASTICSEARCH_PASSWORD```
 
-You can also edit ```VAPID_PUBLIC_KEY``` and ```VAPID_PRIVATE_KEY``` to use push notifications (you can generate values with the command below)
+You can also edit ```VAPID_PUBLIC_KEY``` and ```VAPID_PRIVATE_KEY``` to use push notifications (only in HTTPS)
+
+You can generate values with the command below
 
 ```
 bin/console app:generate-vapid

@@ -69,7 +69,7 @@ class AppSubscriptionsController extends AbstractAppController
         }
 
         if (AppSubscriptionModel::TYPE_PUSH == $type) {
-            if (false == $request->isSecure()) {
+            if (false === $request->isSecure()) {
                 $this->addFlash('warning', 'Push API available only with HTTPS');
 
                 throw new AccessDeniedException();
