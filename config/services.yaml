@@ -20,6 +20,8 @@ services:
             $secretRegister: '%env(SECRET_REGISTER)%'
             $vapidPublicKey: '%env(VAPID_PUBLIC_KEY)%'
             $vapidPrivateKey: '%env(VAPID_PRIVATE_KEY)%'
+            $mailerDsn: '%env(MAILER_DSN)%'
+            $senderAddress: '%env(SENDER_ADDRESS)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

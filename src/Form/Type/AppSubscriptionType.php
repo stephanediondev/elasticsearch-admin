@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -31,12 +32,17 @@ class AppSubscriptionType extends AbstractType
         $fields = [];
 
         if ('create' == $options['context']) {
-            $fields[] = 'endpoint';
+            if (AppSubscriptionModel::TYPE_EMAIL == $options['type']) {
+                $fields[] = 'email';
 
-            if (AppSubscriptionModel::TYPE_PUSH == $options['type']) {
-                $fields[] = 'public_key';
-                $fields[] = 'authentication_secret';
-                $fields[] = 'content_encoding';
+            } else {
+                $fields[] = 'endpoint';
+
+                if (AppSubscriptionModel::TYPE_PUSH == $options['type']) {
+                    $fields[] = 'public_key';
+                    $fields[] = 'authentication_secret';
+                    $fields[] = 'content_encoding';
+                }
             }
         }
 
@@ -44,6 +50,15 @@ class AppSubscriptionType extends AbstractType
 
         foreach ($fields as $field) {
             switch ($field) {
+                case 'email':
+                    $builder->add('endpoint', EmailType::class, [
+                        'label' => 'email',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                    ]);
+                    break;
                 case 'endpoint':
                     $builder->add('endpoint', TextType::class, [
                         'label' => 'endpoint',

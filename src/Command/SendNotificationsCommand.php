@@ -12,18 +12,22 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class SendNotificationsCommand extends Command
 {
     protected static $defaultName = 'app:send-notifications';
 
-    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, string $vapidPublicKey, string $vapidPrivateKey, HttpClientInterface $client)
+    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, string $vapidPublicKey, string $vapidPrivateKey, HttpClientInterface $client, MailerInterface $mailer, string $senderAddress)
     {
         $this->appSubscriptionManager = $appSubscriptionManager;
         $this->appNotificationManager = $appNotificationManager;
         $this->vapidPublicKey = $vapidPublicKey;
         $this->vapidPrivateKey = $vapidPrivateKey;
         $this->client = $client;
+        $this->mailer = $mailer;
+        $this->senderAddress = $senderAddress;
 
         parent::__construct();
     }
@@ -77,6 +81,16 @@ class SendNotificationsCommand extends Command
 
                                         $webPush->queueNotification($subscription, json_encode($payload));
                                     }
+                                    break;
+
+                                case AppSubscriptionModel::TYPE_EMAIL:
+                                    $email = (new Email())
+                                        ->from($this->senderAddress)
+                                        ->to($subscription->getEndpoint())
+                                        ->subject($notification->getTitle())
+                                        ->text($notification->getBody());
+
+                                    $this->mailer->send($email);
                                     break;
 
                                 case AppSubscriptionModel::TYPE_SLACK:

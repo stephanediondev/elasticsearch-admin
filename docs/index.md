@@ -48,7 +48,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, credentials or not
 - App users: register, login, logout, list, create, read, update, delete
 - App roles: list, create, read, update (permissions), delete
-- Notifications (Push API, Slack Incoming Webhook, Microsoft Teams Incoming Webhook) about cluster health, node up, node down, disk threshold, license expiration, ES version
+- Notifications (Push API, Email, Slack Incoming Webhook, Microsoft Teams Incoming Webhook) about cluster health, node up, node down, disk threshold, license expiration, ES version
 - Cluster: basic metrics, audit, disk thresholds, allocation explain [5.0], settings [5.0] (list, update)
 - Nodes: list, stats, reload secure settings [6.4], read, settings, usage [6.0], plugins
 - Indices: list, stats, reindex, create, read, update, lifecycle [6.6] (explain, remove policy), delete, close / open, freeze / unfreeze [6.6], force merge [2.1], clear cache, flush, refresh, empty [5.0], search by query, export (CSV, TSV, ODS, XLSX, GEOJSON), import from file (ODS, XLSX), import from database (MySQL, PostgreSQL), aliases (list, create, delete)

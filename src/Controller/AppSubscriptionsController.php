@@ -26,13 +26,15 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class AppSubscriptionsController extends AbstractAppController
 {
-    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, Security $security, string $vapidPublicKey, string $vapidPrivateKey)
+    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, Security $security, string $vapidPublicKey, string $vapidPrivateKey, string $mailerDsn, string $senderAddress)
     {
         $this->appSubscriptionManager = $appSubscriptionManager;
         $this->appNotificationManager = $appNotificationManager;
         $this->user = $security->getUser();
         $this->vapidPublicKey = $vapidPublicKey;
         $this->vapidPrivateKey = $vapidPrivateKey;
+        $this->mailerDsn = $mailerDsn;
+        $this->senderAddress = $senderAddress;
     }
 
     /**
@@ -54,6 +56,7 @@ class AppSubscriptionsController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/subscription/subscription_index.html.twig', [
             'subscriptions' => $subscriptions,
             'applicationServerKey' => $this->vapidPublicKey,
+            'mailerDsn' => $this->mailerDsn,
         ]);
     }
 
@@ -66,6 +69,14 @@ class AppSubscriptionsController extends AbstractAppController
 
         if (false === in_array($type, AppSubscriptionModel::getTypes())) {
             throw new AccessDeniedException();
+        }
+
+        if (AppSubscriptionModel::TYPE_EMAIL == $type) {
+            if ('' == $this->mailerDsn || '' == $this->senderAddress) {
+                $this->addFlash('warning', 'Edit MAILER_DSN and SENDER_ADDRESS in .env file');
+
+                throw new AccessDeniedException();
+            }
         }
 
         if (AppSubscriptionModel::TYPE_PUSH == $type) {
@@ -118,6 +129,7 @@ class AppSubscriptionsController extends AbstractAppController
             'form' => $form->createView(),
             'type' => $type,
             'applicationServerKey' => $this->vapidPublicKey,
+            'mailerDsn' => $this->mailerDsn,
         ]);
     }
 
