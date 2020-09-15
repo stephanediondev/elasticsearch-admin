@@ -35,6 +35,32 @@ class AppSubscriptionManager extends AbstractAppManager
         return $subscriptionModel;
     }
 
+    public function getByEndpoint(string $endpoint): ?AppSubscriptionModel
+    {
+        $subscriptionModel = null;
+
+        $query = [
+            'q' => 'endpoint:"'.$endpoint.'"',
+        ];
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/.elasticsearch-admin-subscriptions/_search');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
+
+        if ($results && 1 == count($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $row) {
+                $subscription = ['id' => $row['_id']];
+                $subscription = array_merge($subscription, $row['_source']);
+
+                $subscriptionModel = new AppSubscriptionModel();
+                $subscriptionModel->convert($subscription);
+            }
+        }
+
+        return $subscriptionModel;
+    }
+
     public function getAll(?array $query = []): array
     {
         $query['size'] = 1000;
@@ -72,10 +98,20 @@ class AppSubscriptionManager extends AbstractAppManager
         $json = $subscriptionModel->getJson();
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
-        if (true === $this->callManager->hasFeature('_doc_as_type')) {
-            $callRequest->setPath('/.elasticsearch-admin-subscriptions/_doc');
+        if ($subscriptionModel->getId()) {
+            $callRequest->setMethod('PUT');
+            if (true === $this->callManager->hasFeature('_doc_as_type')) {
+                $callRequest->setPath('/.elasticsearch-admin-subscriptions/_doc/'.$subscriptionModel->getId());
+            } else {
+                $callRequest->setPath('/.elasticsearch-admin-subscriptions/doc/'.$subscriptionModel->getId());
+            }
         } else {
-            $callRequest->setPath('/.elasticsearch-admin-subscriptions/doc/');
+            $callRequest->setMethod('POST');
+            if (true === $this->callManager->hasFeature('_doc_as_type')) {
+                $callRequest->setPath('/.elasticsearch-admin-subscriptions/_doc');
+            } else {
+                $callRequest->setPath('/.elasticsearch-admin-subscriptions/doc/');
+            }
         }
         $callRequest->setJson($json);
         $callRequest->setQuery(['refresh' => 'true']);

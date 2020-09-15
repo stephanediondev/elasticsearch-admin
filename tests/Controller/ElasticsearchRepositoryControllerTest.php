@@ -21,6 +21,13 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/repositories/create/{type}", name="repositories_create")
      */
+    public function testCreate403()
+    {
+        $this->client->request('GET', '/admin/repositories/create/'.uniqid());
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
     public function testCreateFs()
     {
         $this->client->request('GET', '/admin/repositories/create/fs');

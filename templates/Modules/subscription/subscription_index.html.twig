@@ -7,139 +7,86 @@
     {{ appImport.heading({'level': 1, 'title': 'subscriptions'|trans}) }}
 {% endblock %}
 
+{% block tabs %}
+    {% include 'Modules/subscription/subscription_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
 {% block main_content %}
     <div class="jumbotron">
-        <p class="lead">{{ 'subscribe_note'|trans }}</p>
+        <p class="lead">{{ 'subscriptions_note'|trans }}</p>
     </div>
 
-    {% if applicationServerKey %}
-        {% embed 'Embed/card_embed.html.twig' %}
-            {% import 'Import/app_import.html.twig' as appImport %}
-            {% block content %}
-                {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': subscriptions|length}}) }}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': subscriptions|length}}) }}
 
-                {% embed 'Embed/buttons_embed.html.twig' %}
+            {% if 0 < subscriptions|length %}
+                {% embed 'Embed/table_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
-                    {% block content %}
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalSubscribeSlack">
-                            {{ 'subscribe_slack'|trans }}
-                        </button>
 
-                        <div class="modal fade" id="modalSubscribeSlack" tabindex="-1" role="dialog" aria-labelledby="modalLabelSubscribeSlack" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <form action="#" id="subscribe-slack">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalLabelSubscribeSlack">{{ 'subscribe_slack'|trans }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body text-left">
-                                            <div class="form-group mb-3">
-                                            <label class="form-label required" for="slack_endpoint">{{ 'url'|trans }}</label>
-                                            <input type="text" id="slack_endpoint" name="slack_endpoint" required="required" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
-                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                    {% block thead %}
+                        <tr>
+                            <th>{{ 'type'|trans }}</th>
+                            <th>{{ 'os'|trans }}</th>
+                            <th>{{ 'client'|trans }}</th>
+                            <th class="d-none d-xl-table-cell">{{ 'ip'|trans }}</th>
+                            <th>{{ 'notifications'|trans }}</th>
+                            <th class="d-none d-xl-table-cell">{{ 'created_at'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}</th>
+                            <th class="text-nowrap">&nbsp;</th>
+                        </tr>
+                    {% endblock %}
 
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalSubscribeTeams">
-                            {{ 'subscribe_teams'|trans }}
-                        </button>
+                    {% block tbody %}
+                        {% for subscription in subscriptions %}
+                            <tr>
+                                <td>
+                                    {{ ('subscription_' ~ subscription.type)|trans }}
+                                </td>
+                                <td>
+                                    {{ subscription.os }}
+                                </td>
+                                <td>
+                                    {{ subscription.client }}
+                                </td>
+                                <td class="d-none d-xl-table-cell">
+                                    {{ subscription.ip }}
+                                </td>
+                                <td>
+                                    {{ subscription.notifications|join(', ') }}
+                                </td>
+                                <td class="d-none d-xl-table-cell">
+                                    {{ subscription.createdAt|human_datetime }}
+                                </td>
+                                <td class="text-nowrap actions">
+                                    <a href="{{ path('app_subscriptions_update', {'id': subscription.id}) }}" class="btn btn-primary btn-sm">
+                                        {{ 'update'|trans }}
+                                    </a>
 
-                        <div class="modal fade" id="modalSubscribeTeams" tabindex="-1" role="dialog" aria-labelledby="modalLabelSubscribeTeams" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <form action="#" id="subscribe-teams">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalLabelSubscribeTeams">{{ 'subscribe_teams'|trans }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body text-left">
-                                            <div class="form-group mb-3">
-                                            <label class="form-label required" for="teams_endpoint">{{ 'url'|trans }}</label>
-                                            <input type="text" id="teams_endpoint" name="teams_endpoint" required="required" class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
-                                            <button type="submit" class="btn btn-primary">{{ 'confirm'|trans }}</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                                    {{ appImport.buttonModal({
+                                        'id': 'SubscriptionDelete' ~ subscription.id,
+                                        'title': 'delete'|trans,
+                                        'body': ('subscription_' ~ subscription.type)|trans,
+                                        'href': path('app_subscriptions_delete', {'id': subscription.id}),
+                                    }) }}
 
-                        <a href="#" class="btn btn-primary btn-sm d-none" id="subscribe-button">
-                            {{ 'subscribe_push'|trans }}
-                        </a>
+                                    {% if 'push' == subscription.type %}
+                                        <a data-endpoint="{{ subscription.endpoint }}" href="{{ path('app_subscriptions_delete', {'id': subscription.id}) }}" class="btn btn-primary btn-sm d-none unsubscribe-button">
+                                            {{ 'unsubscribe'|trans }}
+                                        </a>
+
+                                        <a href="{{ path('app_subscriptions_test', {'id': subscription.id}) }}" class="btn btn-primary btn-sm test-notification-push">
+                                            {{ 'test'|trans }}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
                     {% endblock %}
                 {% endembed %}
-
-                {% if 0 < subscriptions|length %}
-                    {% embed 'Embed/table_embed.html.twig' %}
-                        {% import 'Import/app_import.html.twig' as appImport %}
-
-                        {% block thead %}
-                            <tr>
-                                <th>{{ 'type'|trans }}</th>
-                                <th>{{ 'os'|trans }}</th>
-                                <th>{{ 'client'|trans }}</th>
-                                <th>{{ 'ip'|trans }}</th>
-                                <th>{{ 'created_at'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        {% endblock %}
-
-                        {% block tbody %}
-                            {% for subscription in subscriptions %}
-                                <tr>
-                                    <td>
-                                        {{ subscription.type }}
-                                    </td>
-                                    <td>
-                                        {{ subscription.os }}
-                                    </td>
-                                    <td>
-                                        {{ subscription.client }}
-                                    </td>
-                                    <td>
-                                        {{ subscription.ip }}
-                                    </td>
-                                    <td>
-                                        {{ subscription.createdAt|human_datetime }}
-                                    </td>
-                                    <td class="actions">
-                                        <a href="{{ path('app_subscriptions_delete', {'id': subscription.id}) }}" class="btn btn-primary btn-sm delete-button">
-                                            {{ 'delete'|trans }}
-                                        </a>
-                                        {% if 'push' == subscription.type %}
-                                            <a data-endpoint="{{ subscription.endpoint }}" href="{{ path('app_subscriptions_delete', {'id': subscription.id}) }}" class="btn btn-primary btn-sm d-none unsubscribe-button">
-                                                {{ 'unsubscribe'|trans }}
-                                            </a>
-
-                                            <a href="{{ path('app_subscriptions_test', {'id': subscription.id}) }}" class="btn btn-primary btn-sm test-notification-push">
-                                                {{ 'test'|trans }}
-                                            </a>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% endblock %}
-                    {% endembed %}
-                {% endif %}
-            {% endblock %}
-        {% endembed %}
-    {% endif %}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
 
 {% block scripts %}
@@ -147,49 +94,6 @@
 
     {% if applicationServerKey %}
     <script type="text/javascript">
-        function urlBase64ToUint8Array(base64String) {
-            var padding = '='.repeat((4 - base64String.length % 4) % 4);
-            var base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
-
-            var rawData = window.atob(base64);
-            var outputArray = new Uint8Array(rawData.length);
-
-            for(var i = 0; i < rawData.length; ++i) {
-                outputArray[i] = rawData.charCodeAt(i);
-            }
-            return outputArray;
-        }
-
-        function createSubscriptionPush(PushSubscription) {
-            var toJSON = PushSubscription.toJSON();
-
-            var data = {
-                'type': 'push',
-                'endpoint': PushSubscription.endpoint,
-                'public_key': toJSON.keys.p256dh,
-                'authentication_secret': toJSON.keys.auth,
-                'content_encoding': (PushManager.supportedContentEncodings || ['aesgcm'])[0]
-            };
-
-            sendSubscription(data);
-        }
-
-        function sendSubscription(data) {
-            var url = '{{ path('app_subscriptions_create') }}';
-            fetch(url, {
-                credentials: 'include',
-                method: 'POST',
-                body: JSON.stringify(data),
-                mode: 'cors',
-            })
-            .then(function() {
-                window.location.reload();
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-        }
-
         function deleteSubscription(url) {
             window.location.href = url;
         }
@@ -217,48 +121,15 @@
             if (true == serviceWorkerEnabled) {
                 navigator.serviceWorker.ready.then(function(ServiceWorkerRegistration) {
                     if ('pushManager' in ServiceWorkerRegistration) {
-                        $('.push').removeClass('d-none');
-
                         ServiceWorkerRegistration.pushManager.getSubscription()
                         .then(function(PushSubscription) {
                             if (PushSubscription && 'object' === typeof PushSubscription) {
-                                var found = false;
-
                                 $(document).find('.actions').each(function() {
                                     var deleteButton = $(this).find('.delete-button');
                                     var unsubscribeButton = $(this).find('.unsubscribe-button');
                                     if (PushSubscription.endpoint == unsubscribeButton.data('endpoint')) {
-                                        found = true;
                                         unsubscribeButton.removeClass('d-none');
                                         deleteButton.addClass('d-none');
-                                    }
-                                });
-
-                                if (false == found) {
-                                    createSubscriptionPush(PushSubscription);
-                                }
-                            } else {
-                                $('#subscribe-button').removeClass('d-none');
-                            }
-                        });
-                    }
-                });
-            }
-        }
-
-        function pushManagerSubscribe() {
-            if (true == serviceWorkerEnabled) {
-                navigator.serviceWorker.ready.then(function(ServiceWorkerRegistration) {
-                    if ('pushManager' in ServiceWorkerRegistration) {
-                        ServiceWorkerRegistration.pushManager.permissionState({userVisibleOnly: true}).then(function(permissionState) {
-                            if (permissionState == 'prompt' || permissionState == 'granted') {
-                                ServiceWorkerRegistration.pushManager.subscribe(
-                                    {'applicationServerKey': urlBase64ToUint8Array('{{ applicationServerKey }}'), 'userVisibleOnly': true}
-                                )
-                                .then(function(PushSubscription) {
-
-                                    if (PushSubscription && 'object' === typeof PushSubscription) {
-                                        createSubscriptionPush(PushSubscription);
                                     }
                                 });
                             }
@@ -292,11 +163,6 @@
         $(document).ready(function() {
             getSubscription();
 
-            $(document).on('click', '#subscribe-button', function(event) {
-                event.preventDefault();
-                pushManagerSubscribe();
-            });
-
             $(document).on('click', '.unsubscribe-button', function(event) {
                 event.preventDefault();
                 pushManagerUnsubscribe($(this).attr('href'));
@@ -310,28 +176,6 @@
             $(document).on('click', '.test-notification-push', function(event) {
                 event.preventDefault();
                 testNotification($(this).attr('href'));
-            });
-
-            $(document).on('submit', '#subscribe-slack', function(event) {
-                event.preventDefault();
-
-                var data = {
-                    'type': 'slack',
-                    'endpoint': $('#slack_endpoint').val(),
-                };
-
-                sendSubscription(data);
-            });
-
-            $(document).on('submit', '#subscribe-teams', function(event) {
-                event.preventDefault();
-
-                var data = {
-                    'type': 'teams',
-                    'endpoint': $('#teams_endpoint').val(),
-                };
-
-                sendSubscription(data);
             });
         });
     </script>

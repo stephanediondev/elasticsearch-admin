@@ -113,6 +113,7 @@ class AppNotificationManager extends AbstractAppManager
 
         if (true === isset($previousInfo['cluster_health']) && $previousInfo['cluster_health'] && $previousInfo['cluster_health'] != $lastInfo['cluster_health']) {
             $notification = new AppNotificationModel();
+            $notification->setType(AppNotificationModel::TYPE_CLUSTER_HEALTH);
             $notification->setTitle($this->clusterHealth['cluster_name'].': health');
             $notification->setBody(ucfirst($lastInfo['cluster_health']));
             $notification->setIcon('favicon-'.$lastInfo['cluster_health'].'-144.png');
@@ -124,6 +125,7 @@ class AppNotificationManager extends AbstractAppManager
             $nodesDown = array_diff($previousInfo['nodes'], $lastInfo['nodes']);
             foreach ($nodesDown as $nodeDown) {
                 $notification = new AppNotificationModel();
+                $notification->setType(AppNotificationModel::TYPE_NODE_DOWN);
                 $notification->setTitle($this->clusterHealth['cluster_name'].': node down');
                 $notification->setBody($nodeDown);
                 $notification->setIcon('favicon-red-144.png');
@@ -134,6 +136,7 @@ class AppNotificationManager extends AbstractAppManager
             $nodesUp = array_diff($lastInfo['nodes'], $previousInfo['nodes']);
             foreach ($nodesUp as $nodeUp) {
                 $notification = new AppNotificationModel();
+                $notification->setType(AppNotificationModel::TYPE_NODE_UP);
                 $notification->setTitle($this->clusterHealth['cluster_name'].': node up');
                 $notification->setBody($nodeUp);
                 $notification->setIcon('favicon-green-144.png');
@@ -146,6 +149,7 @@ class AppNotificationManager extends AbstractAppManager
             foreach ($lastInfo['disk_threshold'] as $node => $values) {
                 if (true === isset($previousInfo['disk_threshold'][$node]) && $previousInfo['disk_threshold'][$node]['watermark'] != $values['watermark']) {
                     $notification = new AppNotificationModel();
+                    $notification->setType(AppNotificationModel::TYPE_DISK_THRESHOLD);
                     $notification->setTitle($this->clusterHealth['cluster_name'].': disk threshold');
                     $notification->setBody($node.' '.$values['percent'].'%');
                     $notification->setIcon('favicon-'.$this->getColor($values['watermark']).'-144.png');
@@ -157,6 +161,7 @@ class AppNotificationManager extends AbstractAppManager
 
         if (true === isset($previousInfo['license']) && $previousInfo['license'] && $previousInfo['license'] != $lastInfo['license']) {
             $notification = new AppNotificationModel();
+            $notification->setType(AppNotificationModel::TYPE_LICENSE);
             $notification->setTitle($this->clusterHealth['cluster_name'].': license');
             switch ($lastInfo['license']) {
                 case 'license_ok':
@@ -179,6 +184,7 @@ class AppNotificationManager extends AbstractAppManager
 
         if (true === isset($previousInfo['versions']) && $previousInfo['versions'] && count($previousInfo['versions']) != count($lastInfo['versions'])) {
             $notification = new AppNotificationModel();
+            $notification->setType(AppNotificationModel::TYPE_VERSION);
             $notification->setTitle($this->clusterHealth['cluster_name'].': ES version');
             if (1 == count($lastInfo['versions'])) {
                 $notification->setBody('One version ('.$lastInfo['versions'][0].')');

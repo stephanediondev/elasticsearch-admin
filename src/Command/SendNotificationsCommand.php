@@ -53,59 +53,61 @@ class SendNotificationsCommand extends Command
 
                 foreach ($notifications as $notification) {
                     foreach ($subscriptions as $subscription) {
-                        switch ($subscription->getType()) {
-                            case AppSubscriptionModel::TYPE_PUSH:
-                                $publicKey = $subscription->getPublicKey();
-                                $authenticationSecret = $subscription->getAuthenticationSecret();
-                                $contentEncoding = $subscription->getContentEncoding();
+                        if (true === in_array($notification->getType(), $subscription->getNotifications())) {
+                            switch ($subscription->getType()) {
+                                case AppSubscriptionModel::TYPE_PUSH:
+                                    $publicKey = $subscription->getPublicKey();
+                                    $authenticationSecret = $subscription->getAuthenticationSecret();
+                                    $contentEncoding = $subscription->getContentEncoding();
 
-                                if ($publicKey && $authenticationSecret && $contentEncoding) {
-                                    $payload = [
-                                        'tag' => uniqid('', true),
-                                        'title' => $notification->getTitle(),
-                                        'body' => $notification->getBody(),
-                                        'icon' => $notification->getIcon(),
-                                    ];
-
-                                    $subscription = Subscription::create([
-                                        'endpoint' => $subscription->getEndpoint(),
-                                        'publicKey' => $publicKey,
-                                        'authToken' => $authenticationSecret,
-                                        'contentEncoding' => $contentEncoding,
-                                    ]);
-
-                                    $webPush->queueNotification($subscription, json_encode($payload));
-                                }
-                                break;
-
-                            case AppSubscriptionModel::TYPE_SLACK:
-                                try {
-                                    $options = [
-                                        'json' => [
-                                            'text' => $notification->getTitle()."\r\n".$notification->getBody(),
-                                        ],
-                                    ];
-                                    $this->client->request('POST', $subscription->getEndpoint(), $options);
-                                } catch (TransportException $e) {
-                                    $output->writeln('<error>Message failed to sent for subscription '.$subscription->getEndpoint().': '.$e->getMessage().'</error>');
-                                }
-                                break;
-
-                            case AppSubscriptionModel::TYPE_TEAMS:
-                                try {
-                                    $options = [
-                                        'json' => [
-                                            '@context' => 'https://schema.org/extensions',
-                                            '@type' => 'MessageCard',
+                                    if ($publicKey && $authenticationSecret && $contentEncoding) {
+                                        $payload = [
+                                            'tag' => uniqid('', true),
                                             'title' => $notification->getTitle(),
-                                            'text' => $notification->getBody(),
-                                        ],
-                                    ];
-                                    $this->client->request('POST', $subscription->getEndpoint(), $options);
-                                } catch (TransportException $e) {
-                                    $output->writeln('<error>Message failed to sent for subscription '.$subscription->getEndpoint().': '.$e->getMessage().'</error>');
-                                }
-                                break;
+                                            'body' => $notification->getBody(),
+                                            'icon' => $notification->getIcon(),
+                                        ];
+
+                                        $subscription = Subscription::create([
+                                            'endpoint' => $subscription->getEndpoint(),
+                                            'publicKey' => $publicKey,
+                                            'authToken' => $authenticationSecret,
+                                            'contentEncoding' => $contentEncoding,
+                                        ]);
+
+                                        $webPush->queueNotification($subscription, json_encode($payload));
+                                    }
+                                    break;
+
+                                case AppSubscriptionModel::TYPE_SLACK:
+                                    try {
+                                        $options = [
+                                            'json' => [
+                                                'text' => $notification->getTitle()."\r\n".$notification->getBody(),
+                                            ],
+                                        ];
+                                        $this->client->request('POST', $subscription->getEndpoint(), $options);
+                                    } catch (TransportException $e) {
+                                        $output->writeln('<error>Message failed to sent for subscription '.$subscription->getEndpoint().': '.$e->getMessage().'</error>');
+                                    }
+                                    break;
+
+                                case AppSubscriptionModel::TYPE_TEAMS:
+                                    try {
+                                        $options = [
+                                            'json' => [
+                                                '@context' => 'https://schema.org/extensions',
+                                                '@type' => 'MessageCard',
+                                                'title' => $notification->getTitle(),
+                                                'text' => $notification->getBody(),
+                                            ],
+                                        ];
+                                        $this->client->request('POST', $subscription->getEndpoint(), $options);
+                                    } catch (TransportException $e) {
+                                        $output->writeln('<error>Message failed to sent for subscription '.$subscription->getEndpoint().': '.$e->getMessage().'</error>');
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }
