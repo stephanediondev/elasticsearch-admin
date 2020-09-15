@@ -125,7 +125,7 @@
                         .then(function(PushSubscription) {
                             if (PushSubscription && 'object' === typeof PushSubscription) {
                                 $(document).find('.actions').each(function() {
-                                    var deleteButton = $(this).find('.delete-button');
+                                    var deleteButton = $(this).find('button');
                                     var unsubscribeButton = $(this).find('.unsubscribe-button');
                                     if (PushSubscription.endpoint == unsubscribeButton.data('endpoint')) {
                                         unsubscribeButton.removeClass('d-none');
@@ -166,11 +166,6 @@
             $(document).on('click', '.unsubscribe-button', function(event) {
                 event.preventDefault();
                 pushManagerUnsubscribe($(this).attr('href'));
-            });
-
-            $(document).on('click', '.delete-button', function(event) {
-                event.preventDefault();
-                deleteSubscription($(this).attr('href'));
             });
 
             $(document).on('click', '.test-notification-push', function(event) {
