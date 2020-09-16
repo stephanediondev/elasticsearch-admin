@@ -116,16 +116,23 @@ class AppSubscriptionType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
 
             if ($form->has('endpoint') && $form->get('endpoint')->getData()) {
                 $user = $this->appSubscriptionManager->getByEndpoint($form->get('endpoint')->getData());
 
                 if ($user) {
-                    $form->get('endpoint')->addError(new FormError(
-                        $this->translator->trans('endpoint_already_used')
-                    ));
+                    if (AppSubscriptionModel::TYPE_EMAIL == $options['type']) {
+                        $form->get('endpoint')->addError(new FormError(
+                            $this->translator->trans('email_already_used')
+                        ));
+                    } else {
+                        $form->get('endpoint')->addError(new FormError(
+                            $this->translator->trans('endpoint_already_used')
+                        ));
+
+                    }
                 }
             }
         });
