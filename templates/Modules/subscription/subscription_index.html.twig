@@ -28,9 +28,7 @@
                     {% block thead %}
                         <tr>
                             <th>{{ 'type'|trans }}</th>
-                            <th>{{ 'os'|trans }}</th>
-                            <th>{{ 'client'|trans }}</th>
-                            <th class="d-none d-xl-table-cell">{{ 'ip'|trans }}</th>
+                            <th>{{ 'details'|trans }}</th>
                             <th>{{ 'notifications'|trans }}</th>
                             <th class="d-none d-xl-table-cell">{{ 'created_at'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}</th>
                             <th class="text-nowrap">&nbsp;</th>
@@ -44,13 +42,14 @@
                                     {{ ('subscription_' ~ subscription.type)|trans }}
                                 </td>
                                 <td>
-                                    {{ subscription.os }}
-                                </td>
-                                <td>
-                                    {{ subscription.client }}
-                                </td>
-                                <td class="d-none d-xl-table-cell">
-                                    {{ subscription.ip }}
+                                    {% if 'email' == subscription.type %}
+                                        {{ subscription.endpoint }}<br>
+                                    {% endif %}
+
+                                    {% if 'push' == subscription.type %}
+                                        {{ subscription.os }}<br>
+                                        {{ subscription.client }}
+                                    {% endif %}
                                 </td>
                                 <td>
                                     {{ subscription.notifications|join(', ') }}
