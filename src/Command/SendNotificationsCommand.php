@@ -67,9 +67,8 @@ class SendNotificationsCommand extends Command
                                     if ($publicKey && $authenticationSecret && $contentEncoding) {
                                         $payload = [
                                             'tag' => uniqid('', true),
-                                            'title' => $notification->getTitle(),
+                                            'title' => $notification->getSubject(),
                                             'body' => $notification->getBody(),
-                                            'icon' => $notification->getIcon(144),
                                         ];
 
                                         $subscription = Subscription::create([

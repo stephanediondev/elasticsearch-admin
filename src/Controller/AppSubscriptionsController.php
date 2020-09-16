@@ -205,6 +205,12 @@ class AppSubscriptionsController extends AbstractAppController
 
         $json = [];
 
+        $notification = new AppNotificationModel();
+        $notification->setType(AppNotificationModel::TYPE_CLUSTER_HEALTH);
+        $notification->setTitle($this->clusterHealth['cluster_name'].': health');
+        $notification->setBody(ucfirst($this->clusterHealth['status']));
+        $notification->setColor($this->clusterHealth['status']);
+
         switch ($subscription->getType()) {
             case AppSubscriptionModel::TYPE_PUSH:
                 $apiKeys = [
@@ -224,9 +230,8 @@ class AppSubscriptionsController extends AbstractAppController
                 if ($publicKey && $authenticationSecret && $contentEncoding) {
                     $payload = [
                         'tag' => uniqid('', true),
-                        'title' => $this->clusterHealth['cluster_name'].': test',
-                        'body' => 'test',
-                        'icon' => 'favicon-green-144.png',
+                        'title' => $notification->getSubject(),
+                        'body' => $notification->getBody(),
                     ];
 
                     $subcription = Subscription::create([

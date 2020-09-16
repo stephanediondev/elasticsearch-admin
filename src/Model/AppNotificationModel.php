@@ -69,11 +69,6 @@ class AppNotificationModel extends AbstractAppModel
         return $this;
     }
 
-    public function getIcon(?int $size = 144): ?string
-    {
-        return 'favicon-'.$this->getColor().'-'.$size.'.png';
-    }
-
     public function getSubject(): ?string
     {
         return $this->getEmoji().' '.$this->getTitle();
