@@ -22,10 +22,17 @@
                 {{ ('subscription_' ~ subscription.type)|trans }}
             </p>
 
-            <p>
-                <strong>{{ 'endpoint'|trans }}</strong><br>
-                {{ subscription.endpoint }}
-            </p>
+            {% if 'email' == subscription.type %}
+                <p>
+                    <strong>{{ 'email'|trans }}</strong><br>
+                    {{ subscription.endpoint }}
+                </p>
+            {% else %}
+                <p>
+                    <strong>{{ 'endpoint'|trans }}</strong><br>
+                    {{ subscription.endpoint }}
+                </p>
+            {% endif %}
 
             {{ appImport.form({'form': form}) }}
         {% endblock %}
