@@ -45,7 +45,7 @@ class AppSubscriptionsController extends AbstractAppController
         $this->denyAccessUnlessGranted('APP_SUBSCRIPTIONS', 'global');
 
         if (false === $this->appNotificationManager->infoFileExists()) {
-            $this->addFlash('warning', 'Add to cron */5 * * * * cd '.str_replace('/public', '', $request->getBasePath()).' && bin/console app:send-notifications');
+            $this->addFlash('warning', 'Add to cron */5 * * * * cd '.str_replace('/public/index.php', '', $request->server->get('SCRIPT_FILENAME')).' && bin/console app:send-notifications');
         }
 
         $query = [
