@@ -19,7 +19,7 @@ class SendNotificationsCommand extends Command
 {
     protected static $defaultName = 'app:send-notifications';
 
-    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, string $vapidPublicKey, string $vapidPrivateKey, HttpClientInterface $client, MailerInterface $mailer, string $senderAddress)
+    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, string $vapidPublicKey, string $vapidPrivateKey, HttpClientInterface $client, MailerInterface $mailer)
     {
         $this->appSubscriptionManager = $appSubscriptionManager;
         $this->appNotificationManager = $appNotificationManager;
@@ -27,7 +27,6 @@ class SendNotificationsCommand extends Command
         $this->vapidPrivateKey = $vapidPrivateKey;
         $this->client = $client;
         $this->mailer = $mailer;
-        $this->senderAddress = $senderAddress;
 
         parent::__construct();
     }
@@ -84,7 +83,6 @@ class SendNotificationsCommand extends Command
 
                                 case AppSubscriptionModel::TYPE_EMAIL:
                                     $email = (new Email())
-                                        ->from($this->senderAddress)
                                         ->to($subscription->getEndpoint())
                                         ->subject($notification->getSubject())
                                         ->text($notification->getBody());
