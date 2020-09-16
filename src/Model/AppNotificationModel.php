@@ -19,7 +19,7 @@ class AppNotificationModel extends AbstractAppModel
 
     private $body;
 
-    private $icon;
+    private $color;
 
     public function getType(): ?string
     {
@@ -57,16 +57,42 @@ class AppNotificationModel extends AbstractAppModel
         return $this;
     }
 
-    public function getIcon(): ?string
+    public function getColor(): ?string
     {
-        return $this->icon;
+        return $this->color;
     }
 
-    public function setIcon(?string $icon): self
+    public function setColor(?string $color): self
     {
-        $this->icon = $icon;
+        $this->color = $color;
 
         return $this;
+    }
+
+    public function getIcon(?int $size = 144): ?string
+    {
+        return 'favicon-'.$this->getColor().'-'.$size.'.png';
+    }
+
+    public function getSubject(): ?string
+    {
+        return $this->getEmoji().' '.$this->getTitle();
+    }
+
+    public function getEmoji(): ?string
+    {
+        switch ($this->getColor()) {
+            case 'red':
+                return "🟥";
+            case 'orange':
+                return "🟧";
+            case 'yellow':
+                return "🟨";
+            case 'green':
+                return "🟩";
+            default:
+                return "⬜";
+        }
     }
 
     public static function getTypes()

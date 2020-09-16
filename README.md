@@ -18,4 +18,6 @@
 
 [![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-snapshots.png)
 
-![Notifications](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/notifications.png)
+![Notifications Push](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/notifications-push.png)
+
+![Notifications Email](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/notifications-email.png)

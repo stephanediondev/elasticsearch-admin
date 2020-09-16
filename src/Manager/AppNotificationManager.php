@@ -116,7 +116,7 @@ class AppNotificationManager extends AbstractAppManager
             $notification->setType(AppNotificationModel::TYPE_CLUSTER_HEALTH);
             $notification->setTitle($this->clusterHealth['cluster_name'].': health');
             $notification->setBody(ucfirst($lastInfo['cluster_health']));
-            $notification->setIcon('favicon-'.$lastInfo['cluster_health'].'-144.png');
+            $notification->setColor($lastInfo['cluster_health']);
 
             $notifications[] = $notification;
         }
@@ -128,7 +128,7 @@ class AppNotificationManager extends AbstractAppManager
                 $notification->setType(AppNotificationModel::TYPE_NODE_DOWN);
                 $notification->setTitle($this->clusterHealth['cluster_name'].': node down');
                 $notification->setBody($nodeDown);
-                $notification->setIcon('favicon-red-144.png');
+                $notification->setColor('red');
 
                 $notifications[] = $notification;
             }
@@ -139,7 +139,7 @@ class AppNotificationManager extends AbstractAppManager
                 $notification->setType(AppNotificationModel::TYPE_NODE_UP);
                 $notification->setTitle($this->clusterHealth['cluster_name'].': node up');
                 $notification->setBody($nodeUp);
-                $notification->setIcon('favicon-green-144.png');
+                $notification->setColor('green');
 
                 $notifications[] = $notification;
             }
@@ -152,7 +152,7 @@ class AppNotificationManager extends AbstractAppManager
                     $notification->setType(AppNotificationModel::TYPE_DISK_THRESHOLD);
                     $notification->setTitle($this->clusterHealth['cluster_name'].': disk threshold');
                     $notification->setBody($node.' '.$values['percent'].'%');
-                    $notification->setIcon('favicon-'.$this->getColor($values['watermark']).'-144.png');
+                    $notification->setColor($this->getColor($values['watermark']));
 
                     $notifications[] = $notification;
                 }
@@ -177,7 +177,7 @@ class AppNotificationManager extends AbstractAppManager
                     $notification->setBody('Expires today');
                     break;
             }
-            $notification->setIcon('favicon-'.$this->getColor($lastInfo['license']).'-144.png');
+            $notification->setColor($this->getColor($lastInfo['license']));
 
             $notifications[] = $notification;
         }
@@ -188,10 +188,10 @@ class AppNotificationManager extends AbstractAppManager
             $notification->setTitle($this->clusterHealth['cluster_name'].': ES version');
             if (1 == count($lastInfo['versions'])) {
                 $notification->setBody('One version ('.$lastInfo['versions'][0].')');
-                $notification->setIcon('favicon-green-144.png');
+                $notification->setColor('green');
             } else {
                 $notification->setBody('Multiple versions ('.implode(', ', $lastInfo['versions']).')');
-                $notification->setIcon('favicon-red-144.png');
+                $notification->setColor('red');
             }
 
             $notifications[] = $notification;

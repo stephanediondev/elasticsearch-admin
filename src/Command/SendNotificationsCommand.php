@@ -69,7 +69,7 @@ class SendNotificationsCommand extends Command
                                             'tag' => uniqid('', true),
                                             'title' => $notification->getTitle(),
                                             'body' => $notification->getBody(),
-                                            'icon' => $notification->getIcon(),
+                                            'icon' => $notification->getIcon(144),
                                         ];
 
                                         $subscription = Subscription::create([
@@ -87,7 +87,7 @@ class SendNotificationsCommand extends Command
                                     $email = (new Email())
                                         ->from($this->senderAddress)
                                         ->to($subscription->getEndpoint())
-                                        ->subject($notification->getTitle())
+                                        ->subject($notification->getSubject())
                                         ->text($notification->getBody());
 
                                     $this->mailer->send($email);

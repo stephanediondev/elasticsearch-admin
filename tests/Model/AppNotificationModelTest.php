@@ -12,10 +12,10 @@ class AppNotificationModelTest extends TestCase
         $notification = new AppNotificationModel();
         $notification->setTitle('title');
         $notification->setBody('body');
-        $notification->setIcon('icon');
+        $notification->setColor('color');
 
         $this->assertEquals($notification->getTitle(), 'title');
         $this->assertEquals($notification->getBody(), 'body');
-        $this->assertEquals($notification->getIcon(), 'icon');
+        $this->assertEquals($notification->getColor(), 'color');
     }
 }
