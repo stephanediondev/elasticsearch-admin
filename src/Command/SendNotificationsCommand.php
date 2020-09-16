@@ -97,7 +97,7 @@ class SendNotificationsCommand extends Command
                                     try {
                                         $options = [
                                             'json' => [
-                                                'text' => $notification->getTitle()."\r\n".$notification->getBody(),
+                                                'text' => $notification->getSubject()."\r\n".$notification->getBody(),
                                             ],
                                         ];
                                         $this->client->request('POST', $subscription->getEndpoint(), $options);
@@ -112,7 +112,7 @@ class SendNotificationsCommand extends Command
                                             'json' => [
                                                 '@context' => 'https://schema.org/extensions',
                                                 '@type' => 'MessageCard',
-                                                'title' => $notification->getTitle(),
+                                                'title' => $notification->getSubject(),
                                                 'text' => $notification->getBody(),
                                             ],
                                         ];
