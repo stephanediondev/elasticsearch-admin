@@ -34,6 +34,38 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - Create component template');
+
+            $values = [
+                'data[name]' => GENERATED_NAME,
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Component templates - '.GENERATED_NAME);
+        }
+    }
+
+    public function testCreateSystem()
+    {
+        $this->client->request('GET', '/admin/component-templates/create');
+
+        if (false == $this->callManager->hasFeature('composable_template')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Component templates - Create component template');
+
+            $values = [
+                'data[name]' => GENERATED_NAME_SYSTEM,
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Component templates - '.GENERATED_NAME_SYSTEM);
         }
     }
 
@@ -50,7 +82,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testCreateCopy403()
     {
-        $this->client->request('GET', '/admin/component-templates/create?template=.elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/component-templates/create?template='.GENERATED_NAME_SYSTEM);
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
@@ -61,13 +93,20 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testCreateCopy()
     {
-        $this->client->request('GET', '/admin/component-templates/create?template=elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/component-templates/create?template='.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - Create component template');
+
+            $this->client->submitForm('Submit');
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.'-copy');
         }
     }
 
@@ -87,13 +126,13 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Component templates - '.GENERATED_NAME);
         }
     }
 
@@ -113,7 +152,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testUpdate403()
     {
-        $this->client->request('GET', '/admin/component-templates/.elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME_SYSTEM.'/update');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
@@ -124,13 +163,13 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'/update');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Update');
         }
     }
 
@@ -150,13 +189,13 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testSettings()
     {
-        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/settings');
+        $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'/settings');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Settings');
+            $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Settings');
         }
     }
 
@@ -176,13 +215,13 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testMappings()
     {
-        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/mappings');
+        $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'/mappings');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Component templates - elasticsearch-admin-test - Mappings');
+            $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Mappings');
         }
     }
 
@@ -202,7 +241,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testDelete403()
     {
-        $this->client->request('GET', '/admin/component-templates/.elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME_SYSTEM.'/delete');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
@@ -213,7 +252,18 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/component-templates/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'/delete');
+
+        if (false == $this->callManager->hasFeature('composable_template')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
+    }
+
+    public function testDeleteCopy()
+    {
+        $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'-copy/delete');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);

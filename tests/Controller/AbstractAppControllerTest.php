@@ -15,7 +15,15 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
     protected $callManager;
 
-    protected $xpack;
+    public static function setUpBeforeClass() {
+        if (false === defined('GENERATED_NAME')) {
+            define('GENERATED_NAME', 'phpunit-'.uniqid());
+        }
+
+        if (false === defined('GENERATED_NAME_SYSTEM')) {
+            define('GENERATED_NAME_SYSTEM', '.phpunit-'.uniqid());
+        }
+    }
 
     protected function setUp(): void
     {

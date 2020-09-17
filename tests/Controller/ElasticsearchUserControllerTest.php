@@ -34,6 +34,18 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Users - Create user');
+
+            $values = [
+                'data[name]' => GENERATED_NAME,
+                'data[password]' => uniqid(),
+                'data[roles]' => ['elasticsearch-admin-test'],
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Users - '.GENERATED_NAME);
         }
     }
 
@@ -53,13 +65,13 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Users - '.GENERATED_NAME);
         }
     }
 
@@ -90,13 +102,13 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME.'/update');
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Users - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Users - '.GENERATED_NAME.' - Update');
         }
     }
 
@@ -127,7 +139,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
     public function testDisable()
     {
-        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/disable');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME.'/disable');
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
@@ -163,7 +175,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
     public function testEnable()
     {
-        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/enable');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME.'/enable');
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
@@ -199,7 +211,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/elasticsearch-users/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME.'/delete');
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);

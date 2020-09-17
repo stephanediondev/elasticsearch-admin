@@ -34,6 +34,18 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - Create role');
+
+            $values = [
+                'data[name]' => GENERATED_NAME,
+                'data[cluster]' => ['all'],
+                'data[run_as]' => [],
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Roles - '.GENERATED_NAME);
         }
     }
 
@@ -61,7 +73,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
 
     public function testCreateCopy()
     {
-        $this->client->request('GET', '/admin/elasticsearch-roles/create?role=elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/elasticsearch-roles/create?role='.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
@@ -87,13 +99,13 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/elasticsearch-roles/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/elasticsearch-roles/'.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Roles - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Roles - '.GENERATED_NAME);
         }
     }
 
@@ -124,13 +136,13 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/elasticsearch-roles/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/elasticsearch-roles/'.GENERATED_NAME.'/update');
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Roles - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Roles - '.GENERATED_NAME.' - Update');
         }
     }
 
@@ -161,7 +173,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/elasticsearch-roles/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/elasticsearch-roles/'.GENERATED_NAME.'/delete');
 
         if (false == $this->callManager->hasFeature('security')) {
             $this->assertResponseStatusCodeSame(403);

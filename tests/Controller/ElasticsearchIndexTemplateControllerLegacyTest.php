@@ -27,6 +27,44 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates - Create legacy index template');
+
+        $values = [
+            'data[name]' => GENERATED_NAME,
+        ];
+        if (true === $this->callManager->hasFeature('multiple_patterns')) {
+            $values['data[index_patterns]'] = GENERATED_NAME;
+        } else {
+            $values['data[template]'] = GENERATED_NAME;
+        }
+        $this->client->submitForm('Submit', $values);
+
+        $this->assertResponseStatusCodeSame(302);
+
+        $this->client->followRedirect();
+        $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME);
+    }
+
+    public function testCreateSystem()
+    {
+        $this->client->request('GET', '/admin/index-templates-legacy/create');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Legacy index templates - Create legacy index template');
+
+        $values = [
+            'data[name]' => GENERATED_NAME_SYSTEM,
+        ];
+        if (true === $this->callManager->hasFeature('multiple_patterns')) {
+            $values['data[index_patterns]'] = GENERATED_NAME_SYSTEM;
+        } else {
+            $values['data[template]'] = GENERATED_NAME_SYSTEM;
+        }
+        $this->client->submitForm('Submit', $values);
+
+        $this->assertResponseStatusCodeSame(302);
+
+        $this->client->followRedirect();
+        $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME_SYSTEM);
     }
 
     public function testCreateCopy404()
@@ -38,17 +76,24 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
 
     public function testCreateCopy403()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/create?template=.elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/index-templates-legacy/create?template='.GENERATED_NAME_SYSTEM);
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testCreateCopy()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/create?template=elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/index-templates-legacy/create?template='.GENERATED_NAME);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates - Create legacy index template');
+
+        $this->client->submitForm('Submit');
+
+        $this->assertResponseStatusCodeSame(302);
+
+        $this->client->followRedirect();
+        $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.'-copy');
     }
 
     /**
@@ -63,10 +108,10 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME);
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Legacy index templates - elasticsearch-admin-test');
+        $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME);
     }
 
     /**
@@ -81,17 +126,17 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
 
     public function testUpdate403()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/.elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME_SYSTEM.'/update');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME.'/update');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Legacy index templates - elasticsearch-admin-test - Update');
+        $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.' - Update');
     }
 
     /**
@@ -106,10 +151,10 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
 
     public function testSettings()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test/settings');
+        $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME.'/settings');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Legacy index templates - elasticsearch-admin-test - Settings');
+        $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.' - Settings');
     }
 
     /**
@@ -124,10 +169,10 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
 
     public function testMappings()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test/mappings');
+        $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME.'/mappings');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Legacy index templates - elasticsearch-admin-test - Mappings');
+        $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.' - Mappings');
     }
 
     /**
@@ -142,14 +187,21 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
 
     public function testDelete403()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/.elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME_SYSTEM.'/delete');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/index-templates-legacy/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME.'/delete');
+
+        $this->assertResponseStatusCodeSame(302);
+    }
+
+    public function testDeleteCopy()
+    {
+        $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME.'-copy/delete');
 
         $this->assertResponseStatusCodeSame(302);
     }
