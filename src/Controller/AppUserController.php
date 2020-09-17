@@ -193,4 +193,41 @@ class AppUserController extends AbstractAppController
 
         return $this->redirectToRoute('app_users');
     }
+
+    /**
+     * @Route("/profile", name="app_users_profile")
+     */
+    public function profile(Request $request): Response
+    {
+        $user = $this->appUserManager->getById($this->getuser()->getId());
+
+        $form = $this->createForm(AppUserType::class, $user, [
+            'old_email' => $user->getEmail(),
+            'current_user_admin' => $user->currentUserAdmin($this->getuser()),
+            'context' => 'profile',
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                if ($user->getChangePassword() && $user->getPasswordPlain()) {
+                    $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
+                }
+
+                $callResponse = $this->appUserManager->send($user);
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
+
+                return $this->redirectToRoute('app_users_profile');
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/app_user/app_user_profile.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
 }
