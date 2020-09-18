@@ -114,7 +114,11 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
     private function getUserById($id)
     {
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$id);
+        if (true === $this->callManager->hasFeature('_doc_as_type')) {
+            $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$id);
+        } else {
+            $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$id);
+        }
         $callResponse = $this->callManager->call($callRequest);
         $row = $callResponse->getContent();
 
