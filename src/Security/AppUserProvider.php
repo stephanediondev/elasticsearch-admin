@@ -3,8 +3,7 @@
 namespace App\Security;
 
 use App\Exception\CallException;
-use App\Manager\CallManager;
-use App\Model\CallRequestModel;
+use App\Manager\AppUserManager;
 use App\Model\AppUserModel;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -15,9 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
-    public function __construct(CallManager $callManager)
+    public function __construct(AppUserManager $appUserManager)
     {
-        $this->callManager = $callManager;
+        $this->appUserManager = $appUserManager;
     }
 
     /**
@@ -38,7 +37,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
         // it is whatever value is being returned by the getUsername()
         // method in your User class.
 
-        return $this->getUserByEmail($email);
+        return $this->appUserManager->getByEmail($email);
     }
 
     /**
@@ -62,7 +61,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
 
         // Return a User object after making sure its data is "fresh".
         // Or throw a UsernameNotFoundException if the user no longer exists.
-        return $this->getUserById($user->getId());
+        return $this->appUserManager->getById($user->getId());
     }
 
     /**
@@ -81,59 +80,6 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
         // When encoded passwords are in use, this method should:
         // 1. persist the new password in the user storage
         // 2. update the $user object with $user->setPassword($newEncodedPassword);
-    }
-
-    private function getUserByEmail($email)
-    {
-        $query = [
-            'q' => 'email:"'.$email.'"',
-        ];
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/.elasticsearch-admin-users/_search');
-        $callRequest->setQuery($query);
-        $callResponse = $this->callManager->call($callRequest);
-        $results = $callResponse->getContent();
-
-        if ($results && 0 < count($results['hits']['hits'])) {
-            foreach ($results['hits']['hits'] as $row) {
-                $user = new AppUserModel();
-                $user->setId($row['_id']);
-                $user->setEmail($row['_source']['email']);
-                $user->setPassword($row['_source']['password']);
-                $user->setRoles($row['_source']['roles']);
-                if (true === isset($row['_source']['created_at']) && '' != $row['_source']['created_at']) {
-                    $user->setCreatedAt(new \Datetime($row['_source']['created_at']));
-                }
-                return $user;
-            }
-        }
-
-        return null;
-    }
-
-    private function getUserById($id)
-    {
-        $callRequest = new CallRequestModel();
-        if (true === $this->callManager->hasFeature('_doc_as_type')) {
-            $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$id);
-        } else {
-            $callRequest->setPath('/.elasticsearch-admin-users/doc/'.$id);
-        }
-        $callResponse = $this->callManager->call($callRequest);
-        $row = $callResponse->getContent();
-
-        if ($row) {
-            $user = new AppUserModel();
-            $user->setId($row['_id']);
-            $user->setEmail($row['_source']['email']);
-            $user->setPassword($row['_source']['password']);
-            $user->setRoles($row['_source']['roles']);
-            if (true === isset($row['_source']['created_at']) && '' != $row['_source']['created_at']) {
-                $user->setCreatedAt(new \Datetime($row['_source']['created_at']));
-            }
-            return $user;
-        }
-
-        return null;
+        dump('oo');
     }
 }

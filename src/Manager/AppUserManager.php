@@ -48,7 +48,7 @@ class AppUserManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
-        if ($results && 1 == count($results['hits']['hits'])) {
+        if ($results && 0 < count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
                 $user = ['id' => $row['_id']];
                 $user = array_merge($user, $row['_source']);
