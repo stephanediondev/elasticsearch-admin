@@ -47,6 +47,7 @@ app_uninstall_note: "After confirmation, the indices below will be deleted. You 
 app_upgrade: "Upgrade"
 app_upgrade_note: "All indices are upgraded."
 app_users: "Users"
+app_users_note: "This application uses its own users and you can define roles and permissions to limit the features. But still you must reserves <strong>access to trusted users</strong> from the same team or company. Be carefull by defining a role other than admin, with the access to console, Elasticsearch users and application users."
 application: "Application"
 applications: "Applications"
 apply: "Apply"

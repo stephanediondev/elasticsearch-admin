@@ -12,6 +12,10 @@
 {% endblock %}
 
 {% block main_content %}
+    <div class="jumbotron">
+        <p class="lead">{{ 'app_users_note'|trans|raw }}</p>
+    </div>
+
     {% embed 'Embed/card_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
