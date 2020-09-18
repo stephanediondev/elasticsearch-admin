@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ user.email }} - {{ 'profile'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': user.email}) }}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'update'|trans}) }}
+
+            {{ appImport.form({'form': form}) }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var dataChangePassword = document.getElementById('data_change_password');
+        var dataPasswordPlainFirst = document.getElementById('data_passwordPlain_first');
+        var dataPasswordPlainSecond = document.getElementById('data_passwordPlain_second');
+
+        function changePassword() {
+            if (true === dataChangePassword.checked) {
+                var badge = ' <small class="badge bg-dark text-light ml-1">{{ 'required'|trans|escape('js') }}</small>';
+
+                dataPasswordPlainFirst.removeAttribute('disabled');
+                dataPasswordPlainFirst.setAttribute('required', 'required');
+
+                var dataPasswordPlainFirstLabel = document.querySelector('label[for="data_passwordPlain_first"]');
+                dataPasswordPlainFirstLabel.insertAdjacentHTML('beforeend', badge);
+
+                dataPasswordPlainSecond.removeAttribute('disabled');
+                dataPasswordPlainSecond.setAttribute('required', 'required');
+
+                var dataPasswordPlainSecondLabel = document.querySelector('label[for="data_passwordPlain_second"]');
+                dataPasswordPlainSecondLabel.insertAdjacentHTML('beforeend', badge);
+            } else {
+                dataPasswordPlainFirst.setAttribute('disabled', 'disabled');
+                dataPasswordPlainFirst.removeAttribute('required');
+
+                var dataPasswordPlainFirstLabelBadge = document.querySelector('label[for="data_passwordPlain_first"] .badge');
+                if (dataPasswordPlainFirstLabelBadge) {
+                    dataPasswordPlainFirstLabelBadge.parentNode.removeChild(dataPasswordPlainFirstLabelBadge);
+                }
+
+                dataPasswordPlainSecond.setAttribute('disabled', 'disabled');
+                dataPasswordPlainSecond.removeAttribute('required');
+
+                var dataPasswordPlainSecondLabelBadge = document.querySelector('label[for="data_passwordPlain_second"] .badge');
+                if (dataPasswordPlainSecondLabelBadge) {
+                    dataPasswordPlainSecondLabelBadge.parentNode.removeChild(dataPasswordPlainSecondLabelBadge);
+                }
+            }
+        }
+
+        changePassword();
+
+        dataChangePassword.addEventListener('click', function(event) {
+            changePassword();
+        });
+    </script>
+{% endblock %}

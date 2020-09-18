@@ -135,7 +135,7 @@
                                 {% if is_granted('APP_SUBSCRIPTIONS', 'global') %}
                                     <a class="dropdown-item" href="{{ path('app_subscriptions') }}">{{ 'subscriptions'|trans }}</a>
                                 {% endif %}
-
+                                <a class="dropdown-item" href="{{ path('app_users_profile') }}">{{ 'profile'|trans }}</a>
                                 <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
                             </div>
                         </li>

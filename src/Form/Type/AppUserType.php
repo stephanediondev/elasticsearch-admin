@@ -43,7 +43,7 @@ class AppUserType extends AbstractType
 
         $fields[] = 'email';
 
-        if ('update' == $options['context']) {
+        if ('update' == $options['context'] || 'profile' == $options['context']) {
             $fields[] = 'change_password';
 
             $passwordRequired = false;
@@ -52,7 +52,7 @@ class AppUserType extends AbstractType
 
         $fields[] = 'passwordPlain';
 
-        if ('register' != $options['context'] && false === $options['current_user_admin']) {
+        if ('register' != $options['context'] && 'profile' != $options['context'] && false === $options['current_user_admin']) {
             $fields[] = 'roles';
         }
 
@@ -147,7 +147,7 @@ class AppUserType extends AbstractType
                 }
             }
 
-            if ('update' == $options['context']) {
+            if ('update' == $options['context'] || 'profile' == $options['context']) {
                 if ($form->has('email') && $form->get('email')->getData() && $options['old_email'] != $form->get('email')->getData()) {
                     $user = $this->appUserManager->getByEmail($form->get('email')->getData());
 

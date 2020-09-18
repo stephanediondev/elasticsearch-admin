@@ -40,12 +40,14 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         if (1 == count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
-                $row = $row['_source'];
-
                 $user = new AppUserModel();
-                $user->setEmail($row['email']);
-                $user->setPassword($row['password']);
-                $user->setRoles($row['roles']);
+                $user->setId($row['_id']);
+                $user->setEmail($row['_source']['email']);
+                $user->setPassword($row['_source']['password']);
+                $user->setRoles($row['_source']['roles']);
+                if (true === isset($row['_source']['created_at']) && '' != $row['_source']['created_at']) {
+                    $user->setCreatedAt(new \Datetime($row['_source']['created_at']));
+                }
             }
         }
 

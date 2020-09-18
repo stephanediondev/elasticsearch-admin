@@ -62,7 +62,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
 
         // Return a User object after making sure its data is "fresh".
         // Or throw a UsernameNotFoundException if the user no longer exists.
-        return $this->getUserByEmail($user->getEmail());
+        return $this->getUserById($user->getId());
     }
 
     /**
@@ -106,6 +106,28 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
                 }
                 return $user;
             }
+        }
+
+        return null;
+    }
+
+    private function getUserById($id)
+    {
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/.elasticsearch-admin-users/_doc/'.$id);
+        $callResponse = $this->callManager->call($callRequest);
+        $row = $callResponse->getContent();
+
+        if ($row) {
+            $user = new AppUserModel();
+            $user->setId($row['_id']);
+            $user->setEmail($row['_source']['email']);
+            $user->setPassword($row['_source']['password']);
+            $user->setRoles($row['_source']['roles']);
+            if (true === isset($row['_source']['created_at']) && '' != $row['_source']['created_at']) {
+                $user->setCreatedAt(new \Datetime($row['_source']['created_at']));
+            }
+            return $user;
         }
 
         return null;
