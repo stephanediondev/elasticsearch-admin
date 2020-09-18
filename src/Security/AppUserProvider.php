@@ -80,6 +80,5 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
         // When encoded passwords are in use, this method should:
         // 1. persist the new password in the user storage
         // 2. update the $user object with $user->setPassword($newEncodedPassword);
-        dump('oo');
     }
 }
