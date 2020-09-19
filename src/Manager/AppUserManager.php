@@ -61,10 +61,13 @@ class AppUserManager extends AbstractAppManager
         return $userModel;
     }
 
-    public function getAll(): array
+    public function getAll(?array $query = []): array
     {
+        $query['size'] = 1000;
+
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/.elasticsearch-admin-users/_search');
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 

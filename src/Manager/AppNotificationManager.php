@@ -42,6 +42,54 @@ class AppNotificationManager extends AbstractAppManager
 
     public function getAll(): array
     {
+        $query['size'] = 1000;
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/.elasticsearch-admin-notifications/_search');
+        $callRequest->setQuery($query);
+        $callResponse = $this->callManager->call($callRequest);
+        $results = $callResponse->getContent();
+
+        $notifications = [];
+
+        if ($results && 0 < count($results['hits']['hits'])) {
+            foreach ($results['hits']['hits'] as $row) {
+                $notification = ['id' => $row['_id']];
+                $notification = array_merge($notification, $row['_source']);
+
+                $appNotificationModel = new AppNotificationModel();
+                $appNotificationModel->convert($notification);
+                $notifications[] = $appNotificationModel;
+            }
+            usort($notifications, [$this, 'sortByCreatedAt']);
+        }
+
+        return $notifications;
+    }
+
+    private function sortByCreatedAt($a, $b)
+    {
+        return $b->getCreatedAt()->format('Y-m-d H:i:s') > $a->getCreatedAt()->format('Y-m-d H:i:s');
+    }
+
+    public function send(AppNotificationModel $appNotificationModel): CallResponseModel
+    {
+        $json = $appNotificationModel->getJson();
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
+        if (true === $this->callManager->hasFeature('_doc_as_type')) {
+            $callRequest->setPath('/.elasticsearch-admin-notifications/_doc');
+        } else {
+            $callRequest->setPath('/.elasticsearch-admin-notifications/doc/');
+        }
+        $callRequest->setJson($json);
+        $callRequest->setQuery(['refresh' => 'true']);
+
+        return $this->callManager->call($callRequest);
+    }
+
+    public function generate(): array
+    {
         try {
             $this->clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
@@ -114,8 +162,9 @@ class AppNotificationManager extends AbstractAppManager
         if (true === isset($previousInfo['cluster_health']) && $previousInfo['cluster_health'] && $previousInfo['cluster_health'] != $lastInfo['cluster_health']) {
             $notification = new AppNotificationModel();
             $notification->setType(AppNotificationModel::TYPE_CLUSTER_HEALTH);
-            $notification->setTitle($this->clusterHealth['cluster_name'].': health');
-            $notification->setBody(ucfirst($lastInfo['cluster_health']));
+            $notification->setCluster($this->clusterHealth['cluster_name']);
+            $notification->setTitle('health');
+            $notification->setContent(ucfirst($lastInfo['cluster_health']));
             $notification->setColor($lastInfo['cluster_health']);
 
             $notifications[] = $notification;
@@ -126,8 +175,9 @@ class AppNotificationManager extends AbstractAppManager
             foreach ($nodesDown as $nodeDown) {
                 $notification = new AppNotificationModel();
                 $notification->setType(AppNotificationModel::TYPE_NODE_DOWN);
-                $notification->setTitle($this->clusterHealth['cluster_name'].': node down');
-                $notification->setBody($nodeDown);
+                $notification->setCluster($this->clusterHealth['cluster_name']);
+                $notification->setTitle('node down');
+                $notification->setContent($nodeDown);
                 $notification->setColor('red');
 
                 $notifications[] = $notification;
@@ -137,8 +187,9 @@ class AppNotificationManager extends AbstractAppManager
             foreach ($nodesUp as $nodeUp) {
                 $notification = new AppNotificationModel();
                 $notification->setType(AppNotificationModel::TYPE_NODE_UP);
-                $notification->setTitle($this->clusterHealth['cluster_name'].': node up');
-                $notification->setBody($nodeUp);
+                $notification->setCluster($this->clusterHealth['cluster_name']);
+                $notification->setTitle('node up');
+                $notification->setContent($nodeUp);
                 $notification->setColor('green');
 
                 $notifications[] = $notification;
@@ -150,8 +201,9 @@ class AppNotificationManager extends AbstractAppManager
                 if (true === isset($previousInfo['disk_threshold'][$node]) && $previousInfo['disk_threshold'][$node]['watermark'] != $values['watermark']) {
                     $notification = new AppNotificationModel();
                     $notification->setType(AppNotificationModel::TYPE_DISK_THRESHOLD);
-                    $notification->setTitle($this->clusterHealth['cluster_name'].': disk threshold');
-                    $notification->setBody($node.' '.$values['percent'].'%');
+                    $notification->setCluster($this->clusterHealth['cluster_name']);
+                    $notification->setTitle('disk threshold');
+                    $notification->setContent($node.' '.$values['percent'].'%');
                     $notification->setColor($this->getColor($values['watermark']));
 
                     $notifications[] = $notification;
@@ -162,19 +214,20 @@ class AppNotificationManager extends AbstractAppManager
         if (true === isset($previousInfo['license']) && $previousInfo['license'] && $previousInfo['license'] != $lastInfo['license']) {
             $notification = new AppNotificationModel();
             $notification->setType(AppNotificationModel::TYPE_LICENSE);
-            $notification->setTitle($this->clusterHealth['cluster_name'].': license');
+            $notification->setCluster($this->clusterHealth['cluster_name']);
+            $notification->setTitle('license');
             switch ($lastInfo['license']) {
                 case 'license_ok':
-                    $notification->setBody('Valid');
+                    $notification->setContent('Valid');
                     break;
                 case 'license_30_days':
-                    $notification->setBody('Expires in 30 days');
+                    $notification->setContent('Expires in 30 days');
                     break;
                 case 'license_15_days':
-                    $notification->setBody('Expires in 15 days');
+                    $notification->setContent('Expires in 15 days');
                     break;
                 case 'license_1_day':
-                    $notification->setBody('Expires today');
+                    $notification->setContent('Expires today');
                     break;
             }
             $notification->setColor($this->getColor($lastInfo['license']));
@@ -185,12 +238,13 @@ class AppNotificationManager extends AbstractAppManager
         if (true === isset($previousInfo['versions']) && $previousInfo['versions'] && count($previousInfo['versions']) != count($lastInfo['versions'])) {
             $notification = new AppNotificationModel();
             $notification->setType(AppNotificationModel::TYPE_VERSION);
-            $notification->setTitle($this->clusterHealth['cluster_name'].': ES version');
+            $notification->setCluster($this->clusterHealth['cluster_name']);
+            $notification->setTitle('ES version');
             if (1 == count($lastInfo['versions'])) {
-                $notification->setBody('One version ('.$lastInfo['versions'][0].')');
+                $notification->setContent('One version ('.$lastInfo['versions'][0].')');
                 $notification->setColor('green');
             } else {
-                $notification->setBody('Multiple versions ('.implode(', ', $lastInfo['versions']).')');
+                $notification->setContent('Multiple versions ('.implode(', ', $lastInfo['versions']).')');
                 $notification->setColor('red');
             }
 

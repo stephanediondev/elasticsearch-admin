@@ -13,13 +13,36 @@ class AppNotificationModel extends AbstractAppModel
     const TYPE_LICENSE = 'license';
     const TYPE_VERSION = 'version';
 
+    private $id;
+
     private $type;
+
+    private $cluster;
 
     private $title;
 
-    private $body;
+    private $content;
 
     private $color;
+
+    private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \Datetime();
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     public function getType(): ?string
     {
@@ -29,6 +52,18 @@ class AppNotificationModel extends AbstractAppModel
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCluster(): ?string
+    {
+        return $this->cluster;
+    }
+
+    public function setCluster(string $cluster): self
+    {
+        $this->cluster = $cluster;
 
         return $this;
     }
@@ -45,14 +80,14 @@ class AppNotificationModel extends AbstractAppModel
         return $this;
     }
 
-    public function getBody(): ?string
+    public function getContent(): ?string
     {
-        return $this->body;
+        return $this->content;
     }
 
-    public function setBody(string $body): self
+    public function setContent(string $content): self
     {
-        $this->body = $body;
+        $this->content = $content;
 
         return $this;
     }
@@ -69,9 +104,21 @@ class AppNotificationModel extends AbstractAppModel
         return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     public function getSubject(): ?string
     {
-        return $this->getEmoji().' '.$this->getTitle();
+        return $this->getEmoji().' '.$this->getCluster().': '.$this->getTitle();
     }
 
     public function getEmoji(): ?string
@@ -100,5 +147,48 @@ class AppNotificationModel extends AbstractAppModel
             self::TYPE_LICENSE,
             self::TYPE_VERSION,
         ];
+    }
+
+    public function convert(?array $notification): self
+    {
+        $this->setId($notification['id']);
+        if (true === isset($notification['type'])) {
+            $this->setType($notification['type']);
+        }
+        if (true === isset($notification['cluster'])) {
+            $this->setCluster($notification['cluster']);
+        }
+        if (true === isset($notification['title'])) {
+            $this->setTitle($notification['title']);
+        }
+        if (true === isset($notification['content'])) {
+            $this->setContent($notification['content']);
+        }
+        if (true === isset($notification['color'])) {
+            $this->setColor($notification['color']);
+        }
+        if (true === isset($notification['created_at'])) {
+            $this->setCreatedAt(new \Datetime($notification['created_at']));
+        }
+        return $this;
+    }
+
+    public function getJson(): array
+    {
+        $json = [
+            'type' => $this->getType(),
+            'cluster' => $this->getCluster(),
+            'title' => $this->getTitle(),
+            'content' => $this->getContent(),
+            'color' => $this->getColor(),
+            'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s'),
+        ];
+
+        return $json;
+    }
+
+    public function __toString(): string
+    {
+        return $this->id;
     }
 }

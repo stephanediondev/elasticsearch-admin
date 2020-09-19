@@ -38,7 +38,7 @@ class SendNotificationsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $notifications = $this->appNotificationManager->getAll();
+        $notifications = $this->appNotificationManager->generate();
 
         if (0 < count($notifications)) {
             $subscriptions = $this->appSubscriptionManager->getAll();
@@ -67,7 +67,7 @@ class SendNotificationsCommand extends Command
                                         $payload = [
                                             'tag' => uniqid('', true),
                                             'title' => $notification->getSubject(),
-                                            'body' => $notification->getBody(),
+                                            'body' => $notification->getContent(),
                                         ];
 
                                         $subscription = Subscription::create([
@@ -85,7 +85,7 @@ class SendNotificationsCommand extends Command
                                     $email = (new Email())
                                         ->to($subscription->getEndpoint())
                                         ->subject($notification->getSubject())
-                                        ->text($notification->getBody());
+                                        ->text($notification->getContent());
 
                                     $this->mailer->send($email);
                                     break;
@@ -94,7 +94,7 @@ class SendNotificationsCommand extends Command
                                     try {
                                         $options = [
                                             'json' => [
-                                                'text' => $notification->getSubject()."\r\n".$notification->getBody(),
+                                                'text' => $notification->getSubject()."\r\n".$notification->getContent(),
                                             ],
                                         ];
                                         $this->client->request('POST', $subscription->getEndpoint(), $options);
@@ -110,7 +110,7 @@ class SendNotificationsCommand extends Command
                                                 '@context' => 'https://schema.org/extensions',
                                                 '@type' => 'MessageCard',
                                                 'title' => $notification->getSubject(),
-                                                'text' => $notification->getBody(),
+                                                'text' => $notification->getContent(),
                                             ],
                                         ];
                                         $this->client->request('POST', $subscription->getEndpoint(), $options);
@@ -121,6 +121,8 @@ class SendNotificationsCommand extends Command
                             }
                         }
                     }
+
+                    $this->appNotificationManager->send($notification);
                 }
 
                 foreach ($webPush->flush() as $report) {

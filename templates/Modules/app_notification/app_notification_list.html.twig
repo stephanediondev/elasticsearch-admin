@@ -1,0 +1,71 @@
+{% embed 'Embed/table_embed.html.twig' %}
+    {% import 'Import/app_import.html.twig' as appImport %}
+
+    {% set columns = {'type': true, 'content': true, 'status': true, 'created_at': true} %}
+
+    {% block thead %}
+        <tr>
+            {% for column, display in columns %}
+                {% if true == display %}
+                    {% if 'type' == column %}
+                        <th>
+                            {{ 'type'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'content' == column %}
+                        <th>
+                            {{ 'content'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'status' == column %}
+                        <th>
+                            {{ 'status'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'created_at' == column %}
+                        <th>
+                            {{ 'created_at'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}
+                        </th>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endblock %}
+
+    {% block tbody %}
+        {% for row in notifications.rows %}
+            <tr>
+                {% for column, display in columns %}
+                    {% if true == display %}
+                        {% if 'type' == column %}
+                            <td>
+                                {{ row.type }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'content' == column %}
+                            <td>
+                                {{ row.content }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'status' == column %}
+                            <td>
+                                {{ appImport.badge({'title': row.color|trans, 'context': row.color}) }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'created_at' == column %}
+                            <td>
+                                {{ row.createdAt|human_datetime }}
+                            </td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}

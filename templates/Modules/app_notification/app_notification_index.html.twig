@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% import 'Import/app_import.html.twig' as appImport %}
+
+{% block head_title %}{{ 'app_notifications'|trans }}{% endblock %}
+
+{% block heading_1 %}
+    {{ appImport.heading({'level': 1, 'title': 'app_notifications'|trans}) }}
+{% endblock %}
+
+{% block tabs %}
+    {% include 'Modules/app_notification/app_notification_tabs.html.twig' with {'active': 'list'} %}
+{% endblock %}
+
+{% block main_content %}
+    {% embed 'Embed/card_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
+            {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': notifications.total}}) }}
+
+            {% if 0 < notifications.total %}
+                {{ appImport.paginator(notifications) }}
+
+                {% include 'Modules/app_notification/app_notification_list.html.twig' with {'notifications': notifications} %}
+
+                {{ appImport.paginator(notifications) }}
+            {% endif %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

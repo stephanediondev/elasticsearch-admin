@@ -126,6 +126,7 @@ abstract class AbstractAppController extends AbstractController
                         ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
                         ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
                         ['granted' => 'APP_UPGRADE', 'path' => 'app_upgrade'],
+                        ['granted' => 'APP_NOTIFICATIONS', 'path' => 'app_notifications'],
                     ];
 
                     $menus['application'] = $this->populateMenu($entries);

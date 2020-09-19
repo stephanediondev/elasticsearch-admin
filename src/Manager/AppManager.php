@@ -20,6 +20,7 @@ class AppManager extends AbstractAppManager
             '.elasticsearch-admin-roles',
             '.elasticsearch-admin-permissions',
             '.elasticsearch-admin-subscriptions',
+            '.elasticsearch-admin-notifications',
         ];
     }
 
@@ -115,6 +116,30 @@ class AppManager extends AbstractAppManager
                             'type' => 'keyword',
                         ],
                         'notifications' => [
+                            'type' => 'keyword',
+                        ],
+                        'created_at' => [
+                            'type' => 'date',
+                            'format' => 'yyyy-MM-dd HH:mm:ss',
+                        ],
+                    ],
+                ];
+            case '.elasticsearch-admin-notifications':
+                return [
+                    'properties' => [
+                        'type' => [
+                            'type' => 'keyword',
+                        ],
+                        'cluster' => [
+                            'type' => 'keyword',
+                        ],
+                        'title' => [
+                            'type' => 'keyword',
+                        ],
+                        'content' => [
+                            'type' => 'keyword',
+                        ],
+                        'color' => [
                             'type' => 'keyword',
                         ],
                         'created_at' => [
