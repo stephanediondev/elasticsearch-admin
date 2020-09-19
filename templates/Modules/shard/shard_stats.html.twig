@@ -23,6 +23,12 @@
                 {% for key, total in data.totals %}
                     {% if 'shards_total_size' == key %}
                         {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total|human_filesize}}) }}
+                    {% elseif 'shards_total_primary' == key %}
+                        {% if is_granted('SHARDS', 'global') %}
+                            {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total, 'link': path('shards', {'type': 'primary'})}}) }}
+                        {% else %}
+                            {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total}}) }}
+                        {% endif %}
                     {% elseif 'shards_total_unassigned' == key %}
                         {% if is_granted('SHARDS', 'global') and 0 < total %}
                             {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total, 'context': 'danger', 'link': path('shards', {'state[]': 'unassigned'})}}) }}
