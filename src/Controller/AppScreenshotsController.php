@@ -97,7 +97,7 @@ class AppScreenshotsController extends AbstractAppController
             }
 
             if (false === $disabled) {
-                fwrite($fp, '[!['.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
+                fwrite($fp, '[!['.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
                 fwrite($fp, "\r\n");
                 fwrite($fp, "\r\n");
 
