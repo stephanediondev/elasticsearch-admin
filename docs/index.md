@@ -83,33 +83,33 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [(Back to screenshots)](#screenshots)
 
-[![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-cluster.png)
+[![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/original/original-cluster.png)
 
-[![Cluster audit](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-cluster-audit.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-cluster-audit.png)
+[![Cluster audit](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/resized/resized-cluster-audit.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/original/original-cluster-audit.png)
 
-[![Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-cluster-allocation-explain.png)
+[![Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/original/original-cluster-allocation-explain.png)
 
-[![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-nodes.png)
+[![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/original/original-nodes.png)
 
-[![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-indices.png)
+[![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/original/original-indices.png)
 
-[![Index import from database](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-index-database-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-index-database-import.png)
+[![Index import from database](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/resized/resized-index-database-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/original/original-index-database-import.png)
 
-[![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-shards.png)
+[![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/original/original-shards.png)
 
-[![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/7.9.1/original/original-snapshots.png)
+[![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.9.1/original/original-snapshots.png)
 
-![Notifications](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/notifications.png)
+![Notifications](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/notifications.png)
 
 ## All screenshots
 
 [(Back to screenshots)](#screenshots)
 
-- [2.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/master/screenshots/2.0.0)
-- [5.0.1](https://github.com/stephanediondev/elasticsearch-admin/tree/master/screenshots/5.0.1)
-- [6.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/master/screenshots/6.0.0)
-- [7.9.1](https://github.com/stephanediondev/elasticsearch-admin/tree/master/screenshots/7.9.1)
-- [8.0.0-SNAPSHOT](https://github.com/stephanediondev/elasticsearch-admin/tree/master/screenshots/8.0.0-SNAPSHOT)
+- [2.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/2.0.0)
+- [5.0.1](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/5.0.1)
+- [6.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/6.0.0)
+- [7.9.1](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/7.9.1)
+- [8.0.0-SNAPSHOT](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/8.0.0-SNAPSHOT)
 
 # Installation
 
@@ -308,9 +308,9 @@ Once the installation is finished, you can access the application with one of th
 - http://your-domain-or-sub-domain
 - https://your-domain-or-sub-domain (if you have added certificates)
 
-You will see a register page to create the first user (you need the secret registration key) [View](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/original-register.png)
+You will see a register page to create the first user (you need the secret registration key) [View](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/original-register.png)
 
-After registration you can login [View](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/master/screenshots/original-login.png)
+After registration you can login [View](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/original-login.png)
 
 # Other tools
 
@@ -333,7 +333,7 @@ Checked on 12 Sep 2020 *
 
 [(Back to table of contents)](#table-of-contents)
 
-[MIT License](https://github.com/stephanediondev/elasticsearch-admin/blob/master/LICENSE)
+[MIT License](https://github.com/stephanediondev/elasticsearch-admin/blob/main/LICENSE)
 
 # Privacy
 
