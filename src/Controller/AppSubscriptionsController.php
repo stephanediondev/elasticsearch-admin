@@ -207,8 +207,9 @@ class AppSubscriptionsController extends AbstractAppController
 
         $notification = new AppNotificationModel();
         $notification->setType(AppNotificationModel::TYPE_CLUSTER_HEALTH);
-        $notification->setTitle($this->clusterHealth['cluster_name'].': health');
-        $notification->setBody(ucfirst($this->clusterHealth['status']));
+        $notification->setCluster($this->clusterHealth['cluster_name']);
+        $notification->setTitle('health');
+        $notification->setContent(ucfirst($this->clusterHealth['status']));
         $notification->setColor($this->clusterHealth['status']);
 
         switch ($subscription->getType()) {
@@ -231,7 +232,7 @@ class AppSubscriptionsController extends AbstractAppController
                     $payload = [
                         'tag' => uniqid('', true),
                         'title' => $notification->getSubject(),
-                        'body' => $notification->getBody(),
+                        'body' => $notification->getContent(),
                     ];
 
                     $subcription = Subscription::create([
