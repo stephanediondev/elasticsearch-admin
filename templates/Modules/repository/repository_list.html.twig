@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'id': true, 'type': true} %}
+    {% set columns = {'id': true, 'type': true, 'managed': true} %}
 
     {% block thead %}
         <tr>
@@ -16,6 +16,12 @@
                     {% if 'type' == column %}
                         <th>
                             {{ 'type'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'managed' == column %}
+                        <th>
+                            {{ 'managed'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -37,6 +43,16 @@
                         {% if 'type' == column %}
                             <td>
                                 {{ ('repository_' ~ row.type)|trans }}
+                            </td>
+                        {% endif %}
+
+                        {% if 'managed' == column %}
+                            <td>
+                                {% if cluster_settings['cluster.metadata.managed_repository'] is defined and cluster_settings['cluster.metadata.managed_repository'] == row.name %}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                                {% endif %}
                             </td>
                         {% endif %}
                     {% endif %}

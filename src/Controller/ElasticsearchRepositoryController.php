@@ -33,6 +33,8 @@ class ElasticsearchRepositoryController extends AbstractAppController
 
         $repositories = $this->elasticsearchRepositoryManager->getAll();
 
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+
         return $this->renderAbstract($request, 'Modules/repository/repository_index.html.twig', [
             'repositories' => $this->paginatorManager->paginate([
                 'route' => 'repositories',
@@ -43,6 +45,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
                 'page' => $request->query->get('page'),
                 'size' => 100,
             ]),
+            'cluster_settings' => $clusterSettings,
         ]);
     }
 
@@ -115,8 +118,11 @@ class ElasticsearchRepositoryController extends AbstractAppController
             throw new NotFoundHttpException();
         }
 
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+
         return $this->renderAbstract($request, 'Modules/repository/repository_read.html.twig', [
             'repository' => $repository,
+            'cluster_settings' => $clusterSettings,
         ]);
     }
 

@@ -60,6 +60,15 @@
                         {{ ('repository_' ~ repository.type)|trans }}
                     </p>
 
+                    <p>
+                        <strong>{{ 'managed'|trans }}</strong><br>
+                        {% if cluster_settings['cluster.metadata.managed_repository'] is defined and cluster_settings['cluster.metadata.managed_repository'] == repository.name %}
+                            {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                        {% else %}
+                            {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                        {% endif %}
+                    </p>
+
                     {% if repository.chunkSize %}
                         <p>
                             <strong>{{ 'chunk_size'|trans }}</strong><br>
