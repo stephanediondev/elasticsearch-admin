@@ -170,17 +170,26 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodesWithFilter;
     }
 
-    public function selectNodes(): array
+    public function selectNodes(?array $filter = []): array
     {
         $nodes = [];
 
+        $query = [
+            'h' => 'name,node.role',
+        ];
+        if (true === $this->callManager->hasFeature('cat_sort')) {
+            $query['s'] = 'name';
+        }
         $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_nodes');
+        $callRequest->setPath('/_cat/nodes');
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
-        foreach ($rows['nodes'] as $k => $row) {
-            $nodes[$k] = $row['name'];
+        $rows = $this->filter($rows, $filter);
+
+        foreach ($rows as $row) {
+            $nodes[] = $row['name'];
         }
 
         return $nodes;
