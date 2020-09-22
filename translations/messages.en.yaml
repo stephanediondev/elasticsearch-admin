@@ -1,9 +1,9 @@
 boolean:
-    0: "False"
-    1: "True"
-    "": "False"
-    "false": "False"
-    "true": "True"
+    0: "No"
+    1: "Yes"
+    "": "No"
+    "false": "No"
+    "true": "Yes"
 
 offline:
     title: "Offline"
