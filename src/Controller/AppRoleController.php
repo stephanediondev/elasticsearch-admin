@@ -53,23 +53,7 @@ class AppRoleController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('APP_ROLES_CREATE', 'global');
 
-        $role = null;
-
-        if ($request->query->get('role')) {
-            $role = $this->appRoleManager->getByName($request->query->get('role'));
-
-            if (null === $role) {
-                throw new NotFoundHttpException();
-            }
-
-            $this->denyAccessUnlessGranted('APP_ROLE_COPY', $role);
-
-            $role->setName($role->getName().'-copy');
-        }
-
-        if (null === $role) {
-            $role = new AppRoleModel();
-        }
+        $role = new AppRoleModel();
         $form = $this->createForm(AppRoleType::class, $role);
 
         $form->handleRequest($request);
