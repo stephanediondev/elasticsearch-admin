@@ -34,6 +34,17 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Pipelines - Create pipeline');
+
+            $values = [
+                'data[name]' => GENERATED_NAME,
+                'data[processors]' => '[]',
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Pipelines - '.GENERATED_NAME);
         }
     }
 
@@ -50,13 +61,23 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 
     public function testCreateCopy()
     {
-        $this->client->request('GET', '/admin/pipelines/create?pipeline=elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/pipelines/create?pipeline='.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Pipelines - Create pipeline');
+
+            $values = [
+                'data[processors]' => '[]',
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Pipelines - '.GENERATED_NAME.'-copy');
         }
     }
 
@@ -76,13 +97,13 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/pipelines/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/pipelines/'.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Pipelines - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Pipelines - '.GENERATED_NAME);
         }
     }
 
@@ -102,13 +123,13 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/pipelines/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/pipelines/'.GENERATED_NAME.'/update');
 
         if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Pipelines - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Pipelines - '.GENERATED_NAME.' - Update');
         }
     }
 
@@ -128,7 +149,18 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/pipelines/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/pipelines/'.GENERATED_NAME.'/delete');
+
+        if (false == $this->callManager->hasFeature('pipelines')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
+    }
+
+    public function testDeleteCopy()
+    {
+        $this->client->request('GET', '/admin/pipelines/'.GENERATED_NAME.'-copy/delete');
 
         if (false == $this->callManager->hasFeature('pipelines')) {
             $this->assertResponseStatusCodeSame(403);

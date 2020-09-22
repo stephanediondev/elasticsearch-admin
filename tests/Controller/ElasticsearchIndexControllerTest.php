@@ -49,6 +49,40 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Create index');
+
+        $values = [
+            'data[name]' => GENERATED_NAME,
+        ];
+        if (true === $this->callManager->checkVersion('7.0')) {
+            $values['data[mappings]'] = file_get_contents(__DIR__.'/../../src/DataFixtures/es-test-mappings.json');
+        }
+        $this->client->submitForm('Submit', $values);
+
+        $this->assertResponseStatusCodeSame(302);
+
+        $this->client->followRedirect();
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME);
+    }
+
+    public function testCreateSystem()
+    {
+        $this->client->request('GET', '/admin/indices/create');
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertPageTitleSame('Indices - Create index');
+
+        $values = [
+            'data[name]' => GENERATED_NAME_SYSTEM,
+        ];
+        if (true === $this->callManager->checkVersion('7.0')) {
+            $values['data[mappings]'] = file_get_contents(__DIR__.'/../../src/DataFixtures/es-test-mappings.json');
+        }
+        $this->client->submitForm('Submit', $values);
+
+        $this->assertResponseStatusCodeSame(302);
+
+        $this->client->followRedirect();
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME_SYSTEM);
     }
 
     /**
@@ -63,10 +97,10 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME);
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test');
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME);
     }
 
     /**
@@ -81,17 +115,17 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testUpdate403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/update');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/update');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Update');
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Update');
     }
 
     /**
@@ -106,10 +140,10 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testSettings()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/settings');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/settings');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Settings');
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Settings');
     }
 
     /**
@@ -124,10 +158,10 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testMappings()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/mappings');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/mappings');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Mappings');
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Mappings');
     }
 
     /**
@@ -146,13 +180,13 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testLifecycle()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/lifecycle');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/lifecycle');
 
         if (false == $this->callManager->hasFeature('ilm')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Lifecycle');
+            $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Lifecycle');
         }
     }
 
@@ -168,17 +202,17 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testSearch403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/search');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/search');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testSearch()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/search');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/search');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Search');
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Search');
     }
 
     /**
@@ -193,17 +227,17 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testImport403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/file-import');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/file-import');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testImport()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/file-import');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/file-import');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Import from file');
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Import from file');
     }
 
     /**
@@ -218,10 +252,10 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testAliases()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/aliases');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/aliases');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Aliases');
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Aliases');
     }
 
     /**
@@ -236,10 +270,10 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testCreateAlias()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/aliases/create');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/aliases/create');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Aliases');
+        $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Aliases');
     }
 
     /**
@@ -254,14 +288,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testRefresh403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/refresh');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/refresh');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testRefresh()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/refresh');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/refresh');
 
         $this->assertResponseStatusCodeSame(302);
     }
@@ -282,7 +316,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testEmpty403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/empty');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/empty');
 
         if (false == $this->callManager->hasFeature('delete_by_query')) {
             $this->assertResponseStatusCodeSame(403);
@@ -293,7 +327,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testEmpty()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/empty');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/empty');
 
         if (false == $this->callManager->hasFeature('delete_by_query')) {
             $this->assertResponseStatusCodeSame(403);
@@ -314,14 +348,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testClose403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/close');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/close');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testClose()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/close');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/close');
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
@@ -344,14 +378,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testOpen403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/open');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/open');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testOpen()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/open');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/open');
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
@@ -378,7 +412,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testFreeze403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/freeze');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/freeze');
 
         if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
@@ -389,7 +423,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testFreeze()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/freeze');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/freeze');
 
         if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
@@ -414,7 +448,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testUnfreeze403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/unfreeze');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/unfreeze');
 
         if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
@@ -425,7 +459,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testUnfreeze()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/unfreeze');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/unfreeze');
 
         if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
@@ -446,14 +480,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
     public function testDelete403()
     {
-        $this->client->request('GET', '/admin/indices/.elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/delete');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/delete');
 
         $this->assertResponseStatusCodeSame(302);
     }

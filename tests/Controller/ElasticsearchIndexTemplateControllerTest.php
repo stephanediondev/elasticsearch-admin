@@ -34,6 +34,40 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Composable index templates - Create composable index template');
+
+            $values = [
+                'data[name]' => GENERATED_NAME,
+                'data[index_patterns]' => GENERATED_NAME,
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME);
+        }
+    }
+
+    public function testCreateSystem()
+    {
+        $this->client->request('GET', '/admin/index-templates/create');
+
+        if (false == $this->callManager->hasFeature('composable_template')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Composable index templates - Create composable index template');
+
+            $values = [
+                'data[name]' => GENERATED_NAME_SYSTEM,
+                'data[index_patterns]' => GENERATED_NAME_SYSTEM,
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME_SYSTEM);
         }
     }
 
@@ -50,7 +84,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testCreateCopy403()
     {
-        $this->client->request('GET', '/admin/index-templates/create?template=.elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/index-templates/create?template='.GENERATED_NAME_SYSTEM);
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
@@ -61,13 +95,23 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testCreateCopy()
     {
-        $this->client->request('GET', '/admin/index-templates/create?template=elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/index-templates/create?template='.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Composable index templates - Create composable index template');
+
+            $values = [
+                'data[index_patterns]' => GENERATED_NAME.'-copy',
+            ];
+            $this->client->submitForm('Submit', $values);
+
+            $this->assertResponseStatusCodeSame(302);
+
+            $this->client->followRedirect();
+            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.'-copy');
         }
     }
 
@@ -87,13 +131,13 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test');
+            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME);
         }
     }
 
@@ -113,7 +157,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testUpdate403()
     {
-        $this->client->request('GET', '/admin/index-templates/.elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME_SYSTEM.'/update');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
@@ -124,13 +168,13 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/update');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Update');
         }
     }
 
@@ -150,13 +194,13 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testSettings()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/settings');
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/settings');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test - Settings');
+            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Settings');
         }
     }
 
@@ -176,13 +220,13 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testMappings()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/mappings');
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/mappings');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test - Mappings');
+            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Mappings');
         }
     }
 
@@ -202,13 +246,13 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testSimulate()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/simulate');
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/simulate');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable index templates - elasticsearch-admin-test - Simulate');
+            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Simulate');
         }
     }
 
@@ -228,7 +272,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testDelete403()
     {
-        $this->client->request('GET', '/admin/index-templates/.elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME_SYSTEM.'/delete');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);
@@ -239,7 +283,18 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/index-templates/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/delete');
+
+        if (false == $this->callManager->hasFeature('composable_template')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
+    }
+
+    public function testDeleteCopy()
+    {
+        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'-copy/delete');
 
         if (false == $this->callManager->hasFeature('composable_template')) {
             $this->assertResponseStatusCodeSame(403);

@@ -80,7 +80,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
 
     /*public function testCreateCopy()
     {
-        $this->client->request('GET', '/admin/slm/create?policy=elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/slm/create?policy='.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
@@ -106,13 +106,13 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
 
     /*public function testRead()
     {
-        $this->client->request('GET', '/admin/slm/elasticsearch-admin-test');
+        $this->client->request('GET', '/admin/slm/'.GENERATED_NAME);
 
         if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('SLM policies - elasticsearch-admin-test');
+            $this->assertPageTitleSame('SLM policies - '.GENERATED_NAME);
         }
     }*/
 
@@ -160,13 +160,13 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
 
     /*public function testUpdate()
     {
-        $this->client->request('GET', '/admin/slm/elasticsearch-admin-test/update');
+        $this->client->request('GET', '/admin/slm/'.GENERATED_NAME.'/update');
 
         if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('SLM policies - elasticsearch-admin-test - Update');
+            $this->assertPageTitleSame('SLM policies - '.GENERATED_NAME.' - Update');
         }
     }*/
 
@@ -186,7 +186,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
 
     /*public function testDelete()
     {
-        $this->client->request('GET', '/admin/slm/elasticsearch-admin-test/delete');
+        $this->client->request('GET', '/admin/slm/'.GENERATED_NAME.'/delete');
 
         if (false == $this->callManager->hasFeature('slm')) {
             $this->assertResponseStatusCodeSame(403);
