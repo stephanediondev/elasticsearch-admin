@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true, 'data_stream': false, 'description': true} %}
+    {% set columns = {'name': true, 'index_patterns': true, 'priority': true, 'version': true, 'composed_of': true, 'data_stream': false, 'managed': true} %}
 
     {% if true == hasFeature('data_streams') %}
         {% set columns = columns|merge({'data_stream': true}) %}
@@ -49,9 +49,9 @@
                         </th>
                     {% endif %}
 
-                    {% if 'description' == column %}
+                    {% if 'managed' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ 'description'|trans }}
+                            {{ 'managed'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -117,10 +117,12 @@
                             </td>
                         {% endif %}
 
-                        {% if 'description' == column %}
+                        {% if 'managed' == column %}
                             <td class="d-none d-xl-table-cell">
-                                {% if row.metadata and row.metadata.description is defined %}
-                                    {{ row.metadata.description }}
+                                {% if row.isManaged %}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}

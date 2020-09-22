@@ -27,6 +27,7 @@ class ElasticsearchIndexTemplateFilterType extends AbstractType
         if (true === $this->callManager->hasFeature('data_streams')) {
             $fields[] = 'data_stream';
         }
+        $fields[] = 'managed';
         $fields[] = 'sort';
         $fields[] = 'page';
 
@@ -49,6 +50,20 @@ class ElasticsearchIndexTemplateFilterType extends AbstractType
                             return $options['question'][$key];
                         },
                         'label' => 'data_stream',
+                        'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
+                    ]);
+                    break;
+                case 'managed':
+                    $builder->add('managed', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['question'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['question'][$key];
+                        },
+                        'label' => 'managed',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',

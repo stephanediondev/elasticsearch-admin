@@ -117,6 +117,11 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $indexPatterns;
     }
 
+    public function isManaged(): ?bool
+    {
+        return true === isset($this->getMetadata()['managed']) && true === $this->getMetadata()['managed'];
+    }
+
     public function isSystem(): ?bool
     {
         return '.' == substr($this->getName(), 0, 1);

@@ -79,6 +79,15 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
                 }
             }
 
+            if (true === isset($filter['managed'])) {
+                if ('yes' === $filter['managed'] && false === $row->isManaged()) {
+                    $score--;
+                }
+                if ('no' === $filter['managed'] && true === $row->isManaged()) {
+                    $score--;
+                }
+            }
+
             if (0 <= $score) {
                 $templatesWithFilter[] = $row;
             }

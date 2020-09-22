@@ -91,6 +91,15 @@
                     {% endif %}
                 </p>
             {% endif %}
+
+            <p>
+                <strong>{{ 'managed'|trans }}</strong><br>
+                {% if template.isManaged %}
+                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                {% else %}
+                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
+                {% endif %}
+            </p>
         {% endblock %}
     {% endembed %}
 {% endblock %}

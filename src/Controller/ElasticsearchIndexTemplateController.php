@@ -45,6 +45,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         $templates = $this->elasticsearchIndexTemplateManager->getAll([
             'name' => $form->get('name')->getData(),
             'data_stream' => $form->has('data_stream') ? $form->get('data_stream')->getData() : false,
+            'managed' => $form->has('managed') ? $form->get('managed')->getData() : false,
         ]);
 
         return $this->renderAbstract($request, 'Modules/index_template/index_template_index.html.twig', [
