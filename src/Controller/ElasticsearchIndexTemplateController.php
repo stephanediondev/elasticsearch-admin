@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchIndexTemplateType;
-use App\Form\Type\ElasticsearchIndexTemplateFilterType;
+use App\Form\Type\ElasticsearchTemplateFilterType;
 use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Manager\ElasticsearchIndexTemplateManager;
 use App\Model\CallRequestModel;
@@ -38,7 +38,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $form = $this->createForm(ElasticsearchIndexTemplateFilterType::class);
+        $form = $this->createForm(ElasticsearchTemplateFilterType::class, null, ['context' => 'index_template']);
 
         $form->handleRequest($request);
 

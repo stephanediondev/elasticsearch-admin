@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchIndexTemplateLegacyType;
-use App\Form\Type\NameFilterType;
+use App\Form\Type\ElasticsearchTemplateFilterType;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +31,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY', 'global');
 
-        $form = $this->createForm(NameFilterType::class);
+        $form = $this->createForm(ElasticsearchTemplateFilterType::class, null, ['context' => 'index_template_legacy']);
 
         $form->handleRequest($request);
 

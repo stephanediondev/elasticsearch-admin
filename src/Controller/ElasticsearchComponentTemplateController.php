@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchComponentTemplateType;
-use App\Form\Type\ElasticsearchComponentTemplateFilterType;
+use App\Form\Type\ElasticsearchTemplateFilterType;
 use App\Manager\ElasticsearchComponentTemplateManager;
 use App\Model\ElasticsearchComponentTemplateModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,7 +35,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $form = $this->createForm(ElasticsearchComponentTemplateFilterType::class);
+        $form = $this->createForm(ElasticsearchTemplateFilterType::class, null, ['context' => 'component_template']);
 
         $form->handleRequest($request);
 
