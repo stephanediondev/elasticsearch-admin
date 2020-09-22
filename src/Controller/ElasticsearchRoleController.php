@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchRoleType;
+use App\Form\Type\ElasticsearchUserFilterType;
 use App\Manager\ElasticsearchRoleManager;
 use App\Manager\ElasticsearchUserManager;
 use App\Model\CallRequestModel;
@@ -37,7 +38,14 @@ class ElasticsearchRoleController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $roles = $this->elasticsearchRoleManager->getAll();
+        $form = $this->createForm(ElasticsearchUserFilterType::class, null, ['context' => 'role']);
+
+        $form->handleRequest($request);
+
+        $roles = $this->elasticsearchRoleManager->getAll([
+            'reserved' => $form->has('reserved') ? $form->get('reserved')->getData() : false,
+            'deprecated' => $form->has('deprecated') ? $form->get('deprecated')->getData() : false,
+        ]);
 
         return $this->renderAbstract($request, 'Modules/role/role_index.html.twig', [
             'roles' => $this->paginatorManager->paginate([
@@ -49,6 +57,7 @@ class ElasticsearchRoleController extends AbstractAppController
                 'page' => $request->query->get('page'),
                 'size' => 100,
             ]),
+            'form' => $form->createView(),
         ]);
     }
 

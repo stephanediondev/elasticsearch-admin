@@ -52,7 +52,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
         return $roleModel;
     }
 
-    public function getAll(): array
+    public function getAll(array $filter = []): array
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath($this->getEndpoint().'/role');
@@ -67,7 +67,40 @@ class ElasticsearchRoleManager extends AbstractAppManager
         }
         ksort($roles);
 
-        return $roles;
+        return $this->filter($roles, $filter);
+    }
+
+    public function filter(array $roles, array $filter = []): array
+    {
+        $rolesWithFilter = [];
+
+        foreach ($roles as $row) {
+            $score = 0;
+
+            if (true === isset($filter['reserved'])) {
+                if ('yes' === $filter['reserved'] && false === $row->isReserved()) {
+                    $score--;
+                }
+                if ('no' === $filter['reserved'] && true === $row->isReserved()) {
+                    $score--;
+                }
+            }
+
+            if (true === isset($filter['deprecated'])) {
+                if ('yes' === $filter['deprecated'] && false === $row->isDeprecated()) {
+                    $score--;
+                }
+                if ('no' === $filter['deprecated'] && true === $row->isDeprecated()) {
+                    $score--;
+                }
+            }
+
+            if (0 <= $score) {
+                $rolesWithFilter[] = $row;
+            }
+        }
+
+        return $rolesWithFilter;
     }
 
     public function send(ElasticsearchRoleModel $roleModel): CallResponseModel

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchUserType;
+use App\Form\Type\ElasticsearchUserFilterType;
 use App\Manager\ElasticsearchUserManager;
 use App\Manager\ElasticsearchRoleManager;
 use App\Model\CallRequestModel;
@@ -37,7 +38,15 @@ class ElasticsearchUserController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $users = $this->elasticsearchUserManager->getAll();
+        $form = $this->createForm(ElasticsearchUserFilterType::class, null, ['context' => 'user']);
+
+        $form->handleRequest($request);
+
+        $users = $this->elasticsearchUserManager->getAll([
+            'enabled' => $form->has('enabled') ? $form->get('enabled')->getData() : false,
+            'reserved' => $form->has('reserved') ? $form->get('reserved')->getData() : false,
+            'deprecated' => $form->has('deprecated') ? $form->get('deprecated')->getData() : false,
+        ]);
 
         return $this->renderAbstract($request, 'Modules/user/user_index.html.twig', [
             'users' => $this->paginatorManager->paginate([
@@ -49,6 +58,7 @@ class ElasticsearchUserController extends AbstractAppController
                 'page' => $request->query->get('page'),
                 'size' => 100,
             ]),
+            'form' => $form->createView(),
         ]);
     }
 

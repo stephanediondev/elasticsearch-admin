@@ -52,7 +52,7 @@ class ElasticsearchUserManager extends AbstractAppManager
         return $userModel;
     }
 
-    public function getAll(): array
+    public function getAll(array $filter = []): array
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath($this->getEndpoint().'/user');
@@ -67,7 +67,49 @@ class ElasticsearchUserManager extends AbstractAppManager
         }
         ksort($users);
 
-        return $users;
+        return $this->filter($users, $filter);
+    }
+
+    public function filter(array $users, array $filter = []): array
+    {
+        $usersWithFilter = [];
+
+        foreach ($users as $row) {
+            $score = 0;
+
+            if (true === isset($filter['enabled'])) {
+                if ('yes' === $filter['enabled'] && false === $row->getEnabled()) {
+                    $score--;
+                }
+                if ('no' === $filter['enabled'] && true === $row->getEnabled()) {
+                    $score--;
+                }
+            }
+
+            if (true === isset($filter['reserved'])) {
+                if ('yes' === $filter['reserved'] && false === $row->isReserved()) {
+                    $score--;
+                }
+                if ('no' === $filter['reserved'] && true === $row->isReserved()) {
+                    $score--;
+                }
+            }
+
+            if (true === isset($filter['deprecated'])) {
+                if ('yes' === $filter['deprecated'] && false === $row->isDeprecated()) {
+                    $score--;
+                }
+                if ('no' === $filter['deprecated'] && true === $row->isDeprecated()) {
+                    $score--;
+                }
+            }
+
+            if (0 <= $score) {
+                $usersWithFilter[] = $row;
+            }
+        }
+
+        return $usersWithFilter;
     }
 
     public function send(ElasticsearchUserModel $userModel): CallResponseModel
