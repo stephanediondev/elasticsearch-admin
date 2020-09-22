@@ -60,7 +60,31 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
             }
         }
 
-        return $templates;
+        return $this->filter($templates, $filter);
+    }
+
+    public function filter(array $templates, array $filter = []): array
+    {
+        $templatesWithFilter = [];
+
+        foreach ($templates as $row) {
+            $score = 0;
+
+            if (true === isset($filter['managed'])) {
+                if ('yes' === $filter['managed'] && false === $row->isManaged()) {
+                    $score--;
+                }
+                if ('no' === $filter['managed'] && true === $row->isManaged()) {
+                    $score--;
+                }
+            }
+
+            if (0 <= $score) {
+                $templatesWithFilter[] = $row;
+            }
+        }
+
+        return $templatesWithFilter;
     }
 
     public function send(ElasticsearchComponentTemplateModel $templateModel): CallResponseModel

@@ -51,6 +51,11 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    public function isManaged(): ?bool
+    {
+        return true === isset($this->getMetadata()['managed']) && true === $this->getMetadata()['managed'];
+    }
+
     public function isSystem(): ?bool
     {
         return '.' == substr($this->getName(), 0, 1);

@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'version': true, 'description': true} %}
+    {% set columns = {'name': true, 'version': true, 'description': true, 'managed': true} %}
 
     {% block thead %}
         <tr>
@@ -22,6 +22,12 @@
                     {% if 'description' == column %}
                         <th>
                             {{ 'description'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'managed' == column %}
+                        <th>
+                            {{ 'managed'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -50,6 +56,16 @@
                             <td>
                                 {% if row.metadata and row.metadata.description is defined %}
                                     {{ row.metadata.description }}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'managed' == column %}
+                            <td>
+                                {% if row.isManaged %}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}
