@@ -56,6 +56,9 @@ class ElasticsearchCatController extends AbstractAppController
                 if ($catModel->getSort()) {
                     $query['s'] = $catModel->getSort();
                 }
+                if ('nodes' == $catModel->getCommand()) {
+                    $query['full_id'] = 'true';
+                }
                 $callRequest = new CallRequestModel();
                 $callRequest->setPath('/_cat/'.$catModel->getCommandReplace());
                 $callRequest->setQuery($query);

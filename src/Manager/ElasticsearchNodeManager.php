@@ -175,7 +175,8 @@ class ElasticsearchNodeManager extends AbstractAppManager
         $nodes = [];
 
         $query = [
-            'h' => 'name,node.role',
+            'h' => 'id,name,node.role',
+            'full_id' => 'true',
         ];
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $query['s'] = 'name';
@@ -189,7 +190,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
         $rows = $this->filter($rows, $filter);
 
         foreach ($rows as $row) {
-            $nodes[] = $row['name'];
+            $nodes[$row['id']] = $row['name'];
         }
 
         return $nodes;
