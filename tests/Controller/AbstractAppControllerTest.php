@@ -23,6 +23,14 @@ abstract class AbstractAppControllerTest extends WebTestCase
         if (false === defined('GENERATED_NAME_SYSTEM')) {
             define('GENERATED_NAME_SYSTEM', '.phpunit-'.uniqid());
         }
+
+        if (false === defined('GENERATED_NAME_UPPER')) {
+            define('GENERATED_NAME_UPPER', getRandomString(8));
+        }
+
+        if (false === defined('GENERATED_EMAIL')) {
+            define('GENERATED_EMAIL', 'phpunit-'.uniqid().'@test.com');
+        }
     }
 
     protected function setUp(): void
@@ -30,6 +38,8 @@ abstract class AbstractAppControllerTest extends WebTestCase
         $this->client = static::createClient([], ['HTTPS' => true]);
 
         $this->callManager = self::$container->get('App\Manager\CallManager');
+
+        $this->appUserManager = self::$container->get('App\Manager\AppUserManager');
 
         $this->elasticsearchClusterManager = self::$container->get('App\Manager\ElasticsearchClusterManager');
 
@@ -65,4 +75,15 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         $this->client->loginUser($user);
     }
+}
+
+function getRandomString($length = 8) {
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $string = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $string .= $characters[mt_rand(0, strlen($characters) - 1)];
+    }
+
+    return $string;
 }

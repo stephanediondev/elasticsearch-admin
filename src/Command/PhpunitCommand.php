@@ -90,91 +90,16 @@ class PhpunitCommand extends Command
         }
 
         $cases = [
-            'app_role' => [
-                'name' => 'app-admin-test',
-                'path' => '.elasticsearch-admin-roles/'.$this->pathDoc,
-                'json' => ['name' => 'app-admin-test'],
-                'query' => ['refresh' => 'true'],
-            ],
-            'app_user' => [
-                'name' => 'app-admin-test',
-                'path' => '.elasticsearch-admin-users/'.$this->pathDoc,
-                'json' => ['email' => 'app-admin-test'],
-                'query' => ['refresh' => 'true'],
-            ],
-            'elasticsearch_role' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => $this->pathSecurity.'/role',
-                'feature' => 'security',
-                'json' => ['cluster' => [], 'run_as' => []],
-            ],
-            'elasticsearch_user' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => $this->pathSecurity.'/user',
-                'feature' => 'security',
-                'json' => ['password' => uniqid(), 'roles' => ['elasticsearch-admin-test']],
-            ],
             'index' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => '',
                 'json' => $jsonIndex,
-            ],
-            'index_system' => [
-                'name' => '.elasticsearch-admin-test',
-                'path' => '',
-                'json' => $jsonIndex,
-            ],
-            'index_template_legacy' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => '_template',
-                'json' => true === $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => 'elasticsearch-admin-test'] : ['template' => 'elasticsearch-admin-test'],
-            ],
-            'index_template_legacy_system' => [
-                'name' => '.elasticsearch-admin-test',
-                'path' => '_template',
-                'json' => true === $this->callManager->hasFeature('multiple_patterns') ? ['index_patterns' => '.elasticsearch-admin-test'] : ['template' => '.elasticsearch-admin-test'],
-            ],
-            'index_template' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => '_index_template',
-                'feature' => 'composable_template',
-                'json' => ['index_patterns' => 'elasticsearch-admin-test'],
-            ],
-            'index_template_system' => [
-                'name' => '.elasticsearch-admin-test',
-                'path' => '_index_template',
-                'feature' => 'composable_template',
-                'json' => ['index_patterns' => '.elasticsearch-admin-test'],
-            ],
-            'component_template' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => '_component_template',
-                'feature' => 'composable_template',
-                'json' => ['template' => (object)[]],
-            ],
-            'component_template_system' => [
-                'name' => '.elasticsearch-admin-test',
-                'path' => '_component_template',
-                'feature' => 'composable_template',
-                'json' => ['template' => (object)[]],
-            ],
-            'pipeline' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => '_ingest/pipeline',
-                'feature' => 'pipelines',
-                'json' => ['processors' => []],
             ],
             'enrich' => [
                 'name' => 'elasticsearch-admin-test',
                 'path' => '_enrich/policy',
                 'feature' => 'enrich',
                 'json' => ['match' => ['indices' => 'elasticsearch-admin-test', 'match_field' => 'test-text', 'enrich_fields' => 'test-boolean']],
-            ],
-            'ilm_policy' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => '_ilm/policy',
-                'feature' => 'ilm',
-                'json' => ['policy' => ['phases' => ['delete' => ['min_age' => '7d', 'actions' => ['delete' => (object)[]]]]]],
             ],
             /*'slm_policy' => [
                 'name' => 'elasticsearch-admin-test',

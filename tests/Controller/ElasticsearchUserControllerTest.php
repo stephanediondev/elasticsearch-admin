@@ -42,7 +42,6 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $values = [
                 'data[name]' => GENERATED_NAME,
                 'data[password]' => uniqid(),
-                'data[roles]' => ['elasticsearch-admin-test'],
             ];
             $this->client->submitForm('Submit', $values);
 

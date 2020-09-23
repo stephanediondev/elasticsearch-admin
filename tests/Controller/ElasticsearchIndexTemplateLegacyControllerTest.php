@@ -2,6 +2,8 @@
 
 namespace App\Tests\Controller;
 
+use App\Model\CallRequestModel;
+
 /**
  * @Route("/admin")
  */
@@ -225,6 +227,11 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
         $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME_SYSTEM.'/delete');
 
         $this->assertResponseStatusCodeSame(403);
+
+        $callRequest = new CallRequestModel();
+        $callRequest->setMethod('DELETE');
+        $callRequest->setPath('/_template/'.GENERATED_NAME_SYSTEM);
+        $this->callManager->call($callRequest);
     }
 
     public function testDelete()

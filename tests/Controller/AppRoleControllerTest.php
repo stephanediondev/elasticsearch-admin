@@ -31,6 +31,19 @@ class AppRoleControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Roles - Create role');
         $this->assertSelectorTextSame('h1', 'Roles');
         $this->assertSelectorTextSame('h3', 'Create role');
+
+        $values = [
+            'data[name]' => GENERATED_NAME_UPPER,
+        ];
+        $this->client->submitForm('Submit', $values);
+
+        $this->assertResponseStatusCodeSame(302);
+
+        $this->client->followRedirect();
+        $this->assertPageTitleSame('Roles - ROLE_'.GENERATED_NAME_UPPER.' - Update');
+        $this->assertSelectorTextSame('h1', 'Roles');
+        $this->assertSelectorTextSame('h2', 'ROLE_'.GENERATED_NAME_UPPER);
+        $this->assertSelectorTextSame('h3', 'Update');
     }
 
     /**
@@ -45,12 +58,12 @@ class AppRoleControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/app-roles/app-admin-test');
+        $this->client->request('GET', '/admin/app-roles/ROLE_'.GENERATED_NAME_UPPER);
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Roles - app-admin-test');
+        $this->assertPageTitleSame('Roles - ROLE_'.GENERATED_NAME_UPPER);
         $this->assertSelectorTextSame('h1', 'Roles');
-        $this->assertSelectorTextSame('h2', 'app-admin-test');
+        $this->assertSelectorTextSame('h2', 'ROLE_'.GENERATED_NAME_UPPER);
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
@@ -66,12 +79,12 @@ class AppRoleControllerTest extends AbstractAppControllerTest
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/app-roles/app-admin-test/update');
+        $this->client->request('GET', '/admin/app-roles/ROLE_'.GENERATED_NAME_UPPER.'/update');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Roles - app-admin-test - Update');
+        $this->assertPageTitleSame('Roles - ROLE_'.GENERATED_NAME_UPPER.' - Update');
         $this->assertSelectorTextSame('h1', 'Roles');
-        $this->assertSelectorTextSame('h2', 'app-admin-test');
+        $this->assertSelectorTextSame('h2', 'ROLE_'.GENERATED_NAME_UPPER);
         $this->assertSelectorTextSame('h3', 'Update');
     }
 
@@ -87,7 +100,7 @@ class AppRoleControllerTest extends AbstractAppControllerTest
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/app-roles/app-admin-test/delete');
+        $this->client->request('GET', '/admin/app-roles/ROLE_'.GENERATED_NAME_UPPER.'/delete');
 
         $this->assertResponseStatusCodeSame(302);
     }

@@ -225,4 +225,15 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(302);
         }
     }
+
+    public function testDeleteCopy()
+    {
+        $this->client->request('GET', '/admin/ilm/'.GENERATED_NAME.'-copy/delete');
+
+        if (false == $this->callManager->hasFeature('ilm')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(302);
+        }
+    }
 }

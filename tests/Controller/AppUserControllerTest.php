@@ -31,6 +31,21 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Users - Create user');
         $this->assertSelectorTextSame('h1', 'Users');
         $this->assertSelectorTextSame('h3', 'Create user');
+
+        $values = [
+            'data[email]' => GENERATED_EMAIL,
+            'data[passwordPlain][first]' => GENERATED_NAME,
+            'data[passwordPlain][second]' => GENERATED_NAME,
+        ];
+        $this->client->submitForm('Submit', $values);
+
+        $this->assertResponseStatusCodeSame(302);
+
+        $this->client->followRedirect();
+        $this->assertPageTitleSame('Users - '.GENERATED_EMAIL);
+        $this->assertSelectorTextSame('h1', 'Users');
+        $this->assertSelectorTextSame('h2', GENERATED_EMAIL);
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     /**
@@ -45,12 +60,14 @@ class AppUserControllerTest extends AbstractAppControllerTest
 
     public function testRead()
     {
-        $this->client->request('GET', '/admin/app-users/app-admin-test');
+        $user = $this->appUserManager->getByEmail(GENERATED_EMAIL);
+
+        $this->client->request('GET', '/admin/app-users/'.$user->getId());
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Users - app-admin-test');
+        $this->assertPageTitleSame('Users - '.GENERATED_EMAIL);
         $this->assertSelectorTextSame('h1', 'Users');
-        $this->assertSelectorTextSame('h2', 'app-admin-test');
+        $this->assertSelectorTextSame('h2', GENERATED_EMAIL);
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
@@ -66,12 +83,14 @@ class AppUserControllerTest extends AbstractAppControllerTest
 
     public function testUpdate()
     {
-        $this->client->request('GET', '/admin/app-users/app-admin-test/update');
+        $user = $this->appUserManager->getByEmail(GENERATED_EMAIL);
+
+        $this->client->request('GET', '/admin/app-users/'.$user->getId().'/update');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Users - app-admin-test - Update');
+        $this->assertPageTitleSame('Users - '.GENERATED_EMAIL.' - Update');
         $this->assertSelectorTextSame('h1', 'Users');
-        $this->assertSelectorTextSame('h2', 'app-admin-test');
+        $this->assertSelectorTextSame('h2', GENERATED_EMAIL);
         $this->assertSelectorTextSame('h3', 'Update');
     }
 
@@ -87,7 +106,9 @@ class AppUserControllerTest extends AbstractAppControllerTest
 
     public function testDelete()
     {
-        $this->client->request('GET', '/admin/app-users/app-admin-test/delete');
+        $user = $this->appUserManager->getByEmail(GENERATED_EMAIL);
+
+        $this->client->request('GET', '/admin/app-users/'.$user->getId().'/delete');
 
         $this->assertResponseStatusCodeSame(302);
     }

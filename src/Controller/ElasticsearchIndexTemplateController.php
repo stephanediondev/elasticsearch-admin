@@ -247,11 +247,17 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('INDEX_TEMPLATE_DELETE', $template);
 
-        $callResponse = $this->elasticsearchIndexTemplateManager->deleteByName($template->getName());
+        try {
+            $callResponse = $this->elasticsearchIndexTemplateManager->deleteByName($template->getName());
 
-        $this->addFlash('info', json_encode($callResponse->getContent()));
+            $this->addFlash('info', json_encode($callResponse->getContent()));
 
-        return $this->redirectToRoute('index_templates');
+            return $this->redirectToRoute('index_templates');
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
+
+            return $this->redirectToRoute('index_templates_read', ['name' => $template->getName()]);
+        }
     }
 
     /**

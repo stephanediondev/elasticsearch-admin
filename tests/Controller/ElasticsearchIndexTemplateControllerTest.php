@@ -2,6 +2,8 @@
 
 namespace App\Tests\Controller;
 
+use App\Model\CallRequestModel;
+
 /**
  * @Route("/admin")
  */
@@ -310,6 +312,11 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
+
+            $callRequest = new CallRequestModel();
+            $callRequest->setMethod('DELETE');
+            $callRequest->setPath('/_index_template/'.GENERATED_NAME_SYSTEM);
+            $this->callManager->call($callRequest);
         }
     }
 
