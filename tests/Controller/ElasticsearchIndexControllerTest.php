@@ -115,6 +115,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME);
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     /**
@@ -141,6 +142,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Update');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Update');
     }
 
     /**
@@ -179,6 +181,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Mappings');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Mappings');
     }
 
     /**
@@ -205,6 +208,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Lifecycle');
             $this->assertSelectorTextSame('h1', 'Indices');
+            $this->assertSelectorTextSame('h3', 'Lifecycle');
         }
     }
 
@@ -258,6 +262,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Import from file');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Import from file');
     }
 
     /**
@@ -296,6 +301,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Aliases');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Add');
     }
 
     /**
