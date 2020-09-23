@@ -2,8 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Model\CallRequestModel;
-
 /**
  * @Route("/admin")
  */

@@ -176,19 +176,13 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
 
     public function testSettings()
     {
-        $template = $this->elasticsearchIndexTemplateLegacyManager->getByName(GENERATED_NAME);
-
         $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME.'/settings');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.' - Settings');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
         $this->assertSelectorTextSame('h2', GENERATED_NAME);
-        if ($template->getSettings()) {
-            $this->assertSelectorTextSame('h3', 'Settings '.count($template->getSettings()));
-        } else {
-            $this->assertSelectorTextSame('h3', 'Settings 0');
-        }
+        $this->assertSelectorTextContains('h3', 'Settings');
     }
 
     /**

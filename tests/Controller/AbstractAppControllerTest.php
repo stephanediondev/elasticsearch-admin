@@ -43,10 +43,6 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         $this->elasticsearchClusterManager = self::$container->get('App\Manager\ElasticsearchClusterManager');
 
-        $this->elasticsearchNodeManager = self::$container->get('App\Manager\ElasticsearchNodeManager');
-
-        $this->elasticsearchIndexTemplateLegacyManager = self::$container->get('App\Manager\ElasticsearchIndexTemplateLegacyManager');
-
         $session = self::$container->get('session');
 
         $firewallName = 'main';

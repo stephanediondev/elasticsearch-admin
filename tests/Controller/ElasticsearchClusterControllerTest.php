@@ -2,8 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Model\CallRequestModel;
-
 /**
  * @Route("/admin")
  */
@@ -14,10 +12,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
      */
     public function testRead()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/health');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterHealth = $callResponse->getContent();
+        $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
         $this->client->request('GET', '/admin/cluster');
 
@@ -33,10 +28,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
      */
     public function testAllocationExplain()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/health');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterHealth = $callResponse->getContent();
+        $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
         $this->client->request('GET', '/admin/cluster/allocation/explain');
 
@@ -56,10 +48,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
      */
     public function testSettings()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/health');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterHealth = $callResponse->getContent();
+        $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
         $this->client->request('GET', '/admin/cluster/settings');
 
@@ -79,10 +68,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
      */
     public function testEditPersistent()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/health');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterHealth = $callResponse->getContent();
+        $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
         $this->client->request('GET', '/admin/cluster/settings/persistent/cluster.routing.allocation.disk.watermark.low/edit');
 
@@ -99,10 +85,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
 
     public function testEditTransient()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/health');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterHealth = $callResponse->getContent();
+        $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
         $this->client->request('GET', '/admin/cluster/settings/transient/cluster.routing.allocation.disk.watermark.low/edit');
 
@@ -122,10 +105,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
      */
     public function testAudit()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/health');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterHealth = $callResponse->getContent();
+        $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
         $this->client->request('GET', '/admin/cluster/audit');
 
@@ -141,10 +121,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
      */
     public function testDiskThresholds()
     {
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_cluster/health');
-        $callResponse = $this->callManager->call($callRequest);
-        $clusterHealth = $callResponse->getContent();
+        $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
         $this->client->request('GET', '/admin/cluster/disk-thresholds');
 
