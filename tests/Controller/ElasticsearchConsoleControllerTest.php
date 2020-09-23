@@ -16,5 +16,6 @@ class ElasticsearchConsoleControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Console');
+        $this->assertSelectorTextSame('h1', 'Console');
     }
 }

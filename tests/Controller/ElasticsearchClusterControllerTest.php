@@ -23,6 +23,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name']);
+        $this->assertSelectorTextSame('h1', 'Cluster');
         $this->assertSelectorTextSame('h2', $clusterHealth['cluster_name'].' '.ucfirst($clusterHealth['status']));
     }
 
@@ -43,6 +44,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Allocation explain');
+            $this->assertSelectorTextSame('h1', 'Cluster');
             $this->assertSelectorTextSame('h2', $clusterHealth['cluster_name'].' '.ucfirst($clusterHealth['status']));
         }
     }
@@ -64,6 +66,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Settings');
+            $this->assertSelectorTextSame('h1', 'Cluster');
             $this->assertSelectorTextSame('h2', $clusterHealth['cluster_name'].' '.ucfirst($clusterHealth['status']));
         }
     }
@@ -85,6 +88,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - cluster.routing.allocation.disk.watermark.low');
+            $this->assertSelectorTextSame('h1', 'Cluster');
             $this->assertSelectorTextSame('h2', $clusterHealth['cluster_name'].' '.ucfirst($clusterHealth['status']));
         }
     }
@@ -103,6 +107,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - cluster.routing.allocation.disk.watermark.low');
+            $this->assertSelectorTextSame('h1', 'Cluster');
             $this->assertSelectorTextSame('h2', $clusterHealth['cluster_name'].' '.ucfirst($clusterHealth['status']));
         }
     }
@@ -121,6 +126,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Audit');
+        $this->assertSelectorTextSame('h1', 'Cluster');
         $this->assertSelectorTextSame('h2', $clusterHealth['cluster_name'].' '.ucfirst($clusterHealth['status']));
     }
 
@@ -141,6 +147,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Cluster - '.$clusterHealth['cluster_name'].' - Disk thresholds');
+            $this->assertSelectorTextSame('h1', 'Cluster');
             $this->assertSelectorTextSame('h2', $clusterHealth['cluster_name'].' '.ucfirst($clusterHealth['status']));
         }
     }

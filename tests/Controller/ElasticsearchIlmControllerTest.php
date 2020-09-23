@@ -19,6 +19,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies');
+            $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
         }
     }
 
@@ -34,6 +35,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - Status');
+            $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
         }
     }
 
@@ -49,6 +51,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - Create ILM policy');
+            $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
 
             $values = [
                 'data[name]' => GENERATED_NAME,
@@ -68,6 +71,8 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
 
             $this->client->followRedirect();
             $this->assertPageTitleSame('ILM policies - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 
@@ -91,6 +96,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - Create ILM policy');
+            $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
 
             $this->client->submitForm('Submit');
 
@@ -98,6 +104,8 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
 
             $this->client->followRedirect();
             $this->assertPageTitleSame('ILM policies - '.GENERATED_NAME.'-copy');
+            $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME.'-copy');
         }
     }
 
@@ -124,6 +132,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
         }
     }
 
@@ -150,6 +159,8 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - '.GENERATED_NAME.' - Update');
+            $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 

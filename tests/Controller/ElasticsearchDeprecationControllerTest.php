@@ -19,6 +19,7 @@ class ElasticsearchDeprecationControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Deprecations');
+            $this->assertSelectorTextSame('h1', 'Deprecations');
         }
     }
 }

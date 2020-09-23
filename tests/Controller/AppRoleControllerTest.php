@@ -16,6 +16,7 @@ class AppRoleControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Roles');
+        $this->assertSelectorTextSame('h1', 'Roles');
     }
 
     /**
@@ -27,6 +28,7 @@ class AppRoleControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Roles - Create role');
+        $this->assertSelectorTextSame('h1', 'Roles');
     }
 
     /**
@@ -45,6 +47,7 @@ class AppRoleControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Roles - app-admin-test');
+        $this->assertSelectorTextSame('h1', 'Roles');
     }
 
     /**
@@ -63,6 +66,7 @@ class AppRoleControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Roles - app-admin-test - Update');
+        $this->assertSelectorTextSame('h1', 'Roles');
     }
 
     /**

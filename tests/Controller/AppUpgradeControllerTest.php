@@ -16,5 +16,6 @@ class AppUpgradeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Upgrade');
+        $this->assertSelectorTextSame('h1', 'Upgrade');
     }
 }

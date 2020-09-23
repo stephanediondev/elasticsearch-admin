@@ -18,6 +18,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes');
+        $this->assertSelectorTextSame('h1', 'Nodes');
     }
 
     /**
@@ -29,6 +30,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - Stats');
+        $this->assertSelectorTextSame('h1', 'Nodes');
     }
 
     /**
@@ -43,6 +45,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Nodes - Reload secure settings');
+            $this->assertSelectorTextSame('h1', 'Nodes');
         }
     }
 
@@ -64,6 +67,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$masterNode);
+        $this->assertSelectorTextSame('h1', 'Nodes');
         $this->assertSelectorTextSame('h2', $masterNode.' Master');
     }
 
@@ -85,6 +89,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$masterNode.' - Settings');
+        $this->assertSelectorTextSame('h1', 'Nodes');
         $this->assertSelectorTextSame('h2', $masterNode.' Master');
     }
 
@@ -106,6 +111,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$masterNode.' - Plugins');
+        $this->assertSelectorTextSame('h1', 'Nodes');
         $this->assertSelectorTextSame('h2', $masterNode.' Master');
     }
 
@@ -134,6 +140,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Nodes - '.$masterNode.' - Usage');
+            $this->assertSelectorTextSame('h1', 'Nodes');
             $this->assertSelectorTextSame('h2', $masterNode.' Master');
         }
     }

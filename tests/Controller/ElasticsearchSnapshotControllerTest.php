@@ -16,6 +16,7 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Snapshots');
+        $this->assertSelectorTextSame('h1', 'Snapshots');
     }
 
     /**
@@ -27,6 +28,7 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Snapshots - Stats');
+        $this->assertSelectorTextSame('h1', 'Snapshots');
     }
 
     /**
@@ -38,6 +40,7 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Snapshots - Create snapshot');
+        $this->assertSelectorTextSame('h1', 'Snapshots');
     }
 
     /**

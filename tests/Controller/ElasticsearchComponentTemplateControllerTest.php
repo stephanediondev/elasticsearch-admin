@@ -19,6 +19,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates');
+            $this->assertSelectorTextSame('h1', 'Component templates');
         }
     }
 
@@ -34,6 +35,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - Create component template');
+            $this->assertSelectorTextSame('h1', 'Component templates');
 
             $values = [
                 'data[name]' => GENERATED_NAME,
@@ -44,6 +46,8 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
             $this->client->followRedirect();
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 
@@ -56,6 +60,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - Create component template');
+            $this->assertSelectorTextSame('h1', 'Component templates');
 
             $values = [
                 'data[name]' => GENERATED_NAME_SYSTEM,
@@ -66,6 +71,8 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
             $this->client->followRedirect();
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME_SYSTEM);
+            $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME_SYSTEM);
         }
     }
 
@@ -100,6 +107,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - Create component template');
+            $this->assertSelectorTextSame('h1', 'Component templates');
 
             $this->client->submitForm('Submit');
 
@@ -107,6 +115,8 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
 
             $this->client->followRedirect();
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.'-copy');
+            $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME.'-copy');
         }
     }
 
@@ -133,6 +143,8 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 
@@ -170,6 +182,8 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Update');
+            $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 
@@ -196,6 +210,8 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Settings');
+            $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 
@@ -222,6 +238,8 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Mappings');
+            $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 

@@ -16,5 +16,6 @@ class AppOfflineControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Offline');
+        $this->assertSelectorTextSame('h1', 'Offline');
     }
 }

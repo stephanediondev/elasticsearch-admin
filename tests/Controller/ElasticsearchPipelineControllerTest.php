@@ -19,6 +19,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Pipelines');
+            $this->assertSelectorTextSame('h1', 'Pipelines');
         }
     }
 
@@ -34,6 +35,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Pipelines - Create pipeline');
+            $this->assertSelectorTextSame('h1', 'Pipelines');
 
             $values = [
                 'data[name]' => GENERATED_NAME,
@@ -45,6 +47,8 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 
             $this->client->followRedirect();
             $this->assertPageTitleSame('Pipelines - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Pipelines');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 
@@ -68,6 +72,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Pipelines - Create pipeline');
+            $this->assertSelectorTextSame('h1', 'Pipelines');
 
             $values = [
                 'data[processors]' => '[]',
@@ -78,6 +83,8 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 
             $this->client->followRedirect();
             $this->assertPageTitleSame('Pipelines - '.GENERATED_NAME.'-copy');
+            $this->assertSelectorTextSame('h1', 'Pipelines');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME.'-copy');
         }
     }
 
@@ -104,6 +111,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Pipelines - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Pipelines');
         }
     }
 
@@ -130,6 +138,8 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Pipelines - '.GENERATED_NAME.' - Update');
+            $this->assertSelectorTextSame('h1', 'Pipelines');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 

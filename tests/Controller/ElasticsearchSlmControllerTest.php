@@ -19,6 +19,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies');
+            $this->assertSelectorTextSame('h1', 'Snapshot lifecycle management policies');
         }
     }
 
@@ -34,6 +35,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Stats');
+            $this->assertSelectorTextSame('h1', 'Snapshot lifecycle management policies');
         }
     }
 
@@ -49,6 +51,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Status');
+            $this->assertSelectorTextSame('h1', 'Snapshot lifecycle management policies');
         }
     }
 
@@ -64,6 +67,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Create SLM policy');
+            $this->assertSelectorTextSame('h1', 'Snapshot lifecycle management policies');
         }
     }
 
@@ -87,6 +91,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Create SLM policy');
+            $this->assertSelectorTextSame('h1', 'Snapshot lifecycle management policies');
         }
     }*/
 
@@ -113,6 +118,8 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Snapshot lifecycle management policies');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }*/
 
@@ -167,6 +174,8 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - '.GENERATED_NAME.' - Update');
+            $this->assertSelectorTextSame('h1', 'Snapshot lifecycle management policies');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }*/
 

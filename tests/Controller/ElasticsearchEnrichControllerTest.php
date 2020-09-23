@@ -19,6 +19,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies');
+            $this->assertSelectorTextSame('h1', 'Enrich policies');
         }
     }
 
@@ -34,6 +35,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - Stats');
+            $this->assertSelectorTextSame('h1', 'Enrich policies');
         }
     }
 
@@ -49,6 +51,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - Create enrich policy');
+            $this->assertSelectorTextSame('h1', 'Enrich policies');
         }
     }
 
@@ -72,6 +75,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - Create enrich policy');
+            $this->assertSelectorTextSame('h1', 'Enrich policies');
         }
     }
 
@@ -98,6 +102,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - elasticsearch-admin-test');
+            $this->assertSelectorTextSame('h1', 'Enrich policies');
         }
     }
 

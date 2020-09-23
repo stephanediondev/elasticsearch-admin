@@ -18,5 +18,6 @@ class AppIndexDatabaseImportControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - elasticsearch-admin-test - Import from database');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 }

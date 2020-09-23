@@ -16,6 +16,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Subscriptions');
+        $this->assertSelectorTextSame('h1', 'Subscriptions');
     }
 
     /**
@@ -34,6 +35,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Subscriptions - Create Push API');
+        $this->assertSelectorTextSame('h1', 'Subscriptions');
     }
 
     public function testCreateSlack()
@@ -42,6 +44,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Subscriptions - Create Slack Incoming Webhook');
+        $this->assertSelectorTextSame('h1', 'Subscriptions');
     }
 
     public function testCreateams()
@@ -50,6 +53,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Subscriptions - Create Microsoft Teams Incoming Webhook');
+        $this->assertSelectorTextSame('h1', 'Subscriptions');
     }
 
     /**

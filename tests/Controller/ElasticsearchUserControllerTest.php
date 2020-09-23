@@ -19,6 +19,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Users');
+            $this->assertSelectorTextSame('h1', 'Users');
         }
     }
 
@@ -34,6 +35,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Users - Create user');
+            $this->assertSelectorTextSame('h1', 'Users');
 
             $values = [
                 'data[name]' => GENERATED_NAME,
@@ -46,6 +48,8 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 
             $this->client->followRedirect();
             $this->assertPageTitleSame('Users - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Users');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 
@@ -72,6 +76,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Users - '.GENERATED_NAME);
+            $this->assertSelectorTextSame('h1', 'Users');
         }
     }
 
@@ -109,6 +114,8 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Users - '.GENERATED_NAME.' - Update');
+            $this->assertSelectorTextSame('h1', 'Users');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
         }
     }
 

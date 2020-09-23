@@ -16,5 +16,6 @@ class AppUninstallControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Uninstall');
+        $this->assertSelectorTextSame('h1', 'Uninstall');
     }
 }

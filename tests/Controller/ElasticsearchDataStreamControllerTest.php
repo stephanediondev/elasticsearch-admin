@@ -19,6 +19,7 @@ class ElasticsearchDataStreamControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Data streams');
+            $this->assertSelectorTextSame('h1', 'Data streams');
         }
     }
 

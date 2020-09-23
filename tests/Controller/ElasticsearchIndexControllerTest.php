@@ -16,6 +16,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -27,6 +28,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Stats');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -38,6 +40,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Reindex');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -49,6 +52,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Create index');
+        $this->assertSelectorTextSame('h1', 'Indices');
 
         $values = [
             'data[name]' => GENERATED_NAME,
@@ -62,6 +66,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->client->followRedirect();
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME);
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     public function testCreateSystem()
@@ -70,6 +75,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Create index');
+        $this->assertSelectorTextSame('h1', 'Indices');
 
         $values = [
             'data[name]' => GENERATED_NAME_SYSTEM,
@@ -83,6 +89,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->client->followRedirect();
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME_SYSTEM);
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -101,6 +108,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME);
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -126,6 +134,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Update');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -144,6 +153,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Settings');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -162,6 +172,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Mappings');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -187,6 +198,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         } else {
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Lifecycle');
+            $this->assertSelectorTextSame('h1', 'Indices');
         }
     }
 
@@ -213,6 +225,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Search');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -238,6 +251,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Import from file');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -256,6 +270,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Aliases');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
@@ -274,6 +289,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Aliases');
+        $this->assertSelectorTextSame('h1', 'Indices');
     }
 
     /**
