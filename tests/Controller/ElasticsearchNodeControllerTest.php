@@ -48,6 +48,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Nodes - Reload secure settings');
             $this->assertSelectorTextSame('h1', 'Nodes');
+            $this->assertSelectorTextSame('h3', 'Reload secure settings');
         }
     }
 

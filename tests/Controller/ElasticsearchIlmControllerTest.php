@@ -37,6 +37,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('ILM policies - Status');
             $this->assertSelectorTextSame('h1', 'Index lifecycle management policies');
+            $this->assertSelectorTextSame('h3', 'Status');
         }
     }
 

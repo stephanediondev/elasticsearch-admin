@@ -45,6 +45,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Reindex');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Reindex');
     }
 
     /**
@@ -72,6 +73,8 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->client->followRedirect();
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME);
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextContains('h2', GENERATED_NAME);
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     public function testCreateSystem()
@@ -96,6 +99,8 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->client->followRedirect();
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME_SYSTEM);
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextContains('h2', GENERATED_NAME_SYSTEM);
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     /**
@@ -115,6 +120,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME);
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextContains('h2', GENERATED_NAME);
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
@@ -142,6 +148,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Update');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextContains('h2', GENERATED_NAME);
         $this->assertSelectorTextSame('h3', 'Update');
     }
 
@@ -162,6 +169,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Settings');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextContains('h3', 'Settings');
     }
 
     /**
@@ -236,6 +244,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - '.GENERATED_NAME.' - Search');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextContains('h3', 'Documents');
     }
 
     /**

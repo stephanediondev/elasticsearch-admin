@@ -54,6 +54,7 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('SLM policies - Status');
             $this->assertSelectorTextSame('h1', 'Snapshot lifecycle management policies');
+            $this->assertSelectorTextSame('h3', 'Status');
         }
     }
 

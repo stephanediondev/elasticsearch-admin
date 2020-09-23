@@ -22,6 +22,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates');
             $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 
