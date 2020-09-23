@@ -17,6 +17,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Subscriptions');
         $this->assertSelectorTextSame('h1', 'Subscriptions');
+        $this->assertSelectorTextContains('h3', 'List');
     }
 
     /**

@@ -19,6 +19,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes');
         $this->assertSelectorTextSame('h1', 'Nodes');
+        $this->assertSelectorTextContains('h3', 'List');
     }
 
     /**
@@ -31,6 +32,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - Stats');
         $this->assertSelectorTextSame('h1', 'Nodes');
+        $this->assertSelectorTextSame('h3', 'Stats');
     }
 
     /**

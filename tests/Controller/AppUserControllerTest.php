@@ -17,6 +17,7 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Users');
         $this->assertSelectorTextSame('h1', 'Users');
+        $this->assertSelectorTextContains('h3', 'List');
     }
 
     /**
@@ -49,6 +50,8 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Users - app-admin-test');
         $this->assertSelectorTextSame('h1', 'Users');
+        $this->assertSelectorTextSame('h2', 'app-admin-test');
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     /**
@@ -68,6 +71,8 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Users - app-admin-test - Update');
         $this->assertSelectorTextSame('h1', 'Users');
+        $this->assertSelectorTextSame('h2', 'app-admin-test');
+        $this->assertSelectorTextSame('h3', 'Update');
     }
 
     /**

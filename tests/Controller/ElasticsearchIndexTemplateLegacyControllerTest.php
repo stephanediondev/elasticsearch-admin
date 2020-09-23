@@ -17,6 +17,7 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
+        $this->assertSelectorTextContains('h3', 'List');
     }
 
     /**

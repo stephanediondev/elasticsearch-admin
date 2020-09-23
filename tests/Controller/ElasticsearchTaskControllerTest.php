@@ -20,6 +20,7 @@ class ElasticsearchTaskControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Tasks');
             $this->assertSelectorTextSame('h1', 'Tasks');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 }

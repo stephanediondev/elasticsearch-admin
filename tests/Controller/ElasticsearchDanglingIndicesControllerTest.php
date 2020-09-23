@@ -20,6 +20,7 @@ class ElasticsearchDanglingIndicesControllerTest extends AbstractAppControllerTe
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Dangling indices');
             $this->assertSelectorTextSame('h1', 'Dangling indices');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 }

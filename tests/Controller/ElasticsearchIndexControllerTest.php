@@ -17,6 +17,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextContains('h3', 'List');
     }
 
     /**
@@ -29,6 +30,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Stats');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Stats');
     }
 
     /**

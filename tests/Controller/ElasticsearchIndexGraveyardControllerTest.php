@@ -20,6 +20,7 @@ class ElasticsearchIndexGraveyardControllerTest extends AbstractAppControllerTes
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Index graveyard');
             $this->assertSelectorTextSame('h1', 'Index graveyard');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 }

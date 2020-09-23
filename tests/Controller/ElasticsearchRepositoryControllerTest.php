@@ -17,6 +17,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Repositories');
         $this->assertSelectorTextSame('h1', 'Repositories');
+        $this->assertSelectorTextContains('h3', 'List');
     }
 
     /**

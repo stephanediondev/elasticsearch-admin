@@ -20,6 +20,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Users');
             $this->assertSelectorTextSame('h1', 'Users');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 

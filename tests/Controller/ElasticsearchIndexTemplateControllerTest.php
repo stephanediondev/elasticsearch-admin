@@ -20,6 +20,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Composable index templates');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 

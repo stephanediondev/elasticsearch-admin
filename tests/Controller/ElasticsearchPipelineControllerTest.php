@@ -20,6 +20,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Pipelines');
             $this->assertSelectorTextSame('h1', 'Pipelines');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 

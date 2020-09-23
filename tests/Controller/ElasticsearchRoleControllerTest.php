@@ -20,6 +20,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles');
             $this->assertSelectorTextSame('h1', 'Roles');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 

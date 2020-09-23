@@ -20,6 +20,7 @@ class ElasticsearchRemoteClusterControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Remote clusters');
             $this->assertSelectorTextSame('h1', 'Remote clusters');
+            $this->assertSelectorTextContains('h3', 'List');
         }
     }
 }
