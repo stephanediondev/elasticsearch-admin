@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'cluster'|trans }} - {{ setting }}{% endblock %}
+{% block head_title %}{{ 'cluster'|trans }} - {{ cluster_health['cluster_name'] }} - {{ setting }}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'cluster'|trans}) }}
