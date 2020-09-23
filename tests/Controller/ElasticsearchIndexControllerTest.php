@@ -53,6 +53,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Create index');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Create index');
 
         $values = [
             'data[name]' => GENERATED_NAME,
@@ -76,6 +77,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Indices - Create index');
         $this->assertSelectorTextSame('h1', 'Indices');
+        $this->assertSelectorTextSame('h3', 'Create index');
 
         $values = [
             'data[name]' => GENERATED_NAME_SYSTEM,

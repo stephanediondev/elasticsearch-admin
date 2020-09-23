@@ -5,7 +5,7 @@ namespace App\Tests\Controller;
 /**
  * @Route("/admin")
  */
-class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControllerTest
+class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControllerTest
 {
     /**
      * @Route("/index-templates-legacy", name="index_templates_legacy")
@@ -29,6 +29,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates - Create legacy index template');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
+        $this->assertSelectorTextSame('h3', 'Create legacy index template');
 
         $values = [
             'data[name]' => GENERATED_NAME,
@@ -46,6 +47,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME);
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
         $this->assertSelectorTextSame('h2', GENERATED_NAME);
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     public function testCreateSystem()
@@ -55,6 +57,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates - Create legacy index template');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
+        $this->assertSelectorTextSame('h3', 'Create legacy index template');
 
         $values = [
             'data[name]' => GENERATED_NAME_SYSTEM,
@@ -72,6 +75,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME_SYSTEM);
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
         $this->assertSelectorTextSame('h2', GENERATED_NAME_SYSTEM);
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     public function testCreateCopy404()
@@ -95,6 +99,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates - Create legacy index template');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
+        $this->assertSelectorTextSame('h3', 'Create legacy index template');
 
         $this->client->submitForm('Submit');
 
@@ -104,6 +109,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.'-copy');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
         $this->assertSelectorTextSame('h2', GENERATED_NAME.'-copy');
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     /**
@@ -123,6 +129,8 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME);
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
+        $this->assertSelectorTextSame('h2', GENERATED_NAME);
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     /**
@@ -150,6 +158,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.' - Update');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
         $this->assertSelectorTextSame('h2', GENERATED_NAME);
+        $this->assertSelectorTextSame('h3', 'Update');
     }
 
     /**
@@ -164,12 +173,19 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
 
     public function testSettings()
     {
+        $template = $this->elasticsearchIndexTemplateLegacyManager->getByName(GENERATED_NAME);
+
         $this->client->request('GET', '/admin/index-templates-legacy/'.GENERATED_NAME.'/settings');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.' - Settings');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
         $this->assertSelectorTextSame('h2', GENERATED_NAME);
+        if ($template->getSettings()) {
+            $this->assertSelectorTextSame('h3', 'Settings '.count($template->getSettings()));
+        } else {
+            $this->assertSelectorTextSame('h3', 'Settings 0');
+        }
     }
 
     /**
@@ -190,6 +206,7 @@ class ElasticsearchIndexTemplateControllerLegacyTest extends AbstractAppControll
         $this->assertPageTitleSame('Legacy index templates - '.GENERATED_NAME.' - Mappings');
         $this->assertSelectorTextSame('h1', 'Legacy index templates');
         $this->assertSelectorTextSame('h2', GENERATED_NAME);
+        $this->assertSelectorTextSame('h3', 'Mappings');
     }
 
     /**

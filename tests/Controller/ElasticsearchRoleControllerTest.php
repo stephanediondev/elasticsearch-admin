@@ -36,6 +36,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - Create role');
             $this->assertSelectorTextSame('h1', 'Roles');
+            $this->assertSelectorTextSame('h3', 'Create role');
 
             $values = [
                 'data[name]' => GENERATED_NAME,
@@ -50,6 +51,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Roles - '.GENERATED_NAME);
             $this->assertSelectorTextSame('h1', 'Roles');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -85,6 +87,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - Create role');
             $this->assertSelectorTextSame('h1', 'Roles');
+            $this->assertSelectorTextSame('h3', 'Create role');
         }
     }
 
@@ -112,6 +115,8 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Roles - '.GENERATED_NAME);
             $this->assertSelectorTextSame('h1', 'Roles');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -151,6 +156,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Roles - '.GENERATED_NAME.' - Update');
             $this->assertSelectorTextSame('h1', 'Roles');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Update');
         }
     }
 

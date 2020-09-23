@@ -29,6 +29,7 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Users - Create user');
         $this->assertSelectorTextSame('h1', 'Users');
+        $this->assertSelectorTextSame('h3', 'Create user');
     }
 
     /**

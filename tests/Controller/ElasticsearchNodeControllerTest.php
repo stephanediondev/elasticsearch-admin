@@ -69,6 +69,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         $this->assertPageTitleSame('Nodes - '.$masterNode);
         $this->assertSelectorTextSame('h1', 'Nodes');
         $this->assertSelectorTextSame('h2', $masterNode.' Master');
+        $this->assertSelectorTextSame('h3', 'Summary');
     }
 
     /**
@@ -85,12 +86,19 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     {
         $masterNode = $this->callManager->getMasterNode();
 
+        $node = $this->elasticsearchNodeManager->getByName($masterNode);
+
         $this->client->request('GET', '/admin/nodes/'.$masterNode.'/settings');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$masterNode.' - Settings');
         $this->assertSelectorTextSame('h1', 'Nodes');
         $this->assertSelectorTextSame('h2', $masterNode.' Master');
+        if ($node->getSettings()) {
+            $this->assertSelectorTextSame('h3', 'Settings '.count($node->getSettings()));
+        } else {
+            $this->assertSelectorTextSame('h3', 'Settings 0');
+        }
     }
 
     /**
@@ -107,12 +115,19 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     {
         $masterNode = $this->callManager->getMasterNode();
 
+        $node = $this->elasticsearchNodeManager->getByName($masterNode);
+
         $this->client->request('GET', '/admin/nodes/'.$masterNode.'/plugins');
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Nodes - '.$masterNode.' - Plugins');
         $this->assertSelectorTextSame('h1', 'Nodes');
         $this->assertSelectorTextSame('h2', $masterNode.' Master');
+        if ($node->getPlugins()) {
+            $this->assertSelectorTextSame('h3', 'Plugins '.count($node->getPlugins()));
+        } else {
+            $this->assertSelectorTextSame('h3', 'Plugins 0');
+        }
     }
 
     /**
@@ -133,6 +148,12 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     {
         $masterNode = $this->callManager->getMasterNode();
 
+        $callRequest = new CallRequestModel();
+        $callRequest->setPath('/_nodes/'.$masterNode.'/usage');
+        $callResponse = $this->callManager->call($callRequest);
+        $usage = $callResponse->getContent();
+        $usage = $usage['nodes'][key($usage['nodes'])];
+
         $this->client->request('GET', '/admin/nodes/'.$masterNode.'/usage');
 
         if (false == $this->callManager->hasFeature('node_usage')) {
@@ -142,6 +163,11 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Nodes - '.$masterNode.' - Usage');
             $this->assertSelectorTextSame('h1', 'Nodes');
             $this->assertSelectorTextSame('h2', $masterNode.' Master');
+            if (true === isset($usage['rest_actions']) && true === is_array($usage['rest_actions'])) {
+                $this->assertSelectorTextSame('h3', 'Usage '.count($usage['rest_actions']));
+            } else {
+                $this->assertSelectorTextSame('h3', 'Usage 0');
+            }
         }
     }
 }

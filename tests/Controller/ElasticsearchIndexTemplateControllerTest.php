@@ -36,6 +36,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Composable index templates - Create composable index template');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
+            $this->assertSelectorTextSame('h3', 'Create composable index template');
 
             $values = [
                 'data[name]' => GENERATED_NAME,
@@ -49,6 +50,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME);
             $this->assertSelectorTextSame('h1', 'Composable index templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -62,6 +64,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Composable index templates - Create composable index template');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
+            $this->assertSelectorTextSame('h3', 'Create composable index template');
 
             $values = [
                 'data[name]' => GENERATED_NAME_SYSTEM,
@@ -75,6 +78,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME_SYSTEM);
             $this->assertSelectorTextSame('h1', 'Composable index templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME_SYSTEM);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -110,6 +114,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Composable index templates - Create composable index template');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
+            $this->assertSelectorTextSame('h3', 'Create composable index template');
 
             $values = [
                 'data[index_patterns]' => GENERATED_NAME.'-copy',
@@ -122,6 +127,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.'-copy');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME.'-copy');
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -149,6 +155,8 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME);
             $this->assertSelectorTextSame('h1', 'Composable index templates');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -188,6 +196,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Update');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Update');
         }
     }
 
@@ -216,6 +225,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Settings');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Settings');
         }
     }
 
@@ -244,6 +254,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Mappings');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Mappings');
         }
     }
 
@@ -272,6 +283,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Simulate');
             $this->assertSelectorTextSame('h1', 'Composable index templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Simulate');
         }
     }
 

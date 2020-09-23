@@ -36,6 +36,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Repositories - Create Shared file system repository');
         $this->assertSelectorTextSame('h1', 'Repositories');
+        $this->assertSelectorTextSame('h3', 'Create Shared file system repository');
     }
 
     public function testCreateS3()
@@ -48,6 +49,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Repositories - Create AWS S3 repository');
             $this->assertSelectorTextSame('h1', 'Repositories');
+            $this->assertSelectorTextSame('h3', 'Create AWS S3 repository');
         }
     }
 
@@ -61,6 +63,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Repositories - Create Google Cloud Storage repository');
             $this->assertSelectorTextSame('h1', 'Repositories');
+            $this->assertSelectorTextSame('h3', 'Create Google Cloud Storage repository');
         }
     }
 
@@ -74,6 +77,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Repositories - Create Microsoft Azure repository');
             $this->assertSelectorTextSame('h1', 'Repositories');
+            $this->assertSelectorTextSame('h3', 'Create Microsoft Azure repository');
         }
     }
 

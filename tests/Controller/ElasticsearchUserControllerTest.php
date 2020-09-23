@@ -36,6 +36,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Users - Create user');
             $this->assertSelectorTextSame('h1', 'Users');
+            $this->assertSelectorTextSame('h3', 'Create user');
 
             $values = [
                 'data[name]' => GENERATED_NAME,
@@ -50,6 +51,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Users - '.GENERATED_NAME);
             $this->assertSelectorTextSame('h1', 'Users');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -77,6 +79,8 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Users - '.GENERATED_NAME);
             $this->assertSelectorTextSame('h1', 'Users');
+            $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -116,6 +120,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
             $this->assertPageTitleSame('Users - '.GENERATED_NAME.' - Update');
             $this->assertSelectorTextSame('h1', 'Users');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Update');
         }
     }
 

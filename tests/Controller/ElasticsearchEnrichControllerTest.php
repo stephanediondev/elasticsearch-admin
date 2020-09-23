@@ -52,6 +52,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - Create enrich policy');
             $this->assertSelectorTextSame('h1', 'Enrich policies');
+            $this->assertSelectorTextSame('h3', 'Create enrich policy');
         }
     }
 
@@ -76,6 +77,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Enrich policies - Create enrich policy');
             $this->assertSelectorTextSame('h1', 'Enrich policies');
+            $this->assertSelectorTextSame('h3', 'Create enrich policy');
         }
     }
 

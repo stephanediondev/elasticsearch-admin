@@ -29,6 +29,7 @@ class AppRoleControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Roles - Create role');
         $this->assertSelectorTextSame('h1', 'Roles');
+        $this->assertSelectorTextSame('h3', 'Create role');
     }
 
     /**

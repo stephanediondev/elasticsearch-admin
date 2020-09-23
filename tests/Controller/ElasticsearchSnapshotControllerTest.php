@@ -41,6 +41,7 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(200);
         $this->assertPageTitleSame('Snapshots - Create snapshot');
         $this->assertSelectorTextSame('h1', 'Snapshots');
+        $this->assertSelectorTextSame('h3', 'Create snapshot');
     }
 
     /**

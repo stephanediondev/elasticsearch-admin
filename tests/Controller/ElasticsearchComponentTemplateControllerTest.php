@@ -36,6 +36,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - Create component template');
             $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h3', 'Create component template');
 
             $values = [
                 'data[name]' => GENERATED_NAME,
@@ -48,6 +49,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME);
             $this->assertSelectorTextSame('h1', 'Component templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -61,6 +63,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - Create component template');
             $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h3', 'Create component template');
 
             $values = [
                 'data[name]' => GENERATED_NAME_SYSTEM,
@@ -73,6 +76,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME_SYSTEM);
             $this->assertSelectorTextSame('h1', 'Component templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME_SYSTEM);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -108,6 +112,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('Component templates - Create component template');
             $this->assertSelectorTextSame('h1', 'Component templates');
+            $this->assertSelectorTextSame('h3', 'Create component template');
 
             $this->client->submitForm('Submit');
 
@@ -117,6 +122,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.'-copy');
             $this->assertSelectorTextSame('h1', 'Component templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME.'-copy');
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -145,6 +151,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME);
             $this->assertSelectorTextSame('h1', 'Component templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 
@@ -184,6 +191,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Update');
             $this->assertSelectorTextSame('h1', 'Component templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Update');
         }
     }
 
@@ -212,6 +220,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Settings');
             $this->assertSelectorTextSame('h1', 'Component templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Settings');
         }
     }
 
@@ -240,6 +249,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
             $this->assertPageTitleSame('Component templates - '.GENERATED_NAME.' - Mappings');
             $this->assertSelectorTextSame('h1', 'Component templates');
             $this->assertSelectorTextSame('h2', GENERATED_NAME);
+            $this->assertSelectorTextSame('h3', 'Mappings');
         }
     }
 
