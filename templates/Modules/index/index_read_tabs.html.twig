@@ -24,12 +24,6 @@
         </li>
     {% endif %}
 
-    {% if is_granted('SHARDS', 'global') %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('shards', {'index': index.name}) }}">{{ 'shards'|trans }}</a>
-        </li>
-    {% endif %}
-
     {% if is_granted('INDEX_SEARCH', index) %}
         <li class="nav-item">
             <a class="nav-link{% if 'search' == active %} active{% endif %}" href="{{ path('indices_read_search', {'index': index.name}) }}">{{ 'search'|trans }}</a>
@@ -55,6 +49,12 @@
     {% if is_granted('INDEX_ALIASES', index) %}
         <li class="nav-item">
             <a class="nav-link{% if 'aliases' == active %} active{% endif %}" href="{{ path('indices_read_aliases', {'index': index.name}) }}">{{ 'aliases'|trans }}</a>
+        </li>
+    {% endif %}
+
+    {% if is_granted('SHARDS', 'global') %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('shards', {'index': index.name}) }}">{{ 'shards'|trans }}</a>
         </li>
     {% endif %}
 
