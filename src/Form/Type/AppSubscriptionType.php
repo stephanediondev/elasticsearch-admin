@@ -34,7 +34,6 @@ class AppSubscriptionType extends AbstractType
         if ('create' == $options['context']) {
             if (AppSubscriptionModel::TYPE_EMAIL == $options['type']) {
                 $fields[] = 'email';
-
             } else {
                 $fields[] = 'endpoint';
 
@@ -131,7 +130,6 @@ class AppSubscriptionType extends AbstractType
                         $form->get('endpoint')->addError(new FormError(
                             $this->translator->trans('endpoint_already_used')
                         ));
-
                     }
                 }
             }

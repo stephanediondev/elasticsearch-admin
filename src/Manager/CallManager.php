@@ -310,7 +310,6 @@ class CallManager
                 $callResponse = $this->call($callRequest);
                 $license = $callResponse->getContent();
                 $this->license = $license['license'];
-
             } catch (CallException $e) {
                 $this->license = [];
             }

@@ -124,9 +124,9 @@ class AppNotificationManager extends AbstractAppManager
 
                     if (1 >= $interval->format('%a')) {
                         $licenseInfo = 'license_1_day';
-                    } else if (15 > $interval->format('%a')) {
+                    } elseif (15 > $interval->format('%a')) {
                         $licenseInfo = 'license_15_days';
-                    } else if (30 > $interval->format('%a')) {
+                    } elseif (30 > $interval->format('%a')) {
                         $licenseInfo = 'license_30_days';
                     }
                 }
@@ -149,7 +149,6 @@ class AppNotificationManager extends AbstractAppManager
             file_put_contents($this->filename, json_encode($lastInfo));
 
             return $this->compareInfo($previousInfo, $lastInfo);
-
         } catch (ConnectionException $e) {
             return [];
         }

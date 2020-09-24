@@ -15,7 +15,8 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
     protected $callManager;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass()
+    {
         if (false === defined('GENERATED_NAME')) {
             define('GENERATED_NAME', 'phpunit-'.uniqid());
         }
@@ -73,7 +74,8 @@ abstract class AbstractAppControllerTest extends WebTestCase
     }
 }
 
-function getRandomString($length = 8) {
+function getRandomString($length = 8)
+{
     $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $string = '';
 
