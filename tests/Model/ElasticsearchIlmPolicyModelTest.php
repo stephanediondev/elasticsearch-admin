@@ -5,7 +5,7 @@ namespace App\Tests\Model;
 use App\Model\ElasticsearchIlmPolicyModel;
 use PHPUnit\Framework\TestCase;
 
-class ElasticsearchIlmModelTest extends TestCase
+class ElasticsearchIlmPolicyModelTest extends TestCase
 {
     public function test()
     {
