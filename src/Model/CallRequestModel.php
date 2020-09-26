@@ -15,7 +15,7 @@ class CallRequestModel extends AbstractAppModel
     public function __construct()
     {
         $this->method = 'GET';
-        $this->options = ['query' => [], 'body' => false, 'json' => []];
+        $this->options = ['query' => [], 'json' => [], 'body' => false];
     }
 
     public function getMethod(): ?string
@@ -57,28 +57,14 @@ class CallRequestModel extends AbstractAppModel
         return $this;
     }
 
+    public function getQuery(): ?array
+    {
+        return $this->options['query'];
+    }
+
     public function setQuery(?array $query): self
     {
         $this->options['query'] = $query;
-
-        return $this;
-    }
-
-    public function setHeaders(?array $headers): self
-    {
-        $this->options['headers'] = $headers;
-
-        return $this;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->options['body'];
-    }
-
-    public function setBody(?string $body): self
-    {
-        $this->options['body'] = $body;
 
         return $this;
     }
@@ -91,6 +77,18 @@ class CallRequestModel extends AbstractAppModel
     public function setJson(?array $json): self
     {
         $this->options['json'] = $json;
+
+        return $this;
+    }
+
+    public function getBody(): ?string
+    {
+        return $this->options['body'];
+    }
+
+    public function setBody(?string $body): self
+    {
+        $this->options['body'] = $body;
 
         return $this;
     }

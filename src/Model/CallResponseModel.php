@@ -12,14 +12,12 @@ class CallResponseModel extends AbstractAppModel
 
     private $contentRaw;
 
-    private $error;
-
-    public function getCode(): ?string
+    public function getCode(): ?int
     {
         return $this->code;
     }
 
-    public function setCode(?string $code): self
+    public function setCode(?int $code): self
     {
         $this->code = $code;
 
@@ -46,18 +44,6 @@ class CallResponseModel extends AbstractAppModel
     public function setContentRaw(?string $contentRaw): self
     {
         $this->contentRaw = $contentRaw;
-
-        return $this;
-    }
-
-    public function getError(): ?string
-    {
-        return $this->error;
-    }
-
-    public function setError(?string $error): self
-    {
-        $this->error;
 
         return $this;
     }
