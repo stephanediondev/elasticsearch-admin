@@ -12,7 +12,7 @@ class ElasticsearchShardModelTest extends TestCase
         $shard = new ElasticsearchShardModel();
         $shard->setNumber(1);
         $shard->setIndex('index');
-        $shard->setPrimaryOrReplica('primary-or-replica');
+        $shard->setPrimaryOrReplica('p');
         $shard->setState('state');
         $shard->setUnassignedReason('unassigned-reason');
         $shard->setDocuments(2);
@@ -23,9 +23,16 @@ class ElasticsearchShardModelTest extends TestCase
         $this->assertIsInt($shard->getNumber());
 
         $this->assertEquals($shard->getIndex(), 'index');
-        $this->assertEquals($shard->getPrimaryOrReplica(), 'primary-or-replica');
+        $this->assertIsString($shard->getIndex());
+
+        $this->assertEquals($shard->getPrimaryOrReplica(), 'p');
+        $this->assertIsString($shard->getPrimaryOrReplica());
+
         $this->assertEquals($shard->getState(), 'state');
+        $this->assertIsString($shard->getState());
+
         $this->assertEquals($shard->getUnassignedReason(), 'unassigned-reason');
+        $this->assertIsString($shard->getUnassignedReason());
 
         $this->assertEquals($shard->getDocuments(), 2);
         $this->assertIsInt($shard->getDocuments());
@@ -34,13 +41,19 @@ class ElasticsearchShardModelTest extends TestCase
         $this->assertIsInt($shard->getSize());
 
         $this->assertEquals($shard->getNode(), 'node');
+        $this->assertIsString($shard->getNode());
 
-        $shard->setPrimaryOrReplica('p');
         $this->assertEquals($shard->isPrimary(), true);
+        $this->assertIsBool($shard->isPrimary());
+
         $this->assertEquals($shard->isReplica(), false);
+        $this->assertIsBool($shard->isReplica());
 
         $shard->setPrimaryOrReplica('r');
-        $this->assertEquals($shard->isReplica(), true);
         $this->assertEquals($shard->isPrimary(), false);
+        $this->assertIsBool($shard->isPrimary());
+
+        $this->assertEquals($shard->isReplica(), true);
+        $this->assertIsBool($shard->isReplica());
     }
 }

@@ -15,7 +15,10 @@ class ElasticsearchSqlModelTest extends TestCase
         $sql->setFetchSize(1);
 
         $this->assertEquals($sql->getQuery(), 'query');
+        $this->assertIsString($sql->getQuery());
+
         $this->assertEquals($sql->getFilter(), 'filter');
+        $this->assertIsString($sql->getFilter());
 
         $this->assertEquals($sql->getFetchSize(), 1);
         $this->assertIsInt($sql->getFetchSize());

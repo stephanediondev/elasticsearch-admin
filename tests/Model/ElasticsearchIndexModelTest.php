@@ -32,10 +32,16 @@ class ElasticsearchIndexModelTest extends TestCase
 
         $this->assertEquals($index->getName(), 'name');
         $this->assertEquals(strval($index), 'name');
+        $this->assertIsString($index->getName());
 
         $this->assertEquals($index->getStatus(), 'status');
+        $this->assertIsString($index->getStatus());
+
         $this->assertEquals($index->getHealth(), 'health');
+        $this->assertIsString($index->getHealth());
+
         $this->assertEquals($index->getFrozen(), 'frozen');
+        $this->assertIsString($index->getFrozen());
 
         $this->assertEquals($index->getPrimaryShards(), 5);
         $this->assertIsInt($index->getPrimaryShards());
@@ -59,10 +65,13 @@ class ElasticsearchIndexModelTest extends TestCase
         $this->assertIsInt($index->getTotalSize());
 
         $this->assertEquals($index->getCreationDate(), 'creation-date');
+        $this->assertIsString($index->getCreationDate());
 
         $this->assertEquals($index->getSettings(), ['setting-key' => 'setting-value']);
         $this->assertIsArray($index->getSettings());
+
         $this->assertEquals($index->getSetting('setting-key'), 'setting-value');
+        $this->assertIsString($index->getSetting('setting-key'));
 
         $this->assertEquals($index->getMappings(), ['mappings']);
         $this->assertIsArray($index->getMappings());
@@ -71,6 +80,7 @@ class ElasticsearchIndexModelTest extends TestCase
         $this->assertIsArray($index->getMappingsFlat());
 
         $this->assertEquals($index->isSystem(), false);
+        $this->assertIsBool($index->isSystem());
 
         $this->assertEquals($index->hasMappingType('mapping-type'), true);
         $this->assertEquals($index->hasMappingType('mapping-fail'), false);
@@ -80,5 +90,6 @@ class ElasticsearchIndexModelTest extends TestCase
 
         $index->setName('.name');
         $this->assertEquals($index->isSystem(), true);
+        $this->assertIsBool($index->isSystem());
     }
 }

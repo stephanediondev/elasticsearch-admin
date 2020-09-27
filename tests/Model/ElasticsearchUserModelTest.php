@@ -20,10 +20,16 @@ class ElasticsearchUserModelTest extends TestCase
 
         $this->assertEquals($user->getName(), 'name');
         $this->assertEquals(strval($user), 'name');
+        $this->assertIsString($user->getName());
 
         $this->assertEquals($user->getEmail(), 'email');
+        $this->assertIsString($user->getEmail());
+
         $this->assertEquals($user->getPassword(), 'password');
+        $this->assertIsString($user->getPassword());
+
         $this->assertEquals($user->getFullname(), 'fullname');
+        $this->assertIsString($user->getFullname());
 
         $this->assertEquals($user->getChangePassword(), true);
         $this->assertIsBool($user->getChangePassword());

@@ -18,6 +18,7 @@ class ElasticsearchRoleModelTest extends TestCase
 
         $this->assertEquals($role->getName(), 'name');
         $this->assertEquals(strval($role), 'name');
+        $this->assertIsString($role->getName());
 
         $this->assertEquals($role->getApplications(), ['applications']);
         $this->assertIsArray($role->getApplications());

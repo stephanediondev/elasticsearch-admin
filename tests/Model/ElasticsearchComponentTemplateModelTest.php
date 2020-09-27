@@ -24,13 +24,16 @@ class ElasticsearchComponentTemplateModelTest extends TestCase
 
         $this->assertEquals($template->getName(), 'name');
         $this->assertEquals(strval($template), 'name');
+        $this->assertIsString($template->getName());
 
         $this->assertEquals($template->getVersion(), 1);
         $this->assertIsInt($template->getVersion());
 
         $this->assertEquals($template->getSettings(), ['setting-key' => 'setting-value']);
         $this->assertIsArray($template->getSettings());
+
         $this->assertEquals($template->getSetting('setting-key'), 'setting-value');
+        $this->assertIsString($template->getSetting('setting-key'));
 
         $this->assertEquals($template->getMappings(), ['mappings']);
         $this->assertIsArray($template->getMappings());
@@ -42,8 +45,10 @@ class ElasticsearchComponentTemplateModelTest extends TestCase
         $this->assertIsArray($template->getMetadata());
 
         $this->assertEquals($template->isSystem(), false);
+        $this->assertIsBool($template->isSystem());
 
         $template->setName('.name');
         $this->assertEquals($template->isSystem(), true);
+        $this->assertIsBool($template->isSystem());
     }
 }

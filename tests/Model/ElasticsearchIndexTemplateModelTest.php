@@ -28,8 +28,10 @@ class ElasticsearchIndexTemplateModelTest extends TestCase
 
         $this->assertEquals($template->getName(), 'name');
         $this->assertEquals(strval($template), 'name');
+        $this->assertIsString($template->getName());
 
         $this->assertEquals($template->getIndexPatterns(), 'index-patterns');
+        $this->assertIsString($template->getIndexPatterns());
 
         $this->assertEquals($template->getVersion(), 1);
         $this->assertIsInt($template->getVersion());
@@ -39,7 +41,9 @@ class ElasticsearchIndexTemplateModelTest extends TestCase
 
         $this->assertEquals($template->getSettings(), ['setting-key' => 'setting-value']);
         $this->assertIsArray($template->getSettings());
+
         $this->assertEquals($template->getSetting('setting-key'), 'setting-value');
+        $this->assertIsString($template->getSetting('setting-key'));
 
         $this->assertEquals($template->getMappings(), ['mappings']);
         $this->assertIsArray($template->getMappings());
@@ -57,8 +61,10 @@ class ElasticsearchIndexTemplateModelTest extends TestCase
         $this->assertIsBool($template->getDataStream());
 
         $this->assertEquals($template->isSystem(), false);
+        $this->assertIsBool($template->isSystem());
 
         $template->setName('.name');
         $this->assertEquals($template->isSystem(), true);
+        $this->assertIsBool($template->isSystem());
     }
 }

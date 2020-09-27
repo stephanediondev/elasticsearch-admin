@@ -25,6 +25,7 @@ class ElasticsearchIlmPolicyModelTest extends TestCase
 
         $this->assertEquals($policy->getName(), 'name');
         $this->assertEquals(strval($policy), 'name');
+        $this->assertIsString($policy->getName());
 
         $this->assertEquals($policy->getVersion(), 1);
         $this->assertIsInt($policy->getVersion());
@@ -44,7 +45,11 @@ class ElasticsearchIlmPolicyModelTest extends TestCase
         $this->assertEquals($policy->getDelete(), ['delete']);
         $this->assertIsArray($policy->getDelete());
 
+        $this->assertEquals($policy->isSystem(), false);
+        $this->assertIsBool($policy->isSystem());
+
         $policy->setName('.name');
         $this->assertEquals($policy->isSystem(), true);
+        $this->assertIsBool($policy->isSystem());
     }
 }

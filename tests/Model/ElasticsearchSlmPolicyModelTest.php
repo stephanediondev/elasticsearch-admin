@@ -33,11 +33,19 @@ class ElasticsearchSlmPolicyModelTest extends TestCase
 
         $this->assertEquals($policy->getName(), 'name');
         $this->assertEquals(strval($policy), 'name');
+        $this->assertIsString($policy->getName());
 
         $this->assertEquals($policy->getSnapshotName(), 'snapshot-name');
+        $this->assertIsString($policy->getSnapshotName());
+
         $this->assertEquals($policy->getRepository(), 'repository');
+        $this->assertIsString($policy->getRepository());
+
         $this->assertEquals($policy->getSchedule(), 'schedule');
+        $this->assertIsString($policy->getSchedule());
+
         $this->assertEquals($policy->getExpireAfter(), 'expire-after');
+        $this->assertIsString($policy->getExpireAfter());
 
         $this->assertEquals($policy->getIgnoreUnavailable(), true);
         $this->assertIsBool($policy->getIgnoreUnavailable());
@@ -75,7 +83,11 @@ class ElasticsearchSlmPolicyModelTest extends TestCase
         $this->assertEquals($policy->getModifiedDate(), 5);
         $this->assertIsInt($policy->getModifiedDate());
 
+        $this->assertEquals($policy->isSystem(), false);
+        $this->assertIsBool($policy->isSystem());
+
         $policy->setName('.name');
         $this->assertEquals($policy->isSystem(), true);
+        $this->assertIsBool($policy->isSystem());
     }
 }

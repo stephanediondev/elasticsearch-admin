@@ -20,11 +20,13 @@ class ElasticsearchPipelineModelTest extends TestCase
 
         $this->assertEquals($pipeline->getName(), 'name');
         $this->assertEquals(strval($pipeline), 'name');
+        $this->assertIsString($pipeline->getName());
 
         $this->assertEquals($pipeline->getVersion(), 1);
         $this->assertIsInt($pipeline->getVersion());
 
         $this->assertEquals($pipeline->getDescription(), 'description');
+        $this->assertIsString($pipeline->getDescription());
 
         $this->assertEquals($pipeline->getProcessors(), ['processors']);
         $this->assertIsArray($pipeline->getProcessors());
@@ -32,7 +34,11 @@ class ElasticsearchPipelineModelTest extends TestCase
         $this->assertEquals($pipeline->getOnFailure(), ['onfailure']);
         $this->assertIsArray($pipeline->getOnFailure());
 
+        $this->assertEquals($pipeline->isSystem(), false);
+        $this->assertIsBool($pipeline->isSystem());
+
         $pipeline->setName('.name');
         $this->assertEquals($pipeline->isSystem(), true);
+        $this->assertIsBool($pipeline->isSystem());
     }
 }

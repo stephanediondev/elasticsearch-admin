@@ -15,9 +15,11 @@ class AppRoleModelTest extends TestCase
         $role->setCreatedAt(new \Datetime());
 
         $this->assertEquals($role->getId(), 'id');
+        $this->assertIsString($role->getId());
 
         $this->assertEquals($role->getName(), 'name');
         $this->assertEquals(strval($role), 'name');
+        $this->assertIsString($role->getName());
 
         $this->assertInstanceOf('Datetime', $role->getCreatedAt());
     }

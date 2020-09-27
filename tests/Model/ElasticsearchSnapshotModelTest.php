@@ -28,8 +28,10 @@ class ElasticsearchSnapshotModelTest extends TestCase
 
         $this->assertEquals($snapshot->getName(), 'name');
         $this->assertEquals(strval($snapshot), 'name');
+        $this->assertIsString($snapshot->getName());
 
         $this->assertEquals($snapshot->getRepository(), 'repository');
+        $this->assertIsString($snapshot->getRepository());
 
         $this->assertEquals($snapshot->getIndices(), ['indices']);
         $this->assertIsArray($snapshot->getIndices());
@@ -44,14 +46,22 @@ class ElasticsearchSnapshotModelTest extends TestCase
         $this->assertIsBool($snapshot->getIncludeGlobalState());
 
         $this->assertEquals($snapshot->getVersion(), 'version');
+        $this->assertIsString($snapshot->getVersion());
 
         $this->assertEquals($snapshot->getFailures(), ['failures']);
         $this->assertIsArray($snapshot->getFailures());
 
         $this->assertEquals($snapshot->getState(), 'state');
+        $this->assertIsString($snapshot->getState());
+
         $this->assertEquals($snapshot->getStartTime(), 'start-time');
+        $this->assertIsString($snapshot->getStartTime());
+
         $this->assertEquals($snapshot->getEndTime(), 'end-time');
+        $this->assertIsString($snapshot->getEndTime());
+
         $this->assertEquals($snapshot->getDuration(), 'duration');
+        $this->assertIsString($snapshot->getDuration());
 
         $this->assertEquals($snapshot->getMetadata(), ['metadata']);
         $this->assertIsArray($snapshot->getMetadata());

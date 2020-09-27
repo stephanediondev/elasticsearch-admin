@@ -24,16 +24,34 @@ class AppSubscriptionModelTest extends TestCase
 
         $this->assertEquals($subscription->getId(), 'id');
         $this->assertEquals(strval($subscription), 'id');
+        $this->assertIsString($subscription->getId());
 
         $this->assertEquals($subscription->getType(), 'type');
+        $this->assertIsString($subscription->getType());
+
         $this->assertEquals($subscription->getUserId(), 'user-id');
+        $this->assertIsString($subscription->getUserId());
+
         $this->assertEquals($subscription->getEndpoint(), 'endpoint');
+        $this->assertIsString($subscription->getEndpoint());
+
         $this->assertEquals($subscription->getPublicKey(), 'public-key');
+        $this->assertIsString($subscription->getPublicKey());
+
         $this->assertEquals($subscription->getAuthenticationSecret(), 'authentication-secret');
+        $this->assertIsString($subscription->getAuthenticationSecret());
+
         $this->assertEquals($subscription->getContentEncoding(), 'content-encoding');
+        $this->assertIsString($subscription->getContentEncoding());
+
         $this->assertEquals($subscription->getIp(), 'ip');
+        $this->assertIsString($subscription->getIp());
+
         $this->assertEquals($subscription->getOs(), 'os');
+        $this->assertIsString($subscription->getOs());
+
         $this->assertEquals($subscription->getClient(), 'client');
+        $this->assertIsString($subscription->getClient());
 
         $this->assertInstanceOf('Datetime', $subscription->getCreatedAt());
     }

@@ -20,18 +20,26 @@ class AppUserModelTest extends TestCase
         $user->setCreatedAt(new \Datetime());
 
         $this->assertEquals($user->getId(), 'id');
+        $this->assertIsString($user->getId());
 
         $this->assertEquals($user->getEmail(), 'email');
         $this->assertEquals(strval($user), 'email');
+        $this->assertIsString($user->getEmail());
+
         $this->assertEquals($user->getUsername(), 'email');
+        $this->assertIsString($user->getUsername());
 
         $this->assertEquals($user->getPassword(), 'password');
+        $this->assertIsString($user->getPassword());
+
         $this->assertEquals($user->getPasswordPlain(), 'password-plain');
+        $this->assertIsString($user->getPasswordPlain());
 
         $this->assertEquals($user->getChangePassword(), true);
         $this->assertIsBool($user->getChangePassword());
 
         $this->assertEquals($user->getSecretRegister(), 'secret-register');
+        $this->assertIsString($user->getSecretRegister());
 
         $this->assertEquals($user->getRoles(), ['ROLE_TEST', 'ROLE_USER']);
         $this->assertIsArray($user->getRoles());

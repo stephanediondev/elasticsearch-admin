@@ -19,11 +19,24 @@ class ElasticsearchCatModelTest extends TestCase
         $cat->setSort('sort');
 
         $this->assertEquals($cat->getCommand(), 'command');
+        $this->assertIsString($cat->getCommand());
+
         $this->assertEquals($cat->getIndex(), 'index');
+        $this->assertIsString($cat->getIndex());
+
         $this->assertEquals($cat->getRepository(), 'repository');
+        $this->assertIsString($cat->getRepository());
+
         $this->assertEquals($cat->getAlias(), 'alias');
+        $this->assertIsString($cat->getAlias());
+
         $this->assertEquals($cat->getNode(), 'node');
+        $this->assertIsString($cat->getNode());
+
         $this->assertEquals($cat->getHeaders(), 'headers');
+        $this->assertIsString($cat->getHeaders());
+
         $this->assertEquals($cat->getSort(), 'sort');
+        $this->assertIsString($cat->getSort());
     }
 }
