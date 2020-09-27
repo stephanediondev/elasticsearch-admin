@@ -21,10 +21,10 @@ class ElasticsearchReindexModelTest extends TestCase
 
         $this->assertEquals($reindex->getJson(), [
             'source' => [
-                'index' => 'source',
+                'index' => $reindex->getSource(),
             ],
             'dest' => [
-                'index' => 'destination',
+                'index' => $reindex->getDestination(),
             ],
         ]);
         $this->assertIsArray($reindex->getJson());

@@ -45,5 +45,13 @@ class AppUserModelTest extends TestCase
         $this->assertIsArray($user->getRoles());
 
         $this->assertInstanceOf('Datetime', $user->getCreatedAt());
+
+        $this->assertEquals($user->getJson(), [
+            'email' => $user->getEmail(),
+            'password' => $user->getPassword(),
+            'roles' => $user->getRoles(),
+            'created_at' => $user->getCreatedAt()->format('Y-m-d H:i:s'),
+        ]);
+        $this->assertIsArray($user->getJson());
     }
 }

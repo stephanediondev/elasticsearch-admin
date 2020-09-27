@@ -17,6 +17,7 @@ class ElasticsearchUserModelTest extends TestCase
         $user->setEnabled(true);
         $user->setChangePassword(true);
         $user->setRoles(['roles']);
+        $user->setMetadata(['metadata']);
 
         $this->assertEquals($user->getName(), 'name');
         $this->assertEquals(strval($user), 'name');
@@ -39,5 +40,8 @@ class ElasticsearchUserModelTest extends TestCase
 
         $this->assertEquals($user->getRoles(), ['roles']);
         $this->assertIsArray($user->getRoles());
+
+        $this->assertEquals($user->getMetadata(), ['metadata']);
+        $this->assertIsArray($user->getMetadata());
     }
 }

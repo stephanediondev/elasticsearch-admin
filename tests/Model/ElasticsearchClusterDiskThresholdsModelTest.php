@@ -29,10 +29,10 @@ class ElasticsearchClusterDiskThresholdsModelTest extends TestCase
 
         $this->assertEquals($clusterDiskThresholdsModel->getJson(), [
             'persistent' => [
-                'cluster.routing.allocation.disk.threshold_enabled' => true,
-                'cluster.routing.allocation.disk.watermark.low' => 'low',
-                'cluster.routing.allocation.disk.watermark.high' => 'high',
-                'cluster.routing.allocation.disk.watermark.flood_stage' => 'flood-stage',
+                'cluster.routing.allocation.disk.threshold_enabled' => $clusterDiskThresholdsModel->getEnabled(),
+                'cluster.routing.allocation.disk.watermark.low' => $clusterDiskThresholdsModel->getLow(),
+                'cluster.routing.allocation.disk.watermark.high' => $clusterDiskThresholdsModel->getHigh(),
+                'cluster.routing.allocation.disk.watermark.flood_stage' => $clusterDiskThresholdsModel->getFloodStage(),
             ],
         ]);
         $this->assertIsArray($clusterDiskThresholdsModel->getJson());

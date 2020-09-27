@@ -15,6 +15,7 @@ class ElasticsearchRoleModelTest extends TestCase
         $role->setCluster(['cluster']);
         $role->setIndices(['indices']);
         $role->setRunAs(['run-as']);
+        $role->setMetadata(['metadata']);
 
         $this->assertEquals($role->getName(), 'name');
         $this->assertEquals(strval($role), 'name');
@@ -31,5 +32,17 @@ class ElasticsearchRoleModelTest extends TestCase
 
         $this->assertEquals($role->getRunAs(), ['run-as']);
         $this->assertIsArray($role->getRunAs());
+
+        $this->assertEquals($role->getMetadata(), ['metadata']);
+        $this->assertIsArray($role->getMetadata());
+
+        $this->assertEquals($role->getJson(), [
+            'cluster' => $role->getCluster(),
+            'run_as' => $role->getRunAs(),
+            'applications' => $role->getApplications(),
+            'indices' => $role->getIndices(),
+            'metadata' => $role->getMetadata(),
+        ]);
+        $this->assertIsArray($role->getJson());
     }
 }

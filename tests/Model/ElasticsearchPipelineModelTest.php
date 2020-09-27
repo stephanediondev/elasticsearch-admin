@@ -40,5 +40,13 @@ class ElasticsearchPipelineModelTest extends TestCase
         $pipeline->setName('.name');
         $this->assertEquals($pipeline->isSystem(), true);
         $this->assertIsBool($pipeline->isSystem());
+
+        $this->assertEquals($pipeline->getJson(), [
+            'processors' => $pipeline->getProcessors(),
+            'version' => $pipeline->getVersion(),
+            'description' => $pipeline->getDescription(),
+            'on_failure' => $pipeline->getOnFailure(),
+        ]);
+        $this->assertIsArray($pipeline->getJson());
     }
 }

@@ -20,6 +20,7 @@ class AppSubscriptionModelTest extends TestCase
         $subscription->setIp('ip');
         $subscription->setOs('os');
         $subscription->setClient('client');
+        $subscription->setNotifications(['notifications']);
         $subscription->setCreatedAt(new \Datetime());
 
         $this->assertEquals($subscription->getId(), 'id');
@@ -53,6 +54,24 @@ class AppSubscriptionModelTest extends TestCase
         $this->assertEquals($subscription->getClient(), 'client');
         $this->assertIsString($subscription->getClient());
 
+        $this->assertEquals($subscription->getNotifications(), ['notifications']);
+        $this->assertIsArray($subscription->getNotifications());
+
         $this->assertInstanceOf('Datetime', $subscription->getCreatedAt());
+
+        $this->assertEquals($subscription->getJson(), [
+            'user_id' => $subscription->getUserId(),
+            'type' => $subscription->getType(),
+            'endpoint' => $subscription->getEndpoint(),
+            'public_key' => $subscription->getPublicKey(),
+            'authentication_secret' => $subscription->getAuthenticationSecret(),
+            'content_encoding' => $subscription->getContentEncoding(),
+            'ip' => $subscription->getIp(),
+            'os' => $subscription->getOs(),
+            'client' => $subscription->getClient(),
+            'notifications' => $subscription->getNotifications(),
+            'created_at' => $subscription->getCreatedAt()->format('Y-m-d H:i:s'),
+        ]);
+        $this->assertIsArray($subscription->getJson());
     }
 }

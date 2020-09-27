@@ -14,5 +14,10 @@ class ElasticsearchReloadSecureSettingsModelTest extends TestCase
 
         $this->assertEquals($reloadSecureSettings->getSecureSettingsPassword(), 'secure-settings-password');
         $this->assertIsString($reloadSecureSettings->getSecureSettingsPassword());
+
+        $this->assertEquals($reloadSecureSettings->getJson(), [
+            'secure_settings_password' => $reloadSecureSettings->getSecureSettingsPassword(),
+        ]);
+        $this->assertIsArray($reloadSecureSettings->getJson());
     }
 }
