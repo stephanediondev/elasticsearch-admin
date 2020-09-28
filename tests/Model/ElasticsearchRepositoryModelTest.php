@@ -94,5 +94,84 @@ class ElasticsearchRepositoryModelTest extends TestCase
 
         $this->assertEquals($repository->getAwsAccount(), 'aws-account');
         $this->assertIsString($repository->getAwsAccount());
+
+        $this->assertEquals($repository->getJson(), [
+            'type' => $repository->getType(),
+            'settings' => [
+                'compress' => $repository->getCompress(),
+                'chunk_size' => $repository->getChunkSize(),
+                'max_restore_bytes_per_sec' => $repository->getMaxRestoreBytesPerSec(),
+                'max_snapshot_bytes_per_sec' => $repository->getMaxSnapshotBytesPerSec(),
+                'readonly' => $repository->getReadonly(),
+            ],
+        ]);
+        $this->assertIsArray($repository->getJson());
+
+        $repository->setType('fs');
+        $this->assertEquals($repository->getJson(), [
+            'type' => $repository->getType(),
+            'settings' => [
+                'compress' => $repository->getCompress(),
+                'chunk_size' => $repository->getChunkSize(),
+                'max_restore_bytes_per_sec' => $repository->getMaxRestoreBytesPerSec(),
+                'max_snapshot_bytes_per_sec' => $repository->getMaxSnapshotBytesPerSec(),
+                'readonly' => $repository->getReadonly(),
+                'location' => $repository->getLocation(),
+            ],
+        ]);
+        $this->assertIsArray($repository->getJson());
+
+        $repository->setType('s3');
+        $this->assertEquals($repository->getJson(), [
+            'type' => $repository->getType(),
+            'settings' => [
+                'compress' => $repository->getCompress(),
+                'chunk_size' => $repository->getChunkSize(),
+                'max_restore_bytes_per_sec' => $repository->getMaxRestoreBytesPerSec(),
+                'max_snapshot_bytes_per_sec' => $repository->getMaxSnapshotBytesPerSec(),
+                'readonly' => $repository->getReadonly(),
+                'bucket' => $repository->getBucket(),
+                'client' => $repository->getClient(),
+                'base_path' => $repository->getBasePath(),
+                'server_side_encryption' => $repository->getServerSideEncryption(),
+                'buffer_size' => $repository->getBufferSize(),
+                'canned_acl' => $repository->getCannedAcl(),
+                'storage_class' => $repository->getStorageClass(),
+            ],
+        ]);
+        $this->assertIsArray($repository->getJson());
+
+        $repository->setType('gcs');
+        $this->assertEquals($repository->getJson(), [
+            'type' => $repository->getType(),
+            'settings' => [
+                'compress' => $repository->getCompress(),
+                'chunk_size' => $repository->getChunkSize(),
+                'max_restore_bytes_per_sec' => $repository->getMaxRestoreBytesPerSec(),
+                'max_snapshot_bytes_per_sec' => $repository->getMaxSnapshotBytesPerSec(),
+                'readonly' => $repository->getReadonly(),
+                'bucket' => $repository->getBucket(),
+                'client' => $repository->getClient(),
+                'base_path' => $repository->getBasePath(),
+            ],
+        ]);
+        $this->assertIsArray($repository->getJson());
+
+        $repository->setType('azure');
+        $this->assertEquals($repository->getJson(), [
+            'type' => $repository->getType(),
+            'settings' => [
+                'compress' => $repository->getCompress(),
+                'chunk_size' => $repository->getChunkSize(),
+                'max_restore_bytes_per_sec' => $repository->getMaxRestoreBytesPerSec(),
+                'max_snapshot_bytes_per_sec' => $repository->getMaxSnapshotBytesPerSec(),
+                'readonly' => $repository->getReadonly(),
+                'container' => $repository->getContainer(),
+                'client' => $repository->getClient(),
+                'base_path' => $repository->getBasePath(),
+                'location_mode' => $repository->getLocationMode(),
+            ],
+        ]);
+        $this->assertIsArray($repository->getJson());
     }
 }

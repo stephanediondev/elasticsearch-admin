@@ -57,5 +57,16 @@ class ElasticsearchIndexTemplateLegacyModelTest extends TestCase
         $template->setName('.name');
         $this->assertEquals($template->isSystem(), true);
         $this->assertIsBool($template->isSystem());
+
+        $this->assertEquals($template->getJson(), [
+            'index_patterns' => ['index-patterns'],
+            'template' => $template->getTemplate(),
+            'version' => $template->getVersion(),
+            'order' => $template->getOrder(),
+            'settings' => $template->getSettings(),
+            'mappings' => $template->getMappings(),
+            'aliases' => $template->getAliases(),
+        ]);
+        $this->assertIsArray($template->getJson());
     }
 }

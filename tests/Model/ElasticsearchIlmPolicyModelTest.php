@@ -51,5 +51,17 @@ class ElasticsearchIlmPolicyModelTest extends TestCase
         $policy->setName('.name');
         $this->assertEquals($policy->isSystem(), true);
         $this->assertIsBool($policy->isSystem());
+
+        $this->assertEquals($policy->getJson(), [
+            'policy' => [
+                'phases' => [
+                    'hot' => $policy->getHot(),
+                    'warm' => $policy->getWarm(),
+                    'cold' => $policy->getCold(),
+                    'delete' => $policy->getDelete(),
+                ],
+            ],
+        ]);
+        $this->assertIsArray($policy->getJson());
     }
 }

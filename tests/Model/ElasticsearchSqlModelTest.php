@@ -22,5 +22,12 @@ class ElasticsearchSqlModelTest extends TestCase
 
         $this->assertEquals($sql->getFetchSize(), 1);
         $this->assertIsInt($sql->getFetchSize());
+
+        $this->assertEquals($sql->getJson(), [
+            'query' => $sql->getQuery(),
+            'fetch_size' => $sql->getFetchSize(),
+            'filter' => json_decode($sql->getFilter(), true),
+        ]);
+        $this->assertIsArray($sql->getJson());
     }
 }

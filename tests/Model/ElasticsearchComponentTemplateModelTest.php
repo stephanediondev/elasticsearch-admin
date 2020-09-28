@@ -50,5 +50,16 @@ class ElasticsearchComponentTemplateModelTest extends TestCase
         $template->setName('.name');
         $this->assertEquals($template->isSystem(), true);
         $this->assertIsBool($template->isSystem());
+
+        $this->assertEquals($template->getJson(), [
+            'template' => [
+                'settings' => $template->getSettings(),
+                'mappings' => $template->getMappings(),
+                'aliases' => $template->getAliases(),
+            ],
+            'version' => $template->getVersion(),
+            '_meta' => $template->getMetadata(),
+        ]);
+        $this->assertIsArray($template->getJson());
     }
 }

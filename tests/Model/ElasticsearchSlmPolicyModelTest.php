@@ -89,5 +89,19 @@ class ElasticsearchSlmPolicyModelTest extends TestCase
         $policy->setName('.name');
         $this->assertEquals($policy->isSystem(), true);
         $this->assertIsBool($policy->isSystem());
+
+        $this->assertEquals($policy->getJson(), [
+            'schedule' => $policy->getSchedule(),
+            'name' => $policy->getSnapshotName(),
+            'repository' => $policy->getRepository(),
+            'config' => [
+                'indices' => $policy->getIndices(),
+                'ignore_unavailable' => $policy->getIgnoreUnavailable(),
+                'partial' => $policy->getPartial(),
+                'include_global_state' => $policy->getIncludeGlobalState(),
+            ],
+            'retention' => $policy->getRetention(),
+        ]);
+        $this->assertIsArray($policy->getJson());
     }
 }

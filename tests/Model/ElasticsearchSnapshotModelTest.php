@@ -65,5 +65,13 @@ class ElasticsearchSnapshotModelTest extends TestCase
 
         $this->assertEquals($snapshot->getMetadata(), ['metadata']);
         $this->assertIsArray($snapshot->getMetadata());
+
+        $this->assertEquals($snapshot->getJson(), [
+            'indices' => implode(',', $snapshot->getIndices()),
+            'ignore_unavailable' => $snapshot->getIgnoreUnavailable(),
+            'partial' => $snapshot->getPartial(),
+            'include_global_state' => $snapshot->getIncludeGlobalState(),
+        ]);
+        $this->assertIsArray($snapshot->getJson());
     }
 }

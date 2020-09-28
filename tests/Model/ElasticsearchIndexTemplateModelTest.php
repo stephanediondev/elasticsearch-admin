@@ -66,5 +66,20 @@ class ElasticsearchIndexTemplateModelTest extends TestCase
         $template->setName('.name');
         $this->assertEquals($template->isSystem(), true);
         $this->assertIsBool($template->isSystem());
+
+        $this->assertEquals($template->getJson(), [
+            'index_patterns' => ['index-patterns'],
+            'version' => $template->getVersion(),
+            'priority' => $template->getPriority(),
+            'composed_of' => $template->getComposedOf(),
+            'template' => [
+                'settings' => $template->getSettings(),
+                'mappings' => $template->getMappings(),
+                'aliases' => $template->getAliases(),
+            ],
+            '_meta' => $template->getMetadata(),
+            'data_stream' => (object)[],
+        ]);
+        $this->assertIsArray($template->getJson());
     }
 }
