@@ -51,7 +51,7 @@
 
                     {% if 'documents' == column %}
                         <th class="d-none d-xl-table-cell">
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'docs', 'title': 'documents'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'docs', 'title': 'documents_with_nested'|trans})}}
                         </th>
                     {% endif %}
 
@@ -274,3 +274,7 @@
         {% endfor %}
     {% endblock %}
 {% endembed %}
+
+<p>
+    <em>{{ 'documents_with_nested_note'|trans }}</em>
+</p>

@@ -33,7 +33,7 @@
 
                     {% if 'documents' == column %}
                         <th>
-                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'docs.count', 'title': 'documents'|trans})}}
+                            {{ appImport.sort({'cat_sort': cat_sort, 'url': sortUrl, 'sort': 'docs.count', 'title': 'documents_with_nested'|trans})}}
                         </th>
                     {% endif %}
 
@@ -166,3 +166,7 @@
         {% endfor %}
     {% endblock %}
 {% endembed %}
+
+<p>
+    <em>{{ 'documents_with_nested_note'|trans }}</em>
+</p>
