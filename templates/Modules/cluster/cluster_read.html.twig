@@ -51,17 +51,13 @@
                 {% endif %}
 
                 {% if documents %}
-                    {{ appImport.dashboardKpi({'title': 'documents_with_nested'|trans, 'badge': {'title': documents}}) }}
+                    {{ appImport.dashboardKpi({'title': 'total_primary_documents'|trans, 'badge': {'title': documents}}) }}
                 {% endif %}
 
                 {% if total_size %}
                     {{ appImport.dashboardKpi({'title': 'total_size'|trans, 'badge': {'title': total_size|human_filesize}}) }}
                 {% endif %}
             </div>
-
-            <p>
-                <em>{{ 'documents_with_nested_note'|trans }}</em>
-            </p>
         {% endblock %}
     {% endembed %}
 {% endblock %}

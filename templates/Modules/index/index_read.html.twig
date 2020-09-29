@@ -129,7 +129,7 @@
 
                 {{ appImport.dashboardKpi({'title': 'replicas'|trans, 'badge': {'title': index.replicas}}) }}
 
-                {{ appImport.dashboardKpi({'title': 'documents_with_nested'|trans, 'badge': {'title': index.documents}}) }}
+                {{ appImport.dashboardKpi({'title': 'documents'|trans, 'badge': {'title': index.documents}}) }}
 
                 {{ appImport.dashboardKpi({'title': 'documents_deleted'|trans, 'badge': {'title': index.documentsDeleted}}) }}
 
@@ -161,10 +161,6 @@
 
                 {{ appImport.dashboardKpi({'title': 'creation_date'|trans, 'badge': {'title': index.creationDate|human_datetime}}) }}
             </div>
-
-            <p>
-                <em>{{ 'documents_with_nested_note'|trans }}</em>
-            </p>
         {% endblock %}
     {% endembed %}
 {% endblock %}
