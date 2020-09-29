@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
+use App\Form\Type\ElasticsearchDataStreamType;
 use App\Form\Type\ElasticsearchDataStreamFilterType;
 use App\Manager\ElasticsearchDataStreamManager;
 use App\Model\CallRequestModel;
@@ -54,6 +55,42 @@ class ElasticsearchDataStreamController extends AbstractAppController
                 'page' => $request->query->get('page'),
                 'size' => 100,
             ]),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/data-streams/create", name="data_streams_create")
+     */
+    public function create(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('DATA_STREAMS_CREATE', 'global');
+
+        if (false === $this->callManager->hasFeature('data_streams')) {
+            throw new AccessDeniedException();
+        }
+
+        $dataStream = new ElasticsearchDataStreamModel();
+        $form = $this->createForm(ElasticsearchDataStreamType::class, $dataStream);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_data_stream/'.$dataStream->getName());
+                $callResponse = $this->callManager->call($callRequest);
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
+
+                return $this->redirectToRoute('data_streams_read', ['name' => $dataStream->getName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/data_stream/data_stream_create.html.twig', [
             'form' => $form->createView(),
         ]);
     }

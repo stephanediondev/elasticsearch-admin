@@ -1,5 +1,13 @@
 <ul class="nav nav-tabs mb-4">
-    <li class="nav-item">
-        <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('data_streams') }}">{{ 'list'|trans }}</a>
-    </li>
+    {% if is_granted('DATA_STREAMS', 'global') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('data_streams') }}">{{ 'list'|trans }}</a>
+        </li>
+    {% endif %}
+
+    {% if is_granted('DATA_STREAMS_CREATE', 'global') %}
+        <li class="nav-item">
+            <a class="nav-link{% if 'create_data_stream' == active %} active{% endif %}" href="{{ path('data_streams_create') }}">{{ 'create_data_stream'|trans }}</a>
+        </li>
+    {% endif %}
 </ul>

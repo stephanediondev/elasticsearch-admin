@@ -25,6 +25,23 @@ class ElasticsearchDataStreamControllerTest extends AbstractAppControllerTest
     }
 
     /**
+     * @Route("/data-streams/create", name="data_streams_create")
+     */
+    public function testCreate()
+    {
+        $this->client->request('GET', '/admin/data-streams/create');
+
+        if (false == $this->callManager->hasFeature('data_streams')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(200);
+            $this->assertPageTitleSame('Data streams - Create data stream');
+            $this->assertSelectorTextSame('h1', 'Data streams');
+            $this->assertSelectorTextSame('h3', 'Create data stream');
+        }
+    }
+
+    /**
      * @Route("/data-streams/{name}", name="data_streams_read")
      */
     public function testRead404()
