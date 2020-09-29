@@ -20,11 +20,11 @@
     },
     "dependencies": {
         "@ttskch/select2-bootstrap4-theme": "^1.4.0",
-        "bootstrap": "^5.0.0-alpha1",
+        "bootstrap": "^5.0.0-alpha2",
         "file-saver": "^2.0.2",
         "jquery": "^3.5.1",
         "popper.js": "^1.16.1-lts",
         "select2": "^4.0.13",
-        "slug": "^3.3.4"
+        "slug": "^3.3.5"
     }
 }

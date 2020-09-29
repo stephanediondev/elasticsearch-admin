@@ -123,7 +123,7 @@
                     return response.json();
                 }).then(function(json) {
                     if (true == json.exception) {
-                        nav.insertAdjacentHTML('afterend', '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' + json.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                        nav.insertAdjacentHTML('afterend', '<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">' + json.message + '<button type="button" class="btn-close" data-dismiss="alert" aria-label="{{ 'close'|trans|escape('js')  }}"></button></div>');
                         window.scrollTo(0, 0);
 
                     } else {

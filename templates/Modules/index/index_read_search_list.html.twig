@@ -38,9 +38,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="modalLabel{{ row['_id'] }}">#{{ row['_id'] }} ({{ 'source'|trans }})</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                 </div>
                                 <div class="modal-body">
                                     <pre>{{ row['_source']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
@@ -86,9 +84,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
+                                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <pre>{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
@@ -112,9 +108,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <pre>{{ value }}</pre>
