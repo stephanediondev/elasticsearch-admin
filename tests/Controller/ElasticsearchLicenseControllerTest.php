@@ -20,6 +20,7 @@ class ElasticsearchLicenseControllerTest extends AbstractAppControllerTest
             $this->assertResponseStatusCodeSame(200);
             $this->assertPageTitleSame('License');
             $this->assertSelectorTextSame('h1', 'License');
+            $this->assertSelectorTextSame('h3', 'Summary');
         }
     }
 }
