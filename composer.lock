@@ -622,16 +622,16 @@
         },
         {
             "name": "minishlink/web-push",
-            "version": "v6.0.1",
+            "version": "v6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-push-libs/web-push-php.git",
-                "reference": "bbbd3e12369d6d08a0ff5c4ff040a354bf95068c"
+                "reference": "eddd95ca726bc529fbce7aaa90662584ad7ded3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/bbbd3e12369d6d08a0ff5c4ff040a354bf95068c",
-                "reference": "bbbd3e12369d6d08a0ff5c4ff040a354bf95068c",
+                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/eddd95ca726bc529fbce7aaa90662584ad7ded3e",
+                "reference": "eddd95ca726bc529fbce7aaa90662584ad7ded3e",
                 "shasum": ""
             },
             "require": {
@@ -677,7 +677,7 @@
                 "push",
                 "web"
             ],
-            "time": "2020-09-13T05:00:26+00:00"
+            "time": "2020-09-29T04:38:42+00:00"
         },
         {
             "name": "monolog/monolog",
