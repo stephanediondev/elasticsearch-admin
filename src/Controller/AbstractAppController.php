@@ -66,10 +66,6 @@ abstract class AbstractAppController extends AbstractController
 
             $parameters['root'] = $this->callManager->getRoot();
 
-            $parameters['xpack'] = $this->callManager->getXpack();
-
-            $parameters['plugins'] = $this->callManager->getPlugins();
-
             $parameters['cat_sort'] = $this->callManager->hasFeature('cat_sort');
 
             if (true === $parameters['firewall']) {

@@ -51,6 +51,7 @@ class ElasticsearchLicenseController extends AbstractAppController
         }
 
         return $this->renderAbstract($request, 'Modules/license/license_read.html.twig', [
+            'xpack' => $this->callManager->getXpack(),
             'license' => $license,
             'trial_status' => $trialStatus,
             'basic_status' => $basicStatus,
