@@ -52,7 +52,7 @@ class ElasticsearchDataStreamFilterType extends AbstractType
                         'label' => 'status',
                         'required' => false,
                         'attr' => [
-                            'size' => 1,
+                            'size' => count($options['status']),
                         ],
                     ]);
                     break;

@@ -50,7 +50,7 @@
                             <tr>
                                 <td>
                                     {% if is_granted('INDICES', 'global') %}
-                                        <a class="text-secondary" href="{{ path('indices_read', {'index': failure['index']}) }}">{{ failure['index'] }}</a>
+                                        <a class="text-light" href="{{ path('indices_read', {'index': failure['index']}) }}">{{ failure['index'] }}</a>
                                     {% else %}
                                         {{ failure['index'] }}
                                     {% endif %}
@@ -64,7 +64,7 @@
                                 <td>
                                     {% if nodes[failure['node_id']] is defined %}
                                         {% if is_granted('NODES', 'global') %}
-                                            <a class="text-secondary" href="{{ path('nodes_read', {'node': nodes[failure['node_id']]}) }}">{{ nodes[failure['node_id']] }}</a>
+                                            <a class="text-light" href="{{ path('nodes_read', {'node': nodes[failure['node_id']]}) }}">{{ nodes[failure['node_id']] }}</a>
                                         {% else %}
                                             {{ nodes[failure['node_id']] }}
                                         {% endif %}

@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('enrich') }}">{{ 'list'|trans }}</a>
+        <a class="nav-link text-light{% if 'list' == active %} active bg-dark{% endif %}" href="{{ path('enrich') }}">{{ 'list'|trans }}</a>
     </li>
 
     {% if is_granted('ENRICH_POLICIES_STATS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link{% if 'stats' == active %} active{% endif %}" href="{{ path('enrich_stats') }}">{{ 'stats'|trans }}</a>
+            <a class="nav-link text-light{% if 'stats' == active %} active bg-dark{% endif %}" href="{{ path('enrich_stats') }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('ENRICH_POLICIES_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link{% if 'create_enrich_policy' == active %} active{% endif %}" href="{{ path('enrich_create') }}">{{ 'create_enrich_policy'|trans }}</a>
+            <a class="nav-link text-light{% if 'create_enrich_policy' == active %} active bg-dark{% endif %}" href="{{ path('enrich_create') }}">{{ 'create_enrich_policy'|trans }}</a>
         </li>
     {% endif %}
 </ul>

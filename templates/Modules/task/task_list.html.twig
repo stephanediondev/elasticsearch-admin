@@ -35,7 +35,7 @@
 
                     {% if 'start_time' == column %}
                         <th>
-                            {{ 'start_time'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}
+                            {{ 'start_time'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'secondary'}) }}
                         </th>
                     {% endif %}
 
@@ -69,7 +69,7 @@
                         {% if 'node' == column %}
                             <td>
                                 {% if is_granted_nodes %}
-                                    <a class="text-secondary" href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
+                                    <a class="text-light" href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
                                 {% else %}
                                     {{ row['node'] }}
                                 {% endif %}

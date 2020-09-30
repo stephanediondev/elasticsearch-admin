@@ -68,7 +68,7 @@ class ElasticsearchShardFilterType extends AbstractType
                         'label' => 'state',
                         'required' => false,
                         'attr' => [
-                            'size' => 1,
+                            'size' => count($options['state']),
                             'data-break-after' => 'yes',
                         ],
                     ]);
@@ -84,7 +84,7 @@ class ElasticsearchShardFilterType extends AbstractType
                         'label' => 'node',
                         'required' => false,
                         'attr' => [
-                            'size' => 1,
+                            'size' => count($options['state']),
                         ],
                     ]);
                     break;

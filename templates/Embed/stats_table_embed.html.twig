@@ -1,11 +1,11 @@
 {% set limit = 15 %}
 
 <div class="col">
-    <div class="card mb-4">
+    <div class="card bg-dark mb-4">
         <div class="card-body card-dashboard" id="{{ key }}">
             <h4 class="card-title text-center">{% block title %}{% endblock %}</h4>
 
-            <table class="table table-hover table-sm">
+            <table class="table table-dark table-hover table-sm">
                 {% block content %}
                 {% endblock %}
             </table>

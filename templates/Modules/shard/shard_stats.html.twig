@@ -74,15 +74,15 @@
                                         {% block title %}
                                             {% if key in ['shards_by_node'] %}
                                                 {% if is_granted('SHARDS', 'global') %}
-                                                    <a class="text-secondary" href="{{ path('shards', {'node[]': row.title}) }}">{{ row.title }}</a>
+                                                    <a class="text-light" href="{{ path('shards', {'node[]': row.title}) }}">{{ row.title }}</a>
                                                 {% else %}
                                                     {{ row.title }}
                                                 {% endif %}
                                                 {% if master_node == row.title %}<span class="ml-1">{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}</span>{% endif %}
                                             {% elseif key in ['shards_by_type'] and is_granted('SHARDS', 'global') %}
-                                                <a class="text-secondary" href="{{ path('shards', {'type': row.title}) }}">{{ row.title|trans }}</a>
+                                                <a class="text-light" href="{{ path('shards', {'type': row.title}) }}">{{ row.title|trans }}</a>
                                             {% elseif key in ['shards_by_state'] and is_granted('SHARDS', 'global') %}
-                                                <a class="text-secondary" href="{{ path('shards', {'state[]': row.title}) }}">{{ row.title|trans }}</a>
+                                                <a class="text-light" href="{{ path('shards', {'state[]': row.title}) }}">{{ row.title|trans }}</a>
                                             {% else %}
                                                 {{ row.title|trans }}
                                             {% endif %}

@@ -46,7 +46,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
                         'label' => 'repository',
                         'required' => false,
                         'attr' => [
-                            'size' => 1,
+                            'size' => count($options['state']),
                             'data-break-after' => 'yes',
                         ],
                     ]);
@@ -61,7 +61,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
                         'label' => 'state',
                         'required' => false,
                         'attr' => [
-                            'size' => 1,
+                            'size' => count($options['state']),
                         ],
                     ]);
                     break;

@@ -15,7 +15,7 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ 'name'|trans }}{{ appImport.badge({'title': 'sort_asc'|trans, 'context': 'light'}) }}
+                            {{ 'name'|trans }}{{ appImport.badge({'title': 'sort_asc'|trans, 'context': 'secondary'}) }}
                         </th>
                     {% endif %}
 
@@ -66,7 +66,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('index_templates_read', {'name': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-info" href="{{ path('index_templates_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
@@ -97,7 +97,7 @@
                                 {% if row.composedOf %}
                                     {% for componentTemplate in row.composedOf %}
                                         {% if is_granted_component_templates %}
-                                            <a class="text-secondary" href="{{ path('component_templates_read', {'name': componentTemplate}) }}">{{ componentTemplate }}</a>
+                                            <a class="text-light" href="{{ path('component_templates_read', {'name': componentTemplate}) }}">{{ componentTemplate }}</a>
                                         {% else %}
                                             {{ componentTemplate }}
                                         {% endif %}
