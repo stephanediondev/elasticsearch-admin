@@ -85,7 +85,7 @@
                         {% if 'index' == column %}
                             <td>
                                 {% if is_granted_indices %}
-                                    <a class="text-secondary" href="{{ path('indices_read', {'index': row.index}) }}">{{ row.index }}</a>
+                                    <a class="text-light" href="{{ path('indices_read', {'index': row.index}) }}">{{ row.index }}</a>
                                 {% else %}
                                     {{ row.index }}
                                 {% endif %}
@@ -138,7 +138,7 @@
                             <td>
                                 {% if row.node %}
                                     {% if is_granted_nodes and 'relocating' != row.state %}
-                                        <a class="text-secondary" href="{{ path('nodes_read', {'node': row.node}) }}">{{ row.node }}</a>
+                                        <a class="text-light" href="{{ path('nodes_read', {'node': row.node}) }}">{{ row.node }}</a>
                                     {% else %}
                                         {{ row.node }}
                                     {% endif %}
@@ -162,7 +162,7 @@
                                                 <input type="hidden" name="from_node" value="{{ row.node }}">
                                                 <div class="form-group mb-3">
                                                     <label for="move-to-{{ row.node }}" class="form-label"><strong>{{ 'to_node'|trans }}</strong></label>
-                                                    <select id="move-to-{{ row.node }}" class="form-control" name="to_node" required="required">
+                                                    <select id="move-to-{{ row.node }}" class="form-control bg-dark text-light" name="to_node" required="required">
                                                         <option value="">-</option>
                                                         {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
                                                             <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
@@ -195,7 +195,7 @@
                                                 <input type="hidden" name="redirect" value="{{ redirect_url }}">
                                                 <div class="form-group mb-3">
                                                     <label for="allocate-to-{{ row.node }}" class="form-label"><strong>{{ 'node'|trans }}</strong></label>
-                                                    <select id="allocate-to-{{ row.node }}" class="form-control" name="node" required="required">
+                                                    <select id="allocate-to-{{ row.node }}" class="form-control bg-dark text-light" name="node" required="required">
                                                         <option value="">-</option>
                                                         {% for nodeAvailable in nodesAvailable[row.index][row.number] %}
                                                             <option value="{{ nodeAvailable }}">{{ nodeAvailable }}</option>
@@ -214,10 +214,10 @@
                                         </button>
                                         <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                                             <div class="modal-dialog modal-lg" role="document">
-                                                <div class="modal-content">
+                                                <div class="modal-content bg-dark">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'unassigned_details'|trans }}</h5>
-                                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}"></button>
+                                                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}"></button>
                                                     </div>
                                                     <div class="modal-body text-left">
                                                         <p>

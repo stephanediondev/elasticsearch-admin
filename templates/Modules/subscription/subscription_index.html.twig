@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block main_content %}
-    <div class="jumbotron">
+    <div class="jumbotron bg-secondary text-light border border-light">
         <p class="lead">{{ 'subscriptions_note'|trans }}</p>
     </div>
 
@@ -30,7 +30,7 @@
                             <th>{{ 'type'|trans }}</th>
                             <th>{{ 'details'|trans }}</th>
                             <th>{{ 'notifications'|trans }}</th>
-                            <th class="d-none d-xl-table-cell">{{ 'created_at'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'light'}) }}</th>
+                            <th class="d-none d-xl-table-cell">{{ 'created_at'|trans }}{{ appImport.badge({'title': 'sort_desc'|trans, 'context': 'secondary'}) }}</th>
                             <th class="text-nowrap">&nbsp;</th>
                         </tr>
                     {% endblock %}

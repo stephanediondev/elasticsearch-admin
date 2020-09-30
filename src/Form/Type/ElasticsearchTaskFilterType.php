@@ -40,7 +40,7 @@ class ElasticsearchTaskFilterType extends AbstractType
                         'label' => 'node',
                         'required' => false,
                         'attr' => [
-                            'size' => 1,
+                            'size' => 3,
                         ],
                     ]);
                     break;

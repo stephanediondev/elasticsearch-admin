@@ -2,19 +2,19 @@
 <ul class="nav nav-tabs mb-4">
     {% if is_granted('NODES', 'global') %}
         <li class="nav-item">
-            <a class="nav-link{% if 'list' == active %} active{% endif %}" href="{{ path('nodes') }}">{{ 'list'|trans }}</a>
+            <a class="nav-link text-light{% if 'list' == active %} active bg-dark{% endif %}" href="{{ path('nodes') }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('NODES_STATS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link{% if 'stats' == active %} active{% endif %}" href="{{ path('nodes_stats') }}">{{ 'stats'|trans }}</a>
+            <a class="nav-link text-light{% if 'stats' == active %} active bg-dark{% endif %}" href="{{ path('nodes_stats') }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('NODES_RELOAD_SECURE_SETTINGS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link{% if 'reload_secure_settings' == active %} active{% endif %}" href="{{ path('nodes_reload_secure_settings') }}">{{ 'reload_secure_settings'|trans }}{% if false == hasFeature('reload_secure_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link text-light{% if 'reload_secure_settings' == active %} active bg-dark{% endif %}" href="{{ path('nodes_reload_secure_settings') }}">{{ 'reload_secure_settings'|trans }}{% if false == hasFeature('reload_secure_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
         </li>
     {% endif %}
 </ul>

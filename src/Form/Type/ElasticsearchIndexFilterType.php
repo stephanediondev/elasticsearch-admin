@@ -71,7 +71,7 @@ class ElasticsearchIndexFilterType extends AbstractType
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
-                            'size' => 1,
+                            'size' => count($options['health']),
                         ],
                     ]);
                     break;

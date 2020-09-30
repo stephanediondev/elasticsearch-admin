@@ -42,7 +42,7 @@
                     </p>
 
                     <div class="collapse mb-4" id="collapseHelp">
-                        <div class="card card-body">
+                        <div class="card bg-dark card-body">
                             <pre><code>{{ help }}</code></pre>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
             $(id).parent().show();
             $(id).attr('required', 'required');
             $('label[for="' + id.substring(1) + '"] .badge').remove();
-            $('label[for="' + id.substring(1) + '"]').append(' <small class="badge bg-dark text-light ml-1">{{ 'required'|trans|escape('js') }}</small>');
+            $('label[for="' + id.substring(1) + '"]').append(' <small class="badge bg-light text-dark ml-1">{{ 'required'|trans|escape('js') }}</small>');
         }
 
         function disable(id) {

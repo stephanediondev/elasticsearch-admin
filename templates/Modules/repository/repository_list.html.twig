@@ -9,7 +9,7 @@
                 {% if true == display %}
                     {% if 'id' == column %}
                         <th>
-                            {{ 'name'|trans }}{{ appImport.badge({'title': 'sort_asc'|trans, 'context': 'light'}) }}
+                            {{ 'name'|trans }}{{ appImport.badge({'title': 'sort_asc'|trans, 'context': 'secondary'}) }}
                         </th>
                     {% endif %}
 
@@ -36,7 +36,7 @@
                     {% if true == display %}
                         {% if 'id' == column %}
                             <td>
-                                <a href="{{ path('repositories_read', {'repository': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-info" href="{{ path('repositories_read', {'repository': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 

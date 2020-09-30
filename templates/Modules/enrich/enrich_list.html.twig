@@ -9,7 +9,7 @@
                 {% if true == display %}
                     {% if 'name' == column %}
                         <th>
-                            {{ 'name'|trans }}{{ appImport.badge({'title': 'sort_asc'|trans, 'context': 'light'}) }}
+                            {{ 'name'|trans }}{{ appImport.badge({'title': 'sort_asc'|trans, 'context': 'secondary'}) }}
                         </th>
                     {% endif %}
 
@@ -48,7 +48,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a href="{{ path('enrich_read', {'name': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-info" href="{{ path('enrich_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 

@@ -1,23 +1,23 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link{% if 'summary' == active %} active{% endif %}" href="{{ path('index_templates_read', {'name': template.name}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link text-light{% if 'summary' == active %} active bg-dark{% endif %}" href="{{ path('index_templates_read', {'name': template.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('INDEX_TEMPLATE_UPDATE', template) %}
         <li class="nav-item">
-            <a class="nav-link{% if 'update' == active %} active{% endif %}" href="{{ path('index_templates_update', {'name': template.name}) }}">{{ 'update'|trans }}</a>
+            <a class="nav-link text-light{% if 'update' == active %} active bg-dark{% endif %}" href="{{ path('index_templates_update', {'name': template.name}) }}">{{ 'update'|trans }}</a>
         </li>
     {% endif %}
 
     <li class="nav-item">
-        <a class="nav-link{% if 'simulate' == active %} active{% endif %}" href="{{ path('index_templates_simulate', {'name': template.name}) }}">{{ 'simulate'|trans }}</a>
+        <a class="nav-link text-light{% if 'simulate' == active %} active bg-dark{% endif %}" href="{{ path('index_templates_simulate', {'name': template.name}) }}">{{ 'simulate'|trans }}</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link{% if 'settings' == active %} active{% endif %}" href="{{ path('index_templates_read_settings', {'name': template.name}) }}">{{ 'settings'|trans }}</a>
+        <a class="nav-link text-light{% if 'settings' == active %} active bg-dark{% endif %}" href="{{ path('index_templates_read_settings', {'name': template.name}) }}">{{ 'settings'|trans }}</a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link{% if 'mappings' == active %} active{% endif %}" href="{{ path('index_templates_read_mappings', {'name': template.name}) }}">{{ 'mappings'|trans }}</a>
+        <a class="nav-link text-light{% if 'mappings' == active %} active bg-dark{% endif %}" href="{{ path('index_templates_read_mappings', {'name': template.name}) }}">{{ 'mappings'|trans }}</a>
     </li>
 </ul>
