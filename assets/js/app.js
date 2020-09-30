@@ -17,7 +17,7 @@ global.sleep = function sleep(ms) {
 }
 
 global.createToast = function createToast(body) {
-    var toast = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    var toast = `<div class="toast bg-dark text-light border border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
             ${body}
         </div>
