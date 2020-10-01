@@ -136,8 +136,8 @@
         {%- set input_lang = 'en' -%}
         {% if app is defined and app.request is defined %}{%- set input_lang = app.request.locale -%}{%- endif -%}
         <label for="{{ form.vars.id }}" lang="{{ input_lang }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
-            <span class="form-file-text">{{ 'choose_file'|trans }}</span>
-            <span class="form-file-button">{{ 'browse'|trans }}</span>
+            <span class="form-file-text bg-dark text-light">{{ 'choose_file'|trans }}</span>
+            <span class="form-file-button bg-dark text-light">{{ 'browse'|trans }}</span>
         </label>
     </{{ element|default('div') }}>
 {% endblock %}
