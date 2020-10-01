@@ -6,6 +6,8 @@
 
 [![Cluster settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-cluster-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-cluster-settings.png)
 
+[![Cluster disk thresholds](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-disk-thresholds.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-disk-thresholds.png)
+
 [![Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-cluster-allocation-explain.png)
 
 [![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-nodes.png)
@@ -14,7 +16,11 @@
 
 [![Node](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-node.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-node.png)
 
+[![Node settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-node-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-node-settings.png)
+
 [![Node usage](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-node-usage.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-node-usage.png)
+
+[![Node plugins](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-node-plugins.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-node-plugins.png)
 
 [![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-indices.png)
 
@@ -52,5 +58,9 @@
 
 [![License](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-license.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-license.png)
 
+[![Subscriptions](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-subscriptions.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-subscriptions.png)
+
 [![Console](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-console.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-console.png)
+
+[![Tasks](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/resized/resized-tasks.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/6.0.0/original/original-tasks.png)
 
