@@ -16,6 +16,10 @@
 
 [![Node](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-node.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-node.png)
 
+[![Node settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-node-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-node-settings.png)
+
+[![Node plugins](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-node-plugins.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-node-plugins.png)
+
 [![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-indices.png)
 
 [![Indices stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-indices-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-indices-stats.png)
@@ -52,5 +56,9 @@
 
 [![License](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-license.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-license.png)
 
+[![Subscriptions](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-subscriptions.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-subscriptions.png)
+
 [![Console](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-console.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-console.png)
+
+[![Tasks](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/resized/resized-tasks.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/5.0.1/original/original-tasks.png)
 
