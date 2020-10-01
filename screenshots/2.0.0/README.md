@@ -10,6 +10,10 @@
 
 [![Node](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-node.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-node.png)
 
+[![Node settings](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-node-settings.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-node-settings.png)
+
+[![Node plugins](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-node-plugins.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-node-plugins.png)
+
 [![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-indices.png)
 
 [![Indices stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-indices-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-indices-stats.png)
@@ -41,6 +45,8 @@
 [![Snaphosts stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshots-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshots-stats.png)
 
 [![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshot-create.png)
+
+[![Subscriptions](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-subscriptions.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-subscriptions.png)
 
 [![Console](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-console.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-console.png)
 
