@@ -72,10 +72,17 @@
                             if (PushSubscription && 'object' === typeof PushSubscription) {
                                 var toJSON = PushSubscription.toJSON();
 
-                                $('#data_endpoint').val(PushSubscription.endpoint);
-                                $('#data_public_key').val(toJSON.keys.p256dh);
-                                $('#data_authentication_secret').val(toJSON.keys.auth);
-                                $('#data_content_encoding').val((PushManager.supportedContentEncodings || ['aesgcm'])[0]);
+                                var endpoint = document.getElementById('data_endpoint');
+                                endpoint.value = PushSubscription.endpoint;
+
+                                var publicKey = document.getElementById('data_public_key');
+                                publicKey.value = toJSON.keys.p256dh;
+
+                                var authenticationSecret = document.getElementById('data_authentication_secret');
+                                authenticationSecret.value = toJSON.keys.auth;
+
+                                var contentEncoding = document.getElementById('data_content_encoding');
+                                contentEncoding.value = (PushManager.supportedContentEncodings || ['aesgcm'])[0];
                             }
                         });
                     }
@@ -105,12 +112,11 @@
             }
         }
 
-        $(document).ready(function() {
-            $(document).on('click', '#allow-notifications', function(event) {
-                event.preventDefault();
+        var allowNotifications = document.getElementById('allow-notifications');
+        allowNotifications.addEventListener('click', function(event) {
+            event.preventDefault();
 
-                pushManagerSubscribe();
-            });
+            pushManagerSubscribe();
         });
     </script>
     {% endif %}

@@ -98,50 +98,62 @@
     {{ parent() }}
 
     <script type="text/javascript">
+        var command = document.getElementById('command');
+
         function toggle() {
-            var command = $('#command').val();
+            var commandValue = command.value;
 
-            if (command.indexOf('{index}') != -1) {
-                enable('#index');
+            if (commandValue.indexOf('{index}') != -1) {
+                enable('index');
             } else {
-                disable('#index');
+                disable('index');
             }
 
-            if (command.indexOf('{repository}') != -1) {
-                enable('#repository');
+            if (commandValue.indexOf('{repository}') != -1) {
+                enable('repository');
             } else {
-                disable('#repository');
+                disable('repository');
             }
 
-            if (command.indexOf('{alias}') != -1) {
-                enable('#alias');
+            if (commandValue.indexOf('{alias}') != -1) {
+                enable('alias');
             } else {
-                disable('#alias');
+                disable('alias');
             }
 
-            if (command.indexOf('{node}') != -1) {
-                enable('#node');
+            if (commandValue.indexOf('{node}') != -1) {
+                enable('node');
             } else {
-                disable('#node');
+                disable('node');
             }
         }
 
         function enable(id) {
-            $(id).parent().show();
-            $(id).attr('required', 'required');
-            $('label[for="' + id.substring(1) + '"] .badge').remove();
-            $('label[for="' + id.substring(1) + '"]').append(' <small class="badge bg-light text-dark ml-1">{{ 'required'|trans|escape('js') }}</small>');
+            var el = document.getElementById(id);
+            el.parentNode.style.display = '';
+            el.setAttribute('required', 'required');
+            removeBadge(id)
+            var label = document.querySelector('label[for="' + id + '"]');
+            label.insertAdjacentHTML('beforeend', ' <small class="badge bg-light text-dark ml-1">{{ 'required'|trans|escape('js') }}</small>');
         }
 
         function disable(id) {
-            $(id).parent().hide();
-            $(id).removeAttr('required');
-            $('label[for="' + id.substring(1) + '"] .badge').remove();
+            var el = document.getElementById(id);
+            el.parentNode.style.display = 'none';
+            el.removeAttribute('required');
+            removeBadge(id)
+        }
+
+        function removeBadge(id) {
+            var badge = document.querySelector('label[for="' + id + '"] .badge');
+            if (badge) {
+                badge.parentNode.removeChild(badge);
+            }
         }
 
         toggle();
 
-        $(document).on('change', '#command', function(event) {
+        command.addEventListener('change', function(event) {
             toggle();
         });
     </script>
