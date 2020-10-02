@@ -64,6 +64,8 @@
                     {{ appImport.paginator(rows) }}
 
                     {% embed 'Embed/table_embed.html.twig' %}
+                        {% import 'Import/app_import.html.twig' as appImport %}
+
                         {% block thead %}
                             <tr>
                                 {% for header in headers %}
@@ -77,9 +79,15 @@
                         {% block tbody %}
                             {% for row in rows.rows %}
                                 <tr>
-                                    {% for column in row %}
+                                    {% for k, column in row %}
                                         <td>
-                                            {{ column }}
+                                            {% if k in ['node', 'source_node', 'target_node', 'node_name'] and master_node == column %}
+                                                {{ column }}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}
+                                            {% elseif 'nodes' == command and 'name' == k and master_node == column %}
+                                                {{ column }}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}
+                                            {% else %}
+                                                {{ column }}
+                                            {% endif %}
                                         </td>
                                     {% endfor %}
                                 </tr>
