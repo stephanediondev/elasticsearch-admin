@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block heading_2 %}
-    {{ appImport.heading({'level': 2, 'title': snapshot.name}) }}
+    {{ appImport.heading({'level': 2, 'title': snapshot.name, 'badge': {'title': snapshot.state|trans, 'context': snapshot.state}}) }}
 {% endblock %}
 
 {% block tabs %}
