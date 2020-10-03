@@ -29,7 +29,6 @@
                         {% else %}
                             {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total}}) }}
                         {% endif %}
-                    {% elseif 'shards_total_unassigned_reason' == key %}
                     {% elseif 'shards_total_unassigned' == key %}
                         {% if is_granted('SHARDS', 'global') and 0 < total %}
                             {{ appImport.dashboardKpi({'title': ('stats_data.' ~ key)|trans, 'badge': {'title': total, 'context': 'danger', 'link': path('shards', {'state[]': 'unassigned'})}}) }}
@@ -55,7 +54,7 @@
                             {% block content %}
                                 {% for row in results %}
                                     {% if 'shards_by_unassigned_reason' == key %}
-                                        {% set percent = appImport.getPercent(data.totals.shards_total_unassigned_reason, row.total, 1) %}
+                                        {% set percent = appImport.getPercent(data.totals.shards_total_unassigned, row.total, 1) %}
                                     {% else %}
                                         {% set percent = appImport.getPercent(data.totals.shards_total, row.total, 1) %}
                                     {% endif %}

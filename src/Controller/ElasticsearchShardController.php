@@ -98,7 +98,6 @@ class ElasticsearchShardController extends AbstractAppController
         $data['totals']['shards_total'] = 0;
         $data['totals']['shards_total_primary'] = 0;
         $data['totals']['shards_total_unassigned'] = 0;
-        $data['totals']['shards_total_unassigned_reason'] = 0;
         if (true === isset($clusterStats['indices']['shards']['replication'])) {
             $data['totals']['shards_replication'] = round($clusterStats['indices']['shards']['replication']*100, 2).'%';
         }
@@ -117,9 +116,6 @@ class ElasticsearchShardController extends AbstractAppController
             }
             if ('unassigned' == $shard->getState()) {
                 $data['totals']['shards_total_unassigned']++;
-            }
-            if ($shard->getUnassignedReason()) {
-                $data['totals']['shards_total_unassigned_reason']++;
             }
             $data['totals']['shards_total_documents'] += $shard->getDocuments();
             $data['totals']['shards_total_size'] += $shard->getSize();
@@ -143,7 +139,9 @@ class ElasticsearchShardController extends AbstractAppController
                                 $key = $shard->getState();
                                 break;
                             case 'shards_by_unassigned_reason':
-                                $key = $shard->getUnassignedReason();
+                                if ('unassigned' == $shard->getState()) {
+                                    $key = $shard->getUnassignedReason();
+                                }
                                 break;
                             case 'shards_by_type':
                                 $key = $shard->isPrimary() ? 'primary' : 'replica';
