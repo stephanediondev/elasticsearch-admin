@@ -3,6 +3,7 @@ FROM alpine:edge
 LABEL Maintainer="Tim de Pater <code@trafex.nl>" \
       Description="Lightweight container with Nginx 1.18 & PHP-FPM 7.3 based on Alpine Linux."
 
+ENV APP_ENV=prod
 ENV INSTALLATION_TYPE=docker
 ENV ELASTICSEARCH_URL=$ELASTICSEARCH_URL
 ENV ELASTICSEARCH_USERNAME=$ELASTICSEARCH_USERNAME
