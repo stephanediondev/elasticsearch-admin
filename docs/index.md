@@ -3,7 +3,6 @@
 # Table of contents
 
 - [Disclaimer](#disclaimer)
-- [Product pages](#product-pages)
 - [Features](#features)
 - [Screenshots](#screenshots)
     - [Selection](#selection)
@@ -32,13 +31,6 @@
 The application named elasticsearch-admin is **NOT** affiliated in any way with Elasticsearch BV.
 
 Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in other countries.
-
-# Product pages
-
-[(Back to table of contents)](#table-of-contents)
-
-- Product Hunt [Visit](https://www.producthunt.com/posts/elasticsearch-admin)
-- Slant [Visit](https://www.slant.co/topics/11537/viewpoints/12/~elasticsearch-gui-clients~elasticsearch-admin)
 
 # Features
 
