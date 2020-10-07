@@ -3,8 +3,6 @@ global.$ = global.jQuery = $;
 
 require('bootstrap');
 
-require('select2');
-
 import { saveAs } from 'file-saver';
 var slug = require('slug');
 slug.charmap['/'] = '-';
@@ -99,10 +97,6 @@ if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
 
 $(document).ready(function () {
     $('label.required').append(' <small class="badge bg-light text-dark ml-1">' + trans_required + '</small>');
-
-    /*$('select').select2({
-        theme: 'bootstrap4',
-    });*/
 
     $(document).on('click', '.dashboard-table-expand', function(event) {
         event.preventDefault();
