@@ -18,8 +18,6 @@ services:
             $elasticsearchPassword: '%env(ELASTICSEARCH_PASSWORD)%'
             $sslVerifyPeer: '%env(bool:SSL_VERIFY_PEER)%'
             $secretRegister: '%env(SECRET_REGISTER)%'
-            $vapidPublicKey: '%env(VAPID_PUBLIC_KEY)%'
-            $vapidPrivateKey: '%env(VAPID_PRIVATE_KEY)%'
             $mailerDsn: '%env(MAILER_DSN)%'
             $senderAddress: '%env(SENDER_ADDRESS)%'
 

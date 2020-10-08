@@ -2,9 +2,6 @@
     "box/spout": {
         "version": "v3.1.0"
     },
-    "brick/math": {
-        "version": "0.9.1"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -25,21 +22,6 @@
     },
     "egulias/email-validator": {
         "version": "2.1.20"
-    },
-    "fgrosse/phpasn1": {
-        "version": "v2.1.1"
-    },
-    "guzzlehttp/guzzle": {
-        "version": "6.5.5"
-    },
-    "guzzlehttp/promises": {
-        "version": "v1.3.1"
-    },
-    "guzzlehttp/psr7": {
-        "version": "1.6.1"
-    },
-    "minishlink/web-push": {
-        "version": "v6.0.0"
     },
     "monolog/monolog": {
         "version": "2.0.2"
@@ -65,20 +47,8 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
-    "psr/http-client": {
-        "version": "1.0.1"
-    },
-    "psr/http-factory": {
-        "version": "1.0.1"
-    },
-    "psr/http-message": {
-        "version": "1.0.1"
-    },
     "psr/log": {
         "version": "1.1.2"
-    },
-    "ralouphie/getallheaders": {
-        "version": "3.0.3"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -91,9 +61,6 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
-    },
-    "spomky-labs/base64url": {
-        "version": "v2.0.3"
     },
     "symfony/asset": {
         "version": "v5.0.5"
@@ -462,20 +429,5 @@
     },
     "twig/twig": {
         "version": "v3.0.3"
-    },
-    "web-token/jwt-core": {
-        "version": "v2.2.2"
-    },
-    "web-token/jwt-key-mgmt": {
-        "version": "v2.2.2"
-    },
-    "web-token/jwt-signature": {
-        "version": "v2.2.2"
-    },
-    "web-token/jwt-signature-algorithm-ecdsa": {
-        "version": "v2.2.2"
-    },
-    "web-token/jwt-util-ecc": {
-        "version": "v2.2.2"
     }
 }

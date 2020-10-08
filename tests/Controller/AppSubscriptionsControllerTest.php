@@ -30,16 +30,6 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testCreatePush()
-    {
-        $this->client->request('GET', '/admin/subscriptions/create/push');
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Subscriptions - Create Push API');
-        $this->assertSelectorTextSame('h1', 'Subscriptions');
-        $this->assertSelectorTextSame('h3', 'Create Push API');
-    }
-
     public function testCreateSlack()
     {
         $this->client->request('GET', '/admin/subscriptions/create/slack');
@@ -50,7 +40,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Create Slack Incoming Webhook');
     }
 
-    public function testCreateams()
+    public function testCreateTeams()
     {
         $this->client->request('GET', '/admin/subscriptions/create/teams');
 
