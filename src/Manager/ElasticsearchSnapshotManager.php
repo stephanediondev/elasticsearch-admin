@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Exception\CallException;
 use App\Manager\AbstractAppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
@@ -20,6 +21,8 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             $snapshotModel = null;
+        } elseif (true === isset($snapshot['responses'][0]['error']['type']) && 'repository_exception' == $snapshot['responses'][0]['error']['type']) {
+            throw new CallException($snapshot['responses'][0]['error']['reason']);
         } elseif (true === isset($snapshot['responses'][0]['error']['type']) && 'snapshot_missing_exception' == $snapshot['responses'][0]['error']['type']) {
             $snapshotModel = null;
         } else {

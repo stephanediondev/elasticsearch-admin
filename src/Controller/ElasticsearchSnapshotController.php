@@ -152,18 +152,22 @@ class ElasticsearchSnapshotController extends AbstractAppController
         }
         $form = $this->createForm(ElasticsearchSnapshotType::class, $snapshot, ['repositories' => $repositories, 'indices' => $indices]);
 
-        $form->handleRequest($request);
+        try {
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $callResponse = $this->elasticsearchSnapshotManager->send($snapshot);
+            if ($form->isSubmitted() && $form->isValid()) {
+                try {
+                    $callResponse = $this->elasticsearchSnapshotManager->send($snapshot);
 
-                $this->addFlash('info', json_encode($callResponse->getContent()));
+                    $this->addFlash('info', json_encode($callResponse->getContent()));
 
-                return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshot->getName()]);
-            } catch (CallException $e) {
-                $this->addFlash('danger', $e->getMessage());
+                    return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshot->getName()]);
+                } catch (CallException $e) {
+                    $this->addFlash('danger', $e->getMessage());
+                }
             }
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
         }
 
         return $this->renderAbstract($request, 'Modules/snapshot/snapshot_create.html.twig', [
