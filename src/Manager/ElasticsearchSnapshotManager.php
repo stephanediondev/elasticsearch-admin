@@ -54,7 +54,7 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
             $rows = [];
             if (true === isset($results['responses'])) {
                 foreach ($results['responses'] as $response) {
-                    if (true === isset($results['snapshots'])) {
+                    if (true === isset($response['snapshots'])) {
                         foreach ($response['snapshots'] as $row) {
                             $row['repository'] = $repository;
                             $rows[] = $row;
