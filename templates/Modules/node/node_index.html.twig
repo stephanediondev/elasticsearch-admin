@@ -53,12 +53,18 @@
                 credentials: 'include',
                 method: 'get'
             }).then(function(response) {
-                return response.text();
+                if (200 == response.status) {
+                    return response.text();
+                } else {
+                    return null;
+                }
             }).then(async function(text) {
-                var h3Badge = document.querySelector('h3 .badge');
-                var list = document.getElementById('list');
-                list.innerHTML = text;
-                h3Badge.textContent = list.querySelectorAll('tbody tr').length;
+                if (text) {
+                    var h3Badge = document.querySelector('h3 .badge');
+                    var list = document.getElementById('list');
+                    list.innerHTML = text;
+                    h3Badge.textContent = list.querySelectorAll('tbody tr').length;
+                }
 
                 await sleep(5000);
                 fetchNodes();
