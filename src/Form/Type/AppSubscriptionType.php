@@ -119,9 +119,9 @@ class AppSubscriptionType extends AbstractType
             $form = $event->getForm();
 
             if ($form->has('endpoint') && $form->get('endpoint')->getData()) {
-                $user = $this->appSubscriptionManager->getByEndpoint($form->get('endpoint')->getData());
+                $subscription = $this->appSubscriptionManager->getByEndpoint($form->get('endpoint')->getData());
 
-                if ($user) {
+                if ($subscription) {
                     if (AppSubscriptionModel::TYPE_EMAIL == $options['type']) {
                         $form->get('endpoint')->addError(new FormError(
                             $this->translator->trans('email_already_used')

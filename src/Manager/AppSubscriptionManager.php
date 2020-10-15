@@ -132,4 +132,13 @@ class AppSubscriptionManager extends AbstractAppManager
 
         return $this->callManager->call($callRequest);
     }
+
+    public function deleteByEndpoint(string $endpoint): CallResponseModel
+    {
+        $subscription = $this->getByEndpoint($endpoint);
+
+        if ($subscription) {
+            return $this->deleteById($subscription->getId());
+        }
+    }
 }

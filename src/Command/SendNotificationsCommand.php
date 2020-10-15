@@ -132,6 +132,10 @@ class SendNotificationsCommand extends Command
                         $output->writeln('<info>Message sent successfully for subscription '.$endpoint.'.</info>');
                     } else {
                         $output->writeln('<error>Message failed to sent for subscription '.$endpoint.': '.$report->getReason().'</error>');
+
+                        if (true === $report->isSubscriptionExpired()) {
+                            $this->appSubscriptionManager->deleteByEndpoint($endpoint);
+                        }
                     }
                 }
             }
