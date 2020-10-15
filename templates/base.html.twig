@@ -150,7 +150,7 @@
     {% block heading_1 %}
     {% endblock %}
 
-    {% for label, messages in flashes|default(app.flashes) %}
+    {% for label, messages in app.flashes %}
         {% for message in messages %}
             <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
                 {{ message|trans }}
