@@ -6,6 +6,7 @@ use App\Model\AbstractAppModel;
 
 class AppSubscriptionModel extends AbstractAppModel
 {
+    const TYPE_PUSH = 'push';
     const TYPE_EMAIL = 'email';
     const TYPE_SMS = 'sms';
     const TYPE_SLACK = 'slack';
@@ -188,7 +189,7 @@ class AppSubscriptionModel extends AbstractAppModel
     public function convert(?array $subscription): self
     {
         $this->setId($subscription['id']);
-        $this->setType($subscription['type']);
+        $this->setType($subscription['type'] ?? self::TYPE_PUSH);
         $this->setUserId($subscription['user_id']);
         $this->setEndpoint($subscription['endpoint']);
         if (true === isset($subscription['public_key'])) {
@@ -240,6 +241,7 @@ class AppSubscriptionModel extends AbstractAppModel
     public static function getTypes()
     {
         return [
+            self::TYPE_PUSH,
             self::TYPE_EMAIL,
             self::TYPE_SMS,
             self::TYPE_SLACK,

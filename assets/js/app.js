@@ -10,10 +10,6 @@ slug.charmap['?'] = '-';
 slug.charmap['='] = '-';
 global.slug = slug;
 
-global.serviceWorkerAvailable = function serviceWorkerAvailable() {
-    return 'serviceWorker' in navigator && 'https:' == window.location.protocol;
-}
-
 global.sleep = function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -31,7 +27,7 @@ global.createToast = function createToast(body) {
 }
 
 function messageToServiceWorker(content) {
-    if (true === serviceWorkerAvailable()) {
+    if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
         navigator.serviceWorker.ready.then(function() {
             return new Promise(function(resolve, reject) {
                 var messageChannel = new MessageChannel();
@@ -57,9 +53,13 @@ if (buttonInstall) {
     });
 }
 
-if (true === serviceWorkerAvailable()) {
+global.serviceWorkerEnabled = false;
+
+if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
     navigator.serviceWorker.register(app_base_url + 'serviceworker.js')
     .then(function(ServiceWorkerRegistration) {
+        global.serviceWorkerEnabled = true;
+
         if (buttonInstall) {
             var standalone = window.matchMedia('(display-mode: standalone)');
             if (false === standalone.matches) {

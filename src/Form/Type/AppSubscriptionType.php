@@ -36,6 +36,12 @@ class AppSubscriptionType extends AbstractType
                 $fields[] = 'email';
             } else {
                 $fields[] = 'endpoint';
+
+                if (AppSubscriptionModel::TYPE_PUSH == $options['type']) {
+                    $fields[] = 'public_key';
+                    $fields[] = 'authentication_secret';
+                    $fields[] = 'content_encoding';
+                }
             }
         }
 
@@ -55,6 +61,39 @@ class AppSubscriptionType extends AbstractType
                 case 'endpoint':
                     $builder->add('endpoint', TextType::class, [
                         'label' => 'endpoint',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                    ]);
+                    break;
+                case 'public_key':
+                    $builder->add('public_key', TextType::class, [
+                        'label' => 'public_key',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                        'attr' => [
+                            'autocomplete' => 'nope',
+                        ],
+                    ]);
+                    break;
+                case 'authentication_secret':
+                    $builder->add('authentication_secret', PasswordType::class, [
+                        'label' => 'authentication_secret',
+                        'required' => true,
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                        'attr' => [
+                            'autocomplete' => 'new-password',
+                        ],
+                    ]);
+                    break;
+                case 'content_encoding':
+                    $builder->add('content_encoding', TextType::class, [
+                        'label' => 'content_encoding',
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),

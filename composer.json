@@ -9,6 +9,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "box/spout": "^3.1",
+        "minishlink/web-push": "^6.0.1",
         "piwik/device-detector": "^3.12",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.1.*",
