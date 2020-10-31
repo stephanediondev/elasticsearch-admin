@@ -38,6 +38,9 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
+    "matomo/device-detector": {
+        "version": "4.0.0"
+    },
     "minishlink/web-push": {
         "version": "v6.0.0"
     },
@@ -52,9 +55,6 @@
     },
     "php": {
         "version": "7.4"
-    },
-    "piwik/device-detector": {
-        "version": "3.12.6"
     },
     "psr/cache": {
         "version": "1.0.1"
