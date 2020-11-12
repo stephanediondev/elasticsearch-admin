@@ -128,23 +128,9 @@
     {%- endif -%}
 {%- endblock percent_widget %}
 
-{% block file_widget -%}
-    <{{ element|default('div') }} class="form-file">
-        {%- set type = type|default('file') -%}
-        {{- block('form_widget_simple') -}}
-        {%- set label_attr = label_attr|merge({ class: (label_attr.class|default('') ~ ' form-file-label')|trim }) -%}
-        {%- set input_lang = 'en' -%}
-        {% if app is defined and app.request is defined %}{%- set input_lang = app.request.locale -%}{%- endif -%}
-        <label for="{{ form.vars.id }}" lang="{{ input_lang }}" {% with { attr: label_attr } %}{{ block('attributes') }}{% endwith %}>
-            <span class="form-file-text bg-dark text-light">{{ 'choose_file'|trans }}</span>
-            <span class="form-file-button bg-dark text-light">{{ 'browse'|trans }}</span>
-        </label>
-    </{{ element|default('div') }}>
-{% endblock %}
-
 {% block form_widget_simple -%}
     {% if type is not defined or type != 'hidden' %}
-        {%- set attr = attr|merge({class: (attr.class|default('') ~ (type|default('') == 'file' ? ' form-file-input' : ' form-control bg-dark text-light'))|trim}) -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control bg-dark text-light')|trim}) -%}
     {% endif %}
     {%- if type is defined and (type == 'range' or type == 'color') %}
         {# Attribute "required" is not supported #}
