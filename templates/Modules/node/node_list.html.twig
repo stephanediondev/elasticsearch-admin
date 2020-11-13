@@ -75,7 +75,9 @@
 
                                 {% if row['node.role'] is defined %}
                                     <br><small>{{ 'roles'|trans }}: {% for role in row['node.role']|split('') %}
-                                        {{ appImport.badge({'title': ('node_roles.' ~ role)|trans, 'context': 'secondary'}) }}
+                                        {% if role in ['d', 'i', 'm', 'v'] %}
+                                            {{ appImport.badge({'title': ('node_roles.' ~ role)|trans, 'context': 'secondary'}) }}
+                                        {% endif %}
                                     {% endfor %}</small>
                                 {% endif %}
 
