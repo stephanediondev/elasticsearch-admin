@@ -74,7 +74,7 @@
                                 {% if '*' == row['master'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
 
                                 {% if row['node.role'] is defined %}
-                                    <br><small>{{ 'roles'|trans }}: {% for role in row['node.role']|split('') %}
+                                    <br><small>{{ 'main_roles'|trans }}: {% for role in row['node.role']|split('') %}
                                         {% if role in ['d', 'i', 'm', 'v'] %}
                                             {{ appImport.badge({'title': ('node_roles.' ~ role)|trans, 'context': 'secondary'}) }}
                                         {% endif %}
