@@ -90,7 +90,7 @@ class AppSubscriptionManager extends AbstractAppManager
 
     private function sortByCreatedAt($a, $b)
     {
-        return $b->getCreatedAt()->format('Y-m-d H:i:s') > $a->getCreatedAt()->format('Y-m-d H:i:s');
+        return ($b->getCreatedAt()->format('Y-m-d H:i:s') < $a->getCreatedAt()->format('Y-m-d H:i:s')) ? -1 : 1;
     }
 
     public function send(AppSubscriptionModel $subscriptionModel): CallResponseModel

@@ -55,7 +55,7 @@ class ElasticsearchPipelineManager extends AbstractAppManager
 
     private function sortByName($a, $b)
     {
-        return $b->getName() < $a->getName();
+        return ($b->getName() > $a->getName()) ? -1 : 1;
     }
 
     public function send(ElasticsearchPipelineModel $pipelineModel): CallResponseModel

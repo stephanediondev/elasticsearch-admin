@@ -109,6 +109,6 @@ class ElasticsearchComponentTemplateManager extends AbstractAppManager
 
     private function sortByName($a, $b)
     {
-        return $b['name'] < $a['name'];
+        return ($b['name'] > $a['name']) ? -1 : 1;
     }
 }
