@@ -17,3 +17,6 @@ framework:
         log: true
 
     error_controller: App\Controller\AppExceptionController::read
+
+    form:
+        legacy_error_messages: false

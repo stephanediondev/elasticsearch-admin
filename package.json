@@ -5,12 +5,12 @@
     "license": "MIT",
     "private": true,
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.31.0",
-        "core-js": "^3.8.0",
+        "@symfony/webpack-encore": "^0.31.1",
+        "core-js": "^3.8.1",
         "node-sass": "^4.14.1",
         "regenerator-runtime": "^0.13.7",
         "sass-loader": "^9.0.1",
-        "webpack-notifier": "^1.10.1"
+        "webpack-notifier": "^1.11.0"
     },
     "scripts": {
         "dev-server": "encore dev-server",
