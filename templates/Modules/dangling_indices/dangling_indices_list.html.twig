@@ -91,7 +91,7 @@
                         {% if '_buttons' == column %}
                             <td>
                                 {% if is_granted_dangling_indices_import %}
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ modalReference }}">
                                         {{ 'dangling_indices_import'|trans }}
                                     </button>
                                     <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
@@ -122,7 +122,7 @@
                                 {% endif %}
 
                                 {% if is_granted_dangling_indices_delete %}
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ modalReference }}">
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ modalReference }}">
                                         {{ 'dangling_indices_delete'|trans }}
                                     </button>
                                     <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">

@@ -171,7 +171,7 @@
         {% set params = params|merge({'size': 'sm'}) %}
     {% endif %}
 
-    <button type="button" class="btn btn-{{ params.button }} btn-{{ params.size }}" data-toggle="modal" data-target="#modal{{ params.id }}">
+    <button type="button" class="btn btn-{{ params.button }} btn-{{ params.size }}" data-bs-toggle="modal" data-bs-target="#modal{{ params.id }}">
         {{ params.title }}
     </button>
     <div class="modal fade" id="modal{{ params.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ params.id }}" aria-hidden="true">

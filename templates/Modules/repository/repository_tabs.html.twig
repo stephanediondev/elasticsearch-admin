@@ -6,7 +6,7 @@
 
     {% if is_granted('REPOSITORIES_CREATE', 'global') %}
         <li class="nav-item dropdown">
-            <a class="nav-link text-light dropdown-toggle{% if 'create_repository_' in active %} active bg-dark{% endif %}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'create_repository'|trans }}</a>
+            <a class="nav-link text-light dropdown-toggle{% if 'create_repository_' in active %} active bg-dark{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'create_repository'|trans }}</a>
             <div class="dropdown-menu dropdown-menu-dark">
                 <a class="dropdown-item{% if 'create_repository_fs' == active %} active bg-dark{% endif %}" href="{{ path('repositories_create', {'type': 'fs'}) }}">{{ 'create_repository_fs'|trans }}</a>
                 <a class="dropdown-item{% if 'create_repository_s3' == active %} active bg-dark{% endif %}" href="{{ path('repositories_create', {'type': 's3'}) }}">{{ 'create_repository_s3'|trans }}{% if false == hasPlugin('repository-s3') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>

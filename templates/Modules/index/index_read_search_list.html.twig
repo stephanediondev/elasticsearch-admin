@@ -29,7 +29,7 @@
         {% for row in documents.rows %}
             <tr>
                 <td>
-                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal{{ row['_id'] }}">
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ row['_id'] }}">
                         {{ 'source'|trans }}
                     </button>
 
@@ -75,7 +75,7 @@
                                             {% endfor %}
                                         </ul>
                                     {% else %}
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal{{ row['_id'] }}{{ field }}">
+                                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ row['_id'] }}{{ field }}">
                                             {{ 'array'|trans }}
                                         </button>
 
@@ -99,7 +99,7 @@
                                 {% endif %}
                             {% else %}
                                 {% if 500 < value|length %}
-                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal{{ row['_id'] }}{{ field }}">
+                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ row['_id'] }}{{ field }}">
                                         {{ 'long_text'|trans }}
                                     </button>
 

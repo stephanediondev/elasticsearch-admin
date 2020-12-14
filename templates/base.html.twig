@@ -28,7 +28,7 @@
         <div id="toast-container">
         </div>
         <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="{{ 'toggle_navigation'|trans }}">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="{{ 'toggle_navigation'|trans }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -58,7 +58,7 @@
 
                         {% if menus['configuration'] is defined %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-light dropdown-toggle" href="#" id="configurationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link text-light dropdown-toggle" href="#" id="configurationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ 'configuration'|trans }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-dark border border-secondary" aria-labelledby="configurationDropdown">
@@ -74,7 +74,7 @@
 
                         {% if menus['tools'] is defined %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-light dropdown-toggle" href="#" id="toolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link text-light dropdown-toggle" href="#" id="toolsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ 'tools'|trans }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-dark border border-secondary" aria-labelledby="toolsDropdown">
@@ -90,7 +90,7 @@
 
                         {% if menus['stats'] is defined %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-light dropdown-toggle" href="#" id="statsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link text-light dropdown-toggle" href="#" id="statsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ 'stats'|trans }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-dark border border-secondary" aria-labelledby="statsDropdown">
@@ -106,7 +106,7 @@
 
                         {% if menus['application'] is defined %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-light dropdown-toggle" href="#" id="applicationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link text-light dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ 'application'|trans }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-dark border border-secondary" aria-labelledby="applicationDropdown">
@@ -126,7 +126,7 @@
                         {% endif %}
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link text-light dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link text-light dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ app.user.email }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-dark border border-secondary" aria-labelledby="userDropdown">
