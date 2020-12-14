@@ -38,13 +38,13 @@
                             <div class="modal-content bg-dark">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="modalLabel{{ row['_id'] }}">#{{ row['_id'] }} ({{ 'source'|trans }})</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                 </div>
                                 <div class="modal-body">
                                     <pre>{{ row['_source']|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -84,13 +84,13 @@
                                                 <div class="modal-content bg-dark">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
-                                                        <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <pre>{{ value|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -108,13 +108,13 @@
                                             <div class="modal-content bg-dark">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
-                                                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <pre>{{ value }}</pre>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>

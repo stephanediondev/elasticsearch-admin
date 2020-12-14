@@ -179,7 +179,7 @@
             <div class="modal-content bg-dark">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabel{{ params.id }}">{{ params.title }}{% if params.badge is defined %}{{ _self.badge(params.badge) }}{% endif %}</h5>
-                    <button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-label="{{ 'cancel'|trans }}"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'cancel'|trans }}"></button>
                 </div>
                 <div class="modal-body text-left">
                     <p>
@@ -192,7 +192,7 @@
                     {% endif %}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'cancel'|trans }}</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'cancel'|trans }}</button>
                     <a href="{{ params.href }}" class="btn btn-{{ params.button }}">{{ 'confirm'|trans }}</a>
                 </div>
             </div>
