@@ -10,7 +10,7 @@
         "node-sass": "^4.14.1",
         "regenerator-runtime": "^0.13.7",
         "sass-loader": "^9.0.1",
-        "webpack-notifier": "^1.11.0"
+        "webpack-notifier": "^1.12.0"
     },
     "scripts": {
         "dev-server": "encore dev-server",
@@ -19,7 +19,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@popperjs/core": "^2.5.4",
+        "@popperjs/core": "^2.6.0",
         "bootstrap": "^5.0.0-beta1",
         "file-saver": "^2.0.5",
         "jquery": "^3.5.1",
