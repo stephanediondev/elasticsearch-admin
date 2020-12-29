@@ -62,7 +62,15 @@ class CallManager
         'cat_nodeattrs' => '2.0',
     ];
 
-    public function __construct(Security $security, HttpClientInterface $client, string $elasticsearchUrl, string $elasticsearchUsername, string $elasticsearchPassword, bool $sslVerifyPeer)
+    public function __construct(
+        Security $security,
+        HttpClientInterface $client,
+        string $elasticsearchUrl,
+        string $elasticsearchUsername,
+        string $elasticsearchPassword,
+        bool $sslVerifyPeer,
+        bool $sslVerifyHost
+    )
     {
         $this->security = $security;
         $this->client = $client;
@@ -70,6 +78,7 @@ class CallManager
         $this->elasticsearchUsername = $elasticsearchUsername;
         $this->elasticsearchPassword = $elasticsearchPassword;
         $this->sslVerifyPeer = $sslVerifyPeer;
+        $this->sslVerifyHost = $sslVerifyHost;
     }
 
     public function call(CallRequestModel $callRequest)
@@ -101,6 +110,7 @@ class CallManager
         }
 
         $options['verify_peer'] = $this->sslVerifyPeer;
+        $options['verify_host'] = $this->sslVerifyHost;
 
         try {
             $response = $this->client->request($callRequest->getMethod(), $this->elasticsearchUrl.$callRequest->getPath(), $options);
