@@ -70,8 +70,7 @@ class CallManager
         string $elasticsearchPassword,
         bool $sslVerifyPeer,
         bool $sslVerifyHost
-    )
-    {
+    ) {
         $this->security = $security;
         $this->client = $client;
         $this->elasticsearchUrl = $elasticsearchUrl;
