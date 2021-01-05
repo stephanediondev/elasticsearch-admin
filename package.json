@@ -6,7 +6,7 @@
     "private": true,
     "devDependencies": {
         "@symfony/webpack-encore": "^0.33.0",
-        "core-js": "^3.8.1",
+        "core-js": "^3.8.2",
         "node-sass": "^4.14.1",
         "regenerator-runtime": "^0.13.7",
         "sass-loader": "^9.0.1",
