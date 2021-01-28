@@ -15,7 +15,7 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
     protected $callManager;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         if (false === defined('GENERATED_NAME')) {
             define('GENERATED_NAME', 'phpunit-'.uniqid());
