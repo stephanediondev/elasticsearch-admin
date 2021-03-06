@@ -6,7 +6,7 @@
     "private": true,
     "devDependencies": {
         "@symfony/webpack-encore": "^0.33.0",
-        "core-js": "^3.8.3",
+        "core-js": "^3.9.1",
         "node-sass": "^4.14.1",
         "regenerator-runtime": "^0.13.7",
         "sass-loader": "^9.0.1",
@@ -19,10 +19,10 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@popperjs/core": "^2.6.0",
+        "@popperjs/core": "^2.9.0",
         "bootstrap": "^5.0.0-beta2",
         "file-saver": "^2.0.5",
-        "jquery": "^3.5.1",
-        "slug": "^4.0.2"
+        "jquery": "^3.6.0",
+        "slug": "^4.0.3"
     }
 }
