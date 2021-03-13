@@ -87,6 +87,7 @@ class ElasticsearchClusterManager extends AbstractAppManager
             ['es_version' => '7.8.0', 'eol_date' => '2021-12-18', 'maintained_until' => '7.9.0'],
             ['es_version' => '7.9.0', 'eol_date' => '2022-02-18', 'maintained_until' => '7.10.0'],
             ['es_version' => '7.10.0', 'eol_date' => '2022-05-11', 'maintained_until' => '7.11.0'],
+            ['es_version' => '7.11.0', 'eol_date' => '2022-08-10', 'maintained_until' => '7.12.0'],
         ];
     }
 
