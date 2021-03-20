@@ -135,7 +135,7 @@ class ElasticsearchCatController extends AbstractAppController
 
         $filename = str_replace('/', '-', $catModel->getCommandReplace()).'-'.date('Y-m-d-His').'.'.$type;
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             return new StreamedResponse(function () use ($writer, $catModel) {
                 try {
                     $query = [];
