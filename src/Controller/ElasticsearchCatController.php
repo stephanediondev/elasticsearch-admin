@@ -64,7 +64,7 @@ class ElasticsearchCatController extends AbstractAppController
                 $callRequest->setQuery($query);
                 $callResponse = $this->callManager->call($callRequest);
 
-                $rows = $callResponse->getContent();
+                $rows = $callResponse->getContent() ?? [];
 
                 if (true === is_array($rows) && 0 < count($rows)) {
                     $parameters['headers'] = array_keys($rows[0]);
