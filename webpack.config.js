@@ -23,6 +23,10 @@ Encore
     .addEntry('app-js', './assets/js/app.js')
     .addStyleEntry('app-css', './assets/css/app.scss')
 
+    .addEntry('app-database-js', './assets/js/app-database.js')
+    .addEntry('app-enrich-js', './assets/js/app-enrich.js')
+    .addEntry('app-subscription-js', './assets/js/app-subscription.js')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     //.enableStimulusBridge('./assets/controllers.json')
 
