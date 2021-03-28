@@ -520,6 +520,7 @@ node_roles:
     data_warm: "Warm"
     data_cold: "Cold"
     data_content: "Content"
+    f: "Frozen"
 node_settings: "Node settings"
 node_version: "Node version"
 nodes: "Nodes"
