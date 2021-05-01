@@ -72,7 +72,7 @@ class AppSubscriptionsController extends AbstractAppController
         }
 
         if (AppSubscriptionModel::TYPE_EMAIL == $type) {
-            if ('smtp://replace' == $this->mailerDsn || '' == $this->senderAddress) {
+            if ('null://null' == $this->mailerDsn || '' == $this->senderAddress) {
                 $this->addFlash('warning', 'Edit MAILER_DSN and SENDER_ADDRESS in .env file');
 
                 throw new AccessDeniedException();
