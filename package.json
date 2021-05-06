@@ -5,8 +5,8 @@
     "license": "MIT",
     "private": true,
     "devDependencies": {
-        "@symfony/webpack-encore": "^1.1.2",
-        "core-js": "^3.11.1",
+        "@symfony/webpack-encore": "^1.2.0",
+        "core-js": "^3.11.3",
         "cssnano": "^5.0.2",
         "node-sass": "^4.14.1",
         "regenerator-runtime": "^0.13.7",
@@ -21,9 +21,9 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.9.2",
-        "bootstrap": "^5.0.0-beta3",
+        "bootstrap": "^5.0.0",
         "file-saver": "^2.0.5",
         "jquery": "^3.6.0",
-        "slug": "^4.0.4"
+        "slug": "^4.1.0"
     }
 }
