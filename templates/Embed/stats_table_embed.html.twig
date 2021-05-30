@@ -1,18 +1,18 @@
 {% set limit = 15 %}
 
 <div class="col">
-    <div class="card bg-dark border border-secondary mb-4">
+    <div class="card bg-{{ themeColor1 }} border border-secondary mb-4">
         <div class="card-body card-dashboard" id="{{ key }}">
             <h4 class="card-title text-center">{% block title %}{% endblock %}</h4>
 
-            <table class="table table-dark table-hover table-sm">
+            <table class="table table-{{ themeColor1 }} table-hover table-sm">
                 {% block content %}
                 {% endblock %}
             </table>
 
             {% block all %}
                 {% if limit < results|length %}
-                    <a href="#{{ key }}" class="btn btn-light btn-sm text-center d-block dashboard-table-expand">{{ 'all'|trans }} ({{ results|length }})</a>
+                    <a href="#{{ key }}" class="btn btn-{{ themeColor2 }} btn-sm text-center d-block dashboard-table-expand">{{ 'all'|trans }} ({{ results|length }})</a>
                 {% endif %}
             {% endblock %}
         </div>

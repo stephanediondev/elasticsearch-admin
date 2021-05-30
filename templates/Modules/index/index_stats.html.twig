@@ -60,14 +60,14 @@
                                         {% block title %}
                                             {% if key in ['indices_by_documents', 'indices_by_primary_size'] %}
                                                 {% if is_granted('INDICES', 'global') %}
-                                                    <a class="text-light" href="{{ path('indices_read', {'index': row.title}) }}">{{ row.title }}</a>
+                                                    <a class="text-{{ themeColor2 }}" href="{{ path('indices_read', {'index': row.title}) }}">{{ row.title }}</a>
                                                 {% else %}
                                                     {{ row.title }}
                                                 {% endif %}
                                             {% elseif key in ['indices_by_status'] and is_granted('INDICES', 'global') %}
-                                                <a class="text-light" href="{{ path('indices', {'status': row.title}) }}">{{ row.title|trans }}</a>
+                                                <a class="text-{{ themeColor2 }}" href="{{ path('indices', {'status': row.title}) }}">{{ row.title|trans }}</a>
                                             {% elseif key in ['indices_by_health'] and is_granted('INDICES', 'global') %}
-                                                <a class="text-light" href="{{ path('indices', {'health[]': row.title}) }}">{{ row.title|trans }}</a>
+                                                <a class="text-{{ themeColor2 }}" href="{{ path('indices', {'health[]': row.title}) }}">{{ row.title|trans }}</a>
                                             {% else %}
                                                 {{ row.title|trans }}
                                             {% endif %}

@@ -48,7 +48,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="text-info" href="{{ path('enrich_read', {'name': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-{{ themeColor3 }}" href="{{ path('enrich_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 

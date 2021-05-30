@@ -90,7 +90,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="text-info" href="{{ path('indices_read', {'index': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-{{ themeColor3 }}" href="{{ path('indices_read', {'index': row.name}) }}">{{ row.name }}</a>
                                 {% if row.aliases %}
                                     <br><small>{{ row.aliases|keys|join(', ') }}</small>
                                 {% endif %}

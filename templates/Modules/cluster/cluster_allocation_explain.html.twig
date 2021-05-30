@@ -62,7 +62,7 @@
                             {% if allocation_explain['index'] is defined %}
                                 <td>
                                     {% if is_granted('INDICES', 'global') %}
-                                        <a class="text-light" href="{{ path('indices_read', {'index': allocation_explain['index']}) }}">{{ allocation_explain['index'] }}</a>
+                                        <a class="text-{{ themeColor2 }}" href="{{ path('indices_read', {'index': allocation_explain['index']}) }}">{{ allocation_explain['index'] }}</a>
                                     {% else %}
                                         {{ row.index }}
                                     {% endif %}
@@ -95,7 +95,7 @@
                             {% if allocation_explain['current_node'] is defined %}
                                 <td>
                                     {% if is_granted('NODES', 'global') %}
-                                        <a class="text-light" href="{{ path('nodes_read', {'node': allocation_explain['current_node']['name']}) }}">{{ allocation_explain['current_node']['name'] }}</a>
+                                        <a class="text-{{ themeColor2 }}" href="{{ path('nodes_read', {'node': allocation_explain['current_node']['name']}) }}">{{ allocation_explain['current_node']['name'] }}</a>
                                     {% else %}
                                         {{ allocation_explain['current_node']['name'] }}
                                     {% endif %}
@@ -198,7 +198,7 @@
                                             {% if true == loop.first %}
                                                 <td class="text-nowrap"{% if 1 < decidersTotal %} rowspan="{{ decidersTotal }}"{% endif %}>
                                                     {% if is_granted('NODES', 'global') %}
-                                                        <a class="text-light" href="{{ path('nodes_read', {'node': row['node_name']}) }}">{{ row['node_name'] }}</a>
+                                                        <a class="text-{{ themeColor2 }}" href="{{ path('nodes_read', {'node': row['node_name']}) }}">{{ row['node_name'] }}</a>
                                                     {% else %}
                                                         {{ row['node_name'] }}
                                                     {% endif %}

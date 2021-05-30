@@ -1,19 +1,19 @@
 <ul class="nav nav-tabs mb-4">
     {% if is_granted('SNAPSHOTS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'list' == active %} active bg-dark{% endif %}" href="{{ path('snapshots') }}">{{ 'list'|trans }}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'list' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('snapshots') }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SNAPSHOTS_STATS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'stats' == active %} active bg-dark{% endif %}" href="{{ path('snapshots_stats') }}">{{ 'stats'|trans }}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'stats' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('snapshots_stats') }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SNAPSHOTS_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'create_snapshot' == active %} active bg-dark{% endif %}" href="{{ path('snapshots_create') }}">{{ 'create_snapshot'|trans }}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'create_snapshot' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('snapshots_create') }}">{{ 'create_snapshot'|trans }}</a>
         </li>
     {% endif %}
 </ul>

@@ -42,7 +42,7 @@
                     </p>
 
                     <div class="collapse mb-4" id="collapseHelp">
-                        <div class="card bg-dark border border-secondary card-body">
+                        <div class="card bg-{{ themeColor1 }} border border-secondary card-body">
                             <pre><code>{{ help }}</code></pre>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
             el.setAttribute('required', 'required');
             removeBadge(id)
             var label = document.querySelector('label[for="' + id + '"]');
-            label.insertAdjacentHTML('beforeend', ' <small class="badge bg-light text-dark ml-1">{{ 'required'|trans|escape('js') }}</small>');
+            label.insertAdjacentHTML('beforeend', ' <small class="badge bg-{{ themeColor2 }} text-{{ themeColor1 }} ml-1">{{ 'required'|trans|escape('js') }}</small>');
         }
 
         function disable(id) {

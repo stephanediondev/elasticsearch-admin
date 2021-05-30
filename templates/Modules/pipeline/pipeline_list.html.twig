@@ -42,7 +42,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td class="text-nowrap">
-                                <a class="text-info" href="{{ path('pipelines_read', {'name': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-{{ themeColor3 }}" href="{{ path('pipelines_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 

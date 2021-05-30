@@ -1,16 +1,16 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-light{% if 'list' == active %} active bg-dark{% endif %}" href="{{ path('app_subscriptions') }}">{{ 'list'|trans }}</a>
+        <a class="nav-link text-{{ themeColor2 }}{% if 'list' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('app_subscriptions') }}">{{ 'list'|trans }}</a>
     </li>
 
     <li class="nav-item dropdown">
-        <a class="nav-link text-light dropdown-toggle{% if 'create_subscription_' in active %} active bg-dark{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'create_subscription'|trans }}</a>
-        <div class="dropdown-menu dropdown-menu-dark">
-            <a class="dropdown-item{% if 'create_subscription_push' == active %} active bg-dark{% endif %}" href="{{ path('app_subscriptions_create', {'type': 'push'}) }}">{{ 'create_subscription_push'|trans }}{% if false == app.request.isSecure or false == applicationServerKey %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
-            <a class="dropdown-item{% if 'create_subscription_email' == active %} active bg-dark{% endif %}" href="{{ path('app_subscriptions_create', {'type': 'email'}) }}">{{ 'create_subscription_email'|trans }}{% if 'null://null' == mailerDsn %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
-            <a class="dropdown-item{% if 'create_subscription_slack' == active %} active bg-dark{% endif %}" href="{{ path('app_subscriptions_create', {'type': 'slack'}) }}">{{ 'create_subscription_slack'|trans }}</a>
-            <a class="dropdown-item{% if 'create_subscription_teams' == active %} active bg-dark{% endif %}" href="{{ path('app_subscriptions_create', {'type': 'teams'}) }}">{{ 'create_subscription_teams'|trans }}</a>
+        <a class="nav-link text-{{ themeColor2 }} dropdown-toggle{% if 'create_subscription_' in active %} active bg-{{ themeColor1 }}{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'create_subscription'|trans }}</a>
+        <div class="dropdown-menu dropdown-menu-{{ themeColor1 }}">
+            <a class="dropdown-item{% if 'create_subscription_push' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('app_subscriptions_create', {'type': 'push'}) }}">{{ 'create_subscription_push'|trans }}{% if false == app.request.isSecure or false == applicationServerKey %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="dropdown-item{% if 'create_subscription_email' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('app_subscriptions_create', {'type': 'email'}) }}">{{ 'create_subscription_email'|trans }}{% if 'null://null' == mailerDsn %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="dropdown-item{% if 'create_subscription_slack' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('app_subscriptions_create', {'type': 'slack'}) }}">{{ 'create_subscription_slack'|trans }}</a>
+            <a class="dropdown-item{% if 'create_subscription_teams' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('app_subscriptions_create', {'type': 'teams'}) }}">{{ 'create_subscription_teams'|trans }}</a>
         </div>
     </li>
 </ul>

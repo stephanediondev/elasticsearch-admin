@@ -60,7 +60,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="text-info" href="{{ path('elasticsearch_roles_read', {'role': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-{{ themeColor3 }}" href="{{ path('elasticsearch_roles_read', {'role': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
