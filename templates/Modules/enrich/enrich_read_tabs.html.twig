@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-light{% if 'summary' == active %} active bg-dark{% endif %}" href="{{ path('enrich_read', {'name': policy.name}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link text-{{ themeColor2 }}{% if 'summary' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('enrich_read', {'name': policy.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 </ul>

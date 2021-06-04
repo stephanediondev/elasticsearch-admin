@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-light{% if 'list' == active %} active bg-dark{% endif %}" href="{{ path('pipelines') }}">{{ 'list'|trans }}</a>
+        <a class="nav-link text-{{ themeColor2 }}{% if 'list' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('pipelines') }}">{{ 'list'|trans }}</a>
     </li>
 
     {% if is_granted('PIPELINES_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'create_pipeline' == active %} active bg-dark{% endif %}" href="{{ path('pipelines_create') }}">{{ 'create_pipeline'|trans }}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'create_pipeline' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('pipelines_create') }}">{{ 'create_pipeline'|trans }}</a>
         </li>
     {% endif %}
 </ul>

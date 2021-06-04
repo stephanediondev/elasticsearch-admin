@@ -31,7 +31,7 @@
                     {% endfor %}
 
                     {% for row in rowsFlat %}
-                        <div class="card bg-dark card-body{%if false == loop.last %} mb-3{% endif %}">
+                        <div class="card bg-{{ themeColor1 }} card-body{%if false == loop.last %} mb-3{% endif %}">
                             {% if row['index'] is defined %}
                                 <p>
                                     <strong>{{ 'index'|trans }}</strong><br>

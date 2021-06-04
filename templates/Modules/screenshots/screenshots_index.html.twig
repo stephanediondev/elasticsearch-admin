@@ -12,7 +12,7 @@
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
 
-<textarea class="form-control bg-dark text-light">
+<textarea class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }}">
 {% for row in results %}
 {{ row.pageres }}
 {{ row.convert }}

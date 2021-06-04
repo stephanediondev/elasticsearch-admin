@@ -4,6 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    env(THEME_COLOR_1): 'dark'
+    env(THEME_COLOR_2): 'light'
+    env(THEME_COLOR_3): 'info'
 
 services:
     # default configuration for services in *this* file

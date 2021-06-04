@@ -1,24 +1,24 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-light{% if 'summary' == active %} active bg-dark{% endif %}" href="{{ path('nodes_read', {'node': node.name}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link text-{{ themeColor2 }}{% if 'summary' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('nodes_read', {'node': node.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('NODE_SETTINGS', node) %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'settings' == active %} active bg-dark{% endif %}" href="{{ path('nodes_read_settings', {'node': node.name}) }}">{{ 'settings'|trans }}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'settings' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('nodes_read_settings', {'node': node.name}) }}">{{ 'settings'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('NODE_USAGE', node) %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'usage' == active %} active bg-dark{% endif %}" href="{{ path('nodes_read_usage', {'node': node.name}) }}">{{ 'usage'|trans }}{% if false == hasFeature('node_usage') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'usage' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('nodes_read_usage', {'node': node.name}) }}">{{ 'usage'|trans }}{% if false == hasFeature('node_usage') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
         </li>
     {% endif %}
 
     {% if is_granted('NODE_PLUGINS', node) %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'plugins' == active %} active bg-dark{% endif %}" href="{{ path('nodes_read_plugins', {'node': node.name}) }}">{{ 'plugins'|trans }}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'plugins' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('nodes_read_plugins', {'node': node.name}) }}">{{ 'plugins'|trans }}</a>
         </li>
     {% endif %}
 </ul>

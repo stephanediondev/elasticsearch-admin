@@ -1,13 +1,13 @@
 <ul class="nav nav-tabs mb-4">
     {% if is_granted('DATA_STREAMS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'list' == active %} active bg-dark{% endif %}" href="{{ path('data_streams') }}">{{ 'list'|trans }}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'list' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('data_streams') }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('DATA_STREAMS_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-light{% if 'create_data_stream' == active %} active bg-dark{% endif %}" href="{{ path('data_streams_create') }}">{{ 'create_data_stream'|trans }}</a>
+            <a class="nav-link text-{{ themeColor2 }}{% if 'create_data_stream' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('data_streams_create') }}">{{ 'create_data_stream'|trans }}</a>
         </li>
     {% endif %}
 </ul>

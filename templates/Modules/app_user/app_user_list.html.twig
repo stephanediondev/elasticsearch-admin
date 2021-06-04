@@ -36,7 +36,7 @@
                     {% if true == display %}
                         {% if 'email' == column %}
                             <td>
-                                <a class="text-info" href="{{ path('app_users_read', {'user': row.id}) }}">{{ row.email }}</a>
+                                <a class="text-{{ themeColor3 }}" href="{{ path('app_users_read', {'user': row.id}) }}">{{ row.email }}</a>
                             </td>
                         {% endif %}
 
@@ -45,7 +45,7 @@
                                 {% if row.roles and 0 < row.roles|length %}
                                     {% for record in row.roles %}
                                         {% if record not in ['ROLE_ADMIN', 'ROLE_USER'] %}
-                                            <a class="text-light" href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                                            <a class="text-{{ themeColor2 }}" href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
                                         {% else %}
                                             {{ record }}{% if false == loop.last %}, {% endif %}
                                         {% endif %}
