@@ -5,3 +5,4 @@ twig:
         themeColor1: '%env(THEME_COLOR_1)%'
         themeColor2: '%env(THEME_COLOR_2)%'
         themeColor3: '%env(THEME_COLOR_3)%'
+        themeColor4: '%env(THEME_COLOR_4)%'
