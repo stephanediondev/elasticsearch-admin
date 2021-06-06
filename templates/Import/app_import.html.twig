@@ -4,7 +4,7 @@
         <input
             id="searchInput"
             name="{{ app.request.attributes.get('_route') }}-searchInput"
-            class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }} form-control-sm"
+            class="form-control {{ theme_form_control }} form-control-sm"
             type="text"
             autocomplete="off"
         >
@@ -83,7 +83,7 @@
 
 {% macro link(params) %}
     {% if params.class is not defined %}
-        {% set params = params|merge({'class': 'text-' ~ themeColor2}) %}
+        {% set params = params|merge({'class': 'text-' ~ theme_color_2}) %}
     {% endif %}
 
     <a class="{{ params.class }}" href="{{ params.url }}">{{ params.title }}</a>
@@ -92,7 +92,7 @@
 {% macro sort(params) %}
     {% if true == params.cat_sort %}
         {% if params.class is not defined %}
-            {% set params = params|merge({'class': 'text-' ~ themeColor2}) %}
+            {% set params = params|merge({'class': 'text-' ~ theme_color_2}) %}
         {% endif %}
 
         {% if '?' in params.url %}
@@ -176,7 +176,7 @@
     </button>
     <div class="modal fade" id="modal{{ params.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ params.id }}" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content bg-{{ themeColor1 }}">
+            <div class="modal-content {{ theme_modal_content }}">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabel{{ params.id }}">{{ params.title }}{% if params.badge is defined %}{{ _self.badge(params.badge) }}{% endif %}</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'cancel'|trans }}"></button>
@@ -214,7 +214,7 @@
             {% if 'search' == params.type %}<div class="col-12 col-md-4 col-lg-3">{% else %}<div class="col-12 col-md-5 col-lg-4">{% endif %}
                 {% for child in params.form.children %}
                     {{ form_row(child) }}
-                    {% if child.vars.attr is defined and child.vars.attr['data-break-after'] is defined %}
+                    {% if child.vars.attr is defined and child.vars.attr['data-break-after'] is defined and 'yes' == child.vars.attr['data-break-after'] %}
                         </div>
                         {% if 'search' == params.type %}<div class="col-12 col-md-4 col-lg-3">{% else %}<div class="col-12 col-md-5 col-lg-4">{% endif %}
                     {% endif %}
@@ -236,21 +236,21 @@
         <ul class="pagination">
             {% if params.previous %}
                 <li class="page-item">
-                    <a class="page-link bg-{{ themeColor1 }} text-{{ themeColor2 }}" rel="prev" href="{{ path(params.route, parameters|merge({'page': params.previous})) }}">&laquo;&nbsp;{{ 'previous'|trans }}</a>
+                    <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" rel="prev" href="{{ path(params.route, parameters|merge({'page': params.previous})) }}">&laquo;&nbsp;{{ 'previous'|trans }}</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <span class="page-link bg-{{ themeColor1 }} text-secondary">&laquo;&nbsp;{{ 'previous'|trans }}</span>
+                    <span class="page-link bg-{{ theme_color_1 }} text-secondary">&laquo;&nbsp;{{ 'previous'|trans }}</span>
                 </li>
             {% endif %}
 
             {% if params.first %}
                 <li class="page-item">
-                    <a class="page-link bg-{{ themeColor1 }} text-{{ themeColor2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.first})) }}">{{ params.first }}</a>
+                    <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.first})) }}">{{ params.first }}</a>
                 </li>
                 {% if params.first != params.start_page - 1 %}
                     <li class="page-item disabled">
-                        <span class="page-link bg-{{ themeColor1 }} text-secondary">&hellip;</span>
+                        <span class="page-link bg-{{ theme_color_1 }} text-secondary">&hellip;</span>
                     </li>
                 {% endif %}
             {% endif %}
@@ -258,11 +258,11 @@
             {% for page in params.pages_slice %}
                 {% if page != params.page %}
                     <li class="page-item">
-                        <a class="page-link bg-{{ themeColor1 }} text-{{ themeColor2 }}" href="{{ path(params.route, parameters|merge({'page': page})) }}">{{ page }}</a>
+                        <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" href="{{ path(params.route, parameters|merge({'page': page})) }}">{{ page }}</a>
                     </li>
                 {% else %}
                     <li class="page-item active">
-                        <span class="page-link bg-{{ themeColor2 }} text-{{ themeColor1 }} border border-{{ themeColor2 }}">{{ page }}</span>
+                        <span class="page-link bg-{{ theme_color_2 }} text-{{ theme_color_1 }} border border-{{ theme_color_2 }}">{{ page }}</span>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -270,21 +270,21 @@
             {% if params.last %}
                 {% if params.last != params.end_page + 1 %}
                     <li class="page-item disabled">
-                        <span class="page-link bg-{{ themeColor1 }} text-secondary">&hellip;</span>
+                        <span class="page-link bg-{{ theme_color_1 }} text-secondary">&hellip;</span>
                     </li>
                 {% endif %}
                 <li class="page-item">
-                    <a class="page-link bg-{{ themeColor1 }} text-{{ themeColor2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.last})) }}">{{ params.last }}</a>
+                    <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.last})) }}">{{ params.last }}</a>
                 </li>
             {% endif %}
 
             {% if params.next %}
                 <li class="page-item">
-                    <a class="page-link bg-{{ themeColor1 }} text-{{ themeColor2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.next})) }}">{{ 'next'|trans }}&nbsp;&raquo;</a>
+                    <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.next})) }}">{{ 'next'|trans }}&nbsp;&raquo;</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <span class="page-link bg-{{ themeColor1 }} text-secondary">{{ 'next'|trans }}&nbsp;&raquo;</span>
+                    <span class="page-link bg-{{ theme_color_1 }} text-secondary">{{ 'next'|trans }}&nbsp;&raquo;</span>
                 </li>
             {% endif %}
         </ul>

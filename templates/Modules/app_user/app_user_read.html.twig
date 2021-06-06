@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
@@ -53,7 +53,7 @@
                         {% for record in user.roles %}
                             <tr>
                                 {% if record not in ['ROLE_ADMIN', 'ROLE_USER'] %}
-                                    <td><a class="{{ themeLinkSecondary }}" href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a></td>
+                                    <td><a class="{{ theme_link_secondary }}" href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a></td>
                                 {% else %}
                                     <td>{{ record }}</td>
                                 {% endif %}

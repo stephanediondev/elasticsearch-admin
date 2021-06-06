@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
@@ -76,7 +76,7 @@
                                 <td>
                                     {% if nodes[row['node_id']] is defined %}
                                         {% if is_granted('NODES', 'global') %}
-                                            <a class="{{ themeLinkSecondary }}" href="{{ path('nodes_read', {'node': nodes[row['node_id']]}) }}">{{ nodes[row['node_id']] }}</a>
+                                            <a class="{{ theme_link_secondary }}" href="{{ path('nodes_read', {'node': nodes[row['node_id']]}) }}">{{ nodes[row['node_id']] }}</a>
                                         {% else %}
                                             {{ nodes[row['node_id']] }}
                                         {% endif %}

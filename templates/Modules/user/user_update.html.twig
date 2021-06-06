@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'update'|trans}) }}
@@ -44,7 +44,7 @@
 
         function changePassword() {
             if (true === dataChangePassword.checked) {
-                var badge = ' <small class="badge bg-{{ themeColor2 }} text-{{ themeColor1 }} ml-1">{{ 'required'|trans|escape('js') }}</small>';
+                var badge = ' <small class="form-required {{ theme_form_required }}">{{ 'required'|trans|escape('js') }}</small>';
 
                 dataPassword.removeAttribute('disabled');
                 dataPassword.setAttribute('required', 'required');

@@ -3,12 +3,12 @@
 {# Widgets #}
 
 {% block textarea_widget -%}
-    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control bg-' ~ themeColor1 ~ ' text-' ~ themeColor2)|trim}) %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-control ' ~ theme_form_control)|trim}) %}
     {{- parent() -}}
 {%- endblock textarea_widget %}
 
 {% block choice_widget_collapsed -%}
-    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control bg-' ~ themeColor1 ~ ' text-' ~ themeColor2)|trim}) -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control ' ~ theme_form_control)|trim}) -%}
     {{- parent() -}}
 {%- endblock choice_widget_collapsed %}
 
@@ -130,7 +130,7 @@
 
 {% block form_widget_simple -%}
     {% if type is not defined or type != 'hidden' %}
-        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control bg-' ~ themeColor1 ~ ' text-' ~ themeColor2)|trim}) -%}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-control ' ~ theme_form_control)|trim}) -%}
     {% endif %}
     {%- if type is defined and (type == 'range' or type == 'color') %}
         {# Attribute "required" is not supported #}
@@ -338,7 +338,7 @@
 
 {% block form_help -%}
     {%- if help is not empty -%}
-        {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' form-text text-{{ themeColor2 }}')|trim}) -%}
+        {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' form-text text-{{ theme_color_2 }}')|trim}) -%}
         <small id="{{ id }}_help"{% with { attr: help_attr } %}{{ block('attributes') }}{% endwith %}>
             {%- if translation_domain is same as(false) -%}
                 {%- if help_html is same as(false) -%}

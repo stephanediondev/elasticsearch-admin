@@ -70,7 +70,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="{{ themeLinkPrimary }}" href="{{ path('nodes_read', {'node': row['name']}) }}">{{ row['name'] }}</a>
+                                <a class="{{ theme_link_primary }}" href="{{ path('nodes_read', {'node': row['name']}) }}">{{ row['name'] }}</a>
                                 {% if '*' == row['master'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
 
                                 {% if row['node.role'] is defined %}

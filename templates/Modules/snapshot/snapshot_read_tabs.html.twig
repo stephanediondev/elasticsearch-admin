@@ -1,18 +1,18 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-{{ themeColor2 }}{% if 'summary' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('snapshots_read', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link text-{{ theme_color_2 }}{% if 'summary' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('snapshots_read', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('SNAPSHOT_RESTORE', snapshot) %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}{% if 'restore' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('snapshots_read_restore', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'restore'|trans }}</a>
+            <a class="nav-link text-{{ theme_color_2 }}{% if 'restore' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('snapshots_read_restore', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'restore'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SNAPSHOT_FAILURES', snapshot) and 0 < snapshot.failures|length %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}{% if 'failures' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('snapshots_read_failures', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'failures'|trans }}</a>
+            <a class="nav-link text-{{ theme_color_2 }}{% if 'failures' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('snapshots_read_failures', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'failures'|trans }}</a>
         </li>
     {% endif %}
 </ul>

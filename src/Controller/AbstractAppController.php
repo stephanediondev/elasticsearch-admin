@@ -6,6 +6,7 @@ use App\Exception\ConnectionException;
 use App\Manager\CallManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\PaginatorManager;
+use App\Manager\AppThemeManager;
 use App\Model\CallRequestModel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,14 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
+    public function setAppThemeManager(AppThemeManager $appThemeManager)
+    {
+        $this->appThemeManager = $appThemeManager;
+    }
+
+    /**
+     * @required
+     */
     public function setPaginatorManager(PaginatorManager $paginatorManager)
     {
         $this->paginatorManager = $paginatorManager;
@@ -49,6 +58,14 @@ abstract class AbstractAppController extends AbstractController
 
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
+        $twig = $this->container->get('twig');
+
+        $saved = $request->cookies->get('theme') ? json_decode($request->cookies->get('theme'), true) : [];
+        $predefined = $this->appThemeManager->getPredefined('dark');
+        foreach ($predefined as $k => $v) {
+            $twig->addGlobal('theme_'.$k, $saved[$k] ?? $v);
+        }
+
         if (false === isset($parameters['firewall'])) {
             $parameters['firewall'] = true;
         }

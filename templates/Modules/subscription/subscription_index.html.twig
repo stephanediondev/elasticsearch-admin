@@ -16,11 +16,11 @@
         {{ encore_entry_script_tags('app-subscription-js') }}
     {% endif %}
 
-    <div class="{{ themeJumbotron }} ">
+    <div class="jumbotron {{ theme_jumbotron }} ">
         <p class="lead">{{ 'subscriptions_note'|trans }}</p>
     </div>
 
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'list'|trans, 'badge': {'title': subscriptions|length}}) }}

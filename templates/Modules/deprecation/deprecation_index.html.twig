@@ -9,7 +9,7 @@
 
 {% block main_content %}
     {% for key, rows in deprecations %}
-        {% embed 'Embed/card_embed.html.twig' %}
+        {% embed 'Embed/block_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
                 {{ appImport.heading({'level': 3, 'title': key|trans, 'badge': {'title': rows|length}}) }}
@@ -31,7 +31,7 @@
                     {% endfor %}
 
                     {% for row in rowsFlat %}
-                        <div class="card bg-{{ themeColor1 }} card-body{%if false == loop.last %} mb-3{% endif %}">
+                        <div class="card bg-{{ theme_color_1 }} card-body{%if false == loop.last %} mb-3{% endif %}">
                             {% if row['index'] is defined %}
                                 <p>
                                     <strong>{{ 'index'|trans }}</strong><br>
