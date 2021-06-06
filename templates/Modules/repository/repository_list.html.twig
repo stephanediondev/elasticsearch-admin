@@ -36,7 +36,7 @@
                     {% if true == display %}
                         {% if 'id' == column %}
                             <td>
-                                <a class="text-{{ themeColor3 }}" href="{{ path('repositories_read', {'repository': row.name}) }}">{{ row.name }}</a>
+                                <a class="{{ themeLinkPrimary }}" href="{{ path('repositories_read', {'repository': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 

@@ -42,7 +42,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="text-{{ themeColor3 }}" href="{{ path('component_templates_read', {'name': row.name}) }}">{{ row.name }}</a>
+                                <a class="{{ themeLinkPrimary }}" href="{{ path('component_templates_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 

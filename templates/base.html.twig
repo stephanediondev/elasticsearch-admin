@@ -27,7 +27,7 @@
     {% if 'offline' != app.request.attributes.get('_route') %}
         <div id="toast-container">
         </div>
-        <nav class="navbar sticky-top navbar-expand-lg navbar-{{ themeColor1 }} bg-{{ themeColor1 }}">
+        <nav class="{{ themeNavbar }}">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="{{ 'toggle_navigation'|trans }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -175,9 +175,10 @@
 <script type="text/javascript">
 var app_base_url = '{{ path('app_login') }}';
 var trans_required = '{{ 'required'|trans|escape('js') }}';
+var themeLinkPrimary = '{{ themeLinkPrimary }}';
+var themeLinkSecondary = '{{ themeLinkSecondary }}';
 var themeColor1 = '{{ themeColor1 }}';
 var themeColor2 = '{{ themeColor2 }}';
-var themeColor3 = '{{ themeColor3 }}';
 </script>
 {{ encore_entry_script_tags('app-js') }}
 {% endblock %}

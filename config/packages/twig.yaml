@@ -2,7 +2,11 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes: ['bootstrap_5_layout.html.twig']
     globals:
+        themeNavbar: '%env(THEME_NAVBAR)%'
+        themeCard: '%env(THEME_CARD)%'
+        themeTable: '%env(THEME_TABLE)%'
+        themeLinkPrimary: '%env(THEME_LINK_PRIMARY)%'
+        themeLinkSecondary: '%env(THEME_LINK_SECONDARY)%'
+        themeJumbotron: '%env(THEME_JUMBOTRON)%'
         themeColor1: '%env(THEME_COLOR_1)%'
         themeColor2: '%env(THEME_COLOR_2)%'
-        themeColor3: '%env(THEME_COLOR_3)%'
-        themeColor4: '%env(THEME_COLOR_4)%'

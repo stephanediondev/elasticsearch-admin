@@ -4,10 +4,14 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    env(THEME_NAVBAR): 'navbar sticky-top navbar-expand-lg navbar-dark bg-dark'
+    env(THEME_CARD): 'shadow p-3 mb-4 bg-dark rounded'
+    env(THEME_TABLE): 'table table-dark table-hover table-sm'
+    env(THEME_LINK_PRIMARY): 'text-info'
+    env(THEME_LINK_SECONDARY): 'text-light'
+    env(THEME_JUMBOTRON): 'jumbotron mt-3 bg-secondary text-light border border-light'
     env(THEME_COLOR_1): 'dark'
     env(THEME_COLOR_2): 'light'
-    env(THEME_COLOR_3): 'info'
-    env(THEME_COLOR_4): 'secondary'
 
 services:
     # default configuration for services in *this* file

@@ -75,7 +75,7 @@
                         {% if 'repository' == column %}
                             <td>
                                 {% if is_granted_repositories %}
-                                    <a class="text-{{ themeColor2 }}" href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
+                                    <a class="{{ themeLinkSecondary }}" href="{{ path('repositories_read', {'repository': row.repository}) }}">{{ row.repository }}</a>
                                 {% else %}
                                     {{ row.repository }}
                                 {% endif %}
@@ -84,7 +84,7 @@
 
                         {% if 'name' == column %}
                             <td>
-                                <a class="text-{{ themeColor3 }}" href="{{ path('snapshots_read', {'repository': row.repository, 'snapshot': row.name}) }}">{{ row.name }}</a>
+                                <a class="{{ themeLinkPrimary }}" href="{{ path('snapshots_read', {'repository': row.repository, 'snapshot': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
