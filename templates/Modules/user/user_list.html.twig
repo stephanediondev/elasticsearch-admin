@@ -66,7 +66,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="{{ themeLinkPrimary }}" href="{{ path('elasticsearch_users_read', {'user': row.name}) }}">{{ row.name }}</a>
+                                <a class="{{ theme_link_primary }}" href="{{ path('elasticsearch_users_read', {'user': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
@@ -86,7 +86,7 @@
                             <td>
                                 {% if row.roles and 0 < row.roles|length %}
                                     {% for record in row.roles %}
-                                        <a class="{{ themeLinkSecondary }}" href="{{ path('elasticsearch_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                                        <a class="{{ theme_link_secondary }}" href="{{ path('elasticsearch_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </td>

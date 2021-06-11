@@ -19,7 +19,7 @@
 {% block main_content %}
     {{ encore_entry_script_tags('app-database-js') }}
 
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'import_from_database'|trans}) }}
@@ -33,7 +33,7 @@
                     <form name="data" method="post" action="{{ path('index_database_import_connect', {'index': index.name}) }}" id="form-connect">
                         <div class="form-group mb-3">
                             <label class="required form-label" for="driver">{{ 'database.driver'|trans }}</label>
-                            <select id="driver" name="driver" required="required" class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }}">
+                            <select id="driver" name="driver" required="required" class="form-control {{ theme_form_control }}">
                                 <option value="">-</option>
                                 {% for driver in drivers %}
                                     <option value="{{ driver }}">{{ driver }}</option>
@@ -43,29 +43,29 @@
 
                         <div class="form-group mb-3">
                             <label for="host" class="required form-label">{{ 'database.host'|trans }}</label>
-                            <input type="text" id="host" name="host" required="required" class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }}">
+                            <input type="text" id="host" name="host" required="required" class="form-control {{ theme_form_control }}">
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="user" class="required form-label">{{ 'database.user'|trans }}</label>
-                            <input type="text" id="user" name="user" required="required" autocomplete="nope" class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }}">
+                            <input type="text" id="user" name="user" required="required" autocomplete="nope" class="form-control {{ theme_form_control }}">
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="password" class="required form-label">{{ 'database.password'|trans }}</label>
-                            <input type="password" id="password" name="password" required="required" autocomplete="new-password" class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }}">
+                            <input type="password" id="password" name="password" required="required" autocomplete="new-password" class="form-control {{ theme_form_control }}">
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="dbname" class="required form-label">{{ 'database.dbname'|trans }}</label>
-                            <input type="text" id="dbname" name="dbname" required="required" class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }}">
+                            <input type="text" id="dbname" name="dbname" required="required" class="form-control {{ theme_form_control }}">
                         </div>
                     </div>
 
                     <div class="col-12 col-md-5 col-lg-4">
                         <div class="form-group mb-3">
                             <label for="query" class="required form-label">{{ 'database.query'|trans }}</label>
-                            <textarea id="query" name="query" required="required" class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }}"></textarea>
+                            <textarea id="query" name="query" required="required" class="form-control {{ theme_form_control }}"></textarea>
                         </div>
 
                         <div class="form-group mb-3">
@@ -102,7 +102,7 @@
                                     <td>_id</td>
                                     <td>meta</td>
                                     <td>
-                                        <select id="_id" name="_id" class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }} select-column" data-field="_id">
+                                        <select id="_id" name="_id" class="form-control {{ theme_form_control }} select-column" data-field="_id">
                                         </select>
                                     </td>
                                 </tr>
@@ -111,7 +111,7 @@
                                         <td><label for="{{ field }}">{{ field }}</label></td>
                                         <td>{{ mapping['type'] }}</td>
                                         <td>
-                                            <select id="{{ field }}" name="{{ field|replace({'.': '_DOT_'}) }}" class="form-control bg-{{ themeColor1 }} text-{{ themeColor2 }} select-column" data-field="{{ field }}">
+                                            <select id="{{ field }}" name="{{ field|replace({'.': '_DOT_'}) }}" class="form-control {{ theme_form_control }} select-column" data-field="{{ field }}">
                                             </select>
                                         </td>
                                     </tr>
@@ -153,14 +153,14 @@
                     <div class="row">
                         <div class="text-center mb-4 col-12 col-md-4 col-lg-3">
                             <h4>{{ 'documents'|trans }}</h4>
-                            <h3><span class="badge bg-info text-{{ themeColor2 }}"></span></h3>
+                            <h3><span class="badge bg-info text-{{ theme_color_2 }}"></span></h3>
                         </div>
                     </div>
 
                     <div class="table-responsive d-none" id="errors">
                         <h4>{{ 'errors'|trans }}</h4>
 
-                        <table class="table table-{{ themeColor1 }} table-hover table-sm">
+                        <table class="table {{ theme_table }}">
 
                         <thead>
                             <tr>

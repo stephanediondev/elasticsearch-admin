@@ -36,7 +36,7 @@
                     {% if true == display %}
                         {% if 'email' == column %}
                             <td>
-                                <a class="{{ themeLinkPrimary }}" href="{{ path('app_users_read', {'user': row.id}) }}">{{ row.email }}</a>
+                                <a class="{{ theme_link_primary }}" href="{{ path('app_users_read', {'user': row.id}) }}">{{ row.email }}</a>
                             </td>
                         {% endif %}
 
@@ -45,7 +45,7 @@
                                 {% if row.roles and 0 < row.roles|length %}
                                     {% for record in row.roles %}
                                         {% if record not in ['ROLE_ADMIN', 'ROLE_USER'] %}
-                                            <a class="{{ themeLinkSecondary }}" href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
+                                            <a class="{{ theme_link_secondary }}" href="{{ path('app_roles_read', {'role': record}) }}">{{ record }}</a>{% if false == loop.last %}, {% endif %}
                                         {% else %}
                                             {{ record }}{% if false == loop.last %}, {% endif %}
                                         {% endif %}

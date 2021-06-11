@@ -1,31 +1,31 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-{{ themeColor2 }}{% if 'summary' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('cluster') }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link text-{{ theme_color_2 }}{% if 'summary' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('cluster') }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('CLUSTER_AUDIT', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}{% if 'audit' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('cluster_audit') }}">{{ 'audit'|trans }}</a>
+            <a class="nav-link text-{{ theme_color_2 }}{% if 'audit' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('cluster_audit') }}">{{ 'audit'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_SETTINGS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}{% if 'settings' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}{% if false == hasFeature('cluster_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link text-{{ theme_color_2 }}{% if 'settings' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}{% if false == hasFeature('cluster_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_DISK_THRESHOLDS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}{% if 'disk_thresholds' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}{% if false == hasFeature('cluster_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link text-{{ theme_color_2 }}{% if 'disk_thresholds' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}{% if false == hasFeature('cluster_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
         {% if 0 < cluster_health['unassigned_shards'] or 'allocation_explain' == active %}
             <li class="nav-item">
-                <a class="nav-link text-{{ themeColor2 }}{% if 'allocation_explain' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}{% if false == hasFeature('allocation_explain') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+                <a class="nav-link text-{{ theme_color_2 }}{% if 'allocation_explain' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}{% if false == hasFeature('allocation_explain') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
             </li>
         {% endif %}
     {% endif %}

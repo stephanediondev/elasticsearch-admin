@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
@@ -60,14 +60,14 @@
                                         {% block title %}
                                             {% if key in ['indices_by_documents', 'indices_by_primary_size'] %}
                                                 {% if is_granted('INDICES', 'global') %}
-                                                    <a class="{{ themeLinkSecondary }}" href="{{ path('indices_read', {'index': row.title}) }}">{{ row.title }}</a>
+                                                    <a class="{{ theme_link_secondary }}" href="{{ path('indices_read', {'index': row.title}) }}">{{ row.title }}</a>
                                                 {% else %}
                                                     {{ row.title }}
                                                 {% endif %}
                                             {% elseif key in ['indices_by_status'] and is_granted('INDICES', 'global') %}
-                                                <a class="{{ themeLinkSecondary }}" href="{{ path('indices', {'status': row.title}) }}">{{ row.title|trans }}</a>
+                                                <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'status': row.title}) }}">{{ row.title|trans }}</a>
                                             {% elseif key in ['indices_by_health'] and is_granted('INDICES', 'global') %}
-                                                <a class="{{ themeLinkSecondary }}" href="{{ path('indices', {'health[]': row.title}) }}">{{ row.title|trans }}</a>
+                                                <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'health[]': row.title}) }}">{{ row.title|trans }}</a>
                                             {% else %}
                                                 {{ row.title|trans }}
                                             {% endif %}

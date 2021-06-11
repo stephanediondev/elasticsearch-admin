@@ -58,7 +58,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="{{ themeLinkPrimary }}" href="{{ path('data_streams_read', {'name': row.name}) }}">{{ row.name }}</a>
+                                <a class="{{ theme_link_primary }}" href="{{ path('data_streams_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
@@ -84,7 +84,7 @@
                             <td>
                                 {% if row.template %}
                                     {% if is_granted_index_templates and hasFeature('composable_template') %}
-                                        <a class="{{ themeLinkSecondary }}" href="{{ path('index_templates_read', {'name': row.template}) }}">{{ row.template }}</a>
+                                        <a class="{{ theme_link_secondary }}" href="{{ path('index_templates_read', {'name': row.template}) }}">{{ row.template }}</a>
                                     {% else %}
                                         {{ row.template }}
                                     {% endif %}
@@ -96,7 +96,7 @@
                             <td>
                                 {% if row.ilmPolicy %}
                                     {% if is_granted_ilm_policies and hasFeature('ilm') %}
-                                        <a class="{{ themeLinkSecondary }}" href="{{ path('ilm_read', {'name': row.ilmPolicy}) }}">{{ row.ilmPolicy }}</a>
+                                        <a class="{{ theme_link_secondary }}" href="{{ path('ilm_read', {'name': row.ilmPolicy}) }}">{{ row.ilmPolicy }}</a>
                                     {% else %}
                                         {{ row.ilmPolicy }}
                                     {% endif %}

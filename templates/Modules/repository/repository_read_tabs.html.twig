@@ -1,24 +1,24 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-{{ themeColor2 }}{% if 'summary' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('repositories_read', {'repository': repository.name}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link text-{{ theme_color_2 }}{% if 'summary' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('repositories_read', {'repository': repository.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('REPOSITORY_UPDATE', repository) %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}{% if 'update' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('repositories_update', {'repository': repository.name}) }}">{{ 'update'|trans }}</a>
+            <a class="nav-link text-{{ theme_color_2 }}{% if 'update' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('repositories_update', {'repository': repository.name}) }}">{{ 'update'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SNAPSHOTS_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}" href="{{ path('snapshots_create', {'repository': repository.name}) }}">{{ 'create_snapshot'|trans }}</a>
+            <a class="nav-link text-{{ theme_color_2 }}" href="{{ path('snapshots_create', {'repository': repository.name}) }}">{{ 'create_snapshot'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SLM_POLICIES_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}" href="{{ path('slm_create', {'repository': repository.name}) }}">{{ 'create_slm_policy'|trans }}{% if false == hasFeature('slm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link text-{{ theme_color_2 }}" href="{{ path('slm_create', {'repository': repository.name}) }}">{{ 'create_slm_policy'|trans }}{% if false == hasFeature('slm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
         </li>
     {% endif %}
 </ul>

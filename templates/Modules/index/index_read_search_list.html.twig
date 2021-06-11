@@ -35,7 +35,7 @@
 
                     <div class="modal fade" id="modal{{ row['_id'] }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ row['_id'] }}" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
-                            <div class="modal-content bg-{{ themeColor1 }}">
+                            <div class="modal-content {{ theme_modal_content }}">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="modalLabel{{ row['_id'] }}">#{{ row['_id'] }} ({{ 'source'|trans }})</h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
@@ -81,7 +81,7 @@
 
                                         <div class="modal fade" id="modal{{ row['_id'] }}{{ field }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ row['_id'] }}{{ field }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl">
-                                                <div class="modal-content bg-{{ themeColor1 }}">
+                                                <div class="modal-content {{ theme_modal_content }}">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
                                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
@@ -105,7 +105,7 @@
 
                                     <div class="modal fade" id="modal{{ row['_id'] }}{{ field }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ row['_id'] }}{{ field }}" aria-hidden="true">
                                         <div class="modal-dialog modal-xl">
-                                            <div class="modal-content bg-{{ themeColor1 }}">
+                                            <div class="modal-content {{ theme_modal_content }}">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>

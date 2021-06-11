@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-{{ themeColor2 }}{% if 'list' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('component_templates') }}">{{ 'list'|trans }}</a>
+        <a class="nav-link text-{{ theme_color_2 }}{% if 'list' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('component_templates') }}">{{ 'list'|trans }}</a>
     </li>
 
     {% if is_granted('COMPONENT_TEMPLATES_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }}{% if 'create_component_template' == active %} active bg-{{ themeColor1 }}{% endif %}" href="{{ path('component_templates_create') }}">{{ 'create_component_template'|trans }}</a>
+            <a class="nav-link text-{{ theme_color_2 }}{% if 'create_component_template' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('component_templates_create') }}">{{ 'create_component_template'|trans }}</a>
         </li>
     {% endif %}
 </ul>

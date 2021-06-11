@@ -96,7 +96,7 @@ if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
 }
 
 $(document).ready(function () {
-    $('label.required').append(' <small class="badge bg-' + themeColor2 + ' text-' + themeColor1 + ' ml-1">' + trans_required + '</small>');
+    $('label.required').append(' <small class="form-required ' + theme_form_required +'">' + trans_required + '</small>');
 
     $(document).on('click', '.dashboard-table-expand', function(event) {
         event.preventDefault();

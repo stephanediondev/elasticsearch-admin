@@ -71,7 +71,7 @@
                                 {% for node_id in row['node_ids'] %}
                                     {% if nodes[node_id] is defined %}
                                         {% if is_granted_nodes %}
-                                            <a class="{{ themeLinkSecondary }}" href="{{ path('nodes_read', {'node': nodes[node_id]}) }}">{{ nodes[node_id] }}</a>{% if false == loop.last %}, {% endif %}
+                                            <a class="{{ theme_link_secondary }}" href="{{ path('nodes_read', {'node': nodes[node_id]}) }}">{{ nodes[node_id] }}</a>{% if false == loop.last %}, {% endif %}
                                         {% else %}
                                             {{ nodes[node_id] }}{% if false == loop.last %}, {% endif %}
                                         {% endif %}
@@ -96,7 +96,7 @@
                                     </button>
                                     <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
-                                            <div class="modal-content bg-{{ themeColor1 }}">
+                                            <div class="modal-content {{ theme_modal_content }}">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'dangling_indices_import'|trans }}</h5>
                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'cancel'|trans }}"></button>
@@ -113,7 +113,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'cancel'|trans }}</button>
-                                                    <a class="{{ themeLinkPrimary }}" href="{{ path('dangling_indices_import', {'index': row['index_uuid']}) }}" class="btn btn-primary">{{ 'confirm'|trans }}</a>
+                                                    <a class="{{ theme_link_primary }}" href="{{ path('dangling_indices_import', {'index': row['index_uuid']}) }}" class="btn btn-primary">{{ 'confirm'|trans }}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,7 +127,7 @@
                                     </button>
                                     <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
-                                            <div class="modal-content bg-{{ themeColor1 }}">
+                                            <div class="modal-content {{ theme_modal_content }}">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="modalLabel{{ modalReference }}">{{ 'dangling_indices_delete'|trans }}</h5>
                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'cancel'|trans }}"></button>
@@ -144,7 +144,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ 'cancel'|trans }}</button>
-                                                    <a class="{{ themeLinkPrimary }}" href="{{ path('dangling_indices_delete', {'index': row['index_uuid']}) }}" class="btn btn-primary">{{ 'confirm'|trans }}</a>
+                                                    <a class="{{ theme_link_primary }}" href="{{ path('dangling_indices_delete', {'index': row['index_uuid']}) }}" class="btn btn-primary">{{ 'confirm'|trans }}</a>
                                                 </div>
                                             </div>
                                         </div>

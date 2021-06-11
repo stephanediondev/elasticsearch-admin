@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
@@ -58,13 +58,13 @@
                                         {% block title %}
                                             {% if 'nodes_by_role' == key %}
                                                 {% if is_granted('NODES', 'global') and letters[row.title] is defined %}
-                                                    <a class="{{ themeLinkSecondary }}" href="{{ path('nodes', {(letters[row.title]): 'yes'}) }}">{{ ('node_roles.' ~ row.title)|trans }}</a>
+                                                    <a class="{{ theme_link_secondary }}" href="{{ path('nodes', {(letters[row.title]): 'yes'}) }}">{{ ('node_roles.' ~ row.title)|trans }}</a>
                                                 {% else %}
                                                     {{ ('node_roles.' ~ row.title)|trans }}
                                                 {% endif %}
                                             {% elseif 'nodes_by_es_version' == key %}
                                                 {% if is_granted('NODES', 'global') and 1 < results|length %}
-                                                    <a class="{{ themeLinkSecondary }}" href="{{ path('nodes', {'version': row.title}) }}">{{ row.title }}</a>
+                                                    <a class="{{ theme_link_secondary }}" href="{{ path('nodes', {'version': row.title}) }}">{{ row.title }}</a>
                                                 {% else %}
                                                     {{ row.title }}
                                                 {% endif %}

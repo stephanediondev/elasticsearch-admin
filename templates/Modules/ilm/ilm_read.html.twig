@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'summary'|trans}) }}
@@ -51,7 +51,7 @@
 
 
     {% for name, phase in policy.phases %}
-        {% embed 'Embed/card_embed.html.twig' %}
+        {% embed 'Embed/block_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
                 {{ appImport.heading({'level': 3, 'title': name|trans}) }}
@@ -64,7 +64,7 @@
 
                     {% if phase['actions'] is defined %}
                         {% for name, action_properties in phase['actions'] %}
-                            <div class="card bg-{{ themeColor1 }} border border-secondary card-body{%if false == loop.last %} mb-3{% endif %}">
+                            <div class="card bg-{{ theme_color_1 }} border border-secondary card-body{%if false == loop.last %} mb-3{% endif %}">
                                 {{ appImport.heading({'level': 4, 'title': name}) }}
 
                                 {% for name, action_property in action_properties %}

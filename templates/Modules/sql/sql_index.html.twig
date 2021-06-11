@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {% embed 'Embed/buttons_embed.html.twig' %}
@@ -28,13 +28,13 @@
         <ul class="nav nav-tabs mb-4">
             {% if query is defined %}
                 <li class="nav-item">
-                    <a class="nav-link text-{{ themeColor2 }} bg-{{ themeColor1 }} active" id="query-tab" data-bs-toggle="tab" href="#query" role="tab" aria-controls="query" aria-selected="true">{{ 'query'|trans }}</a>
+                    <a class="nav-link text-{{ theme_color_2 }} bg-{{ theme_color_1 }} active" id="query-tab" data-bs-toggle="tab" href="#query" role="tab" aria-controls="query" aria-selected="true">{{ 'query'|trans }}</a>
                 </li>
             {% endif %}
 
             {% if translation_to_dsl is defined %}
                 <li class="nav-item">
-                    <a class="nav-link text-{{ themeColor2 }} bg-{{ themeColor1 }}" id="translation_to_dsl-tab" data-bs-toggle="tab" href="#translation_to_dsl" role="tab" aria-controls="translation_to_dsl" aria-selected="true">{{ 'translation_to_dsl'|trans }}</a>
+                    <a class="nav-link text-{{ theme_color_2 }} bg-{{ theme_color_1 }}" id="translation_to_dsl-tab" data-bs-toggle="tab" href="#translation_to_dsl" role="tab" aria-controls="translation_to_dsl" aria-selected="true">{{ 'translation_to_dsl'|trans }}</a>
                 </li>
             {% endif %}
         </ul>
@@ -43,7 +43,7 @@
     <div class="tab-content" id="myTabContent">
     {% if query is defined %}
         <div class="tab-pane fade show active" id="query" role="tabpanel" aria-labelledby="query-tab">
-        {% embed 'Embed/card_embed.html.twig' %}
+        {% embed 'Embed/block_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
                 {% if query is defined and 0 < query['rows']|length %}
@@ -86,7 +86,7 @@
 
     {% if translation_to_dsl is defined %}
         <div class="tab-pane fade" id="translation_to_dsl" role="tabpanel" aria-labelledby="translation_to_dsl-tab">
-        {% embed 'Embed/card_embed.html.twig' %}
+        {% embed 'Embed/block_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
                 {{ appImport.heading({'level': 3, 'title': 'translation_to_dsl'|trans}) }}

@@ -10,13 +10,13 @@
 {% block tabs %}
     <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
-            <a class="nav-link text-{{ themeColor2 }} active bg-{{ themeColor1 }}" href="{{ path('app_upgrade') }}">{{ 'summary'|trans }}</a>
+            <a class="nav-link text-{{ theme_color_2 }} active bg-{{ theme_color_1 }}" href="{{ path('app_upgrade') }}">{{ 'summary'|trans }}</a>
         </li>
     </ul>
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {% if true == upgrade %}

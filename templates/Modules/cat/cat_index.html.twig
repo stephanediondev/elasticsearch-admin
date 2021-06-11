@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block main_content %}
-    {% embed 'Embed/card_embed.html.twig' %}
+    {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
             {% embed 'Embed/buttons_embed.html.twig' %}
@@ -25,7 +25,7 @@
     {% endembed %}
 
     {% if rows is defined or help is defined %}
-        {% embed 'Embed/card_embed.html.twig' %}
+        {% embed 'Embed/block_embed.html.twig' %}
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
                 {% if rows is defined %}
@@ -42,7 +42,7 @@
                     </p>
 
                     <div class="collapse mb-4" id="collapseHelp">
-                        <div class="card bg-{{ themeColor1 }} border border-secondary card-body">
+                        <div class="card bg-{{ theme_color_1 }} border border-secondary card-body">
                             <pre><code>{{ help }}</code></pre>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
             el.setAttribute('required', 'required');
             removeBadge(id)
             var label = document.querySelector('label[for="' + id + '"]');
-            label.insertAdjacentHTML('beforeend', ' <small class="badge bg-{{ themeColor2 }} text-{{ themeColor1 }} ml-1">{{ 'required'|trans|escape('js') }}</small>');
+            label.insertAdjacentHTML('beforeend', ' <small class="form-required {{ theme_form_required }}">{{ 'required'|trans|escape('js') }}</small>');
         }
 
         function disable(id) {
