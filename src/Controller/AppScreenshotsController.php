@@ -85,7 +85,7 @@ class AppScreenshotsController extends AbstractAppController
         fwrite($fp, "\r\n");
 
         $results = [];
-        foreach ($entries as $entry) {
+        foreach ($entries as $k => $entry) {
             $disabled = false;
 
             if ('repository-create-s3' == $entry['filename'] && false === $this->callManager->hasPlugin('repository-s3')) {
@@ -101,10 +101,14 @@ class AppScreenshotsController extends AbstractAppController
                 fwrite($fp, "\r\n");
                 fwrite($fp, "\r\n");
 
-                $results[] = [
-                    'pageres' => 'pageres '.$base.$entry['path'].' 1280x960 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
-                    'convert' => 'convert -resize 800x600 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
-                ];
+                $theme = ($k % 2) == 0 ? 'dark' : 'light';
+
+                if ($request->query->get('theme') && $theme == $request->query->get('theme')) {
+                    $results[] = [
+                        'pageres' => 'pageres '.$base.$entry['path'].' 1280x960 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
+                        'convert' => 'convert -resize 800x600 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
+                    ];
+                }
             }
         }
 

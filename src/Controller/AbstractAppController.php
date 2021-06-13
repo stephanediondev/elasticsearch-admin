@@ -56,12 +56,24 @@ abstract class AbstractAppController extends AbstractController
         $this->translator = $translator;
     }
 
+    /**
+     * @required
+     */
+    public function setThemeDefault(string $themeDefault)
+    {
+        $this->themeDefault = $themeDefault;
+    }
+
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
         $twig = $this->container->get('twig');
 
-        $saved = $request->cookies->get('theme') ? json_decode($request->cookies->get('theme'), true) : [];
-        $predefined = $this->appThemeManager->getPredefined('dark');
+        if ($request->query->get('theme') && true === in_array($request->query->get('theme'), $this->appThemeManager->predefinedThemes())) {
+            $saved = $this->appThemeManager->getPredefined($request->query->get('theme'));
+        } else {
+            $saved = $request->cookies->get('theme') ? json_decode($request->cookies->get('theme'), true) : [];
+        }
+        $predefined = $this->appThemeManager->getPredefined($this->themeDefault);
         foreach ($predefined as $k => $v) {
             $twig->addGlobal('theme_'.$k, $saved[$k] ?? $v);
         }

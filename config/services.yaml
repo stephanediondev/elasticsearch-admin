@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    env(THEME_DEFAULT): 'dark'
 
 services:
     # default configuration for services in *this* file
@@ -23,6 +24,7 @@ services:
             $vapidPrivateKey: '%env(VAPID_PRIVATE_KEY)%'
             $mailerDsn: '%env(MAILER_DSN)%'
             $senderAddress: '%env(SENDER_ADDRESS)%'
+            $themeDefault: '%env(THEME_DEFAULT)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

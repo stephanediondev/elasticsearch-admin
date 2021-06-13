@@ -18,12 +18,12 @@ class AppThemeController extends AbstractAppController
     /**
      * @Route("/theme-editor", name="app_theme_editor")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, string $themeDefault): Response
     {
         $theme = [];
 
         $saved = $request->cookies->get('theme') ? json_decode($request->cookies->get('theme'), true) : [];
-        $predefined = $this->appThemeManager->getPredefined('dark');
+        $predefined = $this->appThemeManager->getPredefined($themeDefault);
         foreach ($predefined as $k => $v) {
             $theme[$k] = $saved[$k] ?? $v;
         }

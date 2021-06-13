@@ -66,6 +66,11 @@ class AppThemeManager extends AbstractAppManager
         return $this->predefined;
     }
 
+    public function predefinedThemes(): array
+    {
+        return array_keys($this->predefined);
+    }
+
     public function getPredefined(string $theme): array
     {
         return $this->predefined[$theme];
