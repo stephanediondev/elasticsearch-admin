@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link text-{{ theme_color_2 }}{% if 'summary' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('ilm_read', {'name': policy.name}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link {% if 'summary' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('ilm_read', {'name': policy.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('ILM_POLICY_UPDATE', policy) %}
         <li class="nav-item">
-            <a class="nav-link text-{{ theme_color_2 }}{% if 'update' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('ilm_update', {'name': policy.name}) }}">{{ 'update'|trans }}</a>
+            <a class="nav-link {% if 'update' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('ilm_update', {'name': policy.name}) }}">{{ 'update'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('ILM_POLICY_APPLY', policy) %}
         <li class="nav-item">
-            <a class="nav-link text-{{ theme_color_2 }}{% if 'apply' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('ilm_apply', {'name': policy.name}) }}">{{ 'apply'|trans }}</a>
+            <a class="nav-link {% if 'apply' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('ilm_apply', {'name': policy.name}) }}">{{ 'apply'|trans }}</a>
         </li>
     {% endif %}
 </ul>

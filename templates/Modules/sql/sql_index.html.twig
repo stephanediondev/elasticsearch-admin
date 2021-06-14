@@ -28,13 +28,13 @@
         <ul class="nav nav-tabs mb-4">
             {% if query is defined %}
                 <li class="nav-item">
-                    <a class="nav-link text-{{ theme_color_2 }} bg-{{ theme_color_1 }} active" id="query-tab" data-bs-toggle="tab" href="#query" role="tab" aria-controls="query" aria-selected="true">{{ 'query'|trans }}</a>
+                    <a class="nav-link active {{ theme_tab_active }}" id="query-tab" data-bs-toggle="tab" href="#query" role="tab" aria-controls="query" aria-selected="true">{{ 'query'|trans }}</a>
                 </li>
             {% endif %}
 
             {% if translation_to_dsl is defined %}
                 <li class="nav-item">
-                    <a class="nav-link text-{{ theme_color_2 }} bg-{{ theme_color_1 }}" id="translation_to_dsl-tab" data-bs-toggle="tab" href="#translation_to_dsl" role="tab" aria-controls="translation_to_dsl" aria-selected="true">{{ 'translation_to_dsl'|trans }}</a>
+                    <a class="nav-link {{ theme_tab }}" id="translation_to_dsl-tab" data-bs-toggle="tab" href="#translation_to_dsl" role="tab" aria-controls="translation_to_dsl" aria-selected="true">{{ 'translation_to_dsl'|trans }}</a>
                 </li>
             {% endif %}
         </ul>

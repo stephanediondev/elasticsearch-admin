@@ -32,7 +32,7 @@ class AppThemeType extends AbstractType
                     new NotBlank(),
                 ],
                 'attr' => [
-                    'data-break-after' => 4 == $i || 8 == $i ? 'yes' : 'no',
+                    'data-break-after' => 6 == $i || 12 == $i || 18 == $i ? 'yes' : 'no',
                 ],
             ]);
             $i++;

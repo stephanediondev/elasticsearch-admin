@@ -10,7 +10,7 @@
 {% block tabs %}
     <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
-            <a class="nav-link text-{{ theme_color_2 }} active bg-{{ theme_color_1 }}" href="{{ path('app_upgrade') }}">{{ 'summary'|trans }}</a>
+            <a class="nav-link active {{ theme_tab_active }}" href="{{ path('app_upgrade') }}">{{ 'summary'|trans }}</a>
         </li>
     </ul>
 {% endblock %}
