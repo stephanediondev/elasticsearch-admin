@@ -42,13 +42,15 @@ class ElasticsearchPipelineManager extends AbstractAppManager
         $results = $callResponse->getContent();
 
         $pipelines = [];
-        foreach ($results as $k => $row) {
-            $row['name'] = $k;
-            $pipelineModel = new ElasticsearchPipelineModel();
-            $pipelineModel->convert($row);
-            $pipelines[] = $pipelineModel;
+        if ($results) {
+            foreach ($results as $k => $row) {
+                $row['name'] = $k;
+                $pipelineModel = new ElasticsearchPipelineModel();
+                $pipelineModel->convert($row);
+                $pipelines[] = $pipelineModel;
+            }
+            usort($pipelines, [$this, 'sortByName']);
         }
-        usort($pipelines, [$this, 'sortByName']);
 
         return $pipelines;
     }
