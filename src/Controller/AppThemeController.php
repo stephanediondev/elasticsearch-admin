@@ -34,17 +34,13 @@ class AppThemeController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $cookie = Cookie::create('theme', json_encode($form->getData()), 2147483647, '/', null, true, false, false, Cookie::SAMESITE_LAX);
-                $response = new RedirectResponse($request->getUri());
-                $response->headers->setCookie($cookie);
+            $cookie = Cookie::create('theme', json_encode($form->getData()), 2147483647, '/', null, true, false, false, Cookie::SAMESITE_LAX);
+            $response = new RedirectResponse($request->getUri());
+            $response->headers->setCookie($cookie);
 
-                $this->addFlash('info', 'theme_saved');
+            $this->addFlash('info', 'theme_saved');
 
-                return $response;
-            } catch (CallException $e) {
-                $this->addFlash('danger', $e->getMessage());
-            }
+            return $response;
         }
 
         return $this->renderAbstract($request, 'Modules/app_theme/app_theme_editor.html.twig', [
