@@ -6,7 +6,7 @@
     "private": true,
     "devDependencies": {
         "@symfony/webpack-encore": "^1.5.0",
-        "core-js": "^3.15.1",
+        "core-js": "^3.15.2",
         "css-what": "^5.0.1",
         "cssnano": "^5.0.6",
         "node-sass": "^6.0.1",
