@@ -311,7 +311,7 @@ After registration you can login [View](https://raw.githubusercontent.com/stepha
 | Name | Visit | Main language | Latest release* |
 | --- | --- | --- | --- |
 | cerebro | [lmenezes/cerebro](https://github.com/lmenezes/cerebro) | Scala | 10 Apr 2021 |
-| Dejavu | [appbaseio/dejavu](https://github.com/appbaseio/dejavu) | JavaScript | 28 Jul 2020 |
+| Dejavu | [appbaseio/dejavu](https://github.com/appbaseio/dejavu) | JavaScript | 5 Jul 2021 |
 | ElasticHQ | [ElasticHQ/elasticsearch-HQ](https://github.com/ElasticHQ/elasticsearch-HQ) | Python | 15 Nov 2019 |
 | Elasticsearch Comrade | [moshe/elasticsearch-comrade](https://github.com/moshe/elasticsearch-comrade) | Python | 30 May 2020 |
 | elasticsearch-head | [mobz/elasticsearch-head](https://github.com/mobz/elasticsearch-head) | JavaScript | 10 Apr 2018 |
@@ -319,7 +319,7 @@ After registration you can login [View](https://raw.githubusercontent.com/stepha
 | ELKman | [www.elkman.io](https://www.elkman.io/) | PHP | 1 Aug 2020 |
 | Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 30 Apr 2021 |
 
-Checked on 19 Jun 2021 *
+Checked on 10 Jul 2021 *
 
 # License
 
