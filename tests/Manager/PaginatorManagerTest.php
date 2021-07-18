@@ -15,7 +15,7 @@ class PaginatorManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $paginatorManager = self::$container->get('App\Manager\PaginatorManager');
+        $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
             'total' => $this->total,
@@ -42,7 +42,7 @@ class PaginatorManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $paginatorManager = self::$container->get('App\Manager\PaginatorManager');
+        $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
             'total' => $this->total,
@@ -69,7 +69,7 @@ class PaginatorManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $paginatorManager = self::$container->get('App\Manager\PaginatorManager');
+        $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
             'total' => $this->total,
@@ -96,7 +96,7 @@ class PaginatorManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $paginatorManager = self::$container->get('App\Manager\PaginatorManager');
+        $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
             'total' => $this->total,
@@ -123,7 +123,7 @@ class PaginatorManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $paginatorManager = self::$container->get('App\Manager\PaginatorManager');
+        $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
             'total' => $this->total,

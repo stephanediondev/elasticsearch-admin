@@ -11,7 +11,7 @@ class ElasticsearchRoleManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchRoleManager = self::$container->get('App\Manager\ElasticsearchRoleManager');
+        $elasticsearchRoleManager = static::getContainer()->get('App\Manager\ElasticsearchRoleManager');
 
         $role = $elasticsearchRoleManager->getByName(uniqid());
 

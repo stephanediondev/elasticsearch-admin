@@ -11,7 +11,7 @@ class ElasticsearchIndexManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchIndexManager = self::$container->get('App\Manager\ElasticsearchIndexManager');
+        $elasticsearchIndexManager = static::getContainer()->get('App\Manager\ElasticsearchIndexManager');
 
         $index = $elasticsearchIndexManager->getByName(uniqid());
 

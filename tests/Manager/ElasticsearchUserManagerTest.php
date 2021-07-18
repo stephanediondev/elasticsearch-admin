@@ -11,7 +11,7 @@ class ElasticsearchUserManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchUserManager = self::$container->get('App\Manager\ElasticsearchUserManager');
+        $elasticsearchUserManager = static::getContainer()->get('App\Manager\ElasticsearchUserManager');
 
         $user = $elasticsearchUserManager->getByName(uniqid());
 

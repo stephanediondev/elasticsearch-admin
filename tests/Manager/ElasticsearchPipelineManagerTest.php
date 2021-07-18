@@ -11,7 +11,7 @@ class ElasticsearchPipelineManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchPipelineManager = self::$container->get('App\Manager\ElasticsearchPipelineManager');
+        $elasticsearchPipelineManager = static::getContainer()->get('App\Manager\ElasticsearchPipelineManager');
 
         $pipeline = $elasticsearchPipelineManager->getByName(uniqid());
 

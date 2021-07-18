@@ -11,7 +11,7 @@ class ElasticsearchSnapshotManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchSnapshotManager = self::$container->get('App\Manager\ElasticsearchSnapshotManager');
+        $elasticsearchSnapshotManager = static::getContainer()->get('App\Manager\ElasticsearchSnapshotManager');
 
         $snapshot = $elasticsearchSnapshotManager->getByNameAndRepository(uniqid(), uniqid());
 

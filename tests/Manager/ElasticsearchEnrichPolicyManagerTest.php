@@ -11,7 +11,7 @@ class ElasticsearchEnrichPolicyManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchEnrichPolicyManager = self::$container->get('App\Manager\ElasticsearchEnrichPolicyManager');
+        $elasticsearchEnrichPolicyManager = static::getContainer()->get('App\Manager\ElasticsearchEnrichPolicyManager');
 
         $policy = $elasticsearchEnrichPolicyManager->getByName(uniqid());
 

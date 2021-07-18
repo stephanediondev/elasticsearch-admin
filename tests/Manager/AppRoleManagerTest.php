@@ -11,7 +11,7 @@ class AppRoleManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $appRoleManager = self::$container->get('App\Manager\AppRoleManager');
+        $appRoleManager = static::getContainer()->get('App\Manager\AppRoleManager');
 
         $role = $appRoleManager->getByName(uniqid());
 

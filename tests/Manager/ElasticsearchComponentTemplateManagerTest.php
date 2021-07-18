@@ -11,7 +11,7 @@ class ElasticsearchComponentTemplateManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchComponentTemplateManager = self::$container->get('App\Manager\ElasticsearchComponentTemplateManager');
+        $elasticsearchComponentTemplateManager = static::getContainer()->get('App\Manager\ElasticsearchComponentTemplateManager');
 
         $template = $elasticsearchComponentTemplateManager->getByName(uniqid());
 

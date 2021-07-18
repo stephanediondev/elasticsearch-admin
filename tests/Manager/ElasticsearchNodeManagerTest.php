@@ -11,7 +11,7 @@ class ElasticsearchNodeManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchNodeManager = self::$container->get('App\Manager\ElasticsearchNodeManager');
+        $elasticsearchNodeManager = static::getContainer()->get('App\Manager\ElasticsearchNodeManager');
 
         $node = $elasticsearchNodeManager->getByName(uniqid());
 

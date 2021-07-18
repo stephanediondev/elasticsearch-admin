@@ -11,7 +11,7 @@ class ElasticsearchRepositoryManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchRepositoryManager = self::$container->get('App\Manager\ElasticsearchRepositoryManager');
+        $elasticsearchRepositoryManager = static::getContainer()->get('App\Manager\ElasticsearchRepositoryManager');
 
         $repository = $elasticsearchRepositoryManager->getByName(uniqid());
 

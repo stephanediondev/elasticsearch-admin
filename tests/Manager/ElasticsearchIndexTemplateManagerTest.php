@@ -11,7 +11,7 @@ class ElasticsearchIndexTemplateManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchIndexTemplateManager = self::$container->get('App\Manager\ElasticsearchIndexTemplateManager');
+        $elasticsearchIndexTemplateManager = static::getContainer()->get('App\Manager\ElasticsearchIndexTemplateManager');
 
         $template = $elasticsearchIndexTemplateManager->getByName(uniqid());
 

@@ -26,8 +26,8 @@ class AppUserModelTest extends TestCase
         $this->assertEquals(strval($user), 'email');
         $this->assertIsString($user->getEmail());
 
-        $this->assertEquals($user->getUsername(), 'email');
-        $this->assertIsString($user->getUsername());
+        $this->assertEquals($user->getUserIdentifier(), 'email');
+        $this->assertIsString($user->getUserIdentifier());
 
         $this->assertEquals($user->getPassword(), 'password');
         $this->assertIsString($user->getPassword());

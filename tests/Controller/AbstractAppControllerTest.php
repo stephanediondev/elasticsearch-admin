@@ -38,13 +38,13 @@ abstract class AbstractAppControllerTest extends WebTestCase
     {
         $this->client = static::createClient([], ['HTTPS' => true]);
 
-        $this->callManager = self::$container->get('App\Manager\CallManager');
+        $this->callManager = static::getContainer()->get('App\Manager\CallManager');
 
-        $this->appUserManager = self::$container->get('App\Manager\AppUserManager');
+        $this->appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
-        $this->elasticsearchClusterManager = self::$container->get('App\Manager\ElasticsearchClusterManager');
+        $this->elasticsearchClusterManager = static::getContainer()->get('App\Manager\ElasticsearchClusterManager');
 
-        $session = self::$container->get('session');
+        $session = static::getContainer()->get('session');
 
         $firewallName = 'main';
 

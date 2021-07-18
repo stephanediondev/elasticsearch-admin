@@ -11,7 +11,7 @@ class ElasticsearchIndexTemplateLegacyManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchIndexTemplateLegacyManager = self::$container->get('App\Manager\ElasticsearchIndexTemplateLegacyManager');
+        $elasticsearchIndexTemplateLegacyManager = static::getContainer()->get('App\Manager\ElasticsearchIndexTemplateLegacyManager');
 
         $template = $elasticsearchIndexTemplateLegacyManager->getByName(uniqid());
 

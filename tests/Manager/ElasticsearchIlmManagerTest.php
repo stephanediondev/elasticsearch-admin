@@ -11,7 +11,7 @@ class ElasticsearchIlmManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchIlmPolicyManager = self::$container->get('App\Manager\ElasticsearchIlmPolicyManager');
+        $elasticsearchIlmPolicyManager = static::getContainer()->get('App\Manager\ElasticsearchIlmPolicyManager');
 
         $policy = $elasticsearchIlmPolicyManager->getByName(uniqid());
 

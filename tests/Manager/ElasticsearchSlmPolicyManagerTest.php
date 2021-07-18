@@ -11,7 +11,7 @@ class ElasticsearchSlmPolicyManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $elasticsearchSlmPolicyManager = self::$container->get('App\Manager\ElasticsearchSlmPolicyManager');
+        $elasticsearchSlmPolicyManager = static::getContainer()->get('App\Manager\ElasticsearchSlmPolicyManager');
 
         $policy = $elasticsearchSlmPolicyManager->getByName(uniqid());
 

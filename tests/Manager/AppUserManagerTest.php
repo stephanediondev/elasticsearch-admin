@@ -11,7 +11,7 @@ class AppUserManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $appUserManager = self::$container->get('App\Manager\AppUserManager');
+        $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
         $user = $appUserManager->getById(uniqid());
 
@@ -23,7 +23,7 @@ class AppUserManagerTest extends WebTestCase
         self::bootKernel();
         $container = self::$kernel->getContainer();
 
-        $appUserManager = self::$container->get('App\Manager\AppUserManager');
+        $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
         $user = $appUserManager->getByEmail(uniqid());
 
