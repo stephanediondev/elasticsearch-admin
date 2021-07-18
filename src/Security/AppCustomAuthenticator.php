@@ -21,6 +21,8 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
+    public const LOGIN_ROUTE = 'app_login';
+
     private $urlGenerator;
 
     public function __construct(AppUserManager $appUserManager, UrlGeneratorInterface $urlGenerator)
@@ -31,29 +33,25 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function supports(Request $request): bool
     {
-        return 'app_login' === $request->attributes->get('_route')
-            && $request->isMethod('POST');
+        return $request->isMethod('POST') && 'app_login' === $request->attributes->get('_route');
     }
 
     public function authenticate(Request $request): PassportInterface
     {
-        $credentials = [
-            'email' => $request->request->get('email', ''),
-            'password' => $request->request->get('password', ''),
-            'csrf_token' => $request->request->get('_csrf_token'),
-        ];
+        $email = $request->request->get('email', '');
 
-        $request->getSession()->set(Security::LAST_USERNAME, $credentials['email']);
+        $request->getSession()->set(Security::LAST_USERNAME, $email);
 
         return new Passport(
-            new UserBadge($credentials['email'], function($email) {
-                return $this->appUserManager->getByEmail($email);
+            new UserBadge($email, function($identifier) {
+                return $this->appUserManager->getByEmail($identifier);
             }),
-            new PasswordCredentials($credentials['password']),
-            [new CsrfTokenBadge('login', $credentials['csrf_token'])]
+            new PasswordCredentials($request->request->get('password', '')),
+            [
+                new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
+            ]
         );
     }
-
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
@@ -66,6 +64,6 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
-        return $this->urlGenerator->generate('app_login');
+        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }
