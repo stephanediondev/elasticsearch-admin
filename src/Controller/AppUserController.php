@@ -14,18 +14,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @Route("/admin")
  */
 class AppUserController extends AbstractAppController
 {
-    public function __construct(AppRoleManager $appRoleManager, AppUserManager $appUserManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(AppRoleManager $appRoleManager, AppUserManager $appUserManager, UserPasswordHasherInterface $passwordHasher)
     {
         $this->appRoleManager = $appRoleManager;
         $this->appUserManager = $appUserManager;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
     }
 
     /**
@@ -65,7 +65,7 @@ class AppUserController extends AbstractAppController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
+            $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPasswordPlain()));
 
             try {
                 $callResponse = $this->appUserManager->send($user);
@@ -155,7 +155,7 @@ class AppUserController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($user->getChangePassword() && $user->getPasswordPlain()) {
-                    $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
+                    $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPasswordPlain()));
                 }
 
                 $callResponse = $this->appUserManager->send($user);
@@ -212,7 +212,7 @@ class AppUserController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 if ($user->getChangePassword() && $user->getPasswordPlain()) {
-                    $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPasswordPlain()));
+                    $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPasswordPlain()));
                 }
 
                 $callResponse = $this->appUserManager->send($user);

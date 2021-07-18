@@ -12,18 +12,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class PhpunitCommand extends Command
 {
     protected static $defaultName = 'app:phpunit';
 
-    public function __construct(CallManager $callManager, AppManager $appManager, AppUserManager $appUserManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(CallManager $callManager, AppManager $appManager, AppUserManager $appUserManager, UserPasswordHasherInterface $passwordHasher)
     {
         $this->callManager = $callManager;
         $this->appManager = $appManager;
         $this->appUserManager = $appUserManager;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordHasher = $passwordHasher;
 
         parent::__construct();
     }
@@ -64,7 +64,7 @@ class PhpunitCommand extends Command
 
             $user = new AppUserModel();
             $user->setEmail('example@example.com');
-            $user->setPassword($this->passwordEncoder->encodePassword($user, 'example'));
+            $user->setPassword($this->passwordHasher->hashPassword($user, 'example'));
             $user->setRoles(['ROLE_ADMIN']);
 
             $this->appUserManager->send($user);

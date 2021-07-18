@@ -15,11 +15,11 @@ class AppExceptionController extends AbstractAppController
 {
     public function read(Request $request, FlattenException $exception, RequestStack $requestStack, Security $security, string $installationType)
     {
-        $masterRequest = $requestStack->getMasterRequest();
+        $mainRequest = $requestStack->getMainRequest();
 
         $parameters = [
-            'locale' => $masterRequest->getLocale(),
-            'route' => $masterRequest->get('_route'),
+            'locale' => $mainRequest->getLocale(),
+            'route' => $mainRequest->get('_route'),
         ];
 
         $codes = [401, 403, 404, 405, 500, 503];

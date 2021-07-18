@@ -3,8 +3,9 @@
 namespace App\Model;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-class AppUserModel implements UserInterface
+class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
 {
     private $id;
 
@@ -50,6 +51,17 @@ class AppUserModel implements UserInterface
         $this->email = $email;
 
         return $this;
+    }
+
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
     }
 
     /**

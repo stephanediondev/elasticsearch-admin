@@ -1,4 +1,6 @@
 security:
+    enable_authenticator_manager: true
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         app_user_provider:
@@ -9,12 +11,9 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
             lazy: true
-            guard:
-                authenticators:
-                    - App\Security\AppCustomAuthenticator
-                provider: app_user_provider
+            custom_authenticators:
+                - App\Security\AppCustomAuthenticator
             logout:
                 path: /logout
                 target: /
@@ -31,6 +30,6 @@ security:
     access_control:
         - { path: '^/admin', roles: ROLE_USER }
 
-    encoders:
+    password_hashers:
         App\Model\AppUserModel:
             algorithm: auto
