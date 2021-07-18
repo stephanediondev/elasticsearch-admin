@@ -28,3 +28,8 @@ yarn-error.log
 info.json
 public/.htaccess
 ###< app ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

@@ -1,7 +1,7 @@
 monolog:
     handlers:
         main:
-            type: rotating_file
+            type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: ["!event"]

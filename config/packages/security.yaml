@@ -1,8 +1,13 @@
 security:
+    # https://symfony.com/doc/current/security/experimental_authenticators.html
     enable_authenticator_manager: true
+    password_hashers:
+        App\Model\AppUserModel:
+            algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
+        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             id: App\Security\AppUserProvider
 
@@ -12,12 +17,12 @@ security:
             security: false
         main:
             lazy: true
-            custom_authenticators:
-                - App\Security\AppCustomAuthenticator
+            provider: app_user_provider
+            custom_authenticator: App\Security\AppCustomAuthenticator
             logout:
-                path: /logout
-                target: /
-                invalidate_session: true
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -28,8 +33,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: '^/admin', roles: ROLE_USER }
-
-    password_hashers:
-        App\Model\AppUserModel:
-            algorithm: auto
+        - { path: ^/admin, roles: ROLE_USER }
+        # - { path: ^/profile, roles: ROLE_USER }
