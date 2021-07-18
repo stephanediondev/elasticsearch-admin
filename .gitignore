@@ -15,6 +15,11 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
@@ -28,8 +33,3 @@ yarn-error.log
 info.json
 public/.htaccess
 ###< app ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
