@@ -8,10 +8,10 @@
         "@symfony/webpack-encore": "^1.5.0",
         "core-js": "^3.15.2",
         "css-what": "^5.0.1",
-        "cssnano": "^5.0.6",
+        "cssnano": "^5.0.7",
         "node-sass": "^6.0.1",
-        "postcss": "^8.2.10",
-        "regenerator-runtime": "^0.13.7",
+        "postcss": "^8.3.6",
+        "regenerator-runtime": "^0.13.9",
         "sass-loader": "^12.1.0",
         "trim-newlines": "^4.0.1",
         "webpack-notifier": "^1.13.0"
