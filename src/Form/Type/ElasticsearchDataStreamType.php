@@ -18,6 +18,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchDataStreamType extends AbstractType
 {
+    protected $elasticsearchDataStreamManager;
+
+    protected $translator;
+
     public function __construct(ElasticsearchDataStreamManager $elasticsearchDataStreamManager, TranslatorInterface $translator)
     {
         $this->elasticsearchDataStreamManager = $elasticsearchDataStreamManager;

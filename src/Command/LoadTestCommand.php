@@ -14,6 +14,8 @@ class LoadTestCommand extends Command
 {
     protected static $defaultName = 'app:load-test';
 
+    private CallManager $callManager;
+
     public function __construct(CallManager $callManager)
     {
         $this->callManager = $callManager;
@@ -21,7 +23,7 @@ class LoadTestCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Add multiple indices for testing');
     }

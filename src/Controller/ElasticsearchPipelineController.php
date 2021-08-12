@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchPipelineController extends AbstractAppController
 {
+    private ElasticsearchPipelineManager $elasticsearchPipelineManager;
+
     public function __construct(ElasticsearchPipelineManager $elasticsearchPipelineManager)
     {
         $this->elasticsearchPipelineManager = $elasticsearchPipelineManager;

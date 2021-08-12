@@ -24,6 +24,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ElasticsearchSnapshotController extends AbstractAppController
 {
+    private ElasticsearchSnapshotManager $elasticsearchSnapshotManager;
+
+    private ElasticsearchRepositoryManager $elasticsearchRepositoryManager;
+
+    private ElasticsearchIndexManager $elasticsearchIndexManager;
+
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
     public function __construct(ElasticsearchSnapshotManager $elasticsearchSnapshotManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchSnapshotManager = $elasticsearchSnapshotManager;
@@ -128,9 +136,9 @@ class ElasticsearchSnapshotController extends AbstractAppController
         ]);
     }
 
-    private function sortByTotal($a, $b)
+    private function sortByTotal($a, $b): int
     {
-        return $b['total'] - $a['total'];
+        return $b['total'] <=> $a['total'];
     }
 
     /**

@@ -12,6 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ElasticsearchTemplateFilterType extends AbstractType
 {
+    protected $callManager;
+
     public function __construct(CallManager $callManager)
     {
         $this->callManager = $callManager;

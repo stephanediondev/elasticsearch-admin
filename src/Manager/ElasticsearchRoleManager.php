@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchRoleManager extends AbstractAppManager
 {
+    protected string $endpoint;
+
     /**
      * @required
      */
@@ -59,6 +61,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
+        $roles = [];
         foreach ($results as $k => $row) {
             $row['name'] = $k;
             $roleModel = new ElasticsearchRoleModel();

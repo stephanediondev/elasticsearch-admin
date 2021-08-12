@@ -10,7 +10,16 @@ class GenerateFaviconsCommand extends Command
 {
     protected static $defaultName = 'app:generate-favicons';
 
-    protected function configure()
+    private array $colors = [
+        'red' => 'dc3545',
+        'orange' => 'fd7e14',
+        'yellow' => 'ffc107',
+        'green' => '198754',
+        'purple' => '6f42c1',
+        'gray' => 'adb5bd',
+    ];
+
+    protected function configure(): void
     {
         $this->setDescription('Generate favicons');
     }
@@ -25,15 +34,6 @@ class GenerateFaviconsCommand extends Command
 
         return Command::SUCCESS;
     }
-
-    private $colors = [
-        'red' => 'dc3545',
-        'orange' => 'fd7e14',
-        'yellow' => 'ffc107',
-        'green' => '198754',
-        'purple' => '6f42c1',
-        'gray' => 'adb5bd',
-    ];
 
     private function generateFavicon($color, $size)
     {

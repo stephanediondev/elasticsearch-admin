@@ -22,6 +22,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchRoleType extends AbstractType
 {
+    protected $elasticsearchRoleManager;
+
+    protected $translator;
+
     public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, TranslatorInterface $translator)
     {
         $this->elasticsearchRoleManager = $elasticsearchRoleManager;

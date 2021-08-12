@@ -10,6 +10,8 @@ use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
+    protected CallManager $callManager;
+
     public function __construct(CallManager $callManager)
     {
         $this->callManager = $callManager;
@@ -38,7 +40,7 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function humanFilesize($size, $precision = 2)
+    public function humanFilesize(?int $size, int $precision = 2): string
     {
         static $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $step = 1024;
@@ -50,7 +52,7 @@ class AppExtension extends AbstractExtension
         return round($size, $precision).' '.$units[$i];
     }
 
-    public function humanVersion($version)
+    public function humanVersion(string $version): string
     {
         /*
         * The logic for ID is: XXYYZZAA, where XX is major version, YY is minor version, ZZ is revision, and AA is alpha/beta/rc indicator AA
@@ -83,7 +85,7 @@ class AppExtension extends AbstractExtension
             $datetime = new \Datetime($datetime);
             return $datetime->format($format);
         } else {
-            return date($format, substr($datetime, 0, -3));
+            return date($format, intval(substr($datetime, 0, -3)));
         }
     }
 

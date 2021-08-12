@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Manager\AppManager;
-use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReindexModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AppUpgradeController extends AbstractAppController
 {
-    public function __construct(AppManager $appManager, ElasticsearchIndexManager $elasticsearchIndexManager)
+    private AppManager $appManager;
+
+    public function __construct(AppManager $appManager)
     {
         $this->appManager = $appManager;
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
     }
 
     /**

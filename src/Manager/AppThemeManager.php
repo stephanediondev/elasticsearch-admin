@@ -6,7 +6,7 @@ use App\Manager\AbstractAppManager;
 
 class AppThemeManager extends AbstractAppManager
 {
-    private $predefined = [
+    private array $predefined = [
         'dark' => [
             'body' => 'bg-dark text-light',
             'navbar' => 'sticky-top navbar-expand-lg navbar-dark bg-dark',

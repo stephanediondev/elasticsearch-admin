@@ -21,6 +21,12 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class AppSecurityController extends AbstractAppController
 {
+    private AppManager $appManager;
+
+    private AppUserManager $appUserManager;
+
+    private UserPasswordHasherInterface $passwordHasher;
+
     public function __construct(AppManager $appManager, AppUserManager $appUserManager, UserPasswordHasherInterface $passwordHasher)
     {
         $this->appManager = $appManager;

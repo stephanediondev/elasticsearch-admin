@@ -33,5 +33,7 @@ trait ElasticsearchRoleUserModelTrait
         if (true === isset($this->getMetadata()['_deprecated_reason'])) {
             return $this->getMetadata()['_deprecated_reason'];
         }
+
+        return null;
     }
 }

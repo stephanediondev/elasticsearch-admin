@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
 {
+    private ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager;
+
     public function __construct(ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager)
     {
         $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;

@@ -16,6 +16,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchTaskController extends AbstractAppController
 {
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
     public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
@@ -71,8 +73,8 @@ class ElasticsearchTaskController extends AbstractAppController
         ]);
     }
 
-    private function sortByStartTime($a, $b)
+    private function sortByStartTime($a, $b): int
     {
-        return $b['start_time_in_millis'] - $a['start_time_in_millis'];
+        return $b['start_time_in_millis'] <=> $a['start_time_in_millis'];
     }
 }

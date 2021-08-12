@@ -41,18 +41,20 @@ class ElasticsearchNodeManager extends AbstractAppManager
 
         $diskThresholdEnabled = false;
 
+        $diskWatermarks = [];
+
+        $unit = false;
+
         if (true === isset($parameters['cluster_settings'])) {
             if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
                 $diskThresholdEnabled = true;
 
-                $diskWatermarks = [];
                 if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'])) {
                     $diskWatermarks['flood_stage'] = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.flood_stage'];
                 }
                 $diskWatermarks['high'] = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.high'];
                 $diskWatermarks['low'] = $parameters['cluster_settings']['cluster.routing.allocation.disk.watermark.low'];
 
-                $unit = false;
                 $types = ['b', 'kb', 'mb', 'gb', 'tb', 'p'];
                 foreach ($diskWatermarks as $watermark => $value) {
                     if (strstr($value, '%')) {

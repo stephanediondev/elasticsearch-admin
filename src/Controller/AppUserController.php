@@ -21,6 +21,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class AppUserController extends AbstractAppController
 {
+    private AppRoleManager $appRoleManager;
+
+    private AppUserManager $appUserManager;
+
+    private UserPasswordHasherInterface $passwordHasher;
+
     public function __construct(AppRoleManager $appRoleManager, AppUserManager $appUserManager, UserPasswordHasherInterface $passwordHasher)
     {
         $this->appRoleManager = $appRoleManager;

@@ -20,6 +20,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchSnapshotType extends AbstractType
 {
+    protected $elasticsearchSnapshotManager;
+
+    protected $translator;
+
     public function __construct(ElasticsearchSnapshotManager $elasticsearchSnapshotManager, TranslatorInterface $translator)
     {
         $this->elasticsearchSnapshotManager = $elasticsearchSnapshotManager;

@@ -33,6 +33,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchIndexController extends AbstractAppController
 {
+    private ElasticsearchIndexManager $elasticsearchIndexManager;
+
     public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
     {
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
@@ -164,9 +166,9 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    private function sortByTotal($a, $b)
+    private function sortByTotal($a, $b): int
     {
-        return $b['total'] - $a['total'];
+        return $b['total'] <=> $a['total'];
     }
 
     /**
@@ -460,10 +462,10 @@ class ElasticsearchIndexController extends AbstractAppController
 
                 foreach ($reader->getSheetIterator() as $sheet) {
                     $u = 1;
+                    $headers = [];
                     foreach ($sheet->getRowIterator() as $rowObject) {
                         $row = $rowObject->toArray();
                         if (1 == $u) {
-                            $headers = [];
                             foreach ($row as $key => $value) {
                                 $headers[] = $value;
                             }
@@ -637,16 +639,19 @@ class ElasticsearchIndexController extends AbstractAppController
         $documents = $callResponse->getContent();
 
         return new StreamedResponse(function () use ($writer, $index, $documents) {
+            $outputStream = null;
+
+            $json = [];
+
+            $lines = [];
+
             if ('geojson' == $writer) {
                 $outputStream = fopen('php://output', 'wb');
 
-                $json = [];
                 $json['type'] = 'FeatureCollection';
                 $json['features'] = [];
             } else {
                 $writer->openToFile('php://output');
-
-                $lines = [];
 
                 $line = [];
                 $line[] = '_id';

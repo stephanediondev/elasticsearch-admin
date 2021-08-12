@@ -20,6 +20,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchDataStreamController extends AbstractAppController
 {
+    private ElasticsearchDataStreamManager $elasticsearchDataStreamManager;
+
     public function __construct(ElasticsearchDataStreamManager $elasticsearchDataStreamManager)
     {
         $this->elasticsearchDataStreamManager = $elasticsearchDataStreamManager;

@@ -24,6 +24,14 @@ class AppNotificationManager extends AbstractAppManager
 
     private $filename = __DIR__.'/../../info.json';
 
+    protected ElasticsearchClusterManager $elasticsearchClusterManager;
+
+    protected ElasticsearchNodeManager $elasticsearchNodeManager;
+
+    protected $clusterHealth;
+
+    protected $clusterSettings;
+
     /**
      * @required
      */
@@ -119,7 +127,7 @@ class AppNotificationManager extends AbstractAppManager
 
                 if ($license && 'basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
                     $now = (new \Datetime());
-                    $expire = new \Datetime(date('Y-m-d H:i:s', substr($license['expiry_date_in_millis'], 0, -3)));
+                    $expire = new \Datetime(date('Y-m-d H:i:s', intval(substr($license['expiry_date_in_millis'], 0, -3))));
                     $interval = $now->diff($expire);
 
                     if (1 >= $interval->format('%a')) {

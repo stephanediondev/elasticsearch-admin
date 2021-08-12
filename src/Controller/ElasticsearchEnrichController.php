@@ -21,6 +21,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchEnrichController extends AbstractAppController
 {
+    private ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager;
+
+    private ElasticsearchIndexManager $elasticsearchIndexManager;
+
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
     public function __construct(ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchEnrichPolicyManager = $elasticsearchEnrichPolicyManager;

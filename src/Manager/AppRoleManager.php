@@ -9,6 +9,7 @@ use App\Model\CallResponseModel;
 use App\Model\AppRoleModel;
 use App\Model\AppUserModel;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppRoleManager extends AbstractAppManager
 {
@@ -105,9 +106,9 @@ class AppRoleManager extends AbstractAppManager
         ],
     ];
 
-    private $permissionsDefined = false;
+    private bool $permissionsDefined = false;
 
-    private $permissions = [];
+    private array $permissions = [];
 
     public function getByName(string $name): ?AppRoleModel
     {
@@ -222,7 +223,7 @@ class AppRoleManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function getPermissionsByUser(AppUserModel $user): array
+    public function getPermissionsByUser(UserInterface $user): array
     {
         if (false === $this->permissionsDefined) {
             $this->permissionsDefined = true;

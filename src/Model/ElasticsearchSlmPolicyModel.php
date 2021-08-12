@@ -38,6 +38,8 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     private $modifiedDate;
 
+    private $stats;
+
     public function __construct()
     {
         $this->snapshotName = '<nightly-snap-{now/d}>';

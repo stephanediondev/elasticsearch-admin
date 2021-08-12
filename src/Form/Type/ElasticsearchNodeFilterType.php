@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ElasticsearchNodeFilterType extends AbstractType
 {
+    protected $callManager;
+
     public function __construct(CallManager $callManager)
     {
         $this->callManager = $callManager;

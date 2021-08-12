@@ -24,6 +24,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchComponentTemplateType extends AbstractType
 {
+    protected $elasticsearchComponentTemplateManager;
+
+    protected $translator;
+
     public function __construct(ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager, TranslatorInterface $translator)
     {
         $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;

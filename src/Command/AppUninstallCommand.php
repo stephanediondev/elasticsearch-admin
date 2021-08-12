@@ -18,6 +18,12 @@ class AppUninstallCommand extends Command
 {
     protected static $defaultName = 'app:uninstall';
 
+    private AppManager $appManager;
+
+    private CallManager $callManager;
+
+    private TranslatorInterface $translator;
+
     public function __construct(AppManager $appManager, CallManager $callManager, TranslatorInterface $translator)
     {
         $this->appManager = $appManager;
@@ -27,7 +33,7 @@ class AppUninstallCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Uninstall application');
     }

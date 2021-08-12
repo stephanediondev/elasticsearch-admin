@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchComponentTemplateController extends AbstractAppController
 {
+    private ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager;
+
     public function __construct(ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager)
     {
         $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;

@@ -24,6 +24,14 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchClusterController extends AbstractAppController
 {
+    private ElasticsearchIndexManager $elasticsearchIndexManager;
+
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
+    private ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager;
+
+    private ElasticsearchRepositoryManager $elasticsearchRepositoryManager;
+
     public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager, ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
     {
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
@@ -586,7 +594,7 @@ class ElasticsearchClusterController extends AbstractAppController
 
                         if ('basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
                             $now = (new \Datetime());
-                            $expire = new \Datetime(date('Y-m-d H:i:s', substr($license['expiry_date_in_millis'], 0, -3)));
+                            $expire = new \Datetime(date('Y-m-d H:i:s', intval(substr($license['expiry_date_in_millis'], 0, -3))));
                             $interval = $now->diff($expire);
 
                             if (30 > $interval->format('%a')) {

@@ -18,6 +18,12 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class AppUninstallController extends AbstractAppController
 {
+    private AppManager $appManager;
+
+    private ElasticsearchIndexManager $elasticsearchIndexManager;
+
+    private TokenStorageInterface $tokenStorage;
+
     public function __construct(AppManager $appManager, ElasticsearchIndexManager $elasticsearchIndexManager, TokenStorageInterface $tokenStorage)
     {
         $this->appManager = $appManager;

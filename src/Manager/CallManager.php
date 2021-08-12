@@ -62,6 +62,22 @@ class CallManager
         'cat_nodeattrs' => '2.0',
     ];
 
+    protected $endpoint;
+
+    protected $security;
+
+    protected $client;
+
+    protected $elasticsearchUrl;
+
+    protected $elasticsearchUsername;
+
+    protected $elasticsearchPassword;
+
+    protected $sslVerifyPeer;
+
+    protected $sslVerifyHost;
+
     public function __construct(
         Security $security,
         HttpClientInterface $client,

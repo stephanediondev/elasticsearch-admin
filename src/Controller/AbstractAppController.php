@@ -16,6 +16,18 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 abstract class AbstractAppController extends AbstractController
 {
+    protected $callManager;
+
+    protected $elasticsearchClusterManager;
+
+    protected $appThemeManager;
+
+    protected $paginatorManager;
+
+    protected $translator;
+
+    protected $themeDefault;
+
     /**
      * @required
      */

@@ -19,6 +19,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AppNotificationController extends AbstractAppController
 {
+    private AppNotificationManager $appNotificationManager;
+
     public function __construct(AppNotificationManager $appNotificationManager)
     {
         $this->appNotificationManager = $appNotificationManager;

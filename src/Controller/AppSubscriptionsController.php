@@ -9,6 +9,7 @@ use App\Model\CallRequestModel;
 use App\Manager\AppSubscriptionManager;
 use App\Manager\AppNotificationManager;
 use App\Model\AppNotificationModel;
+use App\Model\AppUserModel;
 use App\Model\AppSubscriptionModel;
 use DeviceDetector\DeviceDetector;
 use Minishlink\WebPush\WebPush;
@@ -26,6 +27,22 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class AppSubscriptionsController extends AbstractAppController
 {
+    private AppSubscriptionManager $appSubscriptionManager;
+
+    private AppNotificationManager $appNotificationManager;
+
+    private AppUserModel $user;
+
+    private string $vapidPublicKey;
+
+    private string $vapidPrivateKey;
+
+    private string $mailerDsn;
+
+    private string $senderAddress;
+
+    private $clusterHealth;
+
     public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, Security $security, string $vapidPublicKey, string $vapidPrivateKey, string $mailerDsn, string $senderAddress)
     {
         $this->appSubscriptionManager = $appSubscriptionManager;

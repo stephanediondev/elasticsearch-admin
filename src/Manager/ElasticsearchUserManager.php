@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchUserManager extends AbstractAppManager
 {
+    protected string $endpoint;
+
     /**
      * @required
      */
@@ -59,6 +61,7 @@ class ElasticsearchUserManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
+        $users = [];
         foreach ($results as $k => $row) {
             $row['name'] = $k;
             $userModel = new ElasticsearchUserModel();
@@ -110,17 +113,6 @@ class ElasticsearchUserManager extends AbstractAppManager
         }
 
         return $usersWithFilter;
-    }
-
-    public function send(ElasticsearchUserModel $userModel): CallResponseModel
-    {
-        $json = $userModel->getJson();
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('PUT');
-        $callRequest->setPath($this->getEndpoint().'/user/'.$userModel->getName());
-        $callRequest->setJson($json);
-
-        return $this->callManager->call($callRequest);
     }
 
     public function deleteByName(string $name): CallResponseModel

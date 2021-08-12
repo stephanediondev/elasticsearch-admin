@@ -15,6 +15,10 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
     protected $callManager;
 
+    protected $appUserManager;
+
+    protected $elasticsearchClusterManager;
+
     public static function setUpBeforeClass(): void
     {
         if (false === defined('GENERATED_NAME')) {

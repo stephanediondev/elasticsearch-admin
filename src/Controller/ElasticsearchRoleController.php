@@ -21,6 +21,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class ElasticsearchRoleController extends AbstractAppController
 {
+    private ElasticsearchRoleManager $elasticsearchRoleManager;
+
+    private ElasticsearchUserManager $elasticsearchUserManager;
+
     public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, ElasticsearchUserManager $elasticsearchUserManager)
     {
         $this->elasticsearchRoleManager = $elasticsearchRoleManager;

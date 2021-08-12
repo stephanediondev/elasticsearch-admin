@@ -79,13 +79,14 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
         return $this;
     }
 
-    private function getIndexToArray(): ?array
+    private function getIndexToArray(): array
     {
         $indexPatterns = [];
 
         foreach (explode(',', $this->indexPatterns) as $indexPattern) {
             $indexPatterns[] = trim($indexPattern);
         }
+
         return $indexPatterns;
     }
 

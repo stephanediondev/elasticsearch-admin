@@ -19,6 +19,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class AppRoleController extends AbstractAppController
 {
+    private AppRoleManager $appRoleManager;
+
     public function __construct(AppRoleManager $appRoleManager)
     {
         $this->appRoleManager = $appRoleManager;

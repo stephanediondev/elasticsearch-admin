@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
+    protected $appUserManager;
+
     public function __construct(AppUserManager $appUserManager)
     {
         $this->appUserManager = $appUserManager;
@@ -26,7 +28,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
      * If you're not using these features, you do not need to implement
      * this method.
      *
-     * @return UserInterface
+     * @return AppUserModel
      *
      * @throws UsernameNotFoundException if the user is not found
      */
@@ -51,7 +53,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
      * If your firewall is "stateless: true" (for a pure API), this
      * method is not called.
      *
-     * @return UserInterface
+     * @return AppUserModel
      */
     public function refreshUser(UserInterface $user)
     {

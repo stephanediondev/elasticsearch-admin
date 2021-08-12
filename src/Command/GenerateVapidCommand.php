@@ -11,7 +11,7 @@ class GenerateVapidCommand extends Command
 {
     protected static $defaultName = 'app:generate-vapid';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Generate VAPID keys');
     }

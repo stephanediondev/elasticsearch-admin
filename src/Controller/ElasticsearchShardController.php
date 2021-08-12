@@ -21,6 +21,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchShardController extends AbstractAppController
 {
+    private ElasticsearchShardManager $elasticsearchShardManager;
+
+    private ElasticsearchIndexManager $elasticsearchIndexManager;
+
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
     public function __construct(ElasticsearchShardManager $elasticsearchShardManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchShardManager = $elasticsearchShardManager;
@@ -169,9 +175,9 @@ class ElasticsearchShardController extends AbstractAppController
         ]);
     }
 
-    private function sortByTotal($a, $b)
+    private function sortByTotal($a, $b): int
     {
-        return $b['total'] - $a['total'];
+        return $b['total'] <=> $a['total'];
     }
 
     /**

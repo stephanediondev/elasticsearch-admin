@@ -23,7 +23,9 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    private $urlGenerator;
+    protected $appUserManager;
+
+    protected $urlGenerator;
 
     public function __construct(AppUserManager $appUserManager, UrlGeneratorInterface $urlGenerator)
     {

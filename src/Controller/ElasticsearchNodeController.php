@@ -20,6 +20,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchNodeController extends AbstractAppController
 {
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
     public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
@@ -186,9 +188,9 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
-    private function sortByTotal($a, $b)
+    private function sortByTotal($a, $b): int
     {
-        return $b['total'] - $a['total'];
+        return $b['total'] <=> $a['total'];
     }
 
     /**

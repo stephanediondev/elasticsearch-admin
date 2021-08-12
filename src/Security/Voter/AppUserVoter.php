@@ -26,7 +26,7 @@ class AppUserVoter extends AbstractAppVoter
             return false;
         }
 
-        if ('APP_USER_DELETE' == $attribute && $user->getEmail() == $subject->getEmail()) {
+        if ('APP_USER_DELETE' == $attribute && $user->getUserIdentifier() == $subject->getEmail()) {
             return false;
         }
 

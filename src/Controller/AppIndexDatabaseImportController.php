@@ -19,6 +19,8 @@ use \PDOException;
  */
 class AppIndexDatabaseImportController extends AbstractAppController
 {
+    private ElasticsearchIndexManager $elasticsearchIndexManager;
+
     public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager)
     {
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
@@ -105,7 +107,6 @@ class AppIndexDatabaseImportController extends AbstractAppController
 
             while ($row = $stmt->fetch()) {
                 $id = false;
-                $type = false;
                 $line = [];
 
                 if (true === isset($fields['_id']) && '' != $fields['_id']) {
@@ -119,11 +120,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
                 }
 
                 if ($id) {
-                    if ($type) {
-                        $body .= json_encode(['index' => ['_id' => $id, '_type' => $type]])."\r\n";
-                    } else {
-                        $body .= json_encode(['index' => ['_id' => $id]])."\r\n";
-                    }
+                    $body .= json_encode(['index' => ['_id' => $id]])."\r\n";
                 } else {
                     $body .= json_encode(['index' => (object)[]])."\r\n";
                 }

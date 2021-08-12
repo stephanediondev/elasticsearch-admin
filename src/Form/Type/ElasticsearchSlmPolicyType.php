@@ -21,6 +21,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchSlmPolicyType extends AbstractType
 {
+    protected $elasticsearchSlmPolicyManager;
+
+    protected $translator;
+
     public function __construct(ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, TranslatorInterface $translator)
     {
         $this->elasticsearchSlmPolicyManager = $elasticsearchSlmPolicyManager;

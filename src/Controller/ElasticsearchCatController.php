@@ -22,6 +22,12 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  */
 class ElasticsearchCatController extends AbstractAppController
 {
+    private ElasticsearchRepositoryManager $elasticsearchRepositoryManager;
+
+    private ElasticsearchIndexManager $elasticsearchIndexManager;
+
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
     public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchIndexManager $elasticsearchIndexManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
@@ -100,7 +106,7 @@ class ElasticsearchCatController extends AbstractAppController
     /**
      * @Route("/cat/export", name="cat_export")
      */
-    public function export(Request $request): StreamedResponse
+    public function export(Request $request): ?StreamedResponse
     {
         $this->denyAccessUnlessGranted('CAT_EXPORT', 'global');
 
@@ -181,5 +187,7 @@ class ElasticsearchCatController extends AbstractAppController
                 'Content-Disposition' => 'attachment; filename='.$filename,
             ]);
         }
+
+        return null;
     }
 }

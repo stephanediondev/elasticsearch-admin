@@ -14,6 +14,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchLicenseController extends AbstractAppController
 {
+    private string $endpoint;
+
     /**
      * @Route("/license", name="license")
      */

@@ -17,18 +17,22 @@ class ElasticsearchPipelineManager extends AbstractAppManager
         $callRequest->setPath('/_ingest/pipeline/'.$name);
         $callResponse = $this->callManager->call($callRequest);
 
-        if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
-            $pipelineModel = null;
-        } else {
+        $pipelineModel = null;
+
+        if (Response::HTTP_NOT_FOUND !== $callResponse->getCode()) {
             $rows = $callResponse->getContent();
+
+            $pipeline = null;
 
             foreach ($rows as $k => $row) {
                 $pipeline = $row;
                 $pipeline['name'] = $k;
             }
 
-            $pipelineModel = new ElasticsearchPipelineModel();
-            $pipelineModel->convert($pipeline);
+            if ($pipeline) {
+                $pipelineModel = new ElasticsearchPipelineModel();
+                $pipelineModel->convert($pipeline);
+            }
         }
 
         return $pipelineModel;

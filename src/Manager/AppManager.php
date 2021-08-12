@@ -6,7 +6,7 @@ use App\Manager\AbstractAppManager;
 
 class AppManager extends AbstractAppManager
 {
-    private $version = '1.0';
+    private string $version = '1.0';
 
     public function getVersion(): string
     {
@@ -149,5 +149,7 @@ class AppManager extends AbstractAppManager
                     ],
                 ];
         }
+
+        return [];
     }
 }

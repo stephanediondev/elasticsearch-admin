@@ -19,6 +19,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AppRoleType extends AbstractType
 {
+    protected $appRoleManager;
+
+    protected $translator;
+
     public function __construct(AppRoleManager $appRoleManager, TranslatorInterface $translator)
     {
         $this->appRoleManager = $appRoleManager;

@@ -18,6 +18,18 @@ class PhpunitCommand extends Command
 {
     protected static $defaultName = 'app:phpunit';
 
+    private CallManager $callManager;
+
+    private AppManager $appManager;
+
+    private AppUserManager $appUserManager;
+
+    private UserPasswordHasherInterface $passwordHasher;
+
+    private string $pathSecurity;
+
+    private string $pathDoc;
+
     public function __construct(CallManager $callManager, AppManager $appManager, AppUserManager $appUserManager, UserPasswordHasherInterface $passwordHasher)
     {
         $this->callManager = $callManager;
@@ -28,7 +40,7 @@ class PhpunitCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Create data for tests');
     }
@@ -140,9 +152,6 @@ class PhpunitCommand extends Command
             $callRequest->setMethod('PUT');
             if (true === isset($parameters['json'])) {
                 $callRequest->setJson($parameters['json']);
-            }
-            if (true === isset($parameters['query'])) {
-                $callRequest->setQuery($parameters['query']);
             }
             $callRequest->setPath($parameters['path'].'/'.$parameters['name']);
             $this->callManager->call($callRequest);

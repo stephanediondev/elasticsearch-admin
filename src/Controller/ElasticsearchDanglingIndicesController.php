@@ -16,6 +16,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchDanglingIndicesController extends AbstractAppController
 {
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
     public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;

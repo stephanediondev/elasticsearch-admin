@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ElasticsearchCatType extends AbstractType
 {
+    protected $callManager;
+
     public function __construct(CallManager $callManager)
     {
         $this->callManager = $callManager;
