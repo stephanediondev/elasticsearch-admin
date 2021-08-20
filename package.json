@@ -7,13 +7,8 @@
     "devDependencies": {
         "@symfony/webpack-encore": "^1.5.0",
         "core-js": "^3.16.2",
-        "css-what": "^5.0.1",
-        "cssnano": "^5.0.8",
-        "node-sass": "^6.0.1",
-        "postcss": "^8.3.6",
-        "regenerator-runtime": "^0.13.9",
+        "sass": "^1.32.8",
         "sass-loader": "^12.1.0",
-        "trim-newlines": "^4.0.1",
         "webpack-notifier": "^1.13.0"
     },
     "scripts": {
