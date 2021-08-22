@@ -51,7 +51,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - Shards: list, stats, cluster reroute (move, allocate replica, cancel allocation)
 - Repositories: list, create (fs, s3, gcs, azure), read, update, delete, cleanup, verify
 - Snapshot lifecycle management policies [7.4]: list, status, start, stop, create, read, update, delete, execute, history, stats, copy
-- Snapshots: list, stats, create, read, delete, failures, restore
+- Snapshots: list, stats, create, read, delete, failures, restore, clone [7.10]
 - Elasticsearch users (native realm): list, create, read, update, delete, enable, disable
 - Elasticsearch roles: list, create, read, update, delete, copy
 - Tasks [2.3]: list

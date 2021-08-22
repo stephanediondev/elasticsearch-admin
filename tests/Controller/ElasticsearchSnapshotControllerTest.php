@@ -65,4 +65,18 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
 
         $this->assertResponseStatusCodeSame(404);
     }
+
+    /**
+     * @Route("/snapshots/{repository}/{snapshot}/clone", name="snapshots_read_clone")
+     */
+    public function testClone404()
+    {
+        $this->client->request('GET', '/admin/snapshots/'.uniqid().'/'.uniqid().'/clone');
+
+        if (false == $this->callManager->hasFeature('clone_snapshot')) {
+            $this->assertResponseStatusCodeSame(403);
+        } else {
+            $this->assertResponseStatusCodeSame(404);
+        }
+    }
 }

@@ -96,7 +96,7 @@ class AppRoleManager extends AbstractAppManager
             'SLM_POLICY_UPDATE', 'SLM_POLICY_DELETE', 'SLM_POLICY_COPY', 'SLM_POLICY_EXECUTE',
         ],
         'snapshot' => [
-            'SNAPSHOT_DELETE', 'SNAPSHOT_RESTORE', 'SNAPSHOT_FAILURES',
+            'SNAPSHOT_DELETE', 'SNAPSHOT_RESTORE', 'SNAPSHOT_CLONE', 'SNAPSHOT_FAILURES',
         ],
         'elasticsearch_user' => [
             'ELASTICSEARCH_USER_UPDATE', 'ELASTICSEARCH_USER_DELETE', 'ELASTICSEARCH_USER_ENABLE', 'ELASTICSEARCH_USER_DISABLE',

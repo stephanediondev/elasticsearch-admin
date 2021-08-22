@@ -6,6 +6,11 @@
 - The get snapshot API’s response format has changed.
 - The repositories.fs.compress node-level setting has been removed.
 
+
+## 7.10.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/release-notes-7.10.0.html)
+
+- Clone Snapshot API #61839
+
 ## 7.9.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.9/release-notes-7.9.0.html)
 
 - Add support for data streams #58106 (issue: #53100)

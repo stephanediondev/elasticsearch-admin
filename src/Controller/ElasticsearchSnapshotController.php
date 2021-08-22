@@ -6,6 +6,7 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchSnapshotType;
 use App\Form\Type\ElasticsearchSnapshotRestoreType;
+use App\Form\Type\ElasticsearchSnapshotCloneType;
 use App\Form\Type\ElasticsearchSnapshotFilterType;
 use App\Manager\ElasticsearchSnapshotManager;
 use App\Manager\ElasticsearchIndexManager;
@@ -14,10 +15,12 @@ use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchSnapshotModel;
 use App\Model\ElasticsearchSnapshotRestoreModel;
+use App\Model\ElasticsearchSnapshotCloneModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/admin")
@@ -280,6 +283,53 @@ class ElasticsearchSnapshotController extends AbstractAppController
         }
 
         return $this->renderAbstract($request, 'Modules/snapshot/snapshot_read_restore.html.twig', [
+            'form' => $form->createView(),
+            'repository' => $repository,
+            'snapshot' => $snapshot,
+        ]);
+    }
+
+    /**
+     * @Route("/snapshots/{repository}/{snapshot}/clone", name="snapshots_read_clone")
+     */
+    public function clone(Request $request, string $repository, string $snapshot): Response
+    {
+        if (false === $this->callManager->hasFeature('clone_snapshot')) {
+            throw new AccessDeniedException();
+        }
+
+        $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
+
+        if (null === $snapshot) {
+            throw new NotFoundHttpException();
+        }
+
+        $this->denyAccessUnlessGranted('SNAPSHOT_CLONE', $snapshot);
+
+        $snapshotCloneModel = new ElasticsearchSnapshotCloneModel();
+        $snapshotCloneModel->setIndices($snapshot->getIndices());
+        $form = $this->createForm(ElasticsearchSnapshotCloneType::class, $snapshotCloneModel, ['indices' => $snapshot->getIndices()]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $json = $snapshotCloneModel->getJson();
+                $callRequest = new CallRequestModel();
+                $callRequest->setMethod('PUT');
+                $callRequest->setPath('/_snapshot/'.$snapshot->getRepository().'/'.$snapshot->getName().'/_clone/'.$snapshotCloneModel->getTargetName());
+                $callRequest->setJson($json);
+                $callResponse = $this->callManager->call($callRequest);
+
+                $this->addFlash('info', json_encode($callResponse->getContent()));
+
+                return $this->redirectToRoute('snapshots_read', ['repository' => $snapshot->getRepository(), 'snapshot' => $snapshotCloneModel->getTargetName()]);
+            } catch (CallException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+        }
+
+        return $this->renderAbstract($request, 'Modules/snapshot/snapshot_read_clone.html.twig', [
             'form' => $form->createView(),
             'repository' => $repository,
             'snapshot' => $snapshot,

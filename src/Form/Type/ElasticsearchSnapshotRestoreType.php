@@ -9,7 +9,6 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ElasticsearchSnapshotRestoreType extends AbstractType
 {
@@ -81,7 +80,6 @@ class ElasticsearchSnapshotRestoreType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchSnapshotRestoreModel::class,
-            'repositories' => [],
             'indices' => [],
         ]);
     }

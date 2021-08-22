@@ -24,6 +24,7 @@ class CallManager
 
     private $featuresByVersion = [
         '_xpack_endpoint_removed' => '8.0',
+        'clone_snapshot' => '7.10',
         'data_streams' => '7.9',
         'dangling_indices' => '7.9',
         'composable_template' => '7.8',
