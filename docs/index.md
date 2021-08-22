@@ -315,11 +315,11 @@ After registration you can login [View](https://raw.githubusercontent.com/stepha
 | ElasticHQ | [ElasticHQ/elasticsearch-HQ](https://github.com/ElasticHQ/elasticsearch-HQ) | Python | 15 Nov 2019 |
 | Elasticsearch Comrade | [moshe/elasticsearch-comrade](https://github.com/moshe/elasticsearch-comrade) | Python | 30 May 2020 |
 | elasticsearch-head | [mobz/elasticsearch-head](https://github.com/mobz/elasticsearch-head) | JavaScript | 10 Apr 2018 |
-| Elasticvue | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript | 14 Jun 2021 |
+| Elasticvue | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript | 14 Aug 2021 |
 | ELKman | [www.elkman.io](https://www.elkman.io/) | PHP | 1 Aug 2020 |
 | Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 6 Aug 2021 |
 
-Checked on 7 Aug 2021 *
+Checked on 22 Aug 2021 *
 
 # License
 
