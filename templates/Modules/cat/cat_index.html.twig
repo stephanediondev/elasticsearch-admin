@@ -83,7 +83,7 @@
                                         <td>
                                             {% if k in ['node', 'source_node', 'target_node', 'node_name'] and master_node == column %}
                                                 {{ column }}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}
-                                            {% elseif 'nodes' == command and 'name' == k and master_node == column %}
+                                            {% elseif command in ['nodes', 'plugins'] and 'name' == k and master_node == column %}
                                                 {{ column }}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}
                                             {% else %}
                                                 {{ column }}
