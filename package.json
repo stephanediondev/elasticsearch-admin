@@ -6,8 +6,8 @@
     "private": true,
     "devDependencies": {
         "@symfony/webpack-encore": "^1.5.0",
-        "core-js": "^3.16.2",
-        "sass": "^1.32.8",
+        "core-js": "^3.16.3",
+        "sass": "^1.38.1",
         "sass-loader": "^12.1.0",
         "webpack-notifier": "^1.13.0"
     },
