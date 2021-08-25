@@ -35,6 +35,8 @@ class ElasticsearchShardFilterType extends AbstractType
         }
         $fields[] = 'page';
 
+        $options['master_node'] = $this->callManager->getMasterNode();
+
         foreach ($fields as $field) {
             switch ($field) {
                 case 'index':
@@ -80,7 +82,11 @@ class ElasticsearchShardFilterType extends AbstractType
                         'multiple' => true,
                         'choices' => $options['node'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['node'][$key];
+                            if ($options['master_node'] === $options['node'][$key]) {
+                                return $options['node'][$key].' [Master]';
+                            } else {
+                                return $options['node'][$key];
+                            }
                         },
                         'choice_translation_domain' => false,
                         'label' => 'node',

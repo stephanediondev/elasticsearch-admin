@@ -84,6 +84,8 @@ class ElasticsearchCatType extends AbstractType
 
         $builder->setMethod('GET');
 
+        $options['master_node'] = $this->callManager->getMasterNode();
+
         foreach ($fields as $field) {
             switch ($field) {
                 case 'command':
@@ -136,7 +138,11 @@ class ElasticsearchCatType extends AbstractType
                         'placeholder' => '-',
                         'choices' => $options['nodes'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['nodes'][$key];
+                            if ($options['master_node'] === $options['nodes'][$key]) {
+                                return $options['nodes'][$key].' [Master]';
+                            } else {
+                                return $options['nodes'][$key];
+                            }
                         },
                         'choice_translation_domain' => false,
                         'label' => 'node',
