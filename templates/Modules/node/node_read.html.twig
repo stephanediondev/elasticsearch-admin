@@ -58,7 +58,13 @@
                     {% block tbody %}
                         {% for role in node.roles %}
                             <tr>
-                                <td>{{ ('node_roles.' ~ role)|trans }}</td>
+                                <td>
+                                    {% if role in ['data', 'ingest', 'master', 'voting_only'] %}
+                                        <strong>{{ ('node_roles.' ~ role)|trans }}</strong>
+                                    {% else %}
+                                        {{ ('node_roles.' ~ role)|trans }}
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
