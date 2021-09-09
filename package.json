@@ -5,8 +5,8 @@
     "license": "MIT",
     "private": true,
     "devDependencies": {
-        "@symfony/webpack-encore": "^1.6.0",
-        "core-js": "^3.17.2",
+        "@symfony/webpack-encore": "^1.6.1",
+        "core-js": "^3.17.3",
         "sass": "^1.39.0",
         "sass-loader": "^12.1.0",
         "webpack-notifier": "^1.13.0"
@@ -18,8 +18,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@popperjs/core": "^2.10.0",
-        "bootstrap": "^5.1.0",
+        "@popperjs/core": "^2.10.1",
+        "bootstrap": "^5.1.1",
         "file-saver": "^2.0.5",
         "jquery": "^3.6.0",
         "slug": "^5.1.0"
