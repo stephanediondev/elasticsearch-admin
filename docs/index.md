@@ -310,16 +310,16 @@ After registration you can login [View](https://raw.githubusercontent.com/stepha
 
 | Name | Visit | Main language | Latest release* |
 | --- | --- | --- | --- |
-| cerebro | [lmenezes/cerebro](https://github.com/lmenezes/cerebro) | Scala | 10 Apr 2021 |
-| Dejavu | [appbaseio/dejavu](https://github.com/appbaseio/dejavu) | JavaScript | 5 Jul 2021 |
-| ElasticHQ | [ElasticHQ/elasticsearch-HQ](https://github.com/ElasticHQ/elasticsearch-HQ) | Python | 15 Nov 2019 |
+| cerebro | [lmenezes/cerebro](https://github.com/lmenezes/cerebro) | Scala | 10 Apr. 2021 |
+| Dejavu | [appbaseio/dejavu](https://github.com/appbaseio/dejavu) | JavaScript | 10 Sept. 2021 |
+| ElasticHQ | [ElasticHQ/elasticsearch-HQ](https://github.com/ElasticHQ/elasticsearch-HQ) | Python | 15 Nov. 2019 |
 | Elasticsearch Comrade | [moshe/elasticsearch-comrade](https://github.com/moshe/elasticsearch-comrade) | Python | 30 May 2020 |
-| elasticsearch-head | [mobz/elasticsearch-head](https://github.com/mobz/elasticsearch-head) | JavaScript | 10 Apr 2018 |
-| Elasticvue | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript | 14 Aug 2021 |
-| ELKman | [www.elkman.io](https://www.elkman.io/) | PHP | 1 Aug 2020 |
-| Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 6 Aug 2021 |
+| elasticsearch-head | [mobz/elasticsearch-head](https://github.com/mobz/elasticsearch-head) | JavaScript | 10 Apr. 2018 |
+| Elasticvue | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript | 10 Sept. 2021 |
+| ELKman | [www.elkman.io](https://www.elkman.io/) | PHP | 1 Aug. 2020 |
+| Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 6 Aug. 2021 |
 
-Checked on 22 Aug 2021 *
+Checked on 11 Sept. 2021 *
 
 # License
 
