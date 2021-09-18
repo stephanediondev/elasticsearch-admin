@@ -1,11 +1,13 @@
 # Elasticsearch version tracking (for feature detection)
 
-## 8.0.0 [Breaking changes](https://www.elastic.co/guide/en/elasticsearch/reference/master/breaking-changes-8.0.html)
+## 8.0.0-alpha2 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/master/release-notes-8.0.0-alpha2.html)
 
-- REST API endpoints containing _xpack have been removed.
-- The get snapshot API’s response format has changed.
-- The repositories.fs.compress node-level setting has been removed.
+- Set xpack.security.enabled to true for all licenses #72300
+- Autogenerate and print elastic password on startup #77291
 
+## 8.0.0-alpha1 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/master/release-notes-8.0.0-alpha1.html)
+
+- Remove deprecated endpoints containing _xpack #48170 (issue: #35958)
 
 ## 7.10.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/release-notes-7.10.0.html)
 
