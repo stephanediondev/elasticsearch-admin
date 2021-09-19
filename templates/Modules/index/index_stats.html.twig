@@ -68,6 +68,8 @@
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'status': row.title}) }}">{{ row.title|trans }}</a>
                                             {% elseif key in ['indices_by_health'] and is_granted('INDICES', 'global') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'health[]': row.title}) }}">{{ row.title|trans }}</a>
+                                            {% elseif key in ['indices_by_primary_shards', 'indices_by_replicas'] %}
+                                                {{ row.title }}
                                             {% else %}
                                                 {{ row.title|trans }}
                                             {% endif %}
