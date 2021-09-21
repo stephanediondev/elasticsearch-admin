@@ -346,10 +346,6 @@ class ElasticsearchClusterController extends AbstractAppController
             'h' => 'index,rep,status',
         ];
 
-        if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
-            $query['expand_wildcards'] = 'all';
-        }
-
         $indices = $this->elasticsearchIndexManager->getAll($query);
 
         $indicesCount = [

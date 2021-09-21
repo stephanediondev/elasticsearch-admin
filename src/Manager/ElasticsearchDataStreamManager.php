@@ -34,12 +34,19 @@ class ElasticsearchDataStreamManager extends AbstractAppManager
     {
         $streams = [];
 
+        $query = [];
+
+        if (true === $this->callManager->hasFeature('data_stream_expand_wildcards')) {
+            $query['expand_wildcards'] = 'all';
+        }
+
         $callRequest = new CallRequestModel();
         if (true === isset($filter['name']) && '' != $filter['name']) {
             $callRequest->setPath('/_data_stream/'.$filter['name']);
         } else {
             $callRequest->setPath('/_data_stream');
         }
+        $callRequest->setQuery($query);
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 

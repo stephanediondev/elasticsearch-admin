@@ -70,6 +70,10 @@ class ElasticsearchIndexManager extends AbstractAppManager
             }
         }
 
+        if (true === $this->callManager->hasFeature('cat_expand_wildcards')) {
+            $query['expand_wildcards'] = 'all';
+        }
+
         $callRequest = new CallRequestModel();
         if (true === isset($filter['name']) && '' != $filter['name']) {
             $callRequest->setPath('/_cat/indices/'.$filter['name']);
