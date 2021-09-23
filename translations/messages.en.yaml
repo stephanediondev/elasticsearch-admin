@@ -88,6 +88,7 @@ audit_checkpoints:
     shard_allocation_enabled: "The cluster-level shard allocation is enabled"
     max_shards_per_node: "The cluster shards per node limit is below 1000"
     total_shards_per_node: "The cluster shards allocation per node limit is below 1000"
+    deprecations: "There is no deprecations"
 audit_comments:
     fail_for_nodes: "The checkpoint fails for the following nodes:"
     fail_for_repositories: "The checkpoint fails for the following repositories:"

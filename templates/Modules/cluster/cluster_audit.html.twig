@@ -511,6 +511,24 @@
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
+
+                                {% if 'deprecations' == checkpoint %}
+                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
+                                        {% block comment %}
+                                            {% if 'audit_notice' == result %}
+                                                {% for title, total in parameters %}
+                                                    {{ title|trans }} <code>{{ total }}</code>{% if false == loop.last %},{% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block internal_link %}
+                                            {% if true == hasFeature('deprecations') and is_granted('DEPRECATIONS', 'global') %}
+                                                <a class="{{ theme_link_secondary }}" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
+                                            {% endif %}
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     {% endfor %}

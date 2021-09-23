@@ -395,6 +395,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'max_shards_per_node',
             'total_shards_per_node',
             'replication_100_percent',
+            'deprecations',
         ];
 
         $checkpoints = [];
@@ -690,6 +691,29 @@ class ElasticsearchClusterController extends AbstractAppController
                         }
                     }
                     break;
+                case 'deprecations':
+                    if (true === $this->callManager->hasFeature('deprecations')) {
+                        $callRequest = new CallRequestModel();
+                        if (false === $this->callManager->hasFeature('_xpack_endpoint_removed')) {
+                            $callRequest->setPath('/_xpack/migration/deprecations');
+                        } else {
+                            $callRequest->setPath('/_migration/deprecations');
+                        }
+                        $callResponse = $this->callManager->call($callRequest);
+                        $deprecations = $callResponse->getContent();
+                        $messages = [];
+                        foreach ($deprecations as $key => $rows) {
+                            if (0 < count($rows)) {
+                                $messages[$key] = count($rows);
+                            }
+                        }
+                        if (0 < count($messages)) {
+                            $results['audit_notice'][$checkpoint] = $messages;
+                        } else {
+                            $results['audit_pass'][$checkpoint] = [];
+                        }
+                    }
+                break;
             }
         }
 
