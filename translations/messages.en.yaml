@@ -148,7 +148,7 @@ cache_clear_note: "Cached results are invalidated automatically whenever the sha
 cancel: "Cancel"
 cancellable: "Cancellable"
 canned_acl: "Canned ACL"
-cat: "Cat (APIs)"
+cat: "Compact and aligned text (CAT) APIs"
 ccr_auto_followed_system_indices: "Cross-cluster replication auto followed system indices"
 ccr_primary_follower: "Cross-cluster replication primary follower"
 change_password: "Change password"
