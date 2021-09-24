@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
+use App\Exception\CallException;
 use App\Model\CallRequestModel;
+use App\Manager\ElasticsearchNodeManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +16,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 class ElasticsearchRemoteClusterController extends AbstractAppController
 {
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
+
+    public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
+    {
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+    }
+
     /**
      * @Route("/remote-clusters", name="remote_clusters")
      */
@@ -25,10 +34,22 @@ class ElasticsearchRemoteClusterController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $callRequest = new CallRequestModel();
-        $callRequest->setPath('/_remote/info');
-        $callResponse = $this->callManager->call($callRequest);
-        $remoteClusters = $callResponse->getContent();
+        $masterNode = $this->callManager->getMasterNode();
+
+        $node = $this->elasticsearchNodeManager->getByName($masterNode);
+
+        try {
+            $callRequest = new CallRequestModel();
+            $callRequest->setPath('/_remote/info');
+            $callResponse = $this->callManager->call($callRequest);
+            $remoteClusters = $callResponse->getContent();
+        } catch (CallException $e) {
+            $this->addFlash('danger', $e->getMessage());
+
+            if (false === $node->hasRole('remote_cluster_client')) {
+                throw new AccessDeniedException();
+            }
+        }
 
         return $this->renderAbstract($request, 'Modules/remote_cluster/remote_cluster_index.html.twig', [
             'remoteClusters' => $this->paginatorManager->paginate([
