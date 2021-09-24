@@ -15,7 +15,7 @@ class ElasticsearchCatControllerTest extends AbstractAppControllerTest
         $this->client->request('GET', '/admin/cat');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertPageTitleSame('Cat (APIs)');
-        $this->assertSelectorTextSame('h1', 'Cat (APIs)');
+        $this->assertPageTitleSame('Compact and aligned text (CAT) APIs');
+        $this->assertSelectorTextSame('h1', 'Compact and aligned text (CAT) APIs');
     }
 }
