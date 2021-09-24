@@ -39,6 +39,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
 
         $templates = $this->elasticsearchIndexTemplateLegacyManager->getAll([
             'name' => $form->get('name')->getData(),
+            'system' => $form->has('system') ? $form->get('system')->getData() : false,
         ]);
 
         return $this->renderAbstract($request, 'Modules/index_template_legacy/index_template_legacy_index.html.twig', [

@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'index_patterns': true, 'ilm_policy': false, 'order': true, 'version': true} %}
+    {% set columns = {'name': true, 'index_patterns': true, 'ilm_policy': false, 'order': true, 'version': true, 'system': true} %}
 
     {% if true == hasFeature('ilm') %}
         {% set columns = columns|merge({'ilm_policy': true}) %}
@@ -40,6 +40,12 @@
                     {% if 'version' == column %}
                         <th>
                             {{ 'version'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'system' == column %}
+                        <th class="d-none d-xl-table-cell">
+                            {{ 'system'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -89,6 +95,12 @@
                                 {% if row.version %}
                                     {{ row.version }}
                                 {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'system' == column %}
+                            <td class="d-none d-xl-table-cell">
+                                {{ appImport.badge({'title': ('boolean.' ~ row.isSystem)|trans, 'context': row.isSystem}) }}
                             </td>
                         {% endif %}
                     {% endif %}

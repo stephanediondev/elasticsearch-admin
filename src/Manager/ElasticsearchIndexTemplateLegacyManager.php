@@ -57,7 +57,31 @@ class ElasticsearchIndexTemplateLegacyManager extends AbstractAppManager
             }
         }
 
-        return $templates;
+        return $this->filter($templates, $filter);
+    }
+
+    public function filter(array $templates, array $filter = []): array
+    {
+        $templatesWithFilter = [];
+
+        foreach ($templates as $row) {
+            $score = 0;
+
+            if (true === isset($filter['system'])) {
+                if ('yes' === $filter['system'] && false === $row->isSystem()) {
+                    $score--;
+                }
+                if ('no' === $filter['system'] && true === $row->isSystem()) {
+                    $score--;
+                }
+            }
+
+            if (0 <= $score) {
+                $templatesWithFilter[] = $row;
+            }
+        }
+
+        return $templatesWithFilter;
     }
 
     public function send(ElasticsearchIndexTemplateLegacyModel $templateModel): CallResponseModel

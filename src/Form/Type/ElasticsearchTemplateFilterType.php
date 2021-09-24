@@ -32,6 +32,9 @@ class ElasticsearchTemplateFilterType extends AbstractType
         if ('index_template_legacy' != $options['context']) {
             $fields[] = 'managed';
         }
+        if ('component_template' != $options['context']) {
+            $fields[] = 'system';
+        }
         $fields[] = 'sort';
         $fields[] = 'page';
 
@@ -72,6 +75,17 @@ class ElasticsearchTemplateFilterType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
+                    ]);
+                    break;
+                case 'system':
+                    $builder->add('system', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['question'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['question'][$key];
+                        },
+                        'label' => 'system',
+                        'required' => false,
                     ]);
                     break;
                 case 'sort':

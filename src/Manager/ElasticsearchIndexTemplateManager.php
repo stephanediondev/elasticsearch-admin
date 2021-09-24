@@ -88,6 +88,15 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
                 }
             }
 
+            if (true === isset($filter['system'])) {
+                if ('yes' === $filter['system'] && false === $row->isSystem()) {
+                    $score--;
+                }
+                if ('no' === $filter['system'] && true === $row->isSystem()) {
+                    $score--;
+                }
+            }
+
             if (0 <= $score) {
                 $templatesWithFilter[] = $row;
             }
