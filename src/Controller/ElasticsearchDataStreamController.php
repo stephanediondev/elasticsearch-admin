@@ -44,6 +44,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
 
         $streams = $this->elasticsearchDataStreamManager->getAll([
             'name' => $form->get('name')->getData(),
+            'hidden' => $form->has('hidden') ? $form->get('hidden')->getData() : false,
             'status' => $form->get('status')->getData(),
         ]);
 

@@ -1,7 +1,7 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'timestamp_field': true, 'generation': true, 'template': true, 'ilm_policy': true, 'status': true, } %}
+    {% set columns = {'name': true, 'timestamp_field': true, 'generation': true, 'template': true, 'ilm_policy': true, 'status': true, 'hidden': true} %}
 
     {% set is_granted_index_templates = is_granted('INDEX_TEMPLATES', 'global') %}
 
@@ -44,6 +44,12 @@
                     {% if 'ilm_policy' == column %}
                         <th>
                             {{ 'ilm_policy'|trans }}
+                        </th>
+                    {% endif %}
+
+                    {% if 'hidden' == column %}
+                        <th class="d-none d-xl-table-cell">
+                            {{ 'hidden'|trans }}
                         </th>
                     {% endif %}
                 {% endif %}
@@ -100,6 +106,16 @@
                                     {% else %}
                                         {{ row.ilmPolicy }}
                                     {% endif %}
+                                {% endif %}
+                            </td>
+                        {% endif %}
+
+                        {% if 'hidden' == column %}
+                            <td class="d-none d-xl-table-cell">
+                                {% if row.isHidden %}
+                                    {{ appImport.badge({'title': 'boolean.true'|trans, 'context': 'true'}) }}
+                                {% else %}
+                                    {{ appImport.badge({'title': 'boolean.false'|trans, 'context': 'false'}) }}
                                 {% endif %}
                             </td>
                         {% endif %}

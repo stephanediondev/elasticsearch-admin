@@ -27,6 +27,7 @@ class ElasticsearchDataStreamFilterType extends AbstractType
         $fields = [];
 
         $fields[] = 'name';
+        $fields[] = 'hidden';
         $fields[] = 'status';
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $fields[] = 'sort';
@@ -38,6 +39,20 @@ class ElasticsearchDataStreamFilterType extends AbstractType
                 case 'name':
                     $builder->add('name', TextType::class, [
                         'label' => 'name',
+                        'required' => false,
+                        'attr' => [
+                            'data-break-after' => 'yes',
+                        ],
+                    ]);
+                    break;
+                case 'hidden':
+                    $builder->add('hidden', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['question'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['question'][$key];
+                        },
+                        'label' => 'hidden',
                         'required' => false,
                         'attr' => [
                             'data-break-after' => 'yes',
@@ -78,6 +93,7 @@ class ElasticsearchDataStreamFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'question' => ['yes', 'no'],
             'status' => ['red', 'yellow', 'green'],
         ]);
     }

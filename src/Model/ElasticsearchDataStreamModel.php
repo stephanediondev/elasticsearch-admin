@@ -20,6 +20,8 @@ class ElasticsearchDataStreamModel extends AbstractAppModel
 
     private $ilmPolicy;
 
+    private $hidden;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -104,6 +106,11 @@ class ElasticsearchDataStreamModel extends AbstractAppModel
         return $this;
     }
 
+    public function isHidden(): ?bool
+    {
+        return $this->hidden;
+    }
+
     public function convert(?array $stream): self
     {
         $this->setName($stream['name']);
@@ -130,6 +137,10 @@ class ElasticsearchDataStreamModel extends AbstractAppModel
 
         if (true === isset($stream['ilm_policy'])) {
             $this->setIlmPolicy($stream['ilm_policy']);
+        }
+
+        if (true === isset($stream['hidden'])) {
+            $this->hidden = $stream['hidden'];
         }
 
         return $this;

@@ -75,6 +75,15 @@ class ElasticsearchDataStreamManager extends AbstractAppManager
                 }
             }
 
+            if (true === isset($filter['hidden'])) {
+                if ('yes' === $filter['hidden'] && false === $row->isHidden()) {
+                    $score--;
+                }
+                if ('no' === $filter['hidden'] && true === $row->isHidden()) {
+                    $score--;
+                }
+            }
+
             if (0 <= $score) {
                 $streamsWithFilter[] = $row;
             }

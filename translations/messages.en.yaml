@@ -414,6 +414,7 @@ help_modal:
     license:
         start_basic: "If you have already activated a trial, you cannot start a new trial until the next major version."
 
+hidden: "Hidden"
 history: "History"
 host: "Host"
 hot: "Hot"
