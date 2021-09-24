@@ -5,9 +5,10 @@
     "license": "MIT",
     "private": true,
     "devDependencies": {
+        "nth-check": ">=2.0.1",
         "@symfony/webpack-encore": "^1.6.1",
-        "core-js": "^3.17.3",
-        "sass": "^1.41.1",
+        "core-js": "^3.18.0",
+        "sass": "^1.42.1",
         "sass-loader": "^12.1.0",
         "webpack-notifier": "^1.13.0"
     },
