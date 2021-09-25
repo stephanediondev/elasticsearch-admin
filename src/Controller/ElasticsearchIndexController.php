@@ -93,7 +93,16 @@ class ElasticsearchIndexController extends AbstractAppController
             'h' => 'uuid,index,docs.count,docs.deleted,pri.store.size,store.size,status,health,pri,rep,creation.date.string,sth',
         ];
 
-        $indices = $this->elasticsearchIndexManager->getAll($query);
+        $form = $this->createForm(ElasticsearchIndexFilterType::class);
+
+        $form->handleRequest($request);
+
+        $indices = $this->elasticsearchIndexManager->getAll($query, [
+            'name' => $form->get('name')->getData(),
+            'status' => $form->get('status')->getData(),
+            'health' => $form->get('health')->getData(),
+            'system' => $form->has('system') ? $form->get('system')->getData() : false,
+        ]);
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['indices_total'] = 0;
@@ -155,6 +164,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/index/index_stats.html.twig', [
             'data' => $data,
+            'form' => $form->createView(),
         ]);
     }
 
