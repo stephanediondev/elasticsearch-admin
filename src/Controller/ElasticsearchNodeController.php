@@ -89,6 +89,20 @@ class ElasticsearchNodeController extends AbstractAppController
         ];
         $nodes = $this->elasticsearchNodeManager->getAll($parameters);
 
+        $versions = $this->elasticsearchNodeManager->getVersions($nodes);
+
+        $form = $this->createForm(ElasticsearchNodeFilterType::class, null, ['version' => $versions]);
+
+        $form->handleRequest($request);
+
+        $nodes = $this->elasticsearchNodeManager->filter($nodes, [
+            'master' => $form->get('master')->getData(),
+            'data' => $form->get('data')->getData(),
+            'voting_only' => $form->has('voting_only') ? $form->get('voting_only')->getData() : false,
+            'ingest' => $form->get('ingest')->getData(),
+            'version' => $form->has('version') ? $form->get('version')->getData() : false,
+        ]);
+
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['nodes_total'] = 0;
         $data['totals']['nodes_total_disk_avail'] = 0;
@@ -185,6 +199,7 @@ class ElasticsearchNodeController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/node/node_stats.html.twig', [
             'data' => $data,
             'letters' => $this->elasticsearchNodeManager->filterletters(),
+            'form' => $form->createView(),
         ]);
     }
 
