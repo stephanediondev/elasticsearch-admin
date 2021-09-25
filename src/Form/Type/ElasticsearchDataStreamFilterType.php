@@ -27,7 +27,9 @@ class ElasticsearchDataStreamFilterType extends AbstractType
         $fields = [];
 
         $fields[] = 'name';
-        $fields[] = 'hidden';
+        if (true === $this->callManager->hasFeature('data_stream_expand_wildcards')) {
+            $fields[] = 'hidden';
+        }
         $fields[] = 'status';
         if (true === $this->callManager->hasFeature('cat_sort')) {
             $fields[] = 'sort';

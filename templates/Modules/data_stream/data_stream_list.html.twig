@@ -1,7 +1,11 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
-    {% set columns = {'name': true, 'timestamp_field': true, 'generation': true, 'template': true, 'ilm_policy': true, 'status': true, 'hidden': true} %}
+    {% set columns = {'name': true, 'timestamp_field': true, 'generation': true, 'template': true, 'ilm_policy': true, 'status': true, 'hidden': false} %}
+
+    {% if true == hasFeature('data_stream_expand_wildcards') %}
+        {% set columns = columns|merge({'hidden': true}) %}
+    {% endif %}
 
     {% set is_granted_index_templates = is_granted('INDEX_TEMPLATES', 'global') %}
 
