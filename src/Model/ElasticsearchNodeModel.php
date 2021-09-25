@@ -16,7 +16,7 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
     private $os;
 
-    private array $roles = [];
+    private $roles;
 
     private $settings;
 
@@ -92,11 +92,6 @@ class ElasticsearchNodeModel extends AbstractAppModel
         $this->roles = $roles;
 
         return $this;
-    }
-
-    public function hasRole(string $role): bool
-    {
-        return in_array($role, $this->getRoles());
     }
 
     public function getSettings(): ?array

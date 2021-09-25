@@ -19,8 +19,6 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
     protected $elasticsearchClusterManager;
 
-    protected $elasticsearchNodeManager;
-
     public static function setUpBeforeClass(): void
     {
         if (false === defined('GENERATED_NAME')) {
@@ -49,8 +47,6 @@ abstract class AbstractAppControllerTest extends WebTestCase
         $this->appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
         $this->elasticsearchClusterManager = static::getContainer()->get('App\Manager\ElasticsearchClusterManager');
-
-        $this->elasticsearchNodeManager = static::getContainer()->get('App\Manager\ElasticsearchNodeManager');
 
         $session = static::getContainer()->get('session');
 
