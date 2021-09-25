@@ -317,9 +317,9 @@ After registration you can login [View](https://raw.githubusercontent.com/stepha
 | elasticsearch-head | [mobz/elasticsearch-head](https://github.com/mobz/elasticsearch-head) | JavaScript | 10 Apr. 2018 |
 | Elasticvue | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript | 10 Sept. 2021 |
 | ELKman | [www.elkman.io](https://www.elkman.io/) | PHP | 1 Aug. 2020 |
-| Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 6 Aug. 2021 |
+| Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 24 Sept. 2021 |
 
-Checked on 11 Sept. 2021 *
+Checked on 24 Sept. 2021 *
 
 # License
 
