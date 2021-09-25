@@ -12,6 +12,12 @@
 {% endblock %}
 
 {% block main_content %}
+    {% if true == hasFeature('composable_template') %}
+        <div class="jumbotron {{ theme_jumbotron }} ">
+            <p class="lead">{{ 'deprecated_legacy_index_templates'|trans }}</p>
+        </div>
+    {% endif %}
+
     {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
