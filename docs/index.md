@@ -58,7 +58,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - Remote clusters [5.4]: list
 - Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
 - Pipelines [5.0]: list, create, read, update, delete, copy
-- Cat APIs: list, export (CSV, TSV, ODS, XLSX)
+- Compact and aligned text (CAT) APIs: list, export (CSV, TSV, ODS, XLSX)
 - Console
 - SQL access [6.3]: query, translate to DSL
 - Deprecations info [5.6]
