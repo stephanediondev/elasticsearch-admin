@@ -34,6 +34,8 @@ class ElasticsearchRemoteClusterController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
+        $remoteClusters = [];
+
         $masterNode = $this->callManager->getMasterNode();
 
         $node = $this->elasticsearchNodeManager->getByName($masterNode);

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * @Route("/admin")
@@ -28,7 +28,7 @@ class ElasticsearchNodeController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    private function filter(array $nodes, Form $form): array
+    private function filter(array $nodes, FormInterface $form): array
     {
         return $this->elasticsearchNodeManager->filter($nodes, [
             'master' => $form->get('master')->getData(),
