@@ -14,7 +14,7 @@
 {% block main_content %}
     {% if true == hasFeature('composable_template') %}
         <div class="jumbotron {{ theme_jumbotron }} ">
-            <p class="lead">{{ 'deprecated_legacy_index_templates'|trans }}</p>
+            <p class="lead">{{ 'deprecated_legacy_index_templates'|trans({'{href}': path('index_templates'), '{class}': theme_link_secondary})|raw }}</p>
         </div>
     {% endif %}
 
