@@ -32,6 +32,7 @@
 - Add _cat/ml/trained_models API #51529 (issue: #51414)
 - Add GET _cat/ml/datafeeds #51500 (issue: #51411)
 - Add _cat/ml/anomaly_detectors API #51364
+- Introduce formal role for remote cluster client #53924
 
 
 ## 7.5.0 [Release highlights](https://www.elastic.co/guide/en/elasticsearch/reference/7.5/release-highlights-7.5.0.html)

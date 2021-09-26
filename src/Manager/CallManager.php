@@ -29,6 +29,7 @@ class CallManager
         'data_streams' => '7.9',
         'dangling_indices' => '7.9',
         'composable_template' => '7.8',
+        'role_remote_cluster_client' => '7.7',
         'cat_expand_wildcards' => '7.7',
         'cat_ml' => '7.7',
         'cat_transforms' => '7.7',
