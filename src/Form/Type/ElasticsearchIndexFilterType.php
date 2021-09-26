@@ -37,6 +37,17 @@ class ElasticsearchIndexFilterType extends AbstractType
 
         foreach ($fields as $field) {
             switch ($field) {
+                case 'system':
+                    $builder->add('system', ChoiceType::class, [
+                        'placeholder' => '-',
+                        'choices' => $options['question'],
+                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                            return $options['question'][$key];
+                        },
+                        'label' => 'system',
+                        'required' => false,
+                    ]);
+                    break;
                 case 'name':
                     $builder->add('name', TextType::class, [
                         'label' => 'name',
@@ -73,17 +84,6 @@ class ElasticsearchIndexFilterType extends AbstractType
                             'data-break-after' => 'yes',
                             'size' => count($options['health']),
                         ],
-                    ]);
-                    break;
-                case 'system':
-                    $builder->add('system', ChoiceType::class, [
-                        'placeholder' => '-',
-                        'choices' => $options['question'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['question'][$key];
-                        },
-                        'label' => 'system',
-                        'required' => false,
                     ]);
                     break;
                 case 'sort':
