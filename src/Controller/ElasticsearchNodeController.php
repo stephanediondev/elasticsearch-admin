@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Form\Form;
 
 /**
  * @Route("/admin")
@@ -25,6 +26,17 @@ class ElasticsearchNodeController extends AbstractAppController
     public function __construct(ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+    }
+
+    private function filter(array $nodes, Form $form): array
+    {
+        return $this->elasticsearchNodeManager->filter($nodes, [
+            'master' => $form->get('master')->getData(),
+            'data' => $form->get('data')->getData(),
+            'voting_only' => $form->has('voting_only') ? $form->get('voting_only')->getData() : false,
+            'ingest' => $form->get('ingest')->getData(),
+            'version' => $form->has('version') ? $form->get('version')->getData() : false,
+        ]);
     }
 
     /**
@@ -48,13 +60,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $form->handleRequest($request);
 
-        $nodes = $this->elasticsearchNodeManager->filter($nodes, [
-            'master' => $form->get('master')->getData(),
-            'data' => $form->get('data')->getData(),
-            'voting_only' => $form->has('voting_only') ? $form->get('voting_only')->getData() : false,
-            'ingest' => $form->get('ingest')->getData(),
-            'version' => $form->has('version') ? $form->get('version')->getData() : false,
-        ]);
+        $nodes = $this->filter($nodes, $form);
 
         if ('true' === $request->query->get('fetch')) {
             $template = 'Modules/node/node_list.html.twig';
@@ -95,13 +101,7 @@ class ElasticsearchNodeController extends AbstractAppController
 
         $form->handleRequest($request);
 
-        $nodes = $this->elasticsearchNodeManager->filter($nodes, [
-            'master' => $form->get('master')->getData(),
-            'data' => $form->get('data')->getData(),
-            'voting_only' => $form->has('voting_only') ? $form->get('voting_only')->getData() : false,
-            'ingest' => $form->get('ingest')->getData(),
-            'version' => $form->has('version') ? $form->get('version')->getData() : false,
-        ]);
+        $nodes = $this->filter($nodes, $form);
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['nodes_total'] = 0;
