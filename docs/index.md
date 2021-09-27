@@ -101,7 +101,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - [5.0.1](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/5.0.1)
 - [6.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/6.0.0)
 - [7.15.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/7.15.0)
-- [8.0.0-SNAPSHOT](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/8.0.0-SNAPSHOT)
+- [8.0.0-alpha2](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/8.0.0-alpha2)
 
 # Installation
 
