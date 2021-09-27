@@ -91,8 +91,6 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [![Snapshots](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-snapshots.png)
 
-![Notifications](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/notifications.png)
-
 ## All screenshots
 
 [(Back to screenshots)](#screenshots)
