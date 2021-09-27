@@ -60,9 +60,9 @@
 
 [![Create SLM policy](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/resized/resized-slm-policy-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/original/original-slm-policy-create.png)
 
-[![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/original/original-snapshots.png)
+[![Snapshots](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/original/original-snapshots.png)
 
-[![Snaphosts stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/resized/resized-snapshots-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/original/original-snapshots-stats.png)
+[![Snapshots stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/resized/resized-snapshots-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/original/original-snapshots-stats.png)
 
 [![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/resized/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8.0.0-SNAPSHOT/original/original-snapshot-create.png)
 

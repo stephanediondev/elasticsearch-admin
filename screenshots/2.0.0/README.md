@@ -40,9 +40,9 @@
 
 [![Create Shared file system repository](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-repository-create-fs.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-repository-create-fs.png)
 
-[![Snaphosts](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshots.png)
+[![Snapshots](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshots.png)
 
-[![Snaphosts stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshots-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshots-stats.png)
+[![Snapshots stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshots-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshots-stats.png)
 
 [![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshot-create.png)
 

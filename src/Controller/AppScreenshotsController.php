@@ -54,6 +54,7 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Index import from file', 'filename' => 'index-file-import', 'path' => '/admin/indices/elasticsearch-admin-test/file-import'],
             ['title' => 'Index import from database', 'filename' => 'index-database-import', 'path' => '/admin/indices/elasticsearch-admin-test/database-import'],
             ['title' => 'Create index', 'filename' => 'index-create', 'path' => '/admin/indices/create'],
+            ['title' => 'Data streams', 'filename' => 'data-streams', 'path' => '/admin/data-streams', 'feature' => 'data_streams'],
             ['title' => 'Legacy index templates', 'filename' => 'index-templates-legacy', 'path' => '/admin/index-templates-legacy'],
             ['title' => 'Create legacy index template', 'filename' => 'index-template-create-legacy', 'path' => '/admin/index-templates-legacy/create'],
             ['title' => 'Composable index templates', 'filename' => 'index-templates', 'path' => '/admin/index-templates', 'feature' => 'composable_template'],
@@ -65,8 +66,9 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Create Shared file system repository', 'filename' => 'repository-create-fs', 'path' => '/admin/repositories/create/fs'],
             ['title' => 'Create AWS S3 repository', 'filename' => 'repository-create-s3', 'path' => '/admin/repositories/create/s3'],
             ['title' => 'Create SLM policy', 'filename' => 'slm-policy-create', 'path' => '/admin/slm/create', 'feature' => 'slm'],
-            ['title' => 'Snaphosts', 'filename' => 'snapshots', 'path' => '/admin/snapshots'],
-            ['title' => 'Snaphosts stats', 'filename' => 'snapshots-stats', 'path' => '/admin/snapshots/stats'],
+            ['title' => 'Snapshots', 'filename' => 'snapshots', 'path' => '/admin/snapshots'],
+            ['title' => 'Snapshot', 'filename' => 'snapshot', 'path' => '/admin/snapshots/fs/elasticsearch-admin-test'],
+            ['title' => 'Snapshots stats', 'filename' => 'snapshots-stats', 'path' => '/admin/snapshots/stats'],
             ['title' => 'Create snapshot', 'filename' => 'snapshot-create', 'path' => '/admin/snapshots/create'],
             ['title' => 'Create enrich policy', 'filename' => 'enrich-create', 'path' => '/admin/enrich/create', 'feature' => 'enrich'],
             ['title' => 'License', 'filename' => 'license', 'path' => '/admin/license', 'feature' => 'license'],
@@ -74,6 +76,7 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Console', 'filename' => 'console', 'path' => '/admin/console'],
             ['title' => 'SQL access', 'filename' => 'sql', 'path' => '/admin/sql', 'feature' => 'sql'],
             ['title' => 'Tasks', 'filename' => 'tasks', 'path' => '/admin/tasks', 'feature' => 'tasks'],
+            ['title' => 'Deprecations', 'filename' => 'deprecations', 'path' => '/admin/deprecations', 'feature' => 'deprecations'],
             ['title' => 'Users', 'filename' => 'elasticsearch-users', 'path' => '/admin/elasticsearch-users', 'feature' => 'security'],
             ['title' => 'Roles', 'filename' => 'elasticsearch-roles', 'path' => '/admin/elasticsearch-roles', 'feature' => 'security'],
         ];
@@ -85,7 +88,7 @@ class AppScreenshotsController extends AbstractAppController
         fwrite($fp, "\r\n");
 
         $results = [];
-        foreach ($entries as $k => $entry) {
+        foreach ($entries as $entry) {
             $disabled = false;
 
             if ('repository-create-s3' == $entry['filename'] && false === $this->callManager->hasPlugin('repository-s3')) {
@@ -101,14 +104,10 @@ class AppScreenshotsController extends AbstractAppController
                 fwrite($fp, "\r\n");
                 fwrite($fp, "\r\n");
 
-                $theme = ($k % 2) == 0 ? 'dark' : 'light';
-
-                if ($request->query->get('theme') && $theme == $request->query->get('theme')) {
-                    $results[] = [
-                        'pageres' => 'pageres '.$base.$entry['path'].' 1280x960 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
-                        'convert' => 'convert -resize 800x600 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
-                    ];
-                }
+                $results[] = [
+                    'pageres' => 'pageres '.$base.$entry['path'].' 1280x960 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
+                    'convert' => 'convert -resize 800x600 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
+                ];
             }
         }
 
