@@ -271,14 +271,15 @@ class AppRoleManager extends AbstractAppManager
     {
         $id = $roleModel->getName().'-'.$module.'-'.$permission;
 
-        $json = [
-            'role' => $roleModel->getName(),
-            'module' => $module,
-            'permission' => $permission,
-            'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
-        ];
         $callRequest = new CallRequestModel();
         if ('yes' == $value) {
+            $json = [
+                'role' => $roleModel->getName(),
+                'module' => $module,
+                'permission' => $permission,
+                'created_at' => (new \Datetime())->format('Y-m-d H:i:s'),
+            ];
+            $callRequest->setJson($json);
             $callRequest->setMethod('PUT');
         } else {
             $callRequest->setMethod('DELETE');
@@ -288,7 +289,6 @@ class AppRoleManager extends AbstractAppManager
         } else {
             $callRequest->setPath('/.elasticsearch-admin-permissions/doc/'.$id);
         }
-        $callRequest->setJson($json);
         $callRequest->setQuery(['refresh' => 'true']);
 
         return $this->callManager->call($callRequest);
