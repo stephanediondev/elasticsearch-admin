@@ -180,6 +180,10 @@ abstract class AbstractAppController extends AbstractController
     {
         $menu = [];
         foreach ($entries as $entry) {
+            if (true === isset($entry['feature']) && false === $this->callManager->hasFeature($entry['feature'])) {
+                continue;
+            }
+
             if (true === $this->isGranted($entry['attribute'], $entry['subject'])) {
                 $menu[] = [
                     'path' => $entry['path'],
