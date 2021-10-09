@@ -2,13 +2,13 @@
 <ul class="nav nav-tabs mb-4">
     {% if is_granted('SHARDS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('shards') }}">{{ 'list'|trans }}</a>
+            <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('shards', app.request.query.all) }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SHARDS_STATS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'stats' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('shards_stats') }}">{{ 'stats'|trans }}</a>
+            <a class="nav-link {% if 'stats' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('shards_stats', app.request.query.all) }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 

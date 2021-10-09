@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * @Route("/admin")
@@ -32,6 +33,16 @@ class ElasticsearchShardController extends AbstractAppController
         $this->elasticsearchShardManager = $elasticsearchShardManager;
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+    }
+
+    private function filter(array $shards, FormInterface $form): array
+    {
+        return $this->elasticsearchShardManager->filter($shards, [
+            'index' => $form->get('index')->getData(),
+            'type' => $form->get('type')->getData(),
+            'state' => $form->get('state')->getData(),
+            'node' => $form->get('node')->getData(),
+        ]);
     }
 
     /**
@@ -62,12 +73,7 @@ class ElasticsearchShardController extends AbstractAppController
 
         $nodesAvailable = $this->elasticsearchShardManager->getNodesAvailable($shards, $nodes);
 
-        $shards = $this->elasticsearchShardManager->filter($shards, [
-            'index' => $form->get('index')->getData(),
-            'type' => $form->get('type')->getData(),
-            'state' => $form->get('state')->getData(),
-            'node' => $form->get('node')->getData(),
-        ]);
+        $shards = $this->filter($shards, $form);
 
         return $this->renderAbstract($request, 'Modules/shard/shard_index.html.twig', [
             'shards' => $this->paginatorManager->paginate([
@@ -91,24 +97,29 @@ class ElasticsearchShardController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SHARDS_STATS', 'global');
 
+        $nodes = $this->elasticsearchNodeManager->selectNodes(['data' => 'yes']);
+
+        $form = $this->createForm(ElasticsearchShardFilterType::class, null, ['node' => $nodes]);
+
+        $form->handleRequest($request);
+
         $query = [
             'bytes' => 'b',
             'h' => 'index,shard,prirep,state,unassigned.reason,docs,store,node',
         ];
 
-        $shards = $this->elasticsearchShardManager->getAll($query);
+        $shards = $this->elasticsearchShardManager->getAll($query, [
+            'index' => $form->get('index')->getData(),
+        ]);
 
-        $clusterStats = $this->elasticsearchClusterManager->getClusterStats();
+        $shards = $this->filter($shards, $form);
 
         $data = ['totals' => [], 'tables' => []];
         $data['totals']['shards_total'] = 0;
         $data['totals']['shards_total_primary'] = 0;
-        $data['totals']['shards_total_unassigned'] = 0;
-        if (true === isset($clusterStats['indices']['shards']['replication'])) {
-            $data['totals']['shards_replication'] = round($clusterStats['indices']['shards']['replication']*100, 2).'%';
-        }
         $data['totals']['shards_total_documents'] = 0;
         $data['totals']['shards_total_size'] = 0;
+        $data['totals']['shards_total_unassigned'] = 0;
         $data['tables']['shards_by_state'] = [];
         $data['tables']['shards_by_unassigned_reason'] = [];
         $data['tables']['shards_by_type'] = [];
@@ -172,6 +183,7 @@ class ElasticsearchShardController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/shard/shard_stats.html.twig', [
             'data' => $data,
+            'form' => $form->createView(),
         ]);
     }
 

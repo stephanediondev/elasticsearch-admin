@@ -15,6 +15,13 @@
     {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}
+            {{ appImport.form({'form': form, 'type': 'search'}) }}
+        {% endblock %}
+    {% endembed %}
+
+    {% embed 'Embed/block_embed.html.twig' %}
+        {% import 'Import/app_import.html.twig' as appImport %}
+        {% block content %}
             {{ appImport.heading({'level': 3, 'title': 'stats'|trans}) }}
 
             <hr>

@@ -681,7 +681,6 @@ stats_data:
     shards_total: "Total shards"
     shards_total_primary: "Primary shards"
     shards_total_unassigned: "Unassigned shards"
-    shards_replication: "Replication"
     shards_total_documents: "Total documents"
     shards_total_size: "Total size"
     shards_by_state: "Shards by state"
