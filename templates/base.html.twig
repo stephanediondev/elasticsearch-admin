@@ -63,10 +63,7 @@
                                 </a>
                                 <div class="dropdown-menu {{ theme_dropdown_menu }}" aria-labelledby="configurationDropdown">
                                     {% for entry in menus['configuration'] %}
-                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">
-                                            {{ entry['name'] }}
-                                            {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                                        </a>
+                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">{{ entry['name'] }}</a>
                                     {% endfor %}
                                 </div>
                             </li>
@@ -79,10 +76,7 @@
                                 </a>
                                 <div class="dropdown-menu {{ theme_dropdown_menu }}" aria-labelledby="toolsDropdown">
                                     {% for entry in menus['tools'] %}
-                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">
-                                            {{ entry['name'] }}
-                                            {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                                        </a>
+                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">{{ entry['name'] }}</a>
                                     {% endfor %}
                                 </div>
                             </li>
@@ -95,10 +89,7 @@
                                 </a>
                                 <div class="dropdown-menu {{ theme_dropdown_menu }}" aria-labelledby="statsDropdown">
                                     {% for entry in menus['stats'] %}
-                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">
-                                            {{ entry['name'] }}
-                                            {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                                        </a>
+                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">{{ entry['name'] }}</a>
                                     {% endfor %}
                                 </div>
                             </li>
@@ -113,10 +104,7 @@
                                     <h6 class="dropdown-header">elasticsearch-admin</h6>
                                     <a class="dropdown-item d-none" href="#" id="button_install">{{ 'add_to_home_screen'|trans }}</a>
                                     {% for entry in menus['application'] %}
-                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">
-                                            {{ entry['name'] }}
-                                            {% if true == entry['disabled'] %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}
-                                        </a>
+                                        <a class="dropdown-item" href="{{ path(entry['path']) }}">{{ entry['name'] }}</a>
                                     {% endfor %}
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" rel="noreferrer" target="_blank" href="https://hub.docker.com/r/stephanediondev/elasticsearch-admin">{{ 'docker_hub'|trans }}</a>

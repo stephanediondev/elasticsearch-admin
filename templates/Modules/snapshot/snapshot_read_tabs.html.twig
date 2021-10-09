@@ -12,7 +12,7 @@
 
     {% if is_granted('SNAPSHOT_CLONE', snapshot) %}
         <li class="nav-item">
-            <a class="nav-link {% if 'clone' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('snapshots_read_clone', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'clone'|trans }}{% if false == hasFeature('clone_snapshot') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link {% if 'clone' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('snapshots_read_clone', {'repository': snapshot.repository, 'snapshot': snapshot.name}) }}">{{ 'clone'|trans }}</a>
         </li>
     {% endif %}
 

@@ -181,16 +181,9 @@ abstract class AbstractAppController extends AbstractController
         $menu = [];
         foreach ($entries as $entry) {
             if (true === $this->isGranted($entry['granted'], 'global')) {
-                $disabled = false;
-
-                if (true === isset($entry['feature']) && false === $this->callManager->hasFeature($entry['feature'])) {
-                    $disabled = true;
-                }
-
                 $menu[] = [
                     'path' => $entry['path'],
                     'name' => $this->translator->trans(str_replace('_stats', '', $entry['path'])),
-                    'disabled' => $disabled,
                 ];
             }
         }

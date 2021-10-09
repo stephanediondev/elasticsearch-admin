@@ -12,20 +12,20 @@
 
     {% if is_granted('CLUSTER_SETTINGS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'settings' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}{% if false == hasFeature('cluster_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link {% if 'settings' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_DISK_THRESHOLDS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'disk_thresholds' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}{% if false == hasFeature('cluster_settings') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link {% if 'disk_thresholds' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
         {% if 0 < cluster_health['unassigned_shards'] or 'allocation_explain' == active %}
             <li class="nav-item">
-                <a class="nav-link {% if 'allocation_explain' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}{% if false == hasFeature('allocation_explain') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+                <a class="nav-link {% if 'allocation_explain' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
             </li>
         {% endif %}
     {% endif %}

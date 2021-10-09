@@ -20,7 +20,7 @@
 
     {% if is_granted('INDEX_LIFECYCLE', index) %}
         <li class="nav-item">
-            <a class="nav-link {% if 'lifecycle' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index.name}) }}">{{ 'lifecycle'|trans }}{% if false == hasFeature('ilm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}{% if index.setting('index.lifecycle.name') %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
+            <a class="nav-link {% if 'lifecycle' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('indices_read_lifecycle', {'index': index.name}) }}">{{ 'lifecycle'|trans }}{% if index.setting('index.lifecycle.name') %}{{ appImport.badge({'title': 'managed'|trans, 'context': 'true'}) }}{% endif %}</a>
         </li>
     {% endif %}
 

@@ -12,7 +12,7 @@
 
     {% if is_granted('NODE_USAGE', node) %}
         <li class="nav-item">
-            <a class="nav-link {% if 'usage' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('nodes_read_usage', {'node': node.name}) }}">{{ 'usage'|trans }}{% if false == hasFeature('node_usage') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link {% if 'usage' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('nodes_read_usage', {'node': node.name}) }}">{{ 'usage'|trans }}</a>
         </li>
     {% endif %}
 

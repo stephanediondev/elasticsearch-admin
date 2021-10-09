@@ -18,7 +18,7 @@
 
     {% if is_granted('SLM_POLICIES_CREATE', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {{ theme_tab }}" href="{{ path('slm_create', {'repository': repository.name}) }}">{{ 'create_slm_policy'|trans }}{% if false == hasFeature('slm') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+            <a class="nav-link {{ theme_tab }}" href="{{ path('slm_create', {'repository': repository.name}) }}">{{ 'create_slm_policy'|trans }}</a>
         </li>
     {% endif %}
 </ul>

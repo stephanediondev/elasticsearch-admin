@@ -15,7 +15,7 @@
     {% if is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
         {% if 0 < cluster_health['unassigned_shards'] %}
             <li class="nav-item">
-                <a class="nav-link {{ theme_tab }}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}{% if false == hasFeature('allocation_explain') %}{{ appImport.badge({'title': 'disabled'|trans, 'context': 'warning'}) }}{% endif %}</a>
+                <a class="nav-link {{ theme_tab }}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
             </li>
         {% endif %}
     {% endif %}
