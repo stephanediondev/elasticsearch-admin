@@ -39,7 +39,7 @@
                                 <td>{{ permission }}</td>
                                 <td>
                                     <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input custom-control-input-permission"
+                                        <input type="checkbox" role="switch" class="form-check-input custom-control-input-permission"
                                         data-url="{{ path('app_roles_permission', {'role': role.name, 'module': module, 'permission': permission}) }}"
                                         data-permission="{{ permission }}"
                                         id="{{ module }}-{{ permission }}"{% if permissions_saved[module] is defined and permission in permissions_saved[module] %} checked="checked"{% endif %}>

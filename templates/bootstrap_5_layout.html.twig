@@ -164,7 +164,7 @@
             {{- form_label(form, null, { widget: parent() }) -}}
         </div>
     {%- elseif 'switch-custom' in parent_label_class -%}
-        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' form-check-input')|trim}) -%}
+        {%- set attr = attr|merge({role: 'switch', class: (attr.class|default('') ~ ' form-check-input')|trim}) -%}
         <div class="form-check form-switch{{ 'switch-inline' in parent_label_class ? ' custom-control-inline' }}">
             {{- form_label(form, null, { widget: parent() }) -}}
         </div>
