@@ -38,7 +38,7 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES', 'global');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_LIST', 'ilm_policy');
 
         if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedException();
@@ -64,7 +64,7 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function status(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'ilm_policy');
 
         if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedException();
@@ -82,7 +82,7 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function start(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'ilm_policy');
 
         if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedException();
@@ -100,7 +100,7 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function stop(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'global');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'ilm_policy');
 
         if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedException();
@@ -118,7 +118,7 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES_CREATE', 'global');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_CREATE', 'ilm_policy');
 
         if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedException();
@@ -167,7 +167,7 @@ class ElasticsearchIlmController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ILM_POLICIES', 'global');
+        $this->denyAccessUnlessGranted('ILM_POLICIES_LIST', 'ilm_policy');
 
         if (false === $this->callManager->hasFeature('ilm')) {
             throw new AccessDeniedException();

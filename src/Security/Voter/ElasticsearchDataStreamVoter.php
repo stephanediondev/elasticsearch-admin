@@ -15,7 +15,7 @@ class ElasticsearchDataStreamVoter extends AbstractAppVoter
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchDataStreamModel;
+        return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchDataStreamModel || 'data_stream' === $subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

@@ -29,7 +29,7 @@
                     {% import 'Import/app_import.html.twig' as appImport %}
                     {% block content %}
                         {% if true == hasFeature('force_merge') %}
-                            {% if is_granted('INDICES_FORCE_MERGE', 'global') %}
+                            {% if is_granted('INDICES_FORCE_MERGE', 'index') %}
                                 {{ appImport.buttonModal({
                                     'id': 'IndicesForceMergeAll',
                                     'title': 'force_merge'|trans,
@@ -40,7 +40,7 @@
                             {% endif %}
                         {% endif %}
 
-                        {% if is_granted('INDICES_CACHE_CLEAR', 'global') %}
+                        {% if is_granted('INDICES_CACHE_CLEAR', 'index') %}
                             {{ appImport.buttonModal({
                                 'id': 'IndicesCacheClearAll',
                                 'title': 'cache_clear'|trans,
@@ -50,7 +50,7 @@
                             }) }}
                         {% endif %}
 
-                        {% if is_granted('INDICES_FLUSH', 'global') %}
+                        {% if is_granted('INDICES_FLUSH', 'index') %}
                             {{ appImport.buttonModal({
                                 'id': 'IndicesFlushAll',
                                 'title': 'flush'|trans,
@@ -60,7 +60,7 @@
                             }) }}
                         {% endif %}
 
-                        {% if is_granted('INDICES_REFRESH', 'global') %}
+                        {% if is_granted('INDICES_REFRESH', 'index') %}
                             {{ appImport.buttonModal({
                                 'id': 'IndicesRefreshAll',
                                 'title': 'refresh'|trans,

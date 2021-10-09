@@ -15,7 +15,7 @@ class ElasticsearchComponentTemplateVoter extends AbstractAppVoter
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchComponentTemplateModel;
+        return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchComponentTemplateModel || 'component_template' === $subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -26,8 +26,10 @@ class ElasticsearchComponentTemplateVoter extends AbstractAppVoter
             return false;
         }
 
-        if ($subject->isSystem()) {
-            return false;
+        if ($subject instanceof ElasticsearchComponentTemplateModel) {
+            if ($subject->isSystem()) {
+                return false;
+            }
         }
 
         return $this->isGranted($attribute);

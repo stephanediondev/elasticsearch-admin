@@ -3,13 +3,13 @@
         <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('enrich') }}">{{ 'list'|trans }}</a>
     </li>
 
-    {% if is_granted('ENRICH_POLICIES_STATS', 'global') %}
+    {% if is_granted('ENRICH_POLICIES_STATS', 'enrich_policy') %}
         <li class="nav-item">
             <a class="nav-link {% if 'stats' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('enrich_stats') }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('ENRICH_POLICIES_CREATE', 'global') %}
+    {% if is_granted('ENRICH_POLICIES_CREATE', 'enrich_policy') %}
         <li class="nav-item">
             <a class="nav-link {% if 'create_enrich_policy' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('enrich_create') }}">{{ 'create_enrich_policy'|trans }}</a>
         </li>

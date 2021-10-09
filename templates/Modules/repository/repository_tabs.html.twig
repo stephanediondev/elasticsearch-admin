@@ -4,7 +4,7 @@
         <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('repositories') }}">{{ 'list'|trans }}</a>
     </li>
 
-    {% if is_granted('REPOSITORIES_CREATE', 'global') %}
+    {% if is_granted('REPOSITORIES_CREATE', 'repository') %}
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle {% if 'create_repository_' in active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'create_repository'|trans }}</a>
             <div class="dropdown-menu {{ theme_dropdown_menu }}">

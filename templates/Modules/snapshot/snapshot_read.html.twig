@@ -46,7 +46,7 @@
 
                 {{ appImport.dashboardKpi({'title': 'duration'|trans, 'badge': {'title': snapshot.duration}}) }}
 
-                {% if is_granted('REPOSITORIES', 'global') %}
+                {% if is_granted('REPOSITORIES_LIST', 'repository') %}
                     {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': snapshot.repository, 'link': path('repositories_read', {'repository': snapshot.repository})}}) }}
                 {% else %}
                     {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': snapshot.repository}}) }}
@@ -55,7 +55,7 @@
                 {{ appImport.dashboardKpi({'title': 'version'|trans, 'badge': {'title': snapshot.version}}) }}
 
                 {% if snapshot.metadata['policy'] is defined %}
-                    {% if is_granted('SLM_POLICIES', 'global') %}
+                    {% if is_granted('SLM_POLICIES_LIST', 'slm_policy') %}
                         {{ appImport.dashboardKpi({'title': 'slm_policy'|trans, 'badge': {'title': snapshot.metadata['policy'], 'link': path('slm_read', {'name': snapshot.metadata['policy']})}}) }}
                     {% else %}
                         {{ appImport.dashboardKpi({'title': 'slm_policy'|trans, 'badge': {'title': snapshot.metadata['policy']}}) }}

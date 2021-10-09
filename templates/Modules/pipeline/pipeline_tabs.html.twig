@@ -3,7 +3,7 @@
         <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('pipelines') }}">{{ 'list'|trans }}</a>
     </li>
 
-    {% if is_granted('PIPELINES_CREATE', 'global') %}
+    {% if is_granted('PIPELINES_CREATE', 'pipeline') %}
         <li class="nav-item">
             <a class="nav-link {% if 'create_pipeline' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('pipelines_create') }}">{{ 'create_pipeline'|trans }}</a>
         </li>

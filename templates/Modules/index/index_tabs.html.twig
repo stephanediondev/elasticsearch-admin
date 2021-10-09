@@ -1,23 +1,23 @@
 <ul class="nav nav-tabs mb-4">
-    {% if is_granted('INDICES', 'global') %}
+    {% if is_granted('INDICES_LIST', 'index') %}
         <li class="nav-item">
             <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('indices', app.request.query.all) }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('INDICES_STATS', 'global') %}
+    {% if is_granted('INDICES_STATS', 'index') %}
         <li class="nav-item">
             <a class="nav-link {% if 'stats' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('indices_stats', app.request.query.all) }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('INDICES_CREATE', 'global') %}
+    {% if is_granted('INDICES_CREATE', 'index') %}
         <li class="nav-item">
             <a class="nav-link {% if 'create_index' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('indices_create') }}">{{ 'create_index'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('INDICES_REINDEX', 'global') %}
+    {% if is_granted('INDICES_REINDEX', 'index') %}
         <li class="nav-item">
             <a class="nav-link {% if 'reindex' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('indices_reindex') }}">{{ 'reindex'|trans }}</a>
         </li>

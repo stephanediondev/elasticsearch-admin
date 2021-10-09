@@ -38,13 +38,13 @@
                             <a class="nav-link {{ theme_nav_link }}" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': root['version']['number'], 'context': cluster_health['status']}) }}</a>
                         </li>
 
-                        {% if is_granted('NODES', 'global') %}
+                        {% if is_granted('NODES_LIST', 'node') %}
                             <li class="nav-item">
                                 <a class="nav-link {{ theme_nav_link }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                             </li>
                         {% endif %}
 
-                        {% if is_granted('INDICES', 'global') %}
+                        {% if is_granted('INDICES_LIST', 'index') %}
                             <li class="nav-item">
                                 <a class="nav-link {{ theme_nav_link }}" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
                             </li>

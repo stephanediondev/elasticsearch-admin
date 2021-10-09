@@ -32,7 +32,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('DATA_STREAMS', 'global');
+        $this->denyAccessUnlessGranted('DATA_STREAMS_LIST', 'data_stream');
 
         if (false === $this->callManager->hasFeature('data_streams')) {
             throw new AccessDeniedException();
@@ -67,7 +67,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('DATA_STREAMS_CREATE', 'global');
+        $this->denyAccessUnlessGranted('DATA_STREAMS_CREATE', 'data_stream');
 
         if (false === $this->callManager->hasFeature('data_streams')) {
             throw new AccessDeniedException();
@@ -103,7 +103,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('DATA_STREAMS', 'global');
+        $this->denyAccessUnlessGranted('DATA_STREAMS_LIST', 'data_stream');
 
         if (false === $this->callManager->hasFeature('data_streams')) {
             throw new AccessDeniedException();

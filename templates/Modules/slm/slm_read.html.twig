@@ -59,7 +59,7 @@
 
                 {{ appImport.dashboardKpi({'title': 'snapshot_name'|trans, 'badge': {'title': policy.snapshotName}}) }}
 
-                {% if is_granted('REPOSITORIES', 'global') %}
+                {% if is_granted('REPOSITORIES_LIST', 'repository') %}
                     {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': policy.repository, 'link': path('repositories_read', {'repository': policy.repository})}}) }}
                 {% else %}
                     {{ appImport.dashboardKpi({'title': 'repository'|trans, 'badge': {'title': policy.repository}}) }}

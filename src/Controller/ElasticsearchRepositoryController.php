@@ -31,7 +31,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('REPOSITORIES', 'global');
+        $this->denyAccessUnlessGranted('REPOSITORIES_LIST', 'repository');
 
         $repositories = $this->elasticsearchRepositoryManager->getAll();
 
@@ -56,7 +56,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
      */
     public function create(Request $request, string $type): Response
     {
-        $this->denyAccessUnlessGranted('REPOSITORIES_CREATE', 'global');
+        $this->denyAccessUnlessGranted('REPOSITORIES_CREATE', 'repository');
 
         if (false === in_array($type, ElasticsearchRepositoryModel::getTypes())) {
             throw new AccessDeniedException();
@@ -112,7 +112,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
      */
     public function read(Request $request, string $repository): Response
     {
-        $this->denyAccessUnlessGranted('REPOSITORIES', 'global');
+        $this->denyAccessUnlessGranted('REPOSITORIES_LIST', 'repository');
 
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
 

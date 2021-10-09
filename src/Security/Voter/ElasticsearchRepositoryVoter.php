@@ -15,7 +15,7 @@ class ElasticsearchRepositoryVoter extends AbstractAppVoter
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchRepositoryModel;
+        return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchRepositoryModel || 'repository' === $subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

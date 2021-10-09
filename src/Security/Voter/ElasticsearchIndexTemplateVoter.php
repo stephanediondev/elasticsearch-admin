@@ -15,7 +15,7 @@ class ElasticsearchIndexTemplateVoter extends AbstractAppVoter
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchIndexTemplateModel;
+        return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchIndexTemplateModel || 'index_template' === $subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -26,8 +26,10 @@ class ElasticsearchIndexTemplateVoter extends AbstractAppVoter
             return false;
         }
 
-        if ($subject->isSystem()) {
-            return false;
+        if ($subject instanceof ElasticsearchIndexTemplateModel) {
+            if ($subject->isSystem()) {
+                return false;
+            }
         }
 
         return $this->isGranted($attribute);

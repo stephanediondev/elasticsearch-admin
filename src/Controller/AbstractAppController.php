@@ -112,16 +112,16 @@ abstract class AbstractAppController extends AbstractController
             if (true === $parameters['firewall']) {
                 if (true === $this->isGranted('MENU_CONFIGURATION', 'global')) {
                     $entries = [
-                        ['granted' => 'INDEX_TEMPLATES_LEGACY', 'path' => 'index_templates_legacy'],
-                        ['granted' => 'INDEX_TEMPLATES', 'path' => 'index_templates', 'feature' => 'composable_template'],
-                        ['granted' => 'COMPONENT_TEMPLATES', 'path' => 'component_templates', 'feature' => 'composable_template'],
-                        ['granted' => 'ILM_POLICIES', 'path' => 'ilm', 'feature' => 'ilm'],
-                        ['granted' => 'SLM_POLICIES', 'path' => 'slm', 'feature' => 'slm'],
-                        ['granted' => 'REPOSITORIES', 'path' => 'repositories'],
-                        ['granted' => 'ENRICH_POLICIES', 'path' => 'enrich', 'feature' => 'enrich'],
-                        ['granted' => 'ELASTICSEARCH_USERS', 'path' => 'elasticsearch_users', 'feature' => 'security'],
-                        ['granted' => 'ELASTICSEARCH_ROLES', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
-                        ['granted' => 'DATA_STREAMS', 'path' => 'data_streams', 'feature' => 'data_streams'],
+                        ['granted' => 'INDEX_TEMPLATES_LEGACY_LIST', 'subject' => 'index_template_legacy', 'path' => 'index_templates_legacy'],
+                        ['granted' => 'INDEX_TEMPLATES_LIST', 'subject' => 'index_template', 'path' => 'index_templates', 'feature' => 'composable_template'],
+                        ['granted' => 'COMPONENT_TEMPLATES_LIST', 'subject' => 'component_template', 'path' => 'component_templates', 'feature' => 'composable_template'],
+                        ['granted' => 'ILM_POLICIES_LIST', 'subject' => 'ilm_policy', 'path' => 'ilm', 'feature' => 'ilm'],
+                        ['granted' => 'SLM_POLICIES_LIST', 'subject' => 'slm_policy', 'path' => 'slm', 'feature' => 'slm'],
+                        ['granted' => 'REPOSITORIES_LIST', 'subject' => 'repository', 'path' => 'repositories'],
+                        ['granted' => 'ENRICH_POLICIES_LIST', 'subject' => 'enrich_policy', 'path' => 'enrich', 'feature' => 'enrich'],
+                        ['granted' => 'ELASTICSEARCH_USERS', 'subject' => 'global', 'path' => 'elasticsearch_users', 'feature' => 'security'],
+                        ['granted' => 'ELASTICSEARCH_ROLES', 'subject' => 'global', 'path' => 'elasticsearch_roles', 'feature' => 'security'],
+                        ['granted' => 'DATA_STREAMS_LIST', 'subject' => 'data_stream', 'path' => 'data_streams', 'feature' => 'data_streams'],
                     ];
 
                     $menus['configuration'] = $this->populateMenu($entries);
@@ -129,17 +129,17 @@ abstract class AbstractAppController extends AbstractController
 
                 if (true === $this->isGranted('MENU_TOOLS', 'global')) {
                     $entries = [
-                        ['granted' => 'SNAPSHOTS', 'path' => 'snapshots'],
-                        ['granted' => 'PIPELINES', 'path' => 'pipelines', 'feature' => 'pipelines'],
-                        ['granted' => 'TASKS', 'path' => 'tasks', 'feature' => 'tasks'],
-                        ['granted' => 'REMOTE_CLUSTERS', 'path' => 'remote_clusters', 'feature' => 'remote_clusters'],
-                        ['granted' => 'CAT', 'path' => 'cat'],
-                        ['granted' => 'SQL', 'path' => 'sql', 'feature' => 'sql'],
-                        ['granted' => 'CONSOLE', 'path' => 'console'],
-                        ['granted' => 'DEPRECATIONS', 'path' => 'deprecations', 'feature' => 'deprecations'],
-                        ['granted' => 'LICENSE', 'path' => 'license', 'feature' => 'license'],
-                        ['granted' => 'INDEX_GRAVEYARD', 'path' => 'index_graveyard', 'feature' => 'tombstones'],
-                        ['granted' => 'DANGLING_INDICES', 'path' => 'dangling_indices', 'feature' => 'dangling_indices'],
+                        ['granted' => 'SNAPSHOTS_LIST', 'subject' => 'snapshot', 'path' => 'snapshots'],
+                        ['granted' => 'PIPELINES_LIST', 'subject' => 'pipeline', 'path' => 'pipelines', 'feature' => 'pipelines'],
+                        ['granted' => 'TASKS', 'subject' => 'global', 'path' => 'tasks', 'feature' => 'tasks'],
+                        ['granted' => 'REMOTE_CLUSTERS', 'subject' => 'global', 'path' => 'remote_clusters', 'feature' => 'remote_clusters'],
+                        ['granted' => 'CAT', 'subject' => 'global', 'path' => 'cat'],
+                        ['granted' => 'SQL', 'subject' => 'global', 'path' => 'sql', 'feature' => 'sql'],
+                        ['granted' => 'CONSOLE', 'subject' => 'global', 'path' => 'console'],
+                        ['granted' => 'DEPRECATIONS', 'subject' => 'global', 'path' => 'deprecations', 'feature' => 'deprecations'],
+                        ['granted' => 'LICENSE', 'subject' => 'global', 'path' => 'license', 'feature' => 'license'],
+                        ['granted' => 'INDEX_GRAVEYARD', 'subject' => 'global', 'path' => 'index_graveyard', 'feature' => 'tombstones'],
+                        ['granted' => 'DANGLING_INDICES', 'subject' => 'global', 'path' => 'dangling_indices', 'feature' => 'dangling_indices'],
                     ];
 
                     $menus['tools'] = $this->populateMenu($entries);
@@ -147,11 +147,11 @@ abstract class AbstractAppController extends AbstractController
 
                 if (true === $this->isGranted('MENU_STATS', 'global')) {
                     $entries = [
-                        ['granted' => 'NODES_STATS', 'path' => 'nodes_stats'],
-                        ['granted' => 'INDICES_STATS', 'path' => 'indices_stats'],
-                        ['granted' => 'SHARDS_STATS', 'path' => 'shards_stats'],
-                        ['granted' => 'SLM_POLICIES_STATS', 'path' => 'slm_stats', 'feature' => 'slm'],
-                        ['granted' => 'SNAPSHOTS_STATS', 'path' => 'snapshots_stats'],
+                        ['granted' => 'NODES_STATS', 'subject' => 'node', 'path' => 'nodes_stats'],
+                        ['granted' => 'INDICES_STATS', 'subject' => 'index', 'path' => 'indices_stats'],
+                        ['granted' => 'SHARDS_STATS', 'subject' => 'global', 'path' => 'shards_stats'],
+                        ['granted' => 'SLM_POLICIES_STATS', 'subject' => 'slm_policy', 'path' => 'slm_stats', 'feature' => 'slm'],
+                        ['granted' => 'SNAPSHOTS_STATS', 'subject' => 'snapshot', 'path' => 'snapshots_stats'],
                     ];
 
                     $menus['stats'] = $this->populateMenu($entries);
@@ -159,11 +159,11 @@ abstract class AbstractAppController extends AbstractController
 
                 if (true === $this->isGranted('MENU_APPLICATION', 'global')) {
                     $entries = [
-                        ['granted' => 'APP_USERS', 'path' => 'app_users'],
-                        ['granted' => 'APP_ROLES', 'path' => 'app_roles'],
-                        ['granted' => 'APP_UNINSTALL', 'path' => 'app_uninstall'],
-                        ['granted' => 'APP_UPGRADE', 'path' => 'app_upgrade'],
-                        ['granted' => 'APP_NOTIFICATIONS', 'path' => 'app_notifications'],
+                        ['granted' => 'APP_USERS', 'subject' => 'global', 'path' => 'app_users'],
+                        ['granted' => 'APP_ROLES', 'subject' => 'global', 'path' => 'app_roles'],
+                        ['granted' => 'APP_UNINSTALL', 'subject' => 'global', 'path' => 'app_uninstall'],
+                        ['granted' => 'APP_UPGRADE', 'subject' => 'global', 'path' => 'app_upgrade'],
+                        ['granted' => 'APP_NOTIFICATIONS', 'subject' => 'global', 'path' => 'app_notifications'],
                     ];
 
                     $menus['application'] = $this->populateMenu($entries);
@@ -180,7 +180,7 @@ abstract class AbstractAppController extends AbstractController
     {
         $menu = [];
         foreach ($entries as $entry) {
-            if (true === $this->isGranted($entry['granted'], 'global')) {
+            if (true === $this->isGranted($entry['granted'], $entry['subject'])) {
                 $menu[] = [
                     'path' => $entry['path'],
                     'name' => $this->translator->trans(str_replace('_stats', '', $entry['path'])),

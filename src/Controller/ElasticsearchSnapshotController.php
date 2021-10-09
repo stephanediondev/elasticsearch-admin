@@ -48,7 +48,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS', 'global');
+        $this->denyAccessUnlessGranted('SNAPSHOTS_LIST', 'snapshot');
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
 
@@ -81,7 +81,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
      */
     public function stats(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS_STATS', 'global');
+        $this->denyAccessUnlessGranted('SNAPSHOTS_STATS', 'snapshot');
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
 
@@ -149,7 +149,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS_CREATE', 'global');
+        $this->denyAccessUnlessGranted('SNAPSHOTS_CREATE', 'snapshot');
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
         $indices = $this->elasticsearchIndexManager->selectIndices();
@@ -191,7 +191,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
      */
     public function read(Request $request, string $repository, string $snapshot): Response
     {
-        $this->denyAccessUnlessGranted('SNAPSHOTS', 'global');
+        $this->denyAccessUnlessGranted('SNAPSHOTS_LIST', 'snapshot');
 
         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
 

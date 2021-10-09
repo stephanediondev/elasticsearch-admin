@@ -31,7 +31,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY', 'global');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_LIST', 'index_template_legacy');
 
         $form = $this->createForm(ElasticsearchTemplateFilterType::class, null, ['context' => 'index_template_legacy']);
 
@@ -61,7 +61,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_CREATE', 'global');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_CREATE', 'index_template_legacy');
 
         $template = null;
 
@@ -106,7 +106,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY', 'global');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_LIST', 'index_template_legacy');
 
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
@@ -124,7 +124,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY', 'global');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_LIST', 'index_template_legacy');
 
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 
@@ -142,7 +142,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY', 'global');
+        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_LIST', 'index_template_legacy');
 
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
 

@@ -3,7 +3,7 @@
 
     {% set columns = {'name': true, 'repository': true, 'indices': false, 'state': true, 'start_time': true, 'end_time': true, 'duration': true, 'failures': true, 'version': true} %}
 
-    {% set is_granted_repositories = is_granted('REPOSITORIES', 'global') %}
+    {% set is_granted_repositories = is_granted('REPOSITORIES_LIST', 'repository') %}
 
     {% block thead %}
         <tr>

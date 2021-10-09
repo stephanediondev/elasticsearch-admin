@@ -42,7 +42,7 @@
             {% if true == hasFeature('ilm') and template.setting('index.lifecycle.name') %}
                 <p>
                     <strong>{{ 'ilm_policy'|trans }}</strong><br>
-                    {% if is_granted('ILM_POLICIES', 'global') %}
+                    {% if is_granted('ILM_POLICIES_LIST', 'ilm_policy') %}
                         <a class="{{ theme_link_secondary }}" href="{{ path('ilm_read', {'name': template.setting('index.lifecycle.name')}) }}">{{ template.setting('index.lifecycle.name') }}</a>
                     {% else %}
                         {{ template.setting('index.lifecycle.name') }}

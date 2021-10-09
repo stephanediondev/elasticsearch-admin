@@ -10,13 +10,13 @@
         </li>
     {% endif %}
 
-    {% if is_granted('SNAPSHOTS_CREATE', 'global') %}
+    {% if is_granted('SNAPSHOTS_CREATE', 'snapshot') %}
         <li class="nav-item">
             <a class="nav-link {{ theme_tab }}" href="{{ path('snapshots_create', {'repository': repository.name}) }}">{{ 'create_snapshot'|trans }}</a>
         </li>
     {% endif %}
 
-    {% if is_granted('SLM_POLICIES_CREATE', 'global') %}
+    {% if is_granted('SLM_POLICIES_CREATE', 'slm_policy') %}
         <li class="nav-item">
             <a class="nav-link {{ theme_tab }}" href="{{ path('slm_create', {'repository': repository.name}) }}">{{ 'create_slm_policy'|trans }}</a>
         </li>

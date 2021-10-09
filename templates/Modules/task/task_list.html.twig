@@ -3,7 +3,7 @@
 
     {% set columns = {'id': true, 'node': true, 'type': true, 'action': true, 'start_time': true, 'running_time_in_nanos': true, 'cancellable': true} %}
 
-    {% set is_granted_nodes = is_granted('NODES', 'global') %}
+    {% set is_granted_nodes = is_granted('NODES_LIST', 'node') %}
 
     {% block thead %}
         <tr>

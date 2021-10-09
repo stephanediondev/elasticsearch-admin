@@ -15,7 +15,7 @@ class ElasticsearchPipelineVoter extends AbstractAppVoter
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchPipelineModel;
+        return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchPipelineModel || 'pipeline' === $subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -26,8 +26,10 @@ class ElasticsearchPipelineVoter extends AbstractAppVoter
             return false;
         }
 
-        if ($subject->isSystem()) {
-            return false;
+        if ($subject instanceof ElasticsearchPipelineModel) {
+            if ($subject->isSystem()) {
+                return false;
+            }
         }
 
         return $this->isGranted($attribute);

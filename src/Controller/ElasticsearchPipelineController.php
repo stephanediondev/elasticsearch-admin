@@ -31,7 +31,7 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINES', 'global');
+        $this->denyAccessUnlessGranted('PIPELINES_LIST', 'pipeline');
 
         if (false === $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedException();
@@ -57,7 +57,7 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINES_CREATE', 'global');
+        $this->denyAccessUnlessGranted('PIPELINES_CREATE', 'pipeline');
 
         if (false === $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedException();
@@ -106,7 +106,7 @@ class ElasticsearchPipelineController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('PIPELINES', 'global');
+        $this->denyAccessUnlessGranted('PIPELINES_LIST', 'pipeline');
 
         if (false === $this->callManager->hasFeature('pipelines')) {
             throw new AccessDeniedException();

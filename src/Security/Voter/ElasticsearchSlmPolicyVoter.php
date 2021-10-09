@@ -15,7 +15,7 @@ class ElasticsearchSlmPolicyVoter extends AbstractAppVoter
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchSlmPolicyModel;
+        return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchSlmPolicyModel || 'slm_policy' === $subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -26,8 +26,10 @@ class ElasticsearchSlmPolicyVoter extends AbstractAppVoter
             return false;
         }
 
-        if ($subject->isSystem()) {
-            return false;
+        if ($subject instanceof ElasticsearchSlmPolicyModel) {
+            if ($subject->isSystem()) {
+                return false;
+            }
         }
 
         return $this->isGranted($attribute);

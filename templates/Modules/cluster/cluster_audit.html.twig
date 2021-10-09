@@ -101,7 +101,7 @@
                                             {% else %}
                                                 {{ ('audit_comments.' ~ checkpoint ~ '.plural')|trans|raw }}
                                                 {% for version in parameters %}
-                                                    {% if is_granted('NODES', 'global') %}
+                                                    {% if is_granted('NODES_LIST', 'node') %}
                                                         <a class="{{ theme_link_secondary }}" href="{{ path('nodes', {'version': version}) }}">{{ version }}</a>{% if false == loop.last %},{% endif %}
                                                     {% else %}
                                                         {{ version }}{% if false == loop.last %},{% endif %}
@@ -152,7 +152,7 @@
                                         {% endblock %}
 
                                         {% block internal_link %}
-                                            {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
+                                            {% if 'audit_fail' == result and is_granted('INDICES_LIST', 'index') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'sort': 'rep:asc'}) }}">{{ 'indices'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
@@ -178,7 +178,7 @@
                                         {% endblock %}
 
                                         {% block internal_link %}
-                                            {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
+                                            {% if 'audit_fail' == result and is_granted('INDICES_LIST', 'index') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'sort': 'rep:desc'}) }}">{{ 'indices'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
@@ -188,7 +188,7 @@
                                 {% if 'indices_opened' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block internal_link %}
-                                            {% if 'audit_fail' == result and is_granted('INDICES', 'global') %}
+                                            {% if 'audit_fail' == result and is_granted('INDICES_LIST', 'index') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'sort': 'status:asc'}) }}">{{ 'indices'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
@@ -291,7 +291,7 @@
                                         {% endblock %}
 
                                         {% block internal_link %}
-                                            {% if is_granted('NODES', 'global') %}
+                                            {% if is_granted('NODES_LIST', 'node') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
@@ -310,7 +310,7 @@
                                         {% endblock %}
 
                                         {% block internal_link %}
-                                            {% if is_granted('NODES', 'global') %}
+                                            {% if is_granted('NODES_LIST', 'node') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
@@ -329,7 +329,7 @@
                                         {% endblock %}
 
                                         {% block internal_link %}
-                                            {% if is_granted('NODES', 'global') %}
+                                            {% if is_granted('NODES_LIST', 'node') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
@@ -352,7 +352,7 @@
                                         {% endblock %}
 
                                         {% block internal_link %}
-                                            {% if is_granted('NODES', 'global') %}
+                                            {% if is_granted('NODES_LIST', 'node') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
@@ -431,7 +431,7 @@
                                         {% endblock %}
 
                                         {% block internal_link %}
-                                            {% if is_granted('SLM_POLICIES', 'global') %}
+                                            {% if is_granted('SLM_POLICIES_LIST', 'slm_policy') %}
                                                 <a class="{{ theme_link_secondary }}" href="{{ path('slm') }}">{{ 'slm'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
@@ -444,7 +444,7 @@
                                             {% if 'audit_fail' == result %}
                                                 {{ ('audit_comments.fail_for_repositories')|trans|raw }}
                                                 {% for repository in parameters %}
-                                                    {% if is_granted('REPOSITORIES', 'global') %}
+                                                    {% if is_granted('REPOSITORIES_LIST', 'repository') %}
                                                         <a class="{{ theme_link_secondary }}" href="{{ path('repositories_read', {'repository': repository}) }}">{{ repository }}</a>{% if false == loop.last %},{% endif %}
                                                     {% else %}
                                                         {{ repository }}{% if false == loop.last %},{% endif %}

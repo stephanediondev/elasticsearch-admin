@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% set is_granted_component_templates = is_granted('COMPONENT_TEMPLATES', 'global') %}
+{% set is_granted_component_templates = is_granted('COMPONENT_TEMPLATES_LIST', 'component_template') %}
 
 {% block head_title %}{{ 'index_templates'|trans }} - {{ template.name }}{% endblock %}
 

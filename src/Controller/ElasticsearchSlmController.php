@@ -39,7 +39,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_LIST', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();
@@ -65,7 +65,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function stats(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES_STATS', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_STATS', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();
@@ -83,7 +83,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function status(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();
@@ -101,7 +101,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function start(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();
@@ -119,7 +119,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function stop(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();
@@ -137,7 +137,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES_CREATE', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_CREATE', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();
@@ -195,7 +195,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_LIST', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();
@@ -217,7 +217,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function readHistory(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_LIST', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();
@@ -239,7 +239,7 @@ class ElasticsearchSlmController extends AbstractAppController
      */
     public function readStats(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('SLM_POLICIES', 'global');
+        $this->denyAccessUnlessGranted('SLM_POLICIES_LIST', 'slm_policy');
 
         if (false === $this->callManager->hasFeature('slm')) {
             throw new AccessDeniedException();

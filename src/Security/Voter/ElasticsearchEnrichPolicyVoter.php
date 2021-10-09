@@ -15,7 +15,7 @@ class ElasticsearchEnrichPolicyVoter extends AbstractAppVoter
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchEnrichPolicyModel;
+        return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchEnrichPolicyModel || 'enrich_policy' === $subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
@@ -26,8 +26,10 @@ class ElasticsearchEnrichPolicyVoter extends AbstractAppVoter
             return false;
         }
 
-        if ($subject->isSystem()) {
-            return false;
+        if ($subject instanceof ElasticsearchEnrichPolicyModel) {
+            if ($subject->isSystem()) {
+                return false;
+            }
         }
 
         return $this->isGranted($attribute);

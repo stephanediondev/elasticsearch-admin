@@ -7,9 +7,9 @@
 
     {% set redirect_url = path('shards', app.request.query.all) %}
 
-    {% set is_granted_indices = is_granted('INDICES', 'global') %}
+    {% set is_granted_indices = is_granted('INDICES_LIST', 'index') %}
 
-    {% set is_granted_nodes = is_granted('NODES', 'global') %}
+    {% set is_granted_nodes = is_granted('NODES_LIST', 'node') %}
 
     {% set is_granted_shards_reroute = is_granted('SHARDS_REROUTE', 'global') %}
 

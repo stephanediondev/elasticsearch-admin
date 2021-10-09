@@ -246,16 +246,11 @@ class AppRoleManager extends AbstractAppManager
         $attributes = [
             'global' => [
                 'CLUSTER_AUDIT',
-                'NODES', 'NODES_STATS',
-                'INDICES', 'INDICES_STATS', 'INDICES_CREATE', 'INDICES_REINDEX', 'INDICES_CACHE_CLEAR', 'INDICES_FLUSH', 'INDICES_REFRESH',
                 'SHARDS', 'SHARDS_STATS', 'SHARDS_REROUTE',
                 'MENU_CONFIGURATION',
-                'INDEX_TEMPLATES_LEGACY', 'INDEX_TEMPLATES_LEGACY_CREATE',
-                'REPOSITORIES', 'REPOSITORIES_CREATE',
                 'ELASTICSEARCH_USERS', 'ELASTICSEARCH_USERS_CREATE',
                 'ELASTICSEARCH_ROLES', 'ELASTICSEARCH_ROLES_CREATE',
                 'MENU_TOOLS',
-                'SNAPSHOTS', 'SNAPSHOTS_STATS', 'SNAPSHOTS_CREATE',
                 'CAT', 'CAT_EXPORT',
                 'CONSOLE', 'CONSOLE_POST', 'CONSOLE_PUT', 'CONSOLE_PATCH', 'CONSOLE_DELETE',
                 'MENU_STATS',
@@ -271,9 +266,12 @@ class AppRoleManager extends AbstractAppManager
                 'APP_ROLE_UPDATE', 'APP_ROLE_DELETE',
             ],
             'index_template_legacy' => [
+                'INDEX_TEMPLATES_LEGACY_LIST', 'INDEX_TEMPLATES_LEGACY_CREATE',
                 'INDEX_TEMPLATE_LEGACY_UPDATE', 'INDEX_TEMPLATE_LEGACY_DELETE', 'INDEX_TEMPLATE_LEGACY_COPY',
             ],
             'index' => [
+                'INDICES_LIST',
+                'INDICES_STATS', 'INDICES_CREATE', 'INDICES_REINDEX', 'INDICES_CACHE_CLEAR', 'INDICES_FLUSH', 'INDICES_REFRESH',
                 'INDEX_UPDATE',
                 'INDEX_DELETE',
                 'INDEX_CLOSE', 'INDEX_OPEN',
@@ -282,12 +280,15 @@ class AppRoleManager extends AbstractAppManager
                 'INDEX_ALIASES', 'INDEX_ALIAS_CREATE', 'INDEX_ALIAS_DELETE',
             ],
             'node' => [
+                'NODES_LIST', 'NODES_STATS',
                 'NODE_SETTINGS', 'NODE_PLUGINS',
             ],
             'repository' => [
+                'REPOSITORIES_LIST', 'REPOSITORIES_CREATE',
                 'REPOSITORY_UPDATE', 'REPOSITORY_DELETE', 'REPOSITORY_CLEANUP', 'REPOSITORY_VERIFY',
             ],
             'snapshot' => [
+                'SNAPSHOTS_LIST', 'SNAPSHOTS_STATS', 'SNAPSHOTS_CREATE',
                 'SNAPSHOT_DELETE', 'SNAPSHOT_RESTORE', 'SNAPSHOT_FAILURES',
             ],
             'elasticsearch_user' => [
@@ -303,9 +304,8 @@ class AppRoleManager extends AbstractAppManager
         }
 
         if (true === $this->callManager->hasFeature('pipelines')) {
-            $attributes['global'][] = 'PIPELINES';
-            $attributes['global'][] = 'PIPELINES_CREATE';
             $attributes['pipeline'] = [
+                'PIPELINES_LIST', 'PIPELINES_CREATE',
                 'PIPELINE_UPDATE', 'PIPELINE_DELETE', 'PIPELINE_COPY',
             ];
         }
@@ -324,7 +324,7 @@ class AppRoleManager extends AbstractAppManager
         }
 
         if (true === $this->callManager->hasFeature('reload_secure_settings')) {
-            $attributes['global'][] = 'NODES_RELOAD_SECURE_SETTINGS';
+            $attributes['node'][] = 'NODES_RELOAD_SECURE_SETTINGS';
         }
 
         if (true === $this->callManager->hasFeature('node_usage')) {
@@ -332,44 +332,34 @@ class AppRoleManager extends AbstractAppManager
         }
 
         if (true === $this->callManager->hasFeature('ilm')) {
-            $attributes['global'][] = 'ILM_POLICIES';
-            $attributes['global'][] = 'ILM_POLICIES_STATUS';
-            $attributes['global'][] = 'ILM_POLICIES_CREATE';
             $attributes['ilm_policy'] = [
+                'ILM_POLICIES_LIST', 'ILM_POLICIES_STATUS', 'ILM_POLICIES_CREATE',
                 'ILM_POLICY_UPDATE', 'ILM_POLICY_DELETE', 'ILM_POLICY_COPY', 'ILM_POLICY_APPLY',
             ];
             $attributes['index'][] = 'INDEX_LIFECYCLE';
         }
 
         if (true === $this->callManager->hasFeature('enrich')) {
-            $attributes['global'][] = 'ENRICH_POLICIES';
-            $attributes['global'][] = 'ENRICH_POLICIES_STATS';
-            $attributes['global'][] = 'ENRICH_POLICIES_CREATE';
             $attributes['enrich_policy'] = [
+                'ENRICH_POLICIES_LIST', 'ENRICH_POLICIES_STATS', 'ENRICH_POLICIES_CREATE',
                 'ENRICH_POLICY_DELETE', 'ENRICH_POLICY_COPY', 'ENRICH_POLICY_EXECUTE',
             ];
         }
 
         if (true === $this->callManager->hasFeature('slm')) {
-            $attributes['global'][] = 'SLM_POLICIES';
-            $attributes['global'][] = 'SLM_POLICIES_STATS';
-            $attributes['global'][] = 'SLM_POLICIES_STATUS';
-            $attributes['global'][] = 'SLM_POLICIES_CREATE';
             $attributes['slm_policy'] = [
+                'SLM_POLICIES_LIST', 'SLM_POLICIES_STATS', 'SLM_POLICIES_STATUS', 'SLM_POLICIES_CREATE',
                 'SLM_POLICY_UPDATE', 'SLM_POLICY_DELETE', 'SLM_POLICY_COPY', 'SLM_POLICY_EXECUTE',
             ];
         }
 
         if (true === $this->callManager->hasFeature('composable_template')) {
-            $attributes['global'][] = 'COMPONENT_TEMPLATES';
-            $attributes['global'][] = 'COMPONENT_TEMPLATES_CREATE';
             $attributes['component_template'] = [
+                'COMPONENT_TEMPLATES_LIST', 'COMPONENT_TEMPLATES_CREATE',
                 'COMPONENT_TEMPLATE_UPDATE', 'COMPONENT_TEMPLATE_DELETE', 'COMPONENT_TEMPLATE_COPY',
             ];
-
-            $attributes['global'][] = 'INDEX_TEMPLATES';
-            $attributes['global'][] = 'INDEX_TEMPLATES_CREATE';
             $attributes['index_template'] = [
+                'INDEX_TEMPLATES_LIST', 'INDEX_TEMPLATES_CREATE',
                 'INDEX_TEMPLATE_UPDATE', 'INDEX_TEMPLATE_DELETE', 'INDEX_TEMPLATE_COPY',
             ];
         }
@@ -381,9 +371,8 @@ class AppRoleManager extends AbstractAppManager
         }
 
         if (true === $this->callManager->hasFeature('data_streams')) {
-            $attributes['global'][] = 'DATA_STREAMS';
-            $attributes['global'][] = 'DATA_STREAMS_CREATE';
             $attributes['data_stream'] = [
+                'DATA_STREAMS_LIST', 'DATA_STREAMS_CREATE',
                 'DATA_STREAM_STATS', 'DATA_STREAM_DELETE',
             ];
         }
@@ -417,7 +406,7 @@ class AppRoleManager extends AbstractAppManager
         }
 
         if (true === $this->callManager->hasFeature('force_merge')) {
-            $attributes['global'][] = 'INDICES_FORCE_MERGE';
+            $attributes['index'][] = 'INDICES_FORCE_MERGE';
             $attributes['index'][] = 'INDEX_FORCE_MERGE';
         }
 

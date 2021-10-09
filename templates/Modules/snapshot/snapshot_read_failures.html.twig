@@ -49,7 +49,7 @@
                         {% for failure in snapshot.failures %}
                             <tr>
                                 <td>
-                                    {% if is_granted('INDICES', 'global') %}
+                                    {% if is_granted('INDICES_LIST', 'index') %}
                                         <a class="{{ theme_link_secondary }}" href="{{ path('indices_read', {'index': failure['index']}) }}">{{ failure['index'] }}</a>
                                     {% else %}
                                         {{ failure['index'] }}
@@ -63,7 +63,7 @@
                                 </td>
                                 <td>
                                     {% if nodes[failure['node_id']] is defined %}
-                                        {% if is_granted('NODES', 'global') %}
+                                        {% if is_granted('NODES_LIST', 'node') %}
                                             <a class="{{ theme_link_secondary }}" href="{{ path('nodes_read', {'node': nodes[failure['node_id']]}) }}">{{ nodes[failure['node_id']] }}</a>
                                         {% else %}
                                             {{ nodes[failure['node_id']] }}

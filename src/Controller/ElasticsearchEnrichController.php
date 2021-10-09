@@ -39,7 +39,7 @@ class ElasticsearchEnrichController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
+        $this->denyAccessUnlessGranted('ENRICH_POLICIES_LIST', 'enrich_policy');
 
         if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedException();
@@ -65,7 +65,7 @@ class ElasticsearchEnrichController extends AbstractAppController
      */
     public function stats(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES_STATS', 'global');
+        $this->denyAccessUnlessGranted('ENRICH_POLICIES_STATS', 'enrich_policy');
 
         if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedException();
@@ -86,7 +86,7 @@ class ElasticsearchEnrichController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE', 'global');
+        $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE', 'enrich_policy');
 
         if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedException();
@@ -137,7 +137,7 @@ class ElasticsearchEnrichController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('ENRICH_POLICIES', 'global');
+        $this->denyAccessUnlessGranted('ENRICH_POLICIES_LIST', 'enrich_policy');
 
         if (false === $this->callManager->hasFeature('enrich')) {
             throw new AccessDeniedException();

@@ -75,7 +75,7 @@
                             <tr>
                                 <td>
                                     {% if nodes[row['node_id']] is defined %}
-                                        {% if is_granted('NODES', 'global') %}
+                                        {% if is_granted('NODES_LIST', 'node') %}
                                             <a class="{{ theme_link_secondary }}" href="{{ path('nodes_read', {'node': nodes[row['node_id']]}) }}">{{ nodes[row['node_id']] }}</a>
                                         {% else %}
                                             {{ nodes[row['node_id']] }}

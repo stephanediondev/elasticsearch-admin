@@ -44,7 +44,7 @@ class ElasticsearchNodeController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('NODES', 'global');
+        $this->denyAccessUnlessGranted('NODES_LIST', 'node');
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
@@ -86,7 +86,7 @@ class ElasticsearchNodeController extends AbstractAppController
      */
     public function stats(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('NODES_STATS', 'global');
+        $this->denyAccessUnlessGranted('NODES_STATS', 'node');
 
         $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
 
@@ -217,7 +217,7 @@ class ElasticsearchNodeController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $this->denyAccessUnlessGranted('NODES_RELOAD_SECURE_SETTINGS', 'global');
+        $this->denyAccessUnlessGranted('NODES_RELOAD_SECURE_SETTINGS', 'node');
 
         $reloadSecureSettingsModel = new ElasticsearchReloadSecureSettingsModel();
         $form = $this->createForm(ElasticsearchNodeReloadSecureSettingsType::class, $reloadSecureSettingsModel);
@@ -250,7 +250,7 @@ class ElasticsearchNodeController extends AbstractAppController
      */
     public function read(Request $request, string $node): Response
     {
-        $this->denyAccessUnlessGranted('NODES', 'global');
+        $this->denyAccessUnlessGranted('NODES_LIST', 'node');
 
         $node = $this->elasticsearchNodeManager->getByName($node);
 

@@ -3,7 +3,7 @@
 
     {% set columns = {'uuid': true, 'name': true, 'nodes': true, 'creation_date': true, '_buttons': true} %}
 
-    {% set is_granted_nodes = is_granted('NODES', 'global') %}
+    {% set is_granted_nodes = is_granted('NODES_LIST', 'node') %}
 
     {% set is_granted_dangling_indices_import = is_granted('DANGLING_INDICES_IMPORT', 'global') %}
 

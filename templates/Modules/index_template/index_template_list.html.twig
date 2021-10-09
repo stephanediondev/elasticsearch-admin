@@ -7,7 +7,7 @@
         {% set columns = columns|merge({'data_stream': true}) %}
     {% endif %}
 
-    {% set is_granted_component_templates = is_granted('COMPONENT_TEMPLATES', 'global') %}
+    {% set is_granted_component_templates = is_granted('COMPONENT_TEMPLATES_LIST', 'component_template') %}
 
     {% block thead %}
         <tr>

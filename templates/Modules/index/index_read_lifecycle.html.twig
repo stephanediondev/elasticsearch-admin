@@ -41,7 +41,7 @@
                 {{ appImport.dashboardKpi({'title': 'managed'|trans, 'badge': {'title': ('boolean.' ~ lifecycle['managed'])|trans, 'context': lifecycle['managed']}}) }}
 
                 {% if true == lifecycle['managed'] %}
-                    {% if is_granted('ILM_POLICIES', 'global') %}
+                    {% if is_granted('ILM_POLICIES_LIST', 'ilm_policy') %}
                         {{ appImport.dashboardKpi({'title': 'ilm_policy'|trans, 'badge': {'title': lifecycle['policy'], 'link': path('ilm_read', {'name': lifecycle['policy']})}}) }}
                     {% else %}
                         {{ appImport.dashboardKpi({'title': 'ilm_policy'|trans, 'badge': {'title': lifecycle['policy']}}) }}

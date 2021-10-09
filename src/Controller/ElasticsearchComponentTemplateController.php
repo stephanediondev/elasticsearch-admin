@@ -31,7 +31,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_LIST', 'component_template');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedException();
@@ -65,7 +65,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function create(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_CREATE', 'global');
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_CREATE', 'component_template');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedException();
@@ -114,7 +114,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function read(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_LIST', 'component_template');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedException();
@@ -136,7 +136,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function settings(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_LIST', 'component_template');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedException();
@@ -158,7 +158,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
      */
     public function mappings(Request $request, string $name): Response
     {
-        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES', 'global');
+        $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_LIST', 'component_template');
 
         if (false === $this->callManager->hasFeature('composable_template')) {
             throw new AccessDeniedException();

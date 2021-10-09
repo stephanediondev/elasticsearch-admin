@@ -15,7 +15,7 @@ class ElasticsearchSnapshotVoter extends AbstractAppVoter
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
-        return in_array($attribute, $attributes) && $subject instanceof ElasticsearchSnapshotModel;
+        return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchSnapshotModel || 'snapshot' === $subject);
     }
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)

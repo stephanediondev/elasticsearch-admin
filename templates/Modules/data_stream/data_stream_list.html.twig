@@ -7,9 +7,9 @@
         {% set columns = columns|merge({'hidden': true}) %}
     {% endif %}
 
-    {% set is_granted_index_templates = is_granted('INDEX_TEMPLATES', 'global') %}
+    {% set is_granted_index_templates = is_granted('INDEX_TEMPLATES_LIST', 'index_template') %}
 
-    {% set is_granted_ilm_policies = is_granted('ILM_POLICIES', 'global') %}
+    {% set is_granted_ilm_policies = is_granted('ILM_POLICIES_LIST', 'ilm_policy') %}
 
     {% block thead %}
         <tr>

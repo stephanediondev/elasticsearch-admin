@@ -43,7 +43,7 @@
                 {{ appImport.dashboardKpi({'title': 'generation'|trans, 'badge': {'title': stream.generation}}) }}
 
                 {% if stream.template %}
-                    {% if is_granted('INDEX_TEMPLATES', 'global') and hasFeature('composable_template') %}
+                    {% if is_granted('INDEX_TEMPLATES_LIST', 'index_template') and hasFeature('composable_template') %}
                         {{ appImport.dashboardKpi({'title': 'template'|trans, 'badge': {'title': stream.template, 'link': path('index_templates_read', {'name': stream.template})}}) }}
                     {% else %}
                         {{ appImport.dashboardKpi({'title': 'template'|trans, 'badge': {'title': stream.template}}) }}
@@ -51,7 +51,7 @@
                 {% endif %}
 
                 {% if stream.ilmPolicy %}
-                    {% if is_granted('ILM_POLICIES', 'global') and hasFeature('ilm') %}
+                    {% if is_granted('ILM_POLICIES_LIST', 'ilm_policy') and hasFeature('ilm') %}
                         {{ appImport.dashboardKpi({'title': 'ilm_policy'|trans, 'badge': {'title': stream.ilmPolicy, 'link': path('ilm_read', {'name': stream.ilmPolicy})}}) }}
                     {% else %}
                         {{ appImport.dashboardKpi({'title': 'ilm_policy'|trans, 'badge': {'title': stream.ilmPolicy}}) }}

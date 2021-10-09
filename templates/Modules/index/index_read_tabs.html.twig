@@ -58,7 +58,7 @@
         </li>
     {% endif %}
 
-    {% if is_granted('INDICES_REINDEX', 'global') and false == index.isSystem %}
+    {% if is_granted('INDICES_REINDEX', 'index') and false == index.isSystem %}
         <li class="nav-item">
             <a class="nav-link {{ theme_tab }}" href="{{ path('indices_reindex', {'index': index.name}) }}">{{ 'reindex'|trans }}</a>
         </li>
