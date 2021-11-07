@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class MetadataSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             FormEvents::POST_SET_DATA => 'postSetData',

@@ -52,8 +52,6 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
         $this->elasticsearchNodeManager = static::getContainer()->get('App\Manager\ElasticsearchNodeManager');
 
-        $session = static::getContainer()->get('session');
-
         $firewallName = 'main';
 
         $query = [

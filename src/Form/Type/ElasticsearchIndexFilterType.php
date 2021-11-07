@@ -112,7 +112,7 @@ class ElasticsearchIndexFilterType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return '';
     }

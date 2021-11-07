@@ -11,14 +11,14 @@ class ElasticsearchIlmPolicyVoter extends AbstractAppVoter
 {
     protected $module = 'ilm_policy';
 
-    protected function supports($attribute, $subject)
+    protected function supports($attribute, $subject): bool
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchIlmPolicyModel || 'ilm_policy' === $subject);
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 

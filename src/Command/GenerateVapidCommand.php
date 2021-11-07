@@ -16,7 +16,7 @@ class GenerateVapidCommand extends Command
         $this->setDescription('Generate VAPID keys');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>'.$this->getDescription().'</info>');
 

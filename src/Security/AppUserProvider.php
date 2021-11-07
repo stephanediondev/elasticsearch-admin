@@ -21,6 +21,16 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
         $this->appUserManager = $appUserManager;
     }
 
+    public function loadUserByIdentifier(string $identifier): ?AppUserModel
+    {
+        // Load a User object from your data source or throw UsernameNotFoundException.
+        // The $username argument may not actually be a username:
+        // it is whatever value is being returned by the getUsername()
+        // method in your User class.
+
+        return $this->appUserManager->getByEmail($identifier);
+    }
+
     /**
      * Symfony calls this method if you use features like switch_user
      * or remember_me.
@@ -69,7 +79,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
     /**
      * Tells Symfony to use this provider for this User class.
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return AppUserModel::class === $class;
     }
