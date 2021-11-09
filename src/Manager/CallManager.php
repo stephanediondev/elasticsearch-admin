@@ -23,6 +23,7 @@ class CallManager
     public $license = false;
 
     private $featuresByVersion = [
+        'freezing_endpoint_removed' => '8.0',
         '_xpack_endpoint_removed' => '8.0',
         'data_stream_expand_wildcards' => '7.11',
         'clone_snapshot' => '7.10',

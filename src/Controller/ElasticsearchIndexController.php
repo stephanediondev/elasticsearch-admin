@@ -1156,6 +1156,10 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function freeze(Request $request, string $index): Response
     {
+        if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
+            throw new AccessDeniedException();
+        }
+
         if (false === $this->callManager->hasFeature('freeze_unfreeze')) {
             throw new AccessDeniedException();
         }
@@ -1180,6 +1184,10 @@ class ElasticsearchIndexController extends AbstractAppController
      */
     public function unfreeze(Request $request, string $index): Response
     {
+        if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
+            throw new AccessDeniedException();
+        }
+
         if (false === $this->callManager->hasFeature('freeze_unfreeze')) {
             throw new AccessDeniedException();
         }

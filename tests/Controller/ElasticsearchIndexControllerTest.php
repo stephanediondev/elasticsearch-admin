@@ -440,7 +440,9 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/freeze');
 
-        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
+            $this->assertResponseStatusCodeSame(403);
+        } elseif (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -451,7 +453,9 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/freeze');
 
-        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
+            $this->assertResponseStatusCodeSame(403);
+        } elseif (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -462,7 +466,9 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/freeze');
 
-        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
+            $this->assertResponseStatusCodeSame(403);
+        } elseif (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(302);
@@ -476,7 +482,9 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/unfreeze');
 
-        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
+            $this->assertResponseStatusCodeSame(403);
+        } elseif (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(404);
@@ -487,7 +495,9 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/unfreeze');
 
-        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
+            $this->assertResponseStatusCodeSame(403);
+        } elseif (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(403);
@@ -498,7 +508,9 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/unfreeze');
 
-        if (false == $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
+            $this->assertResponseStatusCodeSame(403);
+        } elseif (false == $this->callManager->hasFeature('freeze_unfreeze')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(302);

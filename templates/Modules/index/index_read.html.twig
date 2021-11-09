@@ -89,7 +89,7 @@
                         }) }}
                     {% endif %}
 
-                    {% if true == hasFeature('freeze_unfreeze') %}
+                    {% if false == hasFeature('freezing_endpoint_removed') and true == hasFeature('freeze_unfreeze') %}
                         {% if is_granted('INDEX_UNFREEZE', index) %}
                             {{ appImport.buttonModal({
                                 'id': 'IndexUnfreeze',
@@ -143,7 +143,7 @@
                     {{ appImport.dashboardKpi({'title': 'health'|trans, 'badge': {'title': index.health|trans, 'context': index.health}}) }}
                 {% endif %}
 
-                {% if true == hasFeature('freeze_unfreeze') %}
+                {% if false == hasFeature('freezing_endpoint_removed') and true == hasFeature('freeze_unfreeze') %}
                     {% if index.setting('index.frozen') and 'true' == index.setting('index.frozen') %}
                         {{ appImport.dashboardKpi({'title': 'frozen'|trans, 'badge': {'title': 'boolean.true'|trans, 'context': 'true'}}) }}
                     {% else %}

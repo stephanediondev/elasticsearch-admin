@@ -400,7 +400,7 @@ class AppRoleManager extends AbstractAppManager
             $attributes['global'][] = 'CLUSTER_ALLOCATION_EXPLAIN';
         }
 
-        if (true === $this->callManager->hasFeature('freeze_unfreeze')) {
+        if (false === $this->callManager->hasFeature('freezing_endpoint_removed') && true === $this->callManager->hasFeature('freeze_unfreeze')) {
             $attributes['index'][] = 'INDEX_FREEZE';
             $attributes['index'][] = 'INDEX_UNFREEZE';
         }
