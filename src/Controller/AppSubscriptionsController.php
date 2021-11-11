@@ -8,6 +8,7 @@ use App\Form\Type\AppSubscriptionType;
 use App\Model\CallRequestModel;
 use App\Manager\AppSubscriptionManager;
 use App\Manager\AppNotificationManager;
+use App\Manager\AppUserManager;
 use App\Model\AppNotificationModel;
 use App\Model\AppUserModel;
 use App\Model\AppSubscriptionModel;
@@ -18,7 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -31,7 +31,7 @@ class AppSubscriptionsController extends AbstractAppController
 
     private AppNotificationManager $appNotificationManager;
 
-    private AppUserModel $user;
+    private AppUserManager $appUserManager;
 
     private string $vapidPublicKey;
 
@@ -43,11 +43,11 @@ class AppSubscriptionsController extends AbstractAppController
 
     private $clusterHealth;
 
-    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, Security $security, string $vapidPublicKey, string $vapidPrivateKey, string $mailerDsn, string $senderAddress)
+    public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, AppUserManager $appUserManager, string $vapidPublicKey, string $vapidPrivateKey, string $mailerDsn, string $senderAddress)
     {
         $this->appSubscriptionManager = $appSubscriptionManager;
         $this->appNotificationManager = $appNotificationManager;
-        $this->user = $security->getUser();
+        $this->appUserManager = $appUserManager;
         $this->vapidPublicKey = $vapidPublicKey;
         $this->vapidPrivateKey = $vapidPrivateKey;
         $this->mailerDsn = $mailerDsn;
@@ -65,8 +65,10 @@ class AppSubscriptionsController extends AbstractAppController
             $this->addFlash('warning', 'Add to cron */5 * * * * cd '.str_replace('/public/index.php', '', $request->server->get('SCRIPT_FILENAME')).' && bin/console app:send-notifications');
         }
 
+        $user = $this->appUserManager->getByEmail($this->getuser()->getUserIdentifier());
+
         $query = [
-            'q' => 'user_id:"'.$this->user->getId().'"',
+            'q' => 'user_id:"'.$user->getId().'"',
         ];
         $subscriptions = $this->appSubscriptionManager->getAll($query);
 
@@ -118,8 +120,10 @@ class AppSubscriptionsController extends AbstractAppController
         $client = $dd->getClient();
         $os = $dd->getOs();
 
+        $user = $this->appUserManager->getByEmail($this->getuser()->getUserIdentifier());
+
         $subscription = new AppSubscriptionModel();
-        $subscription->setUserId($this->user->getId());
+        $subscription->setUserId($user->getId());
         $subscription->setType($type);
         $subscription->setIp($request->getClientIp());
         $subscription->setOs($os ? $os['name'].' '.$os['version'] : false);

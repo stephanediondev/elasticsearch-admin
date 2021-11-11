@@ -205,7 +205,7 @@ class AppUserController extends AbstractAppController
      */
     public function profile(Request $request): Response
     {
-        $user = $this->appUserManager->getById($this->getuser()->getId());
+        $user = $this->appUserManager->getByEmail($this->getuser()->getUserIdentifier());
 
         $form = $this->createForm(AppUserType::class, $user, [
             'old_email' => $user->getEmail(),
