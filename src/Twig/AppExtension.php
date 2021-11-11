@@ -77,7 +77,7 @@ class AppExtension extends AbstractExtension
         return $xx.'.'.intval($yy).'.'.intval($zz);
     }
 
-    public function humanDatetime($datetime, $format = 'D, d M Y H:i')
+    public function humanDatetime($datetime, string $format = 'D, d M Y H:i'): string
     {
         if ($datetime instanceof \Datetime) {
             return $datetime->format($format);
@@ -104,7 +104,7 @@ class AppExtension extends AbstractExtension
         return $this->callManager->hasPlugin($plugin);
     }
 
-    public function retrieveSort(ElasticsearchIndexModel $index, string $field)
+    public function retrieveSort(ElasticsearchIndexModel $index, string $field): string
     {
         $sort = false;
 

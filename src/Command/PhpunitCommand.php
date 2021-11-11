@@ -26,10 +26,6 @@ class PhpunitCommand extends Command
 
     private UserPasswordHasherInterface $passwordHasher;
 
-    private string $pathSecurity;
-
-    private string $pathDoc;
-
     public function __construct(CallManager $callManager, AppManager $appManager, AppUserManager $appUserManager, UserPasswordHasherInterface $passwordHasher)
     {
         $this->callManager = $callManager;
@@ -82,18 +78,6 @@ class PhpunitCommand extends Command
             $this->appUserManager->send($user);
         }
 
-        if (true === $this->callManager->hasFeature('_security_endpoint')) {
-            $this->pathSecurity = '_security';
-        } else {
-            $this->pathSecurity = '_xpack/security';
-        }
-
-        if (true === $this->callManager->hasFeature('_doc_as_type')) {
-            $this->pathDoc = '_doc';
-        } else {
-            $this->pathDoc = 'doc';
-        }
-
         $jsonIndex = [
             'settings' => ['index' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1']],
         ];
@@ -113,17 +97,6 @@ class PhpunitCommand extends Command
                 'feature' => 'enrich',
                 'json' => ['match' => ['indices' => 'elasticsearch-admin-test', 'match_field' => 'test-text', 'enrich_fields' => 'test-boolean']],
             ],
-            /*'slm_policy' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => '_slm/policy',
-                'feature' => 'slm',
-                'json' => ['name' => '<nightly-snap-{now/d}>', 'schedule' => '0 30 1 * * ?', 'repository' => 'fs'],
-            ],
-            'snapshot' => [
-                'name' => 'elasticsearch-admin-test',
-                'path' => '_snapshot/fs',
-                'json' => ['indices' => ['elasticsearch-admin-test']],
-            ],*/
         ];
 
         foreach ($cases as $case => $parameters) {
@@ -150,9 +123,7 @@ class PhpunitCommand extends Command
 
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('PUT');
-            if (true === isset($parameters['json'])) {
-                $callRequest->setJson($parameters['json']);
-            }
+            $callRequest->setJson($parameters['json']);
             $callRequest->setPath($parameters['path'].'/'.$parameters['name']);
             $this->callManager->call($callRequest);
 

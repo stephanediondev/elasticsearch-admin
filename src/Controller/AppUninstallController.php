@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Manager\AppManager;
-use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,14 +19,11 @@ class AppUninstallController extends AbstractAppController
 {
     private AppManager $appManager;
 
-    private ElasticsearchIndexManager $elasticsearchIndexManager;
-
     private TokenStorageInterface $tokenStorage;
 
-    public function __construct(AppManager $appManager, ElasticsearchIndexManager $elasticsearchIndexManager, TokenStorageInterface $tokenStorage)
+    public function __construct(AppManager $appManager, TokenStorageInterface $tokenStorage)
     {
         $this->appManager = $appManager;
-        $this->elasticsearchIndexManager = $elasticsearchIndexManager;
         $this->tokenStorage = $tokenStorage;
     }
 
