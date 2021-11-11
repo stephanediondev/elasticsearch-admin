@@ -10,11 +10,11 @@ abstract class AbstractAppVoter extends Voter
 {
     protected $security;
 
-    protected $appRoleManager;
+    protected AppRoleManager $appRoleManager;
 
-    protected $permissions = [];
+    protected array $permissions = [];
 
-    protected $module;
+    protected string $module;
 
     public function __construct(Security $security, AppRoleManager $appRoleManager)
     {

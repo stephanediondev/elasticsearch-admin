@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchComponentTemplateVoter extends AbstractAppVoter
 {
-    protected $module = 'component_template';
+    protected string $module = 'component_template';
 
     protected function supports($attribute, $subject): bool
     {

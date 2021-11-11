@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchEnrichPolicyVoter extends AbstractAppVoter
 {
-    protected $module = 'enrich_policy';
+    protected string $module = 'enrich_policy';
 
     protected function supports($attribute, $subject): bool
     {

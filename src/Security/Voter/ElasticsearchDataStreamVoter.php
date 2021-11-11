@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchDataStreamVoter extends AbstractAppVoter
 {
-    protected $module = 'data_stream';
+    protected string $module = 'data_stream';
 
     protected function supports($attribute, $subject): bool
     {

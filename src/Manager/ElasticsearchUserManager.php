@@ -16,7 +16,7 @@ class ElasticsearchUserManager extends AbstractAppManager
     /**
      * @required
      */
-    public function setEndpoint()
+    public function setEndpoint(): void
     {
         if (true === $this->callManager->hasFeature('_security_endpoint')) {
             $this->endpoint = '/_security';
@@ -25,7 +25,7 @@ class ElasticsearchUserManager extends AbstractAppManager
         }
     }
 
-    public function getEndpoint()
+    public function getEndpoint(): string
     {
         return $this->endpoint;
     }

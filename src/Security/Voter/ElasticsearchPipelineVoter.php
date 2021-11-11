@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchPipelineVoter extends AbstractAppVoter
 {
-    protected $module = 'pipeline';
+    protected string $module = 'pipeline';
 
     protected function supports($attribute, $subject): bool
     {

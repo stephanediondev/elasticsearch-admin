@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppRoleVoter extends AbstractAppVoter
 {
-    protected $module = 'app_role';
+    protected string $module = 'app_role';
 
     protected function supports($attribute, $subject): bool
     {

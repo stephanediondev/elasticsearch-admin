@@ -4,7 +4,7 @@ namespace App\Manager;
 
 class PaginatorManager
 {
-    public function paginate($paginate): array
+    public function paginate(array $paginate): array
     {
         $slice = 2;
 

@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class GlobalVoter extends AbstractAppVoter
 {
-    protected $module = 'global';
+    protected string $module = 'global';
 
     protected function supports($attribute, $subject): bool
     {

@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchRoleVoter extends AbstractAppVoter
 {
-    protected $module = 'elasticsearch_role';
+    protected string $module = 'elasticsearch_role';
 
     protected function supports($attribute, $subject): bool
     {

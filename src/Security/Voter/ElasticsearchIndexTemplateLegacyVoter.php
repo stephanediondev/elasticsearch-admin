@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchIndexTemplateLegacyVoter extends AbstractAppVoter
 {
-    protected $module = 'index_template_legacy';
+    protected string $module = 'index_template_legacy';
 
     protected function supports($attribute, $subject): bool
     {

@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ElasticsearchSlmPolicyVoter extends AbstractAppVoter
 {
-    protected $module = 'slm_policy';
+    protected string $module = 'slm_policy';
 
     protected function supports($attribute, $subject): bool
     {
