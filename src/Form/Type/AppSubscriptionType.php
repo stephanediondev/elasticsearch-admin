@@ -21,9 +21,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AppSubscriptionType extends AbstractType
 {
-    protected $appSubscriptionManager;
+    protected AppSubscriptionManager $appSubscriptionManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(AppSubscriptionManager $appSubscriptionManager, TranslatorInterface $translator)
     {

@@ -21,9 +21,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchSlmPolicyType extends AbstractType
 {
-    protected $elasticsearchSlmPolicyManager;
+    protected ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, TranslatorInterface $translator)
     {

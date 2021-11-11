@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterface
 {
-    protected $appUserManager;
+    protected AppUserManager $appUserManager;
 
     public function __construct(AppUserManager $appUserManager)
     {

@@ -21,9 +21,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchIndexType extends AbstractType
 {
-    protected $elasticsearchIndexManager;
+    protected ElasticsearchIndexManager $elasticsearchIndexManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(ElasticsearchIndexManager $elasticsearchIndexManager, TranslatorInterface $translator)
     {

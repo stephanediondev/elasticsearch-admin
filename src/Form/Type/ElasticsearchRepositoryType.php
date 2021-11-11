@@ -20,9 +20,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchRepositoryType extends AbstractType
 {
-    protected $elasticsearchRepositoryManager;
+    protected ElasticsearchRepositoryManager $elasticsearchRepositoryManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager, TranslatorInterface $translator)
     {

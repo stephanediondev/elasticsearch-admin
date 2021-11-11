@@ -22,9 +22,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchRoleType extends AbstractType
 {
-    protected $elasticsearchRoleManager;
+    protected ElasticsearchRoleManager $elasticsearchRoleManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(ElasticsearchRoleManager $elasticsearchRoleManager, TranslatorInterface $translator)
     {

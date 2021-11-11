@@ -13,9 +13,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AppThemeType extends AbstractType
 {
-    protected $appThemeManager;
+    protected AppThemeManager $appThemeManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(AppThemeManager $appThemeManager, TranslatorInterface $translator)
     {

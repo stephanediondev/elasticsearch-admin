@@ -29,9 +29,9 @@ class ElasticsearchIndexTemplateType extends AbstractType
 {
     protected CallManager $callManager;
 
-    protected $elasticsearchIndexTemplateManager;
+    protected ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(CallManager $callManager, ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager, TranslatorInterface $translator)
     {

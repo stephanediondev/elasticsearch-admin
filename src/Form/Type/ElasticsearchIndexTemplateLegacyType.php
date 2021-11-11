@@ -27,9 +27,9 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
 {
     protected CallManager $callManager;
 
-    protected $elasticsearchIndexTemplateLegacyManager;
+    protected ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(CallManager $callManager, ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager, TranslatorInterface $translator)
     {

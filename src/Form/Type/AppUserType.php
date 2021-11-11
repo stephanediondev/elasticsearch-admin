@@ -21,9 +21,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AppUserType extends AbstractType
 {
-    protected $appUserManager;
+    protected AppUserManager $appUserManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     protected $secretRegister;
 

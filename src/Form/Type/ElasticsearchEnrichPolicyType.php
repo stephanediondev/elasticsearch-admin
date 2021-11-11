@@ -20,11 +20,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchEnrichPolicyType extends AbstractType
 {
-    protected $elasticsearchEnrichPolicyManager;
+    protected ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager;
 
     protected CallManager $callManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager, CallManager $callManager, TranslatorInterface $translator)
     {

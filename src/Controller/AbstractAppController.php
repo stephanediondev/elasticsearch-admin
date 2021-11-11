@@ -18,13 +18,13 @@ abstract class AbstractAppController extends AbstractController
 {
     protected CallManager $callManager;
 
-    protected $elasticsearchClusterManager;
+    protected ElasticsearchClusterManager $elasticsearchClusterManager;
 
-    protected $appThemeManager;
+    protected AppThemeManager $appThemeManager;
 
-    protected $paginatorManager;
+    protected PaginatorManager $paginatorManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     protected $themeDefault;
 

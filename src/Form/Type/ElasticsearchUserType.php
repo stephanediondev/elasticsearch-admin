@@ -26,9 +26,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchUserType extends AbstractType
 {
-    protected $elasticsearchUserManager;
+    protected ElasticsearchUserManager $elasticsearchUserManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(ElasticsearchUserManager $elasticsearchUserManager, TranslatorInterface $translator)
     {

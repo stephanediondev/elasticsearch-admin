@@ -4,6 +4,9 @@ namespace App\Tests\Controller;
 
 use App\Core\Traits\JwtTrait;
 use App\Manager\CallManager;
+use App\Manager\AppUserManager;
+use App\Manager\ElasticsearchClusterManager;
+use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\AppUserModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -16,11 +19,11 @@ abstract class AbstractAppControllerTest extends WebTestCase
 
     protected CallManager $callManager;
 
-    protected $appUserManager;
+    protected AppUserManager $appUserManager;
 
-    protected $elasticsearchClusterManager;
+    protected ElasticsearchClusterManager $elasticsearchClusterManager;
 
-    protected $elasticsearchNodeManager;
+    protected ElasticsearchNodeManager $elasticsearchNodeManager;
 
     public static function setUpBeforeClass(): void
     {

@@ -20,9 +20,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchIlmPolicyType extends AbstractType
 {
-    protected $elasticsearchIlmPolicyManager;
+    protected ElasticsearchIlmPolicyManager $elasticsearchIlmPolicyManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(ElasticsearchIlmPolicyManager $elasticsearchIlmPolicyManager, TranslatorInterface $translator)
     {

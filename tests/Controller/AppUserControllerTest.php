@@ -7,8 +7,6 @@ namespace App\Tests\Controller;
  */
 class AppUserControllerTest extends AbstractAppControllerTest
 {
-    protected $appUserManager;
-
     /**
      * @Route("/app-users", name="app_users")
      */

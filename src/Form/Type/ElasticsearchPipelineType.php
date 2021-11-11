@@ -22,9 +22,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchPipelineType extends AbstractType
 {
-    protected $elasticsearchPipelineManager;
+    protected ElasticsearchPipelineManager $elasticsearchPipelineManager;
 
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(ElasticsearchPipelineManager $elasticsearchPipelineManager, TranslatorInterface $translator)
     {

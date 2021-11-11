@@ -6,11 +6,11 @@ use App\Model\AbstractAppModel;
 
 class CallResponseModel extends AbstractAppModel
 {
-    private $code;
+    private ?string $code = null;
 
-    private $content;
+    private ?array $content = null;
 
-    private $contentRaw;
+    private ?string $contentRaw = null;
 
     public function getCode(): ?int
     {
