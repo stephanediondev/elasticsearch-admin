@@ -32,7 +32,7 @@ class ElasticsearchRoleType extends AbstractType
         $this->translator = $translator;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fields = [];
 
@@ -174,7 +174,7 @@ class ElasticsearchRoleType extends AbstractType
         $builder->addEventSubscriber(new MetadataSubscriber());
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchRoleModel::class,

@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Core\Traits\JwtTrait;
+use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 use App\Model\AppUserModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -13,7 +14,7 @@ abstract class AbstractAppControllerTest extends WebTestCase
 {
     protected $client;
 
-    protected $callManager;
+    protected CallManager $callManager;
 
     protected $appUserManager;
 

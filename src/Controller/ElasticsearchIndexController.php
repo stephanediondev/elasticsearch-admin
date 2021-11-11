@@ -762,7 +762,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    private function isJson($str)
+    private function isJson(string $str): bool
     {
         $json = json_decode($str);
         return $json && $str != $json;

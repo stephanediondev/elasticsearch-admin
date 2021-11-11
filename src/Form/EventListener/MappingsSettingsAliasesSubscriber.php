@@ -17,7 +17,7 @@ class MappingsSettingsAliasesSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function postSetData(FormEvent $event)
+    public function postSetData(FormEvent $event): void
     {
         $form = $event->getForm();
 
@@ -40,7 +40,7 @@ class MappingsSettingsAliasesSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function postSubmit(FormEvent $event)
+    public function postSubmit(FormEvent $event): void
     {
         $form = $event->getForm();
         $data = $event->getData();

@@ -25,7 +25,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ElasticsearchIndexTemplateLegacyType extends AbstractType
 {
-    protected $callManager;
+    protected CallManager $callManager;
 
     protected $elasticsearchIndexTemplateLegacyManager;
 
@@ -38,7 +38,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
         $this->translator = $translator;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fields = [];
 
@@ -174,7 +174,7 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
         $builder->addEventSubscriber(new MappingsSettingsAliasesSubscriber());
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => ElasticsearchIndexTemplateLegacyModel::class,

@@ -6,7 +6,7 @@ use App\Manager\CallManager;
 
 class AbstractAppManager
 {
-    protected $callManager;
+    protected CallManager $callManager;
 
     public function __construct(CallManager $callManager)
     {

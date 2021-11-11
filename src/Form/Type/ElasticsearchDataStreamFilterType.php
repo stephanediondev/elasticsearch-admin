@@ -13,14 +13,14 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ElasticsearchDataStreamFilterType extends AbstractType
 {
-    protected $callManager;
+    protected CallManager $callManager;
 
     public function __construct(CallManager $callManager)
     {
         $this->callManager = $callManager;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->setMethod('GET');
 
@@ -91,7 +91,7 @@ class ElasticsearchDataStreamFilterType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
