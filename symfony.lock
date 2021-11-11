@@ -290,22 +290,22 @@
         "version": "v5.0.5"
     },
     "symfony/framework-bundle": {
-        "version": "5.3",
+        "version": "5.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "5.3",
-            "ref": "414ba00ad43fa71be42c7906a551f1831716b03c"
+            "version": "5.4",
+            "ref": "d4131812e20853626928e73d3effef44014944c0"
         },
         "files": [
+            "config/services.yaml",
+            "config/routes/framework.yaml",
+            "config/preload.php",
             "config/packages/cache.yaml",
             "config/packages/framework.yaml",
-            "config/preload.php",
-            "config/routes/framework.yaml",
-            "config/services.yaml",
             "public/index.php",
-            "src/Controller/.gitignore",
-            "src/Kernel.php"
+            "src/Kernel.php",
+            "src/Controller/.gitignore"
         ]
     },
     "symfony/http-client": {
@@ -436,12 +436,12 @@
         "version": "v5.3.3"
     },
     "symfony/security-bundle": {
-        "version": "5.3",
+        "version": "5.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "5.3",
-            "ref": "8b35bfc00a7716db4ca5a764a4b338476ca3a704"
+            "ref": "3307d76caa2d12fb10ade57975beb3d8975df396"
         },
         "files": [
             "config/packages/security.yaml"
@@ -494,12 +494,12 @@
         "version": "v5.0.5"
     },
     "symfony/twig-bundle": {
-        "version": "5.3",
+        "version": "5.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "5.3",
-            "ref": "3dd530739a4284e3272274c128dbb7a8140a66f1"
+            "version": "5.4",
+            "ref": "ba5388319da939fbb8a5ffab45179801a936da0d"
         },
         "files": [
             "config/packages/twig.yaml",
