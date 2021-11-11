@@ -50,9 +50,9 @@ class ElasticsearchIlmPolicyManager extends AbstractAppManager
         return $policies;
     }
 
-    private function sortByName($a, $b)
+    private function sortByName(ElasticsearchIlmPolicyModel $a, ElasticsearchIlmPolicyModel $b): int
     {
-        return ($b->getName() > $a->getName()) ? -1 : 1;
+        return $a->getName() <=> $b->getName();
     }
 
     public function send(ElasticsearchIlmPolicyModel $policyModel): CallResponseModel

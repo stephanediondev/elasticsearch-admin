@@ -82,7 +82,7 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         return $this->filter($snapshots, $filter);
     }
 
-    private function sortByStartTime($a, $b): int
+    private function sortByStartTime(ElasticsearchSnapshotModel $a, ElasticsearchSnapshotModel $b): int
     {
         return $b->getStartTime() <=> $a->getStartTime();
     }

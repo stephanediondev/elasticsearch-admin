@@ -195,8 +195,8 @@ abstract class AbstractAppController extends AbstractController
         return $menu;
     }
 
-    private function sortByName($a, $b)
+    private function sortByName(array $a, array $b): int
     {
-        return ($b['name'] > $a['name']) ? -1 : 1;
+        return $a['name'] <=> $b['name'];
     }
 }

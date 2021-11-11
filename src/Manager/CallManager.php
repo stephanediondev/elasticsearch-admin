@@ -12,17 +12,17 @@ use Symfony\Component\HttpClient\Exception\TransportException;
 
 class CallManager
 {
-    public $catMaster = false;
+    public ?array $catMaster = null;
 
-    public $root = false;
+    public ?array $root = null;
 
-    public $xpack = false;
+    public ?array $xpack = null;
 
-    public $plugins = false;
+    public ?array $plugins = null;
 
-    public $license = false;
+    public ?array $license = null;
 
-    private $featuresByVersion = [
+    private array $featuresByVersion = [
         'freezing_endpoint_removed' => '8.0',
         '_xpack_endpoint_removed' => '8.0',
         'data_stream_expand_wildcards' => '7.11',
@@ -66,21 +66,21 @@ class CallManager
         'cat_nodeattrs' => '2.0',
     ];
 
-    protected $endpoint;
+    protected string $endpoint;
 
-    protected $security;
+    protected Security $security;
 
-    protected $client;
+    protected HttpClientInterface $client;
 
-    protected $elasticsearchUrl;
+    protected string $elasticsearchUrl;
 
-    protected $elasticsearchUsername;
+    protected string $elasticsearchUsername;
 
-    protected $elasticsearchPassword;
+    protected string $elasticsearchPassword;
 
-    protected $sslVerifyPeer;
+    protected bool $sslVerifyPeer;
 
-    protected $sslVerifyHost;
+    protected bool $sslVerifyHost;
 
     public function __construct(
         Security $security,
@@ -179,7 +179,7 @@ class CallManager
 
     public function getCatMaster(): array
     {
-        if (false === $this->catMaster) {
+        if (null === $this->catMaster) {
             $this->setCatMaster();
         }
 
@@ -196,7 +196,7 @@ class CallManager
 
     public function getMasterNode(): ?string
     {
-        if (false === $this->catMaster) {
+        if (null === $this->catMaster) {
             $this->setCatMaster();
         }
 
@@ -205,7 +205,7 @@ class CallManager
 
     public function getRoot(): array
     {
-        if (false === $this->root) {
+        if (null === $this->root) {
             $this->setRoot();
         }
 
@@ -222,7 +222,7 @@ class CallManager
 
     public function getXpack(): array
     {
-        if (false === $this->xpack) {
+        if (null === $this->xpack) {
             $this->setXpack();
         }
 
@@ -247,7 +247,7 @@ class CallManager
 
     public function getPlugins(): array
     {
-        if (false === $this->plugins) {
+        if (null === $this->plugins) {
             $this->setPlugins();
         }
 
@@ -274,7 +274,7 @@ class CallManager
 
     public function checkVersion(string $versionGoal): bool
     {
-        if (false === $this->root) {
+        if (null === $this->root) {
             $this->setRoot();
         }
 
@@ -291,7 +291,7 @@ class CallManager
             return $this->checkVersion($this->featuresByVersion[$feature]);
         }
 
-        if (false === $this->xpack) {
+        if (null === $this->xpack) {
             $this->setXpack();
         }
 
@@ -304,7 +304,7 @@ class CallManager
 
     public function hasPlugin(string $plugin): bool
     {
-        if (false === $this->plugins) {
+        if (null === $this->plugins) {
             $this->setPlugins();
         }
 
@@ -317,7 +317,7 @@ class CallManager
 
     public function getLicense(): array
     {
-        if (false === $this->license) {
+        if (null === $this->license) {
             $this->setLicense();
         }
 

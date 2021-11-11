@@ -75,9 +75,9 @@ class AppNotificationManager extends AbstractAppManager
         return $notifications;
     }
 
-    private function sortByCreatedAt($a, $b)
+    private function sortByCreatedAt(AppNotificationModel $a, AppNotificationModel $b): int
     {
-        return ($b->getCreatedAt()->format('Y-m-d H:i:s') < $a->getCreatedAt()->format('Y-m-d H:i:s')) ? -1 : 1;
+        return $b->getCreatedAt()->format('Y-m-d H:i:s') <=> $a->getCreatedAt()->format('Y-m-d H:i:s');
     }
 
     public function send(AppNotificationModel $appNotificationModel): CallResponseModel

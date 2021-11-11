@@ -88,9 +88,9 @@ class AppUserManager extends AbstractAppManager
         return $users;
     }
 
-    private function sortByEmail($a, $b)
+    private function sortByEmail(AppUserModel $a, AppUserModel $b): int
     {
-        return ($b->getEmail() > $a->getEmail()) ? -1 : 1;
+        return $a->getEmail() <=> $b->getEmail();
     }
 
     public function send(AppUserModel $userModel): CallResponseModel

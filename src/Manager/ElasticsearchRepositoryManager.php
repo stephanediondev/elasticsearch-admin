@@ -52,9 +52,9 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
         return $repositories;
     }
 
-    private function sortByName($a, $b)
+    private function sortByName(ElasticsearchRepositoryModel $a, ElasticsearchRepositoryModel $b): int
     {
-        return ($b->getName() > $a->getName()) ? -1 : 1;
+        return $a->getName() <=> $b->getName();
     }
 
     public function send(ElasticsearchRepositoryModel $repositoryModel): CallResponseModel

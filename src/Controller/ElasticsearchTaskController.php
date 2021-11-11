@@ -73,7 +73,7 @@ class ElasticsearchTaskController extends AbstractAppController
         ]);
     }
 
-    private function sortByStartTime($a, $b): int
+    private function sortByStartTime(array  $a, array $b): int
     {
         return $b['start_time_in_millis'] <=> $a['start_time_in_millis'];
     }

@@ -62,9 +62,9 @@ class ElasticsearchDanglingIndicesController extends AbstractAppController
         ]);
     }
 
-    private function sortByCreationDate($a, $b)
+    private function sortByCreationDate(array $a, array $b): int
     {
-        return $b['creation_date_millis'] - $a['creation_date_millis'];
+        return $b['creation_date_millis'] <=> $a['creation_date_millis'];
     }
 
     /**

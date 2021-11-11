@@ -203,7 +203,7 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
-    private function sortByTotal($a, $b): int
+    private function sortByTotal(array $a, array $b): int
     {
         return $b['total'] <=> $a['total'];
     }
