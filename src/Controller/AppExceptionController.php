@@ -17,7 +17,7 @@ class AppExceptionController extends AbstractAppController
     {
         $mainRequest = $requestStack->getMainRequest();
 
-        $parameters = [];
+        $parameters = ['route' => $mainRequest->attributes->get('_route')];
 
         $codes = [401, 403, 404, 405, 500, 503];
 
