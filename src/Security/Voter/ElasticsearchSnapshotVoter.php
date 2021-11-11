@@ -11,14 +11,14 @@ class ElasticsearchSnapshotVoter extends AbstractAppVoter
 {
     protected string $module = 'snapshot';
 
-    protected function supports($attribute, $subject): bool
+    protected function supports(string $attribute, $subject): bool
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchSnapshotModel || 'snapshot' === $subject);
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 

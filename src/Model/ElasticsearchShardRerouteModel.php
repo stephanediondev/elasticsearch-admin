@@ -6,17 +6,17 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchShardRerouteModel extends AbstractAppModel
 {
-    private $number;
+    private ?int $number = null;
 
-    private $index;
+    private ?string $index = null;
 
-    private $command;
+    private ?string $command = null;
 
-    private $state;
+    private ?string $state = null;
 
-    private $node;
+    private ?string $node = null;
 
-    private $toNode;
+    private ?string $toNode = null;
 
     public function getNumber(): ?int
     {

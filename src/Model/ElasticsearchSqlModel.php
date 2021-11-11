@@ -6,11 +6,11 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchSqlModel extends AbstractAppModel
 {
-    private $query;
+    private ?string $query = null;
 
-    private $filter;
+    private ?string $filter = null;
 
-    private $fetchSize;
+    private ?int $fetchSize = null;
 
     public function __construct()
     {

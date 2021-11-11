@@ -11,14 +11,14 @@ class ElasticsearchNodeVoter extends AbstractAppVoter
 {
     protected string $module = 'node';
 
-    protected function supports($attribute, $subject): bool
+    protected function supports(string $attribute, $subject): bool
     {
         $attributes = $this->appRoleManager->getAttributesByModule($this->module);
 
         return in_array($attribute, $attributes) && ($subject instanceof ElasticsearchNodeModel || 'node' === $subject);
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 

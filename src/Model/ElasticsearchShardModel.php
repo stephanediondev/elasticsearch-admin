@@ -6,23 +6,23 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchShardModel extends AbstractAppModel
 {
-    private $number;
+    private ?int $number = null;
 
-    private $index;
+    private ?string $index = null;
 
-    private $primaryOrReplica;
+    private ?string $primaryOrReplica = null;
 
-    private $state;
+    private ?string $state = null;
 
-    private $unassignedReason;
+    private ?string $unassignedReason = null;
 
-    private $unassignedDetails;
+    private ?string $unassignedDetails = null;
 
-    private $documents;
+    private ?int $documents = null;
 
-    private $size;
+    private ?int $size = null;
 
-    private $node;
+    private ?string $node = null;
 
     public function getNumber(): ?int
     {
