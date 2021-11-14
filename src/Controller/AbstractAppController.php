@@ -26,12 +26,12 @@ abstract class AbstractAppController extends AbstractController
 
     protected TranslatorInterface $translator;
 
-    protected $themeDefault;
+    protected string $themeDefault;
 
     /**
      * @required
      */
-    public function setCallManager(CallManager $callManager)
+    public function setCallManager(CallManager $callManager): void
     {
         $this->callManager = $callManager;
     }
@@ -39,7 +39,7 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
-    public function setClusterManager(ElasticsearchClusterManager $elasticsearchClusterManager)
+    public function setClusterManager(ElasticsearchClusterManager $elasticsearchClusterManager): void
     {
         $this->elasticsearchClusterManager = $elasticsearchClusterManager;
     }
@@ -47,7 +47,7 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
-    public function setAppThemeManager(AppThemeManager $appThemeManager)
+    public function setAppThemeManager(AppThemeManager $appThemeManager): void
     {
         $this->appThemeManager = $appThemeManager;
     }
@@ -55,7 +55,7 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
-    public function setPaginatorManager(PaginatorManager $paginatorManager)
+    public function setPaginatorManager(PaginatorManager $paginatorManager): void
     {
         $this->paginatorManager = $paginatorManager;
     }
@@ -63,7 +63,7 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
     }
@@ -71,7 +71,7 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
-    public function setThemeDefault(string $themeDefault)
+    public function setThemeDefault(string $themeDefault): void
     {
         $this->themeDefault = $themeDefault;
     }

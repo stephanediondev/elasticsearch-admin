@@ -35,7 +35,7 @@ class GenerateFaviconsCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function generateFavicon($color, $size)
+    private function generateFavicon($color, $size): void
     {
         $file = __DIR__.'/../../public/favicon-'.$color.'-'.$size.'.png';
 

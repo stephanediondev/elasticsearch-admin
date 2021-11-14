@@ -25,7 +25,7 @@ class AppUserType extends AbstractType
 
     protected TranslatorInterface $translator;
 
-    protected $secretRegister;
+    protected string $secretRegister;
 
     public function __construct(AppUserManager $appUserManager, TranslatorInterface $translator, string $secretRegister)
     {

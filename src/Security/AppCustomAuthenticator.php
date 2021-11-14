@@ -25,7 +25,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     protected AppUserManager $appUserManager;
 
-    protected $urlGenerator;
+    protected UrlGeneratorInterface $urlGenerator;
 
     public function __construct(AppUserManager $appUserManager, UrlGeneratorInterface $urlGenerator)
     {

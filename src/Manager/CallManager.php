@@ -100,7 +100,7 @@ class CallManager
         $this->sslVerifyHost = $sslVerifyHost;
     }
 
-    public function call(CallRequestModel $callRequest)
+    public function call(CallRequestModel $callRequest): CallResponseModel
     {
         $options = $callRequest->getOptions();
 
@@ -186,7 +186,7 @@ class CallManager
         return $this->catMaster;
     }
 
-    public function setCatMaster()
+    public function setCatMaster(): void
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/master');
@@ -212,7 +212,7 @@ class CallManager
         return $this->root;
     }
 
-    public function setRoot()
+    public function setRoot(): void
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/');
@@ -229,7 +229,7 @@ class CallManager
         return $this->xpack;
     }
 
-    public function setXpack()
+    public function setXpack(): void
     {
         if (true === $this->hasFeature('xpack')) {
             try {
@@ -254,7 +254,7 @@ class CallManager
         return $this->plugins;
     }
 
-    public function setPlugins()
+    public function setPlugins(): void
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/plugins');
@@ -324,7 +324,7 @@ class CallManager
         return $this->license;
     }
 
-    public function setLicense()
+    public function setLicense(): void
     {
         if (true === $this->hasFeature('license')) {
             try {

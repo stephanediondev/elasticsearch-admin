@@ -79,7 +79,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
     /**
      * Tells Symfony to use this provider for this User class.
      */
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return AppUserModel::class === $class;
     }
