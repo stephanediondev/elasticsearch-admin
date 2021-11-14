@@ -9,11 +9,13 @@ use DeviceDetector\DeviceDetector;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AppExceptionController extends AbstractAppController
 {
-    public function read(Request $request, FlattenException $exception, RequestStack $requestStack, Security $security, string $installationType)
+    public function read(Request $request, FlattenException $exception, RequestStack $requestStack, Security $security, string $installationType): Response
     {
         $mainRequest = $requestStack->getMainRequest();
 
@@ -54,6 +56,8 @@ class AppExceptionController extends AbstractAppController
             }
 
             return $this->renderAbstract($request, 'Modules/exception/exception_'.$exception->getStatusCode().'.html.twig', $parameters);
+        } else {
+            throw new NotFoundHttpException();
         }
     }
 }

@@ -51,7 +51,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
             $stmt->execute();
 
             $columns = [];
-            while ($row = $stmt->fetch()) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 foreach ($row as $k => $v) {
                     $columns[] = $k;
                 }
@@ -203,7 +203,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
         ]);
     }
 
-    private function getConnection($fields)
+    private function getConnection(array $fields): PDO
     {
         $dbh = new PDO($fields['driver'].':host='.$fields['host'].';dbname='.$fields['dbname'], $fields['user'], $fields['password']);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -867,7 +867,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    private function handleSetting(ElasticsearchIndexModel $index, ElasticsearchIndexSettingModel $indexSettingModel)
+    private function handleSetting(ElasticsearchIndexModel $index, ElasticsearchIndexSettingModel $indexSettingModel): Response
     {
         $json = $indexSettingModel->getJson();
         $callRequest = new CallRequestModel();

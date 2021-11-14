@@ -176,7 +176,7 @@ abstract class AbstractAppController extends AbstractController
         return $this->render($view, $parameters, $response);
     }
 
-    private function populateMenu($entries)
+    private function populateMenu(array $entries): array
     {
         $menu = [];
         foreach ($entries as $entry) {
