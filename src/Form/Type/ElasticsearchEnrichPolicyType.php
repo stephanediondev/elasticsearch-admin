@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Form\Form;
 
 class ElasticsearchEnrichPolicyType extends AbstractType
 {
@@ -130,7 +131,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
         });
     }
 
-    private function enrichFields($form, $indices, $selected)
+    private function enrichFields(Form $form, ?array $indices, ?array $selected): void
     {
         $choices = [];
 

@@ -6,7 +6,7 @@ use App\Model\AbstractAppModel;
 
 class CallResponseModel extends AbstractAppModel
 {
-    private ?string $code = null;
+    private ?int $code = null;
 
     private ?array $content = null;
 
