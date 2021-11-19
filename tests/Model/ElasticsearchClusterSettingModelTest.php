@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchClusterSettingModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $clusterSettingModel = new ElasticsearchClusterSettingModel();
         $clusterSettingModel->setType('type');

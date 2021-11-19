@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchCatModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $cat = new ElasticsearchCatModel();
         $cat->setCommand('command');

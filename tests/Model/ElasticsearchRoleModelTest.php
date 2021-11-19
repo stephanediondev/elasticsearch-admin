@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchRoleModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $role = new ElasticsearchRoleModel();
         $role->setName('name');

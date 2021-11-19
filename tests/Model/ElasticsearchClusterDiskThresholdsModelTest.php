@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchClusterDiskThresholdsModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $clusterDiskThresholdsModel = new ElasticsearchClusterDiskThresholdsModel();
         $clusterDiskThresholdsModel->setEnabled(true);

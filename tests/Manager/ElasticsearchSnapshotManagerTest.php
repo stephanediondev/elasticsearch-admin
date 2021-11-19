@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchSnapshotManagerTest extends WebTestCase
 {
-    public function testGetByNameAndRepositoryNull()
+    public function testGetByNameAndRepositoryNull(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();

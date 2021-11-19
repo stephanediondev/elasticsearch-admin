@@ -10,7 +10,7 @@ class ElasticsearchDeprecationControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/deprecations", name="deprecations")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/deprecations');
 

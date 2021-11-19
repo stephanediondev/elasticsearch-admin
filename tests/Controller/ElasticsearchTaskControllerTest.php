@@ -10,7 +10,7 @@ class ElasticsearchTaskControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/tasks", name="tasks")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/tasks');
 

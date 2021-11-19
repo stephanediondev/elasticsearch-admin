@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class AppUserModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $user = new AppUserModel();
         $user->setId('id');

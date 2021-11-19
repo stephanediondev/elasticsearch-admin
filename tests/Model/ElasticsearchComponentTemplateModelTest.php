@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchComponentTemplateModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $template = new ElasticsearchComponentTemplateModel();
         $template->setName('name');

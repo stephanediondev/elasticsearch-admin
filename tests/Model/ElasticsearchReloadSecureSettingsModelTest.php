@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchReloadSecureSettingsModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $reloadSecureSettings = new ElasticsearchReloadSecureSettingsModel();
         $reloadSecureSettings->setSecureSettingsPassword('secure-settings-password');

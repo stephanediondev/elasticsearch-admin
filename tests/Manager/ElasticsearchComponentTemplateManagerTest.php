@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchComponentTemplateManagerTest extends WebTestCase
 {
-    public function testGetByNameNull()
+    public function testGetByNameNull(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();

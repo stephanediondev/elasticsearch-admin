@@ -10,7 +10,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/subscriptions", name="app_subscriptions")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/subscriptions');
 
@@ -23,14 +23,14 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/subscriptions/create/{type}", name="app_subscriptions_create")
      */
-    public function testCreate403()
+    public function testCreate403(): void
     {
         $this->client->request('GET', '/admin/subscriptions/create/'.uniqid());
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testCreatePush()
+    public function testCreatePush(): void
     {
         $this->client->request('GET', '/admin/subscriptions/create/push');
 
@@ -40,7 +40,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Create Push API');
     }
 
-    public function testCreateSlack()
+    public function testCreateSlack(): void
     {
         $this->client->request('GET', '/admin/subscriptions/create/slack');
 
@@ -50,7 +50,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Create Slack Incoming Webhook');
     }
 
-    public function testCreateams()
+    public function testCreateams(): void
     {
         $this->client->request('GET', '/admin/subscriptions/create/teams');
 
@@ -63,7 +63,7 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/subscriptions/{id}/update", name="app_subscriptions_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/subscriptions/'.uniqid().'/update');
 

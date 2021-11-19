@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchNodeModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $node = new ElasticsearchNodeModel();
         $node->setName('name');

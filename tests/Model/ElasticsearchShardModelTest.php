@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchShardModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $shard = new ElasticsearchShardModel();
         $shard->setNumber(1);

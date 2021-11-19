@@ -10,7 +10,7 @@ class AppUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-users", name="app_users")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/app-users');
 
@@ -23,7 +23,7 @@ class AppUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-users/create", name="app_users_create")
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->client->request('GET', '/admin/app-users/create');
 
@@ -51,14 +51,14 @@ class AppUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-users/{user}", name="app_users_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/app-users/'.uniqid());
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $user = $this->appUserManager->getByEmail(GENERATED_EMAIL);
 
@@ -74,14 +74,14 @@ class AppUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-users/{user}/update", name="app_users_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/app-users/'.uniqid().'/update');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $user = $this->appUserManager->getByEmail(GENERATED_EMAIL);
 
@@ -97,14 +97,14 @@ class AppUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-users/{user}/delete", name="app_users_delete")
      */
-    public function testDelete404()
+    public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/app-users/'.uniqid().'/delete');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $user = $this->appUserManager->getByEmail(GENERATED_EMAIL);
 

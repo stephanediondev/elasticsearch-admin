@@ -10,7 +10,7 @@ class ElasticsearchLicenseControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/license", name="license")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/license');
 

@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AppUserManagerTest extends WebTestCase
 {
-    public function testGetByIdNull()
+    public function testGetByIdNull(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();
@@ -18,7 +18,7 @@ class AppUserManagerTest extends WebTestCase
         $this->assertNull($user);
     }
 
-    public function testGetByEmailNull()
+    public function testGetByEmailNull(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();

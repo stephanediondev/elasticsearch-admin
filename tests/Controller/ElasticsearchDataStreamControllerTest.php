@@ -10,7 +10,7 @@ class ElasticsearchDataStreamControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/data-streams", name="data_streams")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/data-streams');
 
@@ -27,7 +27,7 @@ class ElasticsearchDataStreamControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/data-streams/create", name="data_streams_create")
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->client->request('GET', '/admin/data-streams/create');
 
@@ -44,7 +44,7 @@ class ElasticsearchDataStreamControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/data-streams/{name}", name="data_streams_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/data-streams/'.uniqid());
 
@@ -58,7 +58,7 @@ class ElasticsearchDataStreamControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/data-streams/{name}/stats", name="data_streams_read_stats")
      */
-    public function testStats404()
+    public function testStats404(): void
     {
         $this->client->request('GET', '/admin/data-streams/'.uniqid().'/stats');
 
@@ -72,7 +72,7 @@ class ElasticsearchDataStreamControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/data-streams/{name}/delete", name="data_streams_delete")
      */
-    public function testDelete404()
+    public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/data-streams/'.uniqid().'/delete');
 

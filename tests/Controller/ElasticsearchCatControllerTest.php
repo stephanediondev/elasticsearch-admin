@@ -10,7 +10,7 @@ class ElasticsearchCatControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/cat", name="cat")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/cat');
 

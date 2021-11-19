@@ -10,7 +10,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/repositories", name="repositories")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/repositories');
 
@@ -23,14 +23,14 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/repositories/create/{type}", name="repositories_create")
      */
-    public function testCreate403()
+    public function testCreate403(): void
     {
         $this->client->request('GET', '/admin/repositories/create/'.uniqid());
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testCreateFs()
+    public function testCreateFs(): void
     {
         $this->client->request('GET', '/admin/repositories/create/fs');
 
@@ -40,7 +40,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Create Shared file system repository');
     }
 
-    public function testCreateS3()
+    public function testCreateS3(): void
     {
         $this->client->request('GET', '/admin/repositories/create/s3');
 
@@ -54,7 +54,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateGcs()
+    public function testCreateGcs(): void
     {
         $this->client->request('GET', '/admin/repositories/create/gcs');
 
@@ -68,7 +68,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateAzure()
+    public function testCreateAzure(): void
     {
         $this->client->request('GET', '/admin/repositories/create/azure');
 
@@ -85,7 +85,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/repositories/{repository}", name="repositories_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/repositories/'.uniqid());
 
@@ -95,7 +95,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/repositories/{repository}/update", name="repositories_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/repositories/'.uniqid().'/update');
 

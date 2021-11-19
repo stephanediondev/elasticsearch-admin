@@ -10,7 +10,7 @@ class ElasticsearchRemoteClusterControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/remote-clusters", name="remote_clusters")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/remote-clusters');
 

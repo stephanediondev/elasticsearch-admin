@@ -10,7 +10,7 @@ class AppNotificationsControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-notifications", name="app_notifications")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/app-notifications');
 

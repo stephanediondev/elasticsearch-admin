@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class AppRoleModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $role = new AppRoleModel();
         $role->setId('id');

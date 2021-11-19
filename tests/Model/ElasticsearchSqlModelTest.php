@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchSqlModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $sql = new ElasticsearchSqlModel();
         $sql->setQuery('query');

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchReindexModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $reindex = new ElasticsearchReindexModel();
         $reindex->setSource('source');

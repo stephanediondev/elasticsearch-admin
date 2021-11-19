@@ -10,7 +10,7 @@ class ElasticsearchConsoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/console", name="console")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/console');
 

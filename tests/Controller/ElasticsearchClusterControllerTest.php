@@ -10,7 +10,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/cluster", name="cluster")
      */
-    public function testRead()
+    public function testRead(): void
     {
         $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
@@ -26,7 +26,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/cluster/allocation/explain", name="cluster_allocation_explain")
      */
-    public function testAllocationExplain()
+    public function testAllocationExplain(): void
     {
         $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
@@ -46,7 +46,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/cluster/settings", name="cluster_settings")
      */
-    public function testSettings()
+    public function testSettings(): void
     {
         $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
@@ -66,7 +66,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/cluster/settings/{type}/{setting}/edit", name="cluster_settings_edit")
      */
-    public function testEditPersistent()
+    public function testEditPersistent(): void
     {
         $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
@@ -83,7 +83,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testEditTransient()
+    public function testEditTransient(): void
     {
         $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
@@ -103,7 +103,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/cluster/audit", name="cluster_audit")
      */
-    public function testAudit()
+    public function testAudit(): void
     {
         $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 
@@ -119,7 +119,7 @@ class ElasticsearchClusterControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/cluster/disk-thresholds", name="cluster_disk_thresholds")
      */
-    public function testDiskThresholds()
+    public function testDiskThresholds(): void
     {
         $clusterHealth = $this->elasticsearchClusterManager->getClusterHealth();
 

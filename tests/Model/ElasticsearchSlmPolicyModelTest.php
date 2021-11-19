@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchSlmPolicyModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $policy = new ElasticsearchSlmPolicyModel();
         $policy->setName('name');

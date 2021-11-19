@@ -12,7 +12,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/index-templates", name="index_templates")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/index-templates');
 
@@ -29,7 +29,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/index-templates/create", name="index_templates_create")
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->client->request('GET', '/admin/index-templates/create');
 
@@ -57,7 +57,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateSystem()
+    public function testCreateSystem(): void
     {
         $this->client->request('GET', '/admin/index-templates/create');
 
@@ -85,7 +85,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateCopy404()
+    public function testCreateCopy404(): void
     {
         $this->client->request('GET', '/admin/index-templates/create?template='.uniqid());
 
@@ -96,7 +96,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateCopy403()
+    public function testCreateCopy403(): void
     {
         $this->client->request('GET', '/admin/index-templates/create?template='.GENERATED_NAME_SYSTEM);
 
@@ -107,7 +107,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateCopy()
+    public function testCreateCopy(): void
     {
         $this->client->request('GET', '/admin/index-templates/create?template='.GENERATED_NAME);
 
@@ -137,7 +137,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/index-templates/{name}", name="index_templates_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid());
 
@@ -148,7 +148,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME);
 
@@ -166,7 +166,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/index-templates/{name}/update", name="index_templates_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/update');
 
@@ -177,7 +177,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUpdate403()
+    public function testUpdate403(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME_SYSTEM.'/update');
 
@@ -188,7 +188,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/update');
 
@@ -206,7 +206,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/index-templates/{name}/settings", name="index_templates_read_settings")
      */
-    public function testSettings404()
+    public function testSettings404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/settings');
 
@@ -217,7 +217,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testSettings()
+    public function testSettings(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/settings');
 
@@ -235,7 +235,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/index-templates/{name}/mappings", name="index_templates_read_mappings")
      */
-    public function testMappings404()
+    public function testMappings404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/mappings');
 
@@ -246,7 +246,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testMappings()
+    public function testMappings(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/mappings');
 
@@ -264,7 +264,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/index-templates/{name}/simulate", name="index_templates_simulate")
      */
-    public function testSimulate404()
+    public function testSimulate404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/simulate');
 
@@ -275,7 +275,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testSimulate()
+    public function testSimulate(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/simulate');
 
@@ -293,7 +293,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/index-templates/{name}/delete", name="index_templates_delete")
      */
-    public function testDelete404()
+    public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/delete');
 
@@ -304,7 +304,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDelete403()
+    public function testDelete403(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME_SYSTEM.'/delete');
 
@@ -320,7 +320,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/delete');
 
@@ -331,7 +331,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDeleteCopy()
+    public function testDeleteCopy(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'-copy/delete');
 

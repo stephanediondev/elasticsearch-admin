@@ -6,11 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PaginatorManagerTest extends WebTestCase
 {
-    private $total = 120;
+    private int $total = 120;
 
-    private $size = 50;
+    private int $size = 50;
 
-    public function testPaginatePage0()
+    public function testPaginatePage0(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();
@@ -37,7 +37,7 @@ class PaginatorManagerTest extends WebTestCase
         $this->assertEquals($paginate['next'], 2);
     }
 
-    public function testPaginatePage1()
+    public function testPaginatePage1(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();
@@ -64,7 +64,7 @@ class PaginatorManagerTest extends WebTestCase
         $this->assertEquals($paginate['next'], 2);
     }
 
-    public function testPaginatePage2()
+    public function testPaginatePage2(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();
@@ -91,7 +91,7 @@ class PaginatorManagerTest extends WebTestCase
         $this->assertEquals($paginate['next'], 3);
     }
 
-    public function testPaginatePage3()
+    public function testPaginatePage3(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();
@@ -118,7 +118,7 @@ class PaginatorManagerTest extends WebTestCase
         $this->assertEquals($paginate['next'], false);
     }
 
-    public function testPaginatePage4()
+    public function testPaginatePage4(): void
     {
         self::bootKernel();
         $container = self::$kernel->getContainer();

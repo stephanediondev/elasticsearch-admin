@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class AppNotificationModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $notification = new AppNotificationModel();
         $notification->setId('id');

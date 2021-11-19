@@ -10,7 +10,7 @@ class ElasticsearchShardControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/shards", name="shards")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/shards');
 
@@ -23,7 +23,7 @@ class ElasticsearchShardControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/shards/stats", name="shards_stats")
      */
-    public function testStats()
+    public function testStats(): void
     {
         $this->client->request('GET', '/admin/shards/stats');
 

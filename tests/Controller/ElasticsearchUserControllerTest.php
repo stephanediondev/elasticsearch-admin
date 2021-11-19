@@ -10,7 +10,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-users", name="elasticsearch_users")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users');
 
@@ -27,7 +27,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-users/create", name="elasticsearch_users_create")
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/create');
 
@@ -58,7 +58,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-users/{user}", name="elasticsearch_users_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid());
 
@@ -69,7 +69,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME);
 
@@ -87,7 +87,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-users/{user}/update", name="elasticsearch_users_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/update');
 
@@ -98,7 +98,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUpdate403()
+    public function testUpdate403(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elastic/update');
 
@@ -109,7 +109,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME.'/update');
 
@@ -127,7 +127,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-users/{user}/disable", name="elasticsearch_users_disable")
      */
-    public function testDisable404()
+    public function testDisable404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/disable');
 
@@ -138,7 +138,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDisable403()
+    public function testDisable403(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elastic/disable');
 
@@ -149,7 +149,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDisable()
+    public function testDisable(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME.'/disable');
 
@@ -163,7 +163,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-users/{user}/enable", name="elasticsearch_users_enable")
      */
-    public function testEnable404()
+    public function testEnable404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/enable');
 
@@ -174,7 +174,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testEnable403()
+    public function testEnable403(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elastic/enable');
 
@@ -185,7 +185,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testEnable()
+    public function testEnable(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME.'/enable');
 
@@ -199,7 +199,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-users/{user}/delete", name="elasticsearch_users_delete")
      */
-    public function testDelete404()
+    public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/delete');
 
@@ -210,7 +210,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDelete403()
+    public function testDelete403(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/elastic/delete');
 
@@ -221,7 +221,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.GENERATED_NAME.'/delete');
 

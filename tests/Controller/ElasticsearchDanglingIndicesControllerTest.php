@@ -10,7 +10,7 @@ class ElasticsearchDanglingIndicesControllerTest extends AbstractAppControllerTe
     /**
      * @Route("/dangling-indices", name="dangling_indices")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/dangling-indices');
 

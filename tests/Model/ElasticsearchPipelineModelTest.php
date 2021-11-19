@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchPipelineModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $pipeline = new ElasticsearchPipelineModel();
         $pipeline->setName('name');

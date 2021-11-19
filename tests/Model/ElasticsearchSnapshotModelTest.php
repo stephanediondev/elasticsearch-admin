@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchSnapshotModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $snapshot = new ElasticsearchSnapshotModel();
         $snapshot->setName('name');

@@ -10,7 +10,7 @@ class AppOfflineControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-uninstall", name="offline")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/offline');
 

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchApplyIlmPolicyModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $applyIlmPolicyModel = new ElasticsearchApplyIlmPolicyModel();
         $applyIlmPolicyModel->setIndexTemplate('index-template');

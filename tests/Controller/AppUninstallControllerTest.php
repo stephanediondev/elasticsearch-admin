@@ -10,7 +10,7 @@ class AppUninstallControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-uninstall", name="app_uninstall")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/app-uninstall');
 

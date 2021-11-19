@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchShardRerouteModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $shardRerouteModel = new ElasticsearchShardRerouteModel();
         $shardRerouteModel->setNumber(1);

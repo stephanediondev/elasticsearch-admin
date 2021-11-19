@@ -10,7 +10,7 @@ class ElasticsearchSqlControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/sql", name="sql")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/sql');
 

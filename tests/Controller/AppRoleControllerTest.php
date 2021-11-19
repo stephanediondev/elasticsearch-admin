@@ -10,7 +10,7 @@ class AppRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-roles", name="app_roles")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/app-roles');
 
@@ -23,7 +23,7 @@ class AppRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-roles/create", name="app_roles_create")
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->client->request('GET', '/admin/app-roles/create');
 
@@ -49,14 +49,14 @@ class AppRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-roles/{role}", name="app_roles_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/app-roles/'.uniqid());
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $this->client->request('GET', '/admin/app-roles/ROLE_'.GENERATED_NAME_UPPER);
 
@@ -70,14 +70,14 @@ class AppRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-roles/{role}/update", name="app_roles_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/app-roles/'.uniqid().'/update');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->client->request('GET', '/admin/app-roles/ROLE_'.GENERATED_NAME_UPPER.'/update');
 
@@ -91,14 +91,14 @@ class AppRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-roles/{role}/delete", name="app_roles_delete")
      */
-    public function testDelete404()
+    public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/app-roles/'.uniqid().'/delete');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->client->request('GET', '/admin/app-roles/ROLE_'.GENERATED_NAME_UPPER.'/delete');
 

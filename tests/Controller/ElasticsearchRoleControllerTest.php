@@ -10,7 +10,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-roles", name="elasticsearch_roles")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles');
 
@@ -27,7 +27,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-roles/create", name="elasticsearch_roles_create")
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/create');
 
@@ -56,7 +56,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateCopy404()
+    public function testCreateCopy404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/create?role='.uniqid());
 
@@ -67,7 +67,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateCopy403()
+    public function testCreateCopy403(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/create?role=superuser');
 
@@ -78,7 +78,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testCreateCopy()
+    public function testCreateCopy(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/create?role='.GENERATED_NAME);
 
@@ -95,7 +95,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-roles/{role}", name="elasticsearch_roles_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid());
 
@@ -106,7 +106,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.GENERATED_NAME);
 
@@ -124,7 +124,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-roles/{role}/update", name="elasticsearch_roles_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid().'/update');
 
@@ -135,7 +135,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUpdate403()
+    public function testUpdate403(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/superuser/update');
 
@@ -146,7 +146,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.GENERATED_NAME.'/update');
 
@@ -164,7 +164,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/elasticsearch-roles/{role}/delete", name="elasticsearch_roles_delete")
      */
-    public function testDelete404()
+    public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid().'/delete');
 
@@ -175,7 +175,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDelete403()
+    public function testDelete403(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/superuser/delete');
 
@@ -186,7 +186,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.GENERATED_NAME.'/delete');
 

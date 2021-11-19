@@ -10,7 +10,7 @@ class AppIndexDatabaseImportControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/database-import", name="index_database_import")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/indices/elasticsearch-admin-test/database-import');
 

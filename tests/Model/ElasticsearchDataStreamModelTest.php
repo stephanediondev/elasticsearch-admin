@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchDataStreamModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $datastream = new ElasticsearchDataStreamModel();
         $datastream->setName('name');

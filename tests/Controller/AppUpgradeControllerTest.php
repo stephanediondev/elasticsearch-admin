@@ -10,7 +10,7 @@ class AppUpgradeControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/app-upgrade", name="app_upgrade")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/app-upgrade');
 

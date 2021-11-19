@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchRepositoryModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $repository = new ElasticsearchRepositoryModel();
         $repository->setName('name');

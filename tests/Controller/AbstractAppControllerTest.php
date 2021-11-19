@@ -12,10 +12,11 @@ use App\Model\AppUserModel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 abstract class AbstractAppControllerTest extends WebTestCase
 {
-    protected $client;
+    protected KernelBrowser $client;
 
     protected CallManager $callManager;
 
@@ -67,6 +68,8 @@ abstract class AbstractAppControllerTest extends WebTestCase
         $callResponse = $this->callManager->call($callRequest);
         $results = $callResponse->getContent();
 
+        $user = null;
+
         if (1 == count($results['hits']['hits'])) {
             foreach ($results['hits']['hits'] as $row) {
                 $user = new AppUserModel();
@@ -80,11 +83,13 @@ abstract class AbstractAppControllerTest extends WebTestCase
             }
         }
 
-        $this->client->loginUser($user);
+        if ($user) {
+            $this->client->loginUser($user);
+        }
     }
 }
 
-function getRandomString($length = 8)
+function getRandomString(int $length = 8): string
 {
     $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $string = '';

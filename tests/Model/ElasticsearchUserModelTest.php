@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchUserModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $user = new ElasticsearchUserModel();
         $user->setName('name');

@@ -12,7 +12,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
     /**
      * @Route("/component-templates", name="component_templates")
      */
-    public function testComponent()
+    public function testComponent(): void
     {
         $this->client->request('GET', '/admin/component-templates');
 
@@ -29,7 +29,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
     /**
      * @Route("/component-templates/create", name="component_templates_create")
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->client->request('GET', '/admin/component-templates/create');
 
@@ -56,7 +56,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testCreateSystem()
+    public function testCreateSystem(): void
     {
         $this->client->request('GET', '/admin/component-templates/create');
 
@@ -83,7 +83,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testCreateCopy404()
+    public function testCreateCopy404(): void
     {
         $this->client->request('GET', '/admin/component-templates/create?template='.uniqid());
 
@@ -94,7 +94,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testCreateCopy403()
+    public function testCreateCopy403(): void
     {
         $this->client->request('GET', '/admin/component-templates/create?template='.GENERATED_NAME_SYSTEM);
 
@@ -105,7 +105,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testCreateCopy()
+    public function testCreateCopy(): void
     {
         $this->client->request('GET', '/admin/component-templates/create?template='.GENERATED_NAME);
 
@@ -132,7 +132,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
     /**
      * @Route("/component-templates/{name}", name="component_templates_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid());
 
@@ -143,7 +143,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME);
 
@@ -161,7 +161,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
     /**
      * @Route("/component-templates/{name}/update", name="component_templates_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/update');
 
@@ -172,7 +172,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testUpdate403()
+    public function testUpdate403(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME_SYSTEM.'/update');
 
@@ -183,7 +183,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'/update');
 
@@ -201,7 +201,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
     /**
      * @Route("/component-templates/{name}/settings", name="component_templates_read_settings")
      */
-    public function testSettings404()
+    public function testSettings404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/settings');
 
@@ -212,7 +212,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testSettings()
+    public function testSettings(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'/settings');
 
@@ -230,7 +230,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
     /**
      * @Route("/component-templates/{name}/mappings", name="component_templates_read_mappings")
      */
-    public function testMappings404()
+    public function testMappings404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/mappings');
 
@@ -241,7 +241,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testMappings()
+    public function testMappings(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'/mappings');
 
@@ -259,7 +259,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
     /**
      * @Route("/component-templates/{name}/delete", name="component_templates_delete")
      */
-    public function testDelete404()
+    public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/delete');
 
@@ -270,7 +270,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testDelete403()
+    public function testDelete403(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME_SYSTEM.'/delete');
 
@@ -286,7 +286,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'/delete');
 
@@ -297,7 +297,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    public function testDeleteCopy()
+    public function testDeleteCopy(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.GENERATED_NAME.'-copy/delete');
 

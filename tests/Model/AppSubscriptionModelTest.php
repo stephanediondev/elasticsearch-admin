@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class AppSubscriptionModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $subscription = new AppSubscriptionModel();
         $subscription->setId('id');

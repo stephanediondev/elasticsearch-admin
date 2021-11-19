@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CallResponseModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $callResponse = new CallResponseModel();
         $callResponse->setCode(200);

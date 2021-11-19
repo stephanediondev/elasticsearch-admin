@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchEnrichPolicyModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $enrichPolicyModel = new ElasticsearchEnrichPolicyModel();
         $enrichPolicyModel->setName('name');

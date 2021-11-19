@@ -10,7 +10,7 @@ class ElasticsearchIndexGraveyardControllerTest extends AbstractAppControllerTes
     /**
      * @Route("/index-graveyard", name="index_graveyard")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/index-graveyard');
 

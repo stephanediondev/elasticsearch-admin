@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchSnapshotRestoreModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $snapshotRestoreModel = new ElasticsearchSnapshotRestoreModel();
         $snapshotRestoreModel->setIndices(['indices']);

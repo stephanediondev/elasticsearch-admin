@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchIndexAliasModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $indexAliasModel = new ElasticsearchIndexAliasModel();
         $indexAliasModel->setName('name');

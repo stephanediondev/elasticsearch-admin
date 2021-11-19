@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class CallRequestModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('method');

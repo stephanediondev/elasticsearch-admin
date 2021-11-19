@@ -10,7 +10,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/nodes", name="nodes")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/nodes');
 
@@ -23,7 +23,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/nodes/stats", name="nodes_stats")
      */
-    public function testStats()
+    public function testStats(): void
     {
         $this->client->request('GET', '/admin/nodes/stats');
 
@@ -36,7 +36,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/nodes/reload-secure-settings", name="nodes_reload_secure_settings")
      */
-    public function testReadReloadSecureSettings()
+    public function testReadReloadSecureSettings(): void
     {
         $this->client->request('GET', '/admin/nodes/reload-secure-settings');
 
@@ -53,14 +53,14 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/nodes/{node}", name="nodes_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid());
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $masterNode = $this->callManager->getMasterNode();
 
@@ -76,14 +76,14 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/nodes/{node}/settings", name="nodes_read_settings")
      */
-    public function testReadSettings404()
+    public function testReadSettings404(): void
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid().'/settings');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testReadSettings()
+    public function testReadSettings(): void
     {
         $masterNode = $this->callManager->getMasterNode();
 
@@ -99,14 +99,14 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/nodes/{node}/plugins", name="nodes_read_plugins")
      */
-    public function testReadPlugins404()
+    public function testReadPlugins404(): void
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid().'/plugins');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testReadPlugins()
+    public function testReadPlugins(): void
     {
         $masterNode = $this->callManager->getMasterNode();
 
@@ -122,7 +122,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/nodes/{node}/usage", name="nodes_read_usage")
      */
-    public function testReadUsage404()
+    public function testReadUsage404(): void
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid().'/usage');
 
@@ -133,7 +133,7 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testReadUsage()
+    public function testReadUsage(): void
     {
         $masterNode = $this->callManager->getMasterNode();
 

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ElasticsearchIndexTemplateModelTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $template = new ElasticsearchIndexTemplateModel();
         $template->setName('name');

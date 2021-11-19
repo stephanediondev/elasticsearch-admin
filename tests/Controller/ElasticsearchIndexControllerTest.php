@@ -12,7 +12,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices", name="indices")
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->client->request('GET', '/admin/indices');
 
@@ -25,7 +25,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/stats", name="indices_stats")
      */
-    public function testStats()
+    public function testStats(): void
     {
         $this->client->request('GET', '/admin/indices/stats');
 
@@ -38,7 +38,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/reindex", name="indices_reindex")
      */
-    public function testReindex()
+    public function testReindex(): void
     {
         $this->client->request('GET', '/admin/indices/reindex');
 
@@ -51,7 +51,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/create", name="indices_create")
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         $this->client->request('GET', '/admin/indices/create');
 
@@ -77,7 +77,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
-    public function testCreateSystem()
+    public function testCreateSystem(): void
     {
         $this->client->request('GET', '/admin/indices/create');
 
@@ -106,14 +106,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}", name="indices_read")
      */
-    public function testRead404()
+    public function testRead404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid());
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testRead()
+    public function testRead(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME);
 
@@ -127,21 +127,21 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/update", name="indices_update")
      */
-    public function testUpdate404()
+    public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/update');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testUpdate403()
+    public function testUpdate403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/update');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/update');
 
@@ -155,14 +155,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/settings", name="indices_read_settings")
      */
-    public function testSettings404()
+    public function testSettings404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/settings');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testSettings()
+    public function testSettings(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/settings');
 
@@ -175,14 +175,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/mappings", name="indices_read_mappings")
      */
-    public function testMappings404()
+    public function testMappings404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/mappings');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testMappings()
+    public function testMappings(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/mappings');
 
@@ -195,7 +195,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/lifecycle", name="indices_read_lifecycle")
      */
-    public function testLifecycle404()
+    public function testLifecycle404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/lifecycle');
 
@@ -206,7 +206,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testLifecycle()
+    public function testLifecycle(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/lifecycle');
 
@@ -223,21 +223,21 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/search", name="indices_read_search")
      */
-    public function testSearch404()
+    public function testSearch404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/search');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testSearch403()
+    public function testSearch403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/search');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testSearch()
+    public function testSearch(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/search');
 
@@ -250,21 +250,21 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/file-import", name="indices_read_import")
      */
-    public function testImport404()
+    public function testImport404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/file-import');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testImport403()
+    public function testImport403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/file-import');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testImport()
+    public function testImport(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/file-import');
 
@@ -277,14 +277,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/aliases", name="indices_read_aliases")
      */
-    public function testAliases404()
+    public function testAliases404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/aliases');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testAliases()
+    public function testAliases(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/aliases');
 
@@ -296,14 +296,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/aliases/create", name="indices_aliases_create")
      */
-    public function testCreateAlias404()
+    public function testCreateAlias404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/aliases/create');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testCreateAlias()
+    public function testCreateAlias(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/aliases/create');
 
@@ -316,21 +316,21 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/refresh", name="indices_refresh")
      */
-    public function testRefresh404()
+    public function testRefresh404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/refresh');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testRefresh403()
+    public function testRefresh403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/refresh');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testRefresh()
+    public function testRefresh(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/refresh');
 
@@ -340,7 +340,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/empty", name="indices_empty")
      */
-    public function testEmpty404()
+    public function testEmpty404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/empty');
 
@@ -351,7 +351,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testEmpty403()
+    public function testEmpty403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/empty');
 
@@ -362,7 +362,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testEmpty()
+    public function testEmpty(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/empty');
 
@@ -376,21 +376,21 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/close", name="indices_close")
      */
-    public function testClose404()
+    public function testClose404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/close');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testClose403()
+    public function testClose403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/close');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testClose()
+    public function testClose(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/close');
 
@@ -406,21 +406,21 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/open", name="indices_open")
      */
-    public function testOpen404()
+    public function testOpen404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/open');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testOpen403()
+    public function testOpen403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/open');
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testOpen()
+    public function testOpen(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/open');
 
@@ -436,7 +436,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/freeze", name="indices_freeze")
      */
-    public function testFreeze404()
+    public function testFreeze404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/freeze');
 
@@ -449,7 +449,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testFreeze403()
+    public function testFreeze403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/freeze');
 
@@ -462,7 +462,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testFreeze()
+    public function testFreeze(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/freeze');
 
@@ -478,7 +478,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/unfreeze", name="indices_unfreeze")
      */
-    public function testUnfreeze404()
+    public function testUnfreeze404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/unfreeze');
 
@@ -491,7 +491,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUnfreeze403()
+    public function testUnfreeze403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/unfreeze');
 
@@ -504,7 +504,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testUnfreeze()
+    public function testUnfreeze(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/unfreeze');
 
@@ -520,14 +520,14 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
     /**
      * @Route("/indices/{index}/delete", name="indices_delete")
      */
-    public function testDelete404()
+    public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/delete');
 
         $this->assertResponseStatusCodeSame(404);
     }
 
-    public function testDelete403()
+    public function testDelete403(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME_SYSTEM.'/delete');
 
@@ -539,7 +539,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->callManager->call($callRequest);
     }
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->client->request('GET', '/admin/indices/'.GENERATED_NAME.'/delete');
 
