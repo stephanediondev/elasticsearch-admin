@@ -174,7 +174,7 @@ class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function currentUserAdmin(UserInterface $userConnected): bool
     {
-        if ($this->getId() == $userConnected->getId() && true === in_array('ROLE_ADMIN', $this->roles)) {
+        if ($this->getUserIdentifier() == $userConnected->getUserIdentifier() && true === in_array('ROLE_ADMIN', $this->roles)) {
             return true;
         }
 
