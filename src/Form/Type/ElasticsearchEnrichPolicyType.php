@@ -135,7 +135,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
     {
         $choices = [];
 
-        if ($indices && 0 < count($indices)) {
+        if (null !== $indices && 0 < count($indices)) {
             $callRequest = new CallRequestModel();
             $callRequest->setPath('/'.implode(',', $indices).'/_mapping');
             $callResponse = $this->callManager->call($callRequest);
