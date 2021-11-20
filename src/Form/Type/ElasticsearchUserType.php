@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Form\EventListener\MetadataSubscriber;
 use App\Manager\ElasticsearchUserManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchUserModel;
@@ -50,7 +49,7 @@ class ElasticsearchUserType extends AbstractType
         $fields[] = 'email';
         $fields[] = 'full_name';
         $fields[] = 'roles';
-        $fields[] = 'metadata';
+        $fields[] = 'metadata_json';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -132,8 +131,8 @@ class ElasticsearchUserType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'metadata':
-                    $builder->add('metadata', TextareaType::class, [
+                case 'metadata_json':
+                    $builder->add('metadata_json', TextareaType::class, [
                         'label' => 'metadata',
                         'required' => false,
                         'constraints' => [
@@ -159,8 +158,6 @@ class ElasticsearchUserType extends AbstractType
                 }
             }
         });
-
-        $builder->addEventSubscriber(new MetadataSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver): void

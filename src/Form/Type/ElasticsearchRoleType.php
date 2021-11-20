@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Form\EventListener\MetadataSubscriber;
 use App\Manager\ElasticsearchRoleManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRoleModel;
@@ -42,9 +41,9 @@ class ElasticsearchRoleType extends AbstractType
         }
         $fields[] = 'cluster';
         $fields[] = 'run_as';
-        $fields[] = 'indices';
-        $fields[] = 'applications';
-        $fields[] = 'metadata';
+        $fields[] = 'indices_json';
+        $fields[] = 'applications_json';
+        $fields[] = 'metadata_json';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -90,8 +89,8 @@ class ElasticsearchRoleType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'indices':
-                    $builder->add('indices', TextareaType::class, [
+                case 'indices_json':
+                    $builder->add('indices_json', TextareaType::class, [
                         'label' => 'indices',
                         'required' => false,
                         'constraints' => [
@@ -101,8 +100,8 @@ class ElasticsearchRoleType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'applications':
-                    $builder->add('applications', TextareaType::class, [
+                case 'applications_json':
+                    $builder->add('applications_json', TextareaType::class, [
                         'label' => 'applications',
                         'required' => false,
                         'constraints' => [
@@ -115,8 +114,8 @@ class ElasticsearchRoleType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'metadata':
-                    $builder->add('metadata', TextareaType::class, [
+                case 'metadata_json':
+                    $builder->add('metadata_json', TextareaType::class, [
                         'label' => 'metadata',
                         'required' => false,
                         'constraints' => [
@@ -128,22 +127,6 @@ class ElasticsearchRoleType extends AbstractType
                     break;
             }
         }
-
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-
-            if ($form->has('indices') && $form->get('indices')->getData()) {
-                $fieldOptions = $form->get('indices')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('indices')->getData(), JSON_PRETTY_PRINT);
-                $form->add('indices', TextareaType::class, $fieldOptions);
-            }
-
-            if ($form->has('applications') && $form->get('applications')->getData()) {
-                $fieldOptions = $form->get('applications')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('applications')->getData(), JSON_PRETTY_PRINT);
-                $form->add('applications', TextareaType::class, $fieldOptions);
-            }
-        });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
@@ -160,19 +143,7 @@ class ElasticsearchRoleType extends AbstractType
                     }
                 }
             }
-
-            if ($form->has('indices') && $form->get('indices')->getData()) {
-                $data->setIndices(json_decode($form->get('indices')->getData(), true));
-                $event->setData($data);
-            }
-
-            if ($form->has('applications') && $form->get('applications')->getData()) {
-                $data->setApplications(json_decode($form->get('applications')->getData(), true));
-                $event->setData($data);
-            }
         });
-
-        $builder->addEventSubscriber(new MetadataSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver): void

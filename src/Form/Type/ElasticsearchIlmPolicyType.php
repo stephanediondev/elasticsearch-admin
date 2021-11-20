@@ -38,10 +38,10 @@ class ElasticsearchIlmPolicyType extends AbstractType
         if ('create' == $options['context']) {
             $fields[] = 'name';
         }
-        $fields[] = 'hot';
-        $fields[] = 'warm';
-        $fields[] = 'cold';
-        $fields[] = 'delete';
+        $fields[] = 'hot_json';
+        $fields[] = 'warm_json';
+        $fields[] = 'cold_json';
+        $fields[] = 'delete_json';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -56,8 +56,8 @@ class ElasticsearchIlmPolicyType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'hot':
-                    $builder->add('hot', TextareaType::class, [
+                case 'hot_json':
+                    $builder->add('hot_json', TextareaType::class, [
                         'label' => 'hot',
                         'required' => false,
                         'constraints' => [
@@ -67,8 +67,8 @@ class ElasticsearchIlmPolicyType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'warm':
-                    $builder->add('warm', TextareaType::class, [
+                case 'warm_json':
+                    $builder->add('warm_json', TextareaType::class, [
                         'label' => 'warm',
                         'required' => false,
                         'constraints' => [
@@ -81,8 +81,8 @@ class ElasticsearchIlmPolicyType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'cold':
-                    $builder->add('cold', TextareaType::class, [
+                case 'cold_json':
+                    $builder->add('cold_json', TextareaType::class, [
                         'label' => 'cold',
                         'required' => false,
                         'constraints' => [
@@ -92,8 +92,8 @@ class ElasticsearchIlmPolicyType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'delete':
-                    $builder->add('delete', TextareaType::class, [
+                case 'delete_json':
+                    $builder->add('delete_json', TextareaType::class, [
                         'label' => 'delete',
                         'required' => false,
                         'constraints' => [
@@ -105,34 +105,6 @@ class ElasticsearchIlmPolicyType extends AbstractType
                     break;
             }
         }
-
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-
-            if ($form->has('hot') && $form->get('hot')->getData()) {
-                $fieldOptions = $form->get('hot')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('hot')->getData(), JSON_PRETTY_PRINT);
-                $form->add('hot', TextareaType::class, $fieldOptions);
-            }
-
-            if ($form->has('warm') && $form->get('warm')->getData()) {
-                $fieldOptions = $form->get('warm')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('warm')->getData(), JSON_PRETTY_PRINT);
-                $form->add('warm', TextareaType::class, $fieldOptions);
-            }
-
-            if ($form->has('cold') && $form->get('cold')->getData()) {
-                $fieldOptions = $form->get('cold')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('cold')->getData(), JSON_PRETTY_PRINT);
-                $form->add('cold', TextareaType::class, $fieldOptions);
-            }
-
-            if ($form->has('delete') && $form->get('delete')->getData()) {
-                $fieldOptions = $form->get('delete')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('delete')->getData(), JSON_PRETTY_PRINT);
-                $form->add('delete', TextareaType::class, $fieldOptions);
-            }
-        });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
@@ -148,26 +120,6 @@ class ElasticsearchIlmPolicyType extends AbstractType
                         ));
                     }
                 }
-            }
-
-            if ($form->has('hot') && $form->get('hot')->getData()) {
-                $data->setHot(json_decode($form->get('hot')->getData(), true));
-                $event->setData($data);
-            }
-
-            if ($form->has('warm') && $form->get('warm')->getData()) {
-                $data->setWarm(json_decode($form->get('warm')->getData(), true));
-                $event->setData($data);
-            }
-
-            if ($form->has('cold') && $form->get('cold')->getData()) {
-                $data->setCold(json_decode($form->get('cold')->getData(), true));
-                $event->setData($data);
-            }
-
-            if ($form->has('delete') && $form->get('delete')->getData()) {
-                $data->setDelete(json_decode($form->get('delete')->getData(), true));
-                $event->setData($data);
             }
         });
     }

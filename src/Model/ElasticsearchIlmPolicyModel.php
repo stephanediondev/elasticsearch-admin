@@ -12,13 +12,21 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
 
     private $modifiedDate;
 
-    private $hot;
+    private ?array $hot = null;
 
-    private $warm;
+    private ?string $hotJson = null;
 
-    private $cold;
+    private ?array $warm = null;
 
-    private $delete;
+    private ?string $warmJson = null;
+
+    private ?array $cold = null;
+
+    private ?string $coldJson = null;
+
+    private ?array $delete = null;
+
+    private ?string $deleteJson = null;
 
     private $phases;
 
@@ -63,9 +71,21 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
         return $this->hot;
     }
 
-    public function setHot($hot): self
+    public function setHot(?array $hot): self
     {
         $this->hot = $hot;
+
+        return $this;
+    }
+
+    public function getHotJson(): ?string
+    {
+        return $this->hotJson;
+    }
+
+    public function setHotJson(?string $hotJson): self
+    {
+        $this->hotJson = $hotJson;
 
         return $this;
     }
@@ -75,9 +95,21 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
         return $this->warm;
     }
 
-    public function setWarm($warm): self
+    public function setWarm(?array $warm): self
     {
         $this->warm = $warm;
+
+        return $this;
+    }
+
+    public function getWarmJson(): ?string
+    {
+        return $this->warmJson;
+    }
+
+    public function setWarmJson(?string $warmJson): self
+    {
+        $this->warmJson = $warmJson;
 
         return $this;
     }
@@ -87,9 +119,21 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
         return $this->cold;
     }
 
-    public function setCold($cold): self
+    public function setCold(?array $cold): self
     {
         $this->cold = $cold;
+
+        return $this;
+    }
+
+    public function getColdJson(): ?string
+    {
+        return $this->coldJson;
+    }
+
+    public function setColdJson(?string $coldJson): self
+    {
+        $this->coldJson = $coldJson;
 
         return $this;
     }
@@ -99,9 +143,21 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
         return $this->delete;
     }
 
-    public function setDelete($delete): self
+    public function setDelete(?array $delete): self
     {
         $this->delete = $delete;
+
+        return $this;
+    }
+
+    public function getDeleteJson(): ?string
+    {
+        return $this->deleteJson;
+    }
+
+    public function setDeleteJson(?string $deleteJson): self
+    {
+        $this->deleteJson = $deleteJson;
 
         return $this;
     }
@@ -140,15 +196,19 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
 
             if (true === isset($policy['policy']['phases']['hot'])) {
                 $this->setHot($policy['policy']['phases']['hot']);
+                $this->setHotJson(json_encode($policy['policy']['phases']['hot'], JSON_PRETTY_PRINT));
             }
             if (true === isset($policy['policy']['phases']['warm'])) {
                 $this->setWarm($policy['policy']['phases']['warm']);
+                $this->setWarmJson(json_encode($policy['policy']['phases']['warm'], JSON_PRETTY_PRINT));
             }
             if (true === isset($policy['policy']['phases']['cold'])) {
                 $this->setCold($policy['policy']['phases']['cold']);
+                $this->setColdJson(json_encode($policy['policy']['phases']['cold'], JSON_PRETTY_PRINT));
             }
             if (true === isset($policy['policy']['phases']['delete'])) {
                 $this->setDelete($policy['policy']['phases']['delete']);
+                $this->setDeleteJson(json_encode($policy['policy']['phases']['delete'], JSON_PRETTY_PRINT));
             }
         }
 
@@ -163,20 +223,20 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
             ],
         ];
 
-        if ($this->getHot()) {
-            $json['policy']['phases']['hot'] = $this->getHot();
+        if ($this->getHotJson()) {
+            $json['policy']['phases']['hot'] = json_decode($this->getHotJson(), true);
         }
 
-        if ($this->getWarm()) {
-            $json['policy']['phases']['warm'] = $this->getWarm();
+        if ($this->getWarmJson()) {
+            $json['policy']['phases']['warm'] = json_decode($this->getWarmJson(), true);
         }
 
-        if ($this->getCold()) {
-            $json['policy']['phases']['cold'] = $this->getCold();
+        if ($this->getColdJson()) {
+            $json['policy']['phases']['cold'] = json_decode($this->getColdJson(), true);
         }
 
-        if ($this->getDelete()) {
-            $json['policy']['phases']['delete'] = $this->getDelete();
+        if ($this->getDeleteJson()) {
+            $json['policy']['phases']['delete'] = json_decode($this->getDeleteJson(), true);
         }
 
         return $json;

@@ -13,10 +13,10 @@ class ElasticsearchPipelineModelTest extends TestCase
         $pipeline->setName('name');
         $pipeline->setVersion(1);
         $pipeline->setDescription('description');
-        $pipeline->setProcessors('');
         $pipeline->setProcessors(['processors']);
-        $pipeline->setOnFailure('');
+        $pipeline->setProcessorsJson(json_encode(['processors']));
         $pipeline->setOnFailure(['onfailure']);
+        $pipeline->setOnFailureJson(json_encode(['onfailure']));
 
         $this->assertEquals($pipeline->getName(), 'name');
         $this->assertEquals(strval($pipeline), 'name');

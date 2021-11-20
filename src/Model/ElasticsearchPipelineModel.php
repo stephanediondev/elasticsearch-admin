@@ -12,9 +12,13 @@ class ElasticsearchPipelineModel extends AbstractAppModel
 
     private $description;
 
-    private $processors;
+    private ?array $processors = null;
 
-    private $onFailure;
+    private ?string $processorsJson = null;
+
+    private ?array $onFailure = null;
+
+    private ?string $onFailureJson = null;
 
     public function getName(): ?string
     {
@@ -57,9 +61,21 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         return $this->processors;
     }
 
-    public function setProcessors($processors): self
+    public function setProcessors(?array $processors): self
     {
         $this->processors = $processors;
+
+        return $this;
+    }
+
+    public function getProcessorsJson(): ?string
+    {
+        return $this->processorsJson;
+    }
+
+    public function setProcessorsJson(?string $processorsJson): self
+    {
+        $this->processorsJson = $processorsJson;
 
         return $this;
     }
@@ -69,9 +85,21 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         return $this->onFailure;
     }
 
-    public function setOnFailure($onFailure): self
+    public function setOnFailure(?array $onFailure): self
     {
         $this->onFailure = $onFailure;
+
+        return $this;
+    }
+
+    public function getOnFailureJson(): ?string
+    {
+        return $this->onFailureJson;
+    }
+
+    public function setOnFailureJson(?string $onFailureJson): self
+    {
+        $this->onFailureJson = $onFailureJson;
 
         return $this;
     }
@@ -92,9 +120,11 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         }
         if (true === isset($pipeline['processors']) && 0 < count($pipeline['processors'])) {
             $this->setProcessors($pipeline['processors']);
+            $this->setProcessorsJson(json_encode($pipeline['processors'], JSON_PRETTY_PRINT));
         }
         if (true === isset($pipeline['on_failure']) && 0 < count($pipeline['on_failure'])) {
             $this->setOnFailure($pipeline['on_failure']);
+            $this->setOnFailureJson(json_encode($pipeline['on_failure'], JSON_PRETTY_PRINT));
         }
         return $this;
     }
@@ -102,7 +132,7 @@ class ElasticsearchPipelineModel extends AbstractAppModel
     public function getJson(): array
     {
         $json = [
-            'processors' => $this->getProcessors(),
+            'processors' => json_decode($this->getProcessorsJson(), true),
         ];
 
         if ($this->getVersion()) {
@@ -113,8 +143,8 @@ class ElasticsearchPipelineModel extends AbstractAppModel
             $json['description'] = $this->getDescription();
         }
 
-        if ($this->getOnFailure()) {
-            $json['on_failure'] = $this->getOnFailure();
+        if ($this->getOnFailureJson()) {
+            $json['on_failure'] = json_decode($this->getOnFailureJson(), true);
         }
 
         return $json;

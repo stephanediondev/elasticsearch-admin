@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Form\EventListener\MappingsSettingsAliasesSubscriber;
 use App\Manager\CallManager;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use App\Model\CallRequestModel;
@@ -53,9 +52,9 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
         }
         $fields[] = 'version';
         $fields[] = 'order';
-        $fields[] = 'settings';
-        $fields[] = 'mappings';
-        $fields[] = 'aliases';
+        $fields[] = 'settings_json';
+        $fields[] = 'mappings_json';
+        $fields[] = 'aliases_json';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -117,8 +116,8 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'settings':
-                    $builder->add('settings', TextareaType::class, [
+                case 'settings_json':
+                    $builder->add('settings_json', TextareaType::class, [
                         'label' => 'settings',
                         'required' => false,
                         'constraints' => [
@@ -128,8 +127,8 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'mappings':
-                    $builder->add('mappings', TextareaType::class, [
+                case 'mappings_json':
+                    $builder->add('mappings_json', TextareaType::class, [
                         'label' => 'mappings',
                         'required' => false,
                         'constraints' => [
@@ -142,8 +141,8 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'aliases':
-                    $builder->add('aliases', TextareaType::class, [
+                case 'aliases_json':
+                    $builder->add('aliases_json', TextareaType::class, [
                         'label' => 'aliases',
                         'required' => false,
                         'constraints' => [
@@ -171,8 +170,6 @@ class ElasticsearchIndexTemplateLegacyType extends AbstractType
                 }
             }
         });
-
-        $builder->addEventSubscriber(new MappingsSettingsAliasesSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver): void
