@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,11 +7,11 @@ use App\Model\AbstractAppModel;
 
 class AppRoleModel extends AbstractAppModel
 {
-    private $id;
+    private ?string $id = null;
 
-    private $name;
+    private ?string $name = null;
 
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

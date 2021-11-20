@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppNotificationManager extends AbstractAppManager
 {
-    private $defaultInfo = [
+    private array $defaultInfo = [
         'cluster_health' => null,
         'nodes' => null,
         'disk_threshold' => null,
@@ -23,15 +23,15 @@ class AppNotificationManager extends AbstractAppManager
         'versions' => null,
     ];
 
-    private $filename = __DIR__.'/../../info.json';
+    private string $filename = __DIR__.'/../../info.json';
 
     protected ElasticsearchClusterManager $elasticsearchClusterManager;
 
     protected ElasticsearchNodeManager $elasticsearchNodeManager;
 
-    protected $clusterHealth;
+    protected ?array $clusterHealth;
 
-    protected $clusterSettings;
+    protected ?array $clusterSettings;
 
     /**
      * @required

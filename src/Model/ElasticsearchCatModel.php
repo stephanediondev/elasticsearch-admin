@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,19 +7,19 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchCatModel extends AbstractAppModel
 {
-    private $command;
+    private ?string $command = null;
 
-    private $index;
+    private ?string $index = null;
 
-    private $repository;
+    private ?string $repository = null;
 
-    private $alias;
+    private ?string $alias = null;
 
-    private $node;
+    private ?string $node = null;
 
-    private $headers;
+    private ?string $headers = null;
 
-    private $sort;
+    private ?string $sort = null;
 
     public function getCommand(): ?string
     {

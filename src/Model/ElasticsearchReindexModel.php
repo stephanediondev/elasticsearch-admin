@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,9 +7,9 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchReindexModel extends AbstractAppModel
 {
-    private $source;
+    private ?string $source = null;
 
-    private $destination;
+    private ?string $destination = null;
 
     public function getSource(): ?string
     {

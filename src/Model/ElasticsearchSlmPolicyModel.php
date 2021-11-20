@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,39 +7,39 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchSlmPolicyModel extends AbstractAppModel
 {
-    private $name;
+    private ?string $name = null;
 
-    private $snapshotName;
+    private ?string $snapshotName = null;
 
-    private $repository;
+    private ?string $repository = null;
 
-    private $indices;
+    private ?array $indices = null;
 
-    private $schedule;
+    private ?string $schedule = null;
 
-    private $expireAfter;
+    private ?string $expireAfter = null;
 
-    private $minCount;
+    private ?int $minCount = null;
 
-    private $maxCount;
+    private ?int $maxCount = null;
 
-    private $ignoreUnavailable;
+    private ?bool $ignoreUnavailable = null;
 
-    private $partial;
+    private ?bool $partial = null;
 
-    private $includeGlobalState;
+    private ?bool $includeGlobalState = null;
 
-    private $nextExecution;
+    private ?int $nextExecution = null;
 
-    private $version;
+    private ?int $version = null;
 
-    private $lastSuccess;
+    private ?array $lastSuccess = null;
 
-    private $lastFailure;
+    private ?array $lastFailure = null;
 
-    private $modifiedDate;
+    private ?int $modifiedDate = null;
 
-    private $stats;
+    private ?array $stats = null;
 
     public function __construct()
     {
@@ -319,11 +320,11 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         }
 
         if (true === isset($policy['next_execution_millis'])) {
-            $this->setNextExecution($policy['next_execution_millis']);
+            $this->setNextExecution(intval($policy['next_execution_millis']));
         }
 
         if (true === isset($policy['version'])) {
-            $this->setVersion($policy['version']);
+            $this->setVersion(intval($policy['version']));
         }
 
         if (true === isset($policy['last_success'])) {
@@ -335,7 +336,7 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         }
 
         if (true === isset($policy['modified_date_millis'])) {
-            $this->setModifiedDate($policy['modified_date_millis']);
+            $this->setModifiedDate(intval($policy['modified_date_millis']));
         }
 
         if (true === isset($policy['stats'])) {

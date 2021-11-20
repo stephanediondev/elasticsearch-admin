@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,9 +10,9 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
 {
     use MappingsSettingsAliasesModelTrait;
 
-    private $name;
+    private ?string $name = null;
 
-    private $version;
+    private ?int $version = null;
 
     private ?array $metadata = null;
 
@@ -79,7 +80,7 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
     {
         $this->setName($template['name']);
         if (true === isset($template['component_template']['version'])) {
-            $this->setVersion($template['component_template']['version']);
+            $this->setVersion(intval($template['component_template']['version']));
         }
         if (true === isset($template['component_template']['template']['settings']) && 0 < count($template['component_template']['template']['settings'])) {
             $this->setSettings($template['component_template']['template']['settings']);

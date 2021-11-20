@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,19 +10,19 @@ class ElasticsearchUserModel extends AbstractAppModel
 {
     use ElasticsearchRoleUserModelTrait;
 
-    private $name;
+    private ?string $name = null;
 
-    private $enabled;
+    private ?bool $enabled = null;
 
-    private $email;
+    private ?string $email = null;
 
-    private $fullName;
+    private ?string $fullName = null;
 
-    private $changePassword;
+    private ?bool $changePassword = null;
 
-    private $password;
+    private ?string $password = null;
 
-    private $roles;
+    private ?array $roles = null;
 
     public function __construct()
     {

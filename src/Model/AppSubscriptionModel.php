@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -12,29 +13,29 @@ class AppSubscriptionModel extends AbstractAppModel
     const TYPE_SLACK = 'slack';
     const TYPE_TEAMS = 'teams';
 
-    private $id;
+    private ?string $id = null;
 
-    private $type;
+    private ?string $type = null;
 
-    private $userId;
+    private ?string $userId = null;
 
-    private $endpoint;
+    private ?string $endpoint = null;
 
-    private $publicKey;
+    private ?string $publicKey = null;
 
-    private $authenticationSecret;
+    private ?string $authenticationSecret = null;
 
-    private $contentEncoding;
+    private ?string $contentEncoding = null;
 
-    private $ip;
+    private ?string $ip = null;
 
-    private $os;
+    private ?string $os = null;
 
-    private $client;
+    private ?string $client = null;
 
-    private $notifications = [];
+    private ?array $notifications = null;
 
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

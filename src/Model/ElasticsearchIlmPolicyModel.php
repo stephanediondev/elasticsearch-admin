@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,11 +7,11 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchIlmPolicyModel extends AbstractAppModel
 {
-    private $name;
+    private ?string $name = null;
 
-    private $version;
+    private ?int $version = null;
 
-    private $modifiedDate;
+    private ?string $modifiedDate = null;
 
     private ?array $hot = null;
 
@@ -28,7 +29,7 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
 
     private ?string $deleteJson = null;
 
-    private $phases;
+    private ?array $phases = null;
 
     public function getName(): ?string
     {
@@ -167,7 +168,7 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
         return $this->phases;
     }
 
-    public function setPhases($phases): self
+    public function setPhases(?array $phases): self
     {
         $this->phases = $phases;
 
@@ -184,7 +185,7 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
         $this->setName($policy['name']);
 
         if (true === isset($policy['version'])) {
-            $this->setVersion($policy['version']);
+            $this->setVersion(intval($policy['version']));
         }
 
         if (true === isset($policy['modified_date'])) {

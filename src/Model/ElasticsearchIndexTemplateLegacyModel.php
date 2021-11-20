@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,15 +10,15 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
 {
     use MappingsSettingsAliasesModelTrait;
 
-    private $name;
+    private ?string $name = null;
 
-    private $indexPatterns;
+    private ?string $indexPatterns = null;
 
-    private $template;
+    private ?string $template = null;
 
-    private $version;
+    private ?int $version = null;
 
-    private $order;
+    private ?int $order = null;
 
     public function getName(): ?string
     {
@@ -105,10 +106,10 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
             $this->setTemplate($template['template']);
         }
         if (true === isset($template['version'])) {
-            $this->setVersion($template['version']);
+            $this->setVersion(intval($template['version']));
         }
         if (true === isset($template['order'])) {
-            $this->setOrder($template['order']);
+            $this->setOrder(intval($template['order']));
         }
         if (true === isset($template['settings']) && 0 < count($template['settings'])) {
             $this->setSettings($template['settings']);

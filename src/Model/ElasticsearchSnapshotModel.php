@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,21 +10,21 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 {
     use ElasticsearchSnapshotModelTrait;
 
-    private $name;
+    private ?string $name = null;
 
-    private $repository;
+    private ?string $repository = null;
 
-    private $version;
+    private ?string $version = null;
 
-    private $failures;
+    private ?array $failures = null;
 
-    private $state;
+    private ?string $state = null;
 
-    private $startTime;
+    private ?string $startTime = null;
 
-    private $endTime;
+    private ?string $endTime = null;
 
-    private $duration;
+    private ?string $duration = null;
 
     private ?array $metadata = null;
 

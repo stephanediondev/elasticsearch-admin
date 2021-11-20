@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,16 +7,16 @@ use App\Model\AbstractAppModel;
 
 class CallRequestModel extends AbstractAppModel
 {
-    private $method;
+    private ?string $method = null;
 
-    private $path;
+    private ?string $path = null;
 
-    private $options;
+    private ?array $options = null;
 
     public function __construct()
     {
         $this->method = 'GET';
-        $this->options = ['query' => [], 'json' => [], 'body' => false];
+        $this->options = ['query' => [], 'json' => [], 'body' => null];
     }
 
     public function getMethod(): ?string

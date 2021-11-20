@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,31 +10,31 @@ class ElasticsearchIndexModel extends AbstractAppModel
 {
     use MappingsSettingsAliasesModelTrait;
 
-    private $id;
+    private ?string $id = null;
 
-    private $name;
+    private ?string $name = null;
 
-    private $status;
+    private ?string $status = null;
 
-    private $health;
+    private ?string $health = null;
 
-    private $frozen;
+    private ?string $frozen = null;
 
-    private $primaryShards;
+    private ?int $primaryShards = null;
 
-    private $replicas;
+    private ?int $replicas = null;
 
-    private $documents;
+    private ?int $documents = null;
 
-    private $documentsDeleted;
+    private ?int $documentsDeleted = null;
 
-    private $primarySize;
+    private ?int $primarySize = null;
 
-    private $totalSize;
+    private ?int $totalSize = null;
 
-    private $creationDate;
+    private ?string $creationDate = null;
 
-    private $mappingsFlat;
+    private ?array $mappingsFlat = null;
 
     public function getId(): ?string
     {
@@ -184,7 +185,7 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return $this->mappingsFlat;
     }
 
-    public function setMappingsFlat($mappingsFlat): self
+    public function setMappingsFlat(?array $mappingsFlat): self
     {
         $this->mappingsFlat = $mappingsFlat;
 
@@ -252,27 +253,27 @@ class ElasticsearchIndexModel extends AbstractAppModel
         }
 
         if (true === isset($index['pri'])) {
-            $this->setPrimaryShards($index['pri']);
+            $this->setPrimaryShards(intval($index['pri']));
         }
 
         if (true === isset($index['rep'])) {
-            $this->setReplicas($index['rep']);
+            $this->setReplicas(intval($index['rep']));
         }
 
         if (true === isset($index['docs.count'])) {
-            $this->setDocuments($index['docs.count']);
+            $this->setDocuments(intval($index['docs.count']));
         }
 
         if (true === isset($index['docs.deleted'])) {
-            $this->setDocumentsDeleted($index['docs.deleted']);
+            $this->setDocumentsDeleted(intval($index['docs.deleted']));
         }
 
         if (true === isset($index['pri.store.size'])) {
-            $this->setPrimarySize($index['pri.store.size']);
+            $this->setPrimarySize(intval($index['pri.store.size']));
         }
 
         if (true === isset($index['store.size'])) {
-            $this->setTotalSize($index['store.size']);
+            $this->setTotalSize(intval($index['store.size']));
         }
 
         if (true === isset($index['creation.date.string'])) {

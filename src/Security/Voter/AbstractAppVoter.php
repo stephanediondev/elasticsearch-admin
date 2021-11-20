@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 abstract class AbstractAppVoter extends Voter
 {
-    protected $security;
+    protected Security $security;
 
     protected AppRoleManager $appRoleManager;
 

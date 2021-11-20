@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,13 +7,13 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchClusterDiskThresholdsModel extends AbstractAppModel
 {
-    private $enabled;
+    private ?bool $enabled = null;
 
-    private $low;
+    private ?string $low = null;
 
-    private $high;
+    private ?string $high = null;
 
-    private $floodStage;
+    private ?string $floodStage = null;
 
     public function getEnabled(): ?bool
     {

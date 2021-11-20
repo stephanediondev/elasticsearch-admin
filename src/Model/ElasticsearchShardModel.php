@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -145,7 +146,7 @@ class ElasticsearchShardModel extends AbstractAppModel
 
     public function convert(?array $shard): self
     {
-        $this->setNumber($shard['shard']);
+        $this->setNumber(intval($shard['shard']));
         $this->setIndex($shard['index']);
         if (true === isset($shard['prirep'])) {
             $this->setPrimaryOrReplica($shard['prirep']);
@@ -158,10 +159,10 @@ class ElasticsearchShardModel extends AbstractAppModel
             $this->setUnassignedDetails($shard['unassigned.details']);
         }
         if (true === isset($shard['docs'])) {
-            $this->setDocuments($shard['docs']);
+            $this->setDocuments(intval($shard['docs']));
         }
         if (true === isset($shard['store'])) {
-            $this->setSize($shard['store']);
+            $this->setSize(intval($shard['store']));
         }
         if (true === isset($shard['node'])) {
             $this->setNode($shard['node']);

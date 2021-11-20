@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -7,21 +8,21 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    private $id;
+    private ?string $id = null;
 
-    private $email;
+    private ?string $email = null;
 
-    private $changePassword;
+    private ?bool $changePassword = null;
 
-    private $password;
+    private ?string $password = null;
 
-    private $passwordPlain;
+    private ?string $passwordPlain = null;
 
-    private $secretRegister;
+    private ?string $secretRegister = null;
 
-    private $roles = [];
+    private ?array $roles = null;
 
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,21 +10,21 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 {
     use MappingsSettingsAliasesModelTrait;
 
-    private $name;
+    private ?string $name = null;
 
-    private $indexPatterns;
+    private ?string $indexPatterns = null;
 
-    private $version;
+    private ?int $version = null;
 
-    private $priority;
+    private ?int $priority = null;
 
-    private $composedOf;
+    private ?array $composedOf = null;
 
     private ?array $metadata = null;
 
     private ?string $metadataJson = null;
 
-    private $dataStream;
+    private ?bool $dataStream = null;
 
     public function getName(): ?string
     {
@@ -147,10 +148,10 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         $this->setName($template['name']);
         $this->setIndexPatterns(implode(', ', $template['index_template']['index_patterns']));
         if (true === isset($template['index_template']['version'])) {
-            $this->setVersion($template['index_template']['version']);
+            $this->setVersion(intval($template['index_template']['version']));
         }
         if (true === isset($template['index_template']['priority'])) {
-            $this->setPriority($template['index_template']['priority']);
+            $this->setPriority(intval($template['index_template']['priority']));
         }
         if (true === isset($template['index_template']['composed_of']) && 0 < count($template['index_template']['composed_of'])) {
             $this->setComposedOf($template['index_template']['composed_of']);

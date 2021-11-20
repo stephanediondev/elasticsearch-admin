@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,19 +10,19 @@ class ElasticsearchRoleModel extends AbstractAppModel
 {
     use ElasticsearchRoleUserModelTrait;
 
-    private $name;
+    private ?string $name = null;
 
     private ?array $applications = null;
 
     private ?string $applicationsJson = null;
 
-    private $cluster;
+    private ?array $cluster = null;
 
     private ?array $indices = null;
 
     private ?string $indicesJson = null;
 
-    private $runAs;
+    private ?array $runAs = null;
 
     public function getName(): ?string
     {
@@ -100,7 +101,7 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->runAs;
     }
 
-    public function setRunAs($runAs): self
+    public function setRunAs(?array $runAs): self
     {
         $this->runAs = $runAs;
 

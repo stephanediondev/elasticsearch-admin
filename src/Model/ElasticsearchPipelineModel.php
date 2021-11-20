@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,11 +7,11 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchPipelineModel extends AbstractAppModel
 {
-    private $name;
+    private ?string $name = null;
 
-    private $version;
+    private ?int $version = null;
 
-    private $description;
+    private ?string $description = null;
 
     private ?array $processors = null;
 
@@ -116,7 +117,7 @@ class ElasticsearchPipelineModel extends AbstractAppModel
             $this->setDescription($pipeline['description']);
         }
         if (true === isset($pipeline['version'])) {
-            $this->setVersion($pipeline['version']);
+            $this->setVersion(intval($pipeline['version']));
         }
         if (true === isset($pipeline['processors']) && 0 < count($pipeline['processors'])) {
             $this->setProcessors($pipeline['processors']);
