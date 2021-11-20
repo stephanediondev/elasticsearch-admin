@@ -336,5 +336,7 @@ You can run the application from a folder in an existing vhost (ie http://localh
 [(Back to development)](#development)
 
 ```
+vendor/bin/phpstan analyse -l 6 src
+vendor/bin/phpstan analyse -l 6 tests
 bin/console app:phpunit && bin/phpunit
 ```
