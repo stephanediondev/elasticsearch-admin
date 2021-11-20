@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -126,8 +127,8 @@ class AppSubscriptionsController extends AbstractAppController
         $subscription->setUserId($user->getId());
         $subscription->setType($type);
         $subscription->setIp($request->getClientIp());
-        $subscription->setOs($os ? $os['name'].' '.$os['version'] : false);
-        $subscription->setClient($client ? $client['name'].' '.$client['version'] : false);
+        $subscription->setOs($os ? $os['name'].' '.$os['version'] : null);
+        $subscription->setClient($client ? $client['name'].' '.$client['version'] : null);
         $subscription->setNotifications(AppNotificationModel::getTypes());
 
         $form = $this->createForm(AppSubscriptionType::class, $subscription, ['type' => $type]);
