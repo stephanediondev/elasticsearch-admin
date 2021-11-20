@@ -1,7 +1,6 @@
-FROM alpine:edge
-
-LABEL Maintainer="Tim de Pater <code@trafex.nl>" \
-      Description="Lightweight container with Nginx 1.18 & PHP-FPM 7.3 based on Alpine Linux."
+FROM alpine:3.14
+LABEL Maintainer="Tim de Pater <code@trafex.nl>"
+LABEL Description="Lightweight container with Nginx 1.20 & PHP 8.0 based on Alpine Linux."
 
 ENV APP_ENV=prod
 ENV INSTALLATION_TYPE=docker
@@ -14,20 +13,23 @@ ENV SSL_VERIFY_HOST=$SSL_VERIFY_HOST
 ENV SECRET_REGISTER=$SECRET_REGISTER
 
 # Install packages and remove default server definition
-RUN apk --update add php7 php7-fpm php7-opcache php7-json php7-openssl php7-curl \
-    php7-zlib php7-xml php7-simplexml php7-phar php7-intl php7-dom php7-xmlreader php7-ctype php7-session \
-    php7-tokenizer php7-pdo php7-pdo_mysql php7-pdo_pgsql php7-iconv php7-zip \
-    php7-gmp php7-mbstring nginx supervisor nodejs nodejs npm curl && \
-    rm -f /etc/nginx/conf.d/default.conf
+RUN apk --no-cache add php8 php8-fpm php8-opcache php8-json php8-openssl php8-curl \
+    php8-zlib php8-xml php8-simplexml php8-phar php8-intl php8-dom php8-xmlreader php8-ctype php8-session \
+    php8-tokenizer php8-pdo php8-pdo_mysql php8-pdo_pgsql php8-iconv php8-zip \
+    php8-gmp php8-mbstring nginx supervisor nodejs nodejs npm curl
+
+# Create symlink so programs depending on `php` still function
+RUN ln -s /usr/bin/php8 /usr/bin/php
 
 # Configure nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/privkey.pem /etc/nginx/privkey.pem
 COPY docker/fullchain.pem /etc/nginx/fullchain.pem
+RUN rm -f /etc/nginx/conf.d/default.conf
 
 # Configure PHP-FPM
-COPY docker/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
-COPY docker/php.ini /etc/php7/conf.d/custom.ini
+COPY docker/fpm-pool.conf /etc/php8/php-fpm.d/www.conf
+COPY docker/php.ini /etc/php8/conf.d/custom.ini
 
 # Configure supervisord
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -39,8 +41,8 @@ RUN mkdir -p /var/www/html && mkdir -p /.composer && mkdir -p /.npm
 RUN chown -R nobody.nobody /var/www/html && \
   chown -R nobody.nobody /.composer && \
   chown -R nobody.nobody /.npm && \
-  chown -R nobody.nobody /run && \
   chown -R nobody.nobody /etc/nginx && \
+  chown -R nobody.nobody /run && \
   chown -R nobody.nobody /var/lib/nginx && \
   chown -R nobody.nobody /var/log/nginx
 
