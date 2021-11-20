@@ -58,7 +58,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
 
             $values = [
                 'data[name]' => GENERATED_NAME,
-                'data[hot]' => '{
+                'data[hot_json]' => '{
                     "min_age": "0ms",
                     "actions": {
                         "rollover": {

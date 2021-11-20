@@ -12,8 +12,10 @@ class ElasticsearchRoleModelTest extends TestCase
         $role = new ElasticsearchRoleModel();
         $role->setName('name');
         $role->setApplications(['applications']);
+        $role->setApplicationsJson(json_encode(['applications']));
         $role->setCluster(['cluster']);
         $role->setIndices(['indices']);
+        $role->setIndicesJson(json_encode(['indices']));
         $role->setRunAs(['run-as']);
         $role->setMetadata(['metadata']);
 

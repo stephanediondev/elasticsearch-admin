@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Form\EventListener\MappingsSettingsAliasesSubscriber;
 use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexModel;
@@ -38,9 +37,9 @@ class ElasticsearchIndexType extends AbstractType
 
         if ('create' == $options['context']) {
             $fields[] = 'name';
-            $fields[] = 'settings';
+            $fields[] = 'settings_json';
         }
-        $fields[] = 'mappings';
+        $fields[] = 'mappings_json';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -56,8 +55,8 @@ class ElasticsearchIndexType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'settings':
-                    $builder->add('settings', TextareaType::class, [
+                case 'settings_json':
+                    $builder->add('settings_json', TextareaType::class, [
                         'label' => 'settings',
                         'required' => false,
                         'constraints' => [
@@ -65,8 +64,8 @@ class ElasticsearchIndexType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'mappings':
-                    $builder->add('mappings', TextareaType::class, [
+                case 'mappings_json':
+                    $builder->add('mappings_json', TextareaType::class, [
                         'label' => 'mappings',
                         'required' => false,
                         'constraints' => [
@@ -95,8 +94,6 @@ class ElasticsearchIndexType extends AbstractType
                 }
             }
         });
-
-        $builder->addEventSubscriber(new MappingsSettingsAliasesSubscriber());
     }
 
     public function configureOptions(OptionsResolver $resolver): void

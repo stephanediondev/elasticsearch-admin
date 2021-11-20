@@ -4,20 +4,38 @@ namespace App\Traits;
 
 trait MappingsSettingsAliasesModelTrait
 {
-    private $settings;
+    private ?array $settings = null;
 
-    private $mappings;
+    private ?string $settingsJson = null;
 
-    private $aliases;
+    private ?array $mappings = null;
+
+    private ?string $mappingsJson = null;
+
+    private ?array $aliases = null;
+
+    private ?string $aliasesJson = null;
 
     public function getSettings(): ?array
     {
         return $this->settings;
     }
 
-    public function setSettings($settings): self
+    public function setSettings(?array $settings): self
     {
         $this->settings = $settings;
+
+        return $this;
+    }
+
+    public function getSettingsJson(): ?string
+    {
+        return $this->settingsJson;
+    }
+
+    public function setSettingsJson(?string $settingsJson): self
+    {
+        $this->settingsJson = $settingsJson;
 
         return $this;
     }
@@ -39,9 +57,21 @@ trait MappingsSettingsAliasesModelTrait
         return $this->mappings;
     }
 
-    public function setMappings($mappings): self
+    public function setMappings(?array $mappings): self
     {
         $this->mappings = $mappings;
+
+        return $this;
+    }
+
+    public function getMappingsJson(): ?string
+    {
+        return $this->mappingsJson;
+    }
+
+    public function setMappingsJson(?string $mappingsJson): self
+    {
+        $this->mappingsJson = $mappingsJson;
 
         return $this;
     }
@@ -51,9 +81,21 @@ trait MappingsSettingsAliasesModelTrait
         return $this->aliases;
     }
 
-    public function setAliases($aliases): self
+    public function setAliases(?array $aliases): self
     {
         $this->aliases = $aliases;
+
+        return $this;
+    }
+
+    public function getAliasesJson(): ?string
+    {
+        return $this->aliasesJson;
+    }
+
+    public function setAliasesJson(?string $aliasesJson): self
+    {
+        $this->aliasesJson = $aliasesJson;
 
         return $this;
     }

@@ -281,10 +281,12 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
         if (true === isset($index['settings']) && 0 < count($index['settings'])) {
             $this->setSettings($index['settings']);
+            $this->setSettingsJson(json_encode($index['settings'], JSON_PRETTY_PRINT));
         }
 
         if (true === isset($index['mappings']) && 0 < count($index['mappings'])) {
             $this->setMappings($index['mappings']);
+            $this->setMappingsJson(json_encode($index['mappings'], JSON_PRETTY_PRINT));
         }
 
         if (true === isset($index['mappings_flat']) && 0 < count($index['mappings_flat'])) {

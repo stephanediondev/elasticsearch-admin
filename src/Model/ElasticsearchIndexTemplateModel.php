@@ -19,7 +19,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     private $composedOf;
 
-    private $metadata;
+    private ?array $metadata = null;
+
+    private ?string $metadataJson = null;
 
     private $dataStream;
 
@@ -88,9 +90,21 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this->metadata;
     }
 
-    public function setMetadata($metadata): self
+    public function setMetadata(?array $metadata): self
     {
         $this->metadata = $metadata;
+
+        return $this;
+    }
+
+    public function getMetadataJson(): ?string
+    {
+        return $this->metadataJson;
+    }
+
+    public function setMetadataJson(?string $metadataJson): self
+    {
+        $this->metadataJson = $metadataJson;
 
         return $this;
     }
@@ -154,6 +168,7 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         }
         if (true === isset($template['index_template']['_meta']) && 0 < count($template['index_template']['_meta'])) {
             $this->setMetadata($template['index_template']['_meta']);
+            $this->setMetadataJson(json_encode($template['index_template']['_meta'], JSON_PRETTY_PRINT));
         }
         if (true === isset($template['index_template']['data_stream'])) {
             $this->setDataStream(true);
@@ -181,24 +196,24 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
             $json['composed_of'] = $this->getComposedOf();
         }
 
-        if ($this->getSettings() || $this->getMappings() || $this->getAliases()) {
+        if ($this->getSettingsJson() || $this->getMappingsJson() || $this->getAliasesJson()) {
             $json['template'] = [];
         }
 
-        if ($this->getSettings()) {
-            $json['template']['settings'] = $this->getSettings();
+        if ($this->getSettingsJson()) {
+            $json['template']['settings'] = json_decode($this->getSettingsJson(), true);
         }
 
-        if ($this->getMappings()) {
-            $json['template']['mappings'] = $this->getMappings();
+        if ($this->getMappingsJson()) {
+            $json['template']['mappings'] = json_decode($this->getMappingsJson(), true);
         }
 
-        if ($this->getAliases()) {
-            $json['template']['aliases'] = $this->getAliases();
+        if ($this->getAliasesJson()) {
+            $json['template']['aliases'] = json_decode($this->getAliasesJson(), true);
         }
 
-        if ($this->getMetadata()) {
-            $json['_meta'] = $this->getMetadata();
+        if ($this->getMetadataJson()) {
+            $json['_meta'] = json_decode($this->getMetadataJson(), true);
         }
 
         if ($this->getDataStream()) {
