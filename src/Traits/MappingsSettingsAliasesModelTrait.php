@@ -40,7 +40,7 @@ trait MappingsSettingsAliasesModelTrait
         return $this;
     }
 
-    public function getSetting($key): ?string
+    public function getSetting(string $key): ?string
     {
         return $this->settings[$key] ?? false;
     }

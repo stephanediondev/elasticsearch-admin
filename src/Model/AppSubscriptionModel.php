@@ -167,13 +167,12 @@ class AppSubscriptionModel extends AbstractAppModel
         return array_values($this->notifications);
     }
 
-    public function setNotifications($notifications): self
+    public function setNotifications(?array $notifications): self
     {
         $this->notifications = $notifications;
 
         return $this;
     }
-
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -239,7 +238,7 @@ class AppSubscriptionModel extends AbstractAppModel
         return $this->id;
     }
 
-    public static function getTypes()
+    public static function getTypes(): array
     {
         return [
             self::TYPE_PUSH,

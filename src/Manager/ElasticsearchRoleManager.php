@@ -145,7 +145,7 @@ class ElasticsearchRoleManager extends AbstractAppManager
         return $roles;
     }
 
-    public function getPrivileges()
+    public function getPrivileges(): array
     {
         if (true === $this->callManager->hasFeature('builtin_privileges')) {
             $callRequest = new CallRequestModel();

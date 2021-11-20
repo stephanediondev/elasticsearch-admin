@@ -138,7 +138,7 @@ class AppNotificationModel extends AbstractAppModel
         }
     }
 
-    public static function getTypes()
+    public static function getTypes(): array
     {
         return [
             self::TYPE_CLUSTER_HEALTH,

@@ -222,7 +222,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    private function mappingsFlat(array $properties, string $prefix = '')
+    private function mappingsFlat(array $properties, string $prefix = ''): array
     {
         $mappingsFlat = [];
         foreach ($properties as $property => $keys) {

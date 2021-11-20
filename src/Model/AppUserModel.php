@@ -167,12 +167,12 @@ class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
     }
 
-    public function currentUserAdmin($userConnected): bool
+    public function currentUserAdmin(UserInterface $userConnected): bool
     {
         if ($this->getId() == $userConnected->getId() && true === in_array('ROLE_ADMIN', $this->roles)) {
             return true;

@@ -36,7 +36,7 @@ class AppNotificationManager extends AbstractAppManager
     /**
      * @required
      */
-    public function setClusterManager(ElasticsearchClusterManager $elasticsearchClusterManager)
+    public function setClusterManager(ElasticsearchClusterManager $elasticsearchClusterManager): void
     {
         $this->elasticsearchClusterManager = $elasticsearchClusterManager;
     }
@@ -44,7 +44,7 @@ class AppNotificationManager extends AbstractAppManager
     /**
      * @required
      */
-    public function setNodeManager(ElasticsearchNodeManager $elasticsearchNodeManager)
+    public function setNodeManager(ElasticsearchNodeManager $elasticsearchNodeManager): void
     {
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
@@ -262,12 +262,12 @@ class AppNotificationManager extends AbstractAppManager
         return $notifications;
     }
 
-    public function infoFileExists()
+    public function infoFileExists(): bool
     {
         return file_exists($this->filename);
     }
 
-    private function getColor($value)
+    private function getColor(string $value): string
     {
         switch ($value) {
             case 'license_1_day':

@@ -9,7 +9,7 @@ use App\Model\CallRequestModel;
 
 class ElasticsearchClusterManager extends AbstractAppManager
 {
-    public function getClusterHealth()
+    public function getClusterHealth(): array
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cluster/health');
@@ -25,7 +25,7 @@ class ElasticsearchClusterManager extends AbstractAppManager
         return $callResponse->getContent();
     }
 
-    public function getClusterSettings()
+    public function getClusterSettings(): array
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cluster/settings');
@@ -45,7 +45,7 @@ class ElasticsearchClusterManager extends AbstractAppManager
         return $clusterSettings;
     }
 
-    public function getMaintenanceTable()
+    public function getMaintenanceTable(): array
     {
         return [
             ['es_version' => '1.0.0', 'eol_date' => '2015-08-12', 'maintained_until' => '1.1.0'],
@@ -96,7 +96,7 @@ class ElasticsearchClusterManager extends AbstractAppManager
         ];
     }
 
-    public function getClusterSettingsNotDynamic()
+    public function getClusterSettingsNotDynamic(): array
     {
         return [
             'bootstrap.ctrlhandler',

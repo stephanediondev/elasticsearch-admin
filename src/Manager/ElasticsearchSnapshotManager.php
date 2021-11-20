@@ -41,7 +41,7 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         return $snapshotModel;
     }
 
-    public function getAll($repositories, array $filter = []): array
+    public function getAll(array $repositories, array $filter = []): array
     {
         $snapshots = [];
 
