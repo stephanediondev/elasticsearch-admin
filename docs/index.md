@@ -142,7 +142,7 @@ If you have SSL certificates, add ```-v /path/privkey.pem:/etc/nginx/privkey.pem
 [(Back to source installation)](#source-installation)
 
 - Web server
-- PHP 7.2.5 or higher (7.4 recommended): [Visit](https://symfony.com/doc/current/setup/web_server_configuration.html)
+- PHP 8: [Visit](https://symfony.com/doc/current/setup/web_server_configuration.html)
 - Composer: [Visit](https://getcomposer.org/download/)
 - npm: [Visit](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
@@ -247,12 +247,6 @@ server {
 [(Back to source installation)](#source-installation)
 
 Download or clone the repository from GitHub [Visit](https://github.com/stephanediondev/elasticsearch-admin)
-
-If you don't have PHP 7.4, remove ```composer.lock``` or you will have the error below
-
-```
-Fatal Error: composer.lock was created for PHP version 7.4 or higher but the current PHP version is ...
-```
 
 Launch the following commands to install
 

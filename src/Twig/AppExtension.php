@@ -77,7 +77,7 @@ class AppExtension extends AbstractExtension
         return $xx.'.'.intval($yy).'.'.intval($zz);
     }
 
-    public function humanDatetime($datetime, string $format = 'D, d M Y H:i'): string
+    public function humanDatetime(mixed $datetime, string $format = 'D, d M Y H:i'): string
     {
         if ($datetime instanceof \Datetime) {
             return $datetime->format($format);
@@ -125,7 +125,7 @@ class AppExtension extends AbstractExtension
         return $sort;
     }
 
-    public function retrieveValue(array $source, string $field)
+    public function retrieveValue(array $source, string $field): mixed
     {
         $value = false;
 

@@ -5,7 +5,7 @@ namespace App\Model;
 
 abstract class AbstractAppModel
 {
-    public function convertBoolean($value): bool
+    public function convertBoolean(mixed $value): bool
     {
         if ('false' === $value) {
             return false;
