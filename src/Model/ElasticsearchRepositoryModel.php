@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -11,45 +12,45 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
     const TYPE_GCS = 'gcs';
     const TYPE_AZURE = 'azure';
 
-    private $type;
+    private ?string $type = null;
 
-    private $name;
+    private ?string $name = null;
 
-    private $compress;
+    private ?bool $compress = null;
 
-    private $chunkSize;
+    private ?string $chunkSize = null;
 
-    private $maxRestoreBytesPerSec;
+    private ?string $maxRestoreBytesPerSec = null;
 
-    private $maxSnapshotBytesPerSec;
+    private ?string $maxSnapshotBytesPerSec = null;
 
-    private $readonly;
+    private ?bool $readonly = null;
 
-    private $verify;
+    private ?bool $verify = null;
 
-    private $location;
+    private ?string $location = null;
 
-    private $bucket;
+    private ?string $bucket = null;
 
-    private $client;
+    private ?string $client = null;
 
-    private $basePath;
+    private ?string $basePath = null;
 
-    private $serverSideEncryption;
+    private ?bool $serverSideEncryption = null;
 
-    private $bufferSize;
+    private ?string $bufferSize = null;
 
-    private $cannedAcl;
+    private ?string $cannedAcl = null;
 
-    private $storageClass;
+    private ?string $storageClass = null;
 
-    private $awsAccount;
+    private ?string $awsAccount = null;
 
-    private $settings;
+    private ?array $settings = null;
 
-    private $container;
+    private ?string $container = null;
 
-    private $locationMode;
+    private ?string $locationMode = null;
 
     public function __construct()
     {

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,7 +7,7 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchIndexAliasModel extends AbstractAppModel
 {
-    private $name;
+    private ?string $name = null;
 
     public function getName(): ?string
     {

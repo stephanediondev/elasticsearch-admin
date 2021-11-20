@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,9 +7,9 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchApplyIlmPolicyModel extends AbstractAppModel
 {
-    private $indexTemplate;
+    private ?string $indexTemplate = null;
 
-    private $rolloverAlias;
+    private ?string $rolloverAlias = null;
 
     public function getIndexTemplate(): ?string
     {

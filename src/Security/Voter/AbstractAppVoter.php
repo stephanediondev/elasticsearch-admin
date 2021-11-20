@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 abstract class AbstractAppVoter extends Voter
 {
-    protected $security;
+    protected Security $security;
 
     protected AppRoleManager $appRoleManager;
 
@@ -27,7 +27,7 @@ abstract class AbstractAppVoter extends Voter
         }
     }
 
-    public function isGranted(string $attribute)
+    public function isGranted(string $attribute): bool
     {
         if ($this->security->isGranted('ROLE_ADMIN')) {
             return true;
@@ -36,5 +36,7 @@ abstract class AbstractAppVoter extends Voter
         if (true === isset($this->permissions[$this->module]) && true === in_array($attribute, $this->permissions[$this->module])) {
             return true;
         }
+
+        return false;
     }
 }

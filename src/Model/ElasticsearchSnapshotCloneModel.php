@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,7 +10,7 @@ class ElasticsearchSnapshotCloneModel extends AbstractAppModel
 {
     use ElasticsearchSnapshotModelTrait;
 
-    private $targetName;
+    private ?string $targetName = null;
 
     public function getTargetName(): ?string
     {

@@ -42,8 +42,8 @@ class ElasticsearchPipelineType extends AbstractType
         }
         $fields[] = 'description';
         $fields[] = 'version';
-        $fields[] = 'processors';
-        $fields[] = 'on_failure';
+        $fields[] = 'processors_json';
+        $fields[] = 'on_failure_json';
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -78,8 +78,8 @@ class ElasticsearchPipelineType extends AbstractType
                         ],
                     ]);
                     break;
-                case 'processors':
-                    $builder->add('processors', TextareaType::class, [
+                case 'processors_json':
+                    $builder->add('processors_json', TextareaType::class, [
                         'label' => 'processors',
                         'required' => true,
                         'constraints' => [
@@ -93,8 +93,8 @@ class ElasticsearchPipelineType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'on_failure':
-                    $builder->add('on_failure', TextareaType::class, [
+                case 'on_failure_json':
+                    $builder->add('on_failure_json', TextareaType::class, [
                         'label' => 'on_failure',
                         'required' => false,
                         'constraints' => [
@@ -106,22 +106,6 @@ class ElasticsearchPipelineType extends AbstractType
                     break;
             }
         }
-
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-
-            if ($form->has('processors') && $form->get('processors')->getData()) {
-                $fieldOptions = $form->get('processors')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('processors')->getData(), JSON_PRETTY_PRINT);
-                $form->add('processors', TextareaType::class, $fieldOptions);
-            }
-
-            if ($form->has('on_failure') && $form->get('on_failure')->getData()) {
-                $fieldOptions = $form->get('on_failure')->getConfig()->getOptions();
-                $fieldOptions['data'] = json_encode($form->get('on_failure')->getData(), JSON_PRETTY_PRINT);
-                $form->add('on_failure', TextareaType::class, $fieldOptions);
-            }
-        });
 
         $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
             $form = $event->getForm();
@@ -137,16 +121,6 @@ class ElasticsearchPipelineType extends AbstractType
                         ));
                     }
                 }
-            }
-
-            if ($form->has('processors') && $form->get('processors')->getData()) {
-                $data->setProcessors(json_decode($form->get('processors')->getData(), true));
-                $event->setData($data);
-            }
-
-            if ($form->has('on_failure') && $form->get('on_failure')->getData()) {
-                $data->setOnFailure(json_decode($form->get('on_failure')->getData(), true));
-                $event->setData($data);
             }
         });
     }

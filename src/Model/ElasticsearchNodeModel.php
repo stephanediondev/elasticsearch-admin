@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,21 +7,21 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchNodeModel extends AbstractAppModel
 {
-    private $id;
+    private ?string $id = null;
 
-    private $name;
+    private ?string $name = null;
 
-    private $ip;
+    private ?string $ip = null;
 
-    private $version;
+    private ?string $version = null;
 
-    private $os;
+    private ?array $os = null;
 
-    private array $roles = [];
+    private ?array $roles = null;
 
-    private $settings;
+    private ?array $settings = null;
 
-    private $plugins;
+    private ?array $plugins = null;
 
     public function getId(): ?string
     {

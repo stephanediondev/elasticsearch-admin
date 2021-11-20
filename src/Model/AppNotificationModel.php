@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -13,19 +14,19 @@ class AppNotificationModel extends AbstractAppModel
     const TYPE_LICENSE = 'license';
     const TYPE_VERSION = 'version';
 
-    private $id;
+    private ?string $id = null;
 
-    private $type;
+    private ?string $type = null;
 
-    private $cluster;
+    private ?string $cluster = null;
 
-    private $title;
+    private ?string $title = null;
 
-    private $content;
+    private ?string $content = null;
 
-    private $color;
+    private ?string $color = null;
 
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {
@@ -137,7 +138,7 @@ class AppNotificationModel extends AbstractAppModel
         }
     }
 
-    public static function getTypes()
+    public static function getTypes(): array
     {
         return [
             self::TYPE_CLUSTER_HEALTH,

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,7 +7,7 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchReloadSecureSettingsModel extends AbstractAppModel
 {
-    private $secureSettingsPassword;
+    private ?string $secureSettingsPassword = null;
 
     public function __construct()
     {

@@ -64,7 +64,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
             'data[name]' => GENERATED_NAME,
         ];
         if (true === $this->callManager->checkVersion('7.0')) {
-            $values['data[mappings]'] = file_get_contents(__DIR__.'/../../src/DataFixtures/es-test-mappings.json');
+            $values['data[mappings_json]'] = file_get_contents(__DIR__.'/../../src/DataFixtures/es-test-mappings.json');
         }
         $this->client->submitForm('Submit', $values);
 
@@ -90,7 +90,7 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
             'data[name]' => GENERATED_NAME_SYSTEM,
         ];
         if (true === $this->callManager->checkVersion('7.0')) {
-            $values['data[mappings]'] = file_get_contents(__DIR__.'/../../src/DataFixtures/es-test-mappings.json');
+            $values['data[mappings_json]'] = file_get_contents(__DIR__.'/../../src/DataFixtures/es-test-mappings.json');
         }
         $this->client->submitForm('Submit', $values);
 

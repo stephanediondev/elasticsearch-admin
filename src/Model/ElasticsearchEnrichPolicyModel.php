@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,17 +7,17 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchEnrichPolicyModel extends AbstractAppModel
 {
-    private $name;
+    private ?string $name = null;
 
-    private $type;
+    private ?string $type = null;
 
-    private $indices;
+    private ?array $indices = null;
 
-    private $matchField;
+    private ?string $matchField = null;
 
-    private $enrichFields;
+    private ?array $enrichFields = null;
 
-    private $query;
+    private ?string $query = null;
 
     public function getName(): ?string
     {
@@ -111,7 +112,7 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         $policy['indices'] = $row['config'][$policy['type']]['indices'];
         $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
         $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
-        $policy['query'] = $row['config'][$policy['type']]['query'] ?? false;
+        $policy['query'] = $row['config'][$policy['type']]['query'] ?? null;
 
         $this->setType($policy['type']);
         $this->setName($policy['name']);

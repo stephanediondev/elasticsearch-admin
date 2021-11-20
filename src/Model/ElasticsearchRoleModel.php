@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,15 +10,19 @@ class ElasticsearchRoleModel extends AbstractAppModel
 {
     use ElasticsearchRoleUserModelTrait;
 
-    private $name;
+    private ?string $name = null;
 
-    private $applications;
+    private ?array $applications = null;
 
-    private $cluster;
+    private ?string $applicationsJson = null;
 
-    private $indices;
+    private ?array $cluster = null;
 
-    private $runAs;
+    private ?array $indices = null;
+
+    private ?string $indicesJson = null;
+
+    private ?array $runAs = null;
 
     public function getName(): ?string
     {
@@ -36,9 +41,21 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->applications;
     }
 
-    public function setApplications($applications): self
+    public function setApplications(?array $applications): self
     {
         $this->applications = $applications;
+
+        return $this;
+    }
+
+    public function getApplicationsJson(): ?string
+    {
+        return $this->applicationsJson;
+    }
+
+    public function setApplicationsJson(?string $applicationsJson): self
+    {
+        $this->applicationsJson = $applicationsJson;
 
         return $this;
     }
@@ -60,9 +77,21 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->indices;
     }
 
-    public function setIndices($indices): self
+    public function setIndices(?array $indices): self
     {
         $this->indices = $indices;
+
+        return $this;
+    }
+
+    public function getIndicesJson(): ?string
+    {
+        return $this->indicesJson;
+    }
+
+    public function setIndicesJson(?string $indicesJson): self
+    {
+        $this->indicesJson = $indicesJson;
 
         return $this;
     }
@@ -72,7 +101,7 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this->runAs;
     }
 
-    public function setRunAs($runAs): self
+    public function setRunAs(?array $runAs): self
     {
         $this->runAs = $runAs;
 
@@ -86,12 +115,15 @@ class ElasticsearchRoleModel extends AbstractAppModel
         $this->setRunAs($role['run_as']);
         if (true === isset($role['indices']) && 0 < count($role['indices'])) {
             $this->setIndices($role['indices']);
+            $this->setIndicesJson(json_encode($role['indices'], JSON_PRETTY_PRINT));
         }
         if (true === isset($role['applications']) && 0 < count($role['applications'])) {
             $this->setApplications($role['applications']);
+            $this->setApplicationsJson(json_encode($role['applications'], JSON_PRETTY_PRINT));
         }
         if (true === isset($role['metadata']) && 0 < count($role['metadata'])) {
             $this->setMetadata($role['metadata']);
+            $this->setMetadataJson(json_encode($role['metadata'], JSON_PRETTY_PRINT));
         }
         return $this;
     }
@@ -103,16 +135,16 @@ class ElasticsearchRoleModel extends AbstractAppModel
             'run_as' => $this->getRunAs(),
         ];
 
-        if ($this->getApplications()) {
-            $json['applications'] = $this->getApplications();
+        if ($this->getApplicationsJson()) {
+            $json['applications'] = json_decode($this->getApplicationsJson(), true);
         }
 
-        if ($this->getIndices()) {
-            $json['indices'] = $this->getIndices();
+        if ($this->getIndicesJson()) {
+            $json['indices'] = json_decode($this->getIndicesJson(), true);
         }
 
-        if ($this->getMetadata()) {
-            $json['metadata'] = $this->getMetadata();
+        if ($this->getMetadataJson()) {
+            $json['metadata'] = json_decode($this->getMetadataJson(), true);
         }
 
         return $json;

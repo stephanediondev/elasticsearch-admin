@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,11 +7,11 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchClusterSettingModel extends AbstractAppModel
 {
-    private $type;
+    private ?string $type = null;
 
-    private $setting;
+    private ?string $setting = null;
 
-    private $value;
+    private ?string $value = null;
 
     public function getType(): ?string
     {

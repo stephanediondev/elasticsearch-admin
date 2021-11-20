@@ -12,16 +12,15 @@ class ElasticsearchIlmPolicyModelTest extends TestCase
         $policy = new ElasticsearchIlmPolicyModel();
         $policy->setName('name');
         $policy->setVersion(1);
-        $policy->setPhases('');
         $policy->setPhases(['phases']);
-        $policy->setHot('');
         $policy->setHot(['hot']);
-        $policy->setWarm('');
+        $policy->setHotJson(json_encode(['hot']));
         $policy->setWarm(['warm']);
-        $policy->setCold('');
+        $policy->setWarmJson(json_encode(['warm']));
         $policy->setCold(['cold']);
-        $policy->setDelete('');
+        $policy->setColdJson(json_encode(['cold']));
         $policy->setDelete(['delete']);
+        $policy->setDeleteJson(json_encode(['delete']));
 
         $this->assertEquals($policy->getName(), 'name');
         $this->assertEquals(strval($policy), 'name');

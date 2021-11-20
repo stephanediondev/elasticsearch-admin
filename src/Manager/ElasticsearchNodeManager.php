@@ -199,7 +199,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodes;
     }
 
-    public function filterletters()
+    public function filterletters(): array
     {
         return [
             'm' => 'master',

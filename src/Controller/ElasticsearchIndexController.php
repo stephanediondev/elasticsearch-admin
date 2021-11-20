@@ -341,11 +341,11 @@ class ElasticsearchIndexController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $json = [];
-                if ($index->getSettings()) {
-                    $json['settings'] = $index->getSettings();
+                if ($index->getSettingsJson()) {
+                    $json['settings'] = json_decode($index->getSettingsJson(), true);
                 }
-                if ($index->getMappings()) {
-                    $json['mappings'] = $index->getMappings();
+                if ($index->getMappingsJson()) {
+                    $json['mappings'] = json_decode($index->getMappingsJson(), true);
                 }
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('PUT');
@@ -406,8 +406,8 @@ class ElasticsearchIndexController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                if ($index->getMappings()) {
-                    $json = $index->getMappings();
+                if ($index->getMappingsJson()) {
+                    $json = json_decode($index->getMappingsJson(), true);
                     $callRequest = new CallRequestModel();
                     $callRequest->setMethod('PUT');
                     $callRequest->setPath('/'.$index->getName().'/_mapping');

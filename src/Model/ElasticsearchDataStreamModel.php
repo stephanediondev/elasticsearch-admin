@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -6,21 +7,21 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchDataStreamModel extends AbstractAppModel
 {
-    private $name;
+    private ?string $name = null;
 
-    private $timestampFieldName;
+    private ?string $timestampFieldName = null;
 
-    private $indices;
+    private ?array $indices = null;
 
-    private $generation;
+    private ?int $generation = null;
 
-    private $status;
+    private ?string $status = null;
 
-    private $template;
+    private ?string $template = null;
 
-    private $ilmPolicy;
+    private ?string $ilmPolicy = null;
 
-    private $hidden;
+    private ?bool $hidden = null;
 
     public function getName(): ?string
     {
@@ -120,7 +121,7 @@ class ElasticsearchDataStreamModel extends AbstractAppModel
         }
 
         if (true === isset($stream['generation'])) {
-            $this->setGeneration($stream['generation']);
+            $this->setGeneration(intval($stream['generation']));
         }
 
         if (true === isset($stream['indices']) && 0 < count($stream['indices'])) {

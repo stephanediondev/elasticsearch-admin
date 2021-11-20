@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Model;
 
@@ -9,23 +10,25 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 {
     use ElasticsearchSnapshotModelTrait;
 
-    private $name;
+    private ?string $name = null;
 
-    private $repository;
+    private ?string $repository = null;
 
-    private $version;
+    private ?string $version = null;
 
-    private $failures;
+    private ?array $failures = null;
 
-    private $state;
+    private ?string $state = null;
 
-    private $startTime;
+    private ?string $startTime = null;
 
-    private $endTime;
+    private ?string $endTime = null;
 
-    private $duration;
+    private ?string $duration = null;
 
-    private $metadata;
+    private ?array $metadata = null;
+
+    private ?string $metadataJson = null;
 
     public function __construct()
     {
@@ -140,6 +143,18 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         return $this;
     }
 
+    public function getMetadataJson(): ?string
+    {
+        return $this->metadataJson;
+    }
+
+    public function setMetadataJson(?string $metadataJson): self
+    {
+        $this->metadataJson = $metadataJson;
+
+        return $this;
+    }
+
     public function convert(?array $snapshot): self
     {
         $this->setName($snapshot['snapshot']);
@@ -175,6 +190,7 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 
         if (true === isset($snapshot['metadata'])) {
             $this->setMetadata($snapshot['metadata']);
+            $this->setMetadataJson(json_encode($snapshot['metadata'], JSON_PRETTY_PRINT));
         }
 
         return $this;

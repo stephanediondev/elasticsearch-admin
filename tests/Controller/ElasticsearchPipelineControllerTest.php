@@ -41,7 +41,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 
             $values = [
                 'data[name]' => GENERATED_NAME,
-                'data[processors]' => '[]',
+                'data[processors_json]' => '[]',
             ];
             $this->client->submitForm('Submit', $values);
 
@@ -79,7 +79,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
             $this->assertSelectorTextSame('h3', 'Create pipeline');
 
             $values = [
-                'data[processors]' => '[]',
+                'data[processors_json]' => '[]',
             ];
             $this->client->submitForm('Submit', $values);
 
