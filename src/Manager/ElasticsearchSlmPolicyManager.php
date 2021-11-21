@@ -40,13 +40,15 @@ class ElasticsearchSlmPolicyManager extends AbstractAppManager
         $results = $callResponse->getContent();
 
         $policies = [];
-        foreach ($results as $k => $row) {
-            $row['name'] = $k;
-            $policyModel = new ElasticsearchSlmPolicyModel();
-            $policyModel->convert($row);
-            $policies[] = $policyModel;
+        if ($results) {
+            foreach ($results as $k => $row) {
+                $row['name'] = $k;
+                $policyModel = new ElasticsearchSlmPolicyModel();
+                $policyModel->convert($row);
+                $policies[] = $policyModel;
+            }
+            usort($policies, [$this, 'sortByName']);
         }
-        usort($policies, [$this, 'sortByName']);
 
         return $policies;
     }

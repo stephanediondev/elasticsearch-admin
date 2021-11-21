@@ -63,13 +63,15 @@ class ElasticsearchRoleManager extends AbstractAppManager
         $results = $callResponse->getContent();
 
         $roles = [];
-        foreach ($results as $k => $row) {
-            $row['name'] = $k;
-            $roleModel = new ElasticsearchRoleModel();
-            $roleModel->convert($row);
-            $roles[$k] = $roleModel;
+        if ($results) {
+            foreach ($results as $k => $row) {
+                $row['name'] = $k;
+                $roleModel = new ElasticsearchRoleModel();
+                $roleModel->convert($row);
+                $roles[$k] = $roleModel;
+            }
+            ksort($roles);
         }
-        ksort($roles);
 
         return $this->filter($roles, $filter);
     }
@@ -136,11 +138,12 @@ class ElasticsearchRoleManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
-        foreach ($rows as $k => $row) {
-            $roles[] = $k;
+        if ($rows) {
+            foreach ($rows as $k => $row) {
+                $roles[] = $k;
+            }
+            sort($roles);
         }
-
-        sort($roles);
 
         return $roles;
     }

@@ -42,13 +42,15 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
         $results = $callResponse->getContent();
 
         $repositories = [];
-        foreach ($results as $k => $row) {
-            $row['name'] = $k;
-            $repositoryModel = new ElasticsearchRepositoryModel();
-            $repositoryModel->convert($row);
-            $repositories[] = $repositoryModel;
+        if ($results) {
+            foreach ($results as $k => $row) {
+                $row['name'] = $k;
+                $repositoryModel = new ElasticsearchRepositoryModel();
+                $repositoryModel->convert($row);
+                $repositories[] = $repositoryModel;
+            }
+            usort($repositories, [$this, 'sortByName']);
         }
-        usort($repositories, [$this, 'sortByName']);
 
         return $repositories;
     }
@@ -110,10 +112,12 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
-        foreach ($rows as $k => $row) {
-            $repositories[] = $k;
+        if ($rows) {
+            foreach ($rows as $k => $row) {
+                $repositories[] = $k;
+            }
+            sort($repositories);
         }
-        sort($repositories);
 
         return $repositories;
     }

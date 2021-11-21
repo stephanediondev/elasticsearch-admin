@@ -66,8 +66,10 @@ class ElasticsearchIndexManager extends AbstractAppManager
         $rows = $callResponse->getContent();
 
         if (Response::HTTP_OK == $callResponse->getCode()) {
-            foreach ($rows as $row) {
-                $aliases[$row['index']][$row['alias']] = [];
+            if ($rows) {
+                foreach ($rows as $row) {
+                    $aliases[$row['index']][$row['alias']] = [];
+                }
             }
         }
 
@@ -258,8 +260,10 @@ class ElasticsearchIndexManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $rows = $callResponse->getContent();
 
-        foreach ($rows as $row) {
-            $indices[] = $row['index'];
+        if ($rows) {
+            foreach ($rows as $row) {
+                $indices[] = $row['index'];
+            }
         }
 
         return $indices;
@@ -280,8 +284,10 @@ class ElasticsearchIndexManager extends AbstractAppManager
         $rows = $callResponse->getContent();
 
         if (Response::HTTP_OK == $callResponse->getCode()) {
-            foreach ($rows as $row) {
-                $aliases[] = $row['alias'];
+            if ($rows) {
+                foreach ($rows as $row) {
+                    $aliases[] = $row['alias'];
+                }
             }
         }
 
