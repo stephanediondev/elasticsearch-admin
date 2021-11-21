@@ -114,7 +114,9 @@ class ElasticsearchDataStreamModel extends AbstractAppModel
 
     public function convert(?array $stream): self
     {
-        $this->setName($stream['name']);
+        if (true === isset($stream['name'])) {
+            $this->setName($stream['name']);
+        }
 
         if (true === isset($stream['status'])) {
             $this->setStatus(strtolower($stream['status']));

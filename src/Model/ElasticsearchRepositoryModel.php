@@ -175,8 +175,13 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
 
     public function convert(?array $repository): self
     {
-        $this->setName($repository['name']);
-        $this->setType($repository['type']);
+        if (true === isset($repository['name'])) {
+            $this->setName($repository['name']);
+        }
+
+        if (true === isset($repository['type'])) {
+            $this->setType($repository['type']);
+        }
 
         if (true === isset($repository['settings']) && 0 < count($repository['settings'])) {
             $this->setSettings($repository['settings']);
@@ -184,15 +189,19 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
             if (true === isset($repository['settings']['compress'])) {
                 $this->setCompress($this->convertBoolean($repository['settings']['compress']));
             }
+
             if (true === isset($repository['settings']['chunk_size'])) {
                 $this->setChunkSize($repository['settings']['chunk_size']);
             }
+
             if (true === isset($repository['settings']['max_restore_bytes_per_sec'])) {
                 $this->setMaxRestoreBytesPerSec($repository['settings']['max_restore_bytes_per_sec']);
             }
+
             if (true === isset($repository['settings']['max_snapshot_bytes_per_sec'])) {
                 $this->setMaxSnapshotBytesPerSec($repository['settings']['max_snapshot_bytes_per_sec']);
             }
+
             if (true === isset($repository['settings']['readonly'])) {
                 $this->setReadonly($this->convertBoolean($repository['settings']['readonly']));
             }
@@ -237,6 +246,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
                 $this->setLocationMode($repository['settings']['location_mode']);
             }
         }
+
         return $this;
     }
 

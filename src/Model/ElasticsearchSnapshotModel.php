@@ -157,8 +157,13 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 
     public function convert(?array $snapshot): self
     {
-        $this->setName($snapshot['snapshot']);
-        $this->setRepository($snapshot['repository']);
+        if (true === isset($snapshot['snapshot'])) {
+            $this->setName($snapshot['snapshot']);
+        }
+
+        if (true === isset($snapshot['repository'])) {
+            $this->setRepository($snapshot['repository']);
+        }
 
         if (true === isset($snapshot['version'])) {
             $this->setVersion($snapshot['version']);

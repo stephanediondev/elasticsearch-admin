@@ -93,12 +93,22 @@ class ElasticsearchShardRerouteModel extends AbstractAppModel
 
     public function convert(?array $shard): self
     {
-        $this->setNumber($shard['shard']);
-        $this->setIndex($shard['index']);
-        $this->setState(strtolower($shard['state']));
+        if (true === isset($shard['shard'])) {
+            $this->setNumber($shard['shard']);
+        }
+
+        if (true === isset($shard['index'])) {
+            $this->setIndex($shard['index']);
+        }
+
+        if (true === isset($shard['state'])) {
+            $this->setState(strtolower($shard['state']));
+        }
+
         if (true === isset($shard['node'])) {
             $this->setNode($shard['node']);
         }
+
         return $this;
     }
 }

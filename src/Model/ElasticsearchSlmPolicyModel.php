@@ -286,10 +286,21 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     public function convert(?array $policy): self
     {
-        $this->setName($policy['name']);
-        $this->setSnapshotName($policy['policy']['name']);
-        $this->setSchedule($policy['policy']['schedule']);
-        $this->setRepository($policy['policy']['repository']);
+        if (true === isset($policy['name'])) {
+            $this->setName($policy['name']);
+        }
+
+        if (true === isset($policy['policy']['name'])) {
+            $this->setSnapshotName($policy['policy']['name']);
+        }
+
+        if (true === isset($policy['policy']['schedule'])) {
+            $this->setSchedule($policy['policy']['schedule']);
+        }
+
+        if (true === isset($policy['policy']['repository'])) {
+            $this->setRepository($policy['policy']['repository']);
+        }
 
         if (true === isset($policy['policy']['config']['indices'])) {
             $this->setIndices($policy['policy']['config']['indices']);

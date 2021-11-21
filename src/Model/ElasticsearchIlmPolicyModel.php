@@ -182,7 +182,9 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
 
     public function convert(?array $policy): self
     {
-        $this->setName($policy['name']);
+        if (true === isset($policy['name'])) {
+            $this->setName($policy['name']);
+        }
 
         if (true === isset($policy['version'])) {
             $this->setVersion(intval($policy['version']));
@@ -199,14 +201,17 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
                 $this->setHot($policy['policy']['phases']['hot']);
                 $this->setHotJson(json_encode($policy['policy']['phases']['hot'], JSON_PRETTY_PRINT));
             }
+
             if (true === isset($policy['policy']['phases']['warm'])) {
                 $this->setWarm($policy['policy']['phases']['warm']);
                 $this->setWarmJson(json_encode($policy['policy']['phases']['warm'], JSON_PRETTY_PRINT));
             }
+
             if (true === isset($policy['policy']['phases']['cold'])) {
                 $this->setCold($policy['policy']['phases']['cold']);
                 $this->setColdJson(json_encode($policy['policy']['phases']['cold'], JSON_PRETTY_PRINT));
             }
+
             if (true === isset($policy['policy']['phases']['delete'])) {
                 $this->setDelete($policy['policy']['phases']['delete']);
                 $this->setDeleteJson(json_encode($policy['policy']['phases']['delete'], JSON_PRETTY_PRINT));

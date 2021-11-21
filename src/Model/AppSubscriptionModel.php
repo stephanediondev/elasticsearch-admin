@@ -188,26 +188,52 @@ class AppSubscriptionModel extends AbstractAppModel
 
     public function convert(?array $subscription): self
     {
-        $this->setId($subscription['id']);
+        if (true === isset($subscription['id'])) {
+            $this->setId($subscription['id']);
+        }
+
         $this->setType($subscription['type'] ?? self::TYPE_PUSH);
-        $this->setUserId($subscription['user_id']);
-        $this->setEndpoint($subscription['endpoint']);
+
+        if (true === isset($subscription['user_id'])) {
+            $this->setUserId($subscription['user_id']);
+        }
+
+        if (true === isset($subscription['endpoint'])) {
+            $this->setEndpoint($subscription['endpoint']);
+        }
+
         if (true === isset($subscription['public_key'])) {
             $this->setPublicKey($subscription['public_key']);
         }
+
         if (true === isset($subscription['authentication_secret'])) {
             $this->setAuthenticationSecret($subscription['authentication_secret']);
         }
+
         if (true === isset($subscription['content_encoding'])) {
             $this->setContentEncoding($subscription['content_encoding']);
         }
-        $this->setIp($subscription['ip']);
-        $this->setOs($subscription['os']);
-        $this->setClient($subscription['client']);
+
+        if (true === isset($subscription['ip'])) {
+            $this->setIp($subscription['ip']);
+        }
+
+        if (true === isset($subscription['os'])) {
+            $this->setOs($subscription['os']);
+        }
+
+        if (true === isset($subscription['client'])) {
+            $this->setClient($subscription['client']);
+        }
+
         if (true === isset($subscription['notifications']) && 0 < count($subscription['notifications'])) {
             $this->setNotifications($subscription['notifications']);
         }
-        $this->setCreatedAt(new \Datetime($subscription['created_at']));
+
+        if (true === isset($subscription['created_at'])) {
+            $this->setCreatedAt(new \Datetime($subscription['created_at']));
+        }
+
         return $this;
     }
 

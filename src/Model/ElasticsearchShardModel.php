@@ -146,27 +146,42 @@ class ElasticsearchShardModel extends AbstractAppModel
 
     public function convert(?array $shard): self
     {
-        $this->setNumber(intval($shard['shard']));
-        $this->setIndex($shard['index']);
+        if (true === isset($shard['shard'])) {
+            $this->setNumber(intval($shard['shard']));
+        }
+
+        if (true === isset($shard['index'])) {
+            $this->setIndex($shard['index']);
+        }
+
         if (true === isset($shard['prirep'])) {
             $this->setPrimaryOrReplica($shard['prirep']);
         }
-        $this->setState(strtolower($shard['state']));
+
+        if (true === isset($shard['state'])) {
+            $this->setState(strtolower($shard['state']));
+        }
+
         if (true === isset($shard['unassigned.reason'])) {
             $this->setUnassignedReason(strtolower($shard['unassigned.reason']));
         }
+
         if (true === isset($shard['unassigned.details'])) {
             $this->setUnassignedDetails($shard['unassigned.details']);
         }
+
         if (true === isset($shard['docs'])) {
             $this->setDocuments(intval($shard['docs']));
         }
+
         if (true === isset($shard['store'])) {
             $this->setSize(intval($shard['store']));
         }
+
         if (true === isset($shard['node'])) {
             $this->setNode($shard['node']);
         }
+
         return $this;
     }
 }

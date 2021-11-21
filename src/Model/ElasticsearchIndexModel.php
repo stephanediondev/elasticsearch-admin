@@ -238,7 +238,9 @@ class ElasticsearchIndexModel extends AbstractAppModel
             $this->setId($index['uuid']);
         }
 
-        $this->setName($index['index']);
+        if (true === isset($index['index'])) {
+            $this->setName($index['index']);
+        }
 
         if (true === isset($index['status'])) {
             $this->setStatus($index['status']);

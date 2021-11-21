@@ -117,15 +117,31 @@ class ElasticsearchUserModel extends AbstractAppModel
 
     public function convert(?array $user): self
     {
-        $this->setName($user['username']);
-        $this->setFullName($user['full_name']);
-        $this->setEmail($user['email']);
-        $this->setRoles($user['roles']);
-        $this->setEnabled($user['enabled']);
+        if (true === isset($user['username'])) {
+            $this->setName($user['username']);
+        }
+
+        if (true === isset($user['full_name'])) {
+            $this->setFullName($user['full_name']);
+        }
+
+        if (true === isset($user['email'])) {
+            $this->setEmail($user['email']);
+        }
+
+        if (true === isset($user['roles'])) {
+            $this->setRoles($user['roles']);
+        }
+
+        if (true === isset($user['enabled'])) {
+            $this->setEnabled($user['enabled']);
+        }
+
         if (true === isset($user['metadata']) && 0 < count($user['metadata'])) {
             $this->setMetadata($user['metadata']);
             $this->setMetadataJson(json_encode($user['metadata'], JSON_PRETTY_PRINT));
         }
+
         return $this;
     }
 

@@ -65,7 +65,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
      *
      * @return AppUserModel
      */
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $user): ?AppUserModel
     {
         if (!$user instanceof AppUserModel) {
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));

@@ -110,21 +110,33 @@ class ElasticsearchRoleModel extends AbstractAppModel
 
     public function convert(?array $role): self
     {
-        $this->setName($role['name']);
-        $this->setCluster($role['cluster']);
-        $this->setRunAs($role['run_as']);
+        if (true === isset($role['name'])) {
+            $this->setName($role['name']);
+        }
+
+        if (true === isset($role['cluster'])) {
+            $this->setCluster($role['cluster']);
+        }
+
+        if (true === isset($role['run_as'])) {
+            $this->setRunAs($role['run_as']);
+        }
+
         if (true === isset($role['indices']) && 0 < count($role['indices'])) {
             $this->setIndices($role['indices']);
             $this->setIndicesJson(json_encode($role['indices'], JSON_PRETTY_PRINT));
         }
+
         if (true === isset($role['applications']) && 0 < count($role['applications'])) {
             $this->setApplications($role['applications']);
             $this->setApplicationsJson(json_encode($role['applications'], JSON_PRETTY_PRINT));
         }
+
         if (true === isset($role['metadata']) && 0 < count($role['metadata'])) {
             $this->setMetadata($role['metadata']);
             $this->setMetadataJson(json_encode($role['metadata'], JSON_PRETTY_PRINT));
         }
+
         return $this;
     }
 

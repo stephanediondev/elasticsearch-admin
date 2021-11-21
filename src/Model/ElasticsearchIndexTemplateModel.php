@@ -145,37 +145,51 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     public function convert(?array $template): self
     {
-        $this->setName($template['name']);
-        $this->setIndexPatterns(implode(', ', $template['index_template']['index_patterns']));
+        if (true === isset($template['name'])) {
+            $this->setName($template['name']);
+        }
+
+        if (true === isset($template['index_template']['index_patterns'])) {
+            $this->setIndexPatterns(implode(', ', $template['index_template']['index_patterns']));
+        }
+
         if (true === isset($template['index_template']['version'])) {
             $this->setVersion(intval($template['index_template']['version']));
         }
+
         if (true === isset($template['index_template']['priority'])) {
             $this->setPriority(intval($template['index_template']['priority']));
         }
+
         if (true === isset($template['index_template']['composed_of']) && 0 < count($template['index_template']['composed_of'])) {
             $this->setComposedOf($template['index_template']['composed_of']);
         }
+
         if (true === isset($template['index_template']['template']) && 0 < count($template['index_template']['template'])) {
             if (true === isset($template['index_template']['template']['settings']) && 0 < count($template['index_template']['template']['settings'])) {
                 $this->setSettings($template['index_template']['template']['settings']);
             }
+
             if (true === isset($template['index_template']['template']['mappings']) && 0 < count($template['index_template']['template']['mappings'])) {
                 $this->setMappings($template['index_template']['template']['mappings']);
             }
+
             if (true === isset($template['index_template']['template']['aliases']) && 0 < count($template['index_template']['template']['aliases'])) {
                 $this->setAliases($template['index_template']['template']['aliases']);
             }
         }
+
         if (true === isset($template['index_template']['_meta']) && 0 < count($template['index_template']['_meta'])) {
             $this->setMetadata($template['index_template']['_meta']);
             $this->setMetadataJson(json_encode($template['index_template']['_meta'], JSON_PRETTY_PRINT));
         }
+
         if (true === isset($template['index_template']['data_stream'])) {
             $this->setDataStream(true);
         } else {
             $this->setDataStream(false);
         }
+
         return $this;
     }
 

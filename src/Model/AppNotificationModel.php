@@ -152,25 +152,34 @@ class AppNotificationModel extends AbstractAppModel
 
     public function convert(?array $notification): self
     {
-        $this->setId($notification['id']);
+        if (true === isset($notification['id'])) {
+            $this->setId($notification['id']);
+        }
+
         if (true === isset($notification['type'])) {
             $this->setType($notification['type']);
         }
+
         if (true === isset($notification['cluster'])) {
             $this->setCluster($notification['cluster']);
         }
+
         if (true === isset($notification['title'])) {
             $this->setTitle($notification['title']);
         }
+
         if (true === isset($notification['content'])) {
             $this->setContent($notification['content']);
         }
+
         if (true === isset($notification['color'])) {
             $this->setColor($notification['color']);
         }
+
         if (true === isset($notification['created_at'])) {
             $this->setCreatedAt(new \Datetime($notification['created_at']));
         }
+
         return $this;
     }
 

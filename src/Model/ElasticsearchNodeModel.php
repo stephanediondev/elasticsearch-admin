@@ -130,7 +130,9 @@ class ElasticsearchNodeModel extends AbstractAppModel
             $this->setId($node['id']);
         }
 
-        $this->setName($node['name']);
+        if (true === isset($node['name'])) {
+            $this->setName($node['name']);
+        }
 
         if (true === isset($node['ip'])) {
             $this->setIp($node['ip']);

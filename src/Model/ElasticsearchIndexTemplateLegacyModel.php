@@ -98,28 +98,38 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
 
     public function convert(?array $template): self
     {
-        $this->setName($template['name']);
+        if (true === isset($template['name'])) {
+            $this->setName($template['name']);
+        }
+
         if (true === isset($template['index_patterns'])) {
             $this->setIndexPatterns(implode(', ', $template['index_patterns']));
         }
+
         if (true === isset($template['template'])) {
             $this->setTemplate($template['template']);
         }
+
         if (true === isset($template['version'])) {
             $this->setVersion(intval($template['version']));
         }
+
         if (true === isset($template['order'])) {
             $this->setOrder(intval($template['order']));
         }
+
         if (true === isset($template['settings']) && 0 < count($template['settings'])) {
             $this->setSettings($template['settings']);
         }
+
         if (true === isset($template['mappings']) && 0 < count($template['mappings'])) {
             $this->setMappings($template['mappings']);
         }
+
         if (true === isset($template['aliases']) && 0 < count($template['aliases'])) {
             $this->setAliases($template['aliases']);
         }
+
         return $this;
     }
 

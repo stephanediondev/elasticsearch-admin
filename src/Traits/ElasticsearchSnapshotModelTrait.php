@@ -4,13 +4,13 @@ namespace App\Traits;
 
 trait ElasticsearchSnapshotModelTrait
 {
-    private array $indices;
+    private ?array $indices = null;
 
-    private bool $ignoreUnavailable;
+    private ?bool $ignoreUnavailable = null;
 
-    private bool $partial;
+    private ?bool $partial = null;
 
-    private bool $includeGlobalState;
+    private ?bool $includeGlobalState = null;
 
     public function getIndices(): ?array
     {
