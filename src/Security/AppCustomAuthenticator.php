@@ -45,7 +45,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         $request->getSession()->set(Security::LAST_USERNAME, $email);
 
         return new Passport(
-            new UserBadge($email, function($identifier) {
+            new UserBadge($email, function ($identifier) {
                 return $this->appUserManager->getByEmail($identifier);
             }),
             new PasswordCredentials($request->request->get('password', '')),
