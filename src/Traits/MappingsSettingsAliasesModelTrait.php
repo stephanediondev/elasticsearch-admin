@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Traits;
 
@@ -40,9 +41,9 @@ trait MappingsSettingsAliasesModelTrait
         return $this;
     }
 
-    public function getSetting(string $key): ?string
+    public function getSetting(string $key): mixed
     {
-        return $this->settings[$key] ?? false;
+        return $this->settings[$key] ?? null;
     }
 
     public function setSetting(?string $key, ?string $value): self
