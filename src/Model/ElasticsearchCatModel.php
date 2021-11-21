@@ -109,20 +109,22 @@ class ElasticsearchCatModel extends AbstractAppModel
     {
         $command = $this->command;
 
-        if (strstr($this->command, '{index}')) {
-            $command = str_replace('{index}', $this->index, $command);
-        }
+        if (null !== $this->command) {
+            if (null !== $this->index && strstr($this->command, '{index}')) {
+                $command = str_replace('{index}', $this->index, $command);
+            }
 
-        if (strstr($this->command, '{repository}')) {
-            $command = str_replace('{repository}', $this->repository, $command);
-        }
+            if (null !== $this->repository && strstr($this->command, '{repository}')) {
+                $command = str_replace('{repository}', $this->repository, $command);
+            }
 
-        if (strstr($this->command, '{alias}')) {
-            $command = str_replace('{alias}', $this->alias, $command);
-        }
+            if (null !== $this->alias && strstr($this->command, '{alias}')) {
+                $command = str_replace('{alias}', $this->alias, $command);
+            }
 
-        if (strstr($this->command, '{node}')) {
-            $command = str_replace('{node}', $this->node, $command);
+            if (null !== $this->node && strstr($this->command, '{node}')) {
+                $command = str_replace('{node}', $this->node, $command);
+            }
         }
 
         return $command;

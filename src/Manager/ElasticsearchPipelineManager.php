@@ -25,9 +25,11 @@ class ElasticsearchPipelineManager extends AbstractAppManager
 
             $pipeline = null;
 
-            foreach ($rows as $k => $row) {
-                $pipeline = $row;
-                $pipeline['name'] = $k;
+            if ($rows) {
+                foreach ($rows as $k => $row) {
+                    $pipeline = $row;
+                    $pipeline['name'] = $k;
+                }
             }
 
             if ($pipeline) {

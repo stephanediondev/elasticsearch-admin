@@ -143,10 +143,12 @@ class ElasticsearchEnrichPolicyType extends AbstractType
 
             $results = $callResponse->getContent();
 
-            foreach ($results as $result) {
-                if (true === isset($result['mappings']) && true === isset($result['mappings']['properties'])) {
-                    foreach ($result['mappings']['properties'] as $k => $property) {
-                        $choices[$k] = $k;
+            if ($results) {
+                foreach ($results as $result) {
+                    if (true === isset($result['mappings']) && true === isset($result['mappings']['properties'])) {
+                        foreach ($result['mappings']['properties'] as $k => $property) {
+                            $choices[$k] = $k;
+                        }
                     }
                 }
             }

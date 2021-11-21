@@ -60,7 +60,7 @@ class CallRequestModel extends AbstractAppModel
 
     public function getQuery(): ?array
     {
-        return $this->options['query'];
+        return $this->options['query'] ?? null;
     }
 
     public function setQuery(?array $query): self
@@ -72,7 +72,7 @@ class CallRequestModel extends AbstractAppModel
 
     public function getJson(): ?array
     {
-        return $this->options['json'];
+        return $this->options['json'] ?? null;
     }
 
     public function setJson(?array $json): self
@@ -84,7 +84,7 @@ class CallRequestModel extends AbstractAppModel
 
     public function getBody(): ?string
     {
-        return $this->options['body'];
+        return $this->options['body'] ?? null;
     }
 
     public function setBody(?string $body): self

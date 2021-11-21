@@ -78,7 +78,7 @@ class ElasticsearchEnrichPolicyManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
-    public function getStats(): array
+    public function getStats(): ?array
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_enrich/_stats');

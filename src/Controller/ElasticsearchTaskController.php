@@ -51,10 +51,14 @@ class ElasticsearchTaskController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $nodes = $callResponse->getContent();
 
-        foreach ($nodes['nodes'] as $node) {
-            foreach ($node['tasks'] as $task) {
-                $task['node'] = $node['name'];
-                $tasks[] = $task;
+        if (true === isset($nodes['nodes'])) {
+            foreach ($nodes['nodes'] as $node) {
+                if (true === isset($node['tasks'])) {
+                    foreach ($node['tasks'] as $task) {
+                        $task['node'] = $node['name'];
+                        $tasks[] = $task;
+                    }
+                }
             }
         }
 
