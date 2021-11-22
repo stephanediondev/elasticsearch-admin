@@ -38,7 +38,7 @@ jobs:
             - name: Setup PHP
               uses: nanasess/setup-php@master
               with:
-                    php-version: 7.4
+                    php-version: 8.0
               env:
                     ELASTICSEARCH_URL: 127.0.0.1:9200
 
@@ -57,3 +57,5 @@ jobs:
             - run: sudo chown -R $USER:$USER /home/runner/work/elasticsearch-admin/elasticsearch-admin
             - run: bin/console app:phpunit
             - run: bin/phpunit
+            - run: vendor/bin/phpstan analyse -l 6 src
+            - run: vendor/bin/phpstan analyse -l 6 tests
