@@ -8,9 +8,6 @@ class ElasticsearchNodeManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $elasticsearchNodeManager = static::getContainer()->get('App\Manager\ElasticsearchNodeManager');
 
         $node = $elasticsearchNodeManager->getByName(uniqid());

@@ -12,9 +12,6 @@ class PaginatorManagerTest extends WebTestCase
 
     public function testPaginatePage0(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
@@ -39,9 +36,6 @@ class PaginatorManagerTest extends WebTestCase
 
     public function testPaginatePage1(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
@@ -66,9 +60,6 @@ class PaginatorManagerTest extends WebTestCase
 
     public function testPaginatePage2(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
@@ -93,9 +84,6 @@ class PaginatorManagerTest extends WebTestCase
 
     public function testPaginatePage3(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
@@ -120,9 +108,6 @@ class PaginatorManagerTest extends WebTestCase
 
     public function testPaginatePage4(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $paginatorManager = static::getContainer()->get('App\Manager\PaginatorManager');
 
         $paginate = [
