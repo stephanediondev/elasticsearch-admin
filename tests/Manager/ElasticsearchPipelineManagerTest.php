@@ -8,9 +8,6 @@ class ElasticsearchPipelineManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $elasticsearchPipelineManager = static::getContainer()->get('App\Manager\ElasticsearchPipelineManager');
 
         $pipeline = $elasticsearchPipelineManager->getByName(uniqid());

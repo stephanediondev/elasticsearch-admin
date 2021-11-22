@@ -8,9 +8,6 @@ class AppUserManagerTest extends WebTestCase
 {
     public function testGetByIdNull(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
         $user = $appUserManager->getById(uniqid());
@@ -20,9 +17,6 @@ class AppUserManagerTest extends WebTestCase
 
     public function testGetByEmailNull(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
         $user = $appUserManager->getByEmail(uniqid());

@@ -8,9 +8,6 @@ class ElasticsearchIndexManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $elasticsearchIndexManager = static::getContainer()->get('App\Manager\ElasticsearchIndexManager');
 
         $index = $elasticsearchIndexManager->getByName(uniqid());

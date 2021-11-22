@@ -8,9 +8,6 @@ class AppRoleManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $appRoleManager = static::getContainer()->get('App\Manager\AppRoleManager');
 
         $role = $appRoleManager->getByName(uniqid());

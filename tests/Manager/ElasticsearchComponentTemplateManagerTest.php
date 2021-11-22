@@ -8,9 +8,6 @@ class ElasticsearchComponentTemplateManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $elasticsearchComponentTemplateManager = static::getContainer()->get('App\Manager\ElasticsearchComponentTemplateManager');
 
         $template = $elasticsearchComponentTemplateManager->getByName(uniqid());

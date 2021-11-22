@@ -8,9 +8,6 @@ class ElasticsearchIndexTemplateLegacyManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
-        self::bootKernel();
-        $container = self::$kernel->getContainer();
-
         $elasticsearchIndexTemplateLegacyManager = static::getContainer()->get('App\Manager\ElasticsearchIndexTemplateLegacyManager');
 
         $template = $elasticsearchIndexTemplateLegacyManager->getByName(uniqid());
