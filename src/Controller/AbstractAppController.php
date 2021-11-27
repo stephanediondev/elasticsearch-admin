@@ -101,7 +101,7 @@ abstract class AbstractAppController extends AbstractController
             try {
                 $parameters['cluster_health'] = $this->elasticsearchClusterManager->getClusterHealth();
             } catch (ConnectionException $e) {
-                throw new ServiceUnavailableHttpException(null, $e->getMessage());
+                throw new ServiceUnavailableHttpException(3600, $e->getMessage());
             }
 
             $parameters['master_node'] = $this->callManager->getMasterNode();

@@ -42,7 +42,6 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
      *
      * @return AppUserModel
      *
-     * @throws UsernameNotFoundException if the user is not found
      */
     public function loadUserByUsername(string $email): ?AppUserModel
     {
