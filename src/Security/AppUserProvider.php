@@ -9,6 +9,7 @@ use App\Model\AppUserModel;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
         $this->appUserManager = $appUserManager;
     }
 
-    public function loadUserByIdentifier(string $identifier): ?AppUserModel
+    public function loadUserByIdentifier(string $identifier): UserInterface
     {
         // Load a User object from your data source or throw UsernameNotFoundException.
         // The $username argument may not actually be a username:
@@ -88,7 +89,7 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
     /**
      * Upgrades the encoded password of a user, typically for using a better hash algorithm.
      */
-    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newEncodedPassword): void
     {
         // When encoded passwords are in use, this method should:
         // 1. persist the new password in the user storage

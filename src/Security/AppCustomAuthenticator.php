@@ -15,7 +15,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
@@ -39,7 +38,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         return $request->isMethod('POST') && 'app_login' === $request->attributes->get('_route');
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email', '');
 
