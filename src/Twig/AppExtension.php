@@ -104,9 +104,9 @@ class AppExtension extends AbstractExtension
         return $this->callManager->hasPlugin($plugin);
     }
 
-    public function retrieveSort(ElasticsearchIndexModel $index, string $field): string
+    public function retrieveSort(ElasticsearchIndexModel $index, string $field): ?string
     {
-        $sort = false;
+        $sort = null;
 
         $mappingsFlat = $index->getMappingsFlat();
 
