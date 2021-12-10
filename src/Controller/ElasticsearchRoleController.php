@@ -9,7 +9,6 @@ use App\Form\Type\ElasticsearchRoleType;
 use App\Form\Type\ElasticsearchUserFilterType;
 use App\Manager\ElasticsearchRoleManager;
 use App\Manager\ElasticsearchUserManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRoleModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\AbstractAppController;
-use App\Exception\CallException;
 use App\Manager\AppManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReindexModel;

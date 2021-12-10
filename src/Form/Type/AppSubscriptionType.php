@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Manager\AppSubscriptionManager;
-use App\Model\CallRequestModel;
 use App\Model\AppNotificationModel;
 use App\Model\AppSubscriptionModel;
 use Symfony\Component\Form\AbstractType;

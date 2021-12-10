@@ -4,11 +4,8 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Manager\AbstractAppManager;
-use App\Manager\CallManager;
 use App\Model\CallRequestModel;
-use App\Model\CallResponseModel;
 use App\Model\ElasticsearchShardModel;
-use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchShardManager extends AbstractAppManager
 {

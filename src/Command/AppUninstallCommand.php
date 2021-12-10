@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Kernel;
 use App\Manager\AppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;

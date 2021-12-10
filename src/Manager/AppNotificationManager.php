@@ -5,13 +5,11 @@ namespace App\Manager;
 
 use App\Exception\ConnectionException;
 use App\Manager\AbstractAppManager;
-use App\Manager\CallManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
 use App\Model\AppNotificationModel;
-use Symfony\Component\HttpFoundation\Response;
 
 class AppNotificationManager extends AbstractAppManager
 {

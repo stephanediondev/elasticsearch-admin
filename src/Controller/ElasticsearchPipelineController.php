@@ -7,7 +7,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchPipelineType;
 use App\Manager\ElasticsearchPipelineManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchPipelineModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;

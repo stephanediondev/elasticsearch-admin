@@ -4,9 +4,7 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use App\Manager\ElasticsearchIlmPolicyManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIlmPolicyModel;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

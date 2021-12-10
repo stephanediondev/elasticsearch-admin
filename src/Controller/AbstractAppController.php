@@ -8,7 +8,6 @@ use App\Manager\CallManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\PaginatorManager;
 use App\Manager\AppThemeManager;
-use App\Model\CallRequestModel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

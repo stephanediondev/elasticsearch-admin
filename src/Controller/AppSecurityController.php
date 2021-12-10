@@ -7,7 +7,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\AppUserType;
 use App\Manager\AppManager;
-use App\Manager\CallManager;
 use App\Manager\AppUserManager;
 use App\Model\CallRequestModel;
 use App\Model\AppUserModel;
@@ -18,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class AppSecurityController extends AbstractAppController
 {

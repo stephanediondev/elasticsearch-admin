@@ -9,7 +9,6 @@ use App\Form\Type\ElasticsearchEnrichPolicyType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchEnrichPolicyManager;
 use App\Manager\ElasticsearchNodeManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchEnrichPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;

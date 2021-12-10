@@ -5,7 +5,6 @@ namespace App\Manager;
 
 use App\Exception\CallException;
 use App\Manager\AbstractAppManager;
-use App\Manager\CallManager;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
 use App\Model\ElasticsearchComponentTemplateModel;

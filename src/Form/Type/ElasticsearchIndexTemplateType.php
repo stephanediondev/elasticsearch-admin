@@ -5,9 +5,7 @@ namespace App\Form\Type;
 
 use App\Manager\CallManager;
 use App\Manager\ElasticsearchIndexTemplateManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchIndexTemplateModel;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;

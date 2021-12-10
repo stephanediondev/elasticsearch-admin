@@ -9,8 +9,6 @@ use App\Form\Type\ElasticsearchIlmPolicyType;
 use App\Form\Type\ApplyIlmPolicyType;
 use App\Manager\ElasticsearchIlmPolicyManager;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
-use App\Model\CallRequestModel;
-use App\Model\ElasticsearchIndexTemplateLegacyModel;
 use App\Model\ElasticsearchIlmPolicyModel;
 use App\Model\ElasticsearchApplyIlmPolicyModel;
 use Symfony\Component\Routing\Annotation\Route;

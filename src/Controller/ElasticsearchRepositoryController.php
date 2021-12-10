@@ -7,7 +7,6 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchRepositoryType;
 use App\Manager\ElasticsearchRepositoryManager;
-use App\Model\CallRequestModel;
 use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;

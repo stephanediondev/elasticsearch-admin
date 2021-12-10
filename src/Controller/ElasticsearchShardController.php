@@ -10,12 +10,10 @@ use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchShardManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
-use App\Model\ElasticsearchShardRerouteModel;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Form\FormInterface;
 
 /**
