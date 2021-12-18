@@ -502,6 +502,7 @@ node: "Node"
 node_allocation_decisions: "Node allocation decisions"
 node_decision: "Node decision"
 node_left: "Node left"
+node_replacement: "Node replacement"
 node_roles:
     d: "Data"
     data: "Data"
