@@ -130,7 +130,9 @@
 
                         {% if 'size' == column %}
                             <td class="d-none d-xl-table-cell">
-                                {{ row.size|human_filesize }}
+                                {% if row.size %}
+                                    {{ row.size|human_filesize }}
+                                {% endif %}
                             </td>
                         {% endif %}
 
