@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchRepositoryType;
+use App\Manager\ElasticsearchNodeManager;
 use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\ElasticsearchRepositoryModel;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,10 +21,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class ElasticsearchRepositoryController extends AbstractAppController
 {
     private ElasticsearchRepositoryManager $elasticsearchRepositoryManager;
+    private ElasticsearchNodeManager $elasticsearchNodeManager;
 
-    public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager)
+    public function __construct(ElasticsearchRepositoryManager $elasticsearchRepositoryManager, ElasticsearchNodeManager $elasticsearchNodeManager)
     {
         $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
+        $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
     /**
@@ -74,18 +77,9 @@ class ElasticsearchRepositoryController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
-        if (true === isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
-            $paths = $clusterSettings['path.repo'];
-        } elseif (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
-            $paths = [$clusterSettings['path.repo.0']];
-        } else {
-            $paths = [];
-        }
-
         $repository = new ElasticsearchRepositoryModel();
         $repository->setType($type);
-        $form = $this->createForm(ElasticsearchRepositoryType::class, $repository, ['type' => $type, 'paths' => $paths]);
+        $form = $this->createForm(ElasticsearchRepositoryType::class, $repository, ['type' => $type, 'paths' => $this->getPaths()]);
 
         $form->handleRequest($request);
 
@@ -141,16 +135,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
 
         $this->denyAccessUnlessGranted('REPOSITORY_UPDATE', $repository);
 
-        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
-        if (true === isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
-            $paths = $clusterSettings['path.repo'];
-        } elseif (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
-            $paths = [$clusterSettings['path.repo.0']];
-        } else {
-            $paths = [];
-        }
-
-        $form = $this->createForm(ElasticsearchRepositoryType::class, $repository, ['type' => $repository->getType(), 'paths' => $paths, 'context' => 'update']);
+        $form = $this->createForm(ElasticsearchRepositoryType::class, $repository, ['type' => $repository->getType(), 'paths' => $this->getPaths(), 'context' => 'update']);
 
         $form->handleRequest($request);
 
@@ -238,5 +223,28 @@ class ElasticsearchRepositoryController extends AbstractAppController
         }
 
         return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
+    }
+
+    private function getPaths(): array
+    {
+        $paths = [];
+
+        $clusterSettings = $this->elasticsearchClusterManager->getClusterSettings();
+
+        if (true === isset($clusterSettings['path.repo']) && is_array($clusterSettings['path.repo'])) {
+            $paths = $clusterSettings['path.repo'];
+        } elseif (true === isset($clusterSettings['path.repo.0']) && is_string($clusterSettings['path.repo.0'])) {
+            $paths = [$clusterSettings['path.repo.0']];
+        } else {
+            $masterNode = $this->callManager->getMasterNode();
+            $node = $this->elasticsearchNodeManager->getByName($masterNode);
+            if (true === isset($node->getSettings()['path.repo']) && is_array($node->getSettings()['path.repo'])) {
+                $paths = $node->getSettings()['path.repo'];
+            } elseif (true === isset($node->getSettings()['path.repo.0']) && is_string($node->getSettings()['path.repo.0'])) {
+                $paths = [$node->getSettings()['path.repo.0']];
+            }
+        }
+
+        return $paths;
     }
 }
