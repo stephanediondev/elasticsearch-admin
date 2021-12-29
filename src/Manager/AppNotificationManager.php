@@ -126,15 +126,18 @@ class AppNotificationManager extends AbstractAppManager
 
                 if ($license && 'basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
                     $now = (new \Datetime());
-                    $expire = new \Datetime(date('Y-m-d H:i:s', intval(substr($license['expiry_date_in_millis'], 0, -3))));
+                    $expire = new \Datetime(date('Y-m-d H:i:s', intval($license['expiry_date_in_millis'] / 1000)));
                     $interval = $now->diff($expire);
+                    $days = $interval->format('%r%a');
 
-                    if (1 >= $interval->format('%a')) {
-                        $licenseInfo = 'license_1_day';
-                    } elseif (15 > $interval->format('%a')) {
-                        $licenseInfo = 'license_15_days';
-                    } elseif (30 > $interval->format('%a')) {
-                        $licenseInfo = 'license_30_days';
+                    if (0 <= $days) {
+                        if (1 >= $days) {
+                            $licenseInfo = 'license_1_day';
+                        } elseif (15 > $days) {
+                            $licenseInfo = 'license_15_days';
+                        } elseif (30 > $days) {
+                            $licenseInfo = 'license_30_days';
+                        }
                     }
                 }
             }
