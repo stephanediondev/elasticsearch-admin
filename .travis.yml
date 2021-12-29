@@ -30,4 +30,7 @@ install:
 
 script:
     - bin/console app:phpunit
-    - bin/phpunit
+    - bin/phpunit --filter Part1
+    - bin/phpunit --filter Part2
+    - bin/phpunit --filter Manager
+    - bin/phpunit --filter Model

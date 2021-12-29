@@ -56,6 +56,9 @@ jobs:
 
             - run: sudo chown -R $USER:$USER /home/runner/work/elasticsearch-admin/elasticsearch-admin
             - run: bin/console app:phpunit
-            - run: bin/phpunit
+            - run: bin/phpunit --filter Part1
+            - run: bin/phpunit --filter Part2
+            - run: bin/phpunit --filter Manager
+            - run: bin/phpunit --filter Model
             - run: vendor/bin/phpstan analyse -l 6 src
             - run: vendor/bin/phpstan analyse -l 6 tests

@@ -338,5 +338,9 @@ You can run the application from a folder in an existing vhost (ie http://localh
 ```
 vendor/bin/phpstan analyse -l 6 src
 vendor/bin/phpstan analyse -l 6 tests
-bin/console app:phpunit && bin/phpunit
+bin/console app:phpunit
+bin/phpunit --filter Part1
+bin/phpunit --filter Part2
+bin/phpunit --filter Manager
+bin/phpunit --filter Model
 ```
