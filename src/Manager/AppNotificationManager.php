@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Twig\AppExtension;
 use App\Exception\ConnectionException;
 use App\Manager\AbstractAppManager;
 use App\Manager\ElasticsearchClusterManager;
@@ -27,6 +28,8 @@ class AppNotificationManager extends AbstractAppManager
 
     protected ElasticsearchNodeManager $elasticsearchNodeManager;
 
+    protected AppExtension $appExtension;
+
     protected ?array $clusterHealth;
 
     protected ?array $clusterSettings;
@@ -45,6 +48,14 @@ class AppNotificationManager extends AbstractAppManager
     public function setNodeManager(ElasticsearchNodeManager $elasticsearchNodeManager): void
     {
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+    }
+
+    /**
+     * @required
+     */
+    public function setAppExtension(AppExtension $appExtension): void
+    {
+        $this->appExtension = $appExtension;
     }
 
     public function getAll(): array
@@ -113,7 +124,7 @@ class AppNotificationManager extends AbstractAppManager
                 $nodesUp[] = $node['name'];
                 $nodesDiskThreshold[$node['name']] = [
                     'watermark' => $node['disk_threshold'] ?? 'watermark_ok',
-                    'percent' => $node['disk.used_percent'],
+                    'available' => intval($node['disk.avail']),
                 ];
             }
 
@@ -212,7 +223,7 @@ class AppNotificationManager extends AbstractAppManager
                     $notification->setType(AppNotificationModel::TYPE_DISK_THRESHOLD);
                     $notification->setCluster($this->clusterHealth['cluster_name']);
                     $notification->setTitle('disk threshold');
-                    $notification->setContent($node.' '.$values['percent'].'%');
+                    $notification->setContent($node.' '.$this->appExtension->humanFilesize($values['available']).' available');
                     $notification->setColor($this->getColor($values['watermark']));
 
                     $notifications[] = $notification;
