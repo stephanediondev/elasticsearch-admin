@@ -141,14 +141,14 @@ class AppNotificationManager extends AbstractAppManager
                     $interval = $now->diff($expire);
                     $days = $interval->format('%r%a');
 
-                    if (0 <= $days) {
-                        if (1 >= $days) {
-                            $licenseInfo = 'license_1_day';
-                        } elseif (15 > $days) {
-                            $licenseInfo = 'license_15_days';
-                        } elseif (30 > $days) {
-                            $licenseInfo = 'license_30_days';
-                        }
+                    if (0 > $days) {
+                        $licenseInfo = 'license_expired';
+                    } elseif (1 >= $days) {
+                        $licenseInfo = 'license_1_day';
+                    } elseif (15 > $days) {
+                        $licenseInfo = 'license_15_days';
+                    } elseif (30 > $days) {
+                        $licenseInfo = 'license_30_days';
                     }
                 }
             }
@@ -249,6 +249,9 @@ class AppNotificationManager extends AbstractAppManager
                 case 'license_1_day':
                     $notification->setContent('Expires today');
                     break;
+                case 'license_expired':
+                    $notification->setContent('Expired');
+                    break;
             }
             $notification->setColor($this->getColor($lastInfo['license']));
 
@@ -282,6 +285,7 @@ class AppNotificationManager extends AbstractAppManager
     private function getColor(string $value): string
     {
         switch ($value) {
+            case 'license_expired':
             case 'license_1_day':
             case 'watermark_flood_stage':
                 return 'red';
