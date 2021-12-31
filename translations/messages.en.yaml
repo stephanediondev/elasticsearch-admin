@@ -89,6 +89,7 @@ audit_checkpoints:
     max_shards_per_node: "The cluster shards per node limit is below 1000"
     total_shards_per_node: "The cluster shards allocation per node limit is below 1000"
     deprecations: "There is no deprecations"
+    format_msg_no_lookups: "The JVM option -Dlog4j2.formatMsgNoLookups=true is set"
 audit_comments:
     fail_for_nodes: "The checkpoint fails for the following nodes:"
     fail_for_repositories: "The checkpoint fails for the following repositories:"
@@ -133,6 +134,8 @@ audit_comments:
         note: "The setting <code>{setting}</code> is set to <code>{value}</code>."
     total_shards_per_node:
         note: "The setting <code>{setting}</code> is set to <code>{value}</code>."
+    format_msg_no_lookups:
+        fail: "The JVM option <code>-Dlog4j2.formatMsgNoLookups=true</code> is not set for the following nodes:"
 authentication_secret: "Authentication secret"
 available: "Available"
 awaiting_info: "Awaiting info"

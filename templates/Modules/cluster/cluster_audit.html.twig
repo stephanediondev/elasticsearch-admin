@@ -529,6 +529,23 @@
                                         {% endblock %}
                                     {% endembed %}
                                 {% endif %}
+
+                                {% if 'format_msg_no_lookups' == checkpoint %}
+                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
+                                        {% block comment %}
+                                            {% if 'audit_fail' == result %}
+                                                {{ ('audit_comments.' ~ checkpoint ~ '.fail')|trans|raw }}
+                                                {% for node in parameters %}
+                                                    {{ node }}{% if false == loop.last %},{% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endblock %}
+
+                                        {% block external_link %}
+                                            <a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="https://discuss.elastic.co/t/apache-log4j2-remote-code-execution-rce-vulnerability-cve-2021-44228-esa-2021-31/291476">{{ 'help'|trans }}</a>
+                                        {% endblock %}
+                                    {% endembed %}
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     {% endfor %}

@@ -261,11 +261,13 @@ class ElasticsearchClusterController extends AbstractAppController
 
         $plugins = [];
         $nodesPlugins = [];
+        $formatMsgNoLookups = [];
 
         $cpuPercent = false;
         $diskPercent = false;
         $heapSize = false;
         $heapSizeJvm = false;
+        $inputArgumentsJvm = false;
         $fileDescriptors = false;
 
         if (true === isset($parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) && 'true' == $parameters['cluster_settings']['cluster.routing.allocation.disk.threshold_enabled']) {
@@ -329,6 +331,15 @@ class ElasticsearchClusterController extends AbstractAppController
                         'init' => $node['jvm']['mem']['heap_init_in_bytes'],
                         'max' => $node['jvm']['mem']['heap_max_in_bytes'],
                     ];
+                }
+            }
+
+            if (true === isset($node['jvm']['input_arguments'])) {
+                $inputArgumentsJvm = true;
+                if (true === in_array('-Dlog4j2.formatMsgNoLookups=true', $node['jvm']['input_arguments'])) {
+                    $formatMsgNoLookups[$node['name']] = true;
+                } else {
+                    $formatMsgNoLookups[$node['name']] = false;
                 }
             }
 
@@ -397,6 +408,7 @@ class ElasticsearchClusterController extends AbstractAppController
             'total_shards_per_node',
             'replication_100_percent',
             'deprecations',
+            'format_msg_no_lookups',
         ];
 
         $checkpoints = [];
@@ -714,6 +726,22 @@ class ElasticsearchClusterController extends AbstractAppController
                             $results['audit_pass'][$checkpoint] = [];
                         }
                     }
+                break;
+            case 'format_msg_no_lookups':
+                if (true === $inputArgumentsJvm) {
+                    $fail = [];
+                    foreach ($formatMsgNoLookups as $node => $parameter) {
+                        if (false === $parameter) {
+                            $fail[] = $node;
+                        }
+                    }
+
+                    if (0 < count($fail)) {
+                        $results['audit_fail'][$checkpoint] = $fail;
+                    } else {
+                        $results['audit_pass'][$checkpoint] = [];
+                    }
+                }
                 break;
             }
         }
