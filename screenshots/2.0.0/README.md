@@ -42,6 +42,8 @@
 
 [![Snapshots](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshots.png)
 
+[![Snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshot.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshot.png)
+
 [![Snapshots stats](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshots-stats.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshots-stats.png)
 
 [![Create snapshot](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/resized/resized-snapshot-create.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2.0.0/original/original-snapshot-create.png)
