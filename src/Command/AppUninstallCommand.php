@@ -64,16 +64,18 @@ class AppUninstallCommand extends Command
                 $callResponse = $this->callManager->call($callRequest);
 
                 if (Response::HTTP_OK == $callResponse->getCode()) {
-                    $getIndex = $callResponse->getContent();
+                    if ($getIndex = $callResponse->getContent()) {
+                        $callRequest = new CallRequestModel();
+                        $callRequest->setMethod('DELETE');
+                        $callRequest->setPath('/'.array_key_first($getIndex));
+                        $callResponse = $this->callManager->call($callRequest);
 
-                    $callRequest = new CallRequestModel();
-                    $callRequest->setMethod('DELETE');
-                    $callRequest->setPath('/'.array_key_first($getIndex));
-                    $callResponse = $this->callManager->call($callRequest);
-
-                    $output->writeln('');
-                    $output->writeln($index);
-                    $output->writeln(json_encode($callResponse->getContent()));
+                        $output->writeln('');
+                        $output->writeln($index);
+                        if ($json = json_encode($callResponse->getContent())) {
+                            $output->writeln($json);
+                        }
+                    }
                 }
                 $progressBar->advance();
             }

@@ -40,17 +40,17 @@ class GenerateFaviconsCommand extends Command
     {
         $file = __DIR__.'/../../public/favicon-'.$color.'-'.$size.'.png';
 
-        $image = imagecreate($size, $size);
+        if ($image = imagecreate($size, $size)) {
+            $split = str_split($this->colors[$color], 2);
+            $r = intval(hexdec($split[0]));
+            $g = intval(hexdec($split[1]));
+            $b = intval(hexdec($split[2]));
 
-        $split = str_split($this->colors[$color], 2);
-        $r = hexdec($split[0]);
-        $g = hexdec($split[1]);
-        $b = hexdec($split[2]);
+            if (false !== $color = imagecolorallocate($image, $r, $g, $b)) {
+                imagerectangle($image, 0, 0, $size, $size, $color);
 
-        $color = imagecolorallocate($image, $r, $g, $b);
-
-        imagerectangle($image, 0, 0, $size, $size, $color);
-
-        imagepng($image, $file);
+                imagepng($image, $file);
+            }
+        }
     }
 }

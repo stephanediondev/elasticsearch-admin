@@ -83,14 +83,16 @@ class SendNotificationsCommand extends Command
                                             'body' => $notification->getContent(),
                                         ];
 
-                                        $subscription = Subscription::create([
-                                            'endpoint' => $subscription->getEndpoint(),
-                                            'publicKey' => $publicKey,
-                                            'authToken' => $authenticationSecret,
-                                            'contentEncoding' => $contentEncoding,
-                                        ]);
+                                        if ($json = json_encode($payload)) {
+                                            $subscription = Subscription::create([
+                                                'endpoint' => $subscription->getEndpoint(),
+                                                'publicKey' => $publicKey,
+                                                'authToken' => $authenticationSecret,
+                                                'contentEncoding' => $contentEncoding,
+                                            ]);
 
-                                        $webPush->queueNotification($subscription, json_encode($payload));
+                                            $webPush->queueNotification($subscription, $json);
+                                        }
                                     }
                                     break;
 

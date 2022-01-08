@@ -83,7 +83,9 @@ class PhpunitCommand extends Command
             'settings' => ['index' => ['number_of_shards' => 1, 'auto_expand_replicas' => '0-1']],
         ];
         if (true === $this->callManager->checkVersion('7.0')) {
-            $jsonIndex['mappings'] = json_decode(file_get_contents(__DIR__.'/../DataFixtures/es-test-mappings.json'), true);
+            if ($jsonMappings = file_get_contents(__DIR__.'/../DataFixtures/es-test-mappings.json')) {
+                $jsonIndex['mappings'] = json_decode($jsonMappings, true);
+            }
         }
 
         $cases = [
@@ -113,8 +115,8 @@ class PhpunitCommand extends Command
             if (Response::HTTP_OK == $callResponse->getCode()) {
                 if ('enrich' == $case) {
                     $content = $callResponse->getContent();
-                    $policies = $content['policies'];
-                    if (0 < count($policies)) {
+                    $policies = $content['policies'] ?? false;
+                    if ($policies && 0 < count($policies)) {
                         continue;
                     }
                 } else {
