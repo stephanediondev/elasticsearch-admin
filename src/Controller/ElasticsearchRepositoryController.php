@@ -237,11 +237,13 @@ class ElasticsearchRepositoryController extends AbstractAppController
             $paths = [$clusterSettings['path.repo.0']];
         } else {
             $masterNode = $this->callManager->getMasterNode();
-            $node = $this->elasticsearchNodeManager->getByName($masterNode);
-            if (true === isset($node->getSettings()['path.repo']) && is_array($node->getSettings()['path.repo'])) {
-                $paths = $node->getSettings()['path.repo'];
-            } elseif (true === isset($node->getSettings()['path.repo.0']) && is_string($node->getSettings()['path.repo.0'])) {
-                $paths = [$node->getSettings()['path.repo.0']];
+            if ($node = $this->elasticsearchNodeManager->getByName($masterNode)) {
+                $nodeSettings = $node->getSettings();
+                if (true === isset($nodeSettings['path.repo']) && is_array($nodeSettings['path.repo'])) {
+                    $paths = $nodeSettings['path.repo'];
+                } elseif (true === isset($nodeSettings['path.repo.0']) && is_string($nodeSettings['path.repo.0'])) {
+                    $paths = [$nodeSettings['path.repo.0']];
+                }
             }
         }
 

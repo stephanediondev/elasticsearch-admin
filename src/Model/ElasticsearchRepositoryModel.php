@@ -467,7 +467,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this->name;
     }
 
-    public static function getTypes(): ?array
+    public static function getTypes(): array
     {
         return [
             self::TYPE_FS,
