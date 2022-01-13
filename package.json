@@ -9,7 +9,7 @@
         "ansi-regex": ">=5.0.1",
         "core-js": "^3.20.1",
         "nth-check": ">=2.0.1",
-        "sass": "^1.45.2",
+        "sass": "^1.48.0",
         "sass-loader": "^12.4.0",
         "webpack-notifier": "^1.15.0"
     },
