@@ -75,21 +75,21 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [(Back to screenshots)](#screenshots)
 
-[![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster.png)
+[![elasticsearch-admin - Cluster summary](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster.png)
 
-[![Cluster audit](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster-audit.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster-audit.png)
+[![elasticsearch-admin - Cluster audit](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster-audit.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster-audit.png)
 
-[![Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster-allocation-explain.png)
+[![elasticsearch-admin - Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster-allocation-explain.png)
 
-[![Nodes](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-nodes.png)
+[![elasticsearch-admin - Nodes list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-nodes.png)
 
-[![Indices](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-indices.png)
+[![elasticsearch-admin - Indices list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-indices.png)
 
-[![Index import from database](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-index-database-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-index-database-import.png)
+[![elasticsearch-admin - Documents import from database](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-index-database-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-index-database-import.png)
 
-[![Shards](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-shards.png)
+[![elasticsearch-admin - Shards list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-shards.png)
 
-[![Snapshots](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-snapshots.png)
+[![elasticsearch-admin - Snapshots list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-snapshots.png)
 
 ## All screenshots
 

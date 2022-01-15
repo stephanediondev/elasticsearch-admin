@@ -34,40 +34,40 @@ class AppScreenshotsController extends AbstractAppController
         }
 
         $entries = [
-            ['title' => 'Cluster', 'filename' => 'cluster', 'path' => '/admin/cluster'],
+            ['title' => 'Cluster summary', 'filename' => 'cluster', 'path' => '/admin/cluster'],
             ['title' => 'Cluster audit', 'filename' => 'cluster-audit', 'path' => '/admin/cluster/audit'],
             ['title' => 'Cluster settings', 'filename' => 'cluster-settings', 'path' => '/admin/cluster/settings', 'feature' => 'cluster_settings'],
             ['title' => 'Cluster disk thresholds', 'filename' => 'disk-thresholds', 'path' => '/admin/cluster/disk-thresholds', 'feature' => 'cluster_settings'],
             ['title' => 'Cluster allocation explain', 'filename' => 'cluster-allocation-explain', 'path' => '/admin/cluster/allocation/explain', 'feature' => 'allocation_explain'],
-            ['title' => 'Nodes', 'filename' => 'nodes', 'path' => '/admin/nodes'],
+            ['title' => 'Nodes list', 'filename' => 'nodes', 'path' => '/admin/nodes'],
             ['title' => 'Nodes stats', 'filename' => 'nodes-stats', 'path' => '/admin/nodes/stats'],
             ['title' => 'Nodes reload secure settings', 'filename' => 'nodes-reload-secure-settings', 'path' => '/admin/nodes/reload-secure-settings', 'feature' => 'reload_secure_settings'],
-            ['title' => 'Node', 'filename' => 'node', 'path' => '/admin/nodes/'.urlencode($masterNode)],
+            ['title' => 'Node summary', 'filename' => 'node', 'path' => '/admin/nodes/'.urlencode($masterNode)],
             ['title' => 'Node settings', 'filename' => 'node-settings', 'path' => '/admin/nodes/'.urlencode($masterNode).'/settings'],
             ['title' => 'Node usage', 'filename' => 'node-usage', 'path' => '/admin/nodes/'.urlencode($masterNode).'/usage', 'feature' => 'node_usage'],
             ['title' => 'Node plugins', 'filename' => 'node-plugins', 'path' => '/admin/nodes/'.urlencode($masterNode).'/plugins'],
-            ['title' => 'Indices', 'filename' => 'indices', 'path' => '/admin/indices'],
+            ['title' => 'Indices list', 'filename' => 'indices', 'path' => '/admin/indices'],
             ['title' => 'Indices stats', 'filename' => 'indices-stats', 'path' => '/admin/indices/stats'],
-            ['title' => 'Index', 'filename' => 'index', 'path' => '/admin/indices/elasticsearch-admin-test'],
+            ['title' => 'Index summary', 'filename' => 'index', 'path' => '/admin/indices/elasticsearch-admin-test'],
             ['title' => 'Index settings', 'filename' => 'index-settings', 'path' => '/admin/indices/elasticsearch-admin-test/settings'],
             ['title' => 'Index search', 'filename' => 'index-search', 'path' => '/admin/indices/elasticsearch-admin-test/search'],
             ['title' => 'Index import from file', 'filename' => 'index-file-import', 'path' => '/admin/indices/elasticsearch-admin-test/file-import'],
-            ['title' => 'Index import from database', 'filename' => 'index-database-import', 'path' => '/admin/indices/elasticsearch-admin-test/database-import'],
+            ['title' => 'Documents import from database', 'filename' => 'index-database-import', 'path' => '/admin/indices/elasticsearch-admin-test/database-import'],
             ['title' => 'Create index', 'filename' => 'index-create', 'path' => '/admin/indices/create'],
             ['title' => 'Data streams', 'filename' => 'data-streams', 'path' => '/admin/data-streams', 'feature' => 'data_streams'],
             ['title' => 'Legacy index templates', 'filename' => 'index-templates-legacy', 'path' => '/admin/index-templates-legacy'],
             ['title' => 'Create legacy index template', 'filename' => 'index-template-create-legacy', 'path' => '/admin/index-templates-legacy/create'],
             ['title' => 'Composable index templates', 'filename' => 'index-templates', 'path' => '/admin/index-templates', 'feature' => 'composable_template'],
             ['title' => 'Create composable index template', 'filename' => 'index-template-create', 'path' => '/admin/index-templates/create', 'feature' => 'composable_template'],
-            ['title' => 'Shards', 'filename' => 'shards', 'path' => '/admin/shards'],
+            ['title' => 'Shards list', 'filename' => 'shards', 'path' => '/admin/shards'],
             ['title' => 'Shards stats', 'filename' => 'shards-stats', 'path' => '/admin/shards/stats'],
             ['title' => 'Index graveyard', 'filename' => 'index-graveyard', 'path' => '/admin/index-graveyard', 'feature' => 'tombstones'],
             ['title' => 'Dangling indices', 'filename' => 'dangling-indices', 'path' => '/admin/dangling-indices', 'feature' => 'dangling_indices'],
             ['title' => 'Create Shared file system repository', 'filename' => 'repository-create-fs', 'path' => '/admin/repositories/create/fs'],
             ['title' => 'Create AWS S3 repository', 'filename' => 'repository-create-s3', 'path' => '/admin/repositories/create/s3'],
             ['title' => 'Create SLM policy', 'filename' => 'slm-policy-create', 'path' => '/admin/slm/create', 'feature' => 'slm'],
-            ['title' => 'Snapshots', 'filename' => 'snapshots', 'path' => '/admin/snapshots'],
-            ['title' => 'Snapshot', 'filename' => 'snapshot', 'path' => '/admin/snapshots/fs/elasticsearch-admin-test'],
+            ['title' => 'Snapshots list', 'filename' => 'snapshots', 'path' => '/admin/snapshots'],
+            ['title' => 'Snapshot summary', 'filename' => 'snapshot', 'path' => '/admin/snapshots/fs/elasticsearch-admin-test'],
             ['title' => 'Snapshots stats', 'filename' => 'snapshots-stats', 'path' => '/admin/snapshots/stats'],
             ['title' => 'Create snapshot', 'filename' => 'snapshot-create', 'path' => '/admin/snapshots/create'],
             ['title' => 'Create enrich policy', 'filename' => 'enrich-create', 'path' => '/admin/enrich/create', 'feature' => 'enrich'],
@@ -100,7 +100,7 @@ class AppScreenshotsController extends AbstractAppController
             }
 
             if (false === $disabled) {
-                fwrite($fp, '[!['.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
+                fwrite($fp, '[![elasticsearch-admin - '.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
                 fwrite($fp, "\r\n");
                 fwrite($fp, "\r\n");
 
