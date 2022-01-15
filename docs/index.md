@@ -85,9 +85,9 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [![elasticsearch-admin - Indices list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-indices.png)
 
-[![elasticsearch-admin - Documents import from database](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-index-database-import.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-index-database-import.png)
-
 [![elasticsearch-admin - Shards list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-shards.png)
+
+[![elasticsearch-admin - Composable index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-index-templates.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-index-templates.png)
 
 [![elasticsearch-admin - Snapshots list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-snapshots.png)
 
