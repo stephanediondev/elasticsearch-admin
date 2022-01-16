@@ -75,31 +75,31 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [(Back to screenshots)](#screenshots)
 
-[![elasticsearch-admin - Cluster summary](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster.png)
+[![elasticsearch-admin - Cluster summary](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-cluster.png)
 
-[![elasticsearch-admin - Cluster audit](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster-audit.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster-audit.png)
+[![elasticsearch-admin - Cluster audit](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-cluster-audit.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-cluster-audit.png)
 
-[![elasticsearch-admin - Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-cluster-allocation-explain.png)
+[![elasticsearch-admin - Cluster allocation explain](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-cluster-allocation-explain.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-cluster-allocation-explain.png)
 
-[![elasticsearch-admin - Nodes list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-nodes.png)
+[![elasticsearch-admin - Nodes list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-nodes.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-nodes.png)
 
-[![elasticsearch-admin - Indices list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-indices.png)
+[![elasticsearch-admin - Indices list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-indices.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-indices.png)
 
-[![elasticsearch-admin - Shards list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-shards.png)
+[![elasticsearch-admin - Shards list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-shards.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-shards.png)
 
-[![elasticsearch-admin - Composable index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-index-templates.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-index-templates.png)
+[![elasticsearch-admin - Composable index templates](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-index-templates.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-index-templates.png)
 
-[![elasticsearch-admin - Snapshots list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7.15.0/original/original-snapshots.png)
+[![elasticsearch-admin - Snapshots list](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-snapshots.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-snapshots.png)
 
 ## All screenshots
 
 [(Back to screenshots)](#screenshots)
 
-- [2.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/2.0.0)
-- [5.0.1](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/5.0.1)
-- [6.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/6.0.0)
-- [7.15.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/7.15.0)
-- [8.0.0-alpha2](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/8.0.0-alpha2)
+- [2.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/2)
+- [5.0.1](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/5)
+- [6.0.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/6)
+- [7.15.0](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/7)
+- [8.0.0-alpha2](https://github.com/stephanediondev/elasticsearch-admin/tree/main/screenshots/8)
 
 # Installation
 

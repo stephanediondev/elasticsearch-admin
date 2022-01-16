@@ -22,7 +22,7 @@ class AppScreenshotsController extends AbstractAppController
 
         $base = $request->getSchemeAndHttpHost().$request->getBaseURL();
 
-        $version = $this->callManager->getRoot()['version']['number'];
+        $version = substr($this->callManager->getRoot()['version']['number'], 0, 1);
 
         $masterNode = $this->callManager->getMasterNode();
 
