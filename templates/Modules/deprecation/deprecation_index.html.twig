@@ -15,51 +15,51 @@
                 {{ appImport.heading({'level': 3, 'title': key|trans, 'badge': {'title': rows|length}}) }}
 
                 {% if 0 < rows|length %}
-                    {% set rowsFlat = [] %}
-                    {% set count = 0 %}
-                    {% for k, row in rows %}
-                        {% if row['level'] is defined %}
-                            {% set rowsFlat = rowsFlat|merge({(count): row}) %}
-                            {% set count = count + 1 %}
-                        {% else %}
-                            {% for rowSub in row %}
-                                {% set rowSub = rowSub|merge({'index': k}) %}
-                                {% set rowsFlat = rowsFlat|merge({(count): rowSub}) %}
-                                {% set count = count + 1 %}
+                    {% embed 'Embed/table_embed.html.twig' %}
+                        {% import 'Import/app_import.html.twig' as appImport %}
+
+                        {% block thead %}
+                            <tr>
+                                <th>{{ 'level'|trans }}</th>
+                                <th>{{ 'message'|trans }}</th>
+                                {% if 'index_settings' == key %}
+                                    <th>{{ 'index'|trans }}</th>
+                                {% endif %}
+                                <th>{{ 'external_link'|trans }}</th>
+                            </tr>
+                        {% endblock %}
+
+                        {% block tbody %}
+                            {% set rowsFlat = [] %}
+                            {% set count = 0 %}
+                            {% for k, row in rows %}
+                                {% if row['level'] is defined %}
+                                    {% set rowsFlat = rowsFlat|merge({(count): row}) %}
+                                    {% set count = count + 1 %}
+                                {% elseif 'index_settings' == key %}
+                                    {% for rowSub in row %}
+                                        {% set rowSub = rowSub|merge({'index': k}) %}
+                                        {% set rowsFlat = rowsFlat|merge({(count): rowSub}) %}
+                                        {% set count = count + 1 %}
+                                    {% endfor %}
+                                {% endif %}
                             {% endfor %}
-                        {% endif %}
-                    {% endfor %}
 
-                    {% for row in rowsFlat %}
-                        <div class="card bg-{{ theme_color_1 }} card-body{%if false == loop.last %} mb-3{% endif %}">
-                            {% if row['index'] is defined %}
-                                <p>
-                                    <strong>{{ 'index'|trans }}</strong><br>
-                                    {{ row['index'] }}
-                                </p>
-                            {% endif %}
+                            {% for row in rowsFlat %}
+                                <tr>
+                                    <td>{{ appImport.badge({'title': row['level']|trans, 'context': row['level']}) }}</td>
 
-                            <p>
-                                <strong>{{ 'level'|trans }}</strong><br>
-                                {{ row['level'] }}
-                            </p>
+                                    <td><strong>{{ row['message'] }}</strong><br><em>{{ row['details'] }}</em></td>
 
-                            <p>
-                                <strong>{{ 'message'|trans }}</strong><br>
-                                {{ row['message'] }}
-                            </p>
+                                    {% if 'index_settings' == key %}
+                                        <td>{{ row['index'] }}</td>
+                                    {% endif %}
 
-                            <p>
-                                <strong>{{ 'url'|trans }}</strong><br>
-                                <a class="{{ theme_link_secondary }}" rel="noreferrer" target="_blank" href="{{ row['url'] }}">{{ row['url'] }}</a>
-                            </p>
-
-                            <p>
-                                <strong>{{ 'details'|trans }}</strong><br>
-                                {{ row['details'] }}
-                            </p>
-                        </div>
-                    {% endfor %}
+                                    <td><a class="btn btn-secondary btn-sm" rel="noreferrer" target="_blank" href="{{ row['url'] }}">{{ 'help'|trans }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                    {% endembed %}
                 {% endif %}
             {% endblock %}
         {% endembed %}
