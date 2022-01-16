@@ -1,4 +1,4 @@
-## Screenshots 7
+## Screenshots 7.x
 
 [![elasticsearch-admin - Cluster summary](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-cluster.png)
 

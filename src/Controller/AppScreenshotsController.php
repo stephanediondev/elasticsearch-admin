@@ -83,7 +83,7 @@ class AppScreenshotsController extends AbstractAppController
 
         $fp = fopen($folder.'/README.md', 'w');
 
-        fwrite($fp, '## Screenshots '.$version);
+        fwrite($fp, '## Screenshots '.$version.'.x');
         fwrite($fp, "\r\n");
         fwrite($fp, "\r\n");
 

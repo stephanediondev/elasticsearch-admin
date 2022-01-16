@@ -1,4 +1,4 @@
-## Screenshots 8.0.0-alpha2
+## Screenshots 8.x
 
 [![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/8/original/original-cluster.png)
 

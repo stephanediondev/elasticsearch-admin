@@ -1,4 +1,4 @@
-## Screenshots 2.0.0
+## Screenshots 2.x
 
 [![Cluster](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/2/original/original-cluster.png)
 
