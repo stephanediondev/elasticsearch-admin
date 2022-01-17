@@ -14,6 +14,10 @@
 
 - Remove deprecated endpoints containing _xpack #48170 (issue: #35958)
 
+## 7.16.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.16/release-notes-7.16.0.html)
+
+- Allow range types to be used for enrich matching #76110
+
 ## 7.10.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/release-notes-7.10.0.html)
 
 - Clone Snapshot API #61839

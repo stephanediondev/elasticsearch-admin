@@ -63,7 +63,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
                 case 'type':
                     $builder->add('type', ChoiceType::class, [
                         'placeholder' => '-',
-                        'choices' => ElasticsearchEnrichPolicyModel::getTypes(),
+                        'choices' => ElasticsearchEnrichPolicyModel::getTypes($this->callManager->hasFeature('enrich_policy_type_range')),
                         'choice_label' => function ($choice, $key, $value) {
                             return $key;
                         },

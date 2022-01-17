@@ -26,6 +26,7 @@ class CallManager
     private array $featuresByVersion = [
         'freezing_endpoint_removed' => '8.0',
         '_xpack_endpoint_removed' => '8.0',
+        'enrich_policy_type_range' => '7.16',
         'data_stream_expand_wildcards' => '7.11',
         'clone_snapshot' => '7.10',
         'data_streams' => '7.9',

@@ -56,7 +56,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 - Elasticsearch roles: list, create, read, update, delete, copy
 - Tasks [2.3]: list
 - Remote clusters [5.4]: list
-- Enrich policies [7.5]: list, stats, create, read, delete, execute, copy
+- Enrich policies [7.5]: list, stats, create (match, geo_match, range [7.16]), read, delete, execute, copy
 - Pipelines [5.0]: list, create, read, update, delete, copy
 - Compact and aligned text (CAT) APIs: list, export (CSV, TSV, ODS, XLSX)
 - Console

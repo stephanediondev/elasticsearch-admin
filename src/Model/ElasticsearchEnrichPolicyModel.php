@@ -91,12 +91,18 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         return $this;
     }
 
-    public static function getTypes(): ?array
+    public static function getTypes(bool $range): ?array
     {
-        return [
+        $types = [
             'match' => 'match',
             'geo_match' => 'geo_match',
         ];
+
+        if (true === $range) {
+            $types['range'] = 'range';
+        }
+
+        return $types;
     }
 
     public function isSystem(): ?bool
