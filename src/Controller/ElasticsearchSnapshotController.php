@@ -130,9 +130,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         }
 
         foreach (array_keys($data['tables']) as $table) {
-            if (true === isset($data['tables'][$table])) {
-                usort($data['tables'][$table], [$this, 'sortByTotal']);
-            }
+            usort($data['tables'][$table], [$this, 'sortByTotal']);
         }
 
         return $this->renderAbstract($request, 'Modules/snapshot/snapshot_stats.html.twig', [
