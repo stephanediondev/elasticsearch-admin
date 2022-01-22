@@ -44,7 +44,7 @@ class LoadTestCommand extends Command
         $question = new Question('Number of replicas by index? ');
         $numberOfReplicas = (int) $helper->ask($input, $output, $question);
 
-        if (0 < $numberOfIndices) {
+        if (0 < $numberOfIndices && 0 < $numberOfShards) {
             $progressBar = new ProgressBar($output, $numberOfIndices);
 
             $progressBar->start();
@@ -52,8 +52,8 @@ class LoadTestCommand extends Command
             for ($i=1;$i<=$numberOfIndices;$i++) {
                 $json = [
                     'settings' => [
-                        'index.number_of_shards' => $numberOfShards ?? 1,
-                        'index.number_of_replicas' => $numberOfReplicas ?? 0,
+                        'index.number_of_shards' => $numberOfShards,
+                        'index.number_of_replicas' => $numberOfReplicas,
                     ],
                 ];
                 $callRequest = new CallRequestModel();
