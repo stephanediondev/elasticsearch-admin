@@ -36,13 +36,13 @@ class LoadTestCommand extends Command
         $helper = $this->getHelper('question');
 
         $question = new Question('Number of indices? ');
-        $numberOfIndices = $helper->ask($input, $output, $question);
+        $numberOfIndices = (int) $helper->ask($input, $output, $question);
 
         $question = new Question('Number of shards by index? ');
-        $numberOfShards = $helper->ask($input, $output, $question);
+        $numberOfShards = (int) $helper->ask($input, $output, $question);
 
         $question = new Question('Number of replicas by index? ');
-        $numberOfReplicas = $helper->ask($input, $output, $question);
+        $numberOfReplicas = (int) $helper->ask($input, $output, $question);
 
         if (0 < $numberOfIndices) {
             $progressBar = new ProgressBar($output, $numberOfIndices);
