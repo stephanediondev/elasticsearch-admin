@@ -36,6 +36,9 @@ class ElasticsearchSnapshotType extends AbstractType
         $fields[] = 'repository';
         $fields[] = 'name';
         $fields[] = 'indices';
+        if (true === $this->callManager->hasFeature('snapshot_feature_states')) {
+            $fields[] = 'feature_states';
+        }
         $fields[] = 'ignore_unavailable';
         $fields[] = 'partial';
         $fields[] = 'include_global_state';
@@ -84,6 +87,17 @@ class ElasticsearchSnapshotType extends AbstractType
                             'data-break-after' => 'yes',
                         ],
                         'help' => 'help_form.snapshot.indices',
+                        'help_html' => true,
+                    ]);
+                    break;
+                case 'feature_states':
+                    $builder->add('feature_states', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $options['feature_states'],
+                        'choice_translation_domain' => false,
+                        'label' => 'feature_states',
+                        'required' => false,
+                        'help' => 'help_form.snapshot.feature_states',
                         'help_html' => true,
                     ]);
                     break;

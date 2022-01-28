@@ -23,6 +23,9 @@ class ElasticsearchSnapshotRestoreType extends AbstractType
         $fields[] = 'partial';
         $fields[] = 'include_global_state';
         $fields[] = 'indices';
+        if (true === $this->callManager->hasFeature('snapshot_feature_states')) {
+            $fields[] = 'feature_states';
+        }
 
         foreach ($fields as $field) {
             switch ($field) {

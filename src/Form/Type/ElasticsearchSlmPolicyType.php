@@ -41,6 +41,9 @@ class ElasticsearchSlmPolicyType extends AbstractType
         $fields[] = 'repository';
         $fields[] = 'schedule';
         $fields[] = 'indices';
+        if (true === $this->callManager->hasFeature('snapshot_feature_states')) {
+            $fields[] = 'feature_states';
+        }
         $fields[] = 'expire_after';
         $fields[] = 'min_count';
         $fields[] = 'max_count';
