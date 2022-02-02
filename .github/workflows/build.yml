@@ -12,7 +12,7 @@ jobs:
 
         strategy:
             matrix:
-                stack-version: ["6.8.23", "7.16.3", "8.0.0-rc1"]
+                stack-version: ["6.8.23", "7.17.0", "8.0.0-rc1"]
 
         steps:
             - uses: actions/checkout@v2
