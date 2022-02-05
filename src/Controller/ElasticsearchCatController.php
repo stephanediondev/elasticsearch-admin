@@ -99,7 +99,8 @@ class ElasticsearchCatController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
             $parameters['help'] = $callResponse->getContentRaw();
 
-            $parameters['command'] = $catModel->getCommandReplace();
+            $parameters['command'] = $catModel->getCommand();
+            $parameters['command_replace'] = $catModel->getCommandReplace();
         }
 
         $parameters['form'] = $form->createView();
