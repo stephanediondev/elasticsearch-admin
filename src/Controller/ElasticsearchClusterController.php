@@ -476,7 +476,7 @@ class ElasticsearchClusterController extends AbstractAppController
                     break;
                 case 'unassigned_shards':
                     if (0 != $parameters['cluster_health']['unassigned_shards']) {
-                        $results['audit_fail'][$checkpoint] = [];
+                        $results['audit_fail'][$checkpoint] = $parameters['cluster_health']['unassigned_shards'];
                     } else {
                         $results['audit_pass'][$checkpoint] = [];
                     }

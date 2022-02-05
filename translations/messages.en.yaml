@@ -136,6 +136,8 @@ audit_comments:
         note: "The setting <code>{setting}</code> is set to <code>{value}</code>."
     format_msg_no_lookups:
         fail: "The JVM option <code>-Dlog4j2.formatMsgNoLookups=true</code> is not set for the following nodes:"
+    unassigned_shards:
+        fail: "The number of assigned shards is <code>{number}</code>."
 authentication_secret: "Authentication secret"
 available: "Available"
 awaiting_info: "Awaiting info"
