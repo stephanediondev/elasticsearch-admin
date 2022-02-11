@@ -141,7 +141,7 @@ class ElasticsearchCatModel extends AbstractAppModel
         return $command;
     }
 
-    public function useExpandWildcard()
+    public function useExpandWildcard(): bool
     {
         $commands = ['aliases', 'aliases/{alias}', 'indices', 'indices/{index}'];
         return in_array($this->getCommand(), $commands);
