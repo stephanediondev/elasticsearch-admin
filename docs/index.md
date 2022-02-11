@@ -1,4 +1,4 @@
-# Web administration for Elasticsearch
+# Web administration for Elasticsearch (2.x to 8.x)
 
 # Table of contents
 
