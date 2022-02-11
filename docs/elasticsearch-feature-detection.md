@@ -1,17 +1,11 @@
 # Elasticsearch version tracking (for feature detection)
 
-## 8.0.0-beta1 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0-beta1.html)
+## 8.0.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0.html)
 
 - Remove endpoint for freezing indices #78918 (issues: #70192, #77273)
 - Deprecate setup-passwords tool #76902
-
-## 8.0.0-alpha2 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0-alpha2.html)
-
 - Set xpack.security.enabled to true for all licenses #72300
 - Autogenerate and print elastic password on startup #77291
-
-## 8.0.0-alpha1 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0-alpha1.html)
-
 - Remove deprecated endpoints containing _xpack #48170 (issue: #35958)
 
 ## 7.16.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.16/release-notes-7.16.0.html)

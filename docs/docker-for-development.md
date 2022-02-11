@@ -8,7 +8,7 @@ docker run --name elasticsearch2 -v elasticsearch2:/usr/share/elasticsearch/data
 docker run --name elasticsearch5 -v elasticsearch5:/usr/share/elasticsearch/data -p 500:9200 -p 1500:9300 -e "cluster.name=elasticsearch" -e "node.name=docker" -e "xpack.security.enabled=true" -e "xpack.monitoring.enabled=false" -e "network.host=127.0.0.1" -e "http.host=0.0.0.0" -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -e "bootstrap.memory_lock=true" docker.elastic.co/elasticsearch/elasticsearch:5.0.1
 docker run --name elasticsearch6 -v elasticsearch6:/usr/share/elasticsearch/data -p 600:9200 -p 1600:9300 -e "cluster.name=elasticsearch" -e "node.name=docker" -e "xpack.security.enabled=true" -e "xpack.monitoring.enabled=false" -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.0.0
 docker run --name elasticsearch7 -v elasticsearch7:/usr/share/elasticsearch/data -p 700:9200 -p 1700:9300 -e "cluster.name=elasticsearch" -e "node.name=docker" -e "xpack.security.enabled=true" -e "xpack.monitoring.enabled=false" -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.0.0
-docker run --name elasticsearch8 -v elasticsearch8:/usr/share/elasticsearch/data -p 800:9200 -p 1800:9300 -e "cluster.name=elasticsearch" -e "node.name=docker" -e "xpack.security.enabled=true" -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:8.0.0-rc2
+docker run --name elasticsearch8 -v elasticsearch8:/usr/share/elasticsearch/data -p 800:9200 -p 1800:9300 -e "cluster.name=elasticsearch" -e "node.name=docker" -e "xpack.security.enabled=true" -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:8.0.0
 ```
 
 Enable cross-origin resource sharing (not needed for elasticsearch-admin)
