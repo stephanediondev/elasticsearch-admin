@@ -1,6 +1,8 @@
 {% embed 'Embed/table_embed.html.twig' %}
     {% import 'Import/app_import.html.twig' as appImport %}
 
+    {% set percentThreshold = 90 %}
+
     {% set columns = {'name': true, 'uptime': true, 'load_average': false, 'cpu': true, 'disk': true, 'memory': true, 'heap': true, 'file_descriptors': true} %}
 
     {% if true == hasFeature('load_average') %}
@@ -93,12 +95,12 @@
                         {% if 'cpu' == column %}
                             <td class="text-nowrap">
                                 {% if row['cpu'] is defined %}
-                                    {{ 'usage'|trans }}: {{ appImport.badge({'title': row['cpu'] ~ '%', 'context': 90 < row['cpu'] ? 'danger' : 'info'}) }}
+                                    {{ 'usage'|trans }}: {{ appImport.badge({'title': row['cpu'] ~ '%', 'context': percentThreshold < row['cpu'] ? 'warning' : 'info'}) }}
                                     {% if row['stats']['process']['cpu']['percent'] is defined %}
-                                        <br><small>{{ 'es_process'|trans }}: {{ appImport.badge({'title': row['stats']['process']['cpu']['percent'] ~ '%', 'context': 90 < row['stats']['process']['cpu']['percent'] ? 'danger' : 'secondary'}) }}</small>
+                                        <br><small>{{ 'es_process'|trans }}: {{ appImport.badge({'title': row['stats']['process']['cpu']['percent'] ~ '%', 'context': percentThreshold < row['stats']['process']['cpu']['percent'] ? 'warning' : 'secondary'}) }}</small>
                                     {% endif %}
                                 {% elseif row['stats']['process']['cpu']['percent'] is defined %}
-                                    {{ 'es_process'|trans }}: {{ appImport.badge({'title': row['stats']['process']['cpu']['percent'] ~ '%', 'context': 90 < row['stats']['process']['cpu']['percent'] ? 'danger' : 'info'}) }}
+                                    {{ 'es_process'|trans }}: {{ appImport.badge({'title': row['stats']['process']['cpu']['percent'] ~ '%', 'context': percentThreshold < row['stats']['process']['cpu']['percent'] ? 'warning' : 'info'}) }}
                                 {% endif %}
                                 {% if row['os']['allocated_processors'] is defined %}
                                     <br><small>{{ 'processors'|trans }}: {{ appImport.badge({'title': row['os']['allocated_processors'], 'context': 'secondary'}) }}</small>
@@ -108,7 +110,7 @@
 
                         {% if 'heap' == column %}
                             <td class="text-nowrap d-none d-xl-table-cell">
-                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['heap.percent'] ~ '%', 'context': 'info'}) }}
+                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['heap.percent'] ~ '%', 'context': percentThreshold < row['heap.percent'] ? 'warning' : 'info'}) }}
                                 {% if row['heap.current'] is defined %}
                                     <br><small>{{ 'used'|trans }}: {{ appImport.badge({'title': row['heap.current']|human_filesize, 'context': 'secondary'}) }}</small>
                                 {% endif %}
@@ -118,7 +120,7 @@
 
                         {% if 'memory' == column %}
                             <td class="text-nowrap">
-                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['ram.percent'] ~ '%', 'context': 'info'}) }}
+                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['ram.percent'] ~ '%', 'context': percentThreshold < row['ram.percent'] ? 'warning' : 'info'}) }}
                                 {% if row['ram.current'] is defined %}
                                     <br><small>{{ 'used'|trans }}: {{ appImport.badge({'title': row['ram.current']|human_filesize, 'context': 'secondary'}) }}</small>
                                 {% endif %}
@@ -149,14 +151,14 @@
                                 {% if row['load_1m'] is defined and row['load_1m'] %}
                                     {% if row['os']['allocated_processors'] is defined %}
                                         {% set load = ((row['load_1m']*100)/row['os']['allocated_processors'])|round(2) %}
-                                        1 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'warning' : 'info'}) }}
+                                        1 min: {{ appImport.badge({'title': load ~ '%', 'context': percentThreshold < load ? 'warning' : 'info'}) }}
                                         {% if row['load_5m'] is defined and row['load_5m'] %}
                                             {% set load = ((row['load_5m']*100)/row['os']['allocated_processors'])|round(2) %}
-                                            <br><small>5 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'strongwarning' : 'secondary'}) }}</small>
+                                            <br><small>5 min: {{ appImport.badge({'title': load ~ '%', 'context': percentThreshold < load ? 'strongwarning' : 'secondary'}) }}</small>
                                         {% endif %}
                                         {% if row['load_15m'] is defined and row['load_15m'] %}
                                             {% set load = ((row['load_15m']*100)/row['os']['allocated_processors'])|round(2) %}
-                                            <br><small>15 min: {{ appImport.badge({'title': load ~ '%', 'context': 100 < load ? 'danger' : 'secondary'}) }}</small>
+                                            <br><small>15 min: {{ appImport.badge({'title': load ~ '%', 'context': percentThreshold < load ? 'danger' : 'secondary'}) }}</small>
                                         {% endif %}
                                     {% else %}
                                         1 min: {{ appImport.badge({'title': row['load_1m']|round(2), 'context': 'info'}) }}
@@ -173,7 +175,7 @@
 
                         {% if 'file_descriptors' == column %}
                             <td class="text-nowrap d-none d-xl-table-cell">
-                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['file_desc.percent'] ~ '%', 'context': 'info'}) }}
+                                {{ 'usage'|trans }}: {{ appImport.badge({'title': row['file_desc.percent'] ~ '%', 'context': percentThreshold < row['file_desc.percent'] ? 'warning' : 'info'}) }}
                                 {% if row['file_desc.current'] is defined %}
                                     <br><small>{{ 'used'|trans }}: {{ appImport.badge({'title': row['file_desc.current'], 'context': 'secondary'}) }}</small>
                                 {% endif %}

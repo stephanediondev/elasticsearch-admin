@@ -107,6 +107,10 @@ class ElasticsearchNodeManager extends AbstractAppManager
                         $nodes[$node['name']]['disk_threshold'] = 'watermark_low';
                     }
                 }
+            } else {
+                if (true === isset($node['disk.used_percent']) && 90 < $node['disk.used_percent']) {
+                    $nodes[$node['name']]['disk_threshold'] = 'warning';
+                }
             }
         }
 
