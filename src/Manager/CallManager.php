@@ -280,8 +280,14 @@ class CallManager
             $this->setRoot();
         }
 
-        if (true === isset($this->root['version']) && true === isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
-            return true;
+        if (true === isset($this->root['version'])) {
+            if (true === isset($this->root['version']['distribution']) && 'opensearch' === $this->root['version']['distribution'] && 0 <= version_compare('7.10', $versionGoal)) {
+                return true;
+            }
+
+            if (true === isset($this->root['version']['number']) && 0 <= version_compare($this->root['version']['number'], $versionGoal)) {
+                return true;
+            }
         }
 
         return false;

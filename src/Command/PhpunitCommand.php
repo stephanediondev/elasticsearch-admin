@@ -48,7 +48,12 @@ class PhpunitCommand extends Command
 
         $output->writeln('Symfony version: <info>'.Kernel::VERSION.'</info>');
 
-        $output->writeln('Elasticsearch version: <info>'.$this->callManager->getRoot()['version']['number'].'</info>');
+        $root = $this->callManager->getRoot();
+        if ('opensearch' == $root['version']['distribution']) {
+            $output->writeln('OpenSearch version: <info>'.$root['version']['number'].'</info>');
+        } else {
+            $output->writeln('Elasticsearch version: <info>'.$root['version']['number'].'</info>');
+        }
 
         $output->writeln('');
 

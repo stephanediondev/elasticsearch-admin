@@ -600,21 +600,21 @@ class ElasticsearchClusterController extends AbstractAppController
                     break;
                 case 'license_not_expired':
                     if (true === $this->callManager->hasFeature('license')) {
-                        $license = $this->callManager->getLicense();
+                        if ($license = $this->callManager->getLicense()) {
+                            if ('basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
+                                $now = (new \Datetime());
+                                $expire = new \Datetime(date('Y-m-d H:i:s', intval($license['expiry_date_in_millis'] / 1000)));
+                                $interval = $now->diff($expire);
 
-                        if ('basic' != $license['type'] && true === isset($license['expiry_date_in_millis'])) {
-                            $now = (new \Datetime());
-                            $expire = new \Datetime(date('Y-m-d H:i:s', intval($license['expiry_date_in_millis'] / 1000)));
-                            $interval = $now->diff($expire);
-
-                            if (30 > $interval->format('%r%a')) {
-                                $results['audit_fail'][$checkpoint] = $license;
+                                if (30 > $interval->format('%r%a')) {
+                                    $results['audit_fail'][$checkpoint] = $license;
+                                } else {
+                                    $results['audit_pass'][$checkpoint] = $license;
+                                }
                             } else {
-                                $results['audit_pass'][$checkpoint] = $license;
-                            }
-                        } else {
-                            if ('basic' == $license['type']) {
-                                $results['audit_notice'][$checkpoint] = $license;
+                                if ('basic' == $license['type']) {
+                                    $results['audit_notice'][$checkpoint] = $license;
+                                }
                             }
                         }
                     }
@@ -713,17 +713,18 @@ class ElasticsearchClusterController extends AbstractAppController
                             $callRequest->setPath('/_migration/deprecations');
                         }
                         $callResponse = $this->callManager->call($callRequest);
-                        $deprecations = $callResponse->getContent();
-                        $messages = [];
-                        foreach ($deprecations as $key => $rows) {
-                            if (0 < count($rows)) {
-                                $messages[$key] = count($rows);
+                        if ($deprecations = $callResponse->getContent()) {
+                            $messages = [];
+                            foreach ($deprecations as $key => $rows) {
+                                if (0 < count($rows)) {
+                                    $messages[$key] = count($rows);
+                                }
                             }
-                        }
-                        if (0 < count($messages)) {
-                            $results['audit_notice'][$checkpoint] = $messages;
-                        } else {
-                            $results['audit_pass'][$checkpoint] = [];
+                            if (0 < count($messages)) {
+                                $results['audit_notice'][$checkpoint] = $messages;
+                            } else {
+                                $results['audit_pass'][$checkpoint] = [];
+                            }
                         }
                     }
                 break;
