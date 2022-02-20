@@ -7,10 +7,10 @@
     "devDependencies": {
         "@symfony/webpack-encore": "^1.8.1",
         "ansi-regex": ">=5.0.1",
-        "core-js": "^3.21.0",
+        "core-js": "^3.21.1",
         "nth-check": ">=2.0.1",
-        "sass": "^1.49.7",
-        "sass-loader": "^12.4.0",
+        "sass": "^1.49.8",
+        "sass-loader": "^12.6.0",
         "webpack-notifier": "^1.15.0"
     },
     "scripts": {
