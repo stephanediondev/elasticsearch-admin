@@ -7,6 +7,7 @@
 - Set xpack.security.enabled to true for all licenses #72300
 - Autogenerate and print elastic password on startup #77291
 - Remove deprecated endpoints containing _xpack #48170 (issue: #35958)
+- Convert repository plugins to modules #81870 (issue: #81652)
 
 ## 7.16.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.16/release-notes-7.16.0.html)
 

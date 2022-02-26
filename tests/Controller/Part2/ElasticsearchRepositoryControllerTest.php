@@ -46,7 +46,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/repositories/create/s3');
 
-        if (false == $this->callManager->hasPlugin('repository-s3')) {
+        if (false == $this->callManager->hasPlugin('repository-s3') && false === $this->callManager->hasFeature('repository_plugins_to_modules')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -60,7 +60,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/repositories/create/gcs');
 
-        if (false == $this->callManager->hasPlugin('repository-gcs')) {
+        if (false == $this->callManager->hasPlugin('repository-gcs') && false === $this->callManager->hasFeature('repository_plugins_to_modules')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
@@ -74,7 +74,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
     {
         $this->client->request('GET', '/admin/repositories/create/azure');
 
-        if (false == $this->callManager->hasPlugin('repository-azure')) {
+        if (false == $this->callManager->hasPlugin('repository-azure') && false === $this->callManager->hasFeature('repository_plugins_to_modules')) {
             $this->assertResponseStatusCodeSame(403);
         } else {
             $this->assertResponseStatusCodeSame(200);
