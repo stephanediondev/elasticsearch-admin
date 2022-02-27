@@ -263,7 +263,6 @@ class ElasticsearchClusterController extends AbstractAppController
         $nodesPlugins = [];
         $formatMsgNoLookups = [];
 
-        $cpuPercent = false;
         $diskPercent = false;
         $heapSize = false;
         $heapSizeJvm = false;
@@ -277,7 +276,6 @@ class ElasticsearchClusterController extends AbstractAppController
         }
 
         $nodesLimit = [
-            'cpu_over_90' => [],
             'heap_size_over_50' => [],
             'file_descriptors_under_65535' => [],
             'over_disk_thresholds' => [],
@@ -299,13 +297,6 @@ class ElasticsearchClusterController extends AbstractAppController
             foreach ($node['plugins'] as $plugin) {
                 $nodesPlugins[$node['name']][] = $plugin['name'];
                 $plugins[] = $plugin['name'];
-            }
-
-            if (true === isset($node['cpu'])) {
-                $cpuPercent = true;
-                if (90 < $node['cpu']) {
-                    $nodesLimit['cpu_over_90'][$node['name']] = $node['cpu'];
-                }
             }
 
             if (true === isset($node['disk.used_percent']) && $diskThresholdEnabled) {
@@ -392,7 +383,6 @@ class ElasticsearchClusterController extends AbstractAppController
             'indices_opened',
             'close_index_not_enabled',
             'allocation_disk_threshold',
-            'cpu_below_90',
             'heap_size_below_50',
             'anonymous_access_disabled',
             'license_not_expired',
@@ -559,15 +549,6 @@ class ElasticsearchClusterController extends AbstractAppController
                     if (true === $diskPercent && true === $diskThresholdEnabled) {
                         if (0 < count($nodesLimit['over_disk_thresholds'])) {
                             $results['audit_fail'][$checkpoint] = $nodesLimit['over_disk_thresholds'];
-                        } else {
-                            $results['audit_pass'][$checkpoint] = [];
-                        }
-                    }
-                    break;
-                case 'cpu_below_90':
-                    if (true === $cpuPercent) {
-                        if (0 < count($nodesLimit['cpu_over_90'])) {
-                            $results['audit_fail'][$checkpoint] = $nodesLimit['cpu_over_90'];
                         } else {
                             $results['audit_pass'][$checkpoint] = [];
                         }

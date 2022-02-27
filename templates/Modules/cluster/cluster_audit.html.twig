@@ -285,25 +285,6 @@
                                     {% endembed %}
                                 {% endif %}
 
-                                {% if 'cpu_below_90' == checkpoint %}
-                                    {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
-                                        {% block comment %}
-                                            {% if 'audit_fail' == result %}
-                                                {{ 'audit_comments.fail_for_nodes'|trans|raw }}
-                                                {% for node, value in parameters %}
-                                                    {{ node }} ({{ value }}%){% if false == loop.last %},{% endif %}
-                                                {% endfor %}
-                                            {% endif %}
-                                        {% endblock %}
-
-                                        {% block internal_link %}
-                                            {% if is_granted('NODES_LIST', 'node') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
-                                            {% endif %}
-                                        {% endblock %}
-                                    {% endembed %}
-                                {% endif %}
-
                                 {% if 'below_disk_thresholds' == checkpoint %}
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block comment %}
