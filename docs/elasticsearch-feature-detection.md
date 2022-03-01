@@ -18,6 +18,10 @@
 
 - Allow range types to be used for enrich matching #76110
 
+## 7.12.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.12/release-notes-7.12.0.html)
+
+- Introduce "Feature States" for managing snapshots of system indices #63513 (issue: #61657)
+
 ## 7.10.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/release-notes-7.10.0.html)
 
 - Clone Snapshot API #61839
