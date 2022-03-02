@@ -350,4 +350,26 @@ class CallManager
             $this->license = [];
         }
     }
+
+    public function getFeatureStates(): array
+    {
+        $features = [];
+
+        if (true === $this->hasFeature('snapshot_feature_states')) {
+            try {
+                $callRequest = new CallRequestModel();
+                $callRequest->setPath('/_features');
+                $callResponse = $this->call($callRequest);
+                $results = $callResponse->getContent();
+                foreach ($results['features'] as $row) {
+                    $features[$row['name']] = $row['name'];
+                }
+                ksort($features);
+
+            } catch (CallException $e) {
+            }
+        }
+
+        return $features;
+    }
 }

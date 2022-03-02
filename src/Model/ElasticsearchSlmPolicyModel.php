@@ -29,6 +29,8 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     private ?bool $includeGlobalState = null;
 
+    private ?array $featureStates = null;
+
     private ?int $nextExecution = null;
 
     private ?int $version = null;
@@ -207,6 +209,18 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    public function getFeatureStates(): ?array
+    {
+        return $this->featureStates;
+    }
+
+    public function setFeatureStates(?array $featureStates): self
+    {
+        $this->featureStates = $featureStates;
+
+        return $this;
+    }
+
     public function getNextExecution(): ?int
     {
         return $this->nextExecution;
@@ -369,6 +383,10 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
             $json['config']['indices'] = $this->getIndices();
         } else {
             $json['config']['indices'] = ['*'];
+        }
+
+        if ($this->getFeatureStates() && 0 < count($this->getFeatureStates())) {
+            $json['config']['feature_states'] = $this->getFeatureStates();
         }
 
         $json['config']['ignore_unavailable'] = $this->getIgnoreUnavailable();

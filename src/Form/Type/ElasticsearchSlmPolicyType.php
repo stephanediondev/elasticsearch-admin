@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use App\Manager\CallManager;
 use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Model\ElasticsearchSlmPolicyModel;
 use Symfony\Component\Form\AbstractType;
@@ -24,10 +25,13 @@ class ElasticsearchSlmPolicyType extends AbstractType
 
     protected TranslatorInterface $translator;
 
-    public function __construct(ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, TranslatorInterface $translator)
+    protected CallManager $callManager;
+
+    public function __construct(ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager, TranslatorInterface $translator, CallManager $callManager)
     {
         $this->elasticsearchSlmPolicyManager = $elasticsearchSlmPolicyManager;
         $this->translator = $translator;
+        $this->callManager = $callManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -41,15 +45,15 @@ class ElasticsearchSlmPolicyType extends AbstractType
         $fields[] = 'repository';
         $fields[] = 'schedule';
         $fields[] = 'indices';
-        if (true === $this->callManager->hasFeature('snapshot_feature_states')) {
-            $fields[] = 'feature_states';
-        }
         $fields[] = 'expire_after';
         $fields[] = 'min_count';
         $fields[] = 'max_count';
         $fields[] = 'ignore_unavailable';
         $fields[] = 'partial';
         $fields[] = 'include_global_state';
+        if (true === $this->callManager->hasFeature('snapshot_feature_states')) {
+            $fields[] = 'feature_states';
+        }
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -166,6 +170,15 @@ class ElasticsearchSlmPolicyType extends AbstractType
                         'required' => false,
                         'help' => 'help_form.slm_policy.include_global_state',
                         'help_html' => true,
+                    ]);
+                    break;
+                case 'feature_states':
+                    $builder->add('feature_states', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $this->callManager->getFeatureStates(),
+                        'choice_translation_domain' => false,
+                        'label' => 'feature_states',
+                        'required' => false,
                     ]);
                     break;
             }

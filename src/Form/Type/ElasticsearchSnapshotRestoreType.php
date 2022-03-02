@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use App\Manager\CallManager;
 use App\Model\ElasticsearchSnapshotRestoreModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,6 +14,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ElasticsearchSnapshotRestoreType extends AbstractType
 {
+    public function __construct(CallManager $callManager)
+    {
+        $this->callManager = $callManager;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fields = [];
@@ -74,6 +80,15 @@ class ElasticsearchSnapshotRestoreType extends AbstractType
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
+                    ]);
+                    break;
+                case 'feature_states':
+                    $builder->add('feature_states', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $this->callManager->getFeatureStates(),
+                        'choice_translation_domain' => false,
+                        'label' => 'feature_states',
+                        'required' => false,
                     ]);
                     break;
             }

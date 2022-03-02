@@ -13,6 +13,8 @@ trait ElasticsearchSnapshotModelTrait
 
     private ?bool $includeGlobalState = null;
 
+    private ?array $featureStates = null;
+
     public function getIndices(): ?array
     {
         return $this->indices;
@@ -57,6 +59,18 @@ trait ElasticsearchSnapshotModelTrait
     public function setIncludeGlobalState(?bool $includeGlobalState): self
     {
         $this->includeGlobalState = $includeGlobalState;
+
+        return $this;
+    }
+
+    public function getFeatureStates(): ?array
+    {
+        return $this->featureStates;
+    }
+
+    public function setFeatureStates(?array $featureStates): self
+    {
+        $this->featureStates = $featureStates;
 
         return $this;
     }

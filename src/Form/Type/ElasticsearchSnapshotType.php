@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
+use App\Manager\CallManager;
 use App\Manager\ElasticsearchSnapshotManager;
 use App\Model\ElasticsearchSnapshotModel;
 use Symfony\Component\Form\AbstractType;
@@ -23,10 +24,13 @@ class ElasticsearchSnapshotType extends AbstractType
 
     protected TranslatorInterface $translator;
 
-    public function __construct(ElasticsearchSnapshotManager $elasticsearchSnapshotManager, TranslatorInterface $translator)
+    protected CallManager $callManager;
+
+    public function __construct(ElasticsearchSnapshotManager $elasticsearchSnapshotManager, TranslatorInterface $translator, CallManager $callManager)
     {
         $this->elasticsearchSnapshotManager = $elasticsearchSnapshotManager;
         $this->translator = $translator;
+        $this->callManager = $callManager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -36,12 +40,12 @@ class ElasticsearchSnapshotType extends AbstractType
         $fields[] = 'repository';
         $fields[] = 'name';
         $fields[] = 'indices';
-        if (true === $this->callManager->hasFeature('snapshot_feature_states')) {
-            $fields[] = 'feature_states';
-        }
         $fields[] = 'ignore_unavailable';
         $fields[] = 'partial';
         $fields[] = 'include_global_state';
+        if (true === $this->callManager->hasFeature('snapshot_feature_states')) {
+            $fields[] = 'feature_states';
+        }
 
         foreach ($fields as $field) {
             switch ($field) {
@@ -90,17 +94,6 @@ class ElasticsearchSnapshotType extends AbstractType
                         'help_html' => true,
                     ]);
                     break;
-                case 'feature_states':
-                    $builder->add('feature_states', ChoiceType::class, [
-                        'multiple' => true,
-                        'choices' => $options['feature_states'],
-                        'choice_translation_domain' => false,
-                        'label' => 'feature_states',
-                        'required' => false,
-                        'help' => 'help_form.snapshot.feature_states',
-                        'help_html' => true,
-                    ]);
-                    break;
                 case 'ignore_unavailable':
                     $builder->add('ignore_unavailable', CheckboxType::class, [
                         'label' => 'ignore_unavailable',
@@ -123,6 +116,15 @@ class ElasticsearchSnapshotType extends AbstractType
                         'required' => false,
                         'help' => 'help_form.snapshot.include_global_state',
                         'help_html' => true,
+                    ]);
+                    break;
+                case 'feature_states':
+                    $builder->add('feature_states', ChoiceType::class, [
+                        'multiple' => true,
+                        'choices' => $this->callManager->getFeatureStates(),
+                        'choice_translation_domain' => false,
+                        'label' => 'feature_states',
+                        'required' => false,
                     ]);
                     break;
             }

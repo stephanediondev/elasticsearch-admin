@@ -213,6 +213,10 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
             $json['indices'] = implode(',', $this->getIndices());
         }
 
+        if ($this->getFeatureStates() && 0 < count($this->getFeatureStates())) {
+            $json['feature_states'] = $this->getFeatureStates();
+        }
+
         return $json;
     }
 
