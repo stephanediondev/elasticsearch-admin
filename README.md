@@ -1,6 +1,6 @@
-# [Visit the website on GitHub for all details](https://stephanediondev.github.io/elasticsearch-admin/)
+# Web administration for Elasticsearch (2.x to 8.x)
 
-[![GitHub Action](https://github.com/stephanediondev/elasticsearch-admin/workflows/build/badge.svg)](https://github.com/stephanediondev/elasticsearch-admin/actions) [![Travis CI](https://app.travis-ci.com/stephanediondev/elasticsearch-admin.svg?branch=main)](https://app.travis-ci.com/stephanediondev/elasticsearch-admin) [![SymfonyInsight](https://insight.symfony.com/projects/9eefdae6-9dfc-452e-856e-716f94e08ffa/mini.svg)](https://insight.symfony.com/projects/9eefdae6-9dfc-452e-856e-716f94e08ffa)
+[Visit the website on GitHub for all details](https://stephanediondev.github.io/elasticsearch-admin/)
 
 [![elasticsearch-admin - Cluster summary](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/resized/resized-cluster.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/7/original/original-cluster.png)
 

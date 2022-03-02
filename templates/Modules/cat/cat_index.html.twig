@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% import 'Import/app_import.html.twig' as appImport %}
 
-{% block head_title %}{{ 'cat'|trans }}{% if rows is defined or help is defined %} - {{ command }}{% endif %}{% endblock %}
+{% block head_title %}{{ 'cat'|trans }}{% if rows is defined or help is defined %} - {{ command_replace }}{% endif %}{% endblock %}
 
 {% block heading_1 %}
     {{ appImport.heading({'level': 1, 'title': 'cat'|trans}) }}
@@ -29,9 +29,9 @@
             {% import 'Import/app_import.html.twig' as appImport %}
             {% block content %}
                 {% if rows is defined %}
-                    {{ appImport.heading({'level': 3, 'title': command, 'badge': {'title': rows.total}}) }}
+                    {{ appImport.heading({'level': 3, 'title': command_replace, 'badge': {'title': rows.total}}) }}
                 {% else %}
-                    {{ appImport.heading({'level': 3, 'title': command}) }}
+                    {{ appImport.heading({'level': 3, 'title': command_replace}) }}
                 {% endif %}
 
                 {% if help is defined %}
@@ -85,6 +85,12 @@
                                                 {{ column }}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}
                                             {% elseif command in ['nodes', 'plugins'] and 'name' == k and master_node == column %}
                                                 {{ column }}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}
+                                            {% elseif 'status' == k and 'health' == command %}
+                                                {{ appImport.badge({'title': column|trans, 'context': column}) }}
+                                            {% elseif k in ['health', 'status'] and command in ['indices', 'indices/{index}'] %}
+                                                {{ appImport.badge({'title': column|trans, 'context': column}) }}
+                                            {% elseif 'state' == k and command in ['shards', 'shards/{index}'] %}
+                                                {{ appImport.badge({'title': column|lower|trans, 'context': column|lower}) }}
                                             {% else %}
                                                 {{ column }}
                                             {% endif %}

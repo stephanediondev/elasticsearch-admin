@@ -65,15 +65,15 @@ class ElasticsearchRepositoryController extends AbstractAppController
             throw new AccessDeniedException();
         }
 
-        if ('s3' == $type && false === $this->callManager->hasPlugin('repository-s3')) {
+        if ('s3' == $type && false === $this->callManager->hasPlugin('repository-s3') && false === $this->callManager->hasFeature('repository_plugins_to_modules')) {
             throw new AccessDeniedException();
         }
 
-        if ('gcs' == $type && false === $this->callManager->hasPlugin('repository-gcs')) {
+        if ('gcs' == $type && false === $this->callManager->hasPlugin('repository-gcs') && false === $this->callManager->hasFeature('repository_plugins_to_modules')) {
             throw new AccessDeniedException();
         }
 
-        if ('azure' == $type && false === $this->callManager->hasPlugin('repository-azure')) {
+        if ('azure' == $type && false === $this->callManager->hasPlugin('repository-azure') && false === $this->callManager->hasFeature('repository_plugins_to_modules')) {
             throw new AccessDeniedException();
         }
 

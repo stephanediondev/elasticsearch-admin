@@ -1,4 +1,4 @@
-# Web administration for Elasticsearch
+# Web administration for Elasticsearch (2.x to 8.x)
 
 # Table of contents
 
@@ -36,7 +36,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [(Back to table of contents)](#table-of-contents)
 
-- Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x, 8.x (rc)
+- Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x, 8.x
 - Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, credentials or not
 - App users: register, login, logout, list, create, read, update, delete
 - App roles: list, create, read, update (permissions), delete
@@ -302,16 +302,15 @@ After registration you can login [View](https://raw.githubusercontent.com/stepha
 
 | Name | Visit | Main language | Latest release* |
 | --- | --- | --- | --- |
-| cerebro | [lmenezes/cerebro](https://github.com/lmenezes/cerebro) | Scala | 10 Apr. 2021 |
+| Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 25 Feb. 2022 |
+| Elasticvue | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript | 4 Feb. 2022 |
 | Dejavu | [appbaseio/dejavu](https://github.com/appbaseio/dejavu) | JavaScript | 10 Sep. 2021 |
-| ElasticHQ | [ElasticHQ/elasticsearch-HQ](https://github.com/ElasticHQ/elasticsearch-HQ) | Python | 15 Nov. 2019 |
+| cerebro | [lmenezes/cerebro](https://github.com/lmenezes/cerebro) | Scala | 10 Apr. 2021 |
 | Elasticsearch Comrade | [moshe/elasticsearch-comrade](https://github.com/moshe/elasticsearch-comrade) | Python | 30 May 2020 |
+| ElasticHQ | [ElasticHQ/elasticsearch-HQ](https://github.com/ElasticHQ/elasticsearch-HQ) | Python | 15 Nov. 2019 |
 | elasticsearch-head | [mobz/elasticsearch-head](https://github.com/mobz/elasticsearch-head) | JavaScript | 10 Apr. 2018 |
-| Elasticvue | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript | 10 Sep. 2021 |
-| ELKman | [www.elkman.io](https://www.elkman.io/) | PHP | 1 Aug. 2020 |
-| Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 3 Jan. 2022 |
 
-Checked on 7 Jan. 2022 *
+Checked on 27 Feb. 2022 *
 
 # License
 

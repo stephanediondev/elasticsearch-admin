@@ -66,6 +66,9 @@ class ElasticsearchCatController extends AbstractAppController
                 if ('nodes' == $catModel->getCommand()) {
                     $query['full_id'] = 'true';
                 }
+                if (true === $catModel->useExpandWildcard() && true === $this->callManager->hasFeature('cat_expand_wildcards')) {
+                    $query['expand_wildcards'] = 'all';
+                }
                 $callRequest = new CallRequestModel();
                 $callRequest->setPath('/_cat/'.$catModel->getCommandReplace());
                 $callRequest->setQuery($query);
@@ -96,7 +99,8 @@ class ElasticsearchCatController extends AbstractAppController
             $callResponse = $this->callManager->call($callRequest);
             $parameters['help'] = $callResponse->getContentRaw();
 
-            $parameters['command'] = $catModel->getCommandReplace();
+            $parameters['command'] = $catModel->getCommand();
+            $parameters['command_replace'] = $catModel->getCommandReplace();
         }
 
         $parameters['form'] = $form->createView();
