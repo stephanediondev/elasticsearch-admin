@@ -18,6 +18,9 @@ security:
             custom_authenticator: App\Security\AppCustomAuthenticator
             logout:
                 path: app_logout
+            login_throttling:
+                max_attempts: 3
+                interval: '5 minutes'
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

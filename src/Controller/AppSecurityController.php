@@ -52,7 +52,7 @@ class AppSecurityController extends AbstractAppController
         }
 
         if ($error = $authenticationUtils->getLastAuthenticationError()) {
-            $this->addFlash('danger', $error->getMessageKey());
+            $this->addFlash('danger', strtr($error->getMessageKey(), $error->getMessageData()));
         }
 
         $lastUsername = $authenticationUtils->getLastUsername();
