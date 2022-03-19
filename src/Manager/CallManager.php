@@ -81,6 +81,8 @@ class CallManager
 
     protected string $elasticsearchPassword;
 
+    protected string $elasticsearchApiKey;
+
     protected bool $sslVerifyPeer;
 
     protected bool $sslVerifyHost;
@@ -91,6 +93,7 @@ class CallManager
         string $elasticsearchUrl,
         string $elasticsearchUsername,
         string $elasticsearchPassword,
+        string $elasticsearchApiKey,
         bool $sslVerifyPeer,
         bool $sslVerifyHost
     ) {
@@ -99,6 +102,7 @@ class CallManager
         $this->elasticsearchUrl = $elasticsearchUrl;
         $this->elasticsearchUsername = $elasticsearchUsername;
         $this->elasticsearchPassword = $elasticsearchPassword;
+        $this->elasticsearchApiKey = $elasticsearchApiKey;
         $this->sslVerifyPeer = $sslVerifyPeer;
         $this->sslVerifyHost = $sslVerifyHost;
     }
@@ -123,7 +127,9 @@ class CallManager
             $options['query']['format'] = 'json';
         }
 
-        if ($this->elasticsearchUsername && $this->elasticsearchPassword) {
+        if ($this->elasticsearchApiKey) {
+            $headers['Authorization'] = 'ApiKey '.$this->elasticsearchApiKey;
+        } else if ($this->elasticsearchUsername && $this->elasticsearchPassword) {
             $headers['Authorization'] = 'Basic '.base64_encode($this->elasticsearchUsername.':'.$this->elasticsearchPassword);
         }
 

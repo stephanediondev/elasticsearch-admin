@@ -17,6 +17,7 @@ services:
             $elasticsearchUrl: '%env(ELASTICSEARCH_URL)%'
             $elasticsearchUsername: '%env(ELASTICSEARCH_USERNAME)%'
             $elasticsearchPassword: '%env(ELASTICSEARCH_PASSWORD)%'
+            $elasticsearchApiKey: '%env(ELASTICSEARCH_API_KEY)%'
             $sslVerifyPeer: '%env(bool:SSL_VERIFY_PEER)%'
             $sslVerifyHost: '%env(bool:SSL_VERIFY_HOST)%'
             $secretRegister: '%env(SECRET_REGISTER)%'

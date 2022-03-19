@@ -77,10 +77,11 @@ echo 'path.repo: ["/usr/share/elasticsearch/fs"]' >> config/elasticsearch.yml
 docker pull stephanediondev/elasticsearch-admin
 docker stop elasticsearch-admin && docker rm elasticsearch-admin && docker rmi elasticsearch-admin
 docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" -p 80:8080 -d --name elasticsearch-admin stephanediondev/elasticsearch-admin
-
-# Edit ELASTICSEARCH_URL and SECRET_REGISTER (random string to secure registration)
-# If Elasticsearch security features are enabled, add -e "ELASTICSEARCH_USERNAME=xxxxx" -e "ELASTICSEARCH_PASSWORD=xxxxx"
 ```
+
+Edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure registration)
+
+If Elasticsearch security features are enabled, add ```-e "ELASTICSEARCH_USERNAME=xxxxx" -e "ELASTICSEARCH_PASSWORD=xxxxx"``` or ```-e "ELASTICSEARCH_API_KEY=xxxxx"```
 
 ### Build and run elasticsearch-admin with source installation
 
@@ -90,10 +91,11 @@ docker stop elasticsearch-admin && docker rm elasticsearch-admin && docker rmi e
 docker build --force-rm --tag elasticsearch-admin .
 
 docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx" -p 80:8080 -d --name elasticsearch-admin elasticsearch-admin
-
-# Edit ELASTICSEARCH_URL and SECRET_REGISTER (random string to secure registration)
-# If Elasticsearch security features are enabled, add -e "ELASTICSEARCH_USERNAME=xxxxx" -e "ELASTICSEARCH_PASSWORD=xxxxx"
 ````
+
+Edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure registration)
+
+If Elasticsearch security features are enabled, add ```-e "ELASTICSEARCH_USERNAME=xxxxx" -e "ELASTICSEARCH_PASSWORD=xxxxx"``` or ```-e "ELASTICSEARCH_API_KEY=xxxxx"```
 
 ### /etc/hosts
 
@@ -136,6 +138,7 @@ docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx"
     SetEnv ELASTICSEARCH_URL http://x.x.x.x:500
     SetEnv ELASTICSEARCH_USERNAME elastic
     SetEnv ELASTICSEARCH_PASSWORD changeme
+    SetEnv ELASTICSEARCH_API_KEY
 </VirtualHost>
 
 <VirtualHost *:80>
@@ -147,6 +150,7 @@ docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx"
     SetEnv ELASTICSEARCH_URL http://x.x.x.x:600
     SetEnv ELASTICSEARCH_USERNAME elastic
     SetEnv ELASTICSEARCH_PASSWORD changeme
+    SetEnv ELASTICSEARCH_API_KEY
 </VirtualHost>
 
 <VirtualHost *:80>
@@ -158,6 +162,7 @@ docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx"
     SetEnv ELASTICSEARCH_URL http://x.x.x.x:700
     SetEnv ELASTICSEARCH_USERNAME elastic
     SetEnv ELASTICSEARCH_PASSWORD changeme
+    SetEnv ELASTICSEARCH_API_KEY
 </VirtualHost>
 
 <VirtualHost *:80>
@@ -169,5 +174,6 @@ docker run -e "ELASTICSEARCH_URL=http://x.x.x.x:9200" -e "SECRET_REGISTER=xxxxx"
     SetEnv ELASTICSEARCH_URL http://x.x.x.x:800
     SetEnv ELASTICSEARCH_USERNAME elastic
     SetEnv ELASTICSEARCH_PASSWORD changeme
+    SetEnv ELASTICSEARCH_API_KEY
 </VirtualHost>
 ```
