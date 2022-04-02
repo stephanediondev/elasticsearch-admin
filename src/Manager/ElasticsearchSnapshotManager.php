@@ -45,36 +45,39 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         $snapshots = [];
 
         foreach ($repositories as $repository) {
-            $callRequest = new CallRequestModel();
-            if (true === isset($filter['name']) && '' != $filter['name']) {
-                $callRequest->setPath('/_snapshot/'.$repository.'/'.$filter['name']);
-            } else {
-                $callRequest->setPath('/_snapshot/'.$repository.'/_all');
-            }
-            $callResponse = $this->callManager->call($callRequest);
-            $results = $callResponse->getContent();
+            try {
+                $callRequest = new CallRequestModel();
+                if (true === isset($filter['name']) && '' != $filter['name']) {
+                    $callRequest->setPath('/_snapshot/'.$repository.'/'.$filter['name']);
+                } else {
+                    $callRequest->setPath('/_snapshot/'.$repository.'/_all');
+                }
+                $callResponse = $this->callManager->call($callRequest);
+                $results = $callResponse->getContent();
 
-            $rows = [];
-            if (true === isset($results['responses'])) {
-                foreach ($results['responses'] as $response) {
-                    if (true === isset($response['snapshots'])) {
-                        foreach ($response['snapshots'] as $row) {
-                            $row['repository'] = $repository;
-                            $rows[] = $row;
+                $rows = [];
+                if (true === isset($results['responses'])) {
+                    foreach ($results['responses'] as $response) {
+                        if (true === isset($response['snapshots'])) {
+                            foreach ($response['snapshots'] as $row) {
+                                $row['repository'] = $repository;
+                                $rows[] = $row;
+                            }
                         }
                     }
+                } elseif (true === isset($results['snapshots'])) {
+                    foreach ($results['snapshots'] as $row) {
+                        $row['repository'] = $repository;
+                        $rows[] = $row;
+                    }
                 }
-            } elseif (true === isset($results['snapshots'])) {
-                foreach ($results['snapshots'] as $row) {
-                    $row['repository'] = $repository;
-                    $rows[] = $row;
-                }
-            }
 
-            foreach ($rows as $row) {
-                $snapshotModel = new ElasticsearchSnapshotModel();
-                $snapshotModel->convert($row);
-                $snapshots[] = $snapshotModel;
+                foreach ($rows as $row) {
+                    $snapshotModel = new ElasticsearchSnapshotModel();
+                    $snapshotModel->convert($row);
+                    $snapshots[] = $snapshotModel;
+                }
+            } catch (CallException $e) {
             }
         }
         usort($snapshots, [$this, 'sortByStartTime']);
