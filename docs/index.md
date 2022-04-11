@@ -263,7 +263,7 @@ cp .env.dist .env
 
 In the ```.env``` file edit ```ELASTICSEARCH_URL``` and ```SECRET_REGISTER``` (random string to secure registration)
 
-If Elasticsearch security features are enabled, edit ```ELASTICSEARCH_USERNAME``` and ```ELASTICSEARCH_PASSWORD``` or ```-e "ELASTICSEARCH_API_KEY=xxxxx"```
+If Elasticsearch security features are enabled, edit ```ELASTICSEARCH_USERNAME``` and ```ELASTICSEARCH_PASSWORD``` or ```ELASTICSEARCH_API_KEY```
 
 You can also edit ```VAPID_PUBLIC_KEY``` and ```VAPID_PRIVATE_KEY``` to use push notifications (only in HTTPS)
 
