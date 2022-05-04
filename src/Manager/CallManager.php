@@ -24,6 +24,7 @@ class CallManager
     public ?array $license = null;
 
     private array $featuresByVersion = [
+        'cat_component_templates' => '8.2',
         'repository_plugins_to_modules' => '8.0',
         'freezing_endpoint_removed' => '8.0',
         '_xpack_endpoint_removed' => '8.0',

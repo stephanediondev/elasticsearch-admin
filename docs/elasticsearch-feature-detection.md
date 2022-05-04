@@ -1,5 +1,9 @@
 # Elasticsearch version tracking (for feature detection)
 
+## 8.2.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/8.2/release-notes-8.2.0.html)
+
+- Adding cat api for component template #71274 (issue: #68941)
+
 ## 8.0.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0.html)
 
 - Remove endpoint for freezing indices #78918 (issues: #70192, #77273)

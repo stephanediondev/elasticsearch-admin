@@ -9,6 +9,8 @@ class ElasticsearchCatModel extends AbstractAppModel
 {
     private ?string $command = null;
 
+    private ?string $name = null;
+
     private ?string $index = null;
 
     private ?string $repository = null;
@@ -29,6 +31,18 @@ class ElasticsearchCatModel extends AbstractAppModel
     public function setCommand(?string $command): self
     {
         $this->command = $command;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
@@ -110,6 +124,10 @@ class ElasticsearchCatModel extends AbstractAppModel
         $command = $this->command;
 
         if (null !== $this->command) {
+            if (null !== $this->name && strstr($this->command, '{name}')) {
+                $command = str_replace('{name}', $this->name, $command);
+            }
+
             if (null !== $this->index && strstr($this->command, '{index}')) {
                 $command = str_replace('{index}', $this->index, $command);
             }

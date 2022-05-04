@@ -47,6 +47,10 @@ class ElasticsearchCatType extends AbstractType
             'segments/{index}',
             'thread_pool',
         ];
+        if (true === $this->callManager->hasFeature('cat_component_templates')) {
+            $commands[] = 'component_templates';
+            $commands[] = 'component_templates/{name}';
+        }
         if (true === $this->callManager->hasFeature('cat_transforms')) {
             $commands[] = 'transforms';
         }
@@ -74,6 +78,7 @@ class ElasticsearchCatType extends AbstractType
         $fields = [];
 
         $fields[] = 'command';
+        $fields[] = 'name';
         $fields[] = 'index';
         $fields[] = 'repository';
         $fields[] = 'alias';
@@ -103,6 +108,12 @@ class ElasticsearchCatType extends AbstractType
                         'constraints' => [
                             new NotBlank(),
                         ],
+                    ]);
+                    break;
+                case 'name':
+                    $builder->add('name', TextType::class, [
+                        'label' => 'name',
+                        'required' => false,
                     ]);
                     break;
                 case 'index':

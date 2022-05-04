@@ -117,6 +117,12 @@
         function toggle() {
             var commandValue = command.value;
 
+            if (commandValue.indexOf('{name}') != -1) {
+                enable('name');
+            } else {
+                disable('name');
+            }
+
             if (commandValue.indexOf('{index}') != -1) {
                 enable('index');
             } else {
