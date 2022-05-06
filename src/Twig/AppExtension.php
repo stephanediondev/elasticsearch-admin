@@ -40,7 +40,7 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function humanFilesize(int $size, int $precision = 2): string
+    public function humanFilesize(?int $size, int $precision = 2): string
     {
         static $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $step = 1024;
