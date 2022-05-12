@@ -142,7 +142,7 @@ If you have SSL certificates, add ```-v /path/privkey.pem:/etc/nginx/privkey.pem
 [(Back to source installation)](#source-installation)
 
 - Web server
-- PHP 8: [Visit](https://symfony.com/doc/current/setup/web_server_configuration.html)
+- PHP 8.1: [Visit](https://symfony.com/doc/current/setup/web_server_configuration.html)
 - Composer: [Visit](https://getcomposer.org/download/)
 - npm: [Visit](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
