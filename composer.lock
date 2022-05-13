@@ -889,16 +889,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "4192345e260f1d51b365536199744b987e160edc"
+                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4192345e260f1d51b365536199744b987e160edc",
-                "reference": "4192345e260f1d51b365536199744b987e160edc",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/247918972acd74356b0a91dfaa5adcaec069b6c0",
+                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0",
                 "shasum": ""
             },
             "require": {
@@ -911,18 +911,23 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
                 "doctrine/couchdb": "~1.0@dev",
-                "elasticsearch/elasticsearch": "^7",
+                "elasticsearch/elasticsearch": "^7 || ^8",
+                "ext-json": "*",
                 "graylog2/gelf-php": "^1.4.2",
+                "guzzlehttp/guzzle": "^7.4",
+                "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
                 "php-console/php-console": "^3.1.3",
-                "phpspec/prophecy": "^1.6.1",
+                "phpspec/prophecy": "^1.15",
                 "phpstan/phpstan": "^0.12.91",
-                "phpunit/phpunit": "^8.5",
+                "phpunit/phpunit": "^8.5.14",
                 "predis/predis": "^1.1",
                 "rollbar/rollbar": "^1.3 || ^2 || ^3",
-                "ruflin/elastica": ">=0.90@dev",
-                "swiftmailer/swiftmailer": "^5.3|^6.0"
+                "ruflin/elastica": "^7",
+                "swiftmailer/swiftmailer": "^5.3|^6.0",
+                "symfony/mailer": "^5.4 || ^6",
+                "symfony/mime": "^5.4 || ^6"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -972,7 +977,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.5.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.6.0"
             },
             "funding": [
                 {
@@ -984,7 +989,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-08T15:43:54+00:00"
+            "time": "2022-05-10T09:36:00+00:00"
         },
         {
             "name": "mustangostang/spyc",
@@ -1035,6 +1040,73 @@
                 "yml"
             ],
             "time": "2019-09-10T13:16:29+00:00"
+        },
+        {
+            "name": "paragonie/constant_time_encoding",
+            "version": "v2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/constant_time_encoding.git",
+                "reference": "9229e15f2e6ba772f0c55dd6986c563b937170a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/9229e15f2e6ba772f0c55dd6986c563b937170a8",
+                "reference": "9229e15f2e6ba772f0c55dd6986c563b937170a8",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7|^8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6|^7|^8|^9",
+                "vimeo/psalm": "^1|^2|^3|^4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ParagonIE\\ConstantTime\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Steve 'Sc00bz' Thomas",
+                    "email": "steve@tobtu.com",
+                    "homepage": "https://www.tobtu.com",
+                    "role": "Original Developer"
+                }
+            ],
+            "description": "Constant-time Implementations of RFC 4648 Encoding (Base-64, Base-32, Base-16)",
+            "keywords": [
+                "base16",
+                "base32",
+                "base32_decode",
+                "base32_encode",
+                "base64",
+                "base64_decode",
+                "base64_encode",
+                "bin2hex",
+                "encoding",
+                "hex",
+                "hex2bin",
+                "rfc4648"
+            ],
+            "support": {
+                "email": "info@paragonie.com",
+                "issues": "https://github.com/paragonie/constant_time_encoding/issues",
+                "source": "https://github.com/paragonie/constant_time_encoding"
+            },
+            "time": "2022-01-17T05:32:27+00:00"
         },
         {
             "name": "psr/cache",
@@ -2649,16 +2721,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.1.7",
+            "version": "v2.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "3eb57ba4b5d3f14cdaafe030936421c22e9f98a2"
+                "reference": "dcbe58c3fbafeaeb32f619bf94c3912c0c732b65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/3eb57ba4b5d3f14cdaafe030936421c22e9f98a2",
-                "reference": "3eb57ba4b5d3f14cdaafe030936421c22e9f98a2",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/dcbe58c3fbafeaeb32f619bf94c3912c0c732b65",
+                "reference": "dcbe58c3fbafeaeb32f619bf94c3912c0c732b65",
                 "shasum": ""
             },
             "require": {
@@ -2694,7 +2766,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v2.1.7"
+                "source": "https://github.com/symfony/flex/tree/v2.1.8"
             },
             "funding": [
                 {
@@ -2710,7 +2782,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-15T08:20:43+00:00"
+            "time": "2022-05-02T10:23:41+00:00"
         },
         {
             "name": "symfony/form",
@@ -3702,20 +3774,20 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v3.7.1",
+            "version": "v3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bundle.git",
-                "reference": "fde12fc628162787a4e53877abadc30047fd868b"
+                "reference": "a41bbcdc1105603b6d73a7d9a43a3788f8e0fb7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/fde12fc628162787a4e53877abadc30047fd868b",
-                "reference": "fde12fc628162787a4e53877abadc30047fd868b",
+                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/a41bbcdc1105603b6d73a7d9a43a3788f8e0fb7d",
+                "reference": "a41bbcdc1105603b6d73a7d9a43a3788f8e0fb7d",
                 "shasum": ""
             },
             "require": {
-                "monolog/monolog": "~1.22 || ~2.0",
+                "monolog/monolog": "^1.22 || ^2.0 || ^3.0",
                 "php": ">=7.1.3",
                 "symfony/config": "~4.4 || ^5.0 || ^6.0",
                 "symfony/dependency-injection": "^4.4 || ^5.0 || ^6.0",
@@ -3763,7 +3835,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/monolog-bundle/issues",
-                "source": "https://github.com/symfony/monolog-bundle/tree/v3.7.1"
+                "source": "https://github.com/symfony/monolog-bundle/tree/v3.8.0"
             },
             "funding": [
                 {
@@ -3779,7 +3851,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-05T10:34:29+00:00"
+            "time": "2022-05-10T14:24:36+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -6147,16 +6219,16 @@
         },
         {
             "name": "symfony/webpack-encore-bundle",
-            "version": "v1.14.0",
+            "version": "v1.14.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/webpack-encore-bundle.git",
-                "reference": "1729c314574f32e49f9660a0cee870f7e603864f"
+                "reference": "6b18be99bf2a5a402b80a2c00043fe0b365fe836"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/1729c314574f32e49f9660a0cee870f7e603864f",
-                "reference": "1729c314574f32e49f9660a0cee870f7e603864f",
+                "url": "https://api.github.com/repos/symfony/webpack-encore-bundle/zipball/6b18be99bf2a5a402b80a2c00043fe0b365fe836",
+                "reference": "6b18be99bf2a5a402b80a2c00043fe0b365fe836",
                 "shasum": ""
             },
             "require": {
@@ -6198,7 +6270,7 @@
             "description": "Integration with your Symfony app & Webpack Encore!",
             "support": {
                 "issues": "https://github.com/symfony/webpack-encore-bundle/issues",
-                "source": "https://github.com/symfony/webpack-encore-bundle/tree/v1.14.0"
+                "source": "https://github.com/symfony/webpack-encore-bundle/tree/v1.14.1"
             },
             "funding": [
                 {
@@ -6214,7 +6286,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-14T15:06:55+00:00"
+            "time": "2022-05-03T17:55:32+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -6447,25 +6519,25 @@
         },
         {
             "name": "web-token/jwt-core",
-            "version": "v2.2.11",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-core.git",
-                "reference": "53beb6f6c1eec4fa93c1c3e5d9e5701e71fa1678"
+                "reference": "97662b9c2f04869b7f6983d2a44c437935175db4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-core/zipball/53beb6f6c1eec4fa93c1c3e5d9e5701e71fa1678",
-                "reference": "53beb6f6c1eec4fa93c1c3e5d9e5701e71fa1678",
+                "url": "https://api.github.com/repos/web-token/jwt-core/zipball/97662b9c2f04869b7f6983d2a44c437935175db4",
+                "reference": "97662b9c2f04869b7f6983d2a44c437935175db4",
                 "shasum": ""
             },
             "require": {
-                "brick/math": "^0.8.17|^0.9",
+                "brick/math": "^0.9",
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "fgrosse/phpasn1": "^2.0",
-                "php": ">=7.2",
-                "spomky-labs/base64url": "^1.0|^2.0"
+                "paragonie/constant_time_encoding": "^2.4",
+                "php": ">=8.1"
             },
             "conflict": {
                 "spomky-labs/jose": "*"
@@ -6511,7 +6583,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-core/tree/v2.2.11"
+                "source": "https://github.com/web-token/jwt-core/tree/v3.0.4"
             },
             "funding": [
                 {
@@ -6519,27 +6591,28 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-03-17T14:55:52+00:00"
+            "time": "2022-02-23T12:23:59+00:00"
         },
         {
             "name": "web-token/jwt-key-mgmt",
-            "version": "v2.2.11",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-key-mgmt.git",
-                "reference": "0b116379515700d237b4e5de86879078ccb09d8a"
+                "reference": "e5fa6410526b8c04ec61f42766942d89a2d98c4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-key-mgmt/zipball/0b116379515700d237b4e5de86879078ccb09d8a",
-                "reference": "0b116379515700d237b4e5de86879078ccb09d8a",
+                "url": "https://api.github.com/repos/web-token/jwt-key-mgmt/zipball/e5fa6410526b8c04ec61f42766942d89a2d98c4d",
+                "reference": "e5fa6410526b8c04ec61f42766942d89a2d98c4d",
                 "shasum": ""
             },
             "require": {
                 "ext-openssl": "*",
+                "php": ">=8.1",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
-                "web-token/jwt-core": "^2.0"
+                "web-token/jwt-core": "^3.0"
             },
             "suggest": {
                 "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
@@ -6588,7 +6661,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-key-mgmt/tree/v2.2.11"
+                "source": "https://github.com/web-token/jwt-key-mgmt/tree/v3.0.4"
             },
             "funding": [
                 {
@@ -6596,24 +6669,25 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-03-17T14:55:52+00:00"
+            "time": "2022-04-14T13:11:12+00:00"
         },
         {
             "name": "web-token/jwt-signature",
-            "version": "v2.2.11",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature.git",
-                "reference": "015b59aaf3b6e8fb9f5bd1338845b7464c7d8103"
+                "reference": "8d3e0b4b396639c239f30435d0b43761c9296a24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-signature/zipball/015b59aaf3b6e8fb9f5bd1338845b7464c7d8103",
-                "reference": "015b59aaf3b6e8fb9f5bd1338845b7464c7d8103",
+                "url": "https://api.github.com/repos/web-token/jwt-signature/zipball/8d3e0b4b396639c239f30435d0b43761c9296a24",
+                "reference": "8d3e0b4b396639c239f30435d0b43761c9296a24",
                 "shasum": ""
             },
             "require": {
-                "web-token/jwt-core": "^2.1"
+                "php": ">=8.1",
+                "web-token/jwt-core": "^3.0"
             },
             "suggest": {
                 "web-token/jwt-signature-algorithm-ecdsa": "ECDSA Based Signature Algorithms",
@@ -6664,7 +6738,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-signature/tree/v2.2.11"
+                "source": "https://github.com/web-token/jwt-signature/tree/v3.0.4"
             },
             "funding": [
                 {
@@ -6672,25 +6746,26 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-03-01T19:55:28+00:00"
+            "time": "2022-02-27T09:13:59+00:00"
         },
         {
             "name": "web-token/jwt-signature-algorithm-ecdsa",
-            "version": "v2.2.11",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-signature-algorithm-ecdsa.git",
-                "reference": "44cbbb4374c51f1cf48b82ae761efbf24e1a8591"
+                "reference": "9c5b51bd91a83fab8c82668a7046ec8af4bdca61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-signature-algorithm-ecdsa/zipball/44cbbb4374c51f1cf48b82ae761efbf24e1a8591",
-                "reference": "44cbbb4374c51f1cf48b82ae761efbf24e1a8591",
+                "url": "https://api.github.com/repos/web-token/jwt-signature-algorithm-ecdsa/zipball/9c5b51bd91a83fab8c82668a7046ec8af4bdca61",
+                "reference": "9c5b51bd91a83fab8c82668a7046ec8af4bdca61",
                 "shasum": ""
             },
             "require": {
                 "ext-openssl": "*",
-                "web-token/jwt-signature": "^2.0"
+                "php": ">=8.1",
+                "web-token/jwt-signature": "^3.0"
             },
             "type": "library",
             "autoload": {
@@ -6733,7 +6808,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-signature-algorithm-ecdsa/tree/v2.2.11"
+                "source": "https://github.com/web-token/jwt-signature-algorithm-ecdsa/tree/v3.0.4"
             },
             "funding": [
                 {
@@ -6741,24 +6816,25 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-01-21T19:18:03+00:00"
+            "time": "2022-02-27T09:13:59+00:00"
         },
         {
             "name": "web-token/jwt-util-ecc",
-            "version": "v2.2.11",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-token/jwt-util-ecc.git",
-                "reference": "915f3fde86f5236c205620d61177b9ef43863deb"
+                "reference": "fe09642e3d510ee6d823167d7094d2ea17a92a9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-token/jwt-util-ecc/zipball/915f3fde86f5236c205620d61177b9ef43863deb",
-                "reference": "915f3fde86f5236c205620d61177b9ef43863deb",
+                "url": "https://api.github.com/repos/web-token/jwt-util-ecc/zipball/fe09642e3d510ee6d823167d7094d2ea17a92a9a",
+                "reference": "fe09642e3d510ee6d823167d7094d2ea17a92a9a",
                 "shasum": ""
             },
             "require": {
-                "brick/math": "^0.8.17|^0.9"
+                "brick/math": "^0.9",
+                "php": ">=8.1"
             },
             "suggest": {
                 "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance",
@@ -6805,7 +6881,7 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/web-token/jwt-util-ecc/tree/v2.2.11"
+                "source": "https://github.com/web-token/jwt-util-ecc/tree/v3.0.4"
             },
             "funding": [
                 {
@@ -6813,7 +6889,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-03-24T13:35:17+00:00"
+            "time": "2022-02-27T09:13:59+00:00"
         }
     ],
     "packages-dev": [
@@ -7433,16 +7509,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.6.2",
+            "version": "1.6.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "becb9603a31d70f5007d505877a7b812598dfe46"
+                "reference": "d76498c5531232cb8386ceb6004f7e013138d3ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/becb9603a31d70f5007d505877a7b812598dfe46",
-                "reference": "becb9603a31d70f5007d505877a7b812598dfe46",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d76498c5531232cb8386ceb6004f7e013138d3ba",
+                "reference": "d76498c5531232cb8386ceb6004f7e013138d3ba",
                 "shasum": ""
             },
             "require": {
@@ -7468,7 +7544,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.6.2"
+                "source": "https://github.com/phpstan/phpstan/tree/1.6.8"
             },
             "funding": [
                 {
@@ -7488,7 +7564,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-27T11:05:24+00:00"
+            "time": "2022-05-10T06:54:21+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -9164,16 +9240,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.40.1",
+            "version": "v1.42.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "adc846e4f852e3aa2cd84a433cd05ba23dd19c3f"
+                "reference": "fc9f6bcc0ef79fc9d0325c545ae0f030bb6c9d11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/adc846e4f852e3aa2cd84a433cd05ba23dd19c3f",
-                "reference": "adc846e4f852e3aa2cd84a433cd05ba23dd19c3f",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/fc9f6bcc0ef79fc9d0325c545ae0f030bb6c9d11",
+                "reference": "fc9f6bcc0ef79fc9d0325c545ae0f030bb6c9d11",
                 "shasum": ""
             },
             "require": {
@@ -9189,10 +9265,13 @@
                 "symfony/framework-bundle": "^5.4.7|^6.0",
                 "symfony/http-kernel": "^5.4.7|^6.0"
             },
+            "conflict": {
+                "doctrine/orm": "<2.10"
+            },
             "require-dev": {
                 "composer/semver": "^3.0",
                 "doctrine/doctrine-bundle": "^2.4",
-                "doctrine/orm": "^2.3",
+                "doctrine/orm": "^2.10.0",
                 "symfony/http-client": "^5.4.7|^6.0",
                 "symfony/phpunit-bridge": "^5.4.7|^6.0",
                 "symfony/polyfill-php80": "^1.16.0",
@@ -9232,7 +9311,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/maker-bundle/issues",
-                "source": "https://github.com/symfony/maker-bundle/tree/v1.40.1"
+                "source": "https://github.com/symfony/maker-bundle/tree/v1.42.0"
             },
             "funding": [
                 {
@@ -9248,7 +9327,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-23T19:42:13+00:00"
+            "time": "2022-05-09T19:36:10+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
