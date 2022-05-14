@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7a269be89f9e69ef7c225ca61f0eb74",
+    "content-hash": "0cc83a82a14ac2ac578959195945fc8a",
     "packages": [
         {
             "name": "box/spout",
@@ -756,16 +756,16 @@
         },
         {
             "name": "matomo/device-detector",
-            "version": "5.0.5",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/device-detector.git",
-                "reference": "cd1283126b4cf5081fdc0381b5b5e7849333cfa4"
+                "reference": "7fc2af3af62bd69e6e3404d561e371a83c112be9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/cd1283126b4cf5081fdc0381b5b5e7849333cfa4",
-                "reference": "cd1283126b4cf5081fdc0381b5b5e7849333cfa4",
+                "url": "https://api.github.com/repos/matomo-org/device-detector/zipball/7fc2af3af62bd69e6e3404d561e371a83c112be9",
+                "reference": "7fc2af3af62bd69e6e3404d561e371a83c112be9",
                 "shasum": ""
             },
             "require": {
@@ -821,7 +821,7 @@
                 "source": "https://github.com/matomo-org/matomo",
                 "wiki": "https://dev.matomo.org/"
             },
-            "time": "2022-03-08T09:22:55+00:00"
+            "time": "2022-04-11T09:58:17+00:00"
         },
         {
             "name": "minishlink/web-push",

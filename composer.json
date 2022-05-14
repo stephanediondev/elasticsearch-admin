@@ -12,7 +12,7 @@
         "ext-iconv": "*",
         "composer-runtime-api": ">=2.1",
         "box/spout": "^3.1",
-        "matomo/device-detector": "^5.0",
+        "matomo/device-detector": "^6.0",
         "minishlink/web-push": "^7.0.0",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "6.0.*",
