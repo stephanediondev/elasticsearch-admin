@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchDeprecationControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/deprecations", name="deprecations")
-     */
+    #[Route('/deprecations', name: 'deprecations')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/deprecations');

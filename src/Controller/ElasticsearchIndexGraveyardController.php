@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchIndexGraveyardController extends AbstractAppController
 {
-    /**
-     * @Route("/index-graveyard", name="index_graveyard")
-     */
+    #[Route('/index-graveyard', name: 'index_graveyard')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDEX_GRAVEYARD', 'global');

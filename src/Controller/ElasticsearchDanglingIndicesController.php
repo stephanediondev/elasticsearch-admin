@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchDanglingIndicesController extends AbstractAppController
 {
     private ElasticsearchNodeManager $elasticsearchNodeManager;
@@ -24,9 +22,7 @@ class ElasticsearchDanglingIndicesController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    /**
-     * @Route("/dangling-indices", name="dangling_indices")
-     */
+    #[Route('/dangling-indices', name: 'dangling_indices')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('DANGLING_INDICES', 'global');
@@ -68,9 +64,7 @@ class ElasticsearchDanglingIndicesController extends AbstractAppController
         return $b['creation_date_millis'] <=> $a['creation_date_millis'];
     }
 
-    /**
-     * @Route("/dangling-indices/{index}/import", name="dangling_indices_import")
-     */
+    #[Route('/dangling-indices/{index}/import', name: 'dangling_indices_import')]
     public function import(Request $request, string $index): Response
     {
         $this->denyAccessUnlessGranted('DANGLING_INDICES_IMPORT', 'global');
@@ -92,9 +86,7 @@ class ElasticsearchDanglingIndicesController extends AbstractAppController
         return $this->redirectToRoute('dangling_indices');
     }
 
-    /**
-     * @Route("/dangling-indices/{index}/delete", name="dangling_indices_delete")
-     */
+    #[Route('/dangling-indices/{index}/delete', name: 'dangling_indices_delete')]
     public function delete(Request $request, string $index): Response
     {
         $this->denyAccessUnlessGranted('DANGLING_INDICES_DELETE', 'global');

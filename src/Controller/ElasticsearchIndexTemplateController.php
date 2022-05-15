@@ -17,9 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchIndexTemplateController extends AbstractAppController
 {
     private ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager;
@@ -32,9 +30,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;
     }
 
-    /**
-     * @Route("/index-templates", name="index_templates")
-     */
+    #[Route('/index-templates', name: 'index_templates')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LIST', 'index_template');
@@ -68,9 +64,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates/create", name="index_templates_create")
-     */
+    #[Route('/index-templates/create', name: 'index_templates_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_CREATE', 'index_template');
@@ -124,9 +118,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates/{name}", name="index_templates_read")
-     */
+    #[Route('/index-templates/{name}', name: 'index_templates_read')]
     public function read(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LIST', 'index_template');
@@ -146,9 +138,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates/{name}/settings", name="index_templates_read_settings")
-     */
+    #[Route('/index-templates/{name}/settings', name: 'index_templates_read_settings')]
     public function settings(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LIST', 'index_template');
@@ -168,9 +158,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates/{name}/mappings", name="index_templates_read_mappings")
-     */
+    #[Route('/index-templates/{name}/mappings', name: 'index_templates_read_mappings')]
     public function mappings(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LIST', 'index_template');
@@ -190,9 +178,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates/{name}/update", name="index_templates_update")
-     */
+    #[Route('/index-templates/{name}/update', name: 'index_templates_update')]
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('composable_template')) {
@@ -236,9 +222,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates/{name}/delete", name="index_templates_delete")
-     */
+    #[Route('/index-templates/{name}/delete', name: 'index_templates_delete')]
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('composable_template')) {
@@ -266,9 +250,7 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/index-templates/{name}/simulate", name="index_templates_simulate")
-     */
+    #[Route('/index-templates/{name}/simulate', name: 'index_templates_simulate')]
     public function simulate(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LIST', 'index_template');

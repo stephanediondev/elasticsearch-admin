@@ -11,9 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class AppUpgradeController extends AbstractAppController
 {
     private AppManager $appManager;
@@ -23,9 +21,7 @@ class AppUpgradeController extends AbstractAppController
         $this->appManager = $appManager;
     }
 
-    /**
-     * @Route("/app-upgrade", name="app_upgrade")
-     */
+    #[Route('/app-upgrade', name: 'app_upgrade')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_UPGRADE', 'global');
@@ -47,9 +43,7 @@ class AppUpgradeController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-upgrade/confirm", name="app_upgrade_confirm")
-     */
+    #[Route('/app-upgrade/confirm', name: 'app_upgrade_confirm')]
     public function confirm(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_UPGRADE', 'global');

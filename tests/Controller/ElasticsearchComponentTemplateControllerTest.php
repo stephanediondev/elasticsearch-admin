@@ -6,14 +6,10 @@ use App\Tests\Controller\AbstractAppControllerTest;
 
 use App\Model\CallRequestModel;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchComponentTemplateControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/component-templates", name="component_templates")
-     */
+    #[Route('/component-templates', name: 'component_templates')]
     public function testComponent(): void
     {
         $this->client->request('GET', '/admin/component-templates');
@@ -28,9 +24,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/component-templates/create", name="component_templates_create")
-     */
+    #[Route('/component-templates/create', name: 'component_templates_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/component-templates/create');
@@ -131,9 +125,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/component-templates/{name}", name="component_templates_read")
-     */
+    #[Route('/component-templates/{name}', name: 'component_templates_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid());
@@ -160,9 +152,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/component-templates/{name}/update", name="component_templates_update")
-     */
+    #[Route('/component-templates/{name}/update', name: 'component_templates_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/update');
@@ -200,9 +190,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/component-templates/{name}/settings", name="component_templates_read_settings")
-     */
+    #[Route('/component-templates/{name}/settings', name: 'component_templates_read_settings')]
     public function testSettings404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/settings');
@@ -229,9 +217,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/component-templates/{name}/mappings", name="component_templates_read_mappings")
-     */
+    #[Route('/component-templates/{name}/mappings', name: 'component_templates_read_mappings')]
     public function testMappings404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/mappings');
@@ -258,9 +244,7 @@ class ElasticsearchComponentTemplateControllerTest extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/component-templates/{name}/delete", name="component_templates_delete")
-     */
+    #[Route('/component-templates/{name}/delete', name: 'component_templates_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/component-templates/'.uniqid().'/delete');

@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchDataStreamController extends AbstractAppController
 {
     private ElasticsearchDataStreamManager $elasticsearchDataStreamManager;
@@ -28,9 +26,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
         $this->elasticsearchDataStreamManager = $elasticsearchDataStreamManager;
     }
 
-    /**
-     * @Route("/data-streams", name="data_streams")
-     */
+    #[Route('/data-streams', name: 'data_streams')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('DATA_STREAMS_LIST', 'data_stream');
@@ -63,9 +59,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/data-streams/create", name="data_streams_create")
-     */
+    #[Route('/data-streams/create', name: 'data_streams_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('DATA_STREAMS_CREATE', 'data_stream');
@@ -99,9 +93,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/data-streams/{name}", name="data_streams_read")
-     */
+    #[Route('/data-streams/{name}', name: 'data_streams_read')]
     public function read(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('DATA_STREAMS_LIST', 'data_stream');
@@ -121,9 +113,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/data-streams/{name}/stats", name="data_streams_read_stats")
-     */
+    #[Route('/data-streams/{name}/stats', name: 'data_streams_read_stats')]
     public function readStats(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('data_streams')) {
@@ -149,9 +139,7 @@ class ElasticsearchDataStreamController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/data-streams/{name}/delete", name="data_streams_delete")
-     */
+    #[Route('/data-streams/{name}/delete', name: 'data_streams_delete')]
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('data_streams')) {

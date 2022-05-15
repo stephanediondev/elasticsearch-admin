@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/ilm", name="ilm")
-     */
+    #[Route('/ilm', name: 'ilm')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/ilm');
@@ -26,9 +22,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/ilm/status", name="ilm_status")
-     */
+    #[Route('/ilm/status', name: 'ilm_status')]
     public function testStatus(): void
     {
         $this->client->request('GET', '/admin/ilm/status');
@@ -43,9 +37,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/ilm/create", name="ilm_create")
-     */
+    #[Route('/ilm/create', name: 'ilm_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/ilm/create');
@@ -117,9 +109,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/ilm/{name}", name="ilm_read")
-     */
+    #[Route('/ilm/{name}', name: 'ilm_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/ilm/'.uniqid());
@@ -146,9 +136,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/ilm/{name}/update", name="ilm_update")
-     */
+    #[Route('/ilm/{name}/update', name: 'ilm_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/ilm/'.uniqid().'/update');
@@ -175,9 +163,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/ilm/{name}/apply", name="ilm_apply")
-     */
+    #[Route('/ilm/{name}/apply', name: 'ilm_apply')]
     public function testApply404(): void
     {
         $this->client->request('GET', '/admin/ilm/'.uniqid().'/apply');
@@ -204,9 +190,7 @@ class ElasticsearchIlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/ilm/{name}/delete", name="ilm_delete")
-     */
+    #[Route('/ilm/{name}/delete', name: 'ilm_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/ilm/'.uniqid().'/delete');

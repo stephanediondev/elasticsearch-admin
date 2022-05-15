@@ -11,14 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchConsoleController extends AbstractAppController
 {
-    /**
-     * @Route("/console", name="console")
-     */
+    #[Route('/console', name: 'console')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CONSOLE', 'global');

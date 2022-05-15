@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchConsoleControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/console", name="console")
-     */
+    #[Route('/console', name: 'console')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/console');

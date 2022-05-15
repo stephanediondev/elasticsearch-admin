@@ -9,9 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class AppNotificationController extends AbstractAppController
 {
     private AppNotificationManager $appNotificationManager;
@@ -21,9 +19,7 @@ class AppNotificationController extends AbstractAppController
         $this->appNotificationManager = $appNotificationManager;
     }
 
-    /**
-     * @Route("/app-notifications", name="app_notifications")
-     */
+    #[Route('/app-notifications', name: 'app_notifications')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_NOTIFICATIONS', 'global');

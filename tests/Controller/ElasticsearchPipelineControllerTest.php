@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/pipelines", name="pipelines")
-     */
+    #[Route('/pipelines', name: 'pipelines')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/pipelines');
@@ -26,9 +22,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/pipelines/create", name="pipelines_create")
-     */
+    #[Route('/pipelines/create', name: 'pipelines_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/pipelines/create');
@@ -95,9 +89,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/pipelines/{name}", name="pipelines_read")
-     */
+    #[Route('/pipelines/{name}', name: 'pipelines_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/pipelines/'.uniqid());
@@ -124,9 +116,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/pipelines/{name}/update", name="pipelines_update")
-     */
+    #[Route('/pipelines/{name}/update', name: 'pipelines_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/pipelines/'.uniqid().'/update');
@@ -153,9 +143,7 @@ class ElasticsearchPipelineControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/pipelines/{name}/delete", name="pipelines_delete")
-     */
+    #[Route('/pipelines/{name}/delete', name: 'pipelines_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/pipelines/'.uniqid().'/delete');

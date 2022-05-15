@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchDanglingIndicesControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/dangling-indices", name="dangling_indices")
-     */
+    #[Route('/dangling-indices', name: 'dangling_indices')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/dangling-indices');

@@ -17,9 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchUserController extends AbstractAppController
 {
     private ElasticsearchRoleManager $elasticsearchRoleManager;
@@ -32,9 +30,7 @@ class ElasticsearchUserController extends AbstractAppController
         $this->elasticsearchUserManager = $elasticsearchUserManager;
     }
 
-    /**
-     * @Route("/elasticsearch-users", name="elasticsearch_users")
-     */
+    #[Route('/elasticsearch-users', name: 'elasticsearch_users')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS', 'global');
@@ -67,9 +63,7 @@ class ElasticsearchUserController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/elasticsearch-users/create", name="elasticsearch_users_create")
-     */
+    #[Route('/elasticsearch-users/create', name: 'elasticsearch_users_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS_CREATE', 'global');
@@ -116,9 +110,7 @@ class ElasticsearchUserController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}", name="elasticsearch_users_read")
-     */
+    #[Route('/elasticsearch-users/{user}', name: 'elasticsearch_users_read')]
     public function read(Request $request, string $user): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_USERS', 'global');
@@ -138,9 +130,7 @@ class ElasticsearchUserController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}/update", name="elasticsearch_users_update")
-     */
+    #[Route('/elasticsearch-users/{user}/update', name: 'elasticsearch_users_update')]
     public function update(Request $request, string $user): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
@@ -204,9 +194,7 @@ class ElasticsearchUserController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}/enable", name="elasticsearch_users_enable")
-     */
+    #[Route('/elasticsearch-users/{user}/enable', name: 'elasticsearch_users_enable')]
     public function enable(Request $request, string $user): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
@@ -232,9 +220,7 @@ class ElasticsearchUserController extends AbstractAppController
         return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user->getName()]);
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}/disable", name="elasticsearch_users_disable")
-     */
+    #[Route('/elasticsearch-users/{user}/disable', name: 'elasticsearch_users_disable')]
     public function disable(Request $request, string $user): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
@@ -260,9 +246,7 @@ class ElasticsearchUserController extends AbstractAppController
         return $this->redirectToRoute('elasticsearch_users_read', ['user' => $user->getName()]);
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}/delete", name="elasticsearch_users_delete")
-     */
+    #[Route('/elasticsearch-users/{user}/delete', name: 'elasticsearch_users_delete')]
     public function delete(Request $request, string $user): Response
     {
         if (false === $this->callManager->hasFeature('security')) {

@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchRoleController extends AbstractAppController
 {
     private ElasticsearchRoleManager $elasticsearchRoleManager;
@@ -31,9 +29,7 @@ class ElasticsearchRoleController extends AbstractAppController
         $this->elasticsearchUserManager = $elasticsearchUserManager;
     }
 
-    /**
-     * @Route("/elasticsearch-roles", name="elasticsearch_roles")
-     */
+    #[Route('/elasticsearch-roles', name: 'elasticsearch_roles')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES', 'global');
@@ -65,9 +61,7 @@ class ElasticsearchRoleController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/elasticsearch-roles/create", name="elasticsearch_roles_create")
-     */
+    #[Route('/elasticsearch-roles/create', name: 'elasticsearch_roles_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES_CREATE', 'global');
@@ -114,9 +108,7 @@ class ElasticsearchRoleController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/elasticsearch-roles/{role}", name="elasticsearch_roles_read")
-     */
+    #[Route('/elasticsearch-roles/{role}', name: 'elasticsearch_roles_read')]
     public function read(Request $request, string $role): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES', 'global');
@@ -136,9 +128,7 @@ class ElasticsearchRoleController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/elasticsearch-roles/{role}/update", name="elasticsearch_roles_update")
-     */
+    #[Route('/elasticsearch-roles/{role}/update', name: 'elasticsearch_roles_update')]
     public function update(Request $request, string $role): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
@@ -175,9 +165,7 @@ class ElasticsearchRoleController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/elasticsearch-roles/{role}/delete", name="elasticsearch_roles_delete")
-     */
+    #[Route('/elasticsearch-roles/{role}/delete', name: 'elasticsearch_roles_delete')]
     public function delete(Request $request, string $role): Response
     {
         if (false === $this->callManager->hasFeature('security')) {

@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/repositories", name="repositories")
-     */
+    #[Route('/repositories', name: 'repositories')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/repositories');
@@ -22,9 +18,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'List');
     }
 
-    /**
-     * @Route("/repositories/create/{type}", name="repositories_create")
-     */
+    #[Route('/repositories/create/{type}', name: 'repositories_create')]
     public function testCreate403(): void
     {
         $this->client->request('GET', '/admin/repositories/create/'.uniqid());
@@ -84,9 +78,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/repositories/{repository}", name="repositories_read")
-     */
+    #[Route('/repositories/{repository}', name: 'repositories_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/repositories/'.uniqid());
@@ -94,9 +86,7 @@ class ElasticsearchRepositoryControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
-    /**
-     * @Route("/repositories/{repository}/update", name="repositories_update")
-     */
+    #[Route('/repositories/{repository}/update', name: 'repositories_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/repositories/'.uniqid().'/update');

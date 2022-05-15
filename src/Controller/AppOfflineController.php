@@ -10,9 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppOfflineController extends AbstractAppController
 {
-    /**
-     * @Route("/offline", name="offline")
-     */
+    #[Route('/offline', name: 'offline')]
     public function index(Request $request): Response
     {
         return $this->renderAbstract($request, 'Modules/offline/offline_index.html.twig');

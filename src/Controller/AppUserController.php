@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class AppUserController extends AbstractAppController
 {
     private AppRoleManager $appRoleManager;
@@ -33,9 +31,7 @@ class AppUserController extends AbstractAppController
         $this->passwordHasher = $passwordHasher;
     }
 
-    /**
-     * @Route("/app-users", name="app_users")
-     */
+    #[Route('/app-users', name: 'app_users')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_USERS', 'global');
@@ -55,9 +51,7 @@ class AppUserController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-users/create", name="app_users_create")
-     */
+    #[Route('/app-users/create', name: 'app_users_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_USERS_CREATE', 'global');
@@ -89,9 +83,7 @@ class AppUserController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-users/{user}", name="app_users_read")
-     */
+    #[Route('/app-users/{user}', name: 'app_users_read')]
     public function read(Request $request, string $user): Response
     {
         $this->denyAccessUnlessGranted('APP_USERS', 'global');
@@ -133,9 +125,7 @@ class AppUserController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-users/{user}/update", name="app_users_update")
-     */
+    #[Route('/app-users/{user}/update', name: 'app_users_update')]
     public function update(Request $request, string $user): Response
     {
         $user = $this->appUserManager->getById($user);
@@ -179,9 +169,7 @@ class AppUserController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-users/{user}/delete", name="app_users_delete")
-     */
+    #[Route('/app-users/{user}/delete', name: 'app_users_delete')]
     public function delete(Request $request, string $user): Response
     {
         $user = $this->appUserManager->getById($user);
@@ -199,9 +187,7 @@ class AppUserController extends AbstractAppController
         return $this->redirectToRoute('app_users');
     }
 
-    /**
-     * @Route("/profile", name="app_users_profile")
-     */
+    #[Route('/profile', name: 'app_users_profile')]
     public function profile(Request $request): Response
     {
         $user = $this->appUserManager->getByEmail($this->getuser()->getUserIdentifier());

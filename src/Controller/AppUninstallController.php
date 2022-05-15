@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class AppUninstallController extends AbstractAppController
 {
     private AppManager $appManager;
@@ -26,9 +24,7 @@ class AppUninstallController extends AbstractAppController
         $this->tokenStorage = $tokenStorage;
     }
 
-    /**
-     * @Route("/app-uninstall", name="app_uninstall")
-     */
+    #[Route('/app-uninstall', name: 'app_uninstall')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_UNINSTALL', 'global');
@@ -38,9 +34,7 @@ class AppUninstallController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-uninstall/confirm", name="app_uninstall_confirm")
-     */
+    #[Route('/app-uninstall/confirm', name: 'app_uninstall_confirm')]
     public function confirm(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_UNINSTALL', 'global');

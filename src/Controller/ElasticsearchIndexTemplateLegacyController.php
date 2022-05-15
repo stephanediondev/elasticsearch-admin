@@ -14,9 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
 {
     private ElasticsearchIndexTemplateLegacyManager $elasticsearchIndexTemplateLegacyManager;
@@ -26,9 +24,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;
     }
 
-    /**
-     * @Route("/index-templates-legacy", name="index_templates_legacy")
-     */
+    #[Route('/index-templates-legacy', name: 'index_templates_legacy')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_LIST', 'index_template_legacy');
@@ -56,9 +52,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates-legacy/create", name="index_templates_legacy_create")
-     */
+    #[Route('/index-templates-legacy/create', name: 'index_templates_legacy_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_CREATE', 'index_template_legacy');
@@ -101,9 +95,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates-legacy/{name}", name="index_templates_legacy_read")
-     */
+    #[Route('/index-templates-legacy/{name}', name: 'index_templates_legacy_read')]
     public function read(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_LIST', 'index_template_legacy');
@@ -119,9 +111,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates-legacy/{name}/settings", name="index_templates_legacy_read_settings")
-     */
+    #[Route('/index-templates-legacy/{name}/settings', name: 'index_templates_legacy_read_settings')]
     public function settings(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_LIST', 'index_template_legacy');
@@ -137,9 +127,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates-legacy/{name}/mappings", name="index_templates_legacy_read_mappings")
-     */
+    #[Route('/index-templates-legacy/{name}/mappings', name: 'index_templates_legacy_read_mappings')]
     public function mappings(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LEGACY_LIST', 'index_template_legacy');
@@ -155,9 +143,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates-legacy/{name}/update", name="index_templates_legacy_update")
-     */
+    #[Route('/index-templates-legacy/{name}/update', name: 'index_templates_legacy_update')]
     public function update(Request $request, string $name): Response
     {
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);
@@ -190,9 +176,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/index-templates-legacy/{name}/delete", name="index_templates_legacy_delete")
-     */
+    #[Route('/index-templates-legacy/{name}/delete', name: 'index_templates_legacy_delete')]
     public function delete(Request $request, string $name): Response
     {
         $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($name);

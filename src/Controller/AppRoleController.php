@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class AppRoleController extends AbstractAppController
 {
     private AppRoleManager $appRoleManager;
@@ -27,9 +25,7 @@ class AppRoleController extends AbstractAppController
         $this->appRoleManager = $appRoleManager;
     }
 
-    /**
-     * @Route("/app-roles", name="app_roles")
-     */
+    #[Route('/app-roles', name: 'app_roles')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_ROLES', 'global');
@@ -49,9 +45,7 @@ class AppRoleController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-roles/create", name="app_roles_create")
-     */
+    #[Route('/app-roles/create', name: 'app_roles_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_ROLES_CREATE', 'global');
@@ -78,9 +72,7 @@ class AppRoleController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-roles/{role}", name="app_roles_read")
-     */
+    #[Route('/app-roles/{role}', name: 'app_roles_read')]
     public function read(Request $request, string $role): Response
     {
         $this->denyAccessUnlessGranted('APP_ROLES', 'global');
@@ -105,9 +97,7 @@ class AppRoleController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-roles/{role}/update", name="app_roles_update")
-     */
+    #[Route('/app-roles/{role}/update', name: 'app_roles_update')]
     public function update(Request $request, string $role): Response
     {
         $role = $this->appRoleManager->getByName($role);
@@ -125,9 +115,7 @@ class AppRoleController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/app-roles/{role}/module/{module}/permission/{permission}", name="app_roles_permission")
-     */
+    #[Route('/app-roles/{role}/module/{module}/permission/{permission}', name: 'app_roles_permission')]
     public function permission(Request $request, string $role, string $module, string $permission): JsonResponse
     {
         $role = $this->appRoleManager->getByName($role);
@@ -152,9 +140,7 @@ class AppRoleController extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/app-roles/{role}/delete", name="app_roles_delete")
-     */
+    #[Route('/app-roles/{role}/delete', name: 'app_roles_delete')]
     public function delete(Request $request, string $role): Response
     {
         $role = $this->appRoleManager->getByName($role);

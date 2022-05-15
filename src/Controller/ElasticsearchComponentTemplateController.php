@@ -15,9 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchComponentTemplateController extends AbstractAppController
 {
     private ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager;
@@ -27,9 +25,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         $this->elasticsearchComponentTemplateManager = $elasticsearchComponentTemplateManager;
     }
 
-    /**
-     * @Route("/component-templates", name="component_templates")
-     */
+    #[Route('/component-templates', name: 'component_templates')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_LIST', 'component_template');
@@ -61,9 +57,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/component-templates/create", name="component_templates_create")
-     */
+    #[Route('/component-templates/create', name: 'component_templates_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_CREATE', 'component_template');
@@ -110,9 +104,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/component-templates/{name}", name="component_templates_read")
-     */
+    #[Route('/component-templates/{name}', name: 'component_templates_read')]
     public function read(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_LIST', 'component_template');
@@ -132,9 +124,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/component-templates/{name}/settings", name="component_templates_read_settings")
-     */
+    #[Route('/component-templates/{name}/settings', name: 'component_templates_read_settings')]
     public function settings(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_LIST', 'component_template');
@@ -154,9 +144,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/component-templates/{name}/mappings", name="component_templates_read_mappings")
-     */
+    #[Route('/component-templates/{name}/mappings', name: 'component_templates_read_mappings')]
     public function mappings(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('COMPONENT_TEMPLATES_LIST', 'component_template');
@@ -176,9 +164,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/component-templates/{name}/update", name="component_templates_update")
-     */
+    #[Route('/component-templates/{name}/update', name: 'component_templates_update')]
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('composable_template')) {
@@ -215,9 +201,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/component-templates/{name}/delete", name="component_templates_delete")
-     */
+    #[Route('/component-templates/{name}/delete', name: 'component_templates_delete')]
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('composable_template')) {

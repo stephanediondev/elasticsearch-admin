@@ -29,9 +29,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchIndexController extends AbstractAppController
 {
     private ElasticsearchIndexManager $elasticsearchIndexManager;
@@ -41,9 +39,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
     }
 
-    /**
-     * @Route("/indices", name="indices")
-     */
+    #[Route('/indices', name: 'indices')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDICES_LIST', 'index');
@@ -82,9 +78,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/stats", name="indices_stats")
-     */
+    #[Route('/indices/stats', name: 'indices_stats')]
     public function stats(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDICES_STATS', 'index');
@@ -174,9 +168,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $b['total'] <=> $a['total'];
     }
 
-    /**
-     * @Route("/indices/{indices}/mappings/fetch", name="indices_mappings_fetch")
-     */
+    #[Route('/indices/{indices}/mappings/fetch', name: 'indices_mappings_fetch')]
     public function fetchMappings(Request $request, string $indices): JsonResponse
     {
         $this->denyAccessUnlessGranted('INDICES_LIST', 'index');
@@ -199,9 +191,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return new JsonResponse($json, JsonResponse::HTTP_OK);
     }
 
-    /**
-     * @Route("/indices/force/merge", name="indices_force_merge_all")
-     */
+    #[Route('/indices/force/merge', name: 'indices_force_merge_all')]
     public function forceMergeAll(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDICES_FORCE_MERGE', 'index');
@@ -224,9 +214,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices', $request->query->all());
     }
 
-    /**
-     * @Route("/indices/cache/clear", name="indices_cache_clear_all")
-     */
+    #[Route('/indices/cache/clear', name: 'indices_cache_clear_all')]
     public function cacheClearAll(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDICES_CACHE_CLEAR', 'index');
@@ -245,9 +233,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices', $request->query->all());
     }
 
-    /**
-     * @Route("/indices/flush", name="indices_flush_all")
-     */
+    #[Route('/indices/flush', name: 'indices_flush_all')]
     public function flushAll(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDICES_FLUSH', 'index');
@@ -266,9 +252,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices', $request->query->all());
     }
 
-    /**
-     * @Route("/indices/refresh", name="indices_refresh_all")
-     */
+    #[Route('/indices/refresh', name: 'indices_refresh_all')]
     public function refreshAll(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDICES_REFRESH', 'index');
@@ -287,9 +271,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices', $request->query->all());
     }
 
-    /**
-     * @Route("/indices/reindex", name="indices_reindex")
-     */
+    #[Route('/indices/reindex', name: 'indices_reindex')]
     public function reindex(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDICES_REINDEX', 'index');
@@ -326,9 +308,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/create", name="indices_create")
-     */
+    #[Route('/indices/create', name: 'indices_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDICES_CREATE', 'index');
@@ -366,9 +346,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/{index}", name="indices_read")
-     */
+    #[Route('/indices/{index}', name: 'indices_read')]
     public function read(Request $request, string $index): Response
     {
         $this->denyAccessUnlessGranted('INDICES_LIST', 'index');
@@ -387,9 +365,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/{index}/update", name="indices_update")
-     */
+    #[Route('/indices/{index}/update', name: 'indices_update')]
     public function update(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -429,9 +405,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/{index}/file-import", name="indices_read_import")
-     */
+    #[Route('/indices/{index}/file-import', name: 'indices_read_import')]
     public function readImport(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -588,9 +562,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/index/index_read_import.html.twig', $parameters);
     }
 
-    /**
-     * @Route("/indices/{index}/export", name="indices_read_export")
-     */
+    #[Route('/indices/{index}/export', name: 'indices_read_export')]
     public function readExport(Request $request, string $index): StreamedResponse
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -783,9 +755,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $type;
     }
 
-    /**
-     * @Route("/indices/{index}/settings", name="indices_read_settings")
-     */
+    #[Route('/indices/{index}/settings', name: 'indices_read_settings')]
     public function settings(Request $request, string $index): Response
     {
         $this->denyAccessUnlessGranted('INDICES_LIST', 'index');
@@ -802,9 +772,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/{index}/setting/add", name="indices_setting_add")
-     */
+    #[Route('/indices/{index}/setting/add', name: 'indices_setting_add')]
     public function settingAdd(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -834,9 +802,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/{index}/setting/{setting}/update", name="indices_setting_update")
-     */
+    #[Route('/indices/{index}/setting/{setting}/update', name: 'indices_setting_update')]
     public function settingUpdate(Request $request, string $index, string $setting): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -882,9 +848,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/setting/{setting}/remove", name="indices_setting_remove")
-     */
+    #[Route('/indices/{index}/setting/{setting}/remove', name: 'indices_setting_remove')]
     public function settingRemove(Request $request, string $index, string $setting): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -917,9 +881,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read_settings', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/mappings", name="indices_read_mappings")
-     */
+    #[Route('/indices/{index}/mappings', name: 'indices_read_mappings')]
     public function mappings(Request $request, string $index): Response
     {
         $this->denyAccessUnlessGranted('INDICES_LIST', 'index');
@@ -935,9 +897,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/{index}/lifecycle", name="indices_read_lifecycle")
-     */
+    #[Route('/indices/{index}/lifecycle', name: 'indices_read_lifecycle')]
     public function lifecycle(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
@@ -964,9 +924,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/{index}/remove/policy", name="indices_remove_policy")
-     */
+    #[Route('/indices/{index}/remove/policy', name: 'indices_remove_policy')]
     public function removePolicy(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
@@ -991,9 +949,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read_lifecycle', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/aliases", name="indices_read_aliases")
-     */
+    #[Route('/indices/{index}/aliases', name: 'indices_read_aliases')]
     public function aliases(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1024,9 +980,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/indices/{index}/aliases/create", name="indices_aliases_create")
-     */
+    #[Route('/indices/{index}/aliases/create', name: 'indices_aliases_create')]
     public function createAlias(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1063,9 +1017,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("indices/{index}/aliases/{alias}/delete", name="indices_aliases_delete")
-     */
+    #[Route('indices/{index}/aliases/{alias}/delete', name: 'indices_aliases_delete')]
     public function deleteAlias(Request $request, string $index, string $alias): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1086,9 +1038,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read_aliases', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/delete", name="indices_delete")
-     */
+    #[Route('/indices/{index}/delete', name: 'indices_delete')]
     public function delete(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1106,9 +1056,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices');
     }
 
-    /**
-     * @Route("/indices/{index}/close", name="indices_close")
-     */
+    #[Route('/indices/{index}/close', name: 'indices_close')]
     public function close(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1132,9 +1080,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/open", name="indices_open")
-     */
+    #[Route('/indices/{index}/open', name: 'indices_open')]
     public function open(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1152,9 +1098,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/freeze", name="indices_freeze")
-     */
+    #[Route('/indices/{index}/freeze', name: 'indices_freeze')]
     public function freeze(Request $request, string $index): Response
     {
         if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
@@ -1180,9 +1124,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/unfreeze", name="indices_unfreeze")
-     */
+    #[Route('/indices/{index}/unfreeze', name: 'indices_unfreeze')]
     public function unfreeze(Request $request, string $index): Response
     {
         if (true === $this->callManager->hasFeature('freezing_endpoint_removed')) {
@@ -1208,9 +1150,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/force/merge", name="indices_force_merge")
-     */
+    #[Route('/indices/{index}/force/merge', name: 'indices_force_merge')]
     public function forceMerge(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('force_merge')) {
@@ -1232,9 +1172,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/cache/clear", name="indices_cache_clear")
-     */
+    #[Route('/indices/{index}/cache/clear', name: 'indices_cache_clear')]
     public function cacheClear(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1252,9 +1190,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/flush", name="indices_flush")
-     */
+    #[Route('/indices/{index}/flush', name: 'indices_flush')]
     public function flush(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1272,9 +1208,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/refresh", name="indices_refresh")
-     */
+    #[Route('/indices/{index}/refresh', name: 'indices_refresh')]
     public function refresh(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);
@@ -1292,9 +1226,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/empty", name="indices_empty")
-     */
+    #[Route('/indices/{index}/empty', name: 'indices_empty')]
     public function empty(Request $request, string $index): Response
     {
         if (false === $this->callManager->hasFeature('delete_by_query')) {
@@ -1320,9 +1252,7 @@ class ElasticsearchIndexController extends AbstractAppController
         return $this->redirectToRoute('indices_read', ['index' => $index->getName()]);
     }
 
-    /**
-     * @Route("/indices/{index}/search", name="indices_read_search")
-     */
+    #[Route('/indices/{index}/search', name: 'indices_read_search')]
     public function search(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index);

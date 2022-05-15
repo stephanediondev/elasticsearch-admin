@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchUserControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/elasticsearch-users", name="elasticsearch_users")
-     */
+    #[Route('/elasticsearch-users', name: 'elasticsearch_users')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users');
@@ -26,9 +22,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-users/create", name="elasticsearch_users_create")
-     */
+    #[Route('/elasticsearch-users/create', name: 'elasticsearch_users_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/create');
@@ -57,9 +51,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}", name="elasticsearch_users_read")
-     */
+    #[Route('/elasticsearch-users/{user}', name: 'elasticsearch_users_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid());
@@ -86,9 +78,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}/update", name="elasticsearch_users_update")
-     */
+    #[Route('/elasticsearch-users/{user}/update', name: 'elasticsearch_users_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/update');
@@ -126,9 +116,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}/disable", name="elasticsearch_users_disable")
-     */
+    #[Route('/elasticsearch-users/{user}/disable', name: 'elasticsearch_users_disable')]
     public function testDisable404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/disable');
@@ -162,9 +150,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}/enable", name="elasticsearch_users_enable")
-     */
+    #[Route('/elasticsearch-users/{user}/enable', name: 'elasticsearch_users_enable')]
     public function testEnable404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/enable');
@@ -198,9 +184,7 @@ class ElasticsearchUserControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-users/{user}/delete", name="elasticsearch_users_delete")
-     */
+    #[Route('/elasticsearch-users/{user}/delete', name: 'elasticsearch_users_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-users/'.uniqid().'/delete');

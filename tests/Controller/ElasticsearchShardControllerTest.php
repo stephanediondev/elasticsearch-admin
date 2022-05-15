@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchShardControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/shards", name="shards")
-     */
+    #[Route('/shards', name: 'shards')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/shards');
@@ -22,9 +18,7 @@ class ElasticsearchShardControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'List');
     }
 
-    /**
-     * @Route("/shards/stats", name="shards_stats")
-     */
+    #[Route('/shards/stats', name: 'shards_stats')]
     public function testStats(): void
     {
         $this->client->request('GET', '/admin/shards/stats');

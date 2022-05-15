@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchDeprecationController extends AbstractAppController
 {
-    /**
-     * @Route("/deprecations", name="deprecations")
-     */
+    #[Route('/deprecations', name: 'deprecations')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('DEPRECATIONS', 'global');

@@ -14,14 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchSqlController extends AbstractAppController
 {
-    /**
-     * @Route("/sql", name="sql")
-     */
+    #[Route('/sql', name: 'sql')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SQL', 'global');
@@ -66,9 +62,7 @@ class ElasticsearchSqlController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/sql/sql_index.html.twig', $parameters);
     }
 
-    /**
-     * @Route("/sql/cursor", name="sql_cursor")
-     */
+    #[Route('/sql/cursor', name: 'sql_cursor')]
     public function cursor(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('SQL', 'global');

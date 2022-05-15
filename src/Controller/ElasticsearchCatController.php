@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchCatController extends AbstractAppController
 {
     private ElasticsearchRepositoryManager $elasticsearchRepositoryManager;
@@ -36,9 +34,7 @@ class ElasticsearchCatController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    /**
-     * @Route("/cat", name="cat")
-     */
+    #[Route('/cat', name: 'cat')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CAT', 'global');
@@ -108,9 +104,7 @@ class ElasticsearchCatController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/cat/cat_index.html.twig', $parameters);
     }
 
-    /**
-     * @Route("/cat/export", name="cat_export")
-     */
+    #[Route('/cat/export', name: 'cat_export')]
     public function export(Request $request): ?StreamedResponse
     {
         $this->denyAccessUnlessGranted('CAT_EXPORT', 'global');

@@ -11,14 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class AppThemeController extends AbstractAppController
 {
-    /**
-     * @Route("/theme-editor", name="app_theme_editor")
-     */
+    #[Route('/theme-editor', name: 'app_theme_editor')]
     public function index(Request $request): Response
     {
         $theme = [];

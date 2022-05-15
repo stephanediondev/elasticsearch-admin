@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchRemoteClusterController extends AbstractAppController
 {
     private ElasticsearchNodeManager $elasticsearchNodeManager;
@@ -24,9 +22,7 @@ class ElasticsearchRemoteClusterController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    /**
-     * @Route("/remote-clusters", name="remote_clusters")
-     */
+    #[Route('/remote-clusters', name: 'remote_clusters')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('REMOTE_CLUSTERS', 'global');

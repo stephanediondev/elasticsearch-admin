@@ -6,14 +6,10 @@ use App\Tests\Controller\AbstractAppControllerTest;
 
 use App\Model\CallRequestModel;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/index-templates", name="index_templates")
-     */
+    #[Route('/index-templates', name: 'index_templates')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/index-templates');
@@ -28,9 +24,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/index-templates/create", name="index_templates_create")
-     */
+    #[Route('/index-templates/create', name: 'index_templates_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/index-templates/create');
@@ -136,9 +130,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/index-templates/{name}", name="index_templates_read")
-     */
+    #[Route('/index-templates/{name}', name: 'index_templates_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid());
@@ -165,9 +157,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/index-templates/{name}/update", name="index_templates_update")
-     */
+    #[Route('/index-templates/{name}/update', name: 'index_templates_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/update');
@@ -205,9 +195,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/index-templates/{name}/settings", name="index_templates_read_settings")
-     */
+    #[Route('/index-templates/{name}/settings', name: 'index_templates_read_settings')]
     public function testSettings404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/settings');
@@ -234,9 +222,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/index-templates/{name}/mappings", name="index_templates_read_mappings")
-     */
+    #[Route('/index-templates/{name}/mappings', name: 'index_templates_read_mappings')]
     public function testMappings404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/mappings');
@@ -263,9 +249,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/index-templates/{name}/simulate", name="index_templates_simulate")
-     */
+    #[Route('/index-templates/{name}/simulate', name: 'index_templates_simulate')]
     public function testSimulate404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/simulate');
@@ -292,9 +276,7 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/index-templates/{name}/delete", name="index_templates_delete")
-     */
+    #[Route('/index-templates/{name}/delete', name: 'index_templates_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/delete');

@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/enrich", name="enrich")
-     */
+    #[Route('/enrich', name: 'enrich')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/enrich');
@@ -26,9 +22,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/enrich/stats", name="enrich_stats")
-     */
+    #[Route('/enrich/stats', name: 'enrich_stats')]
     public function testStats(): void
     {
         $this->client->request('GET', '/admin/enrich/stats');
@@ -43,9 +37,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/enrich/create", name="enrich_create")
-     */
+    #[Route('/enrich/create', name: 'enrich_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/enrich/create');
@@ -85,9 +77,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/enrich/{name}", name="enrich_read")
-     */
+    #[Route('/enrich/{name}', name: 'enrich_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/enrich/'.uniqid());
@@ -114,9 +104,7 @@ class ElasticsearchEnrichControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/enrich/{name}/delete", name="enrichs_delete")
-     */
+    #[Route('/enrich/{name}/delete', name: 'enrichs_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/enrich/'.uniqid().'/delete');

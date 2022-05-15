@@ -20,9 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchClusterController extends AbstractAppController
 {
     private ElasticsearchIndexManager $elasticsearchIndexManager;
@@ -41,9 +39,7 @@ class ElasticsearchClusterController extends AbstractAppController
         $this->elasticsearchRepositoryManager = $elasticsearchRepositoryManager;
     }
 
-    /**
-     * @Route("/cluster", name="cluster")
-     */
+    #[Route('/cluster', name: 'cluster')]
     public function read(Request $request): Response
     {
         $clusterStats = $this->elasticsearchClusterManager->getClusterStats();
@@ -55,9 +51,7 @@ class ElasticsearchClusterController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/cluster/allocation/explain", name="cluster_allocation_explain")
-     */
+    #[Route('/cluster/allocation/explain', name: 'cluster_allocation_explain')]
     public function allocationExplain(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_ALLOCATION_EXPLAIN', 'global');
@@ -110,9 +104,7 @@ class ElasticsearchClusterController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/cluster/retry/failed", name="cluster_retry_failed")
-     */
+    #[Route('/cluster/retry/failed', name: 'cluster_retry_failed')]
     public function retryFailed(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_ALLOCATION_EXPLAIN', 'global');
@@ -139,9 +131,7 @@ class ElasticsearchClusterController extends AbstractAppController
         return $this->redirectToRoute('cluster_allocation_explain', $request->query->all());
     }
 
-    /**
-     * @Route("/cluster/settings", name="cluster_settings")
-     */
+    #[Route('/cluster/settings', name: 'cluster_settings')]
     public function settings(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTINGS', 'global');
@@ -162,9 +152,7 @@ class ElasticsearchClusterController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/cluster/settings/{type}/{setting}/edit", name="cluster_settings_edit")
-     */
+    #[Route('/cluster/settings/{type}/{setting}/edit', name: 'cluster_settings_edit')]
     public function edit(Request $request, string $type, string $setting): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_EDIT', 'global');
@@ -211,9 +199,7 @@ class ElasticsearchClusterController extends AbstractAppController
         }
     }
 
-    /**
-     * @Route("/cluster/settings/{type}/{setting}/remove", name="cluster_settings_remove")
-     */
+    #[Route('/cluster/settings/{type}/{setting}/remove', name: 'cluster_settings_remove')]
     public function remove(Request $request, string $type, string $setting): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_SETTING_REMOVE', 'global');
@@ -238,9 +224,7 @@ class ElasticsearchClusterController extends AbstractAppController
         return $this->redirectToRoute('cluster_settings');
     }
 
-    /**
-     * @Route("/cluster/audit", name="cluster_audit")
-     */
+    #[Route('/cluster/audit', name: 'cluster_audit')]
     public function audit(Request $request, string $elasticsearchUsername, string $elasticsearchPassword): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_AUDIT', 'global');
@@ -732,9 +716,7 @@ class ElasticsearchClusterController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/cluster/cluster_audit.html.twig', $parameters);
     }
 
-    /**
-     * @Route("/cluster/disk-thresholds", name="cluster_disk_thresholds")
-     */
+    #[Route('/cluster/disk-thresholds', name: 'cluster_disk_thresholds')]
     public function diskThresholds(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CLUSTER_DISK_THRESHOLDS', 'global');

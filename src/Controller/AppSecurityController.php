@@ -33,9 +33,7 @@ class AppSecurityController extends AbstractAppController
         $this->passwordHasher = $passwordHasher;
     }
 
-    /**
-     * @Route("/", name="app_login")
-     */
+    #[Route('/', name: 'app_login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -62,17 +60,13 @@ class AppSecurityController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/logout", name="app_logout")
-     */
+    #[Route('/logout', name: 'app_logout')]
     public function logout(): RedirectResponse
     {
         return new RedirectResponse($this->generateUrl('app_login'));
     }
 
-    /**
-     * @Route("/register", name="register")
-     */
+    #[Route('/register', name: 'register')]
     public function register(Request $request): Response
     {
         if ($this->getUser()) {

@@ -21,9 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class AppSubscriptionsController extends AbstractAppController
 {
     private AppSubscriptionManager $appSubscriptionManager;
@@ -53,9 +51,7 @@ class AppSubscriptionsController extends AbstractAppController
         $this->senderAddress = $senderAddress;
     }
 
-    /**
-     * @Route("/subscriptions", name="app_subscriptions")
-     */
+    #[Route('/subscriptions', name: 'app_subscriptions')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_SUBSCRIPTIONS', 'global');
@@ -78,9 +74,7 @@ class AppSubscriptionsController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/subscriptions/create/{type}", name="app_subscriptions_create")
-     */
+    #[Route('/subscriptions/create/{type}', name: 'app_subscriptions_create')]
     public function create(Request $request, string $type): Response
     {
         $this->denyAccessUnlessGranted('APP_SUBSCRIPTIONS', 'global');
@@ -153,9 +147,7 @@ class AppSubscriptionsController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/subscriptions/{id}/update", name="app_subscriptions_update")
-     */
+    #[Route('/subscriptions/{id}/update', name: 'app_subscriptions_update')]
     public function update(Request $request, string $id): Response
     {
         $this->denyAccessUnlessGranted('APP_SUBSCRIPTIONS', 'global');
@@ -188,9 +180,7 @@ class AppSubscriptionsController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/subscriptions/{id}/delete", name="app_subscriptions_delete")
-     */
+    #[Route('/subscriptions/{id}/delete', name: 'app_subscriptions_delete')]
     public function delete(Request $request, string $id): Response
     {
         $this->denyAccessUnlessGranted('APP_SUBSCRIPTIONS', 'global');
@@ -208,9 +198,7 @@ class AppSubscriptionsController extends AbstractAppController
         return $this->redirectToRoute('app_subscriptions');
     }
 
-    /**
-     * @Route("/subscriptions/{id}/test", name="app_subscriptions_test")
-     */
+    #[Route('/subscriptions/{id}/test', name: 'app_subscriptions_test')]
     public function test(Request $request, string $id): JsonResponse
     {
         $this->denyAccessUnlessGranted('APP_SUBSCRIPTIONS', 'global');

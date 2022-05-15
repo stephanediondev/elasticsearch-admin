@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchSlmController extends AbstractAppController
 {
     private ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager;
@@ -34,9 +32,7 @@ class ElasticsearchSlmController extends AbstractAppController
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
     }
 
-    /**
-     * @Route("/slm", name="slm")
-     */
+    #[Route('/slm', name: 'slm')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_LIST', 'slm_policy');
@@ -60,9 +56,7 @@ class ElasticsearchSlmController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/slm/stats", name="slm_stats")
-     */
+    #[Route('/slm/stats', name: 'slm_stats')]
     public function stats(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATS', 'slm_policy');
@@ -78,9 +72,7 @@ class ElasticsearchSlmController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/slm/status", name="slm_status")
-     */
+    #[Route('/slm/status', name: 'slm_status')]
     public function status(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'slm_policy');
@@ -96,9 +88,7 @@ class ElasticsearchSlmController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/slm/start", name="slm_start")
-     */
+    #[Route('/slm/start', name: 'slm_start')]
     public function start(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'slm_policy');
@@ -114,9 +104,7 @@ class ElasticsearchSlmController extends AbstractAppController
         return $this->redirectToRoute('slm_status');
     }
 
-    /**
-     * @Route("/slm/stop", name="slm_stop")
-     */
+    #[Route('/slm/stop', name: 'slm_stop')]
     public function stop(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_STATUS', 'slm_policy');
@@ -132,9 +120,7 @@ class ElasticsearchSlmController extends AbstractAppController
         return $this->redirectToRoute('slm_status');
     }
 
-    /**
-     * @Route("/slm/create", name="slm_create")
-     */
+    #[Route('/slm/create', name: 'slm_create')]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_CREATE', 'slm_policy');
@@ -190,9 +176,7 @@ class ElasticsearchSlmController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/slm/{name}", name="slm_read")
-     */
+    #[Route('/slm/{name}', name: 'slm_read')]
     public function read(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_LIST', 'slm_policy');
@@ -212,9 +196,7 @@ class ElasticsearchSlmController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/slm/{name}/history", name="slm_read_history")
-     */
+    #[Route('/slm/{name}/history', name: 'slm_read_history')]
     public function readHistory(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_LIST', 'slm_policy');
@@ -234,9 +216,7 @@ class ElasticsearchSlmController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/slm/{name}/stats", name="slm_read_stats")
-     */
+    #[Route('/slm/{name}/stats', name: 'slm_read_stats')]
     public function readStats(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('SLM_POLICIES_LIST', 'slm_policy');
@@ -256,9 +236,7 @@ class ElasticsearchSlmController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/slm/{name}/update", name="slm_update")
-     */
+    #[Route('/slm/{name}/update', name: 'slm_update')]
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('slm')) {
@@ -298,9 +276,7 @@ class ElasticsearchSlmController extends AbstractAppController
         ]);
     }
 
-    /**
-     * @Route("/slm/{name}/delete", name="slm_delete")
-     */
+    #[Route('/slm/{name}/delete', name: 'slm_delete')]
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('slm')) {
@@ -322,9 +298,7 @@ class ElasticsearchSlmController extends AbstractAppController
         return $this->redirectToRoute('slm');
     }
 
-    /**
-     * @Route("/slm/{name}/execute", name="slm_execute")
-     */
+    #[Route('/slm/{name}/execute', name: 'slm_execute')]
     public function execute(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('slm')) {

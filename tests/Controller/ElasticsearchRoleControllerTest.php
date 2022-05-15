@@ -4,14 +4,10 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
 {
-    /**
-     * @Route("/elasticsearch-roles", name="elasticsearch_roles")
-     */
+    #[Route('/elasticsearch-roles', name: 'elasticsearch_roles')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles');
@@ -26,9 +22,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-roles/create", name="elasticsearch_roles_create")
-     */
+    #[Route('/elasticsearch-roles/create', name: 'elasticsearch_roles_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/create');
@@ -94,9 +88,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-roles/{role}", name="elasticsearch_roles_read")
-     */
+    #[Route('/elasticsearch-roles/{role}', name: 'elasticsearch_roles_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid());
@@ -123,9 +115,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-roles/{role}/update", name="elasticsearch_roles_update")
-     */
+    #[Route('/elasticsearch-roles/{role}/update', name: 'elasticsearch_roles_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid().'/update');
@@ -163,9 +153,7 @@ class ElasticsearchRoleControllerTest extends AbstractAppControllerTest
         }
     }
 
-    /**
-     * @Route("/elasticsearch-roles/{role}/delete", name="elasticsearch_roles_delete")
-     */
+    #[Route('/elasticsearch-roles/{role}/delete', name: 'elasticsearch_roles_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/elasticsearch-roles/'.uniqid().'/delete');

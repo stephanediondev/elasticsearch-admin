@@ -8,14 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @Route("/admin")
- */
+#[Route('/admin')]
 class AppScreenshotsController extends AbstractAppController
 {
-    /**
-     * @Route("/screenshots", name="screenshots")
-     */
+    #[Route('/screenshots', name: 'screenshots')]
     public function index(Request $request, string $appEnv): Response
     {
         $cookie = $request->getSession()->getId();
