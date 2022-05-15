@@ -9,16 +9,16 @@ use App\Manager\AppUserManager;
 use App\Manager\CallManager;
 use App\Model\AppUserModel;
 use App\Model\CallRequestModel;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[AsCommand(name: 'app:phpunit')]
 class PhpunitCommand extends Command
 {
-    protected static $defaultName = 'app:phpunit';
-
     private CallManager $callManager;
 
     private AppManager $appManager;

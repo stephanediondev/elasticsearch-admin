@@ -39,6 +39,9 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
+    "masterminds/html5": {
+        "version": "2.7.5"
+    },
     "matomo/device-detector": {
         "version": "4.0.0"
     },
@@ -404,9 +407,6 @@
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.14.0"
-    },
-    "symfony/polyfill-php81": {
-        "version": "v1.24.0"
     },
     "symfony/process": {
         "version": "v5.0.5"

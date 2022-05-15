@@ -6,6 +6,7 @@ namespace App\Command;
 use App\Manager\AppManager;
 use App\Manager\CallManager;
 use App\Model\CallRequestModel;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,10 +15,9 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[AsCommand(name: 'app:uninstall')]
 class AppUninstallCommand extends Command
 {
-    protected static $defaultName = 'app:uninstall';
-
     private AppManager $appManager;
 
     private CallManager $callManager;
