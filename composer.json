@@ -4,7 +4,7 @@
     "homepage": "https://github.com/stephanediondev/elasticsearch-admin",
     "type": "project",
     "license": "MIT",
-    "minimum-stability": "beta",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
         "php": ">=8.0.2",
