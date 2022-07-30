@@ -20,10 +20,6 @@ RUN apk -U upgrade && apk --no-cache --repository http://dl-cdn.alpinelinux.org/
     php81-tokenizer php81-pdo php81-pdo_mysql php81-pdo_pgsql php81-iconv php81-zip \
     php81-gmp php81-mbstring nginx supervisor nodejs npm curl
 
-# Create symlink so programs depending on `php` still function
-RUN rm /usr/bin/php
-RUN ln -s /usr/bin/php81 /usr/bin/php
-
 # Configure nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/privkey.pem /etc/nginx/privkey.pem
