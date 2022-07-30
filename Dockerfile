@@ -21,6 +21,7 @@ RUN apk -U upgrade && apk --no-cache --repository http://dl-cdn.alpinelinux.org/
     php81-gmp php81-mbstring nginx supervisor nodejs npm curl
 
 # Create symlink so programs depending on `php` still function
+RUN rm /usr/bin/php
 RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # Configure nginx
