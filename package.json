@@ -5,7 +5,7 @@
     "license": "MIT",
     "private": true,
     "devDependencies": {
-        "@symfony/webpack-encore": "^3.0.0",
+        "@symfony/webpack-encore": "^4.0.0",
         "ansi-regex": ">=5.0.1",
         "core-js": "^3.21.1",
         "nth-check": ">=2.0.1",
@@ -24,6 +24,6 @@
         "bootstrap": "^5.2.0",
         "file-saver": "^2.0.5",
         "jquery": "^3.6.0",
-        "slug": "^5.3.0"
+        "slug": "^8.0.0"
     }
 }
