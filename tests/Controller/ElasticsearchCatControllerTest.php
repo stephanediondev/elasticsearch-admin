@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class ElasticsearchCatControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/cat', name: 'cat')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/cat');

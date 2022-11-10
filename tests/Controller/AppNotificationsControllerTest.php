@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class AppNotificationsControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/app-notifications', name: 'app_notifications')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/app-notifications');

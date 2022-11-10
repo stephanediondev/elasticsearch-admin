@@ -6,10 +6,8 @@ use App\Tests\Controller\AbstractAppControllerTest;
 
 use App\Model\CallRequestModel;
 
-#[Route('/admin')]
 class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/indices', name: 'indices')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/indices');
@@ -20,7 +18,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'List');
     }
 
-    #[Route('/indices/stats', name: 'indices_stats')]
     public function testStats(): void
     {
         $this->client->request('GET', '/admin/indices/stats');
@@ -31,7 +28,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Stats');
     }
 
-    #[Route('/indices/reindex', name: 'indices_reindex')]
     public function testReindex(): void
     {
         $this->client->request('GET', '/admin/indices/reindex');
@@ -42,7 +38,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Reindex');
     }
 
-    #[Route('/indices/create', name: 'indices_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/indices/create');
@@ -95,7 +90,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
-    #[Route('/indices/{index}', name: 'indices_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid());
@@ -114,7 +108,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
-    #[Route('/indices/{index}/update', name: 'indices_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/update');
@@ -140,7 +133,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Update');
     }
 
-    #[Route('/indices/{index}/settings', name: 'indices_read_settings')]
     public function testSettings404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/settings');
@@ -158,7 +150,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'Settings');
     }
 
-    #[Route('/indices/{index}/mappings', name: 'indices_read_mappings')]
     public function testMappings404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/mappings');
@@ -176,7 +167,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Mappings');
     }
 
-    #[Route('/indices/{index}/lifecycle', name: 'indices_read_lifecycle')]
     public function testLifecycle404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/lifecycle');
@@ -202,7 +192,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/indices/{index}/search', name: 'indices_read_search')]
     public function testSearch404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/search');
@@ -227,7 +216,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'Documents');
     }
 
-    #[Route('/indices/{index}/file-import', name: 'indices_read_import')]
     public function testImport404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/file-import');
@@ -252,7 +240,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Import from file');
     }
 
-    #[Route('/indices/{index}/aliases', name: 'indices_read_aliases')]
     public function testAliases404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/aliases');
@@ -269,7 +256,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h1', 'Indices');
     }
 
-    #[Route('/indices/{index}/aliases/create', name: 'indices_aliases_create')]
     public function testCreateAlias404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/aliases/create');
@@ -287,7 +273,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Add');
     }
 
-    #[Route('/indices/{index}/refresh', name: 'indices_refresh')]
     public function testRefresh404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/refresh');
@@ -309,7 +294,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(302);
     }
 
-    #[Route('/indices/{index}/empty', name: 'indices_empty')]
     public function testEmpty404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/empty');
@@ -343,7 +327,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/indices/{index}/close', name: 'indices_close')]
     public function testClose404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/close');
@@ -371,7 +354,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/indices/{index}/open', name: 'indices_open')]
     public function testOpen404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/open');
@@ -399,7 +381,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/indices/{index}/freeze', name: 'indices_freeze')]
     public function testFreeze404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/freeze');
@@ -439,7 +420,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/indices/{index}/unfreeze', name: 'indices_unfreeze')]
     public function testUnfreeze404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/unfreeze');
@@ -479,7 +459,6 @@ class ElasticsearchIndexControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/indices/{index}/delete', name: 'indices_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/indices/'.uniqid().'/delete');

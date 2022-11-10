@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class AppUserControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/app-users', name: 'app_users')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/app-users');
@@ -18,7 +16,6 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'List');
     }
 
-    #[Route('/app-users/create', name: 'app_users_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/app-users/create');
@@ -44,7 +41,6 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
-    #[Route('/app-users/{user}', name: 'app_users_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/app-users/'.uniqid());
@@ -65,7 +61,6 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
-    #[Route('/app-users/{user}/update', name: 'app_users_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/app-users/'.uniqid().'/update');
@@ -86,7 +81,6 @@ class AppUserControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Update');
     }
 
-    #[Route('/app-users/{user}/delete', name: 'app_users_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/app-users/'.uniqid().'/delete');

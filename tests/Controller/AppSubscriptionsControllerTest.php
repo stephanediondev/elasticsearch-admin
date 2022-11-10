@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class AppSubscriptionsControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/subscriptions', name: 'app_subscriptions')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/subscriptions');
@@ -18,7 +16,6 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'List');
     }
 
-    #[Route('/subscriptions/create/{type}', name: 'app_subscriptions_create')]
     public function testCreate403(): void
     {
         $this->client->request('GET', '/admin/subscriptions/create/'.uniqid());
@@ -56,7 +53,6 @@ class AppSubscriptionsControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Create Microsoft Teams Incoming Webhook');
     }
 
-    #[Route('/subscriptions/{id}/update', name: 'app_subscriptions_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/subscriptions/'.uniqid().'/update');

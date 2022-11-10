@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/snapshots', name: 'snapshots')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/snapshots');
@@ -18,7 +16,6 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'List');
     }
 
-    #[Route('/snapshots/stats', name: 'snapshots_stats')]
     public function testStats(): void
     {
         $this->client->request('GET', '/admin/snapshots/stats');
@@ -29,7 +26,6 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Stats');
     }
 
-    #[Route('/snapshots/create', name: 'snapshots_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/snapshots/create');
@@ -40,7 +36,6 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Create snapshot');
     }
 
-    #[Route('/snapshots/{repository}/{snapshot}', name: 'snapshots_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/snapshots/'.uniqid().'/'.uniqid());
@@ -48,7 +43,6 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
-    #[Route('/snapshots/{repository}/{snapshot}/restore', name: 'snapshots_read_restore')]
     public function testRestore404(): void
     {
         $this->client->request('GET', '/admin/snapshots/'.uniqid().'/'.uniqid().'/restore');
@@ -56,7 +50,6 @@ class ElasticsearchSnapshotControllerTest extends AbstractAppControllerTest
         $this->assertResponseStatusCodeSame(404);
     }
 
-    #[Route('/snapshots/{repository}/{snapshot}/clone', name: 'snapshots_read_clone')]
     public function testClone404(): void
     {
         $this->client->request('GET', '/admin/snapshots/'.uniqid().'/'.uniqid().'/clone');

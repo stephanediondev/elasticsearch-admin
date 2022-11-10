@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/slm', name: 'slm')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/slm');
@@ -22,7 +20,6 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/slm/stats', name: 'slm_stats')]
     public function testStats(): void
     {
         $this->client->request('GET', '/admin/slm/stats');
@@ -37,7 +34,6 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/slm/status', name: 'slm_status')]
     public function testStatus(): void
     {
         $this->client->request('GET', '/admin/slm/status');
@@ -52,7 +48,6 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/slm/create', name: 'slm_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/slm/create');
@@ -92,7 +87,6 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }*/
 
-    #[Route('/slm/{name}', name: 'slm_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/slm/'.uniqid());
@@ -119,7 +113,6 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }*/
 
-    #[Route('/slm/{name}/history', name: 'slm_read_history')]
     public function testReadHistory404(): void
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/history');
@@ -131,7 +124,6 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/slm/{name}/stats', name: 'slm_read_stats')]
     public function testReadStats404(): void
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/stats');
@@ -143,7 +135,6 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/slm/{name}/update', name: 'slm_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/update');
@@ -170,7 +161,6 @@ class ElasticsearchSlmControllerTest extends AbstractAppControllerTest
         }
     }*/
 
-    #[Route('/slm/{name}/delete', name: 'slm_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/slm/'.uniqid().'/delete');

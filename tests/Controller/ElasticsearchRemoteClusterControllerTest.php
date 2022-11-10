@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class ElasticsearchRemoteClusterControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/remote-clusters', name: 'remote_clusters')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/remote-clusters');

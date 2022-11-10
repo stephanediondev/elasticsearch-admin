@@ -6,10 +6,8 @@ use App\Tests\Controller\AbstractAppControllerTest;
 
 use App\Model\CallRequestModel;
 
-#[Route('/admin')]
 class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/index-templates-legacy', name: 'index_templates_legacy')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/index-templates-legacy');
@@ -20,7 +18,6 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
         $this->assertSelectorTextContains('h3', 'List');
     }
 
-    #[Route('/index-templates-legacy/create', name: 'index_templates_legacy_create')]
     public function testCreate(): void
     {
         $this->client->request('GET', '/admin/index-templates-legacy/create');
@@ -111,7 +108,6 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
-    #[Route('/index-templates-legacy/{name}', name: 'index_templates_legacy_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/index-templates-legacy/'.uniqid());
@@ -130,7 +126,6 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
-    #[Route('/index-templates-legacy/{name}/update', name: 'index_templates_legacy_update')]
     public function testUpdate404(): void
     {
         $this->client->request('GET', '/admin/index-templates-legacy/'.uniqid().'/update');
@@ -156,7 +151,6 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
         $this->assertSelectorTextSame('h3', 'Update');
     }
 
-    #[Route('/index-templates-legacy/{name}/settings', name: 'index_templates_legacy_read_settings')]
     public function testSettings404(): void
     {
         $this->client->request('GET', '/admin/index-templates-legacy/'.uniqid().'/settings');
@@ -175,7 +169,6 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
         $this->assertSelectorTextContains('h3', 'Settings');
     }
 
-    #[Route('/index-templates-legacy/{name}/mappings', name: 'index_templates_legacy_read_mappings')]
     public function testMappings404(): void
     {
         $this->client->request('GET', '/admin/index-templates-legacy/'.uniqid().'/mappings');
@@ -194,7 +187,6 @@ class ElasticsearchIndexTemplateLegacyControllerTest extends AbstractAppControll
         $this->assertSelectorTextSame('h3', 'Mappings');
     }
 
-    #[Route('/index-templates-legacy/{name}/delete', name: 'index_templates_legacy_delete')]
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/index-templates-legacy/'.uniqid().'/delete');

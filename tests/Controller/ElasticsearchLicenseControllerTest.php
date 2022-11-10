@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class ElasticsearchLicenseControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/license', name: 'license')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/license');

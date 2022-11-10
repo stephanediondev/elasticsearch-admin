@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class ElasticsearchIndexGraveyardControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/index-graveyard', name: 'index_graveyard')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/index-graveyard');

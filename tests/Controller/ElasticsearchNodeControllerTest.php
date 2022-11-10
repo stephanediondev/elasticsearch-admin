@@ -4,10 +4,8 @@ namespace App\Tests\Controller;
 
 use App\Tests\Controller\AbstractAppControllerTest;
 
-#[Route('/admin')]
 class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
 {
-    #[Route('/nodes', name: 'nodes')]
     public function testIndex(): void
     {
         $this->client->request('GET', '/admin/nodes');
@@ -18,7 +16,6 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'List');
     }
 
-    #[Route('/nodes/stats', name: 'nodes_stats')]
     public function testStats(): void
     {
         $this->client->request('GET', '/admin/nodes/stats');
@@ -29,7 +26,6 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Stats');
     }
 
-    #[Route('/nodes/reload-secure-settings', name: 'nodes_reload_secure_settings')]
     public function testReadReloadSecureSettings(): void
     {
         $this->client->request('GET', '/admin/nodes/reload-secure-settings');
@@ -44,7 +40,6 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         }
     }
 
-    #[Route('/nodes/{node}', name: 'nodes_read')]
     public function testRead404(): void
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid());
@@ -65,7 +60,6 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextSame('h3', 'Summary');
     }
 
-    #[Route('/nodes/{node}/settings', name: 'nodes_read_settings')]
     public function testReadSettings404(): void
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid().'/settings');
@@ -86,7 +80,6 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'Settings');
     }
 
-    #[Route('/nodes/{node}/plugins', name: 'nodes_read_plugins')]
     public function testReadPlugins404(): void
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid().'/plugins');
@@ -107,7 +100,6 @@ class ElasticsearchNodeControllerTest extends AbstractAppControllerTest
         $this->assertSelectorTextContains('h3', 'Plugins');
     }
 
-    #[Route('/nodes/{node}/usage', name: 'nodes_read_usage')]
     public function testReadUsage404(): void
     {
         $this->client->request('GET', '/admin/nodes/'.uniqid().'/usage');
