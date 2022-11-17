@@ -355,7 +355,6 @@ class ElasticsearchClusterController extends AbstractAppController
         $results = ['audit_fail' => [], 'audit_notice' => [], 'audit_pass' => []];
 
         $checkpointsKeys = [
-            'end_of_life',
             'security_features',
             'cluster_name',
             'same_es_version',
@@ -393,24 +392,6 @@ class ElasticsearchClusterController extends AbstractAppController
 
         foreach ($checkpoints as $checkpoint => $title) {
             switch ($checkpoint) {
-                case 'end_of_life':
-                    $maintenanceTable = $this->elasticsearchClusterManager->getMaintenanceTable();
-
-                    $endOfLife = false;
-                    foreach ($maintenanceTable as $row) {
-                        if ($row['es_version'] <= $parameters['root']['version']['number']) {
-                            $endOfLife = $row;
-                        }
-                    }
-
-                    if ($endOfLife) {
-                        if ($endOfLife['eol_date'] < date('Y-m-d')) {
-                            $results['audit_fail'][$checkpoint] = $endOfLife;
-                        } else {
-                            $results['audit_pass'][$checkpoint] = $endOfLife;
-                        }
-                    }
-                    break;
                 case 'security_features':
                     if (false === $this->callManager->hasFeature('security')) {
                         $results['audit_fail'][$checkpoint] = [];

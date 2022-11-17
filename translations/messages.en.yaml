@@ -61,7 +61,6 @@ audit_notice: "Notice"
 audit_pass: "Pass"
 audit_result: "Result"
 audit_checkpoints:
-    end_of_life: "The release is supported"
     security_features: "The security features are enabled"
     cluster_name: "The cluster name is not elasticsearch"
     same_es_version: "The nodes have the same version"
@@ -92,9 +91,6 @@ audit_checkpoints:
 audit_comments:
     fail_for_nodes: "The checkpoint fails for the following nodes:"
     fail_for_repositories: "The checkpoint fails for the following repositories:"
-    end_of_life:
-        fail: "The release is no longer supported since {date}"
-        pass: "The release is supported until {date}"
     cluster_name:
         notice: "The name may be changed to a name which describes the purpose of the cluster."
         pass: "The cluster name is <code>{name}</code>."
