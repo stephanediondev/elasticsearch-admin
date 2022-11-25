@@ -7,7 +7,7 @@ use App\Exception\CallException;
 use App\Exception\ConnectionException;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 

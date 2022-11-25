@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Security\Voter;
 
 use App\Manager\AppRoleManager;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 abstract class AbstractAppVoter extends Voter

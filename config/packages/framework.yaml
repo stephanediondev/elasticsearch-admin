@@ -19,9 +19,6 @@ framework:
 
     error_controller: App\Controller\AppExceptionController::read
 
-    form:
-        legacy_error_messages: false
-
 when@test:
     framework:
         test: true
