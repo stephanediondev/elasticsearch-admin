@@ -43,7 +43,7 @@
                 <p>
                     <strong>{{ 'ilm_policy'|trans }}</strong><br>
                     {% if is_granted('ILM_POLICIES_LIST', 'ilm_policy') %}
-                        <a class="{{ theme_link_secondary }}" href="{{ path('ilm_read', {'name': template.setting('index.lifecycle.name')}) }}">{{ template.setting('index.lifecycle.name') }}</a>
+                        <a class="text-secondary-emphasis" href="{{ path('ilm_read', {'name': template.setting('index.lifecycle.name')}) }}">{{ template.setting('index.lifecycle.name') }}</a>
                     {% else %}
                         {{ template.setting('index.lifecycle.name') }}
                     {% endif %}

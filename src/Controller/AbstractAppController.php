@@ -7,7 +7,6 @@ use App\Exception\ConnectionException;
 use App\Manager\CallManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\PaginatorManager;
-use App\Manager\AppThemeManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +19,9 @@ abstract class AbstractAppController extends AbstractController
 
     protected ElasticsearchClusterManager $elasticsearchClusterManager;
 
-    protected AppThemeManager $appThemeManager;
-
     protected PaginatorManager $paginatorManager;
 
     protected TranslatorInterface $translator;
-
-    protected string $themeDefault;
 
     /**
      * @required
@@ -47,14 +42,6 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @required
      */
-    public function setAppThemeManager(AppThemeManager $appThemeManager): void
-    {
-        $this->appThemeManager = $appThemeManager;
-    }
-
-    /**
-     * @required
-     */
     public function setPaginatorManager(PaginatorManager $paginatorManager): void
     {
         $this->paginatorManager = $paginatorManager;
@@ -68,28 +55,8 @@ abstract class AbstractAppController extends AbstractController
         $this->translator = $translator;
     }
 
-    /**
-     * @required
-     */
-    public function setThemeDefault(string $themeDefault): void
-    {
-        $this->themeDefault = $themeDefault;
-    }
-
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
-        $twig = $this->container->get('twig');
-
-        if ($request->query->get('theme') && true === in_array($request->query->get('theme'), $this->appThemeManager->predefinedThemes())) {
-            $saved = $this->appThemeManager->getPredefined($request->query->get('theme'));
-        } else {
-            $saved = $request->cookies->get('theme') ? json_decode($request->cookies->get('theme'), true) : [];
-        }
-        $predefined = $this->appThemeManager->getPredefined($this->themeDefault);
-        foreach ($predefined as $k => $v) {
-            $twig->addGlobal('theme_'.$k, $saved[$k] ?? $v);
-        }
-
         if (false === isset($parameters['firewall'])) {
             $parameters['firewall'] = true;
         }

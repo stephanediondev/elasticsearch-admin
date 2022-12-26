@@ -1,25 +1,25 @@
 <ul class="nav nav-tabs mb-4">
     {% if is_granted('SLM_POLICIES_LIST', 'slm_policy') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('slm') }}">{{ 'list'|trans }}</a>
+            <a class="nav-link {% if 'list' == active %}active{% endif %}" href="{{ path('slm') }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SLM_POLICIES_STATUS', 'slm_policy') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'status' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('slm_status') }}">{{ 'status'|trans }}</a>
+            <a class="nav-link {% if 'status' == active %}active{% endif %}" href="{{ path('slm_status') }}">{{ 'status'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SLM_POLICIES_STATS', 'slm_policy') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'stats' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('slm_stats') }}">{{ 'stats'|trans }}</a>
+            <a class="nav-link {% if 'stats' == active %}active{% endif %}" href="{{ path('slm_stats') }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SLM_POLICIES_CREATE', 'slm_policy') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'create_slm_policy' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('slm_create') }}">{{ 'create_slm_policy'|trans }}</a>
+            <a class="nav-link {% if 'create_slm_policy' == active %}active{% endif %}" href="{{ path('slm_create') }}">{{ 'create_slm_policy'|trans }}</a>
         </li>
     {% endif %}
 </ul>

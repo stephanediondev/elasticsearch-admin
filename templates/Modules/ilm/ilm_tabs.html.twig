@@ -1,17 +1,17 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('ilm') }}">{{ 'list'|trans }}</a>
+        <a class="nav-link {% if 'list' == active %}active{% endif %}" href="{{ path('ilm') }}">{{ 'list'|trans }}</a>
     </li>
 
     {% if is_granted('ILM_POLICIES_STATUS', 'ilm_policy') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'status' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('ilm_status') }}">{{ 'status'|trans }}</a>
+            <a class="nav-link {% if 'status' == active %}active{% endif %}" href="{{ path('ilm_status') }}">{{ 'status'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('ILM_POLICIES_CREATE', 'ilm_policy') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'create_ilm_policy' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('ilm_create') }}">{{ 'create_ilm_policy'|trans }}</a>
+            <a class="nav-link {% if 'create_ilm_policy' == active %}active{% endif %}" href="{{ path('ilm_create') }}">{{ 'create_ilm_policy'|trans }}</a>
         </li>
     {% endif %}
 </ul>

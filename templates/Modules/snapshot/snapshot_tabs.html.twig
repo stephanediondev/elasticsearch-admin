@@ -1,19 +1,19 @@
 <ul class="nav nav-tabs mb-4">
     {% if is_granted('SNAPSHOTS_LIST', 'snapshot') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('snapshots') }}">{{ 'list'|trans }}</a>
+            <a class="nav-link {% if 'list' == active %}active{% endif %}" href="{{ path('snapshots') }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SNAPSHOTS_STATS', 'snapshot') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'stats' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('snapshots_stats') }}">{{ 'stats'|trans }}</a>
+            <a class="nav-link {% if 'stats' == active %}active{% endif %}" href="{{ path('snapshots_stats') }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SNAPSHOTS_CREATE', 'snapshot') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'create_snapshot' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('snapshots_create') }}">{{ 'create_snapshot'|trans }}</a>
+            <a class="nav-link {% if 'create_snapshot' == active %}active{% endif %}" href="{{ path('snapshots_create') }}">{{ 'create_snapshot'|trans }}</a>
         </li>
     {% endif %}
 </ul>

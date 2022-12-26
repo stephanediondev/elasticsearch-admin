@@ -86,7 +86,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="{{ theme_link_primary }}" href="{{ path('indices_read', {'index': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-primary-emphasis" href="{{ path('indices_read', {'index': row.name}) }}">{{ row.name }}</a>
                                 {% if row.aliases %}
                                     <br><small>{{ row.aliases|keys|join(', ') }}</small>
                                 {% endif %}

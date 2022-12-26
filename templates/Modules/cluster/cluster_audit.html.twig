@@ -85,7 +85,7 @@
                                                 {{ ('audit_comments.' ~ checkpoint ~ '.plural')|trans|raw }}
                                                 {% for version in parameters %}
                                                     {% if is_granted('NODES_LIST', 'node') %}
-                                                        <a class="{{ theme_link_secondary }}" href="{{ path('nodes', {'version': version}) }}">{{ version }}</a>{% if false == loop.last %},{% endif %}
+                                                        <a class="text-secondary-emphasis" href="{{ path('nodes', {'version': version}) }}">{{ version }}</a>{% if false == loop.last %},{% endif %}
                                                     {% else %}
                                                         {{ version }}{% if false == loop.last %},{% endif %}
                                                     {% endif %}
@@ -126,7 +126,7 @@
 
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('SHARDS', 'global') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('shards', {'state[]': 'unassigned'}) }}">{{ 'shards'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('shards', {'state[]': 'unassigned'}) }}">{{ 'shards'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -142,7 +142,7 @@
 
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('INDICES_LIST', 'index') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'sort': 'rep:asc'}) }}">{{ 'indices'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('indices', {'sort': 'rep:asc'}) }}">{{ 'indices'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -168,7 +168,7 @@
 
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('INDICES_LIST', 'index') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'sort': 'rep:desc'}) }}">{{ 'indices'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('indices', {'sort': 'rep:desc'}) }}">{{ 'indices'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -178,7 +178,7 @@
                                     {% embed 'Embed/audit_checkpoint_embed.html.twig' %}
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result and is_granted('INDICES_LIST', 'index') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('indices', {'sort': 'status:asc'}) }}">{{ 'indices'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('indices', {'sort': 'status:asc'}) }}">{{ 'indices'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
@@ -199,7 +199,7 @@
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result %}
                                                 {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                    <a class="{{ theme_link_secondary }}" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
+                                                    <a class="text-secondary-emphasis" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                                 {% endif %}
                                             {% endif %}
                                         {% endblock %}
@@ -221,7 +221,7 @@
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result %}
                                                 {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                    <a class="{{ theme_link_secondary }}" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
+                                                    <a class="text-secondary-emphasis" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                                 {% endif %}
                                             {% endif %}
                                         {% endblock %}
@@ -237,7 +237,7 @@
                                         {% block internal_link %}
                                             {% if 'audit_fail' == result %}
                                                 {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                    <a class="{{ theme_link_secondary }}" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
+                                                    <a class="text-secondary-emphasis" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                                 {% endif %}
                                             {% endif %}
                                         {% endblock %}
@@ -258,7 +258,7 @@
 
                                         {% block internal_link %}
                                             {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_DISK_THRESHOLDS', 'global') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
@@ -281,7 +281,7 @@
 
                                         {% block internal_link %}
                                             {% if is_granted('NODES_LIST', 'node') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -300,7 +300,7 @@
 
                                         {% block internal_link %}
                                             {% if is_granted('NODES_LIST', 'node') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
@@ -323,7 +323,7 @@
 
                                         {% block internal_link %}
                                             {% if is_granted('NODES_LIST', 'node') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
@@ -355,7 +355,7 @@
 
                                         {% block internal_link %}
                                             {% if true == hasFeature('license') and is_granted('LICENSE', 'global') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('license') }}">{{ 'license'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('license') }}">{{ 'license'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -402,7 +402,7 @@
 
                                         {% block internal_link %}
                                             {% if is_granted('SLM_POLICIES_LIST', 'slm_policy') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('slm') }}">{{ 'slm'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('slm') }}">{{ 'slm'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}
@@ -415,7 +415,7 @@
                                                 {{ ('audit_comments.fail_for_repositories')|trans|raw }}
                                                 {% for repository in parameters %}
                                                     {% if is_granted('REPOSITORIES_LIST', 'repository') %}
-                                                        <a class="{{ theme_link_secondary }}" href="{{ path('repositories_read', {'repository': repository}) }}">{{ repository }}</a>{% if false == loop.last %},{% endif %}
+                                                        <a class="text-secondary-emphasis" href="{{ path('repositories_read', {'repository': repository}) }}">{{ repository }}</a>{% if false == loop.last %},{% endif %}
                                                     {% else %}
                                                         {{ repository }}{% if false == loop.last %},{% endif %}
                                                     {% endif %}
@@ -436,7 +436,7 @@
 
                                         {% block internal_link %}
                                             {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
@@ -454,7 +454,7 @@
 
                                         {% block internal_link %}
                                             {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
@@ -472,7 +472,7 @@
 
                                         {% block internal_link %}
                                             {% if true == hasFeature('cluster_settings') and is_granted('CLUSTER_SETTINGS', 'global') and is_granted('CLUSTER_SETTING_EDIT', 'global') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('cluster_settings') }}">{{ 'cluster_settings'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
 
@@ -494,7 +494,7 @@
 
                                         {% block internal_link %}
                                             {% if true == hasFeature('deprecations') and is_granted('DEPRECATIONS', 'global') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('deprecations') }}">{{ 'deprecations'|trans }}</a>
                                             {% endif %}
                                         {% endblock %}
                                     {% endembed %}

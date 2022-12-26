@@ -44,7 +44,7 @@
             {% if template.setting('index.lifecycle.name') %}
                 <p>
                     <strong>{{ 'ilm_policy'|trans }}</strong><br>
-                    <a class="{{ theme_link_secondary }}" href="{{ path('ilm_read', {'name': template.setting('index.lifecycle.name')}) }}">{{ template.setting('index.lifecycle.name') }}</a>
+                    <a class="text-secondary-emphasis" href="{{ path('ilm_read', {'name': template.setting('index.lifecycle.name')}) }}">{{ template.setting('index.lifecycle.name') }}</a>
                 </p>
             {% endif %}
 
@@ -72,7 +72,7 @@
                     <strong>{{ 'composed_of'|trans }}</strong><br>
                     {% for componentTemplate in template.composedOf %}
                         {% if is_granted_component_templates %}
-                            <a class="{{ theme_link_secondary }}" href="{{ path('component_templates_read', {'name': componentTemplate}) }}">{{ componentTemplate }}</a>
+                            <a class="text-secondary-emphasis" href="{{ path('component_templates_read', {'name': componentTemplate}) }}">{{ componentTemplate }}</a>
                         {% else %}
                             {{ componentTemplate }}
                         {% endif %}

@@ -28,7 +28,7 @@
 
 {% macro link(params) %}
     {% if params.class is not defined %}
-        {% set params = params|merge({'class': 'text-' ~ theme_color_2}) %}
+        {% set params = params|merge({'class': 'text-light'}) %}
     {% endif %}
 
     <a class="{{ params.class }}" href="{{ params.url }}">{{ params.title }}</a>
@@ -36,10 +36,6 @@
 
 {% macro sort(params) %}
     {% if true == params.cat_sort %}
-        {% if params.class is not defined %}
-            {% set params = params|merge({'class': 'text-' ~ theme_color_2}) %}
-        {% endif %}
-
         {% if '?' in params.url %}
             {% set url = params.url ~ '&sort=' ~ params.sort %}
         {% else %}
@@ -53,7 +49,7 @@
         {% else %}
             {% set url = url ~ ':asc' %}
         {% endif %}
-        <a class="{{ params.class }}" href="{{ url }}">
+        <a href="{{ url }}">
             {{ params.title }}
             {% set badge = false %}
             {% if app.request.query.get('sort') and (app.request.query.get('sort') == params.sort ~ ':asc' or app.request.query.get('sort') == params.sort ~ ':desc') %}
@@ -121,7 +117,7 @@
     </button>
     <div class="modal fade" id="modal{{ params.id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ params.id }}" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content {{ theme_modal_content }}">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabel{{ params.id }}">{{ params.title }}{% if params.badge is defined %}{{ _self.badge(params.badge) }}{% endif %}</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'cancel'|trans }}"></button>
@@ -181,21 +177,21 @@
         <ul class="pagination">
             {% if params.previous %}
                 <li class="page-item">
-                    <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" rel="prev" href="{{ path(params.route, parameters|merge({'page': params.previous})) }}">&laquo;&nbsp;{{ 'previous'|trans }}</a>
+                    <a class="page-link" rel="prev" href="{{ path(params.route, parameters|merge({'page': params.previous})) }}">&laquo;&nbsp;{{ 'previous'|trans }}</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <span class="page-link bg-{{ theme_color_1 }} text-secondary">&laquo;&nbsp;{{ 'previous'|trans }}</span>
+                    <span class="page-link bg-dark text-secondary">&laquo;&nbsp;{{ 'previous'|trans }}</span>
                 </li>
             {% endif %}
 
             {% if params.first %}
                 <li class="page-item">
-                    <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.first})) }}">{{ params.first }}</a>
+                    <a class="page-link" rel="next" href="{{ path(params.route, parameters|merge({'page': params.first})) }}">{{ params.first }}</a>
                 </li>
                 {% if params.first != params.start_page - 1 %}
                     <li class="page-item disabled">
-                        <span class="page-link bg-{{ theme_color_1 }} text-secondary">&hellip;</span>
+                        <span class="page-link bg-dark text-secondary">&hellip;</span>
                     </li>
                 {% endif %}
             {% endif %}
@@ -203,11 +199,11 @@
             {% for page in params.pages_slice %}
                 {% if page != params.page %}
                     <li class="page-item">
-                        <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" href="{{ path(params.route, parameters|merge({'page': page})) }}">{{ page }}</a>
+                        <a class="page-link" href="{{ path(params.route, parameters|merge({'page': page})) }}">{{ page }}</a>
                     </li>
                 {% else %}
                     <li class="page-item active">
-                        <span class="page-link bg-{{ theme_color_2 }} text-{{ theme_color_1 }} border border-{{ theme_color_2 }}">{{ page }}</span>
+                        <span class="page-link border">{{ page }}</span>
                     </li>
                 {% endif %}
             {% endfor %}
@@ -215,21 +211,21 @@
             {% if params.last %}
                 {% if params.last != params.end_page + 1 %}
                     <li class="page-item disabled">
-                        <span class="page-link bg-{{ theme_color_1 }} text-secondary">&hellip;</span>
+                        <span class="page-link bg-dark text-secondary">&hellip;</span>
                     </li>
                 {% endif %}
                 <li class="page-item">
-                    <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.last})) }}">{{ params.last }}</a>
+                    <a class="page-link" rel="next" href="{{ path(params.route, parameters|merge({'page': params.last})) }}">{{ params.last }}</a>
                 </li>
             {% endif %}
 
             {% if params.next %}
                 <li class="page-item">
-                    <a class="page-link bg-{{ theme_color_1 }} text-{{ theme_color_2 }}" rel="next" href="{{ path(params.route, parameters|merge({'page': params.next})) }}">{{ 'next'|trans }}&nbsp;&raquo;</a>
+                    <a class="page-link" rel="next" href="{{ path(params.route, parameters|merge({'page': params.next})) }}">{{ 'next'|trans }}&nbsp;&raquo;</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <span class="page-link bg-{{ theme_color_1 }} text-secondary">{{ 'next'|trans }}&nbsp;&raquo;</span>
+                    <span class="page-link bg-dark text-secondary">{{ 'next'|trans }}&nbsp;&raquo;</span>
                 </li>
             {% endif %}
         </ul>

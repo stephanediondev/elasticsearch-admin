@@ -2,19 +2,19 @@
 <ul class="nav nav-tabs mb-4">
     {% if is_granted('NODES_LIST', 'node') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('nodes', app.request.query.all) }}">{{ 'list'|trans }}</a>
+            <a class="nav-link {% if 'list' == active %}active{% endif %}" href="{{ path('nodes', app.request.query.all) }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('NODES_STATS', 'node') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'stats' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('nodes_stats', app.request.query.all) }}">{{ 'stats'|trans }}</a>
+            <a class="nav-link {% if 'stats' == active %}active{% endif %}" href="{{ path('nodes_stats', app.request.query.all) }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('NODES_RELOAD_SECURE_SETTINGS', 'node') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'reload_secure_settings' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('nodes_reload_secure_settings') }}">{{ 'reload_secure_settings'|trans }}</a>
+            <a class="nav-link {% if 'reload_secure_settings' == active %}active{% endif %}" href="{{ path('nodes_reload_secure_settings') }}">{{ 'reload_secure_settings'|trans }}</a>
         </li>
     {% endif %}
 </ul>

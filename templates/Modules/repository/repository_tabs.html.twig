@@ -1,22 +1,22 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('repositories') }}">{{ 'list'|trans }}</a>
+        <a class="nav-link {% if 'list' == active %}active{% endif %}" href="{{ path('repositories') }}">{{ 'list'|trans }}</a>
     </li>
 
     {% if is_granted('REPOSITORIES_CREATE', 'repository') %}
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle {% if 'create_repository_' in active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'create_repository'|trans }}</a>
-            <div class="dropdown-menu {{ theme_dropdown_menu }}">
-                <a class="dropdown-item{% if 'create_repository_fs' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('repositories_create', {'type': 'fs'}) }}">{{ 'create_repository_fs'|trans }}</a>
+            <a class="nav-link dropdown-toggle {% if 'create_repository_' in active %}active{% endif %}" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'create_repository'|trans }}</a>
+            <div class="dropdown-menu border border-secondary">
+                <a class="dropdown-item{% if 'create_repository_fs' == active %} active bg-dark{% endif %}" href="{{ path('repositories_create', {'type': 'fs'}) }}">{{ 'create_repository_fs'|trans }}</a>
                 {% if true == hasPlugin('repository-s3') or true == hasFeature('repository_plugins_to_modules') %}
-                    <a class="dropdown-item{% if 'create_repository_s3' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('repositories_create', {'type': 's3'}) }}">{{ 'create_repository_s3'|trans }}</a>
+                    <a class="dropdown-item{% if 'create_repository_s3' == active %} active bg-dark{% endif %}" href="{{ path('repositories_create', {'type': 's3'}) }}">{{ 'create_repository_s3'|trans }}</a>
                 {% endif %}
                 {% if true == hasPlugin('repository-gcs') or true == hasFeature('repository_plugins_to_modules') %}
-                    <a class="dropdown-item{% if 'create_repository_gcs' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('repositories_create', {'type': 'gcs'}) }}">{{ 'create_repository_gcs'|trans }}</a>
+                    <a class="dropdown-item{% if 'create_repository_gcs' == active %} active bg-dark{% endif %}" href="{{ path('repositories_create', {'type': 'gcs'}) }}">{{ 'create_repository_gcs'|trans }}</a>
                 {% endif %}
                 {% if true == hasPlugin('repository-azure') or true == hasFeature('repository_plugins_to_modules') %}
-                    <a class="dropdown-item{% if 'create_repository_azure' == active %} active bg-{{ theme_color_1 }}{% endif %}" href="{{ path('repositories_create', {'type': 'azure'}) }}">{{ 'create_repository_azure'|trans }}</a>
+                    <a class="dropdown-item{% if 'create_repository_azure' == active %} active bg-dark{% endif %}" href="{{ path('repositories_create', {'type': 'azure'}) }}">{{ 'create_repository_azure'|trans }}</a>
                 {% endif %}
             </div>
         </li>

@@ -64,12 +64,12 @@
                                         {% block title %}
                                             {% if key in ['snapshots_by_repository'] %}
                                                 {% if is_granted('SNAPSHOTS_LIST', 'snapshot') %}
-                                                    <a class="{{ theme_link_secondary }}" href="{{ path('snapshots', {'repository[]': row.title}) }}">{{ row.title }}</a>
+                                                    <a class="text-secondary-emphasis" href="{{ path('snapshots', {'repository[]': row.title}) }}">{{ row.title }}</a>
                                                 {% else %}
                                                     {{ row.title }}
                                                 {% endif %}
                                             {% elseif key in ['snapshots_by_state'] and is_granted('SNAPSHOTS_LIST', 'snapshot') %}
-                                                <a class="{{ theme_link_secondary }}" href="{{ path('snapshots', {'state[]': row.title}) }}">{{ row.title|trans }}</a>
+                                                <a class="text-secondary-emphasis" href="{{ path('snapshots', {'state[]': row.title}) }}">{{ row.title|trans }}</a>
                                             {% else %}
                                                 {{ row.title|trans }}
                                             {% endif %}

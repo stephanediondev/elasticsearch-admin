@@ -42,7 +42,7 @@
                     </p>
 
                     <div class="collapse mb-4" id="collapseHelp">
-                        <div class="card bg-{{ theme_color_1 }} border border-secondary card-body">
+                        <div class="card bg-dark border border-secondary card-body">
                             <pre><code>{{ help }}</code></pre>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
             el.setAttribute('required', 'required');
             removeBadge(id)
             var label = document.querySelector('label[for="' + id + '"]');
-            label.insertAdjacentHTML('beforeend', ' <small class="form-required {{ theme_form_required }}">{{ 'required'|trans|escape('js') }}</small>');
+            label.insertAdjacentHTML('beforeend', ' <small class="form-required badge bg-light text-dark ml-1">{{ 'required'|trans|escape('js') }}</small>');
         }
 
         function disable(id) {

@@ -72,7 +72,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="{{ theme_link_primary }}" href="{{ path('index_templates_read', {'name': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-primary-emphasis" href="{{ path('index_templates_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
@@ -103,7 +103,7 @@
                                 {% if row.composedOf %}
                                     {% for componentTemplate in row.composedOf %}
                                         {% if is_granted_component_templates %}
-                                            <a class="{{ theme_link_secondary }}" href="{{ path('component_templates_read', {'name': componentTemplate}) }}">{{ componentTemplate }}</a>
+                                            <a class="text-secondary-emphasis" href="{{ path('component_templates_read', {'name': componentTemplate}) }}">{{ componentTemplate }}</a>
                                         {% else %}
                                             {{ componentTemplate }}
                                         {% endif %}

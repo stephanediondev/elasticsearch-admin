@@ -1,3 +1,8 @@
+theme:
+    light: Light
+    dark: Dark
+    auto: Auto
+
 boolean:
     0: "No"
     1: "Yes"
@@ -705,9 +710,6 @@ target_name: "Target name"
 tasks: "Tasks"
 template: "Template"
 test: "Test"
-theme_editor: "Theme editor"
-theme_editor_note: "Update CSS classes used for Bootstrap elements and submit to save in your browser (cookie)."
-theme_saved: "Theme saved"
 throttle: "Throttle"
 throttled: "Throttled"
 timestamp_field: "Timestamp field"

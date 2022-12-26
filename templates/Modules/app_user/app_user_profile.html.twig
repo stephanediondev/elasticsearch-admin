@@ -28,7 +28,7 @@
 
         function changePassword() {
             if (true === dataChangePassword.checked) {
-                var badge = ' <small class="form-required {{ theme_form_required }}">{{ 'required'|trans|escape('js') }}</small>';
+                var badge = ' <small class="form-required badge bg-light text-dark ml-1">{{ 'required'|trans|escape('js') }}</small>';
 
                 dataPasswordPlainFirst.removeAttribute('disabled');
                 dataPasswordPlainFirst.setAttribute('required', 'required');

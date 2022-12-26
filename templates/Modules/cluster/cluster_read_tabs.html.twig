@@ -1,31 +1,31 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link {% if 'summary' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster') }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link {% if 'summary' == active %}active{% endif %}" href="{{ path('cluster') }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('CLUSTER_AUDIT', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'audit' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_audit') }}">{{ 'audit'|trans }}</a>
+            <a class="nav-link {% if 'audit' == active %}active{% endif %}" href="{{ path('cluster_audit') }}">{{ 'audit'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_SETTINGS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'settings' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}</a>
+            <a class="nav-link {% if 'settings' == active %}active{% endif %}" href="{{ path('cluster_settings') }}">{{ 'settings'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_DISK_THRESHOLDS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'disk_thresholds' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}</a>
+            <a class="nav-link {% if 'disk_thresholds' == active %}active{% endif %}" href="{{ path('cluster_disk_thresholds') }}">{{ 'disk_thresholds'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
         {% if 0 < cluster_health['unassigned_shards'] or 'allocation_explain' == active %}
             <li class="nav-item">
-                <a class="nav-link {% if 'allocation_explain' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
+                <a class="nav-link {% if 'allocation_explain' == active %}active{% endif %}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
             </li>
         {% endif %}
     {% endif %}

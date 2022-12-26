@@ -1,11 +1,11 @@
 <ul class="nav nav-tabs mb-4">
     <li class="nav-item">
-        <a class="nav-link {% if 'summary' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('pipelines_read', {'name': pipeline.name}) }}">{{ 'summary'|trans }}</a>
+        <a class="nav-link {% if 'summary' == active %}active{% endif %}" href="{{ path('pipelines_read', {'name': pipeline.name}) }}">{{ 'summary'|trans }}</a>
     </li>
 
     {% if is_granted('PIPELINE_UPDATE', pipeline) %}
         <li class="nav-item">
-            <a class="nav-link {% if 'update' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('pipelines_update', {'name': pipeline.name}) }}">{{ 'update'|trans }}</a>
+            <a class="nav-link {% if 'update' == active %}active{% endif %}" href="{{ path('pipelines_update', {'name': pipeline.name}) }}">{{ 'update'|trans }}</a>
         </li>
     {% endif %}
 </ul>

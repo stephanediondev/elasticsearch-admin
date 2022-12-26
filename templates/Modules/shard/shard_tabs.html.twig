@@ -2,20 +2,20 @@
 <ul class="nav nav-tabs mb-4">
     {% if is_granted('SHARDS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'list' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('shards', app.request.query.all) }}">{{ 'list'|trans }}</a>
+            <a class="nav-link {% if 'list' == active %}active{% endif %}" href="{{ path('shards', app.request.query.all) }}">{{ 'list'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('SHARDS_STATS', 'global') %}
         <li class="nav-item">
-            <a class="nav-link {% if 'stats' == active %}active {{ theme_tab_active }}{% else %}{{ theme_tab }}{% endif %}" href="{{ path('shards_stats', app.request.query.all) }}">{{ 'stats'|trans }}</a>
+            <a class="nav-link {% if 'stats' == active %}active{% endif %}" href="{{ path('shards_stats', app.request.query.all) }}">{{ 'stats'|trans }}</a>
         </li>
     {% endif %}
 
     {% if is_granted('CLUSTER_ALLOCATION_EXPLAIN', 'global') %}
         {% if 0 < cluster_health['unassigned_shards'] %}
             <li class="nav-item">
-                <a class="nav-link {{ theme_tab }}" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
+                <a class="nav-link" href="{{ path('cluster_allocation_explain') }}">{{ 'allocation_explain'|trans }}</a>
             </li>
         {% endif %}
     {% endif %}

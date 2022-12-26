@@ -65,13 +65,13 @@
                                         {% block title %}
                                             {% if 'nodes_by_role' == key %}
                                                 {% if is_granted('NODES_LIST', 'node') and letters[row.title] is defined %}
-                                                    <a class="{{ theme_link_secondary }}" href="{{ path('nodes', {(letters[row.title]): 'yes'}) }}">{{ ('node_roles.' ~ row.title)|trans }}</a>
+                                                    <a class="text-secondary-emphasis" href="{{ path('nodes', {(letters[row.title]): 'yes'}) }}">{{ ('node_roles.' ~ row.title)|trans }}</a>
                                                 {% else %}
                                                     {{ ('node_roles.' ~ row.title)|trans }}
                                                 {% endif %}
                                             {% elseif 'nodes_by_es_version' == key %}
                                                 {% if is_granted('NODES_LIST', 'node') and 1 < results|length %}
-                                                    <a class="{{ theme_link_secondary }}" href="{{ path('nodes', {'version': row.title}) }}">{{ row.title }}</a>
+                                                    <a class="text-secondary-emphasis" href="{{ path('nodes', {'version': row.title}) }}">{{ row.title }}</a>
                                                 {% else %}
                                                     {{ row.title }}
                                                 {% endif %}

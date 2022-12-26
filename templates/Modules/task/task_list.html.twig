@@ -69,7 +69,7 @@
                         {% if 'node' == column %}
                             <td>
                                 {% if is_granted_nodes %}
-                                    <a class="{{ theme_link_secondary }}" href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
+                                    <a class="text-secondary-emphasis" href="{{ path('nodes_read', {'node': row['node']}) }}">{{ row['node'] }}</a>
                                 {% else %}
                                     {{ row['node'] }}
                                 {% endif %}

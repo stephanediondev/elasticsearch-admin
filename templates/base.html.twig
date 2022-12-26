@@ -1,6 +1,6 @@
 {% import 'Import/app_import.html.twig' as appImport %}
 <!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
+<html lang="{{ app.request.locale }}" data-bs-theme="dark">
 <head>
 <meta charset="UTF-8">
 <title>{% block head_title %}elasticsearch-admin{% endblock %}</title>
@@ -22,46 +22,46 @@
 {{ encore_entry_link_tags('app-css') }}
 {% endblock %}
 </head>
-<body class="{{ theme_body }}">
+<body>
 <div class="container-fluid">
     {% if 'offline' != app.request.attributes.get('_route') %}
         <div id="toast-container">
         </div>
-        <nav class="navbar {{ theme_navbar }}">
+        <nav class="navbar sticky-top navbar-expand-lg">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="{{ 'toggle_navigation'|trans }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if firewall and is_granted('IS_AUTHENTICATED_FULLY', app.user) %}
                         <li class="nav-item">
-                            <a class="nav-link {{ theme_nav_link }}" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': root['version']['number'], 'context': cluster_health['status']}) }}</a>
+                            <a class="nav-link text-uppercase fw-bold" href="{{ path('cluster') }}">{{ 'cluster'|trans }}{{ appImport.badge({'title': root['version']['number'], 'context': cluster_health['status']}) }}</a>
                         </li>
 
                         {% if is_granted('NODES_LIST', 'node') %}
                             <li class="nav-item">
-                                <a class="nav-link {{ theme_nav_link }}" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
+                                <a class="nav-link text-uppercase fw-bold" href="{{ path('nodes') }}">{{ 'nodes'|trans }}</a>
                             </li>
                         {% endif %}
 
                         {% if is_granted('INDICES_LIST', 'index') %}
                             <li class="nav-item">
-                                <a class="nav-link {{ theme_nav_link }}" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
+                                <a class="nav-link text-uppercase fw-bold" href="{{ path('indices') }}">{{ 'indices'|trans }}</a>
                             </li>
                         {% endif %}
 
                         {% if is_granted('SHARDS', 'global') %}
                             <li class="nav-item">
-                                <a class="nav-link {{ theme_nav_link }}" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
+                                <a class="nav-link text-uppercase fw-bold" href="{{ path('shards') }}">{{ 'shards'|trans }}</a>
                             </li>
                         {% endif %}
 
                         {% if menus['configuration'] is defined %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link {{ theme_nav_link }} dropdown-toggle" href="#" id="configurationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link text-uppercase fw-bold dropdown-toggle" href="#" id="configurationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ 'configuration'|trans }}
                                 </a>
-                                <div class="dropdown-menu {{ theme_dropdown_menu }}" aria-labelledby="configurationDropdown">
+                                <div class="dropdown-menu border border-secondary" aria-labelledby="configurationDropdown">
                                     {% for entry in menus['configuration'] %}
                                         <a class="dropdown-item" href="{{ path(entry['path']) }}">{{ entry['name'] }}</a>
                                     {% endfor %}
@@ -71,10 +71,10 @@
 
                         {% if menus['tools'] is defined %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link {{ theme_nav_link }} dropdown-toggle" href="#" id="toolsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link text-uppercase fw-bold dropdown-toggle" href="#" id="toolsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ 'tools'|trans }}
                                 </a>
-                                <div class="dropdown-menu {{ theme_dropdown_menu }}" aria-labelledby="toolsDropdown">
+                                <div class="dropdown-menu border border-secondary" aria-labelledby="toolsDropdown">
                                     {% for entry in menus['tools'] %}
                                         <a class="dropdown-item" href="{{ path(entry['path']) }}">{{ entry['name'] }}</a>
                                     {% endfor %}
@@ -84,10 +84,10 @@
 
                         {% if menus['stats'] is defined %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link {{ theme_nav_link }} dropdown-toggle" href="#" id="statsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link text-uppercase fw-bold dropdown-toggle" href="#" id="statsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ 'stats'|trans }}
                                 </a>
-                                <div class="dropdown-menu {{ theme_dropdown_menu }}" aria-labelledby="statsDropdown">
+                                <div class="dropdown-menu border border-secondary" aria-labelledby="statsDropdown">
                                     {% for entry in menus['stats'] %}
                                         <a class="dropdown-item" href="{{ path(entry['path']) }}">{{ entry['name'] }}</a>
                                     {% endfor %}
@@ -97,10 +97,10 @@
 
                         {% if menus['application'] is defined %}
                             <li class="nav-item dropdown">
-                                <a class="nav-link {{ theme_nav_link }} dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link text-uppercase fw-bold dropdown-toggle" href="#" id="applicationDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{ 'application'|trans }}
                                 </a>
-                                <div class="dropdown-menu {{ theme_dropdown_menu }}" aria-labelledby="applicationDropdown">
+                                <div class="dropdown-menu border border-secondary" aria-labelledby="applicationDropdown">
                                     <h6 class="dropdown-header">elasticsearch-admin</h6>
                                     <a class="dropdown-item d-none" href="#" id="button_install">{{ 'add_to_home_screen'|trans }}</a>
                                     {% for entry in menus['application'] %}
@@ -112,25 +112,41 @@
                                 </div>
                             </li>
                         {% endif %}
-
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav d-flex">
+                    {% if firewall and is_granted('IS_AUTHENTICATED_FULLY', app.user) %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link {{ theme_nav_link }} dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link text-uppercase fw-bold dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ app.user.email }}
                             </a>
-                            <div class="dropdown-menu {{ theme_dropdown_menu }}" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu border border-secondary" aria-labelledby="userDropdown">
                                 {% if is_granted('APP_SUBSCRIPTIONS', 'global') %}
                                     <a class="dropdown-item" href="{{ path('app_subscriptions') }}">{{ 'subscriptions'|trans }}</a>
                                 {% endif %}
                                 <a class="dropdown-item" href="{{ path('app_users_profile') }}">{{ 'profile'|trans }}</a>
-                                <a class="dropdown-item" href="{{ path('app_theme_editor') }}">{{ 'theme_editor'|trans }}</a>
                                 <a class="dropdown-item" href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a>
                             </div>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link {{ theme_nav_link }}" href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
+                            <a class="nav-link text-uppercase fw-bold" href="{{ path('app_login') }}">{{ 'login'|trans }}</a>
                         </li>
                     {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-uppercase fw-bold dropdown-toggle text-uppercase fw-bold theme-icon-active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light"><i class="bi bi-brightness-high"></i>&nbsp;{{ 'theme.light'|trans() }}</button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i>&nbsp;{{ 'theme.dark'|trans }}</button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i>&nbsp;{{ 'theme.auto'|trans }}</button>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -164,11 +180,11 @@
 <script type="text/javascript">
 var app_base_url = '{{ path('app_login') }}';
 var trans_required = '{{ 'required'|trans|escape('js') }}';
-var theme_link_primary = '{{ theme_link_primary }}';
-var theme_link_secondary = '{{ theme_link_secondary }}';
-var theme_form_required = '{{ theme_form_required }}';
-var theme_color_1 = '{{ theme_color_1 }}';
-var theme_color_2 = '{{ theme_color_2 }}';
+var theme_link_primary = 'text-primary-emphasis';
+var theme_link_secondary = 'text-secondary-emphasis';
+var theme_form_required = 'badge bg-light text-dark ml-1';
+var theme_color_1 = 'dark';
+var theme_color_2 = 'light';
 </script>
 {{ encore_entry_script_tags('app-js') }}
 {% endblock %}

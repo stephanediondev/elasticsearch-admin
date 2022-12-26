@@ -60,7 +60,7 @@
                     {% if true == display %}
                         {% if 'name' == column %}
                             <td>
-                                <a class="{{ theme_link_primary }}" href="{{ path('index_templates_legacy_read', {'name': row.name}) }}">{{ row.name }}</a>
+                                <a class="text-primary-emphasis" href="{{ path('index_templates_legacy_read', {'name': row.name}) }}">{{ row.name }}</a>
                             </td>
                         {% endif %}
 
@@ -74,7 +74,7 @@
                             <td>
                                 {% if row.setting('index.lifecycle.name') %}
                                     {% if is_granted_ilm_policies and hasFeature('ilm') %}
-                                        <a class="{{ theme_link_secondary }}" href="{{ path('ilm_read', {'name': row.setting('index.lifecycle.name')}) }}">{{ row.setting('index.lifecycle.name') }}</a>
+                                        <a class="text-secondary-emphasis" href="{{ path('ilm_read', {'name': row.setting('index.lifecycle.name')}) }}">{{ row.setting('index.lifecycle.name') }}</a>
                                     {% else %}
                                         {{ row.setting('index.lifecycle.name') }}
                                     {% endif %}
