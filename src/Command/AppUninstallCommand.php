@@ -11,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -47,7 +48,7 @@ class AppUninstallCommand extends Command
             $output->writeln($index);
         }
 
-        $helper = $this->getHelper('question');
+        $helper = new QuestionHelper();
 
         $question = new Question('Confirm this action with "yes" ');
         $answer = $helper->ask($input, $output, $question);

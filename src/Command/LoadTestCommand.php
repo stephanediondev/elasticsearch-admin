@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\Question;
 
 #[AsCommand(name: 'app:load-test')]
@@ -33,7 +34,7 @@ class LoadTestCommand extends Command
     {
         $output->writeln('<error>DO NOT USE IN PRODUCTION</error>');
 
-        $helper = $this->getHelper('question');
+        $helper = new QuestionHelper();
 
         $question = new Question('Number of indices? ');
         $numberOfIndices = (int) $helper->ask($input, $output, $question);
