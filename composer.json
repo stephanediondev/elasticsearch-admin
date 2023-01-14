@@ -14,7 +14,6 @@
         "box/spout": "^3.1",
         "matomo/device-detector": "^6.0",
         "minishlink/web-push": "^7.0.0",
-        "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "6.2.*",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
