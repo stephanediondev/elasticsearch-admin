@@ -1,7 +1,7 @@
-ARG ALPINE_VERSION=3.16
+ARG ALPINE_VERSION=edge
 FROM alpine:${ALPINE_VERSION}
 LABEL Maintainer="Tim de Pater <code@trafex.nl>"
-LABEL Description="Lightweight container with Nginx 1.22 & PHP 8.1 based on Alpine Linux 3.16"
+LABEL Description="Lightweight container with Nginx 1.22 & PHP 8.2 based on Alpine Linux edge"
 
 ENV APP_ENV=prod
 ENV INSTALLATION_TYPE=docker
@@ -15,13 +15,13 @@ ENV SSL_VERIFY_HOST=$SSL_VERIFY_HOST
 ENV SECRET_REGISTER=$SECRET_REGISTER
 
 # Install packages and remove default server definition
-RUN apk --no-cache add php81 php81-fpm php81-opcache php81-json php81-openssl php81-curl php81-zlib \
-    php81-xml php81-simplexml php81-phar php81-intl php81-dom php81-xmlreader php81-ctype php81-session \
-    php81-tokenizer php81-pdo php81-pdo_mysql php81-pdo_pgsql php81-iconv php81-zip php81-gmp php81-mbstring \
+RUN apk --no-cache add php82 php82-fpm php82-opcache php82-json php82-openssl php82-curl php82-zlib \
+    php82-xml php82-simplexml php82-phar php82-intl php82-dom php82-xmlreader php82-ctype php82-session \
+    php82-tokenizer php82-pdo php82-pdo_mysql php82-pdo_pgsql php82-iconv php82-zip php82-gmp php82-mbstring \
     nginx supervisor nodejs npm curl
 
 # Create symlink so programs depending on `php` still function
-RUN ln -s /usr/bin/php81 /usr/bin/php
+RUN ln -s /usr/bin/php82 /usr/bin/php
 
 # Configure nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
@@ -30,8 +30,8 @@ COPY docker/fullchain.pem /etc/nginx/fullchain.pem
 RUN rm -f /etc/nginx/conf.d/default.conf
 
 # Configure PHP-FPM
-COPY docker/fpm-pool.conf /etc/php81/php-fpm.d/www.conf
-COPY docker/php.ini /etc/php81/conf.d/custom.ini
+COPY docker/fpm-pool.conf /etc/php82/php-fpm.d/www.conf
+COPY docker/php.ini /etc/php82/conf.d/custom.ini
 
 # Configure supervisord
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf

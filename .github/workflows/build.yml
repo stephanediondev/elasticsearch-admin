@@ -38,7 +38,7 @@ jobs:
             - name: Setup PHP
               uses: nanasess/setup-php@master
               with:
-                    php-version: 8.1
+                    php-version: 8.2
               env:
                     ELASTICSEARCH_URL: 127.0.0.1:9200
 
