@@ -21,8 +21,7 @@
 - [Other tools](#other-tools)
 - [License](#license)
 - [Privacy](#privacy)
-- [Development](#development)
-    - [Unit tests](#unit-tests)
+- [Tests](#tests)
 
 # Disclaimer
 
@@ -324,15 +323,9 @@ Checked on 13 May 2022 *
 
 This application does **NOT** collect and send any user data.
 
-# Development
+# Tests
 
 [(Back to table of contents)](#table-of-contents)
-
-You can run the application from a folder in an existing vhost (ie http://localhost/elasticsearch-admin/public)
-
-## Unit tests
-
-[(Back to development)](#development)
 
 ```
 vendor/bin/phpstan analyse -l 6 src
