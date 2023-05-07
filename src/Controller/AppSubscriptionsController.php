@@ -6,19 +6,19 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\AppSubscriptionType;
-use App\Manager\AppSubscriptionManager;
 use App\Manager\AppNotificationManager;
+use App\Manager\AppSubscriptionManager;
 use App\Manager\AppUserManager;
 use App\Model\AppNotificationModel;
 use App\Model\AppSubscriptionModel;
 use DeviceDetector\DeviceDetector;
-use Minishlink\WebPush\WebPush;
 use Minishlink\WebPush\Subscription;
-use Symfony\Component\Routing\Annotation\Route;
+use Minishlink\WebPush\WebPush;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/admin')]

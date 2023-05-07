@@ -5,19 +5,19 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\Type\ElasticsearchClusterSettingType;
 use App\Form\Type\ElasticsearchClusterDiskThresholdsType;
+use App\Form\Type\ElasticsearchClusterSettingType;
 use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchNodeManager;
-use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Manager\ElasticsearchRepositoryManager;
-use App\Model\ElasticsearchClusterSettingModel;
-use App\Model\ElasticsearchClusterDiskThresholdsModel;
+use App\Manager\ElasticsearchSlmPolicyManager;
 use App\Model\CallRequestModel;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Model\ElasticsearchClusterDiskThresholdsModel;
+use App\Model\ElasticsearchClusterSettingModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/admin')]

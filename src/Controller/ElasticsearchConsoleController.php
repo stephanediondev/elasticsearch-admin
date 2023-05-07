@@ -7,9 +7,9 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchConsoleType;
 use App\Model\CallRequestModel;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin')]
 class ElasticsearchConsoleController extends AbstractAppController

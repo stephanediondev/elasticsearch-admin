@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Manager\AbstractAppManager;
+use App\Model\AppRoleModel;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
-use App\Model\AppRoleModel;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppRoleManager extends AbstractAppManager

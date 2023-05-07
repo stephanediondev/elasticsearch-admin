@@ -6,14 +6,14 @@ namespace App\Controller;
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchEnrichPolicyType;
-use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchEnrichPolicyManager;
+use App\Manager\ElasticsearchIndexManager;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\ElasticsearchEnrichPolicyModel;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/admin')]

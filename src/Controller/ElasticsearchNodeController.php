@@ -10,12 +10,12 @@ use App\Form\Type\ElasticsearchNodeReloadSecureSettingsType;
 use App\Manager\ElasticsearchNodeManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReloadSecureSettingsModel;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Form\FormInterface;
 
 #[Route('/admin')]
 class ElasticsearchNodeController extends AbstractAppController

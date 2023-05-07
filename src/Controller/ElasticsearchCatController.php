@@ -7,16 +7,16 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchCatType;
 use App\Manager\ElasticsearchIndexManager;
-use App\Manager\ElasticsearchRepositoryManager;
 use App\Manager\ElasticsearchNodeManager;
+use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchCatModel;
 use Box\Spout\Common\Exception\UnsupportedTypeException;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin')]
 class ElasticsearchCatController extends AbstractAppController

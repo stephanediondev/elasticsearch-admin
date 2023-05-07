@@ -5,17 +5,17 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\Type\ElasticsearchUserType;
 use App\Form\Type\ElasticsearchUserFilterType;
-use App\Manager\ElasticsearchUserManager;
+use App\Form\Type\ElasticsearchUserType;
 use App\Manager\ElasticsearchRoleManager;
+use App\Manager\ElasticsearchUserManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchUserModel;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/admin')]
 class ElasticsearchUserController extends AbstractAppController

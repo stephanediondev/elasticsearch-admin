@@ -7,14 +7,14 @@ use App\Controller\AbstractAppController;
 use App\Exception\CallException;
 use App\Form\Type\ElasticsearchShardFilterType;
 use App\Manager\ElasticsearchIndexManager;
-use App\Manager\ElasticsearchShardManager;
 use App\Manager\ElasticsearchNodeManager;
+use App\Manager\ElasticsearchShardManager;
 use App\Model\CallRequestModel;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin')]
 class ElasticsearchShardController extends AbstractAppController

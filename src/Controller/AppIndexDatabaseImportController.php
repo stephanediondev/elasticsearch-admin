@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use \PDO;
+use \PDOException;
 use App\Controller\AbstractAppController;
 use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use \PDO;
-use \PDOException;
 
 #[Route('/admin')]
 class AppIndexDatabaseImportController extends AbstractAppController

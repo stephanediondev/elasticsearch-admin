@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Manager\AbstractAppManager;
+use App\Model\AppSubscriptionModel;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
-use App\Model\AppSubscriptionModel;
 
 class AppSubscriptionManager extends AbstractAppManager
 {

@@ -8,8 +8,8 @@ use App\Exception\ConnectionException;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallManager
 {

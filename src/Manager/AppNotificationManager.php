@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
-use App\Twig\AppExtension;
 use App\Exception\ConnectionException;
 use App\Manager\AbstractAppManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\ElasticsearchNodeManager;
+use App\Model\AppNotificationModel;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
-use App\Model\AppNotificationModel;
+use App\Twig\AppExtension;
 
 class AppNotificationManager extends AbstractAppManager
 {

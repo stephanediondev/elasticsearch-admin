@@ -5,16 +5,16 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\Type\ElasticsearchIlmPolicyType;
 use App\Form\Type\ApplyIlmPolicyType;
+use App\Form\Type\ElasticsearchIlmPolicyType;
 use App\Manager\ElasticsearchIlmPolicyManager;
 use App\Manager\ElasticsearchIndexTemplateLegacyManager;
-use App\Model\ElasticsearchIlmPolicyModel;
 use App\Model\ElasticsearchApplyIlmPolicyModel;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Model\ElasticsearchIlmPolicyModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/admin')]

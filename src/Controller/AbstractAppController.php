@@ -10,8 +10,8 @@ use App\Manager\PaginatorManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractAppController extends AbstractController
 {

@@ -5,15 +5,15 @@ namespace App\Controller;
 
 use App\Controller\AbstractAppController;
 use App\Exception\CallException;
-use App\Form\Type\ElasticsearchDataStreamType;
 use App\Form\Type\ElasticsearchDataStreamFilterType;
+use App\Form\Type\ElasticsearchDataStreamType;
 use App\Manager\ElasticsearchDataStreamManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchDataStreamModel;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/admin')]
