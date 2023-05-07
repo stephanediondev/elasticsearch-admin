@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -672,23 +673,23 @@ class ElasticsearchClusterController extends AbstractAppController
                             $results['audit_pass'][$checkpoint] = [];
                         }
                     }
-                break;
-            case 'format_msg_no_lookups':
-                if (true === $inputArgumentsJvm) {
-                    $fail = [];
-                    foreach ($formatMsgNoLookups as $node => $parameter) {
-                        if (false === $parameter) {
-                            $fail[] = $node;
+                    break;
+                case 'format_msg_no_lookups':
+                    if (true === $inputArgumentsJvm) {
+                        $fail = [];
+                        foreach ($formatMsgNoLookups as $node => $parameter) {
+                            if (false === $parameter) {
+                                $fail[] = $node;
+                            }
+                        }
+
+                        if (0 < count($fail)) {
+                            $results['audit_fail'][$checkpoint] = $fail;
+                        } else {
+                            $results['audit_pass'][$checkpoint] = [];
                         }
                     }
-
-                    if (0 < count($fail)) {
-                        $results['audit_fail'][$checkpoint] = $fail;
-                    } else {
-                        $results['audit_pass'][$checkpoint] = [];
-                    }
-                }
-                break;
+                    break;
             }
         }
 

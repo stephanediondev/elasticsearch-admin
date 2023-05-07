@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model;
@@ -7,11 +8,11 @@ use App\Model\AbstractAppModel;
 
 class AppSubscriptionModel extends AbstractAppModel
 {
-    const TYPE_PUSH = 'push';
-    const TYPE_EMAIL = 'email';
-    const TYPE_SMS = 'sms';
-    const TYPE_SLACK = 'slack';
-    const TYPE_TEAMS = 'teams';
+    public const TYPE_PUSH = 'push';
+    public const TYPE_EMAIL = 'email';
+    public const TYPE_SMS = 'sms';
+    public const TYPE_SLACK = 'slack';
+    public const TYPE_TEAMS = 'teams';
 
     private ?string $id = null;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Manager;
@@ -130,7 +131,7 @@ class CallManager
 
         if ($this->elasticsearchApiKey) {
             $headers['Authorization'] = 'ApiKey '.$this->elasticsearchApiKey;
-        } else if ($this->elasticsearchUsername && $this->elasticsearchPassword) {
+        } elseif ($this->elasticsearchUsername && $this->elasticsearchPassword) {
             $headers['Authorization'] = 'Basic '.base64_encode($this->elasticsearchUsername.':'.$this->elasticsearchPassword);
         }
 

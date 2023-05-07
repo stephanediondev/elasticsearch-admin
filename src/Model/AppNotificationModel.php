@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model;
@@ -7,12 +8,12 @@ use App\Model\AbstractAppModel;
 
 class AppNotificationModel extends AbstractAppModel
 {
-    const TYPE_CLUSTER_HEALTH = 'cluster_health';
-    const TYPE_NODE_DOWN = 'node_down';
-    const TYPE_NODE_UP = 'node_up';
-    const TYPE_DISK_THRESHOLD = 'disk_threshold';
-    const TYPE_LICENSE = 'license';
-    const TYPE_VERSION = 'version';
+    public const TYPE_CLUSTER_HEALTH = 'cluster_health';
+    public const TYPE_NODE_DOWN = 'node_down';
+    public const TYPE_NODE_UP = 'node_up';
+    public const TYPE_DISK_THRESHOLD = 'disk_threshold';
+    public const TYPE_LICENSE = 'license';
+    public const TYPE_VERSION = 'version';
 
     private ?string $id = null;
 

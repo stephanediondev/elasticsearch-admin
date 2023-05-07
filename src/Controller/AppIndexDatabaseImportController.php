@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
 
-use \PDO;
-use \PDOException;
+use PDO;
+use PDOException;
 use App\Controller\AbstractAppController;
 use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;

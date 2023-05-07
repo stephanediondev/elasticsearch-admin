@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model;
@@ -7,10 +8,10 @@ use App\Model\AbstractAppModel;
 
 class ElasticsearchRepositoryModel extends AbstractAppModel
 {
-    const TYPE_FS = 'fs';
-    const TYPE_S3 = 's3';
-    const TYPE_GCS = 'gcs';
-    const TYPE_AZURE = 'azure';
+    public const TYPE_FS = 'fs';
+    public const TYPE_S3 = 's3';
+    public const TYPE_GCS = 'gcs';
+    public const TYPE_AZURE = 'azure';
 
     private ?string $type = null;
 

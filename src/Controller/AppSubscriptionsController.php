@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -258,7 +259,7 @@ class AppSubscriptionsController extends AbstractAppController
                         $json['message'] = 'Message failed to sent for subscription '.$subscription->getEndpoint().': '.$report->getReason().'.';
                     }
                 }
-            break;
+                break;
         }
 
         return new JsonResponse($json, JsonResponse::HTTP_OK);
