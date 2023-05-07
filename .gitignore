@@ -30,6 +30,7 @@ yarn-error.log
 ###> app ###
 .env
 .php_cs.cache
+.php-cs-fixer.cache
 info.json
 public/.htaccess
 ###< app ###

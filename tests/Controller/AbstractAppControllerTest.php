@@ -3,16 +3,16 @@
 namespace App\Tests\Controller;
 
 use App\Core\Traits\JwtTrait;
-use App\Manager\CallManager;
 use App\Manager\AppUserManager;
+use App\Manager\CallManager;
 use App\Manager\ElasticsearchClusterManager;
 use App\Manager\ElasticsearchNodeManager;
-use App\Model\CallRequestModel;
 use App\Model\AppUserModel;
+use App\Model\CallRequestModel;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 abstract class AbstractAppControllerTest extends WebTestCase
 {

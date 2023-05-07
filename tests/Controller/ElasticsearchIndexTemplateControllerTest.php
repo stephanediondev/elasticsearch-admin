@@ -2,9 +2,9 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Controller\AbstractAppControllerTest;
-
 use App\Model\CallRequestModel;
+
+use App\Tests\Controller\AbstractAppControllerTest;
 
 class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
 {
