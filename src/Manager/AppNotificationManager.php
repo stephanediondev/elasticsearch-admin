@@ -12,6 +12,7 @@ use App\Model\AppNotificationModel;
 use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
 use App\Twig\AppExtension;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class AppNotificationManager extends AbstractAppManager
 {
@@ -35,25 +36,19 @@ class AppNotificationManager extends AbstractAppManager
 
     protected ?array $clusterSettings;
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setClusterManager(ElasticsearchClusterManager $elasticsearchClusterManager): void
     {
         $this->elasticsearchClusterManager = $elasticsearchClusterManager;
     }
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setNodeManager(ElasticsearchNodeManager $elasticsearchNodeManager): void
     {
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setAppExtension(AppExtension $appExtension): void
     {
         $this->appExtension = $appExtension;

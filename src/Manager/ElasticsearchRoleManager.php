@@ -9,14 +9,13 @@ use App\Model\CallRequestModel;
 use App\Model\CallResponseModel;
 use App\Model\ElasticsearchRoleModel;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class ElasticsearchRoleManager extends AbstractAppManager
 {
     protected string $endpoint;
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setEndpoint(): void
     {
         if (true === $this->callManager->hasFeature('_security_endpoint')) {

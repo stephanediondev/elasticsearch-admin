@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 abstract class AbstractAppController extends AbstractController
 {
@@ -24,33 +25,25 @@ abstract class AbstractAppController extends AbstractController
 
     protected TranslatorInterface $translator;
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setCallManager(CallManager $callManager): void
     {
         $this->callManager = $callManager;
     }
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setClusterManager(ElasticsearchClusterManager $elasticsearchClusterManager): void
     {
         $this->elasticsearchClusterManager = $elasticsearchClusterManager;
     }
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setPaginatorManager(PaginatorManager $paginatorManager): void
     {
         $this->paginatorManager = $paginatorManager;
     }
 
-    /**
-     * @required
-     */
+    #[Required]
     public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
