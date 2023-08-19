@@ -21,7 +21,7 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.11.2",
-        "bootstrap": "5.3.0",
+        "bootstrap": "^5.3.1",
         "bootstrap-icons": "^1.9.1",
         "file-saver": "^2.0.5",
         "jquery": "^3.6.0",
