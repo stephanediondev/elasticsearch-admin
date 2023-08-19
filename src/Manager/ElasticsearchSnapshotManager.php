@@ -18,19 +18,25 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_snapshot/'.$repository.'/'.$name);
         $callResponse = $this->callManager->call($callRequest);
-        $snapshot = $callResponse->getContent();
+        $content = $callResponse->getContent();
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             $snapshotModel = null;
-        } elseif (true === isset($snapshot['responses'][0]['error']['type']) && 'repository_exception' == $snapshot['responses'][0]['error']['type']) {
-            throw new CallException($snapshot['responses'][0]['error']['reason']);
-        } elseif (true === isset($snapshot['responses'][0]['error']['type']) && 'snapshot_missing_exception' == $snapshot['responses'][0]['error']['type']) {
+
+        } elseif (true === isset($content['snapshots']) && 0 === count($content['snapshots'])) {
             $snapshotModel = null;
+
+        } elseif (true === isset($content['responses']) && true === isset($snapshot['responses'][0]['error']['type']) && 'repository_exception' == $content['responses'][0]['error']['type']) {
+            throw new CallException($content['responses'][0]['error']['reason']);
+
+        } elseif (true === isset($content['responses']) && true === isset($snapshot['responses'][0]['error']['type']) && 'snapshot_missing_exception' == $content['responses'][0]['error']['type']) {
+            $snapshotModel = null;
+
         } else {
-            if (true === isset($snapshot['responses'])) {
-                $snapshot = $snapshot['responses'][0]['snapshots'][0];
+            if (true === isset($content['responses'])) {
+                $snapshot = $content['responses'][0]['snapshots'][0];
             } else {
-                $snapshot = $snapshot['snapshots'][0];
+                $snapshot = $content['snapshots'][0];
             }
             $snapshot['repository'] = $repository;
 
