@@ -22,16 +22,12 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
 
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             $snapshotModel = null;
-
         } elseif (true === isset($content['snapshots']) && 0 === count($content['snapshots'])) {
             $snapshotModel = null;
-
         } elseif (true === isset($content['responses']) && true === isset($snapshot['responses'][0]['error']['type']) && 'repository_exception' == $content['responses'][0]['error']['type']) {
             throw new CallException($content['responses'][0]['error']['reason']);
-
         } elseif (true === isset($content['responses']) && true === isset($snapshot['responses'][0]['error']['type']) && 'snapshot_missing_exception' == $content['responses'][0]['error']['type']) {
             $snapshotModel = null;
-
         } else {
             if (true === isset($content['responses'])) {
                 $snapshot = $content['responses'][0]['snapshots'][0];
