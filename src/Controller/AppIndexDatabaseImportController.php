@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use PDO;
-use PDOException;
 use App\Controller\AbstractAppController;
 use App\Manager\ElasticsearchIndexManager;
 use App\Model\CallRequestModel;
+use PDO;
+use PDOException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
