@@ -72,7 +72,16 @@
         "version": "1.13.0"
     },
     "phpstan/phpstan": {
-        "version": "0.12.94"
+        "version": "1.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "d74d4d719d5f53856c9c13544aa22d44144b1819"
+        },
+        "files": [
+            "phpstan.neon"
+        ]
     },
     "phpunit/php-code-coverage": {
         "version": "9.2.6"
