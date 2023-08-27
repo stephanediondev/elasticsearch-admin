@@ -5,6 +5,8 @@
     "license": "MIT",
     "private": true,
     "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.0",
         "@symfony/webpack-encore": "^4.0.0",
         "ansi-regex": ">=5.0.1",
         "core-js": "^3.21.1",
