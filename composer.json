@@ -13,7 +13,7 @@
         "composer-runtime-api": ">=2.1",
         "box/spout": "^3.1",
         "matomo/device-detector": "^6.0",
-        "minishlink/web-push": "^7.0.0",
+        "minishlink/web-push": "^8.0.0",
         "symfony/asset": "6.3.*",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
