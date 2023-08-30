@@ -48,7 +48,7 @@ class ElasticsearchShardController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SHARDS', 'global');
 
-        $nodes = $this->elasticsearchNodeManager->selectNodes(['data' => 'yes']);
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         $form = $this->createForm(ElasticsearchShardFilterType::class, null, ['node' => $nodes]);
 
@@ -91,7 +91,7 @@ class ElasticsearchShardController extends AbstractAppController
     {
         $this->denyAccessUnlessGranted('SHARDS_STATS', 'global');
 
-        $nodes = $this->elasticsearchNodeManager->selectNodes(['data' => 'yes']);
+        $nodes = $this->elasticsearchNodeManager->selectNodes();
 
         $form = $this->createForm(ElasticsearchShardFilterType::class, null, ['node' => $nodes]);
 
