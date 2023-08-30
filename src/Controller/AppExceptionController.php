@@ -38,15 +38,22 @@ class AppExceptionController extends AbstractAppController
             }
 
             if (500 == $exception->getStatusCode()) {
-                $dd = new DeviceDetector($request->headers->get('User-Agent'));
-                $dd->skipBotDetection();
-                $dd->parse();
+                if ($request->headers->get('User-Agent')) {
+                    $dd = new DeviceDetector($request->headers->get('User-Agent'));
+                    $dd->skipBotDetection();
+                    $dd->parse();
 
-                $client = $dd->getClient();
-                $os = $dd->getOs();
+                    $client = $dd->getClient();
+                    $os = $dd->getOs();
 
-                $parameters['client'] = $client ? $client['name'].' '.$client['version'] : false;
-                $parameters['os'] = $os ? $os['name'].' '.$os['version'] : false;
+                    if ($client && true === isset($client['name']) && true === isset($client['version'])) {
+                        $parameters['client'] = $client['name'].' '.$client['version'];
+                    }
+
+                    if ($os && true === isset($os['name']) && true === isset($os['version'])) {
+                        $parameters['os'] = $os['name'].' '.$os['version'];
+                    }
+                }
 
                 $parameters['message'] = $exception->getMessage();
                 $parameters['file'] = $exception->getFile();

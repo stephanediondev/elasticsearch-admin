@@ -107,22 +107,30 @@ class AppSubscriptionsController extends AbstractAppController
             }
         }
 
-        $dd = new DeviceDetector($request->headers->get('User-Agent'));
-        $dd->skipBotDetection();
-        $dd->parse();
-
-        $client = $dd->getClient();
-        $os = $dd->getOs();
-
         $user = $this->appUserManager->getByEmail($this->getuser()->getUserIdentifier());
 
         $subscription = new AppSubscriptionModel();
         $subscription->setUserId($user->getId());
         $subscription->setType($type);
         $subscription->setIp($request->getClientIp());
-        $subscription->setOs($os ? $os['name'].' '.$os['version'] : null);
-        $subscription->setClient($client ? $client['name'].' '.$client['version'] : null);
         $subscription->setNotifications(AppNotificationModel::getTypes());
+
+        if ($request->headers->get('User-Agent')) {
+            $dd = new DeviceDetector($request->headers->get('User-Agent'));
+            $dd->skipBotDetection();
+            $dd->parse();
+
+            $client = $dd->getClient();
+            $os = $dd->getOs();
+
+            if ($client && true === isset($client['name']) && true === isset($client['version'])) {
+                $subscription->setClient($client['name'].' '.$client['version']);
+            }
+
+            if ($os && true === isset($os['name']) && true === isset($os['version'])) {
+                $subscription->setOs($os['name'].' '.$os['version']);
+            }
+        }
 
         $form = $this->createForm(AppSubscriptionType::class, $subscription, ['type' => $type]);
 
@@ -244,19 +252,21 @@ class AppSubscriptionsController extends AbstractAppController
                         'body' => $notification->getContent(),
                     ];
 
-                    $subcription = Subscription::create([
-                        'endpoint' => $subscription->getEndpoint(),
-                        'publicKey' => $publicKey,
-                        'authToken' => $authenticationSecret,
-                        'contentEncoding' => $contentEncoding,
-                    ]);
+                    if ($jsonEncode = json_encode($payload)) {
+                        $subcription = Subscription::create([
+                            'endpoint' => $subscription->getEndpoint(),
+                            'publicKey' => $publicKey,
+                            'authToken' => $authenticationSecret,
+                            'contentEncoding' => $contentEncoding,
+                        ]);
 
-                    $report = $webPush->sendOneNotification($subcription, json_encode($payload));
+                        $report = $webPush->sendOneNotification($subcription, $jsonEncode);
 
-                    if ($report->isSuccess()) {
-                        $json['message'] = 'Message sent successfully for subscription '.$subscription->getEndpoint().'.';
-                    } else {
-                        $json['message'] = 'Message failed to sent for subscription '.$subscription->getEndpoint().': '.$report->getReason().'.';
+                        if ($report->isSuccess()) {
+                            $json['message'] = 'Message sent successfully for subscription '.$subscription->getEndpoint().'.';
+                        } else {
+                            $json['message'] = 'Message failed to sent for subscription '.$subscription->getEndpoint().': '.$report->getReason().'.';
+                        }
                     }
                 }
                 break;

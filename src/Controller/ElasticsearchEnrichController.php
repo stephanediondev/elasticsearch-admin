@@ -90,7 +90,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         $policy = null;
 
         if ($request->query->get('policy')) {
-            $policy = $this->elasticsearchEnrichPolicyManager->getByName($request->query->get('policy'));
+            $policy = $this->elasticsearchEnrichPolicyManager->getByName($request->query->getString('policy'));
 
             if (null === $policy) {
                 throw new NotFoundHttpException();

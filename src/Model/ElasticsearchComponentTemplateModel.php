@@ -89,22 +89,30 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
 
         if (true === isset($template['component_template']['template']['settings']) && 0 < count($template['component_template']['template']['settings'])) {
             $this->setSettings($template['component_template']['template']['settings']);
-            $this->setSettingsJson(json_encode($template['component_template']['template']['settings'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($template['component_template']['template']['settings'], JSON_PRETTY_PRINT)) {
+                $this->setSettingsJson($json);
+            }
         }
 
         if (true === isset($template['component_template']['template']['mappings']) && 0 < count($template['component_template']['template']['mappings'])) {
             $this->setMappings($template['component_template']['template']['mappings']);
-            $this->setMappingsJson(json_encode($template['component_template']['template']['mappings'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($template['component_template']['template']['mappings'], JSON_PRETTY_PRINT)) {
+                $this->setMappingsJson($json);
+            }
         }
 
         if (true === isset($template['component_template']['template']['aliases']) && 0 < count($template['component_template']['template']['aliases'])) {
             $this->setAliases($template['component_template']['template']['aliases']);
-            $this->setAliasesJson(json_encode($template['component_template']['template']['aliases'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($template['component_template']['template']['aliases'], JSON_PRETTY_PRINT)) {
+                $this->setAliasesJson($json);
+            }
         }
 
         if (true === isset($template['component_template']['_meta']) && 0 < count($template['component_template']['_meta'])) {
             $this->setMetadata($template['component_template']['_meta']);
-            $this->setMetadataJson(json_encode($template['component_template']['_meta'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($template['component_template']['_meta'], JSON_PRETTY_PRINT)) {
+                $this->setMetadataJson($json);
+            }
         }
 
         return $this;

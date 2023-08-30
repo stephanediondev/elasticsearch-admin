@@ -149,10 +149,12 @@ class AppNotificationManager extends AbstractAppManager
                 }
             }
 
+            $previousInfo = $this->defaultInfo;
+
             if (true === $this->infoFileExists()) {
-                $previousInfo = json_decode(file_get_contents($this->filename), true);
-            } else {
-                $previousInfo = $this->defaultInfo;
+                if ($fileContent = file_get_contents($this->filename)) {
+                    $previousInfo = json_decode($fileContent, true);
+                }
             }
 
             $lastInfo = [

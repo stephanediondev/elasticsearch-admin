@@ -140,7 +140,9 @@ class ElasticsearchUserModel extends AbstractAppModel
 
         if (true === isset($user['metadata']) && 0 < count($user['metadata'])) {
             $this->setMetadata($user['metadata']);
-            $this->setMetadataJson(json_encode($user['metadata'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($user['metadata'], JSON_PRETTY_PRINT)) {
+                $this->setMetadataJson($json);
+            }
         }
 
         return $this;

@@ -22,13 +22,19 @@ class ElasticsearchIndexModelTest extends TestCase
         $index->setTotalSize(6);
         $index->setCreationDate('creation-date');
         $index->setSettings([]);
-        $index->setSettingsJson(json_encode([]));
+        if ($json = json_encode([])) {
+            $index->setSettingsJson($json);
+        }
         $index->setSetting('setting-key', 'setting-value');
         $index->setMappings(['mappings']);
-        $index->setMappingsJson(json_encode(['mappings']));
+        if ($json = json_encode(['mappings'])) {
+            $index->setMappingsJson($json);
+        }
         $index->setMappingsFlat(['mapping-field' => ['type' => 'mapping-type']]);
         $index->setAliases(['aliases']);
-        $index->setAliasesJson(json_encode(['aliases']));
+        if ($json = json_encode(['aliases'])) {
+            $index->setAliasesJson($json);
+        }
 
         $this->assertEquals($index->getName(), 'name');
         $this->assertEquals(strval($index), 'name');

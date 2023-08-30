@@ -127,12 +127,16 @@ class ElasticsearchPipelineModel extends AbstractAppModel
 
         if (true === isset($pipeline['processors']) && 0 < count($pipeline['processors'])) {
             $this->setProcessors($pipeline['processors']);
-            $this->setProcessorsJson(json_encode($pipeline['processors'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($pipeline['processors'], JSON_PRETTY_PRINT)) {
+                $this->setProcessorsJson($json);
+            }
         }
 
         if (true === isset($pipeline['on_failure']) && 0 < count($pipeline['on_failure'])) {
             $this->setOnFailure($pipeline['on_failure']);
-            $this->setOnFailureJson(json_encode($pipeline['on_failure'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($pipeline['on_failure'], JSON_PRETTY_PRINT)) {
+                $this->setOnFailureJson($json);
+            }
         }
 
         return $this;

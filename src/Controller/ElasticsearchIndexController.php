@@ -51,7 +51,7 @@ class ElasticsearchIndexController extends AbstractAppController
         ];
 
         if (true === $this->callManager->hasFeature('cat_sort')) {
-            $query['s'] = '' != $request->query->get('sort') ? $request->query->get('sort') : 'index:asc';
+            $query['s'] = '' != $request->query->getString('sort') ? $request->query->getString('sort') : 'index:asc';
         }
 
         $form = $this->createForm(ElasticsearchIndexFilterType::class);
@@ -72,7 +72,7 @@ class ElasticsearchIndexController extends AbstractAppController
                 'total' => count($indices),
                 'rows' => $indices,
                 'array_slice' => true,
-                'page' => $request->query->get('page'),
+                'page' => $request->query->getInt('page'),
                 'size' => 100,
             ]),
             'form' => $form->createView(),
@@ -202,7 +202,7 @@ class ElasticsearchIndexController extends AbstractAppController
         }
 
         if ($request->query->get('name')) {
-            $callResponse = $this->elasticsearchIndexManager->forceMergeByName($request->query->get('name'));
+            $callResponse = $this->elasticsearchIndexManager->forceMergeByName($request->query->getString('name'));
         } else {
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
@@ -221,7 +221,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $this->denyAccessUnlessGranted('INDICES_CACHE_CLEAR', 'index');
 
         if ($request->query->get('name')) {
-            $callResponse = $this->elasticsearchIndexManager->cacheClearByName($request->query->get('name'));
+            $callResponse = $this->elasticsearchIndexManager->cacheClearByName($request->query->getString('name'));
         } else {
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
@@ -240,7 +240,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $this->denyAccessUnlessGranted('INDICES_FLUSH', 'index');
 
         if ($request->query->get('name')) {
-            $callResponse = $this->elasticsearchIndexManager->flushByName($request->query->get('name'));
+            $callResponse = $this->elasticsearchIndexManager->flushByName($request->query->getString('name'));
         } else {
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
@@ -259,7 +259,7 @@ class ElasticsearchIndexController extends AbstractAppController
         $this->denyAccessUnlessGranted('INDICES_REFRESH', 'index');
 
         if ($request->query->get('name')) {
-            $callResponse = $this->elasticsearchIndexManager->refreshByName($request->query->get('name'));
+            $callResponse = $this->elasticsearchIndexManager->refreshByName($request->query->getString('name'));
         } else {
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
@@ -281,7 +281,7 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $reindexModel = new ElasticsearchReindexModel();
         if ($request->query->get('index')) {
-            $reindexModel->setSource($request->query->get('index'));
+            $reindexModel->setSource($request->query->getString('index'));
         }
         $form = $this->createForm(ReindexType::class, $reindexModel, ['indices' => $indices]);
 
@@ -576,8 +576,8 @@ class ElasticsearchIndexController extends AbstractAppController
 
         set_time_limit(0);
 
-        $type = $request->query->get('type', 'csv');
-        $delimiter = $request->query->get('delimiter', ';');
+        $type = $request->query->getString('type', 'csv');
+        $delimiter = $request->query->getString('delimiter', ';');
         $filename = $index->getName().'-'.date('Y-m-d-His').'.'.$type;
 
         switch ($type) {
@@ -600,13 +600,13 @@ class ElasticsearchIndexController extends AbstractAppController
 
         $size = 1000;
         $query = [
-            'sort' => $request->query->get('sort', '_id:desc'),
+            'sort' => $request->query->getString('sort', '_id:desc'),
             'size' => $size,
             'scroll' => '1m',
         ];
-        if ($request->query->get('query') && '' != $request->query->get('query')) {
+        if ($request->query->get('query') && '' != $request->query->getString('query')) {
             $query['track_scores'] = 'true';
-            $query['q'] = $request->query->get('query');
+            $query['q'] = $request->query->getString('query');
         }
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/'.$index->getName().'/_search');
@@ -726,7 +726,11 @@ class ElasticsearchIndexController extends AbstractAppController
             }
 
             if ('geojson' == $writer) {
-                fwrite($outputStream, json_encode($json, JSON_PRETTY_PRINT));
+                if ($outputStream) {
+                    if ($jsonEncode = json_encode($json, JSON_PRETTY_PRINT)) {
+                        fwrite($outputStream, $jsonEncode);
+                    }
+                }
             } else {
                 $writer->addRows($lines);
                 $writer->close();
@@ -975,7 +979,7 @@ class ElasticsearchIndexController extends AbstractAppController
                 'total' => count($aliases),
                 'rows' => $aliases,
                 'array_slice' => true,
-                'page' => $request->query->get('page'),
+                'page' => $request->query->getInt('page'),
                 'size' => 100,
             ]),
         ]);
@@ -1276,12 +1280,12 @@ class ElasticsearchIndexController extends AbstractAppController
         try {
             $size = 100;
             if ($request->query->get('page') && '' != $request->query->get('page')) {
-                $page = $request->query->get('page');
+                $page = $request->query->getInt('page');
             } else {
                 $page = 1;
             }
             if ($request->query->get('sort') && '' != $request->query->get('sort')) {
-                $sort = $request->query->get('sort');
+                $sort = $request->query->getString('sort');
             } else {
                 $sort = '_score:desc';
             }

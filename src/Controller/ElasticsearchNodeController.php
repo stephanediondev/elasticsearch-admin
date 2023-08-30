@@ -113,7 +113,7 @@ class ElasticsearchNodeController extends AbstractAppController
         foreach ($nodes as $node) {
             $data['totals']['nodes_total']++;
             $data['totals']['nodes_total_disk_avail'] += $node['disk.avail'];
-            if (true === isset($node['disk.used'])) {
+            if (true === isset($data['totals']['nodes_total_disk_used']) && true === isset($node['disk.used'])) {
                 $data['totals']['nodes_total_disk_used'] += $node['disk.used'];
             }
 

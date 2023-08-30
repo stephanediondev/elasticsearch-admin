@@ -70,7 +70,7 @@ class ElasticsearchComponentTemplateController extends AbstractAppController
         $template = null;
 
         if ($request->query->get('template')) {
-            $template = $this->elasticsearchComponentTemplateManager->getByName($request->query->get('template'));
+            $template = $this->elasticsearchComponentTemplateManager->getByName($request->query->getString('template'));
 
             if (null === $template) {
                 throw new NotFoundHttpException();
