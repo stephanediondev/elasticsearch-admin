@@ -147,18 +147,15 @@ class ElasticsearchNodeManager extends AbstractAppManager
         foreach ($nodes as $row) {
             $score = 0;
 
-            if (true === isset($row['node.role'])) {
+            if (true === isset($row['node.role']) && true === isset($filter['roles']) && 0 < count($filter['roles'])) {
                 $roles = str_split($row['node.role']);
-                foreach ($this->filterletters() as $letter => $role) {
-                    if (true === isset($filter[$role])) {
-                        if ('yes' === $filter[$role] && false === in_array($letter, $roles)) {
-                            $score--;
-                        }
-                        if ('no' === $filter[$role] && true === in_array($letter, $roles)) {
-                            $score--;
-                        }
+                foreach ($roles as $role) {
+                    if (true === in_array($role, $filter['roles'])) {
+                        $score++;
                     }
                 }
+            } else {
+                $score++;
             }
 
             if (true === isset($row['version']) && true === isset($filter['version']) && $filter['version']) {
@@ -167,7 +164,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
                 }
             }
 
-            if (0 <= $score) {
+            if (0 < $score) {
                 $nodesWithFilter[] = $row;
             }
         }
@@ -199,16 +196,6 @@ class ElasticsearchNodeManager extends AbstractAppManager
         }
 
         return $nodes;
-    }
-
-    public function filterletters(): array
-    {
-        return [
-            'm' => 'master',
-            'd' => 'data',
-            'v' => 'voting_only',
-            'i' => 'ingest',
-        ];
     }
 
     public function getVersions(array $nodes): array

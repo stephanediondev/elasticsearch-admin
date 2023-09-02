@@ -64,8 +64,8 @@
 
                                         {% block title %}
                                             {% if 'nodes_by_role' == key %}
-                                                {% if is_granted('NODES_LIST', 'node') and letters[row.title] is defined %}
-                                                    <a class="text-secondary-emphasis" href="{{ path('nodes', {(letters[row.title]): 'yes'}) }}">{{ ('node_roles.' ~ row.title)|trans }}</a>
+                                                {% if is_granted('NODES_LIST', 'node') %}
+                                                    <a class="text-secondary-emphasis" href="{{ path('nodes', {'roles[]': row.title}) }}">{{ ('node_roles.' ~ row.title)|trans }}</a>
                                                 {% else %}
                                                     {{ ('node_roles.' ~ row.title)|trans }}
                                                 {% endif %}

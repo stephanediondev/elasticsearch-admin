@@ -71,15 +71,13 @@
                 {% for column, display in columns %}
                     {% if true == display %}
                         {% if 'name' == column %}
-                            <td>
+                            <td style="width:40%;">
                                 <a class="text-primary-emphasis" href="{{ path('nodes_read', {'node': row['name']}) }}">{{ row['name'] }}</a>
                                 {% if '*' == row['master'] %}{{ appImport.badge({'title': 'master'|trans, 'context': 'master_node'}) }}{% endif %}
 
                                 {% if row['node.role'] is defined %}
-                                    <br><small>{{ 'main_roles'|trans }}: {% for role in row['node.role']|split('') %}
-                                        {% if role in ['d', 'i', 'm', 'v'] %}
-                                            {{ appImport.badge({'title': ('node_roles.' ~ role)|trans, 'context': 'secondary'}) }}
-                                        {% endif %}
+                                    <br><small>{{ 'roles'|trans }}: {% for role in row['node.role']|split('') %}
+                                        {{ appImport.badge({'title': ('node_roles.' ~ role)|trans, 'context': 'secondary'}) }}
                                     {% endfor %}</small>
                                 {% endif %}
 

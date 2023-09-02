@@ -31,10 +31,7 @@ class ElasticsearchNodeController extends AbstractAppController
     private function filter(array $nodes, FormInterface $form): array
     {
         return $this->elasticsearchNodeManager->filter($nodes, [
-            'master' => $form->get('master')->getData(),
-            'data' => $form->get('data')->getData(),
-            'voting_only' => $form->has('voting_only') ? $form->get('voting_only')->getData() : false,
-            'ingest' => $form->get('ingest')->getData(),
+            'roles' => $form->get('roles')->getData(),
             'version' => $form->has('version') ? $form->get('version')->getData() : false,
         ]);
     }
@@ -192,7 +189,6 @@ class ElasticsearchNodeController extends AbstractAppController
 
         return $this->renderAbstract($request, 'Modules/node/node_stats.html.twig', [
             'data' => $data,
-            'letters' => $this->elasticsearchNodeManager->filterletters(),
             'form' => $form->createView(),
         ]);
     }

@@ -26,12 +26,7 @@ class ElasticsearchNodeFilterType extends AbstractType
 
         $fields = [];
 
-        $fields[] = 'master';
-        $fields[] = 'data';
-        if (true === $this->callManager->hasFeature('voting_only')) {
-            $fields[] = 'voting_only';
-        }
-        $fields[] = 'ingest';
+        $fields[] = 'roles';
         if (1 < count($options['version'])) {
             $fields[] = 'version';
         }
@@ -42,18 +37,16 @@ class ElasticsearchNodeFilterType extends AbstractType
 
         foreach ($fields as $field) {
             switch ($field) {
-                case 'master':
-                case 'data':
-                case 'voting_only':
-                case 'ingest':
+                case 'roles':
                     $builder->add($field, ChoiceType::class, [
                         'placeholder' => '-',
-                        'choices' => $options['question'],
+                        'choices' => $options['roles'],
                         'choice_label' => function ($choice, $key, $value) use ($options) {
-                            return $options['question'][$key];
+                            return 'node_roles.'.$options['roles'][$key];
                         },
-                        'label' => 'node_roles.'.$field,
+                        'label' => 'roles',
                         'required' => false,
+                        'multiple' => true,
                         'attr' => [
                             'data-break-after' => 'yes',
                         ],
@@ -93,7 +86,7 @@ class ElasticsearchNodeFilterType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
-            'question' => ['yes', 'no'],
+            'roles' => ['m', 'd', 'h', 'w', 'c', 's', 'f', 'i', 'v', 'l', 't', 'r'],
             'version' => [],
         ]);
     }
