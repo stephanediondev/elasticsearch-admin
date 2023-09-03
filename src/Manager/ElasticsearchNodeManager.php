@@ -64,7 +64,9 @@ class ElasticsearchNodeManager extends AbstractAppManager
                         $type = strtolower(substr($value, -2));
                         $value = intval(substr($value, 0, -2));
                         $key = array_search($type, $types);
-                        $diskWatermarks[$watermark] = $value * pow(1024, $key);
+                        if ($key) {
+                            $diskWatermarks[$watermark] = $value * pow(1024, $key);
+                        }
                     }
                 }
             }
