@@ -61,7 +61,7 @@ class ElasticsearchIndexTemplateLegacyController extends AbstractAppController
         $template = null;
 
         if ($request->query->get('template')) {
-            $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($request->query->get('template'));
+            $template = $this->elasticsearchIndexTemplateLegacyManager->getByName($request->query->getString('template'));
 
             if (null === $template) {
                 throw new NotFoundHttpException();

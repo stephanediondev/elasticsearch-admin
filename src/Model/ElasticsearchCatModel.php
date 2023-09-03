@@ -154,7 +154,9 @@ class ElasticsearchCatModel extends AbstractAppModel
         $command = $this->command;
 
         if (strstr($this->command, '{') && strstr($this->command, '/')) {
-            $command = substr($command, 0, strpos($command, '/'));
+            if ($position = strpos($command, '/')) {
+                $command = substr($command, 0, intval($position));
+            }
         }
 
         return $command;

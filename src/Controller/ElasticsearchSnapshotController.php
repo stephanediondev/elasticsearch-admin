@@ -148,7 +148,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
 
         $snapshot = new ElasticsearchSnapshotModel();
         if ($request->query->get('repository')) {
-            $snapshot->setRepository($request->query->get('repository'));
+            $snapshot->setRepository($request->query->getString('repository'));
         }
         if ($request->query->get('index')) {
             $snapshot->setIndices([$request->query->get('index')]);

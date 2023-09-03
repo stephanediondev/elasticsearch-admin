@@ -19,28 +19,24 @@ jobs:
 
             - name: Configure sysctl limits
               run: |
-                    sudo swapoff -a
-                    sudo sysctl -w vm.swappiness=1
-                    sudo sysctl -w fs.file-max=262144
-                    sudo sysctl -w vm.max_map_count=262144
+                sudo swapoff -a
+                sudo sysctl -w vm.swappiness=1
+                sudo sysctl -w fs.file-max=262144
+                sudo sysctl -w vm.max_map_count=262144
 
             - name: Runs Elasticsearch
               uses: elastic/elastic-github-actions/elasticsearch@master
               with:
-                    stack-version: ${{ matrix.stack-version }}
-                    port: 9200
-
-            - name: Sleep for 20 seconds
-              uses: jakejarvis/wait-action@master
-              with:
-                    time: '20s'
+                stack-version: ${{ matrix.stack-version }}
+                security-enabled: false
+                port: 9200
 
             - name: Setup PHP
               uses: nanasess/setup-php@master
               with:
-                    php-version: 8.2
+                php-version: 8.2
               env:
-                    ELASTICSEARCH_URL: 127.0.0.1:9200
+                ELASTICSEARCH_URL: 127.0.0.1:9200
 
             - name: Validate composer.json and composer.lock
               run: composer validate
@@ -51,7 +47,7 @@ jobs:
             - name: Use Node.js
               uses: actions/setup-node@v3
               with:
-                    node-version: 16
+                node-version: 18
 
             - run: npm install
             - run: npm run build

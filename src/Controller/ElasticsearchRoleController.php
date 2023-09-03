@@ -74,7 +74,7 @@ class ElasticsearchRoleController extends AbstractAppController
         $role = null;
 
         if ($request->query->get('role')) {
-            $role = $this->elasticsearchRoleManager->getByName($request->query->get('role'));
+            $role = $this->elasticsearchRoleManager->getByName($request->query->getString('role'));
 
             if (null === $role) {
                 throw new NotFoundHttpException();

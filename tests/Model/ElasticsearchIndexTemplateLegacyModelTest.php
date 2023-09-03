@@ -16,12 +16,18 @@ class ElasticsearchIndexTemplateLegacyModelTest extends TestCase
         $template->setVersion(1);
         $template->setOrder(2);
         $template->setSettings([]);
-        $template->setSettingsJson(json_encode([]));
+        if ($json = json_encode([])) {
+            $template->setSettingsJson($json);
+        }
         $template->setSetting('setting-key', 'setting-value');
         $template->setMappings(['mappings']);
-        $template->setMappingsJson(json_encode(['mappings']));
+        if ($json = json_encode(['mappings'])) {
+            $template->setMappingsJson($json);
+        }
         $template->setAliases(['aliases']);
-        $template->setAliasesJson(json_encode(['aliases']));
+        if ($json = json_encode(['aliases'])) {
+            $template->setAliasesJson($json);
+        }
 
         $this->assertEquals($template->getName(), 'name');
         $this->assertEquals(strval($template), 'name');

@@ -12,10 +12,14 @@ class ElasticsearchRoleModelTest extends TestCase
         $role = new ElasticsearchRoleModel();
         $role->setName('name');
         $role->setApplications(['applications']);
-        $role->setApplicationsJson(json_encode(['applications']));
+        if ($json = json_encode(['applications'])) {
+            $role->setApplicationsJson($json);
+        }
         $role->setCluster(['cluster']);
         $role->setIndices(['indices']);
-        $role->setIndicesJson(json_encode(['indices']));
+        if ($json = json_encode(['indices'])) {
+            $role->setIndicesJson($json);
+        }
         $role->setRunAs(['run-as']);
         $role->setMetadata(['metadata']);
 

@@ -112,8 +112,8 @@ class ElasticsearchCatController extends AbstractAppController
 
         set_time_limit(0);
 
-        $type = $request->query->get('type', 'csv');
-        $delimiter = $request->query->get('delimiter', ';');
+        $type = $request->query->getString('type', 'csv');
+        $delimiter = $request->query->getString('delimiter', ';');
 
         switch ($type) {
             case 'xlsx':
@@ -155,22 +155,24 @@ class ElasticsearchCatController extends AbstractAppController
                     $callRequest->setPath('/_cat/'.$catModel->getCommandReplace());
                     $callRequest->setQuery($query);
                     $callResponse = $this->callManager->call($callRequest);
-                    $parameters['rows'] = $callResponse->getContent();
-                    if (0 < count($parameters['rows'])) {
-                        $parameters['headers'] = array_keys($parameters['rows'][0]);
+                    $rows = $callResponse->getContent();
+                    if (0 < count($rows)) {
+                        $headers = array_keys($rows[0]);
                     }
 
                     $writer->openToFile('php://output');
 
                     $lines = [];
 
-                    $line = [];
-                    foreach ($parameters['headers'] as $header) {
-                        $line[] = $header;
+                    if (true === isset($headers)) {
+                        $line = [];
+                        foreach ($headers as $header) {
+                            $line[] = $header;
+                        }
+                        $lines[] = WriterEntityFactory::createRowFromArray($line);
                     }
-                    $lines[] = WriterEntityFactory::createRowFromArray($line);
 
-                    foreach ($parameters['rows'] as $row) {
+                    foreach ($rows as $row) {
                         $line = [];
                         foreach ($row as $column) {
                             $line[] = $column;

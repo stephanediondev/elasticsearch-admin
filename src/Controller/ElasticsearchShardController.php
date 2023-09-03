@@ -216,7 +216,7 @@ class ElasticsearchShardController extends AbstractAppController
         }
 
         if ($request->query->get('redirect')) {
-            return $this->redirect($request->query->get('redirect'));
+            return $this->redirect($request->query->getString('redirect'));
         } else {
             return $this->redirectToRoute('shards');
         }
@@ -253,7 +253,7 @@ class ElasticsearchShardController extends AbstractAppController
         }
 
         if ($request->query->get('redirect')) {
-            return $this->redirect($request->query->get('redirect'));
+            return $this->redirect($request->query->getString('redirect'));
         } else {
             return $this->redirectToRoute('shards');
         }
@@ -291,7 +291,7 @@ class ElasticsearchShardController extends AbstractAppController
         }
 
         if ($request->query->get('redirect')) {
-            return $this->redirect($request->query->get('redirect'));
+            return $this->redirect($request->query->getString('redirect'));
         } else {
             return $this->redirectToRoute('shards');
         }

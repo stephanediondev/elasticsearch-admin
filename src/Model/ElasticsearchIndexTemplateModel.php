@@ -182,7 +182,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
         if (true === isset($template['index_template']['_meta']) && 0 < count($template['index_template']['_meta'])) {
             $this->setMetadata($template['index_template']['_meta']);
-            $this->setMetadataJson(json_encode($template['index_template']['_meta'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($template['index_template']['_meta'], JSON_PRETTY_PRINT)) {
+                $this->setMetadataJson($json);
+            }
         }
 
         if (true === isset($template['index_template']['data_stream'])) {

@@ -78,37 +78,40 @@ class AppScreenshotsController extends AbstractAppController
             ['title' => 'Roles', 'filename' => 'elasticsearch-roles', 'path' => '/admin/elasticsearch-roles', 'feature' => 'security'],
         ];
 
+        $results = [];
+
         $fp = fopen($folder.'/README.md', 'w');
 
-        fwrite($fp, '## Screenshots '.$version.'.x');
-        fwrite($fp, "\r\n");
-        fwrite($fp, "\r\n");
+        if ($fp) {
+            fwrite($fp, '## Screenshots '.$version.'.x');
+            fwrite($fp, "\r\n");
+            fwrite($fp, "\r\n");
 
-        $results = [];
-        foreach ($entries as $entry) {
-            $disabled = false;
+            foreach ($entries as $entry) {
+                $disabled = false;
 
-            if ('repository-create-s3' == $entry['filename'] && false === $this->callManager->hasPlugin('repository-s3')) {
-                $disabled = true;
+                if ('repository-create-s3' == $entry['filename'] && false === $this->callManager->hasPlugin('repository-s3')) {
+                    $disabled = true;
+                }
+
+                if (true === isset($entry['feature']) && false === $this->callManager->hasFeature($entry['feature'])) {
+                    $disabled = true;
+                }
+
+                if (false === $disabled) {
+                    fwrite($fp, '[![elasticsearch-admin - '.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
+                    fwrite($fp, "\r\n");
+                    fwrite($fp, "\r\n");
+
+                    $results[] = [
+                        'pageres' => 'pageres '.$base.$entry['path'].' 1280x960 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
+                        'convert' => 'convert -resize 800x600 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
+                    ];
+                }
             }
 
-            if (true === isset($entry['feature']) && false === $this->callManager->hasFeature($entry['feature'])) {
-                $disabled = true;
-            }
-
-            if (false === $disabled) {
-                fwrite($fp, '[![elasticsearch-admin - '.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
-                fwrite($fp, "\r\n");
-                fwrite($fp, "\r\n");
-
-                $results[] = [
-                    'pageres' => 'pageres '.$base.$entry['path'].' 1280x960 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
-                    'convert' => 'convert -resize 800x600 screenshots/'.$version.'/original/original-'.$entry['filename'].'.png screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png',
-                ];
-            }
+            fclose($fp);
         }
-
-        fclose($fp);
 
         if ('prod' != $appEnv) {
             $this->addFlash('warning', 'Set APP_ENV to prod');

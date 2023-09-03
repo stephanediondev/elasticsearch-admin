@@ -92,9 +92,9 @@ class ElasticsearchNodeManager extends AbstractAppManager
                 if ('percent' == $unit && true === isset($node['disk.used_percent'])) {
                     if (true === isset($diskWatermarks['flood_stage']) && $diskWatermarks['flood_stage'] <= $node['disk.used_percent']) {
                         $nodes[$node['name']]['disk_threshold'] = 'watermark_flood_stage';
-                    } elseif ($diskWatermarks['high'] <= $node['disk.used_percent']) {
+                    } elseif (true === isset($diskWatermarks['high']) && $diskWatermarks['high'] <= $node['disk.used_percent']) {
                         $nodes[$node['name']]['disk_threshold'] = 'watermark_high';
-                    } elseif ($diskWatermarks['low'] <= $node['disk.used_percent']) {
+                    } elseif (true === isset($diskWatermarks['low']) && $diskWatermarks['low'] <= $node['disk.used_percent']) {
                         $nodes[$node['name']]['disk_threshold'] = 'watermark_low';
                     }
                 }
@@ -102,9 +102,9 @@ class ElasticsearchNodeManager extends AbstractAppManager
                 if ('size' == $unit && true === isset($node['disk.avail'])) {
                     if (true === isset($diskWatermarks['flood_stage']) && $diskWatermarks['flood_stage'] >= $node['disk.avail']) {
                         $nodes[$node['name']]['disk_threshold'] = 'watermark_flood_stage';
-                    } elseif ($diskWatermarks['high'] >= $node['disk.avail']) {
+                    } elseif (true === isset($diskWatermarks['high']) && $diskWatermarks['high'] >= $node['disk.avail']) {
                         $nodes[$node['name']]['disk_threshold'] = 'watermark_high';
-                    } elseif ($diskWatermarks['low'] >= $node['disk.avail']) {
+                    } elseif (true === isset($diskWatermarks['low']) && $diskWatermarks['low'] >= $node['disk.avail']) {
                         $nodes[$node['name']]['disk_threshold'] = 'watermark_low';
                     }
                 }

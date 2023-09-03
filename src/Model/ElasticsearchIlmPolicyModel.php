@@ -200,22 +200,30 @@ class ElasticsearchIlmPolicyModel extends AbstractAppModel
 
             if (true === isset($policy['policy']['phases']['hot'])) {
                 $this->setHot($policy['policy']['phases']['hot']);
-                $this->setHotJson(json_encode($policy['policy']['phases']['hot'], JSON_PRETTY_PRINT));
+                if ($json = json_encode($policy['policy']['phases']['hot'], JSON_PRETTY_PRINT)) {
+                    $this->setHotJson($json);
+                }
             }
 
             if (true === isset($policy['policy']['phases']['warm'])) {
                 $this->setWarm($policy['policy']['phases']['warm']);
-                $this->setWarmJson(json_encode($policy['policy']['phases']['warm'], JSON_PRETTY_PRINT));
+                if ($json = json_encode($policy['policy']['phases']['warm'], JSON_PRETTY_PRINT)) {
+                    $this->setWarmJson($json);
+                }
             }
 
             if (true === isset($policy['policy']['phases']['cold'])) {
                 $this->setCold($policy['policy']['phases']['cold']);
-                $this->setColdJson(json_encode($policy['policy']['phases']['cold'], JSON_PRETTY_PRINT));
+                if ($json = json_encode($policy['policy']['phases']['cold'], JSON_PRETTY_PRINT)) {
+                    $this->setColdJson($json);
+                }
             }
 
             if (true === isset($policy['policy']['phases']['delete'])) {
                 $this->setDelete($policy['policy']['phases']['delete']);
-                $this->setDeleteJson(json_encode($policy['policy']['phases']['delete'], JSON_PRETTY_PRINT));
+                if ($json = json_encode($policy['policy']['phases']['delete'], JSON_PRETTY_PRINT)) {
+                    $this->setDeleteJson($json);
+                }
             }
         }
 

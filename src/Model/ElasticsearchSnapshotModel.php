@@ -196,7 +196,9 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 
         if (true === isset($snapshot['metadata'])) {
             $this->setMetadata($snapshot['metadata']);
-            $this->setMetadataJson(json_encode($snapshot['metadata'], JSON_PRETTY_PRINT));
+            if ($json = json_encode($snapshot['metadata'], JSON_PRETTY_PRINT)) {
+                $this->setMetadataJson($json);
+            }
         }
 
         return $this;

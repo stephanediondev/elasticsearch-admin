@@ -61,7 +61,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         $pipeline = null;
 
         if ($request->query->get('pipeline')) {
-            $pipeline = $this->elasticsearchPipelineManager->getByName($request->query->get('pipeline'));
+            $pipeline = $this->elasticsearchPipelineManager->getByName($request->query->getString('pipeline'));
 
             if (null === $pipeline) {
                 throw new NotFoundHttpException();

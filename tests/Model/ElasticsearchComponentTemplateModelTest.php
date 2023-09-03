@@ -13,14 +13,22 @@ class ElasticsearchComponentTemplateModelTest extends TestCase
         $template->setName('name');
         $template->setVersion(1);
         $template->setSettings([]);
-        $template->setSettingsJson(json_encode([]));
+        if ($json = json_encode([])) {
+            $template->setSettingsJson($json);
+        }
         $template->setSetting('setting-key', 'setting-value');
         $template->setMappings(['mappings']);
-        $template->setMappingsJson(json_encode(['mappings']));
+        if ($json = json_encode(['mappings'])) {
+            $template->setMappingsJson($json);
+        }
         $template->setAliases(['aliases']);
-        $template->setAliasesJson(json_encode(['aliases']));
+        if ($json = json_encode(['aliases'])) {
+            $template->setAliasesJson($json);
+        }
         $template->setMetadata(['metadata']);
-        $template->setMetadataJson(json_encode(['metadata']));
+        if ($json = json_encode(['metadata'])) {
+            $template->setMetadataJson($json);
+        }
 
         $this->assertEquals($template->getName(), 'name');
         $this->assertEquals(strval($template), 'name');
