@@ -19,9 +19,12 @@ use App\Model\ElasticsearchIndexAliasModel;
 use App\Model\ElasticsearchIndexModel;
 use App\Model\ElasticsearchIndexSettingModel;
 use App\Model\ElasticsearchReindexModel;
-use Box\Spout\Common\Exception\UnsupportedTypeException;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Exception;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Writer\Ods;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -430,120 +433,117 @@ class ElasticsearchIndexController extends AbstractAppController
             try {
                 $file = $form->get('import_file')->getData();
 
-                $reader = ReaderEntityFactory::createReaderFromFile($file->getClientOriginalName());
-
-                $reader->open($file->getRealPath());
+                $spreadsheet = IOFactory::load($file->getRealPath());
+                $worksheet = $spreadsheet->getActiveSheet();
 
                 $body = '';
 
                 $excludedMeta = ['_index', '_score'];
 
-                foreach ($reader->getSheetIterator() as $sheet) {
-                    $u = 1;
-                    $headers = [];
-                    foreach ($sheet->getRowIterator() as $rowObject) {
-                        $row = $rowObject->toArray();
-                        if (1 == $u) {
-                            foreach ($row as $key => $value) {
-                                $headers[] = $value;
+                $u = 1;
+                $headers = [];
+                foreach ($worksheet->getRowIterator() as $row) {
+                    $cellIterator = $row->getCellIterator();
+                    $cellIterator->setIterateOnlyExistingCells(false);
+
+                    if (1 == $u) {
+                        foreach ($cellIterator as $cell) {
+                            $headers[] = $cell->getFormattedValue();
+                        }
+                    } else {
+                        $id = false;
+                        $type = false;
+                        $line = [];
+                        $key = 0;
+                        foreach ($cellIterator as $cell) {
+                            if (true === in_array($headers[$key], $excludedMeta)) {
+                                $key++;
+                                continue;
+                            }
+
+                            $value = $cell->getFormattedValue();
+
+                            if ('_id' == $headers[$key]) {
+                                $id = $value;
+                            } elseif ('_type' == $headers[$key]) {
+                                $type = $value;
+                            } else {
+                                if (true === array_key_exists($headers[$key], $index->getMappingsFlat())) {
+                                    if ('keyword' == $index->getMappingsFlat()[$headers[$key]]['type']) {
+                                        $parts = explode(PHP_EOL, $value);
+                                        if (1 < count($parts)) {
+                                            $value = $parts;
+                                        }
+                                    } elseif ('geo_point' == $index->getMappingsFlat()[$headers[$key]]['type']) {
+                                        if ('' == $value) {
+                                            $value = false;
+                                        } elseif (strstr($value, ',')) {
+                                            list($lat, $lon) = explode(',', $value);
+                                            $value = ['lat' => $lat, 'lon' => $lon];
+                                        }
+                                    } elseif (true === $this->isJson($value)) {
+                                        $value = json_decode($value, true);
+                                    }
+                                }
+
+                                if ($value) {
+                                    if (strstr($headers[$key], '.')) {
+                                        $keys = explode('.', $headers[$key]);
+                                        $keysTotal = count($keys);
+
+                                        if (false === isset($line[$keys[0]])) {
+                                            $line[$keys[0]] = [];
+                                        }
+
+                                        if (2 == $keysTotal) {
+                                            $line[$keys[0]][$keys[1]] = $value;
+                                        } else {
+                                            if (false === isset($line[$keys[0]][$keys[1]])) {
+                                                $line[$keys[0]][$keys[1]] = [];
+                                            }
+
+                                            if (3 == $keysTotal) {
+                                                $line[$keys[0]][$keys[1]][$keys[2]] = $value;
+                                            } else {
+                                                if (false === isset($line[$keys[0]][$keys[1]][$keys[2]])) {
+                                                    $line[$keys[0]][$keys[1]][$keys[2]] = [];
+                                                }
+
+                                                if (4 == $keysTotal) {
+                                                    $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $value;
+                                                } else {
+                                                    if (false === isset($line[$keys[0]][$keys[1]][$keys[2]][$keys[3]])) {
+                                                        $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = [];
+                                                    }
+
+                                                    if (5 == $keysTotal) {
+                                                        $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]] = $value;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        $line[$headers[$key]] = $value;
+                                    }
+                                }
+                            }
+                            $key++;
+                        }
+
+                        if ($id) {
+                            if ($type) {
+                                $body .= json_encode(['index' => ['_id' => $id, '_type' => $type]])."\r\n";
+                            } else {
+                                $body .= json_encode(['index' => ['_id' => $id]])."\r\n";
                             }
                         } else {
-                            $id = false;
-                            $type = false;
-                            $line = [];
-                            foreach ($row as $key => $value) {
-                                if (true === in_array($headers[$key], $excludedMeta)) {
-                                    continue;
-                                }
-
-                                if ('_id' == $headers[$key]) {
-                                    $id = $value;
-                                } elseif ('_type' == $headers[$key]) {
-                                    $type = $value;
-                                } else {
-                                    if ($value instanceof \Datetime) {
-                                        $value = $value->format('Y-m-d');
-                                    }
-
-                                    if (true === array_key_exists($headers[$key], $index->getMappingsFlat())) {
-                                        if ('keyword' == $index->getMappingsFlat()[$headers[$key]]['type']) {
-                                            $parts = explode(PHP_EOL, $value);
-                                            if (1 < count($parts)) {
-                                                $value = $parts;
-                                            }
-                                        } elseif ('geo_point' == $index->getMappingsFlat()[$headers[$key]]['type']) {
-                                            if ('' == $value) {
-                                                $value = false;
-                                            } elseif (strstr($value, ',')) {
-                                                list($lat, $lon) = explode(',', $value);
-                                                $value = ['lat' => $lat, 'lon' => $lon];
-                                            }
-                                        } elseif (true === $this->isJson($value)) {
-                                            $value = json_decode($value, true);
-                                        }
-                                    }
-
-                                    if ($value) {
-                                        if (strstr($headers[$key], '.')) {
-                                            $keys = explode('.', $headers[$key]);
-                                            $keysTotal = count($keys);
-
-                                            if (false === isset($line[$keys[0]])) {
-                                                $line[$keys[0]] = [];
-                                            }
-
-                                            if (2 == $keysTotal) {
-                                                $line[$keys[0]][$keys[1]] = $value;
-                                            } else {
-                                                if (false === isset($line[$keys[0]][$keys[1]])) {
-                                                    $line[$keys[0]][$keys[1]] = [];
-                                                }
-
-                                                if (3 == $keysTotal) {
-                                                    $line[$keys[0]][$keys[1]][$keys[2]] = $value;
-                                                } else {
-                                                    if (false === isset($line[$keys[0]][$keys[1]][$keys[2]])) {
-                                                        $line[$keys[0]][$keys[1]][$keys[2]] = [];
-                                                    }
-
-                                                    if (4 == $keysTotal) {
-                                                        $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = $value;
-                                                    } else {
-                                                        if (false === isset($line[$keys[0]][$keys[1]][$keys[2]][$keys[3]])) {
-                                                            $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]] = [];
-                                                        }
-
-                                                        if (5 == $keysTotal) {
-                                                            $line[$keys[0]][$keys[1]][$keys[2]][$keys[3]][$keys[4]] = $value;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            $line[$headers[$key]] = $value;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if ($id) {
-                                if ($type) {
-                                    $body .= json_encode(['index' => ['_id' => $id, '_type' => $type]])."\r\n";
-                                } else {
-                                    $body .= json_encode(['index' => ['_id' => $id]])."\r\n";
-                                }
-                            } else {
-                                $body .= json_encode(['index' => (object)[]])."\r\n";
-                            }
-
-                            $body .= json_encode($line)."\r\n";
+                            $body .= json_encode(['index' => (object)[]])."\r\n";
                         }
-                        $u++;
-                    }
-                    break;
-                }
 
-                $reader->close();
+                        $body .= json_encode($line)."\r\n";
+                    }
+                    $u++;
+                }
 
                 $callRequest = new CallRequestModel();
                 $callRequest->setMethod('POST');
@@ -580,22 +580,24 @@ class ElasticsearchIndexController extends AbstractAppController
         $delimiter = $request->query->getString('delimiter', ';');
         $filename = $index->getName().'-'.date('Y-m-d-His').'.'.$type;
 
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Calibri');
+        $spreadsheet->getDefaultStyle()->getFont()->setSize(12);
+        $activeSheet = $spreadsheet->getActiveSheet();
+
         switch ($type) {
             case 'xlsx':
-                $writer = WriterEntityFactory::createXLSXWriter();
+                $writer = new Xlsx($spreadsheet);
                 break;
             case 'ods':
-                $writer = WriterEntityFactory::createODSWriter();
+                $writer = new Ods($spreadsheet);
                 break;
             case 'csv':
-                $writer = WriterEntityFactory::createCSVWriter();
-                $writer->setFieldDelimiter($delimiter);
-                break;
-            case 'geojson':
-                $writer = 'geojson';
+                $writer = new Csv($spreadsheet);
+                $writer->setDelimiter($delimiter);
                 break;
             default:
-                throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
+                throw new Exception('No writers supporting the given type: ' . $type);
         }
 
         $size = 1000;
@@ -614,12 +616,12 @@ class ElasticsearchIndexController extends AbstractAppController
         $callResponse = $this->callManager->call($callRequest);
         $documents = $callResponse->getContent();
 
-        return new StreamedResponse(function () use ($writer, $index, $documents) {
+        return new StreamedResponse(function () use ($writer, $activeSheet, $index, $documents) {
             $outputStream = null;
 
             $json = [];
 
-            $lines = [];
+            $lines = 1;
 
             if ('geojson' == $writer) {
                 $outputStream = fopen('php://output', 'wb');
@@ -627,15 +629,14 @@ class ElasticsearchIndexController extends AbstractAppController
                 $json['type'] = 'FeatureCollection';
                 $json['features'] = [];
             } else {
-                $writer->openToFile('php://output');
-
                 $line = [];
                 $line[] = '_id';
                 $line[] = '_score';
                 foreach ($index->getMappingsFlat() as $field => $mapping) {
                     $line[] = $field;
                 }
-                $lines[] = WriterEntityFactory::createRowFromArray($line);
+                $activeSheet->fromArray($line, null, 'A'.$lines);
+                $lines++;
             }
 
             while (0 < count($documents['hits']['hits'])) {
@@ -713,7 +714,8 @@ class ElasticsearchIndexController extends AbstractAppController
                             }
                         }
                     } else {
-                        $lines[] = WriterEntityFactory::createRowFromArray($line);
+                        $activeSheet->fromArray($line, null, 'A'.$lines);
+                        $lines++;
                     }
                 }
 
@@ -732,8 +734,7 @@ class ElasticsearchIndexController extends AbstractAppController
                     }
                 }
             } else {
-                $writer->addRows($lines);
-                $writer->close();
+                $writer->save('php://output');
             }
         }, Response::HTTP_OK, [
             'Content-Disposition' => 'attachment; filename='.$filename,

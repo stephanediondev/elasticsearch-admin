@@ -12,8 +12,11 @@ use App\Manager\ElasticsearchNodeManager;
 use App\Manager\ElasticsearchRepositoryManager;
 use App\Model\CallRequestModel;
 use App\Model\ElasticsearchCatModel;
-use Box\Spout\Common\Exception\UnsupportedTypeException;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Exception;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Csv;
+use PhpOffice\PhpSpreadsheet\Writer\Ods;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -115,19 +118,24 @@ class ElasticsearchCatController extends AbstractAppController
         $type = $request->query->getString('type', 'csv');
         $delimiter = $request->query->getString('delimiter', ';');
 
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getDefaultStyle()->getFont()->setName('Calibri');
+        $spreadsheet->getDefaultStyle()->getFont()->setSize(12);
+        $activeSheet = $spreadsheet->getActiveSheet();
+
         switch ($type) {
             case 'xlsx':
-                $writer = WriterEntityFactory::createXLSXWriter();
+                $writer = new Xlsx($spreadsheet);
                 break;
             case 'ods':
-                $writer = WriterEntityFactory::createODSWriter();
+                $writer = new Ods($spreadsheet);
                 break;
             case 'csv':
-                $writer = WriterEntityFactory::createCSVWriter();
-                $writer->setFieldDelimiter($delimiter);
+                $writer = new Csv($spreadsheet);
+                $writer->setDelimiter($delimiter);
                 break;
             default:
-                throw new UnsupportedTypeException('No writers supporting the given type: ' . $type);
+                throw new Exception('No writers supporting the given type: ' . $type);
         }
 
         $repositories = $this->elasticsearchRepositoryManager->selectRepositories();
@@ -142,7 +150,7 @@ class ElasticsearchCatController extends AbstractAppController
         $filename = str_replace('/', '-', $catModel->getCommandReplace()).'-'.date('Y-m-d-His').'.'.$type;
 
         if ($form->isSubmitted()) {
-            return new StreamedResponse(function () use ($writer, $catModel) {
+            return new StreamedResponse(function () use ($writer, $activeSheet, $catModel) {
                 try {
                     $query = [];
                     if ($catModel->getHeaders()) {
@@ -160,16 +168,15 @@ class ElasticsearchCatController extends AbstractAppController
                         $headers = array_keys($rows[0]);
                     }
 
-                    $writer->openToFile('php://output');
-
-                    $lines = [];
+                    $lines = 1;
 
                     if (true === isset($headers)) {
                         $line = [];
                         foreach ($headers as $header) {
                             $line[] = $header;
                         }
-                        $lines[] = WriterEntityFactory::createRowFromArray($line);
+                        $activeSheet->fromArray($line, null, 'A'.$lines);
+                        $lines++;
                     }
 
                     foreach ($rows as $row) {
@@ -177,11 +184,11 @@ class ElasticsearchCatController extends AbstractAppController
                         foreach ($row as $column) {
                             $line[] = $column;
                         }
-                        $lines[] = WriterEntityFactory::createRowFromArray($line);
+                        $activeSheet->fromArray($line, null, 'A'.$lines);
+                        $lines++;
                     }
 
-                    $writer->addRows($lines);
-                    $writer->close();
+                    $writer->save('php://output');
                 } catch (CallException $e) {
                     $this->addFlash('danger', $e->getMessage());
                 }

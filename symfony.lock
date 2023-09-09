@@ -1,7 +1,4 @@
 {
-    "box/spout": {
-        "version": "v3.1.0"
-    },
     "brick/math": {
         "version": "0.9.1"
     },
