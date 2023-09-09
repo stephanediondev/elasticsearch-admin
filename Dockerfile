@@ -15,9 +15,9 @@ ENV SSL_VERIFY_HOST=$SSL_VERIFY_HOST
 ENV SECRET_REGISTER=$SECRET_REGISTER
 
 # Install packages and remove default server definition
-RUN apk --no-cache add php82 php82-fpm php82-opcache php82-json php82-openssl php82-curl php82-zlib \
-    php82-xml php82-simplexml php82-phar php82-intl php82-dom php82-xmlreader php82-ctype php82-session \
-    php82-tokenizer php82-pdo php82-pdo_mysql php82-pdo_pgsql php82-iconv php82-zip php82-gmp php82-mbstring \
+RUN apk --no-cache add php82 php82-fpm php82-opcache php82-json php82-openssl php82-curl php82-zlib php82-fileinfo \
+    php82-xml php82-simplexml php82-phar php82-intl php82-dom php82-xmlreader php82-ctype php82-session php82-gd \
+    php82-tokenizer php82-pdo php82-pdo_mysql php82-pdo_pgsql php82-iconv php82-zip php82-gmp php82-mbstring php82-xmlwriter \
     nginx supervisor nodejs npm curl
 
 # Create symlink so programs depending on `php` still function
