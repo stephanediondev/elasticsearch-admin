@@ -9,23 +9,25 @@ class AppUserManagerTest extends WebTestCase
 {
     public function testGetByIdNull(): void
     {
+        /**
+         * @var AppUserManager $appUserManager
+         */
         $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
-        if ($appUserManager instanceof AppUserManager) {
-            $user = $appUserManager->getById(uniqid());
+        $user = $appUserManager->getById(uniqid());
 
-            $this->assertNull($user);
-        }
+        $this->assertNull($user);
     }
 
     public function testGetByEmailNull(): void
     {
+        /**
+         * @var AppUserManager $appUserManager
+         */
         $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
-        if ($appUserManager instanceof AppUserManager) {
-            $user = $appUserManager->getByEmail(uniqid());
+        $user = $appUserManager->getByEmail(uniqid());
 
-            $this->assertNull($user);
-        }
+        $this->assertNull($user);
     }
 }

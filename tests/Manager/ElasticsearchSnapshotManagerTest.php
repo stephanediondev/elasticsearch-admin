@@ -9,12 +9,13 @@ class ElasticsearchSnapshotManagerTest extends WebTestCase
 {
     public function testGetByNameAndRepositoryNull(): void
     {
+        /**
+         * @var ElasticsearchSnapshotManager $elasticsearchSnapshotManager
+         */
         $elasticsearchSnapshotManager = static::getContainer()->get('App\Manager\ElasticsearchSnapshotManager');
 
-        if ($elasticsearchSnapshotManager instanceof ElasticsearchSnapshotManager) {
-            $snapshot = $elasticsearchSnapshotManager->getByNameAndRepository(uniqid(), uniqid());
+        $snapshot = $elasticsearchSnapshotManager->getByNameAndRepository(uniqid(), uniqid());
 
-            $this->assertNull($snapshot);
-        }
+        $this->assertNull($snapshot);
     }
 }

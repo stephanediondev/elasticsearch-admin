@@ -9,12 +9,13 @@ class ElasticsearchIndexTemplateManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchIndexTemplateManager $elasticsearchIndexTemplateManager
+         */
         $elasticsearchIndexTemplateManager = static::getContainer()->get('App\Manager\ElasticsearchIndexTemplateManager');
 
-        if ($elasticsearchIndexTemplateManager instanceof ElasticsearchIndexTemplateManager) {
-            $template = $elasticsearchIndexTemplateManager->getByName(uniqid());
+        $template = $elasticsearchIndexTemplateManager->getByName(uniqid());
 
-            $this->assertNull($template);
-        }
+        $this->assertNull($template);
     }
 }

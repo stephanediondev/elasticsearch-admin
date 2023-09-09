@@ -9,12 +9,13 @@ class ElasticsearchRepositoryManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchRepositoryManager $elasticsearchRepositoryManager
+         */
         $elasticsearchRepositoryManager = static::getContainer()->get('App\Manager\ElasticsearchRepositoryManager');
 
-        if ($elasticsearchRepositoryManager instanceof ElasticsearchRepositoryManager) {
-            $repository = $elasticsearchRepositoryManager->getByName(uniqid());
+        $repository = $elasticsearchRepositoryManager->getByName(uniqid());
 
-            $this->assertNull($repository);
-        }
+        $this->assertNull($repository);
     }
 }

@@ -9,12 +9,13 @@ class AppRoleManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var AppRoleManager $appRoleManager
+         */
         $appRoleManager = static::getContainer()->get('App\Manager\AppRoleManager');
 
-        if ($appRoleManager instanceof AppRoleManager) {
-            $role = $appRoleManager->getByName(uniqid());
+        $role = $appRoleManager->getByName(uniqid());
 
-            $this->assertNull($role);
-        }
+        $this->assertNull($role);
     }
 }

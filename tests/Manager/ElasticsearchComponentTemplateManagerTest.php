@@ -9,12 +9,13 @@ class ElasticsearchComponentTemplateManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchComponentTemplateManager $elasticsearchComponentTemplateManager
+         */
         $elasticsearchComponentTemplateManager = static::getContainer()->get('App\Manager\ElasticsearchComponentTemplateManager');
 
-        if ($elasticsearchComponentTemplateManager instanceof ElasticsearchComponentTemplateManager) {
-            $template = $elasticsearchComponentTemplateManager->getByName(uniqid());
+        $template = $elasticsearchComponentTemplateManager->getByName(uniqid());
 
-            $this->assertNull($template);
-        }
+        $this->assertNull($template);
     }
 }

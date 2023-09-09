@@ -9,12 +9,13 @@ class ElasticsearchRoleManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchRoleManager $elasticsearchRoleManager
+         */
         $elasticsearchRoleManager = static::getContainer()->get('App\Manager\ElasticsearchRoleManager');
 
-        if ($elasticsearchRoleManager instanceof ElasticsearchRoleManager) {
-            $role = $elasticsearchRoleManager->getByName(uniqid());
+        $role = $elasticsearchRoleManager->getByName(uniqid());
 
-            $this->assertNull($role);
-        }
+        $this->assertNull($role);
     }
 }

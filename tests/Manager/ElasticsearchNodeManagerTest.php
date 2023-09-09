@@ -9,12 +9,13 @@ class ElasticsearchNodeManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchNodeManager $elasticsearchNodeManager
+         */
         $elasticsearchNodeManager = static::getContainer()->get('App\Manager\ElasticsearchNodeManager');
 
-        if ($elasticsearchNodeManager instanceof ElasticsearchNodeManager) {
-            $node = $elasticsearchNodeManager->getByName(uniqid());
+        $node = $elasticsearchNodeManager->getByName(uniqid());
 
-            $this->assertNull($node);
-        }
+        $this->assertNull($node);
     }
 }

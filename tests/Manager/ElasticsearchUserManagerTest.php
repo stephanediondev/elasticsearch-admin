@@ -9,12 +9,13 @@ class ElasticsearchUserManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchUserManager $elasticsearchUserManager
+         */
         $elasticsearchUserManager = static::getContainer()->get('App\Manager\ElasticsearchUserManager');
 
-        if ($elasticsearchUserManager instanceof ElasticsearchUserManager) {
-            $user = $elasticsearchUserManager->getByName(uniqid());
+        $user = $elasticsearchUserManager->getByName(uniqid());
 
-            $this->assertNull($user);
-        }
+        $this->assertNull($user);
     }
 }

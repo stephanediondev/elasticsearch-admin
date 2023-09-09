@@ -9,12 +9,13 @@ class ElasticsearchPipelineManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchPipelineManager $elasticsearchPipelineManager
+         */
         $elasticsearchPipelineManager = static::getContainer()->get('App\Manager\ElasticsearchPipelineManager');
 
-        if ($elasticsearchPipelineManager instanceof ElasticsearchPipelineManager) {
-            $pipeline = $elasticsearchPipelineManager->getByName(uniqid());
+        $pipeline = $elasticsearchPipelineManager->getByName(uniqid());
 
-            $this->assertNull($pipeline);
-        }
+        $this->assertNull($pipeline);
     }
 }

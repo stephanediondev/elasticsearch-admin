@@ -9,12 +9,13 @@ class ElasticsearchEnrichPolicyManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchEnrichPolicyManager $elasticsearchEnrichPolicyManager
+         */
         $elasticsearchEnrichPolicyManager = static::getContainer()->get('App\Manager\ElasticsearchEnrichPolicyManager');
 
-        if ($elasticsearchEnrichPolicyManager instanceof ElasticsearchEnrichPolicyManager) {
-            $policy = $elasticsearchEnrichPolicyManager->getByName(uniqid());
+        $policy = $elasticsearchEnrichPolicyManager->getByName(uniqid());
 
-            $this->assertNull($policy);
-        }
+        $this->assertNull($policy);
     }
 }

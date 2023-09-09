@@ -9,12 +9,13 @@ class ElasticsearchSlmPolicyManagerTest extends WebTestCase
 {
     public function testGetByNameNull(): void
     {
+        /**
+         * @var ElasticsearchSlmPolicyManager $elasticsearchSlmPolicyManager
+         */
         $elasticsearchSlmPolicyManager = static::getContainer()->get('App\Manager\ElasticsearchSlmPolicyManager');
 
-        if ($elasticsearchSlmPolicyManager instanceof ElasticsearchSlmPolicyManager) {
-            $policy = $elasticsearchSlmPolicyManager->getByName(uniqid());
+        $policy = $elasticsearchSlmPolicyManager->getByName(uniqid());
 
-            $this->assertNull($policy);
-        }
+        $this->assertNull($policy);
     }
 }
