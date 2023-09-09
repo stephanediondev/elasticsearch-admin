@@ -108,31 +108,34 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
 
     public function isSystem(): ?bool
     {
-        return '.' == substr($this->getName(), 0, 1);
+        return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
     public function convert(?array $row): self
     {
-        $policy = [];
-        $policy['type'] = key($row['config']);
-        $policy['name'] = $row['config'][$policy['type']]['name'];
-        $policy['indices'] = $row['config'][$policy['type']]['indices'];
-        $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
-        $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
-        $policy['query'] = $row['config'][$policy['type']]['query'] ?? null;
+        if (true === isset($row['config'])) {
+            $policy = [];
+            $policy['type'] = key($row['config']);
+            $policy['name'] = $row['config'][$policy['type']]['name'];
+            $policy['indices'] = $row['config'][$policy['type']]['indices'];
+            $policy['match_field'] = $row['config'][$policy['type']]['match_field'];
+            $policy['enrich_fields'] = $row['config'][$policy['type']]['enrich_fields'];
+            $policy['query'] = $row['config'][$policy['type']]['query'] ?? null;
 
-        $this->setType($policy['type']);
-        $this->setName($policy['name']);
-        if (true === isset($policy['indices'])) {
-            $this->setIndices($policy['indices']);
+            $this->setType($policy['type']);
+            $this->setName($policy['name']);
+            if (true === isset($policy['indices'])) {
+                $this->setIndices($policy['indices']);
+            }
+            $this->setMatchField($policy['match_field']);
+            if (true === isset($policy['enrich_fields'])) {
+                $this->setEnrichFields($policy['enrich_fields']);
+            }
+            if (true === isset($policy['query'])) {
+                $this->setQuery($policy['query']);
+            }
         }
-        $this->setMatchField($policy['match_field']);
-        if (true === isset($policy['enrich_fields'])) {
-            $this->setEnrichFields($policy['enrich_fields']);
-        }
-        if (true === isset($policy['query'])) {
-            $this->setQuery($policy['query']);
-        }
+
         return $this;
     }
 
@@ -155,6 +158,6 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 }

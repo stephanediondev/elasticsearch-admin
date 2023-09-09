@@ -108,7 +108,7 @@ class ElasticsearchPipelineModel extends AbstractAppModel
 
     public function isSystem(): ?bool
     {
-        return '.' == substr($this->getName(), 0, 1);
+        return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
     public function convert(?array $pipeline): self
@@ -144,9 +144,11 @@ class ElasticsearchPipelineModel extends AbstractAppModel
 
     public function getJson(): array
     {
-        $json = [
-            'processors' => json_decode($this->getProcessorsJson(), true),
-        ];
+        $json = [];
+
+        if ($this->getProcessorsJson()) {
+            $json['processors'] = json_decode($this->getProcessorsJson(), true);
+        }
 
         if ($this->getVersion()) {
             $json['version'] = $this->getVersion();
@@ -165,6 +167,6 @@ class ElasticsearchPipelineModel extends AbstractAppModel
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 }

@@ -63,6 +63,6 @@ class ElasticsearchClusterSettingModel extends AbstractAppModel
 
     public function __toString(): string
     {
-        return $this->setting;
+        return $this->setting ?? '';
     }
 }

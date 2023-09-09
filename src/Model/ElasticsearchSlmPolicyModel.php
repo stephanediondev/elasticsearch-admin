@@ -282,7 +282,7 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     public function isSystem(): ?bool
     {
-        return '.' == substr($this->getName(), 0, 1);
+        return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
     public function convert(?array $policy): self
@@ -387,6 +387,6 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 }

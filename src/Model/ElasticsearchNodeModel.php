@@ -98,7 +98,11 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
     public function hasRole(string $role): bool
     {
-        return in_array($role, $this->getRoles());
+        if ($roles = $this->getRoles()) {
+            return in_array($role, $roles);
+        }
+
+        return false;
     }
 
     public function getSettings(): ?array
@@ -164,6 +168,6 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 }

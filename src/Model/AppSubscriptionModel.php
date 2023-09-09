@@ -262,7 +262,7 @@ class AppSubscriptionModel extends AbstractAppModel
 
     public function __toString(): string
     {
-        return $this->id;
+        return $this->id ?? '';
     }
 
     public static function getTypes(): array

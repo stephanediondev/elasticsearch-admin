@@ -85,8 +85,10 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
     {
         $indexPatterns = [];
 
-        foreach (explode(',', $this->indexPatterns) as $indexPattern) {
-            $indexPatterns[] = trim($indexPattern);
+        if ($this->getIndexPatterns()) {
+            foreach (explode(',', $this->getIndexPatterns()) as $indexPattern) {
+                $indexPatterns[] = trim($indexPattern);
+            }
         }
 
         return $indexPatterns;
@@ -94,7 +96,7 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
 
     public function isSystem(): ?bool
     {
-        return '.' == substr($this->getName(), 0, 1);
+        return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
     public function convert(?array $template): self
@@ -171,6 +173,6 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
 
     public function __toString(): string
     {
-        return $this->name;
+        return $this->name ?? '';
     }
 }
