@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\AppRoleManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AppRoleManagerTest extends WebTestCase
@@ -10,8 +11,10 @@ class AppRoleManagerTest extends WebTestCase
     {
         $appRoleManager = static::getContainer()->get('App\Manager\AppRoleManager');
 
-        $role = $appRoleManager->getByName(uniqid());
+        if ($appRoleManager instanceof AppRoleManager) {
+            $role = $appRoleManager->getByName(uniqid());
 
-        $this->assertNull($role);
+            $this->assertNull($role);
+        }
     }
 }

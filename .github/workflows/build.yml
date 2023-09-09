@@ -55,5 +55,5 @@ jobs:
             - run: sudo chown -R $USER:$USER /home/runner/work/elasticsearch-admin/elasticsearch-admin
             - run: bin/console app:phpunit
             - run: bin/phpunit
-            - run: vendor/bin/phpstan analyse -l 6 src
-            - run: vendor/bin/phpstan analyse -l 6 tests
+            - run: vendor/bin/phpstan analyse -l 7 src
+            - run: vendor/bin/phpstan analyse -l 7 tests

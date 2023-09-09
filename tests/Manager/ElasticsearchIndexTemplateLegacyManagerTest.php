@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\ElasticsearchIndexTemplateLegacyManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchIndexTemplateLegacyManagerTest extends WebTestCase
@@ -10,8 +11,10 @@ class ElasticsearchIndexTemplateLegacyManagerTest extends WebTestCase
     {
         $elasticsearchIndexTemplateLegacyManager = static::getContainer()->get('App\Manager\ElasticsearchIndexTemplateLegacyManager');
 
-        $template = $elasticsearchIndexTemplateLegacyManager->getByName(uniqid());
+        if ($elasticsearchIndexTemplateLegacyManager instanceof ElasticsearchIndexTemplateLegacyManager) {
+            $template = $elasticsearchIndexTemplateLegacyManager->getByName(uniqid());
 
-        $this->assertNull($template);
+            $this->assertNull($template);
+        }
     }
 }

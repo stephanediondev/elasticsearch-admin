@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\ElasticsearchSnapshotManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchSnapshotManagerTest extends WebTestCase
@@ -10,8 +11,10 @@ class ElasticsearchSnapshotManagerTest extends WebTestCase
     {
         $elasticsearchSnapshotManager = static::getContainer()->get('App\Manager\ElasticsearchSnapshotManager');
 
-        $snapshot = $elasticsearchSnapshotManager->getByNameAndRepository(uniqid(), uniqid());
+        if ($elasticsearchSnapshotManager instanceof ElasticsearchSnapshotManager) {
+            $snapshot = $elasticsearchSnapshotManager->getByNameAndRepository(uniqid(), uniqid());
 
-        $this->assertNull($snapshot);
+            $this->assertNull($snapshot);
+        }
     }
 }

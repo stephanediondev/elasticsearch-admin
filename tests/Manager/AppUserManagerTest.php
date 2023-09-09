@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\AppUserManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AppUserManagerTest extends WebTestCase
@@ -10,17 +11,21 @@ class AppUserManagerTest extends WebTestCase
     {
         $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
-        $user = $appUserManager->getById(uniqid());
+        if ($appUserManager instanceof AppUserManager) {
+            $user = $appUserManager->getById(uniqid());
 
-        $this->assertNull($user);
+            $this->assertNull($user);
+        }
     }
 
     public function testGetByEmailNull(): void
     {
         $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
 
-        $user = $appUserManager->getByEmail(uniqid());
+        if ($appUserManager instanceof AppUserManager) {
+            $user = $appUserManager->getByEmail(uniqid());
 
-        $this->assertNull($user);
+            $this->assertNull($user);
+        }
     }
 }

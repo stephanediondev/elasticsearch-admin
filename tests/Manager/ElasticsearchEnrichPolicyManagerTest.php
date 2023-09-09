@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\ElasticsearchEnrichPolicyManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchEnrichPolicyManagerTest extends WebTestCase
@@ -10,8 +11,10 @@ class ElasticsearchEnrichPolicyManagerTest extends WebTestCase
     {
         $elasticsearchEnrichPolicyManager = static::getContainer()->get('App\Manager\ElasticsearchEnrichPolicyManager');
 
-        $policy = $elasticsearchEnrichPolicyManager->getByName(uniqid());
+        if ($elasticsearchEnrichPolicyManager instanceof ElasticsearchEnrichPolicyManager) {
+            $policy = $elasticsearchEnrichPolicyManager->getByName(uniqid());
 
-        $this->assertNull($policy);
+            $this->assertNull($policy);
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\ElasticsearchNodeManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchNodeManagerTest extends WebTestCase
@@ -10,8 +11,10 @@ class ElasticsearchNodeManagerTest extends WebTestCase
     {
         $elasticsearchNodeManager = static::getContainer()->get('App\Manager\ElasticsearchNodeManager');
 
-        $node = $elasticsearchNodeManager->getByName(uniqid());
+        if ($elasticsearchNodeManager instanceof ElasticsearchNodeManager) {
+            $node = $elasticsearchNodeManager->getByName(uniqid());
 
-        $this->assertNull($node);
+            $this->assertNull($node);
+        }
     }
 }

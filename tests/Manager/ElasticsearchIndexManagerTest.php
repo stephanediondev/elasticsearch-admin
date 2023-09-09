@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\ElasticsearchIndexManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchIndexManagerTest extends WebTestCase
@@ -10,8 +11,10 @@ class ElasticsearchIndexManagerTest extends WebTestCase
     {
         $elasticsearchIndexManager = static::getContainer()->get('App\Manager\ElasticsearchIndexManager');
 
-        $index = $elasticsearchIndexManager->getByName(uniqid());
+        if ($elasticsearchIndexManager instanceof ElasticsearchIndexManager) {
+            $index = $elasticsearchIndexManager->getByName(uniqid());
 
-        $this->assertNull($index);
+            $this->assertNull($index);
+        }
     }
 }

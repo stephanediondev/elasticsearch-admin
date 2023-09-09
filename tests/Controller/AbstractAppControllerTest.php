@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Core\Traits\JwtTrait;
 use App\Manager\AppUserManager;
 use App\Manager\CallManager;
 use App\Manager\ElasticsearchClusterManager;
@@ -11,8 +10,6 @@ use App\Model\AppUserModel;
 use App\Model\CallRequestModel;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 abstract class AbstractAppControllerTest extends WebTestCase
 {
@@ -49,15 +46,25 @@ abstract class AbstractAppControllerTest extends WebTestCase
     {
         $this->client = static::createClient([], ['HTTPS' => true]);
 
-        $this->callManager = static::getContainer()->get('App\Manager\CallManager');
+        $callManager = static::getContainer()->get('App\Manager\CallManager');
+        if ($callManager instanceof CallManager) {
+            $this->callManager = $callManager;
+        }
 
-        $this->appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
+        $appUserManager = static::getContainer()->get('App\Manager\AppUserManager');
+        if ($appUserManager instanceof AppUserManager) {
+            $this->appUserManager = $appUserManager;
+        }
 
-        $this->elasticsearchClusterManager = static::getContainer()->get('App\Manager\ElasticsearchClusterManager');
+        $elasticsearchClusterManager = static::getContainer()->get('App\Manager\ElasticsearchClusterManager');
+        if ($elasticsearchClusterManager instanceof ElasticsearchClusterManager) {
+            $this->elasticsearchClusterManager = $elasticsearchClusterManager;
+        }
 
-        $this->elasticsearchNodeManager = static::getContainer()->get('App\Manager\ElasticsearchNodeManager');
-
-        $firewallName = 'main';
+        $elasticsearchNodeManager = static::getContainer()->get('App\Manager\ElasticsearchNodeManager');
+        if ($elasticsearchNodeManager instanceof ElasticsearchNodeManager) {
+            $this->elasticsearchNodeManager = $elasticsearchNodeManager;
+        }
 
         $query = [
             'q' => 'email:"example@example.com"',

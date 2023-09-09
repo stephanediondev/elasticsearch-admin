@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\ElasticsearchRepositoryManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchRepositoryManagerTest extends WebTestCase
@@ -10,8 +11,10 @@ class ElasticsearchRepositoryManagerTest extends WebTestCase
     {
         $elasticsearchRepositoryManager = static::getContainer()->get('App\Manager\ElasticsearchRepositoryManager');
 
-        $repository = $elasticsearchRepositoryManager->getByName(uniqid());
+        if ($elasticsearchRepositoryManager instanceof ElasticsearchRepositoryManager) {
+            $repository = $elasticsearchRepositoryManager->getByName(uniqid());
 
-        $this->assertNull($repository);
+            $this->assertNull($repository);
+        }
     }
 }

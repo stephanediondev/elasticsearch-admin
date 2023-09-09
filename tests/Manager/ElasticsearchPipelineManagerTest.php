@@ -2,6 +2,7 @@
 
 namespace App\Tests\Manager;
 
+use App\Manager\ElasticsearchPipelineManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ElasticsearchPipelineManagerTest extends WebTestCase
@@ -10,8 +11,10 @@ class ElasticsearchPipelineManagerTest extends WebTestCase
     {
         $elasticsearchPipelineManager = static::getContainer()->get('App\Manager\ElasticsearchPipelineManager');
 
-        $pipeline = $elasticsearchPipelineManager->getByName(uniqid());
+        if ($elasticsearchPipelineManager instanceof ElasticsearchPipelineManager) {
+            $pipeline = $elasticsearchPipelineManager->getByName(uniqid());
 
-        $this->assertNull($pipeline);
+            $this->assertNull($pipeline);
+        }
     }
 }
