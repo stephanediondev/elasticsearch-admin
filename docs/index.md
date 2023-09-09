@@ -18,7 +18,6 @@
             - [nginx](#nginx)
         - [Steps](#steps-1)
     - [Launch](#launch)
-- [Other tools](#other-tools)
 - [License](#license)
 - [Privacy](#privacy)
 - [Tests](#tests)
@@ -294,22 +293,6 @@ Once the installation is finished, you can access the application with one of th
 You will see a register page to create the first user (you need the secret registration key) [View](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/original-register.png)
 
 After registration you can login [View](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/original-login.png)
-
-# Other tools
-
-[(Back to table of contents)](#table-of-contents)
-
-| Name | Visit | Main language | Latest release* |
-| --- | --- | --- | --- |
-| Kaizen | [www.elastic-kaizen.com](https://www.elastic-kaizen.com/) | Java | 13 May 2022 |
-| Elasticvue | [cars10/elasticvue](https://github.com/cars10/elasticvue) | JavaScript | 2 May 2022 |
-| Dejavu | [appbaseio/dejavu](https://github.com/appbaseio/dejavu) | JavaScript | 14 Mar. 2022 |
-| cerebro | [lmenezes/cerebro](https://github.com/lmenezes/cerebro) | Scala | 10 Apr. 2021 |
-| Elasticsearch Comrade | [moshe/elasticsearch-comrade](https://github.com/moshe/elasticsearch-comrade) | Python | 30 May 2020 |
-| ElasticHQ | [ElasticHQ/elasticsearch-HQ](https://github.com/ElasticHQ/elasticsearch-HQ) | Python | 15 Nov. 2019 |
-| elasticsearch-head | [mobz/elasticsearch-head](https://github.com/mobz/elasticsearch-head) | JavaScript | 10 Apr. 2018 |
-
-Checked on 13 May 2022 *
 
 # License
 
