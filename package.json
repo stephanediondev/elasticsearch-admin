@@ -8,11 +8,11 @@
         "@babel/core": "^7.17.0",
         "@babel/preset-env": "^7.16.0",
         "@symfony/webpack-encore": "^4.0.0",
-        "ansi-regex": ">=5.0.1",
-        "core-js": "^3.21.1",
-        "nth-check": ">=2.0.1",
-        "sass": "^1.49.11",
+        "core-js": "^3.23.0",
+        "sass": "^1.59.2",
         "sass-loader": "^13.0.2",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^5.0.1",
         "webpack-notifier": "^1.15.0"
     },
     "scripts": {
@@ -22,11 +22,11 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@popperjs/core": "^2.11.2",
-        "bootstrap": "^5.3.1",
-        "bootstrap-icons": "^1.9.1",
+        "@popperjs/core": "^2.11.7",
+        "bootstrap": "^5.3.2",
+        "bootstrap-icons": "^1.10.3",
         "file-saver": "^2.0.5",
-        "jquery": "^3.6.0",
+        "jquery": "^3.6.4",
         "slug": "^8.0.0"
     }
 }
