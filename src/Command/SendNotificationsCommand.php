@@ -54,6 +54,8 @@ class SendNotificationsCommand extends Command
     {
         $notifications = $this->appNotificationManager->generate();
 
+        $output->writeln(date('Y-m-d H:i:s'));
+
         if (0 < count($notifications)) {
             $subscriptions = $this->appSubscriptionManager->getAll();
 

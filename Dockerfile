@@ -48,6 +48,15 @@ RUN chown -R nobody.nobody /var/www/html && \
   chown -R nobody.nobody /var/lib/nginx && \
   chown -R nobody.nobody /var/log/nginx
 
+# Add cron to send notifications
+COPY --chown=nobody docker/elasticsearch-admin-cron.sh /var/www/html/elasticsearch-admin-cron.sh
+RUN chmod +x /var/www/html/elasticsearch-admin-cron.sh
+
+RUN echo "*/5 * * * * /var/www/html/elasticsearch-admin-cron.sh >> /var/www/html/var/log/cron.log 2>&1" >> /var/spool/cron/crontabs/nobody
+RUN chown nobody.nobody /var/spool/cron/crontabs/nobody
+
+CMD ["crond", "-f"]
+
 # Switch to use a non-root user from here on
 USER nobody
 
