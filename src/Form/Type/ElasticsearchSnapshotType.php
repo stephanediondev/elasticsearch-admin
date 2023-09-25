@@ -121,7 +121,7 @@ class ElasticsearchSnapshotType extends AbstractType
             if ('create' == $options['context']) {
                 if ($form->has('repository') && $form->has('name')) {
                     if ($form->get('repository')->getData() && $form->get('name')->getData()) {
-                        $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($form->get('name')->getData(), $form->get('repository')->getData());
+                        $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($form->get('name')->getData(), strval($form->get('repository')->getData()));
 
                         if ($snapshot) {
                             $form->get('name')->addError(new FormError(

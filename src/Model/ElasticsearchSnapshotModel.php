@@ -163,7 +163,7 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         }
 
         if (true === isset($snapshot['repository'])) {
-            $this->setRepository($snapshot['repository']);
+            $this->setRepository(strval($snapshot['repository']));
         }
 
         if (true === isset($snapshot['version'])) {

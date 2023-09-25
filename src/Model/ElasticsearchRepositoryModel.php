@@ -177,7 +177,7 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
     public function convert(?array $repository): self
     {
         if (true === isset($repository['name'])) {
-            $this->setName($repository['name']);
+            $this->setName(strval($repository['name']));
         }
 
         if (true === isset($repository['type'])) {
