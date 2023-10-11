@@ -3,6 +3,8 @@
 
     {% set sortUrl = path('indices_read_search', {'index': index.name}|merge(app.request.query.all|filter((v, k) => k != 'sort'))) %}
 
+    {% set modalReference = 0 %}
+
     {% block thead %}
         <tr>
             <th>&nbsp;</th>
@@ -29,15 +31,15 @@
         {% for row in documents.rows %}
             <tr>
                 <td>
-                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ row['_id'] }}">
+                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ modalReference }}">
                         {{ 'source'|trans }}
                     </button>
 
-                    <div class="modal fade" id="modal{{ row['_id'] }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ row['_id'] }}" aria-hidden="true">
+                    <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content bg-dark">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLabel{{ row['_id'] }}">#{{ row['_id'] }} ({{ 'source'|trans }})</h5>
+                                    <h5 class="modal-title" id="modalLabel{{ modalReference }}">#{{ row['_id'] }} ({{ 'source'|trans }})</h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                 </div>
                                 <div class="modal-body">
@@ -49,6 +51,7 @@
                             </div>
                         </div>
                     </div>
+                    {% set modalReference = modalReference + 1 %}
                 </td>
                 <td>
                     {{ row['_id'] }}
@@ -75,15 +78,15 @@
                                             {% endfor %}
                                         </ul>
                                     {% else %}
-                                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ row['_id'] }}{{ field }}">
+                                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ modalReference }}">
                                             {{ 'array'|trans }}
                                         </button>
 
-                                        <div class="modal fade" id="modal{{ row['_id'] }}{{ field }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ row['_id'] }}{{ field }}" aria-hidden="true">
+                                        <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                                             <div class="modal-dialog modal-xl">
                                                 <div class="modal-content bg-dark">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
+                                                        <h5 class="modal-title" id="modalLabel{{ modalReference }}">#{{ row['_id'] }} ({{ field }})</h5>
                                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                                     </div>
                                                     <div class="modal-body">
@@ -95,19 +98,20 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% set modalReference = modalReference + 1 %}
                                     {% endif %}
                                 {% endif %}
                             {% else %}
                                 {% if 500 < value|length %}
-                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ row['_id'] }}{{ field }}">
+                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ modalReference }}">
                                         {{ 'long_text'|trans }}
                                     </button>
 
-                                    <div class="modal fade" id="modal{{ row['_id'] }}{{ field }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ row['_id'] }}{{ field }}" aria-hidden="true">
+                                    <div class="modal fade" id="modal{{ modalReference }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ modalReference }}" aria-hidden="true">
                                         <div class="modal-dialog modal-xl">
                                             <div class="modal-content bg-dark">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalLabel{{ row['_id'] }}{{ field }}">#{{ row['_id'] }} ({{ field }})</h5>
+                                                    <h5 class="modal-title" id="modalLabel{{ modalReference }}">#{{ row['_id'] }} ({{ field }})</h5>
                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ 'close'|trans }}"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -119,6 +123,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% set modalReference = modalReference + 1 %}
                                 {% else %}
                                     {{ value }}
                                 {% endif %}
