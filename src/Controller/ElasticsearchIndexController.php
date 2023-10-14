@@ -610,17 +610,17 @@ class ElasticsearchIndexController extends AbstractAppController
             $query['track_scores'] = 'true';
             $query['q'] = $request->query->getString('query');
         }
-        if (true === $this->callManager->hasFeature('search_option_fields') && $index->getMappingsFlat()) {
-            $body = [
-                'fields' => array_keys($index->getMappingsFlat()),
-            ];
-        }
         $callRequest = new CallRequestModel();
         $callRequest->setMethod('POST');
         $callRequest->setPath('/'.$index->getName().'/_search');
         $callRequest->setQuery($query);
-        if (true === isset($body)) {
-            $callRequest->setBody(json_encode($body));
+        if (true === $this->callManager->hasFeature('search_option_fields') && $index->getMappingsFlat()) {
+            $body = [
+                'fields' => array_keys($index->getMappingsFlat()),
+            ];
+            if ($json = json_encode($body)) {
+                $callRequest->setBody($json);
+            }
         }
         $callResponse = $this->callManager->call($callRequest);
         $documents = $callResponse->getContent();
@@ -1320,17 +1320,17 @@ class ElasticsearchIndexController extends AbstractAppController
                 'size' => $size,
                 'from' => ($size * $page) - $size,
             ];
-            if (true === $this->callManager->hasFeature('search_option_fields') && $index->getMappingsFlat()) {
-                $body = [
-                    'fields' => array_keys($index->getMappingsFlat()),
-                ];
-            }
             $callRequest = new CallRequestModel();
             $callRequest->setMethod('POST');
             $callRequest->setPath('/'.$index->getName().'/_search');
             $callRequest->setQuery($query);
-            if (true === isset($body)) {
-                $callRequest->setBody(json_encode($body));
+            if (true === $this->callManager->hasFeature('search_option_fields') && $index->getMappingsFlat()) {
+                $body = [
+                    'fields' => array_keys($index->getMappingsFlat()),
+                ];
+                if ($json = json_encode($body)) {
+                    $callRequest->setBody($json);
+                }
             }
             $callResponse = $this->callManager->call($callRequest);
             $documents = $callResponse->getContent();
