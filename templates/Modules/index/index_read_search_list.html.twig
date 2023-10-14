@@ -61,11 +61,18 @@
                 </td>
                 {% for field, mapping in index.mappingsFlat %}
                     <td>
-                        {% set value = retrieve_value(row['_source'], field) %}
+                        {% if true == hasFeature('search_option_fields') %}
+                            {% set value = row['fields'][field] ?? null %}
+                        {% else %}
+                            {% set value = retrieve_value(row['_source'], field) %}
+                        {% endif %}
                         {% if value %}
+                            {% if value is iterable and 1 == value|length %}
+                                {% set value = value|first %}
+                            {% endif %}
                             {% if value is iterable %}
-                                {% if 'geo_point' == mapping['type'] %}
-                                    <a class="btn btn-info btn-sm ml-1" rel="noreferrer" target="_blank" href="https://www.google.com/maps?q={{ value['lat'] }},{{ value['lon'] }}&z=15">{{ 'map'|trans }}</a>
+                                {% if 'geo_point' == mapping['type'] and value['lat'] is defined and value['lon'] is defined %}
+                                    <a class="btn btn-info btn-sm ml-1" rel="noreferrer" target="_blank" href="https://www.google.com/maps?q={{ value['lat'] }},{{ value['lon'] }}&amp;z=15">{{ 'map'|trans }}</a>
                                 {% else %}
                                     {% if 'keyword' == mapping['type'] %}
                                         <ul class="list-unstyled">

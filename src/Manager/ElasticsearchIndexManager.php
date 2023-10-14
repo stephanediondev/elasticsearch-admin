@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ElasticsearchIndexManager extends AbstractAppManager
 {
-    public function getByName(string $name): ?ElasticsearchIndexModel
+    public function getByName(string $name, bool $allMappings = true): ?ElasticsearchIndexModel
     {
         $callRequest = new CallRequestModel();
         $callRequest->setPath('/_cat/indices/'.$name);
@@ -40,10 +40,15 @@ class ElasticsearchIndexManager extends AbstractAppManager
                 }
             }
 
-            if (true === isset($index['mappings']) && true === isset($index['mappings']['properties'])) {
-                $index['mappings_flat'] = $this->mappingsFlat($index['mappings']['properties']);
-            } else {
-                $index['mappings_flat'] = [];
+            $index['mappings_flat'] = [];
+            if (true === isset($index['mappings'])) {
+                if (true === isset($index['mappings']['properties'])) {
+                    $index['mappings_flat'] = array_merge($index['mappings_flat'], $this->mappingsFlat($index['mappings']['properties']));
+                }
+
+                if (true === $allMappings && true === isset($index['mappings']['runtime'])) {
+                    $index['mappings_flat'] = array_merge($index['mappings_flat'], $this->mappingsFlat($index['mappings']['runtime']));
+                }
             }
 
             $indexModel = new ElasticsearchIndexModel();

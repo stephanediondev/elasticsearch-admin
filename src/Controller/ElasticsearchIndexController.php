@@ -412,7 +412,7 @@ class ElasticsearchIndexController extends AbstractAppController
     #[Route('/indices/{index}/file-import', name: 'indices_read_import')]
     public function readImport(Request $request, string $index): Response
     {
-        $index = $this->elasticsearchIndexManager->getByName($index);
+        $index = $this->elasticsearchIndexManager->getByName($index, false);
 
         if (null === $index) {
             throw new NotFoundHttpException();
@@ -610,13 +610,24 @@ class ElasticsearchIndexController extends AbstractAppController
             $query['track_scores'] = 'true';
             $query['q'] = $request->query->getString('query');
         }
+        if (true === $this->callManager->hasFeature('search_option_fields') && $index->getMappingsFlat()) {
+            $body = [
+                'fields' => array_keys($index->getMappingsFlat()),
+            ];
+        }
         $callRequest = new CallRequestModel();
+        $callRequest->setMethod('POST');
         $callRequest->setPath('/'.$index->getName().'/_search');
         $callRequest->setQuery($query);
+        if (true === isset($body)) {
+            $callRequest->setBody(json_encode($body));
+        }
         $callResponse = $this->callManager->call($callRequest);
         $documents = $callResponse->getContent();
 
-        return new StreamedResponse(function () use ($writer, $activeSheet, $index, $documents) {
+        $searchOptionFields = $this->callManager->hasFeature('search_option_fields');
+
+        return new StreamedResponse(function () use ($writer, $activeSheet, $index, $documents, $searchOptionFields) {
             $outputStream = null;
 
             $json = [];
@@ -648,17 +659,29 @@ class ElasticsearchIndexController extends AbstractAppController
                     $line['_id'] = $row['_id'];
                     $line['_score'] = $row['_score'];
                     foreach ($index->getMappingsFlat() as $field => $mapping) {
-                        if (true === isset($row['_source'][$field])) {
-                            $content = $row['_source'][$field];
-                        } else {
-                            $keys = explode('.', $field);
+                        $content = null;
 
-                            $arr = $row['_source'];
-                            foreach ($keys as $key) {
-                                $arr = &$arr[$key];
+                        if ($searchOptionFields) {
+                            if (true === isset($row['fields'][$field])) {
+                                $content = $row['fields'][$field];
                             }
+                        } else {
+                            if (true === isset($row['_source'][$field])) {
+                                $content = $row['_source'][$field];
+                            } else {
+                                $keys = explode('.', $field);
 
-                            $content = $arr;
+                                $arr = $row['_source'];
+                                foreach ($keys as $key) {
+                                    $arr = &$arr[$key];
+                                }
+
+                                $content = $arr;
+                            }
+                        }
+
+                        if (true === is_array($content) && 1 === count($content)) {
+                            $content = $content[0];
                         }
 
                         if ('geojson' == $writer) {
@@ -670,7 +693,7 @@ class ElasticsearchIndexController extends AbstractAppController
                                 $line[$field] = $content;
                             }
                         } else {
-                            if ('geo_point' == $mapping['type'] && true === is_array($content)) {
+                            if ('geo_point' == $mapping['type'] && true === is_array($content) && true === isset($content['lat']) && true === isset($content['lon'])) {
                                 $line[$field] = $content['lat'].','.$content['lon'];
                             } elseif ('keyword' == $mapping['type'] && true === is_array($content)) {
                                 $line[$field] = implode(PHP_EOL, $content);
@@ -1297,9 +1320,18 @@ class ElasticsearchIndexController extends AbstractAppController
                 'size' => $size,
                 'from' => ($size * $page) - $size,
             ];
+            if (true === $this->callManager->hasFeature('search_option_fields') && $index->getMappingsFlat()) {
+                $body = [
+                    'fields' => array_keys($index->getMappingsFlat()),
+                ];
+            }
             $callRequest = new CallRequestModel();
+            $callRequest->setMethod('POST');
             $callRequest->setPath('/'.$index->getName().'/_search');
             $callRequest->setQuery($query);
+            if (true === isset($body)) {
+                $callRequest->setBody(json_encode($body));
+            }
             $callResponse = $this->callManager->call($callRequest);
             $documents = $callResponse->getContent();
 

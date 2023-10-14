@@ -29,7 +29,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
     #[Route('/indices/{index}/database-import/connect', name: 'index_database_import_connect')]
     public function connect(Request $request, string $index): JsonResponse
     {
-        $index = $this->elasticsearchIndexManager->getByName($index);
+        $index = $this->elasticsearchIndexManager->getByName($index, false);
 
         if (null === $index) {
             throw new NotFoundHttpException();
@@ -72,7 +72,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
     #[Route('/indices/{index}/database-import/mappings', name: 'index_database_import_mappings')]
     public function mappings(Request $request, string $index): JsonResponse
     {
-        $index = $this->elasticsearchIndexManager->getByName($index);
+        $index = $this->elasticsearchIndexManager->getByName($index, false);
 
         if (null === $index) {
             throw new NotFoundHttpException();
@@ -171,7 +171,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
     #[Route('/indices/{index}/database-import', name: 'index_database_import')]
     public function index(Request $request, string $index): Response
     {
-        $index = $this->elasticsearchIndexManager->getByName($index);
+        $index = $this->elasticsearchIndexManager->getByName($index, false);
 
         if (null === $index) {
             throw new NotFoundHttpException();

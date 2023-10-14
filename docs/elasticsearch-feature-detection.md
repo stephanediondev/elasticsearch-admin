@@ -20,6 +20,7 @@
 ## 7.10.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.10/release-notes-7.10.0.html)
 
 - Clone Snapshot API #61839
+- Add search fields option to support high-level field retrieval #60100 (issues: #49028, #55363)
 
 ## 7.9.0 [Release notes](https://www.elastic.co/guide/en/elasticsearch/reference/7.9/release-notes-7.9.0.html)
 

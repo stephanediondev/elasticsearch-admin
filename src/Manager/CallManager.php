@@ -31,6 +31,7 @@ class CallManager
         '_xpack_endpoint_removed' => '8.0',
         'enrich_policy_type_range' => '7.16',
         'data_stream_expand_wildcards' => '7.11',
+        'search_option_fields' => '7.10',
         'clone_snapshot' => '7.10',
         'data_streams' => '7.9',
         'dangling_indices' => '7.9',
