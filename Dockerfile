@@ -21,7 +21,7 @@ RUN apk --no-cache add php82 php82-fpm php82-opcache php82-json php82-openssl ph
     nginx supervisor nodejs npm curl
 
 # Create symlink so programs depending on `php` still function
-RUN ln -s /usr/bin/php82 /usr/bin/php
+#RUN ln -s /usr/bin/php82 /usr/bin/php
 
 # Configure nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
