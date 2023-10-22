@@ -22,7 +22,7 @@ class AppUpgradeController extends AbstractAppController
         $this->appManager = $appManager;
     }
 
-    #[Route('/app-upgrade', name: 'app_upgrade')]
+    #[Route('/app-upgrade', name: 'app_upgrade', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_UPGRADE', 'global');
@@ -44,7 +44,7 @@ class AppUpgradeController extends AbstractAppController
         ]);
     }
 
-    #[Route('/app-upgrade/confirm', name: 'app_upgrade_confirm')]
+    #[Route('/app-upgrade/confirm', name: 'app_upgrade_confirm', methods: ['GET'])]
     public function confirm(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_UPGRADE', 'global');

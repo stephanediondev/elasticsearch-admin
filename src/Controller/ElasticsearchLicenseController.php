@@ -16,7 +16,7 @@ class ElasticsearchLicenseController extends AbstractAppController
 {
     private string $endpoint;
 
-    #[Route('/license', name: 'license')]
+    #[Route('/license', name: 'license', methods: ['GET'])]
     public function read(Request $request): Response
     {
         $this->denyAccessUnlessGranted('LICENSE', 'global');
@@ -59,7 +59,7 @@ class ElasticsearchLicenseController extends AbstractAppController
         ]);
     }
 
-    #[Route('/license/start/trial', name: 'license_start_trial')]
+    #[Route('/license/start/trial', name: 'license_start_trial', methods: ['GET'])]
     public function startTrial(Request $request): Response
     {
         $this->denyAccessUnlessGranted('LICENSE_START_TRIAL', 'global');
@@ -85,7 +85,7 @@ class ElasticsearchLicenseController extends AbstractAppController
         return $this->redirectToRoute('license');
     }
 
-    #[Route('/license/start/basic', name: 'license_start_basic')]
+    #[Route('/license/start/basic', name: 'license_start_basic', methods: ['GET'])]
     public function startBasic(Request $request): Response
     {
         $this->denyAccessUnlessGranted('LICENSE_START_BASIC', 'global');

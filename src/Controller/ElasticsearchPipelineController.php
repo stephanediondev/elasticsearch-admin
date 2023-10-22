@@ -25,7 +25,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         $this->elasticsearchPipelineManager = $elasticsearchPipelineManager;
     }
 
-    #[Route('/pipelines', name: 'pipelines')]
+    #[Route('/pipelines', name: 'pipelines', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('PIPELINES_LIST', 'pipeline');
@@ -49,7 +49,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         ]);
     }
 
-    #[Route('/pipelines/create', name: 'pipelines_create')]
+    #[Route('/pipelines/create', name: 'pipelines_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('PIPELINES_CREATE', 'pipeline');
@@ -96,7 +96,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         ]);
     }
 
-    #[Route('/pipelines/{name}', name: 'pipelines_read')]
+    #[Route('/pipelines/{name}', name: 'pipelines_read', methods: ['GET'])]
     public function read(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('PIPELINES_LIST', 'pipeline');
@@ -116,7 +116,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         ]);
     }
 
-    #[Route('/pipelines/{name}/update', name: 'pipelines_update')]
+    #[Route('/pipelines/{name}/update', name: 'pipelines_update', methods: ['GET', 'POST'])]
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('pipelines')) {
@@ -153,7 +153,7 @@ class ElasticsearchPipelineController extends AbstractAppController
         ]);
     }
 
-    #[Route('/pipelines/{name}/delete', name: 'pipelines_delete')]
+    #[Route('/pipelines/{name}/delete', name: 'pipelines_delete', methods: ['GET'])]
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('pipelines')) {

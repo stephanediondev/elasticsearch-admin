@@ -43,7 +43,7 @@ class ElasticsearchShardController extends AbstractAppController
         ]);
     }
 
-    #[Route('/shards', name: 'shards')]
+    #[Route('/shards', name: 'shards', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SHARDS', 'global');
@@ -86,7 +86,7 @@ class ElasticsearchShardController extends AbstractAppController
         ]);
     }
 
-    #[Route('/shards/stats', name: 'shards_stats')]
+    #[Route('/shards/stats', name: 'shards_stats', methods: ['GET'])]
     public function stats(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SHARDS_STATS', 'global');
@@ -184,7 +184,7 @@ class ElasticsearchShardController extends AbstractAppController
         return $b['total'] <=> $a['total'];
     }
 
-    #[Route('/shards/{index}/{number}/move', name: 'shards_move')]
+    #[Route('/shards/{index}/{number}/move', name: 'shards_move', methods: ['GET'])]
     public function move(Request $request, string $index, string $number): Response
     {
         $this->denyAccessUnlessGranted('SHARDS', 'global');
@@ -222,7 +222,7 @@ class ElasticsearchShardController extends AbstractAppController
         }
     }
 
-    #[Route('/shards/{index}/{number}/allocate-replica', name: 'shards_allocate_replica')]
+    #[Route('/shards/{index}/{number}/allocate-replica', name: 'shards_allocate_replica', methods: ['GET'])]
     public function allocateReplica(Request $request, string $index, string $number): Response
     {
         $this->denyAccessUnlessGranted('SHARDS', 'global');
@@ -259,7 +259,7 @@ class ElasticsearchShardController extends AbstractAppController
         }
     }
 
-    #[Route('/shards/{index}/{number}/cancel-allocation', name: 'shards_cancel_allocation')]
+    #[Route('/shards/{index}/{number}/cancel-allocation', name: 'shards_cancel_allocation', methods: ['GET'])]
     public function cancelAllocation(Request $request, string $index, string $number): Response
     {
         $this->denyAccessUnlessGranted('SHARDS', 'global');

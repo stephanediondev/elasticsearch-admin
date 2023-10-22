@@ -25,7 +25,7 @@ class AppUninstallController extends AbstractAppController
         $this->tokenStorage = $tokenStorage;
     }
 
-    #[Route('/app-uninstall', name: 'app_uninstall')]
+    #[Route('/app-uninstall', name: 'app_uninstall', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_UNINSTALL', 'global');
@@ -35,7 +35,7 @@ class AppUninstallController extends AbstractAppController
         ]);
     }
 
-    #[Route('/app-uninstall/confirm', name: 'app_uninstall_confirm')]
+    #[Route('/app-uninstall/confirm', name: 'app_uninstall_confirm', methods: ['GET'])]
     public function confirm(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_UNINSTALL', 'global');

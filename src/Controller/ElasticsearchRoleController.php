@@ -30,7 +30,7 @@ class ElasticsearchRoleController extends AbstractAppController
         $this->elasticsearchUserManager = $elasticsearchUserManager;
     }
 
-    #[Route('/elasticsearch-roles', name: 'elasticsearch_roles')]
+    #[Route('/elasticsearch-roles', name: 'elasticsearch_roles', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES', 'global');
@@ -62,7 +62,7 @@ class ElasticsearchRoleController extends AbstractAppController
         ]);
     }
 
-    #[Route('/elasticsearch-roles/create', name: 'elasticsearch_roles_create')]
+    #[Route('/elasticsearch-roles/create', name: 'elasticsearch_roles_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES_CREATE', 'global');
@@ -109,7 +109,7 @@ class ElasticsearchRoleController extends AbstractAppController
         ]);
     }
 
-    #[Route('/elasticsearch-roles/{role}', name: 'elasticsearch_roles_read')]
+    #[Route('/elasticsearch-roles/{role}', name: 'elasticsearch_roles_read', methods: ['GET'])]
     public function read(Request $request, string $role): Response
     {
         $this->denyAccessUnlessGranted('ELASTICSEARCH_ROLES', 'global');
@@ -129,7 +129,7 @@ class ElasticsearchRoleController extends AbstractAppController
         ]);
     }
 
-    #[Route('/elasticsearch-roles/{role}/update', name: 'elasticsearch_roles_update')]
+    #[Route('/elasticsearch-roles/{role}/update', name: 'elasticsearch_roles_update', methods: ['GET', 'POST'])]
     public function update(Request $request, string $role): Response
     {
         if (false === $this->callManager->hasFeature('security')) {
@@ -166,7 +166,7 @@ class ElasticsearchRoleController extends AbstractAppController
         ]);
     }
 
-    #[Route('/elasticsearch-roles/{role}/delete', name: 'elasticsearch_roles_delete')]
+    #[Route('/elasticsearch-roles/{role}/delete', name: 'elasticsearch_roles_delete', methods: ['GET'])]
     public function delete(Request $request, string $role): Response
     {
         if (false === $this->callManager->hasFeature('security')) {

@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[Route('/admin')]
 class ElasticsearchIndexGraveyardController extends AbstractAppController
 {
-    #[Route('/index-graveyard', name: 'index_graveyard')]
+    #[Route('/index-graveyard', name: 'index_graveyard', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('INDEX_GRAVEYARD', 'global');

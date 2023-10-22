@@ -26,7 +26,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
         $this->elasticsearchIndexManager = $elasticsearchIndexManager;
     }
 
-    #[Route('/indices/{index}/database-import/connect', name: 'index_database_import_connect')]
+    #[Route('/indices/{index}/database-import/connect', name: 'index_database_import_connect', methods: ['GET', 'POST'])]
     public function connect(Request $request, string $index): JsonResponse
     {
         $index = $this->elasticsearchIndexManager->getByName($index, false);
@@ -69,7 +69,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
         return new JsonResponse($json, JsonResponse::HTTP_OK);
     }
 
-    #[Route('/indices/{index}/database-import/mappings', name: 'index_database_import_mappings')]
+    #[Route('/indices/{index}/database-import/mappings', name: 'index_database_import_mappings', methods: ['GET', 'POST'])]
     public function mappings(Request $request, string $index): JsonResponse
     {
         $index = $this->elasticsearchIndexManager->getByName($index, false);
@@ -168,7 +168,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
         return new JsonResponse($json, JsonResponse::HTTP_OK);
     }
 
-    #[Route('/indices/{index}/database-import', name: 'index_database_import')]
+    #[Route('/indices/{index}/database-import', name: 'index_database_import', methods: ['GET', 'POST'])]
     public function index(Request $request, string $index): Response
     {
         $index = $this->elasticsearchIndexManager->getByName($index, false);

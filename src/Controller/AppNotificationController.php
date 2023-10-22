@@ -20,7 +20,7 @@ class AppNotificationController extends AbstractAppController
         $this->appNotificationManager = $appNotificationManager;
     }
 
-    #[Route('/app-notifications', name: 'app_notifications')]
+    #[Route('/app-notifications', name: 'app_notifications', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_NOTIFICATIONS', 'global');

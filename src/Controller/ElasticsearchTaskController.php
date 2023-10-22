@@ -23,7 +23,7 @@ class ElasticsearchTaskController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    #[Route('/tasks', name: 'tasks')]
+    #[Route('/tasks', name: 'tasks', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('TASKS', 'global');

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin')]
 class ElasticsearchConsoleController extends AbstractAppController
 {
-    #[Route('/console', name: 'console')]
+    #[Route('/console', name: 'console', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('CONSOLE', 'global');

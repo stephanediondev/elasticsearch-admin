@@ -28,7 +28,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    #[Route('/repositories', name: 'repositories')]
+    #[Route('/repositories', name: 'repositories', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('REPOSITORIES_LIST', 'repository');
@@ -51,7 +51,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         ]);
     }
 
-    #[Route('/repositories/create/{type}', name: 'repositories_create')]
+    #[Route('/repositories/create/{type}', name: 'repositories_create', methods: ['GET', 'POST'])]
     public function create(Request $request, string $type): Response
     {
         $this->denyAccessUnlessGranted('REPOSITORIES_CREATE', 'repository');
@@ -96,7 +96,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         ]);
     }
 
-    #[Route('/repositories/{repository}', name: 'repositories_read')]
+    #[Route('/repositories/{repository}', name: 'repositories_read', methods: ['GET'])]
     public function read(Request $request, string $repository): Response
     {
         $this->denyAccessUnlessGranted('REPOSITORIES_LIST', 'repository');
@@ -115,7 +115,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         ]);
     }
 
-    #[Route('/repositories/{repository}/update', name: 'repositories_update')]
+    #[Route('/repositories/{repository}/update', name: 'repositories_update', methods: ['GET', 'POST'])]
     public function update(Request $request, string $repository): Response
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
@@ -148,7 +148,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         ]);
     }
 
-    #[Route('/repositories/{repository}/delete', name: 'repositories_delete')]
+    #[Route('/repositories/{repository}/delete', name: 'repositories_delete', methods: ['GET'])]
     public function delete(Request $request, string $repository): Response
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
@@ -166,7 +166,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         return $this->redirectToRoute('repositories');
     }
 
-    #[Route('/repositories/{repository}/cleanup', name: 'repositories_cleanup')]
+    #[Route('/repositories/{repository}/cleanup', name: 'repositories_cleanup', methods: ['GET'])]
     public function cleanup(Request $request, string $repository): Response
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);
@@ -188,7 +188,7 @@ class ElasticsearchRepositoryController extends AbstractAppController
         return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
     }
 
-    #[Route('/repositories/{repository}/verify', name: 'repositories_verify')]
+    #[Route('/repositories/{repository}/verify', name: 'repositories_verify', methods: ['GET'])]
     public function verify(Request $request, string $repository): Response
     {
         $repository = $this->elasticsearchRepositoryManager->getByName($repository);

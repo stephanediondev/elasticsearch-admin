@@ -33,7 +33,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    #[Route('/enrich', name: 'enrich')]
+    #[Route('/enrich', name: 'enrich', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_LIST', 'enrich_policy');
@@ -57,7 +57,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         ]);
     }
 
-    #[Route('/enrich/stats', name: 'enrich_stats')]
+    #[Route('/enrich/stats', name: 'enrich_stats', methods: ['GET'])]
     public function stats(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_STATS', 'enrich_policy');
@@ -76,7 +76,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         ]);
     }
 
-    #[Route('/enrich/create', name: 'enrich_create')]
+    #[Route('/enrich/create', name: 'enrich_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_CREATE', 'enrich_policy');
@@ -125,7 +125,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         ]);
     }
 
-    #[Route('/enrich/{name}', name: 'enrich_read')]
+    #[Route('/enrich/{name}', name: 'enrich_read', methods: ['GET'])]
     public function read(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('ENRICH_POLICIES_LIST', 'enrich_policy');
@@ -145,7 +145,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         ]);
     }
 
-    #[Route('/enrich/{name}/delete', name: 'enrich_delete')]
+    #[Route('/enrich/{name}/delete', name: 'enrich_delete', methods: ['GET'])]
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('enrich')) {
@@ -167,7 +167,7 @@ class ElasticsearchEnrichController extends AbstractAppController
         return $this->redirectToRoute('enrich');
     }
 
-    #[Route('/enrich/{name}/execute', name: 'enrich_execute')]
+    #[Route('/enrich/{name}/execute', name: 'enrich_execute', methods: ['GET'])]
     public function execute(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('enrich')) {

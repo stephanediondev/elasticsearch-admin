@@ -23,7 +23,7 @@ class ElasticsearchRemoteClusterController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    #[Route('/remote-clusters', name: 'remote_clusters')]
+    #[Route('/remote-clusters', name: 'remote_clusters', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('REMOTE_CLUSTERS', 'global');

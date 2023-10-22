@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[Route('/admin')]
 class ElasticsearchDeprecationController extends AbstractAppController
 {
-    #[Route('/deprecations', name: 'deprecations')]
+    #[Route('/deprecations', name: 'deprecations', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('DEPRECATIONS', 'global');

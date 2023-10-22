@@ -32,7 +32,7 @@ class AppUserController extends AbstractAppController
         $this->passwordHasher = $passwordHasher;
     }
 
-    #[Route('/app-users', name: 'app_users')]
+    #[Route('/app-users', name: 'app_users', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_USERS', 'global');
@@ -52,7 +52,7 @@ class AppUserController extends AbstractAppController
         ]);
     }
 
-    #[Route('/app-users/create', name: 'app_users_create')]
+    #[Route('/app-users/create', name: 'app_users_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('APP_USERS_CREATE', 'global');
@@ -84,7 +84,7 @@ class AppUserController extends AbstractAppController
         ]);
     }
 
-    #[Route('/app-users/{user}', name: 'app_users_read')]
+    #[Route('/app-users/{user}', name: 'app_users_read', methods: ['GET'])]
     public function read(Request $request, string $user): Response
     {
         $this->denyAccessUnlessGranted('APP_USERS', 'global');
@@ -126,7 +126,7 @@ class AppUserController extends AbstractAppController
         ]);
     }
 
-    #[Route('/app-users/{user}/update', name: 'app_users_update')]
+    #[Route('/app-users/{user}/update', name: 'app_users_update', methods: ['GET', 'POST'])]
     public function update(Request $request, string $user): Response
     {
         $user = $this->appUserManager->getById($user);
@@ -170,7 +170,7 @@ class AppUserController extends AbstractAppController
         ]);
     }
 
-    #[Route('/app-users/{user}/delete', name: 'app_users_delete')]
+    #[Route('/app-users/{user}/delete', name: 'app_users_delete', methods: ['GET'])]
     public function delete(Request $request, string $user): Response
     {
         $user = $this->appUserManager->getById($user);
@@ -188,7 +188,7 @@ class AppUserController extends AbstractAppController
         return $this->redirectToRoute('app_users');
     }
 
-    #[Route('/profile', name: 'app_users_profile')]
+    #[Route('/profile', name: 'app_users_profile', methods: ['GET', 'POST'])]
     public function profile(Request $request): Response
     {
         $user = $this->appUserManager->getByEmail($this->getuser()->getUserIdentifier());

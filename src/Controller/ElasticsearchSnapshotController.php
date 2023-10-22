@@ -43,7 +43,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
-    #[Route('/snapshots', name: 'snapshots')]
+    #[Route('/snapshots', name: 'snapshots', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SNAPSHOTS_LIST', 'snapshot');
@@ -74,7 +74,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         ]);
     }
 
-    #[Route('/snapshots/stats', name: 'snapshots_stats')]
+    #[Route('/snapshots/stats', name: 'snapshots_stats', methods: ['GET'])]
     public function stats(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SNAPSHOTS_STATS', 'snapshot');
@@ -138,7 +138,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         return $b['total'] <=> $a['total'];
     }
 
-    #[Route('/snapshots/create', name: 'snapshots_create')]
+    #[Route('/snapshots/create', name: 'snapshots_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SNAPSHOTS_CREATE', 'snapshot');
@@ -178,7 +178,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         ]);
     }
 
-    #[Route('/snapshots/{repository}/{snapshot}', name: 'snapshots_read')]
+    #[Route('/snapshots/{repository}/{snapshot}', name: 'snapshots_read', methods: ['GET'])]
     public function read(Request $request, string $repository, string $snapshot): Response
     {
         $this->denyAccessUnlessGranted('SNAPSHOTS_LIST', 'snapshot');
@@ -194,7 +194,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         ]);
     }
 
-    #[Route('/snapshots/{repository}/{snapshot}/failures', name: 'snapshots_read_failures')]
+    #[Route('/snapshots/{repository}/{snapshot}/failures', name: 'snapshots_read_failures', methods: ['GET'])]
     public function readFailures(Request $request, string $repository, string $snapshot): Response
     {
         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
@@ -214,7 +214,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         ]);
     }
 
-    #[Route('/snapshots/{repository}/{snapshot}/delete', name: 'snapshots_delete')]
+    #[Route('/snapshots/{repository}/{snapshot}/delete', name: 'snapshots_delete', methods: ['GET'])]
     public function delete(Request $request, string $repository, string $snapshot): Response
     {
         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
@@ -232,7 +232,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         return $this->redirectToRoute('snapshots');
     }
 
-    #[Route('/snapshots/{repository}/{snapshot}/restore', name: 'snapshots_read_restore')]
+    #[Route('/snapshots/{repository}/{snapshot}/restore', name: 'snapshots_read_restore', methods: ['GET', 'POST'])]
     public function restore(Request $request, string $repository, string $snapshot): Response
     {
         $snapshot = $this->elasticsearchSnapshotManager->getByNameAndRepository($snapshot, $repository);
@@ -273,7 +273,7 @@ class ElasticsearchSnapshotController extends AbstractAppController
         ]);
     }
 
-    #[Route('/snapshots/{repository}/{snapshot}/clone', name: 'snapshots_read_clone')]
+    #[Route('/snapshots/{repository}/{snapshot}/clone', name: 'snapshots_read_clone', methods: ['GET', 'POST'])]
     public function clone(Request $request, string $repository, string $snapshot): Response
     {
         if (false === $this->callManager->hasFeature('clone_snapshot')) {

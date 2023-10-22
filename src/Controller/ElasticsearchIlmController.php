@@ -31,7 +31,7 @@ class ElasticsearchIlmController extends AbstractAppController
         $this->elasticsearchIndexTemplateLegacyManager = $elasticsearchIndexTemplateLegacyManager;
     }
 
-    #[Route('/ilm', name: 'ilm')]
+    #[Route('/ilm', name: 'ilm', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_LIST', 'ilm_policy');
@@ -55,7 +55,7 @@ class ElasticsearchIlmController extends AbstractAppController
         ]);
     }
 
-    #[Route('/ilm/status', name: 'ilm_status')]
+    #[Route('/ilm/status', name: 'ilm_status', methods: ['GET'])]
     public function status(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'ilm_policy');
@@ -71,7 +71,7 @@ class ElasticsearchIlmController extends AbstractAppController
         ]);
     }
 
-    #[Route('/ilm/start', name: 'ilm_start')]
+    #[Route('/ilm/start', name: 'ilm_start', methods: ['GET'])]
     public function start(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'ilm_policy');
@@ -87,7 +87,7 @@ class ElasticsearchIlmController extends AbstractAppController
         return $this->redirectToRoute('ilm_status');
     }
 
-    #[Route('/ilm/stop', name: 'ilm_stop')]
+    #[Route('/ilm/stop', name: 'ilm_stop', methods: ['GET'])]
     public function stop(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_STATUS', 'ilm_policy');
@@ -103,7 +103,7 @@ class ElasticsearchIlmController extends AbstractAppController
         return $this->redirectToRoute('ilm_status');
     }
 
-    #[Route('/ilm/create', name: 'ilm_create')]
+    #[Route('/ilm/create', name: 'ilm_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_CREATE', 'ilm_policy');
@@ -150,7 +150,7 @@ class ElasticsearchIlmController extends AbstractAppController
         ]);
     }
 
-    #[Route('/ilm/{name}', name: 'ilm_read')]
+    #[Route('/ilm/{name}', name: 'ilm_read', methods: ['GET'])]
     public function read(Request $request, string $name): Response
     {
         $this->denyAccessUnlessGranted('ILM_POLICIES_LIST', 'ilm_policy');
@@ -170,7 +170,7 @@ class ElasticsearchIlmController extends AbstractAppController
         ]);
     }
 
-    #[Route('/ilm/{name}/update', name: 'ilm_update')]
+    #[Route('/ilm/{name}/update', name: 'ilm_update', methods: ['GET', 'POST'])]
     public function update(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
@@ -207,7 +207,7 @@ class ElasticsearchIlmController extends AbstractAppController
         ]);
     }
 
-    #[Route('/ilm/{name}/apply', name: 'ilm_apply')]
+    #[Route('/ilm/{name}/apply', name: 'ilm_apply', methods: ['GET', 'POST'])]
     public function apply(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {
@@ -265,7 +265,7 @@ class ElasticsearchIlmController extends AbstractAppController
         ]);
     }
 
-    #[Route('/ilm/{name}/delete', name: 'ilm_delete')]
+    #[Route('/ilm/{name}/delete', name: 'ilm_delete', methods: ['GET'])]
     public function delete(Request $request, string $name): Response
     {
         if (false === $this->callManager->hasFeature('ilm')) {

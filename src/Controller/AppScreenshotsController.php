@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin')]
 class AppScreenshotsController extends AbstractAppController
 {
-    #[Route('/screenshots', name: 'screenshots')]
+    #[Route('/screenshots', name: 'screenshots', methods: ['GET'])]
     public function index(Request $request, string $appEnv): Response
     {
         $cookie = $request->getSession()->getId();

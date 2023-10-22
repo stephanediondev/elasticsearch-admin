@@ -36,7 +36,7 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
-    #[Route('/nodes', name: 'nodes')]
+    #[Route('/nodes', name: 'nodes', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('NODES_LIST', 'node');
@@ -76,7 +76,7 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
-    #[Route('/nodes/stats', name: 'nodes_stats')]
+    #[Route('/nodes/stats', name: 'nodes_stats', methods: ['GET'])]
     public function stats(Request $request): Response
     {
         $this->denyAccessUnlessGranted('NODES_STATS', 'node');
@@ -198,7 +198,7 @@ class ElasticsearchNodeController extends AbstractAppController
         return $b['total'] <=> $a['total'];
     }
 
-    #[Route('/nodes/reload-secure-settings', name: 'nodes_reload_secure_settings')]
+    #[Route('/nodes/reload-secure-settings', name: 'nodes_reload_secure_settings', methods: ['GET', 'POST'])]
     public function readReloadSecureSettings(Request $request): Response
     {
         if (false === $this->callManager->hasFeature('reload_secure_settings')) {
@@ -233,7 +233,7 @@ class ElasticsearchNodeController extends AbstractAppController
         return $this->renderAbstract($request, 'Modules/node/node_reload_secure_settings.html.twig', $parameters);
     }
 
-    #[Route('/nodes/{node}', name: 'nodes_read')]
+    #[Route('/nodes/{node}', name: 'nodes_read', methods: ['GET'])]
     public function read(Request $request, string $node): Response
     {
         $this->denyAccessUnlessGranted('NODES_LIST', 'node');
@@ -249,7 +249,7 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
-    #[Route('/nodes/{node}/settings', name: 'nodes_read_settings')]
+    #[Route('/nodes/{node}/settings', name: 'nodes_read_settings', methods: ['GET'])]
     public function readSettings(Request $request, string $node): Response
     {
         $node = $this->elasticsearchNodeManager->getByName($node);
@@ -265,7 +265,7 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
-    #[Route('/nodes/{node}/plugins', name: 'nodes_read_plugins')]
+    #[Route('/nodes/{node}/plugins', name: 'nodes_read_plugins', methods: ['GET'])]
     public function readPlugins(Request $request, string $node): Response
     {
         $node = $this->elasticsearchNodeManager->getByName($node);
@@ -281,7 +281,7 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
-    #[Route('/nodes/{node}/usage', name: 'nodes_read_usage')]
+    #[Route('/nodes/{node}/usage', name: 'nodes_read_usage', methods: ['GET'])]
     public function readUsage(Request $request, string $node): Response
     {
         if (false === $this->callManager->hasFeature('node_usage')) {
