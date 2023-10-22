@@ -84,8 +84,8 @@ class AppScreenshotsController extends AbstractAppController
 
         if ($fp) {
             fwrite($fp, '## Screenshots '.$version.'.x');
-            fwrite($fp, "\r\n");
-            fwrite($fp, "\r\n");
+            fwrite($fp, "\n");
+            fwrite($fp, "\n");
 
             foreach ($entries as $entry) {
                 $disabled = false;
@@ -100,8 +100,8 @@ class AppScreenshotsController extends AbstractAppController
 
                 if (false === $disabled) {
                     fwrite($fp, '[![elasticsearch-admin - '.$entry['title'].'](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/resized/resized-'.$entry['filename'].'.png)](https://raw.githubusercontent.com/stephanediondev/elasticsearch-admin/main/screenshots/'.$version.'/original/original-'.$entry['filename'].'.png)');
-                    fwrite($fp, "\r\n");
-                    fwrite($fp, "\r\n");
+                    fwrite($fp, "\n");
+                    fwrite($fp, "\n");
 
                     $results[] = [
                         'pageres' => 'pageres '.$base.$entry['path'].' 1280x960 --crop --filename=screenshots/'.$version.'/original/original-'.$entry['filename'].' --overwrite --cookie=\'PHPSESSID='.$cookie.'\'',
