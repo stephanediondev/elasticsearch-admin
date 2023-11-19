@@ -21,6 +21,9 @@ class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
 
     private ?string $secretRegister = null;
 
+    /**
+     * @var array<mixed>|null $roles
+     */
     private ?array $roles = null;
 
     private ?\DateTimeInterface $createdAt = null;
@@ -86,6 +89,9 @@ class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
         return array_values(array_unique($roles));
     }
 
+    /**
+     * @param array<mixed> $roles
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -182,6 +188,9 @@ class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
         return false;
     }
 
+    /**
+     * @param array<mixed>|null $user
+     */
     public function convert(?array $user): self
     {
         if (true === isset($user['id'])) {
@@ -207,6 +216,9 @@ class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

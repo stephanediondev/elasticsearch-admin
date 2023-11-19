@@ -54,6 +54,10 @@ class ElasticsearchRoleManager extends AbstractAppManager
         return $roleModel;
     }
 
+    /**
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function getAll(array $filter = []): array
     {
         $callRequest = new CallRequestModel();
@@ -75,6 +79,11 @@ class ElasticsearchRoleManager extends AbstractAppManager
         return $this->filter($roles, $filter);
     }
 
+    /**
+     * @param array<mixed> $roles
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function filter(array $roles, array $filter = []): array
     {
         $rolesWithFilter = [];
@@ -128,6 +137,9 @@ class ElasticsearchRoleManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function selectRoles(): array
     {
         $roles = [];
@@ -147,6 +159,9 @@ class ElasticsearchRoleManager extends AbstractAppManager
         return $roles;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getPrivileges(): array
     {
         if (true === $this->callManager->hasFeature('builtin_privileges')) {

@@ -10,6 +10,9 @@ class CallResponseModel extends AbstractAppModel
 {
     private ?int $code = null;
 
+    /**
+     * @var array<mixed>|null $content
+     */
     private ?array $content = null;
 
     private ?string $contentRaw = null;
@@ -26,11 +29,17 @@ class CallResponseModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getContent(): ?array
     {
         return $this->content;
     }
 
+    /**
+     * @param array<mixed>|null $content
+     */
     public function setContent(?array $content): self
     {
         $this->content = $content;

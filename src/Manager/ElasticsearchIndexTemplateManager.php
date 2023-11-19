@@ -36,6 +36,10 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
         return $templateModel;
     }
 
+    /**
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function getAll(array $filter = []): array
     {
         $templates = [];
@@ -64,6 +68,11 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
         return $this->filter($templates, $filter);
     }
 
+    /**
+     * @param array<mixed> $templates
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function filter(array $templates, array $filter = []): array
     {
         $templatesWithFilter = [];
@@ -126,6 +135,10 @@ class ElasticsearchIndexTemplateManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @param array<mixed> $a
+     * @param array<mixed> $b
+     */
     private function sortByName(array $a, array $b): int
     {
         return $a['name'] <=> $b['name'];

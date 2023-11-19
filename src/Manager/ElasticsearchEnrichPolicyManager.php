@@ -31,6 +31,9 @@ class ElasticsearchEnrichPolicyManager extends AbstractAppManager
         return $policyModel;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
@@ -77,6 +80,9 @@ class ElasticsearchEnrichPolicyManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getStats(): ?array
     {
         $callRequest = new CallRequestModel();

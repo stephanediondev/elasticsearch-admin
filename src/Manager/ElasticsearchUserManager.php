@@ -54,6 +54,10 @@ class ElasticsearchUserManager extends AbstractAppManager
         return $userModel;
     }
 
+    /**
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function getAll(array $filter = []): array
     {
         $callRequest = new CallRequestModel();
@@ -73,6 +77,11 @@ class ElasticsearchUserManager extends AbstractAppManager
         return $this->filter($users, $filter);
     }
 
+    /**
+     * @param array<mixed> $users
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function filter(array $users, array $filter = []): array
     {
         $usersWithFilter = [];
@@ -142,6 +151,9 @@ class ElasticsearchUserManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function selectUsers(): array
     {
         $users = [];

@@ -35,6 +35,9 @@ class ElasticsearchIndexModel extends AbstractAppModel
 
     private ?string $creationDate = null;
 
+    /**
+     * @var array<mixed>|null $mappingsFlat
+     */
     private ?array $mappingsFlat = null;
 
     public function getId(): ?string
@@ -181,11 +184,17 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getMappingsFlat(): ?array
     {
         return $this->mappingsFlat;
     }
 
+    /**
+     * @param array<mixed>|null $mappingsFlat
+     */
     public function setMappingsFlat(?array $mappingsFlat): self
     {
         $this->mappingsFlat = $mappingsFlat;
@@ -216,6 +225,9 @@ class ElasticsearchIndexModel extends AbstractAppModel
         return false;
     }
 
+    /**
+     * @return array<string>|null
+     */
     public function getExcludeSettings(): ?array
     {
         return [
@@ -233,6 +245,9 @@ class ElasticsearchIndexModel extends AbstractAppModel
         ];
     }
 
+    /**
+     * @param array<mixed>|null $index
+     */
     public function convert(?array $index): self
     {
         if (true === isset($index['uuid'])) {

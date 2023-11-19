@@ -197,6 +197,9 @@ class AppIndexDatabaseImportController extends AbstractAppController
         ]);
     }
 
+    /**
+     * @param array<mixed> $fields
+     */
     private function getConnection(array $fields): PDO
     {
         $dbh = new PDO($fields['driver'].':host='.$fields['host'].';dbname='.$fields['dbname'], $fields['user'], $fields['password']);

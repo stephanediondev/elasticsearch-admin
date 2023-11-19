@@ -43,6 +43,11 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         return $snapshotModel;
     }
 
+    /**
+     * @param array<mixed> $repositories
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function getAll(array $repositories, array $filter = []): array
     {
         $snapshots = [];
@@ -93,6 +98,11 @@ class ElasticsearchSnapshotManager extends AbstractAppManager
         return $b->getStartTime() <=> $a->getStartTime();
     }
 
+    /**
+     * @param array<mixed> $snapshots
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function filter(array $snapshots, array $filter = []): array
     {
         $snapshotsWithFilter = [];

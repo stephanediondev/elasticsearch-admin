@@ -49,6 +49,9 @@ abstract class AbstractAppController extends AbstractController
         $this->translator = $translator;
     }
 
+    /**
+     * @param array<mixed> $parameters
+     */
     public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
     {
         if (false === isset($parameters['firewall'])) {
@@ -137,6 +140,10 @@ abstract class AbstractAppController extends AbstractController
         return $this->render($view, $parameters, $response);
     }
 
+    /**
+     * @param array<mixed> $entries
+     * @return array<mixed>
+     */
     private function populateMenu(array $entries): array
     {
         $menu = [];
@@ -156,6 +163,10 @@ abstract class AbstractAppController extends AbstractController
         return $menu;
     }
 
+    /**
+     * @param array<mixed> $a
+     * @param array<mixed> $b
+     */
     private function sortByName(array $a, array $b): int
     {
         return $a['name'] <=> $b['name'];

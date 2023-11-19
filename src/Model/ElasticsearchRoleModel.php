@@ -13,16 +13,28 @@ class ElasticsearchRoleModel extends AbstractAppModel
 
     private ?string $name = null;
 
+    /**
+     * @var array<mixed>|null $applications
+     */
     private ?array $applications = null;
 
     private ?string $applicationsJson = null;
 
+    /**
+     * @var array<mixed>|null $cluster
+     */
     private ?array $cluster = null;
 
+    /**
+     * @var array<mixed>|null $indices
+     */
     private ?array $indices = null;
 
     private ?string $indicesJson = null;
 
+    /**
+     * @var array<mixed>|null $runAs
+     */
     private ?array $runAs = null;
 
     public function getName(): ?string
@@ -37,11 +49,17 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getApplications(): ?array
     {
         return $this->applications;
     }
 
+    /**
+     * @param array<mixed>|null $applications
+     */
     public function setApplications(?array $applications): self
     {
         $this->applications = $applications;
@@ -61,11 +79,17 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getCluster(): ?array
     {
         return $this->cluster;
     }
 
+    /**
+     * @param array<mixed> $cluster
+     */
     public function setCluster(array $cluster): self
     {
         $this->cluster = $cluster;
@@ -73,11 +97,17 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getIndices(): ?array
     {
         return $this->indices;
     }
 
+    /**
+     * @param array<mixed>|null $indices
+     */
     public function setIndices(?array $indices): self
     {
         $this->indices = $indices;
@@ -97,11 +127,17 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getRunAs(): ?array
     {
         return $this->runAs;
     }
 
+    /**
+     * @param array<mixed>|null $runAs
+     */
     public function setRunAs(?array $runAs): self
     {
         $this->runAs = $runAs;
@@ -109,6 +145,9 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @param array<mixed>|null $role
+     */
     public function convert(?array $role): self
     {
         if (true === isset($role['name'])) {
@@ -147,6 +186,9 @@ class ElasticsearchRoleModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

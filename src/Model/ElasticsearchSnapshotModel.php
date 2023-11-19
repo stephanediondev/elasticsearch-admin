@@ -17,6 +17,9 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 
     private ?string $version = null;
 
+    /**
+     * @var array<mixed>|null $failures
+     */
     private ?array $failures = null;
 
     private ?string $state = null;
@@ -27,6 +30,9 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
 
     private ?string $duration = null;
 
+    /**
+     * @var array<mixed>|null $metadata
+     */
     private ?array $metadata = null;
 
     private ?string $metadataJson = null;
@@ -72,11 +78,17 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getFailures(): ?array
     {
         return $this->failures;
     }
 
+    /**
+     * @param array<mixed>|null $failures
+     */
     public function setFailures(?array $failures): self
     {
         $this->failures = $failures;
@@ -132,11 +144,17 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getMetadata(): ?array
     {
         return $this->metadata;
     }
 
+    /**
+     * @param array<mixed>|null $metadata
+     */
     public function setMetadata(?array $metadata): self
     {
         $this->metadata = $metadata;
@@ -156,6 +174,9 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @param array<mixed>|null $snapshot
+     */
     public function convert(?array $snapshot): self
     {
         if (true === isset($snapshot['snapshot'])) {
@@ -204,6 +225,9 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

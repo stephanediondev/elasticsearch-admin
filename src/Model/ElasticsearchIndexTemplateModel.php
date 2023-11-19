@@ -19,8 +19,14 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
 
     private ?int $priority = null;
 
+    /**
+     * @var array<mixed>|null $composedOf
+     */
     private ?array $composedOf = null;
 
+    /**
+     * @var array<mixed>|null $metadata
+     */
     private ?array $metadata = null;
 
     private ?string $metadataJson = null;
@@ -75,11 +81,17 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getComposedOf(): ?array
     {
         return $this->composedOf;
     }
 
+    /**
+     * @param array<mixed>|null $composedOf
+     */
     public function setComposedOf(?array $composedOf): self
     {
         $this->composedOf = $composedOf;
@@ -87,11 +99,17 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getMetadata(): ?array
     {
         return $this->metadata;
     }
 
+    /**
+     * @param array<mixed>|null $metadata
+     */
     public function setMetadata(?array $metadata): self
     {
         $this->metadata = $metadata;
@@ -123,6 +141,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getIndexToArray(): array
     {
         $indexPatterns = [];
@@ -144,6 +165,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
+    /**
+     * @param array<mixed>|null $template
+     */
     public function convert(?array $template): self
     {
         if (true === isset($template['name'])) {
@@ -196,6 +220,9 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

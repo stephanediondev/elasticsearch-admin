@@ -6,6 +6,9 @@ namespace App\Traits;
 
 trait ElasticsearchSnapshotModelTrait
 {
+    /**
+     * @var array<mixed>|null $indices
+     */
     private ?array $indices = null;
 
     private ?bool $ignoreUnavailable = null;
@@ -14,11 +17,17 @@ trait ElasticsearchSnapshotModelTrait
 
     private ?bool $includeGlobalState = null;
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getIndices(): ?array
     {
         return $this->indices;
     }
 
+    /**
+     * @param array<mixed>|null $indices
+     */
     public function setIndices(?array $indices): self
     {
         $this->indices = $indices;

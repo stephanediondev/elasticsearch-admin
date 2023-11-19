@@ -58,6 +58,11 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $indexModel;
     }
 
+    /**
+     * @param array<mixed> $query
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function getAll(array $query, array $filter = []): array
     {
         $indices = [];
@@ -106,6 +111,11 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $this->filter($indices, $filter);
     }
 
+    /**
+     * @param array<mixed> $indices
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function filter(array $indices, array $filter = []): array
     {
         $indicesWithFilter = [];
@@ -229,6 +239,10 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @param array<mixed> $properties
+     * @return array<mixed>
+     */
     private function mappingsFlat(array $properties, string $prefix = ''): array
     {
         $mappingsFlat = [];
@@ -248,6 +262,9 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $mappingsFlat;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function selectIndices(): array
     {
         $indices = [];
@@ -274,6 +291,9 @@ class ElasticsearchIndexManager extends AbstractAppManager
         return $indices;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function selectAliases(): array
     {
         $aliases = [];

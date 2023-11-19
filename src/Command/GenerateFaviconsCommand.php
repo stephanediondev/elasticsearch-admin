@@ -12,6 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'app:generate-favicons')]
 class GenerateFaviconsCommand extends Command
 {
+    /**
+     * @var array<string> $colors
+     */
     private array $colors = [
         'red' => 'dc3545',
         'orange' => 'fd7e14',

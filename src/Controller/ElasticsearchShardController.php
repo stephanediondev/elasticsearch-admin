@@ -33,6 +33,10 @@ class ElasticsearchShardController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
+    /**
+     * @param array<mixed> $shards
+     * @return array<mixed>
+     */
     private function filter(array $shards, FormInterface $form): array
     {
         return $this->elasticsearchShardManager->filter($shards, [
@@ -179,6 +183,10 @@ class ElasticsearchShardController extends AbstractAppController
         ]);
     }
 
+    /**
+     * @param array<mixed> $a
+     * @param array<mixed> $b
+     */
     private function sortByTotal(array $a, array $b): int
     {
         return $b['total'] <=> $a['total'];
@@ -297,6 +305,10 @@ class ElasticsearchShardController extends AbstractAppController
         }
     }
 
+    /**
+     * @param array<mixed> $json
+     * @return array<mixed>
+     */
     private function clusterReroute(array $json): array
     {
         $callRequest = new CallRequestModel();

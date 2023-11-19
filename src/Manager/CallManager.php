@@ -14,16 +14,34 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CallManager
 {
+    /**
+     * @var array<mixed>|null $catMaster
+     */
     public ?array $catMaster = null;
 
+    /**
+     * @var array<mixed>|null $root
+     */
     public ?array $root = null;
 
+    /**
+     * @var array<mixed>|null $xpack
+     */
     public ?array $xpack = null;
 
+    /**
+     * @var array<mixed>|null $plugins
+     */
     public ?array $plugins = null;
 
+    /**
+     * @var array<mixed>|null $license
+     */
     public ?array $license = null;
 
+    /**
+     * @var array<string> $featuresByVersion
+     */
     private array $featuresByVersion = [
         'cat_component_templates' => '8.2',
         'repository_plugins_to_modules' => '8.0',
@@ -189,6 +207,9 @@ class CallManager
         }
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getCatMaster(): array
     {
         if (null === $this->catMaster) {
@@ -215,6 +236,9 @@ class CallManager
         return $this->catMaster[0]['node'] ?? null;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getRoot(): array
     {
         if (null === $this->root) {
@@ -232,6 +256,9 @@ class CallManager
         $this->root = $callResponse->getContent();
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getXpack(): array
     {
         if (null === $this->xpack) {
@@ -257,6 +284,9 @@ class CallManager
         }
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getPlugins(): array
     {
         if (null === $this->plugins) {
@@ -279,6 +309,9 @@ class CallManager
         }
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getFeaturesByVersion(): array
     {
         return $this->featuresByVersion;
@@ -327,6 +360,9 @@ class CallManager
         return false;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getLicense(): array
     {
         if (null === $this->license) {

@@ -9,6 +9,9 @@ use App\Model\CallRequestModel;
 
 class ElasticsearchClusterManager extends AbstractAppManager
 {
+    /**
+     * @return array<mixed>
+     */
     public function getClusterHealth(): array
     {
         $callRequest = new CallRequestModel();
@@ -17,6 +20,9 @@ class ElasticsearchClusterManager extends AbstractAppManager
         return $callResponse->getContent();
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getClusterStats(): array
     {
         $callRequest = new CallRequestModel();
@@ -25,6 +31,9 @@ class ElasticsearchClusterManager extends AbstractAppManager
         return $callResponse->getContent();
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getClusterSettings(): array
     {
         $callRequest = new CallRequestModel();
@@ -45,6 +54,9 @@ class ElasticsearchClusterManager extends AbstractAppManager
         return $clusterSettings;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getClusterSettingsNotDynamic(): array
     {
         return [

@@ -55,6 +55,9 @@ class AppRoleModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @param array<mixed>|null $role
+     */
     public function convert(?array $role): self
     {
         if (true === isset($role['id'])) {

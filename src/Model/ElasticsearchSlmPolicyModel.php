@@ -14,6 +14,9 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     private ?string $repository = null;
 
+    /**
+     * @var array<mixed>|null $indices
+     */
     private ?array $indices = null;
 
     private ?string $schedule = null;
@@ -34,12 +37,21 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     private ?int $version = null;
 
+    /**
+     * @var array<mixed>|null $lastSuccess
+     */
     private ?array $lastSuccess = null;
 
+    /**
+     * @var array<mixed>|null $lastFailure
+     */
     private ?array $lastFailure = null;
 
     private ?int $modifiedDate = null;
 
+    /**
+     * @var array<mixed>|null $stats
+     */
     private ?array $stats = null;
 
     public function __construct()
@@ -85,11 +97,17 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getIndices(): ?array
     {
         return $this->indices;
     }
 
+    /**
+     * @param array<mixed>|null $indices
+     */
     public function setIndices(?array $indices): self
     {
         $this->indices = $indices;
@@ -154,6 +172,9 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return false;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getRetention(): ?array
     {
         $retention = [];
@@ -232,11 +253,17 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getLastSuccess(): ?array
     {
         return $this->lastSuccess;
     }
 
+    /**
+     * @param array<mixed>|null $lastSuccess
+     */
     public function setLastSuccess(?array $lastSuccess): self
     {
         $this->lastSuccess = $lastSuccess;
@@ -244,11 +271,17 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getLastFailure(): ?array
     {
         return $this->lastFailure;
     }
 
+    /**
+     * @param array<mixed>|null $lastFailure
+     */
     public function setLastFailure(?array $lastFailure): self
     {
         $this->lastFailure = $lastFailure;
@@ -268,11 +301,17 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getStats(): ?array
     {
         return $this->stats;
     }
 
+    /**
+     * @param array<mixed>|null $stats
+     */
     public function setStats(?array $stats): self
     {
         $this->stats = $stats;
@@ -285,6 +324,9 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
+    /**
+     * @param array<mixed>|null $policy
+     */
     public function convert(?array $policy): self
     {
         if (true === isset($policy['name'])) {
@@ -358,6 +400,9 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

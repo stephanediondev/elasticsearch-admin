@@ -12,6 +12,9 @@ class CallRequestModel extends AbstractAppModel
 
     private ?string $path = null;
 
+    /**
+     * @var array<mixed>|null $options
+     */
     private ?array $options = null;
 
     public function __construct()
@@ -47,11 +50,17 @@ class CallRequestModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getOptions(): ?array
     {
         return $this->options;
     }
 
+    /**
+     * @param array<mixed>|null $options
+     */
     public function setOptions(?array $options): self
     {
         $this->options = $options;
@@ -59,11 +68,17 @@ class CallRequestModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getQuery(): ?array
     {
         return $this->options['query'] ?? null;
     }
 
+    /**
+     * @param array<mixed>|null $query
+     */
     public function setQuery(?array $query): self
     {
         $this->options['query'] = $query;
@@ -71,11 +86,17 @@ class CallRequestModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getJson(): ?array
     {
         return $this->options['json'] ?? null;
     }
 
+    /**
+     * @param array<mixed>|null $json
+     */
     public function setJson(?array $json): self
     {
         $this->options['json'] = $json;

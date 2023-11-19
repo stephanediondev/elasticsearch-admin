@@ -133,6 +133,10 @@ class ElasticsearchSnapshotController extends AbstractAppController
         ]);
     }
 
+    /**
+     * @param array<mixed> $a
+     * @param array<mixed> $b
+     */
     private function sortByTotal(array $a, array $b): int
     {
         return $b['total'] <=> $a['total'];

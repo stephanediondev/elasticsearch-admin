@@ -55,6 +55,9 @@ class ElasticsearchSqlModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

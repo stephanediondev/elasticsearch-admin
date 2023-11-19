@@ -81,6 +81,9 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getIndexToArray(): array
     {
         $indexPatterns = [];
@@ -99,6 +102,9 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
         return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
+    /**
+     * @param array<mixed>|null $template
+     */
     public function convert(?array $template): self
     {
         if (true === isset($template['name'])) {
@@ -136,6 +142,9 @@ class ElasticsearchIndexTemplateLegacyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [];

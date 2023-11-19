@@ -28,6 +28,10 @@ class ElasticsearchNodeController extends AbstractAppController
         $this->elasticsearchNodeManager = $elasticsearchNodeManager;
     }
 
+    /**
+     * @param array<mixed> $nodes
+     * @return array<mixed>
+     */
     private function filter(array $nodes, FormInterface $form): array
     {
         return $this->elasticsearchNodeManager->filter($nodes, [
@@ -193,6 +197,10 @@ class ElasticsearchNodeController extends AbstractAppController
         ]);
     }
 
+    /**
+     * @param array<mixed> $a
+     * @param array<mixed> $b
+     */
     private function sortByTotal(array $a, array $b): int
     {
         return $b['total'] <=> $a['total'];

@@ -52,6 +52,10 @@ class ElasticsearchIndexGraveyardController extends AbstractAppController
         ]);
     }
 
+    /**
+     * @param array<mixed> $a
+     * @param array<mixed> $b
+     */
     private function sortByDeleteDate(array $a, array $b): int
     {
         return $b['delete_date_in_millis'] <=> $a['delete_date_in_millis'];

@@ -23,6 +23,9 @@ class ElasticsearchUserModel extends AbstractAppModel
 
     private ?string $password = null;
 
+    /**
+     * @var array<mixed>|null $roles
+     */
     private ?array $roles = null;
 
     public function __construct()
@@ -92,11 +95,17 @@ class ElasticsearchUserModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getRoles(): ?array
     {
         return array_values($this->roles);
     }
 
+    /**
+     * @param array<mixed>|null $roles
+     */
     public function setRoles(?array $roles): self
     {
         $this->roles = $roles;
@@ -116,6 +125,9 @@ class ElasticsearchUserModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @param array<mixed>|null $user
+     */
     public function convert(?array $user): self
     {
         if (true === isset($user['username'])) {

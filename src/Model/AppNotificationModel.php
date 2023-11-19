@@ -139,6 +139,9 @@ class AppNotificationModel extends AbstractAppModel
         }
     }
 
+    /**
+     * @return array<string>
+     */
     public static function getTypes(): array
     {
         return [
@@ -151,6 +154,9 @@ class AppNotificationModel extends AbstractAppModel
         ];
     }
 
+    /**
+     * @param array<mixed>|null $notification
+     */
     public function convert(?array $notification): self
     {
         if (true === isset($notification['id'])) {
@@ -184,6 +190,9 @@ class AppNotificationModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

@@ -17,6 +17,9 @@ class AppExtension extends AbstractExtension
         $this->callManager = $callManager;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getFilters(): array
     {
         return [
@@ -29,6 +32,9 @@ class AppExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getFunctions(): array
     {
         return [
@@ -129,6 +135,9 @@ class AppExtension extends AbstractExtension
         return $sort;
     }
 
+    /**
+     * @param array<mixed> $source
+     */
     public function retrieveValue(array $source, string $field): mixed
     {
         $value = false;

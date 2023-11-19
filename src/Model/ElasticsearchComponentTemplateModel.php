@@ -15,6 +15,9 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
 
     private ?int $version = null;
 
+    /**
+     * @var array<mixed>|null $metadata
+     */
     private ?array $metadata = null;
 
     private ?string $metadataJson = null;
@@ -43,11 +46,17 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getMetadata(): ?array
     {
         return $this->metadata;
     }
 
+    /**
+     * @param array<mixed>|null $metadata
+     */
     public function setMetadata(?array $metadata): self
     {
         $this->metadata = $metadata;
@@ -77,6 +86,9 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
+    /**
+     * @param array<mixed>|null $template
+     */
     public function convert(?array $template): self
     {
         if (true === isset($template['name'])) {
@@ -118,6 +130,9 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

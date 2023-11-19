@@ -12,10 +12,16 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
 
     private ?string $type = null;
 
+    /**
+     * @var array<mixed>|null $indices
+     */
     private ?array $indices = null;
 
     private ?string $matchField = null;
 
+    /**
+     * @var array<mixed>|null $enrichFields
+     */
     private ?array $enrichFields = null;
 
     private ?string $query = null;
@@ -44,11 +50,17 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getIndices(): ?array
     {
         return $this->indices;
     }
 
+    /**
+     * @param array<mixed>|null $indices
+     */
     public function setIndices(?array $indices): self
     {
         $this->indices = $indices;
@@ -68,11 +80,17 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getEnrichFields(): ?array
     {
         return $this->enrichFields;
     }
 
+    /**
+     * @param array<mixed>|null $enrichFields
+     */
     public function setEnrichFields(?array $enrichFields): self
     {
         $this->enrichFields = $enrichFields;
@@ -92,6 +110,9 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public static function getTypes(bool $range): ?array
     {
         $types = [
@@ -111,6 +132,9 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
+    /**
+     * @param array<mixed>|null $row
+     */
     public function convert(?array $row): self
     {
         if (true === isset($row['config'])) {
@@ -139,6 +163,9 @@ class ElasticsearchEnrichPolicyModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [

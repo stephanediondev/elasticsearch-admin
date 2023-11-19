@@ -10,6 +10,11 @@ use App\Model\ElasticsearchShardModel;
 
 class ElasticsearchShardManager extends AbstractAppManager
 {
+    /**
+     * @param array<mixed> $query
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function getAll(array $query, array $filter = []): array
     {
         $shards = [];
@@ -35,6 +40,11 @@ class ElasticsearchShardManager extends AbstractAppManager
         return $this->filter($shards, $filter);
     }
 
+    /**
+     * @param array<mixed> $shards
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function filter(array $shards, array $filter = []): array
     {
         $shardsWithFilter = [];
@@ -71,6 +81,11 @@ class ElasticsearchShardManager extends AbstractAppManager
         return $shardsWithFilter;
     }
 
+    /**
+     * @param array<mixed> $shards
+     * @param array<mixed> $nodes
+     * @return array<mixed>
+     */
     public function getNodesAvailable(array $shards, array $nodes): array
     {
         $nodesNotAvailable = [];

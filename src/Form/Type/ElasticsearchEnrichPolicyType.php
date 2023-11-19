@@ -132,6 +132,10 @@ class ElasticsearchEnrichPolicyType extends AbstractType
         });
     }
 
+    /**
+     * @param array<mixed>|null $indices
+     * @param array<mixed>|null $selected
+     */
     private function enrichFields(FormInterface $form, ?array $indices, ?array $selected): void
     {
         $choices = [];

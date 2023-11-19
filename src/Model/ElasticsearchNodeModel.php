@@ -16,12 +16,24 @@ class ElasticsearchNodeModel extends AbstractAppModel
 
     private ?string $version = null;
 
+    /**
+     * @var array<mixed>|null $os
+     */
     private ?array $os = null;
 
+    /**
+     * @var array<mixed>|null $roles
+     */
     private ?array $roles = null;
 
+    /**
+     * @var array<mixed>|null $settings
+     */
     private ?array $settings = null;
 
+    /**
+     * @var array<mixed>|null $plugins
+     */
     private ?array $plugins = null;
 
     public function getId(): ?string
@@ -72,11 +84,17 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getOs(): ?array
     {
         return $this->os;
     }
 
+    /**
+     * @param array<mixed>|null $os
+     */
     public function setOs(?array $os): self
     {
         $this->os = $os;
@@ -84,11 +102,17 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getRoles(): ?array
     {
         return $this->roles;
     }
 
+    /**
+     * @param array<mixed>|null $roles
+     */
     public function setRoles(?array $roles): self
     {
         $this->roles = $roles;
@@ -105,11 +129,17 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return false;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getSettings(): ?array
     {
         return $this->settings;
     }
 
+    /**
+     * @param array<mixed>|null $settings
+     */
     public function setSettings(?array $settings): self
     {
         $this->settings = $settings;
@@ -117,11 +147,17 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getPlugins(): ?array
     {
         return $this->plugins;
     }
 
+    /**
+     * @param array<mixed>|null $plugins
+     */
     public function setPlugins(?array $plugins): self
     {
         $this->plugins = $plugins;
@@ -129,6 +165,9 @@ class ElasticsearchNodeModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @param array<mixed>|null $node
+     */
     public function convert(?array $node): self
     {
         if (true === isset($node['id'])) {

@@ -32,6 +32,9 @@ class ElasticsearchSlmPolicyManager extends AbstractAppManager
         return $policyModel;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
@@ -87,6 +90,9 @@ class ElasticsearchSlmPolicyManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getStats(): array
     {
         $callRequest = new CallRequestModel();
@@ -96,6 +102,9 @@ class ElasticsearchSlmPolicyManager extends AbstractAppManager
         return $callResponse->getContent();
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getStatus(): array
     {
         $callRequest = new CallRequestModel();

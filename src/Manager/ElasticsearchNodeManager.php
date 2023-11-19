@@ -32,6 +32,10 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodeModel;
     }
 
+    /**
+     * @param array<mixed>|null $parameters
+     * @return array<mixed>
+     */
     public function getAll(?array $parameters): array
     {
         if (false === isset($parameters['sort'])) {
@@ -142,6 +146,11 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodes;
     }
 
+    /**
+     * @param array<mixed> $nodes
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function filter(array $nodes, array $filter = []): array
     {
         $nodesWithFilter = [];
@@ -174,6 +183,10 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodesWithFilter;
     }
 
+    /**
+     * @param array<mixed>|null $filter
+     * @return array<mixed>
+     */
     public function selectNodes(?array $filter = []): array
     {
         $nodes = [];
@@ -200,6 +213,10 @@ class ElasticsearchNodeManager extends AbstractAppManager
         return $nodes;
     }
 
+    /**
+     * @param array<mixed> $nodes
+     * @return array<mixed>
+     */
     public function getVersions(array $nodes): array
     {
         $versions = [];

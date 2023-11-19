@@ -6,6 +6,10 @@ namespace App\Manager;
 
 class PaginatorManager
 {
+    /**
+     * @param array<mixed> $paginate
+     * @return array<mixed>
+     */
     public function paginate(array $paginate): array
     {
         $slice = 2;

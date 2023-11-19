@@ -31,6 +31,10 @@ class ElasticsearchDataStreamManager extends AbstractAppManager
         return $dataStreamModel;
     }
 
+    /**
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function getAll(array $filter = []): array
     {
         $streams = [];
@@ -63,6 +67,11 @@ class ElasticsearchDataStreamManager extends AbstractAppManager
         return $this->filter($streams, $filter);
     }
 
+    /**
+     * @param array<mixed> $streams
+     * @param array<mixed> $filter
+     * @return array<mixed>
+     */
     public function filter(array $streams, array $filter = []): array
     {
         $streamsWithFilter = [];
@@ -102,6 +111,10 @@ class ElasticsearchDataStreamManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @param array<mixed> $a
+     * @param array<mixed> $b
+     */
     private function sortByName(array $a, array $b): int
     {
         return $a['name'] <=> $b['name'];

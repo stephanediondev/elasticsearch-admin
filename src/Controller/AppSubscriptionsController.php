@@ -39,6 +39,9 @@ class AppSubscriptionsController extends AbstractAppController
 
     private string $senderAddress;
 
+    /**
+     * @var array<mixed> $clusterHealth
+     */
     private array $clusterHealth;
 
     public function __construct(AppSubscriptionManager $appSubscriptionManager, AppNotificationManager $appNotificationManager, AppUserManager $appUserManager, string $vapidPublicKey, string $vapidPrivateKey, string $mailerDsn, string $senderAddress)

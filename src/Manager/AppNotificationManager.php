@@ -16,6 +16,9 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 class AppNotificationManager extends AbstractAppManager
 {
+    /**
+     * @var array<mixed> $defaultInfo
+     */
     private array $defaultInfo = [
         'cluster_health' => null,
         'nodes' => null,
@@ -32,8 +35,14 @@ class AppNotificationManager extends AbstractAppManager
 
     protected AppExtension $appExtension;
 
+    /**
+     * @var array<mixed>|null $clusterHealth
+     */
     protected ?array $clusterHealth;
 
+    /**
+     * @var array<mixed>|null $clusterSettings
+     */
     protected ?array $clusterSettings;
 
     #[Required]
@@ -54,6 +63,9 @@ class AppNotificationManager extends AbstractAppManager
         $this->appExtension = $appExtension;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAll(): array
     {
         $query['size'] = 1000;
@@ -102,6 +114,9 @@ class AppNotificationManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function generate(): array
     {
         try {
@@ -173,6 +188,11 @@ class AppNotificationManager extends AbstractAppManager
         }
     }
 
+    /**
+     * @param array<mixed> $previousInfo
+     * @param array<mixed> $lastInfo
+     * @return array<mixed>
+     */
     public function compareInfo(array $previousInfo, array $lastInfo): array
     {
         $notifications = [];

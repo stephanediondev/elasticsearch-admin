@@ -210,6 +210,9 @@ class ElasticsearchRepositoryController extends AbstractAppController
         return $this->redirectToRoute('repositories_read', ['repository' => $repository->getName()]);
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function getPaths(): array
     {
         $paths = [];

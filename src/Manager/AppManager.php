@@ -15,6 +15,9 @@ class AppManager extends AbstractAppManager
         return $this->version;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getIndices(): array
     {
         return [
@@ -26,6 +29,9 @@ class AppManager extends AbstractAppManager
         ];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getSettings(string $index): array
     {
         return [
@@ -36,6 +42,9 @@ class AppManager extends AbstractAppManager
         ];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getMappings(string $index): array
     {
         switch ($index) {

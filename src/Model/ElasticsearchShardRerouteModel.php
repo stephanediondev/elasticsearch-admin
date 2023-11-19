@@ -92,6 +92,9 @@ class ElasticsearchShardRerouteModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @param array<mixed>|null $shard
+     */
     public function convert(?array $shard): self
     {
         if (true === isset($shard['shard'])) {

@@ -6,15 +6,24 @@ namespace App\Traits;
 
 trait ElasticsearchRoleUserModelTrait
 {
+    /**
+     * @var array<mixed>|null $metadata
+     */
     private ?array $metadata = null;
 
     private ?string $metadataJson = null;
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getMetadata(): ?array
     {
         return $this->metadata;
     }
 
+    /**
+     * @param array<mixed>|null $metadata
+     */
     public function setMetadata(?array $metadata): self
     {
         $this->metadata = $metadata;

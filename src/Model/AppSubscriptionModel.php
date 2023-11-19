@@ -34,6 +34,9 @@ class AppSubscriptionModel extends AbstractAppModel
 
     private ?string $client = null;
 
+    /**
+     * @var array<mixed>|null $notifications
+     */
     private ?array $notifications = null;
 
     private ?\DateTimeInterface $createdAt = null;
@@ -163,11 +166,17 @@ class AppSubscriptionModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getNotifications(): ?array
     {
         return array_values($this->notifications);
     }
 
+    /**
+     * @param array<mixed>|null $notifications
+     */
     public function setNotifications(?array $notifications): self
     {
         $this->notifications = $notifications;
@@ -187,6 +196,9 @@ class AppSubscriptionModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @param array<mixed>|null $subscription
+     */
     public function convert(?array $subscription): self
     {
         if (true === isset($subscription['id'])) {
@@ -238,6 +250,9 @@ class AppSubscriptionModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [
@@ -265,6 +280,9 @@ class AppSubscriptionModel extends AbstractAppModel
         return $this->id ?? '';
     }
 
+    /**
+     * @return array<string>
+     */
     public static function getTypes(): array
     {
         return [

@@ -14,10 +14,16 @@ class ElasticsearchPipelineModel extends AbstractAppModel
 
     private ?string $description = null;
 
+    /**
+     * @var array<mixed>|null $processors
+     */
     private ?array $processors = null;
 
     private ?string $processorsJson = null;
 
+    /**
+     * @var array<mixed>|null $onFailure
+     */
     private ?array $onFailure = null;
 
     private ?string $onFailureJson = null;
@@ -58,11 +64,17 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getProcessors(): ?array
     {
         return $this->processors;
     }
 
+    /**
+     * @param array<mixed>|null $processors
+     */
     public function setProcessors(?array $processors): self
     {
         $this->processors = $processors;
@@ -82,11 +94,17 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getOnFailure(): ?array
     {
         return $this->onFailure;
     }
 
+    /**
+     * @param array<mixed>|null $onFailure
+     */
     public function setOnFailure(?array $onFailure): self
     {
         $this->onFailure = $onFailure;
@@ -111,6 +129,9 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         return $this->getName() && '.' === substr($this->getName(), 0, 1);
     }
 
+    /**
+     * @param array<mixed>|null $pipeline
+     */
     public function convert(?array $pipeline): self
     {
         if (true === isset($pipeline['name'])) {
@@ -142,6 +163,9 @@ class ElasticsearchPipelineModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [];

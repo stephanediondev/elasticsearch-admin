@@ -6,23 +6,38 @@ namespace App\Traits;
 
 trait MappingsSettingsAliasesModelTrait
 {
+    /**
+     * @var array<mixed>|null $settings
+     */
     private ?array $settings = null;
 
     private ?string $settingsJson = null;
 
+    /**
+     * @var array<mixed>|null $mappings
+     */
     private ?array $mappings = null;
 
     private ?string $mappingsJson = null;
 
+    /**
+     * @var array<mixed>|null $aliases
+     */
     private ?array $aliases = null;
 
     private ?string $aliasesJson = null;
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getSettings(): ?array
     {
         return $this->settings;
     }
 
+    /**
+     * @param array<mixed>|null $settings
+     */
     public function setSettings(?array $settings): self
     {
         $this->settings = $settings;
@@ -54,11 +69,17 @@ trait MappingsSettingsAliasesModelTrait
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getMappings(): ?array
     {
         return $this->mappings;
     }
 
+    /**
+     * @param array<mixed>|null $mappings
+     */
     public function setMappings(?array $mappings): self
     {
         $this->mappings = $mappings;
@@ -78,11 +99,17 @@ trait MappingsSettingsAliasesModelTrait
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getAliases(): ?array
     {
         return $this->aliases;
     }
 
+    /**
+     * @param array<mixed>|null $aliases
+     */
     public function setAliases(?array $aliases): self
     {
         $this->aliases = $aliases;

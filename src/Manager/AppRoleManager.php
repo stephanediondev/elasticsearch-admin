@@ -14,6 +14,9 @@ class AppRoleManager extends AbstractAppManager
 {
     private bool $permissionsDefined = false;
 
+    /**
+     * @var array<mixed> $permissions
+     */
     private array $permissions = [];
 
     public function getByName(string $name): ?AppRoleModel
@@ -42,6 +45,10 @@ class AppRoleManager extends AbstractAppManager
         return $roleModel;
     }
 
+    /**
+     * @param array<mixed>|null $query
+     * @return array<mixed>
+     */
     public function getAll(?array $query = []): array
     {
         $query['size'] = 1000;
@@ -129,6 +136,9 @@ class AppRoleManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getPermissionsByUser(UserInterface $user): array
     {
         if (false === $this->permissionsDefined) {
@@ -150,6 +160,9 @@ class AppRoleManager extends AbstractAppManager
         return $this->permissions;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getPermissionsByRole(string $role): array
     {
         $permissions = [];
@@ -200,6 +213,9 @@ class AppRoleManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @return array<string>
+     */
     public function selectRoles(): array
     {
         $callRequest = new CallRequestModel();
@@ -221,6 +237,9 @@ class AppRoleManager extends AbstractAppManager
         return $roles;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAttributes(): array
     {
         $attributes = $this->getAttributesRaw();
@@ -233,6 +252,9 @@ class AppRoleManager extends AbstractAppManager
         return $attributes;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAttributesByModule(string $module): array
     {
         $attributes = $this->getAttributesRaw();
@@ -240,6 +262,9 @@ class AppRoleManager extends AbstractAppManager
         return $attributes[$module] ?? [];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAttributesRaw(): array
     {
         $attributes = [

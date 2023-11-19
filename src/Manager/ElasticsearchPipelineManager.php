@@ -41,6 +41,9 @@ class ElasticsearchPipelineManager extends AbstractAppManager
         return $pipelineModel;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();

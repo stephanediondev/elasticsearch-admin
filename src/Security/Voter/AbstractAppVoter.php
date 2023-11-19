@@ -14,6 +14,9 @@ abstract class AbstractAppVoter extends Voter
 
     protected AppRoleManager $appRoleManager;
 
+    /**
+     * @var array<mixed> $permissions
+     */
     protected array $permissions = [];
 
     protected string $module;

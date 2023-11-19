@@ -47,6 +47,9 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
 
     private ?string $awsAccount = null;
 
+    /**
+     * @var array<mixed>|null $settings
+     */
     private ?array $settings = null;
 
     private ?string $container = null;
@@ -162,11 +165,17 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getSettings(): ?array
     {
         return $this->settings;
     }
 
+    /**
+     * @param array<mixed>|null $settings
+     */
     public function setSettings(?array $settings): self
     {
         $this->settings = $settings;
@@ -174,6 +183,9 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @param array<mixed>|null $repository
+     */
     public function convert(?array $repository): self
     {
         if (true === isset($repository['name'])) {
@@ -363,7 +375,10 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this;
     }
 
-    public static function cannedAcls(): ?array
+    /**
+     * @return array<string>
+     */
+    public static function cannedAcls(): array
     {
         return [
             'private' => 'private',
@@ -376,7 +391,10 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         ];
     }
 
-    public static function storageClasses(): ?array
+    /**
+     * @return array<string>
+     */
+    public static function storageClasses(): array
     {
         return [
             'standard' => 'standard',
@@ -412,7 +430,10 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this;
     }
 
-    public static function locationModes(): ?array
+    /**
+     * @return array<string>
+     */
+    public static function locationModes(): array
     {
         return [
             'primary_only' => 'primary_only',
@@ -420,6 +441,9 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         ];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJson(): array
     {
         $json = [
@@ -468,6 +492,9 @@ class ElasticsearchRepositoryModel extends AbstractAppModel
         return $this->name ?? '';
     }
 
+    /**
+     * @return array<string>
+     */
     public static function getTypes(): array
     {
         return [

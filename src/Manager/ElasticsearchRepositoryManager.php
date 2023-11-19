@@ -34,6 +34,9 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
         return $repositoryModel;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getAll(): array
     {
         $callRequest = new CallRequestModel();
@@ -103,6 +106,9 @@ class ElasticsearchRepositoryManager extends AbstractAppManager
         return $this->callManager->call($callRequest);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function selectRepositories(): array
     {
         $repositories = [];

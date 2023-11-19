@@ -12,6 +12,9 @@ class ElasticsearchDataStreamModel extends AbstractAppModel
 
     private ?string $timestampFieldName = null;
 
+    /**
+     * @var array<mixed>|null $indices
+     */
     private ?array $indices = null;
 
     private ?int $generation = null;
@@ -48,11 +51,17 @@ class ElasticsearchDataStreamModel extends AbstractAppModel
         return $this;
     }
 
+    /**
+     * @return array<mixed>|null
+     */
     public function getIndices(): ?array
     {
         return $this->indices;
     }
 
+    /**
+     * @param array<mixed>|null $indices
+     */
     public function setIndices(?array $indices): self
     {
         $this->indices = $indices;
@@ -113,6 +122,9 @@ class ElasticsearchDataStreamModel extends AbstractAppModel
         return $this->hidden;
     }
 
+    /**
+     * @param array<mixed>|null $stream
+     */
     public function convert(?array $stream): self
     {
         if (true === isset($stream['name'])) {

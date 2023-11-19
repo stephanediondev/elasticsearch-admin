@@ -61,6 +61,10 @@ class AppUserManager extends AbstractAppManager
         return $userModel;
     }
 
+    /**
+     * @param array<mixed>|null $query
+     * @return array<mixed>
+     */
     public function getAll(?array $query = []): array
     {
         $query['size'] = 1000;
