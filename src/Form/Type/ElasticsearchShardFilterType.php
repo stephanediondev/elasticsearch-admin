@@ -53,7 +53,7 @@ class ElasticsearchShardFilterType extends AbstractType
                     $builder->add('type', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['type'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['type'][$key];
                         },
                         'label' => 'type',
@@ -67,7 +67,7 @@ class ElasticsearchShardFilterType extends AbstractType
                     $builder->add('state', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['state'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['state'][$key];
                         },
                         'label' => 'state',
@@ -82,7 +82,7 @@ class ElasticsearchShardFilterType extends AbstractType
                     $builder->add('node', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['node'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             if ($options['master_node'] === $options['node'][$key]) {
                                 return $options['node'][$key].' [Master]';
                             } else {

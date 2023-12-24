@@ -100,7 +100,7 @@ class ElasticsearchCatType extends AbstractType
                     $builder->add('command', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $commands,
-                        'choice_label' => function ($choice, $key, $value) use ($commands) {
+                        'choice_label' => static function ($choice, $key, $value) use ($commands) {
                             return $commands[$key];
                         },
                         'choice_translation_domain' => false,
@@ -127,7 +127,7 @@ class ElasticsearchCatType extends AbstractType
                     $builder->add('repository', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['repositories'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['repositories'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -139,7 +139,7 @@ class ElasticsearchCatType extends AbstractType
                     $builder->add('alias', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['aliases'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['aliases'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -151,7 +151,7 @@ class ElasticsearchCatType extends AbstractType
                     $builder->add('node', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['nodes'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             if ($options['master_node'] === $options['nodes'][$key]) {
                                 return $options['nodes'][$key].' [Master]';
                             } else {

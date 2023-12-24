@@ -262,7 +262,7 @@ class ElasticsearchIndexTemplateModel extends AbstractAppModel
         }
 
         if ($this->getDataStream()) {
-            $json['data_stream'] = (object)[];
+            $json['data_stream'] = (object) [];
         }
 
         return $json;

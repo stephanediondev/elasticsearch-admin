@@ -24,7 +24,7 @@ class ElasticsearchSnapshotVoter extends AbstractAppVoter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             return false;
         }
 

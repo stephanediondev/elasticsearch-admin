@@ -160,7 +160,7 @@ class ElasticsearchComponentTemplateModel extends AbstractAppModel
         }
 
         if (0 == count($json['template'])) {
-            $json['template'] = (object)[];
+            $json['template'] = (object) [];
         }
 
         return $json;

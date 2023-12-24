@@ -24,7 +24,7 @@ class ElasticsearchUserVoter extends AbstractAppVoter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             return false;
         }
 
@@ -32,11 +32,11 @@ class ElasticsearchUserVoter extends AbstractAppVoter
             return false;
         }
 
-        if ('ELASTICSEARCH_USER_ENABLE' == $attribute && true === $subject->getEnabled()) {
+        if ('ELASTICSEARCH_USER_ENABLE' === $attribute && true === $subject->getEnabled()) {
             return false;
         }
 
-        if ('ELASTICSEARCH_USER_DISABLE' == $attribute && false === $subject->getEnabled()) {
+        if ('ELASTICSEARCH_USER_DISABLE' === $attribute && false === $subject->getEnabled()) {
             return false;
         }
 

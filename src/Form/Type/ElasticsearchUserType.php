@@ -79,7 +79,7 @@ class ElasticsearchUserType extends AbstractType
                                 new NotBlank(),
                                 new Length([
                                     'min' => 6,
-                                ])
+                                ]),
                             ],
                             'attr' => [
                                 'autocomplete' => 'new-password',
@@ -93,7 +93,7 @@ class ElasticsearchUserType extends AbstractType
                             'constraints' => [
                                 new Length([
                                     'min' => 6,
-                                ])
+                                ]),
                             ],
                             'attr' => [
                                 'disabled' => 'disabled',
@@ -119,7 +119,7 @@ class ElasticsearchUserType extends AbstractType
                     $builder->add('roles', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['roles'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['roles'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -142,7 +142,7 @@ class ElasticsearchUserType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
 
             if ('create' == $options['context']) {

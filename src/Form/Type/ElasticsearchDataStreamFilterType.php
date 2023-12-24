@@ -52,7 +52,7 @@ class ElasticsearchDataStreamFilterType extends AbstractType
                     $builder->add('hidden', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['question'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['question'][$key];
                         },
                         'label' => 'hidden',
@@ -66,7 +66,7 @@ class ElasticsearchDataStreamFilterType extends AbstractType
                     $builder->add('status', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['status'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['status'][$key];
                         },
                         'label' => 'status',

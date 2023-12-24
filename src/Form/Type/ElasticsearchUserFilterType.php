@@ -34,7 +34,7 @@ class ElasticsearchUserFilterType extends AbstractType
                     $builder->add($field, ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['question'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['question'][$key];
                         },
                         'label' => $field,

@@ -61,7 +61,7 @@ class ElasticsearchRoleType extends AbstractType
                     $builder->add('cluster', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['privileges']['cluster'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['privileges']['cluster'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -75,7 +75,7 @@ class ElasticsearchRoleType extends AbstractType
                     $builder->add('run_as', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['users'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['users'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -127,7 +127,7 @@ class ElasticsearchRoleType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
             $data = $event->getData();
 

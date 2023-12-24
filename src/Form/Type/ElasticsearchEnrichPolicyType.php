@@ -65,7 +65,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
                     $builder->add('type', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => ElasticsearchEnrichPolicyModel::getTypes($this->callManager->hasFeature('enrich_policy_type_range')),
-                        'choice_label' => function ($choice, $key, $value) {
+                        'choice_label' => static function ($choice, $key, $value) {
                             return $key;
                         },
                         'choice_translation_domain' => false,
@@ -82,7 +82,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
                     $builder->add('indices', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['indices'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -101,21 +101,21 @@ class ElasticsearchEnrichPolicyType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
             $form = $event->getForm();
             $data = $event->getData();
 
             $this->enrichFields($form, $data->getIndices(), $data->getEnrichFields());
         });
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event): void {
             $form = $event->getForm();
             $data = $event->getData();
 
             $this->enrichFields($form, $data['indices'], []);
         });
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
 
             if ('create' == $options['context']) {
@@ -161,7 +161,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
         $form->add('match_field', ChoiceType::class, [
             'placeholder' => '-',
             'choices' => $choices,
-            'choice_label' => function ($choice, $key, $value) {
+            'choice_label' => static function ($choice, $key, $value) {
                 return $choice;
             },
             'choice_translation_domain' => false,
@@ -181,7 +181,7 @@ class ElasticsearchEnrichPolicyType extends AbstractType
             'data' => $selected,
             'multiple' => true,
             'choices' => $choices,
-            'choice_label' => function ($choice, $key, $value) {
+            'choice_label' => static function ($choice, $key, $value) {
                 return $choice;
             },
             'choice_translation_domain' => false,

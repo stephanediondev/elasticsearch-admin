@@ -451,7 +451,7 @@ class ElasticsearchClusterController extends AbstractAppController
                         $results['audit_notice'][$checkpoint] = [];
                     } else {
                         if (true === isset($parameters['cluster_stats']['indices']['shards']['replication'])) {
-                            $replication = round($parameters['cluster_stats']['indices']['shards']['replication']*100, 2).'%';
+                            $replication = round($parameters['cluster_stats']['indices']['shards']['replication'] * 100, 2).'%';
                         } else {
                             $replication = null;
                         }

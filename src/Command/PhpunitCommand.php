@@ -61,7 +61,7 @@ class PhpunitCommand extends Command
         if (Response::HTTP_NOT_FOUND == $callResponse->getCode()) {
             $json = [
                 'settings' => $this->appManager->getSettings('.elasticsearch-admin-users'),
-                'aliases' => ['.elasticsearch-admin-users' => (object)[]],
+                'aliases' => ['.elasticsearch-admin-users' => (object) []],
             ];
             if (true === $this->callManager->checkVersion('7.0')) {
                 $json['mappings'] = $this->appManager->getMappings('.elasticsearch-admin-users');

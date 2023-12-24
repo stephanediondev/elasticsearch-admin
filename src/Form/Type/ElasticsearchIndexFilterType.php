@@ -42,7 +42,7 @@ class ElasticsearchIndexFilterType extends AbstractType
                     $builder->add('system', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['question'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['question'][$key];
                         },
                         'label' => 'system',
@@ -62,7 +62,7 @@ class ElasticsearchIndexFilterType extends AbstractType
                     $builder->add('status', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['status'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['status'][$key];
                         },
                         'label' => 'status',
@@ -76,7 +76,7 @@ class ElasticsearchIndexFilterType extends AbstractType
                     $builder->add('health', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['health'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['health'][$key];
                         },
                         'label' => 'health',

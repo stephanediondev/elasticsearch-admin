@@ -97,7 +97,7 @@ class AppUserType extends AbstractType
                         'type' => PasswordType::class,
                         'required' => $passwordRequired,
                         'constraints' => $passwordConstraints,
-                        'first_options'  => [
+                        'first_options' => [
                             'label' => 'password',
                             'attr' => [
                                 'autocomplete' => 'new-password',
@@ -115,7 +115,7 @@ class AppUserType extends AbstractType
                     $builder->add('roles', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['roles'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['roles'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -129,7 +129,7 @@ class AppUserType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
 
             if ('register' == $options['context']) {

@@ -41,11 +41,9 @@ class ElasticsearchIndexSettingModel extends AbstractAppModel
      */
     public function getJson(): array
     {
-        $json = [
+        return [
             $this->getName() => $this->getValue(),
         ];
-
-        return $json;
     }
 
     public function __toString(): string

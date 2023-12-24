@@ -55,7 +55,7 @@ class ElasticsearchTemplateFilterType extends AbstractType
                     $builder->add('data_stream', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['question'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['question'][$key];
                         },
                         'label' => 'data_stream',
@@ -69,7 +69,7 @@ class ElasticsearchTemplateFilterType extends AbstractType
                     $builder->add('managed', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['question'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['question'][$key];
                         },
                         'label' => 'managed',
@@ -83,7 +83,7 @@ class ElasticsearchTemplateFilterType extends AbstractType
                     $builder->add('system', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['question'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['question'][$key];
                         },
                         'label' => 'system',

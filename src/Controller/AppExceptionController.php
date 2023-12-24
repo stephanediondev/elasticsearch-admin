@@ -28,7 +28,7 @@ class AppExceptionController extends AbstractAppController
         if (true === in_array($exception->getStatusCode(), $codes)) {
             $user = $security->getUser();
 
-            if (!$user instanceof AppUserModel) {
+            if (! $user instanceof AppUserModel) {
                 $parameters['firewall'] = false;
             }
 

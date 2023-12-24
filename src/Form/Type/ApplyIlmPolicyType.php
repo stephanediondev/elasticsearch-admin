@@ -28,7 +28,7 @@ class ApplyIlmPolicyType extends AbstractType
                         'label' => 'index_template_legacy',
                         'placeholder' => '-',
                         'choices' => $options['index_templates'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['index_templates'][$key];
                         },
                         'choice_translation_domain' => false,

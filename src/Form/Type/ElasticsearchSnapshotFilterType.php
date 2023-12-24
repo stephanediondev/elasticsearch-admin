@@ -40,7 +40,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
                     $builder->add('repository', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['repository'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['repository'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -56,7 +56,7 @@ class ElasticsearchSnapshotFilterType extends AbstractType
                     $builder->add('state', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['state'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['state'][$key];
                         },
                         'label' => 'state',

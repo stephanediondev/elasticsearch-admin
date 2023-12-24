@@ -118,7 +118,7 @@ class AppIndexDatabaseImportController extends AbstractAppController
                 if ($id) {
                     $body .= json_encode(['index' => ['_id' => $id]])."\r\n";
                 } else {
-                    $body .= json_encode(['index' => (object)[]])."\r\n";
+                    $body .= json_encode(['index' => (object) []])."\r\n";
                 }
 
                 $body .= json_encode($line)."\r\n";

@@ -24,11 +24,11 @@ class AppUserVoter extends AbstractAppVoter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             return false;
         }
 
-        if ('APP_USER_DELETE' == $attribute && $user->getUserIdentifier() == $subject->getEmail()) {
+        if ('APP_USER_DELETE' === $attribute && $user->getUserIdentifier() == $subject->getEmail()) {
             return false;
         }
 

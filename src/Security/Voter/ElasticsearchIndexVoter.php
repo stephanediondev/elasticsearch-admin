@@ -24,7 +24,7 @@ class ElasticsearchIndexVoter extends AbstractAppVoter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             return false;
         }
 
@@ -51,23 +51,23 @@ class ElasticsearchIndexVoter extends AbstractAppVoter
                 'INDICES_REINDEX',
             ];
 
-            if (true === in_array($attribute, $excludeWhenClosed) && 'close' == $subject->getStatus()) {
+            if (true === in_array($attribute, $excludeWhenClosed) && 'close' === $subject->getStatus()) {
                 return false;
             }
 
-            if ('INDEX_CLOSE' == $attribute && 'close' == $subject->getStatus()) {
+            if ('INDEX_CLOSE' === $attribute && 'close' === $subject->getStatus()) {
                 return false;
             }
 
-            if ('INDEX_OPEN' == $attribute && 'open' == $subject->getStatus()) {
+            if ('INDEX_OPEN' === $attribute && 'open' === $subject->getStatus()) {
                 return false;
             }
 
-            if ('INDEX_FREEZE' == $attribute && $subject->getSetting('index.frozen') && 'true' == $subject->getSetting('index.frozen')) {
+            if ('INDEX_FREEZE' === $attribute && $subject->getSetting('index.frozen') && 'true' === $subject->getSetting('index.frozen')) {
                 return false;
             }
 
-            if ('INDEX_UNFREEZE' == $attribute && ('' == $subject->getSetting('index.frozen') || 'false' == $subject->getSetting('index.frozen'))) {
+            if ('INDEX_UNFREEZE' === $attribute && ('' === $subject->getSetting('index.frozen') || 'false' === $subject->getSetting('index.frozen'))) {
                 return false;
             }
         }

@@ -37,7 +37,7 @@ class ReindexType extends AbstractType
                     $builder->add('destination', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['indices'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
                         },
                         'choice_translation_domain' => false,

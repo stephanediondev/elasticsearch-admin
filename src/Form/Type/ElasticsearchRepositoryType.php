@@ -139,7 +139,7 @@ class ElasticsearchRepositoryType extends AbstractType
                     $builder->add('location', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['paths'],
-                        'choice_label' => function ($choice, $key, $value) {
+                        'choice_label' => static function ($choice, $key, $value) {
                             return $value;
                         },
                         'choice_translation_domain' => false,
@@ -212,7 +212,7 @@ class ElasticsearchRepositoryType extends AbstractType
                 case 'canned_acl':
                     $builder->add('canned_acl', ChoiceType::class, [
                         'choices' => ElasticsearchRepositoryModel::cannedAcls(),
-                        'choice_label' => function ($choice, $key, $value) {
+                        'choice_label' => static function ($choice, $key, $value) {
                             return $key;
                         },
                         'choice_translation_domain' => false,
@@ -228,7 +228,7 @@ class ElasticsearchRepositoryType extends AbstractType
                 case 'storage_class':
                     $builder->add('storage_class', ChoiceType::class, [
                         'choices' => ElasticsearchRepositoryModel::storageClasses(),
-                        'choice_label' => function ($choice, $key, $value) {
+                        'choice_label' => static function ($choice, $key, $value) {
                             return $key;
                         },
                         'choice_translation_domain' => false,
@@ -244,7 +244,7 @@ class ElasticsearchRepositoryType extends AbstractType
                 case 'location_mode':
                     $builder->add('location_mode', ChoiceType::class, [
                         'choices' => ElasticsearchRepositoryModel::locationModes(),
-                        'choice_label' => function ($choice, $key, $value) {
+                        'choice_label' => static function ($choice, $key, $value) {
                             return $key;
                         },
                         'choice_translation_domain' => false,
@@ -260,7 +260,7 @@ class ElasticsearchRepositoryType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
 
             if ('create' == $options['context']) {

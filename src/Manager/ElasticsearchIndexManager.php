@@ -229,7 +229,7 @@ class ElasticsearchIndexManager extends AbstractAppManager
     {
         $json = [
             'query' => [
-                'match_all' => (object)[],
+                'match_all' => (object) [],
             ],
         ];
         $callRequest = new CallRequestModel();

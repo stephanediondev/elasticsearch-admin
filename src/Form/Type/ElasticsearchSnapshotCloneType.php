@@ -36,7 +36,7 @@ class ElasticsearchSnapshotCloneType extends AbstractType
                     $builder->add('indices', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['indices'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
                         },
                         'choice_translation_domain' => false,

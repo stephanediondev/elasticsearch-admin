@@ -86,7 +86,7 @@ class ElasticsearchIndexTemplateModelTest extends TestCase
                 'aliases' => $template->getAliases(),
             ],
             '_meta' => $template->getMetadata(),
-            'data_stream' => (object)[],
+            'data_stream' => (object) [],
         ]);*/
         $this->assertIsArray($template->getJson());
     }

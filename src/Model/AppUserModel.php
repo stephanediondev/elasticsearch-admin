@@ -221,14 +221,12 @@ class AppUserModel implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getJson(): array
     {
-        $json = [
+        return [
             'email' => $this->getEmail(),
             'password' => $this->getPassword(),
             'roles' => $this->getRoles(),
             'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s'),
         ];
-
-        return $json;
     }
 
     public function __toString(): string

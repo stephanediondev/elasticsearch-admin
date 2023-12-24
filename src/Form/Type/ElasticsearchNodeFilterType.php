@@ -41,7 +41,7 @@ class ElasticsearchNodeFilterType extends AbstractType
                     $builder->add($field, ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['roles'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return 'node_roles.'.$options['roles'][$key];
                         },
                         'label' => 'roles',
@@ -56,7 +56,7 @@ class ElasticsearchNodeFilterType extends AbstractType
                     $builder->add($field, ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['version'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['version'][$key];
                         },
                         'label' => 'version',

@@ -24,7 +24,7 @@ class ElasticsearchIlmPolicyVoter extends AbstractAppVoter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             return false;
         }
 

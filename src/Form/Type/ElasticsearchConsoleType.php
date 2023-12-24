@@ -29,7 +29,7 @@ class ElasticsearchConsoleType extends AbstractType
                 case 'method':
                     $builder->add('method', ChoiceType::class, [
                         'choices' => $options['methods'],
-                        'choice_label' => function ($choice, $key, $value) {
+                        'choice_label' => static function ($choice, $key, $value) {
                             return $value;
                         },
                         'choice_translation_domain' => false,

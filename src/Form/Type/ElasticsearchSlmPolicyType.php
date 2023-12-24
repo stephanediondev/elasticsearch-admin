@@ -77,7 +77,7 @@ class ElasticsearchSlmPolicyType extends AbstractType
                     $builder->add('repository', ChoiceType::class, [
                         'placeholder' => '-',
                         'choices' => $options['repositories'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['repositories'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -105,7 +105,7 @@ class ElasticsearchSlmPolicyType extends AbstractType
                     $builder->add('indices', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => $options['indices'],
-                        'choice_label' => function ($choice, $key, $value) use ($options) {
+                        'choice_label' => static function ($choice, $key, $value) use ($options) {
                             return $options['indices'][$key];
                         },
                         'choice_translation_domain' => false,
@@ -169,7 +169,7 @@ class ElasticsearchSlmPolicyType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
 
             if ('create' == $options['context']) {

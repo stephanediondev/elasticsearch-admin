@@ -204,7 +204,7 @@ class ElasticsearchSnapshotModel extends AbstractAppModel
         }
 
         if (true === isset($snapshot['duration_in_millis'])) {
-            $this->setDuration(round($snapshot['duration_in_millis']/1000, 2).'s');
+            $this->setDuration(round($snapshot['duration_in_millis'] / 1000, 2).'s');
         }
 
         if (true === isset($snapshot['failures'])) {

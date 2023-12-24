@@ -41,7 +41,7 @@ class ElasticsearchReindexModel extends AbstractAppModel
      */
     public function getJson(): array
     {
-        $json = [
+        return [
             'source' => [
                 'index' => $this->getSource(),
             ],
@@ -49,7 +49,5 @@ class ElasticsearchReindexModel extends AbstractAppModel
                 'index' => $this->getDestination(),
             ],
         ];
-
-        return $json;
     }
 }

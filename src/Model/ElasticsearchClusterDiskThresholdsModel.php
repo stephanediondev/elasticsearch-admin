@@ -69,7 +69,7 @@ class ElasticsearchClusterDiskThresholdsModel extends AbstractAppModel
      */
     public function getJson(): array
     {
-        $json = [
+        return [
             'persistent' => [
                 'cluster.routing.allocation.disk.threshold_enabled' => $this->getEnabled(),
                 'cluster.routing.allocation.disk.watermark.low' => $this->getLow(),
@@ -77,7 +77,5 @@ class ElasticsearchClusterDiskThresholdsModel extends AbstractAppModel
                 'cluster.routing.allocation.disk.watermark.flood_stage' => $this->getFloodStage(),
             ],
         ];
-
-        return $json;
     }
 }

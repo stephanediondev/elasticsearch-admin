@@ -195,7 +195,7 @@ class AppNotificationModel extends AbstractAppModel
      */
     public function getJson(): array
     {
-        $json = [
+        return [
             'type' => $this->getType(),
             'cluster' => $this->getCluster(),
             'title' => $this->getTitle(),
@@ -203,8 +203,6 @@ class AppNotificationModel extends AbstractAppModel
             'color' => $this->getColor(),
             'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s'),
         ];
-
-        return $json;
     }
 
     public function __toString(): string

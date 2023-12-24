@@ -109,7 +109,7 @@ class AppSubscriptionType extends AbstractType
                     $builder->add('notifications', ChoiceType::class, [
                         'multiple' => true,
                         'choices' => AppNotificationModel::getTypes(),
-                        'choice_label' => function ($choice, $key, $value) {
+                        'choice_label' => static function ($choice, $key, $value) {
                             return $value;
                         },
                         'choice_translation_domain' => false,
@@ -120,7 +120,7 @@ class AppSubscriptionType extends AbstractType
             }
         }
 
-        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options) {
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) use ($options): void {
             $form = $event->getForm();
 
             if ($form->has('endpoint') && $form->get('endpoint')->getData()) {
