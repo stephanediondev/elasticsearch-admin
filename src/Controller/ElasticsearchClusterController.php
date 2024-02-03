@@ -365,7 +365,6 @@ class ElasticsearchClusterController extends AbstractAppController
             'indices_with_replica',
             'indices_replicas_data_nodes',
             'indices_opened',
-            'close_index_not_enabled',
             'allocation_disk_threshold',
             'heap_size_below_50',
             'anonymous_access_disabled',
@@ -485,13 +484,6 @@ class ElasticsearchClusterController extends AbstractAppController
                     break;
                 case 'indices_opened':
                     if ($indicesCount['open'] < count($indices)) {
-                        $results['audit_fail'][$checkpoint] = [];
-                    } else {
-                        $results['audit_pass'][$checkpoint] = [];
-                    }
-                    break;
-                case 'close_index_not_enabled':
-                    if (true === isset($parameters['cluster_settings']['cluster.indices.close.enable']) && 'true' == $parameters['cluster_settings']['cluster.indices.close.enable']) {
                         $results['audit_fail'][$checkpoint] = [];
                     } else {
                         $results['audit_pass'][$checkpoint] = [];

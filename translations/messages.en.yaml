@@ -76,7 +76,6 @@ audit_checkpoints:
     replication_100_percent: "The replication is equal or greater than 100%"
     indices_replicas_data_nodes: "All indices have a number of replicas inferior to data nodes count"
     indices_opened: "All indices are open"
-    close_index_not_enabled: "Closing an index is not allowed"
     allocation_disk_threshold: "The disk-based shard allocation is enabled"
     heap_size_below_50: "The heap size is no more than 50% of the RAM"
     anonymous_access_disabled: "The anonymous access is disabled"
@@ -115,8 +114,6 @@ audit_comments:
         note: "The replication is at <code>{replication}</code>."
     indices_replicas_data_nodes:
         note: "The number of replicas per index should be inferior to <code>{data_nodes}</code> (number of data nodes)."
-    close_index_not_enabled:
-        fail: "The setting <code>{setting}</code> should be set to <code>{value}</code>."
     allocation_disk_threshold:
         fail: "The setting <code>{setting}</code> should be set to <code>{value}</code>."
     license_not_expired:
