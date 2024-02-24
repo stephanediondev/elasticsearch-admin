@@ -11,11 +11,11 @@
     {% include 'Modules/subscription/subscription_tabs.html.twig' with {'active': 'list'} %}
 {% endblock %}
 
-{% block main_content %}
-    {% if applicationServerKey %}
-        {{ encore_entry_script_tags('app-subscription-js') }}
-    {% endif %}
+{% block importmap %}
+    {% block importmap %}{{ importmap(['app', 'app-subscription']) }}{% endblock %}
+{% endblock %}
 
+{% block main_content %}
     <div class="jumbotron mt-3 bg-secondary-subtle border ">
         <p class="lead">{{ 'subscriptions_note'|trans }}</p>
     </div>

@@ -142,7 +142,6 @@ If you have SSL certificates, add ```-v /path/privkey.pem:/etc/nginx/privkey.pem
 - Web server
 - PHP 8.2: [Visit](https://symfony.com/doc/current/setup/web_server_configuration.html)
 - Composer: [Visit](https://getcomposer.org/download/)
-- npm: [Visit](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ### Web server
 
@@ -253,8 +252,7 @@ cd /var/www/elasticsearch-admin/
 
 composer install
 
-npm install
-npm run build
+bin/console asset-map:compile
 
 cp .env.dist .env
 ```
