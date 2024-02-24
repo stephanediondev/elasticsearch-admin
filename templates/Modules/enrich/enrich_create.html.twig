@@ -11,9 +11,11 @@
     {% include 'Modules/enrich/enrich_tabs.html.twig' with {'active': 'create_enrich_policy'} %}
 {% endblock %}
 
-{% block main_content %}
-    {{ encore_entry_script_tags('app-enrich-js') }}
+{% block importmap %}
+    {% block importmap %}{{ importmap(['app', 'app-enrich']) }}{% endblock %}
+{% endblock %}
 
+{% block main_content %}
     {% embed 'Embed/block_embed.html.twig' %}
         {% import 'Import/app_import.html.twig' as appImport %}
         {% block content %}

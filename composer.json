@@ -14,6 +14,7 @@
         "minishlink/web-push": "^8.0.0",
         "phpoffice/phpspreadsheet": "^1.29",
         "symfony/asset": "7.0.*",
+        "symfony/asset-mapper": "7.0.*",
         "symfony/console": "7.0.*",
         "symfony/dotenv": "7.0.*",
         "symfony/expression-language": "7.0.*",
@@ -33,7 +34,6 @@
         "symfony/translation": "7.0.*",
         "symfony/twig-bundle": "7.0.*",
         "symfony/validator": "7.0.*",
-        "symfony/webpack-encore-bundle": "^2.1",
         "symfony/yaml": "7.0.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
@@ -80,7 +80,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"

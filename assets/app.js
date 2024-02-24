@@ -1,3 +1,7 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.min.css';
+import './styles/app.css';
+
 (() => {
     'use strict'
 
@@ -53,23 +57,23 @@
     })
 })();
 
-require('jquery');
-global.$ = global.jQuery = $;
+import $ from 'jquery';
 
-require('bootstrap');
+//import { Modal, Toast } from 'bootstrap';
 
-import { saveAs } from 'file-saver';
-var slug = require('slug');
+import saveAs from 'file-saver';
+
+import slug from 'slug';
+
 slug.charmap['/'] = '-';
 slug.charmap['?'] = '-';
 slug.charmap['='] = '-';
-global.slug = slug;
 
-global.sleep = function sleep(ms) {
+var sleep = function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-global.createToast = function createToast(body) {
+var createToast = function createToast(body) {
     var toast = `<div class="toast bg-dark text-light border border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
             ${body}
@@ -108,12 +112,12 @@ if (buttonInstall) {
     });
 }
 
-global.serviceWorkerEnabled = false;
+var serviceWorkerEnabled = false;
 
 if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
     navigator.serviceWorker.register(app_base_url + 'serviceworker.js')
     .then(function(ServiceWorkerRegistration) {
-        global.serviceWorkerEnabled = true;
+        serviceWorkerEnabled = true;
 
         if (buttonInstall) {
             var standalone = window.matchMedia('(display-mode: standalone)');

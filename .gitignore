@@ -20,13 +20,6 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
-
 ###> app ###
 .env
 .php_cs.cache
@@ -34,3 +27,8 @@ yarn-error.log
 info.json
 public/.htaccess
 ###< app ###
+
+###> symfony/asset-mapper ###
+/public/assets/
+/assets/vendor/
+###< symfony/asset-mapper ###

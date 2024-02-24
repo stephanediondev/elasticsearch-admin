@@ -25,8 +25,7 @@ env:
 
 install:
     - composer install
-    - npm install
-    - npm run build
+    - bin/console asset-map:compile
 
 script:
     - bin/console app:phpunit
