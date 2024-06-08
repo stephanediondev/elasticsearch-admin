@@ -72,16 +72,18 @@ slug.charmap['/'] = '-';
 slug.charmap['?'] = '-';
 slug.charmap['='] = '-';
 
-var createToast = function createToast(body) {
+export function createToast(body) {
     var toast = `<div class="toast bg-dark text-light border border-secondary" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body">
             ${body}
         </div>
     </div>`;
     $('#toast-container').prepend(toast);
-    var toastObject = $('#toast-container .toast').first();
-    toastObject.toast({'autohide': true, 'delay': 5000});
-    toastObject.toast('show')
+    var toastEl = $('#toast-container .toast').first();
+    if (toastEl) {
+        var toast = new Toast(toastEl, {'autohide': true, 'delay': 2500});
+        toast.show();
+    }
 }
 
 function messageToServiceWorker(content) {
@@ -111,7 +113,7 @@ if (buttonInstall) {
     });
 }
 
-var serviceWorkerEnabled = false;
+export let serviceWorkerEnabled = false;
 
 if('serviceWorker' in navigator && 'https:' == window.location.protocol) {
     navigator.serviceWorker.register(app_base_url + 'serviceworker.js')
