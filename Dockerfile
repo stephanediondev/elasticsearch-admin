@@ -18,10 +18,10 @@ ENV SECRET_REGISTER=$SECRET_REGISTER
 RUN apk --no-cache add php82 php82-fpm php82-opcache php82-json php82-openssl php82-curl php82-zlib php82-fileinfo \
     php82-xml php82-simplexml php82-phar php82-intl php82-dom php82-xmlreader php82-ctype php82-session php82-gd \
     php82-tokenizer php82-pdo php82-pdo_mysql php82-pdo_pgsql php82-iconv php82-zip php82-gmp php82-mbstring php82-xmlwriter \
-    nginx supervisor nodejs npm curl
+    nginx supervisor curl
 
 # Create symlink so programs depending on `php` still function
-#RUN ln -s /usr/bin/php82 /usr/bin/php
+RUN ln -s /usr/bin/php82 /usr/bin/php
 
 # Configure nginx
 COPY docker/nginx.conf /etc/nginx/nginx.conf
@@ -37,12 +37,11 @@ COPY docker/php.ini /etc/php82/conf.d/custom.ini
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create folders
-RUN mkdir -p /var/www/html && mkdir -p /.composer && mkdir -p /.npm
+RUN mkdir -p /var/www/html && mkdir -p /.composer
 
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user
 RUN chown -R nobody.nobody /var/www/html && \
   chown -R nobody.nobody /.composer && \
-  chown -R nobody.nobody /.npm && \
   chown -R nobody.nobody /etc/nginx && \
   chown -R nobody.nobody /run && \
   chown -R nobody.nobody /var/lib/nginx && \
@@ -61,8 +60,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 # Run composer install to install the dependencies
 RUN composer install --optimize-autoloader --no-interaction --no-progress --no-dev
 
-RUN npm install
-RUN npm run build
+RUN bin/console asset-map:compile
 
 COPY --chown=nobody .env.dist .env
 
