@@ -20,7 +20,7 @@ class ElasticsearchSlmPolicyModelTest extends TestCase
         $policy->setPartial(true);
         $policy->setIncludeGlobalState(true);
 
-        $policy->setIndices(['indices']);
+        $policy->setIndices('indices');
         $policy->setLastSuccess(['lastsuccess']);
         $policy->setLastFailure(['lastfailure']);
         $policy->setStats(['stats']);
@@ -56,8 +56,7 @@ class ElasticsearchSlmPolicyModelTest extends TestCase
         $this->assertEquals($policy->getIncludeGlobalState(), true);
         $this->assertIsBool($policy->getIncludeGlobalState());
 
-        $this->assertEquals($policy->getIndices(), ['indices']);
-        $this->assertIsArray($policy->getIndices());
+        $this->assertEquals($policy->getIndices(), 'indices');
 
         $this->assertEquals($policy->getLastSuccess(), ['lastsuccess']);
         $this->assertIsArray($policy->getLastSuccess());

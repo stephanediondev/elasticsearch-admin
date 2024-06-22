@@ -102,13 +102,7 @@ class ElasticsearchSlmPolicyType extends AbstractType
                     ]);
                     break;
                 case 'indices':
-                    $builder->add('indices', ChoiceType::class, [
-                        'multiple' => true,
-                        'choices' => $options['indices'],
-                        'choice_label' => static function ($choice, $key, $value) use ($options) {
-                            return $options['indices'][$key];
-                        },
-                        'choice_translation_domain' => false,
+                    $builder->add('indices', TextType::class, [
                         'label' => 'indices',
                         'required' => false,
                         'attr' => [

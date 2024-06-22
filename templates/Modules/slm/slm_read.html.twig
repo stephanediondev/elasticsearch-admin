@@ -90,7 +90,7 @@
                 {{ appImport.dashboardKpi({'title': 'include_global_state'|trans, 'badge': {'title': ('boolean.' ~ policy.includeGlobalState)|trans, 'context': policy.includeGlobalState}}) }}
             </div>
 
-            {% if 0 < policy.indices|length %}
+            {% if 0 < policy.indicesToArray|length %}
                 {% embed 'Embed/table_embed.html.twig' %}
                     {% import 'Import/app_import.html.twig' as appImport %}
 
@@ -101,7 +101,7 @@
                     {% endblock %}
 
                     {% block tbody %}
-                        {% for index in policy.indices %}
+                        {% for index in policy.indicesToArray %}
                             <tr>
                                 <td>{{ index }}</td>
                             </tr>

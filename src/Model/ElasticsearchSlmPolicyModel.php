@@ -14,10 +14,7 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
 
     private ?string $repository = null;
 
-    /**
-     * @var array<mixed>|null $indices
-     */
-    private ?array $indices = null;
+    private ?string $indices = null;
 
     private ?string $schedule = null;
 
@@ -97,22 +94,21 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         return $this;
     }
 
-    /**
-     * @return array<mixed>|null
-     */
-    public function getIndices(): ?array
+    public function getIndices(): ?string
     {
         return $this->indices;
     }
 
-    /**
-     * @param array<mixed>|null $indices
-     */
-    public function setIndices(?array $indices): self
+    public function setIndices(?string $indices): self
     {
         $this->indices = $indices;
 
         return $this;
+    }
+
+    public function getIndicesToArray(): array
+    {
+        return explode(',', $this->indices);
     }
 
     public function getSchedule(): ?string
@@ -346,7 +342,11 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         }
 
         if (true === isset($policy['policy']['config']['indices'])) {
-            $this->setIndices($policy['policy']['config']['indices']);
+            $indices = $policy['policy']['config']['indices'];
+            if (true === is_array($indices)) {
+                $indices = implode(',', $indices);
+            }
+            $this->setIndices($indices);
         }
 
         if (true === isset($policy['policy']['retention']['expire_after'])) {
@@ -412,7 +412,7 @@ class ElasticsearchSlmPolicyModel extends AbstractAppModel
         ];
 
         if ($this->getIndices()) {
-            $json['config']['indices'] = $this->getIndices();
+            $json['config']['indices'] = $this->getIndicesToArray();
         } else {
             $json['config']['indices'] = ['*'];
         }
