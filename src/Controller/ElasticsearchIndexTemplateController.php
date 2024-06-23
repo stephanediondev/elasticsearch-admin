@@ -250,30 +250,4 @@ class ElasticsearchIndexTemplateController extends AbstractAppController
             return $this->redirectToRoute('index_templates_read', ['name' => $template->getName()]);
         }
     }
-
-    #[Route('/index-templates/{name}/simulate', name: 'index_templates_simulate', methods: ['GET'])]
-    public function simulate(Request $request, string $name): Response
-    {
-        $this->denyAccessUnlessGranted('INDEX_TEMPLATES_LIST', 'index_template');
-
-        if (false === $this->callManager->hasFeature('composable_template')) {
-            throw new AccessDeniedException();
-        }
-
-        $template = $this->elasticsearchIndexTemplateManager->getByName($name);
-
-        if (null === $template) {
-            throw new NotFoundHttpException();
-        }
-
-        $callRequest = new CallRequestModel();
-        $callRequest->setMethod('POST');
-        $callRequest->setPath('/_index_template/_simulate/'.$template->getName());
-        $callResponse = $this->callManager->call($callRequest);
-
-        return $this->renderAbstract($request, 'Modules/index_template/index_template_simulate.html.twig', [
-            'template' => $template,
-            'simulate' => $callResponse->getContent(),
-        ]);
-    }
 }

@@ -242,32 +242,6 @@ class ElasticsearchIndexTemplateControllerTest extends AbstractAppControllerTest
         }
     }
 
-    public function testSimulate404(): void
-    {
-        $this->client->request('GET', '/admin/index-templates/'.uniqid().'/simulate');
-
-        if (false == $this->callManager->hasFeature('composable_template')) {
-            $this->assertResponseStatusCodeSame(403);
-        } else {
-            $this->assertResponseStatusCodeSame(404);
-        }
-    }
-
-    public function testSimulate(): void
-    {
-        $this->client->request('GET', '/admin/index-templates/'.GENERATED_NAME.'/simulate');
-
-        if (false == $this->callManager->hasFeature('composable_template')) {
-            $this->assertResponseStatusCodeSame(403);
-        } else {
-            $this->assertResponseStatusCodeSame(200);
-            $this->assertPageTitleSame('Composable index templates - '.GENERATED_NAME.' - Simulate');
-            $this->assertSelectorTextSame('h1', 'Composable index templates');
-            $this->assertSelectorTextSame('h2', GENERATED_NAME);
-            $this->assertSelectorTextSame('h3', 'Simulate');
-        }
-    }
-
     public function testDelete404(): void
     {
         $this->client->request('GET', '/admin/index-templates/'.uniqid().'/delete');
