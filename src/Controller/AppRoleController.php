@@ -116,7 +116,7 @@ class AppRoleController extends AbstractAppController
         ]);
     }
 
-    #[Route('/app-roles/{role}/module/{module}/permission/{permission}', name: 'app_roles_permission', methods: ['GET'])]
+    #[Route('/app-roles/{role}/module/{module}/permission/{permission}', name: 'app_roles_permission', methods: ['POST'])]
     public function permission(Request $request, string $role, string $module, string $permission): JsonResponse
     {
         $role = $this->appRoleManager->getByName($role);
