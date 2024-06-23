@@ -94,7 +94,7 @@ class ElasticsearchSlmPolicyModelTest extends TestCase
             'name' => $policy->getSnapshotName(),
             'repository' => $policy->getRepository(),
             'config' => [
-                'indices' => $policy->getIndices(),
+                'indices' => $policy->getIndicesToArray(),
                 'ignore_unavailable' => $policy->getIgnoreUnavailable(),
                 'partial' => $policy->getPartial(),
                 'include_global_state' => $policy->getIncludeGlobalState(),
