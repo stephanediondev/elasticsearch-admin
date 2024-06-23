@@ -25,11 +25,11 @@ p .form-check .form-check-input {
 }
 
 .bg-masternode {
-    background-color: $purple !important;
+    background-color: #6f42c1 !important;
 }
 
 .bg-strongwarning {
-    background-color: $orange !important;
+    background-color: #fd7e14 !important;
 }
 
 .nav-tabs .nav-link {
