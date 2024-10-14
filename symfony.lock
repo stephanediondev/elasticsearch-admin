@@ -47,9 +47,6 @@
     "nikic/php-parser": {
         "version": "v4.3.0"
     },
-    "paragonie/constant_time_encoding": {
-        "version": "v2.5.0"
-    },
     "phar-io/manifest": {
         "version": "2.0.1"
     },
@@ -533,18 +530,6 @@
         "version": "v3.0.3"
     },
     "web-token/jwt-core": {
-        "version": "v2.2.2"
-    },
-    "web-token/jwt-key-mgmt": {
-        "version": "v2.2.2"
-    },
-    "web-token/jwt-signature": {
-        "version": "v2.2.2"
-    },
-    "web-token/jwt-signature-algorithm-ecdsa": {
-        "version": "v2.2.2"
-    },
-    "web-token/jwt-util-ecc": {
         "version": "v2.2.2"
     },
     "webmozart/assert": {
