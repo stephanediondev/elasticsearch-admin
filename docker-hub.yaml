@@ -1,0 +1,13 @@
+version: 2
+builds:
+  - context: .
+    dockerfile: Dockerfile
+    platforms:
+      - linux/amd64
+    attestations:
+      - type: provenance
+        predicate:
+          builder: "Docker Hub"
+          buildType: "automated"
+          materials:
+            - uri: "git+https://github.com/stephanediondev/elasticsearch-admin"
