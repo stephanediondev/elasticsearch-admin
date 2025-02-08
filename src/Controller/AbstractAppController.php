@@ -52,7 +52,7 @@ abstract class AbstractAppController extends AbstractController
     /**
      * @param array<mixed> $parameters
      */
-    public function renderAbstract(Request $request, string $view, array $parameters = [], Response $response = null): Response
+    public function renderAbstract(Request $request, string $view, array $parameters = [], ?Response $response = null): Response
     {
         if (false === isset($parameters['firewall'])) {
             $parameters['firewall'] = true;
