@@ -1,4 +1,4 @@
-# Web administration for Elasticsearch (2.x to 8.x)
+# Web administration for Elasticsearch (2.x to 9.x)
 
 [Visit the website on GitHub for all details](https://stephanediondev.github.io/elasticsearch-admin/)
 

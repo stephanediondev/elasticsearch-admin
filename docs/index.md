@@ -1,4 +1,4 @@
-# Web administration for Elasticsearch (2.x to 8.x)
+# Web administration for Elasticsearch (2.x to 9.x)
 
 # Table of contents
 
@@ -34,7 +34,7 @@ Elasticsearch is a trademark of Elasticsearch BV, registered in the U.S. and in 
 
 [(Back to table of contents)](#table-of-contents)
 
-- Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x, 8.x
+- Supported Elasticsearch versions: 2.x, 5.x, 6.x, 7.x, 8.x, 9.x
 - Connection to Elasticsearch: server-side (no CORS issue), private or public, local or remote, http or https, authorization with user/password or API key
 - App users: register, login, logout, list, create, read, update, delete
 - App roles: list, create, read, update (permissions), delete
