@@ -29,26 +29,26 @@ return [
         'entrypoint' => true,
     ],
     'bootstrap' => [
-        'version' => '5.3.3',
+        'version' => '5.3.7',
     ],
     '@popperjs/core' => [
         'version' => '2.11.8',
     ],
     'bootstrap/dist/css/bootstrap.min.css' => [
-        'version' => '5.3.3',
+        'version' => '5.3.7',
         'type' => 'css',
     ],
     'jquery' => [
         'version' => '3.7.1',
     ],
     'slug' => [
-        'version' => '10.0.0',
+        'version' => '11.0.0',
     ],
     'file-saver' => [
         'version' => '2.0.5',
     ],
     'bootstrap-icons/font/bootstrap-icons.min.css' => [
-        'version' => '1.11.3',
+        'version' => '1.13.1',
         'type' => 'css',
     ],
 ];
