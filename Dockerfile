@@ -1,4 +1,4 @@
-ARG ALPINE_VERSION=3.21
+ARG ALPINE_VERSION=3.22
 FROM alpine:${ALPINE_VERSION}
 LABEL Maintainer="Tim de Pater <code@trafex.nl>"
 LABEL Description="Lightweight container with Nginx 1.26 & PHP 8.4 based on Alpine Linux edge"
