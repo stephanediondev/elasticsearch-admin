@@ -45,10 +45,10 @@ class AppRoleType extends AbstractType
                         'required' => true,
                         'constraints' => [
                             new NotBlank(),
-                            new Regex([
-                                'pattern' => '/^[A-Z_]+$/',
-                                'htmlPattern' => '^[A-Z_]+$',
-                            ]),
+                            new Regex(
+                                pattern: '/^[A-Z_]+$/',
+                                htmlPattern: '^[A-Z_]+$',
+                            ),
                         ],
                         'help' => 'help_form.app_role.name',
                         'help_html' => true,

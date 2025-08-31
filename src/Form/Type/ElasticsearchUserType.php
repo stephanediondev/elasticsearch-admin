@@ -77,9 +77,9 @@ class ElasticsearchUserType extends AbstractType
                             'required' => true,
                             'constraints' => [
                                 new NotBlank(),
-                                new Length([
-                                    'min' => 6,
-                                ]),
+                                new Length(
+                                    min: 6,
+                                ),
                             ],
                             'attr' => [
                                 'autocomplete' => 'new-password',
@@ -91,9 +91,9 @@ class ElasticsearchUserType extends AbstractType
                             'label' => 'password',
                             'required' => false,
                             'constraints' => [
-                                new Length([
-                                    'min' => 6,
-                                ]),
+                                new Length(
+                                    min: 6,
+                                ),
                             ],
                             'attr' => [
                                 'disabled' => 'disabled',
