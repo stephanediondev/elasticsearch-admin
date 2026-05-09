@@ -39,10 +39,10 @@ return [
         'type' => 'css',
     ],
     'jquery' => [
-        'version' => '3.7.1',
+        'version' => '4.0.0',
     ],
     'slug' => [
-        'version' => '11.0.0',
+        'version' => '11.0.1',
     ],
     'file-saver' => [
         'version' => '2.0.5',
