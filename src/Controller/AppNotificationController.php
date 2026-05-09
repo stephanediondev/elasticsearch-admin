@@ -8,7 +8,7 @@ use App\Controller\AbstractAppController;
 use App\Manager\AppNotificationManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin')]
 class AppNotificationController extends AbstractAppController

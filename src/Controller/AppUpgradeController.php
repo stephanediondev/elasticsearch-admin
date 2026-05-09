@@ -10,7 +10,7 @@ use App\Model\CallRequestModel;
 use App\Model\ElasticsearchReindexModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin')]
 class AppUpgradeController extends AbstractAppController
