@@ -18,7 +18,7 @@ class ElasticsearchNodeManager extends AbstractAppManager
         $callResponse = $this->callManager->call($callRequest);
         $node = $callResponse->getContent();
 
-        if (false === isset($node['nodes'][key($node['nodes'])])) {
+        if (empty($node['nodes'])) {
             $nodeModel = null;
         } else {
             $id = key($node['nodes']);
